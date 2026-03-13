@@ -1,0 +1,11 @@
+{
+  "0000001": {
+    "slot": 0,
+    "roleName": "NeoE5F",
+    "trait1": 6,
+    "trait2": 15,
+    "requestedTemplateIndex": 20,
+    "entityType": 1001,
+    "roleEntityType": 1021
+  }
+}
