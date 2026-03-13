@@ -183,7 +183,7 @@ Two separate handler tables, registered at startup via different functions:
 |------|---------|
 | `0x03` | **Success** — parse server list, go to state 0x40 (server select UI) |
 | `0x13` | **Success** — go directly to role select (state 4) — reads 3 empty entries |
-| `0x1f` | Go to state 0x40 directly, no server list data needed ← **USE THIS** |
+| `0x1f` | Go to state 0x40 directly, no server list data needed |
 | `0x1b` | Go to role select (reads 1 byte first) ← use for line-select reply |
 | `0x01` | "Account error!" + disconnect |
 | `0x0a` | "Account in use!" |
@@ -406,7 +406,7 @@ return cVar4 && cVar3 && cVar2         // ALL three must succeed
 - the real problem was handler routing: enter-game `0x3e9/0x03` was being sent on the login session and handled by `HandleLoginResponse`
 - after switching to the confirmed `0x0d` redirect handoff, the client successfully enters the game
 
-## Current server.js Behavior
+## Current Server Behavior
 - Immediate handshake with `seed=0`, `flags=0x44`
 - Log cleared on start (`flags: 'w'`)
 - **Session 1 (login):** `0x3e9` → reply `0x03` server list (with 127.0.0.1:7777 entry) → line select → role select
@@ -417,7 +417,9 @@ return cVar4 && cVar3 && cVar2         // ALL three must succeed
 - Create role `0x044c/0x04` → reply `0x044c/0x05` (`entity_type = 0x3e9 + templateIndex`)
 - Persisted role is replayed on role-select using the same `0x044c/0x05` packet path
 - Enter game `0x044c/0x0d` on session 1 → reply `0x03e9/0x0d` redirect
-- **Session 2 (game):** `0x3e9` login → reply `0x03e9/0x03` enter-game packet (`entity_type = saved role entity_type`, `map_id=101`) ✓ confirmed working
+- **Session 2 (game):** `0x3e9` login → reply `0x03e9/0x03` enter-game packet using saved `entity_type`, `map_id`, `x`, and `y`
+- After enter-game, server sends `0x03f6 / 0x0a` to apply the saved aptitude to the live entity
+- Incoming `0x03eb` updates refresh the saved `mapId/x/y` for the next relog
 
 ## Test Credentials (from SETUP.INI)
 - Username: `000000`
@@ -427,28 +429,22 @@ return cVar4 && cVar3 && cVar2         // ALL three must succeed
 - **Packet capture proxy:** `capture.js` — listens on :7777, logs hex dumps
 - **MCP:** Ghidra MCP via `.mcp.json` → `bridge_mcp_ghidra.py` → `http://127.0.0.1:8089/`
 
-## TODO — Still Need to Determine
-- [ ] Valid spawn X/Y for map 101
-- [ ] First inbound/outbound in-game packets after world entry
+## Open Items
+- [ ] First inbound/outbound in-game packets after world entry beyond `0x03eb` and `0x03f6`
 - [ ] Purpose of `0x044f` in the login→role flow
 - [ ] Full meanings of `0x044d` subcmds `0x27`, `0x28`, `0x33`
 - [ ] Proper "existing role list" packet so persisted roles do not show the create-success popup
-- [x] ~~Why does `LoadMapAndEnterGame` return 0?~~ — not the blocker
-- [x] ~~Do .map/.eft files exist in map.gcg VFS?~~ — yes, pack contains map asset entries
-- [x] ~~Role/character list packet format~~ — role widgets populated by `0x044c/0x05`
-- [x] ~~Login packet payload format~~ — cmd=0x3e9 + username + MD5 + 'S'
-- [x] ~~Login response result byte~~ — full table documented
-- [x] ~~Login response server list format~~ — 3-entry struct
-- [x] ~~AES key and IV~~ — XOR only, no AES in packet layer
-- [x] ~~Server→client handshake~~ — cmd=1 + uint32 seed, flags=0x44
-- [x] ~~Initial sequence number~~ — server starts at 0
-- [x] ~~Confirmed working login response~~ — `0x03e9/0x1f`
-- [x] ~~Line selection flow~~ — `0x044c/0x1c` → `0x03e9/0x1b/line_no`
-- [x] ~~What triggers SetUiState(0x10)~~ — `GameServerLoginResponse` recv `0x3e9/0x03` on session 2
-- [x] ~~Two-connection architecture~~ — session 1 = login server, session 2 = game server (same port)
-- [x] ~~Enter game packet format~~ — documented above; packet bytes verified correct from server logs
-- [x] ~~Handler routing (FUN_00501480 vs FUN_00501060)~~ — game server handlers vs login server handlers
-- [x] ~~Real login→game handoff~~ — `HandleLoginResponse` case `0x0d` redirect to `ConnectGameServerSession`
-- [x] ~~entity_type 0x3e9 confirmed valid~~ — hardcoded in game init
-- [x] ~~In-game class entity mapping~~ — `entity_type = 0x3e9 + templateIndex` is live-confirmed for template `0x14 -> 0x3fd`
-- [x] ~~GCG VFS architecture~~ — 15 pack files, VFS enabled flag DAT_0092139c
+
+## Resolved Highlights
+- Login packet payload is `0x3e9 + username + MD5 + 'S'`
+- Packet layer is XOR-only; AES exports in `Login.dll` are not used for transport
+- Server handshake is `cmd=1 + uint32 seed`, with `flags=0x44`
+- Session 1 is the login server and session 2 is the game server on the same TCP port
+- Real login→game handoff is `0x03e9 / 0x0d`, not `0x1f`
+- Line selection is `0x044c / 0x1c` → `0x03e9 / 0x1b`
+- Enter-game success is `0x03e9 / 0x03` on session 2
+- Role widgets are currently populated by replaying `0x044c / 0x05`
+- In-game class entity mapping is `0x3e9 + templateIndex`
+- Live aptitude is applied by `0x03f6 / 0x0a`
+- Position persistence is driven by client `0x03eb` updates
+- `LoadMapAndEnterGame` and the GCG VFS were verified and are not the current blocker
