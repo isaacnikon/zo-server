@@ -162,16 +162,42 @@ class Session {
   }
 
   sendLoginResponse() {
-    // Test branch:
-    //   result = 0x1f
-    // The client login handler transitions directly to state 0x40
-    // without parsing server-list payload.
-    //
-    // This isolates whether the 0x03 server-list parsing path is what
-    // keeps the visible UI stuck on the login screen.
+    // Real server-selection path:
+    //   cmd=0x03e9, result=0x03
+    // followed by:
+    //   u8, u8, u32, 8-byte line-enable header,
+    //   then exactly 3 server entries,
+    //   then trailing string + u8 flag.
     const pw = new PacketWriter();
     pw.writeUint16(0x03e9);
-    pw.writeUint8(0x1f);
+    pw.writeUint8(0x03);
+
+    // Header fields consumed before FUN_00502d70 server-list parsing.
+    pw.writeUint8(0x00);
+    pw.writeUint8(0x00);
+    pw.writeUint32(0x00000000);
+
+    // 8 per-line enable bytes. Enable the first line only.
+    pw.writeBytes(Buffer.from([1, 0, 0, 0, 0, 0, 0, 0]));
+
+    // Entry 0: a selectable local line.
+    pw.writeUint32(6101);        // areaID
+    pw.writeUint16(7777);        // port
+    pw.writeUint8(1);            // status / selectable
+    pw.writeString('127.0.0.1'); // server IP/address
+    pw.writeUint8(0);            // unknown1
+    pw.writeUint8(0);            // unknown2
+
+    // Entry 1: empty
+    pw.writeUint32(0);
+
+    // Entry 2: empty
+    pw.writeUint32(0);
+
+    // Trailing string + flag consumed after the 3 entries.
+    pw.writeString('');
+    pw.writeUint8(0);
+
     const pkt = buildPacket(pw.payload(), this.serverSeq++);
     if (this.serverSeq > 65000) this.serverSeq = 1;
     log(`[S${this.id}] Sending login response (success)`);
@@ -196,6 +222,9 @@ class Session {
     }
 
     switch (cmdByte) {
+      case 0x4c:
+        this.handle044c(payload);
+        break;
       case 0x01:
         this.sendServerList();
         break;
@@ -211,6 +240,39 @@ class Session {
     const pkt = buildPacket(pw.payload(), this.serverSeq++, 0x44);
     if (this.serverSeq > 65000) this.serverSeq = 1;
     log(`[S${this.id}] Sending pong token=0x${token.toString(16)}`);
+    log(hexDump(pkt, `[S${this.id}] > `));
+    this.socket.write(pkt);
+  }
+
+  handle044c(payload) {
+    if (payload.length < 3) {
+      log(`[S${this.id}] Short 0x044c payload`);
+      return;
+    }
+
+    const subcmd = payload[2];
+    switch (subcmd) {
+      case 0x1c: {
+        const lineNo = payload.length >= 4 ? payload[3] : 0;
+        log(`[S${this.id}] Line select request for line ${lineNo}`);
+        this.sendLineSelectOk(lineNo);
+        break;
+      }
+      default:
+        log(`[S${this.id}] Unhandled 0x044c subcmd=0x${subcmd.toString(16)}`);
+    }
+  }
+
+  sendLineSelectOk(lineNo) {
+    // `FUN_0050a590` case 0x1b reads one byte, then transitions to role select (state 4).
+    const pw = new PacketWriter();
+    pw.writeUint16(0x03e9);
+    pw.writeUint8(0x1b);
+    pw.writeUint8(lineNo & 0xff);
+
+    const pkt = buildPacket(pw.payload(), this.serverSeq++);
+    if (this.serverSeq > 65000) this.serverSeq = 1;
+    log(`[S${this.id}] Sending line-select success for line ${lineNo}`);
     log(hexDump(pkt, `[S${this.id}] > `));
     this.socket.write(pkt);
   }

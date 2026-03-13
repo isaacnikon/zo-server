@@ -155,6 +155,26 @@ if areaID > 0:
 
 ## `0x044c` Findings
 - First byte is a subcode
+- Confirmed client send path:
+  - `00501d70` sends `cmd=0x044c`
+  - then `u8 subcmd = 0x1c`
+  - then `u8 line_no = selected_index + 1`
+  - this is the outbound line-selection packet from server-selection UI
+- Live-confirmed behavior:
+  - after receiving a valid `0x03` login response, selecting line 1 sends:
+    - `u16 cmd = 0x044c`
+    - `u8 subcmd = 0x1c`
+    - `u8 line_no = 0x01`
+  - client then shows `Wait a minute ,please`
+  - if the server does not answer this packet, the client stays on the wait screen and retries
+- Confirmed server reply for line selection:
+```text
+u16 cmd = 0x03e9
+u8  result = 0x1b
+u8  line_no
+```
+- Live-confirmed result:
+  - this moves the client from server-selection wait state to UI state `4` (role select)
 - Confirmed subcodes:
   - `0x05`: character create success
   - `0x06`: character create failed
@@ -186,11 +206,10 @@ if areaID > 0:
   - ping `cmd=2` -> pong `cmd=3`
 
 ## Next Step
-- Capture the first outbound packet from the server-selection UI
+- Capture the first outbound packet from role-select after successful line selection
 - Most useful actions in client:
-  - click a server line
-  - click confirm / enter
-  - note which action emits the first new packet
+  - line-select is already confirmed
+  - next work is the first role-select / character-list packet flow
 
 ## Open Unknowns
 - Exact packet flow after server selection
