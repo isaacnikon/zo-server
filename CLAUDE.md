@@ -397,7 +397,7 @@ return cVar4 && cVar3 && cVar2         // ALL three must succeed
 
 ### map\mapset.ini [Main]:
 - Valid map IDs: 101–299 (`map101=101` through `map299=299`)
-- Current server sends `map_id=101`
+- Current server can force a start scene via config; latest traced start scene is `map_id=209` (Peach Garden)
 
 ### Status
 - `LoadMapAndEnterGame` was **not** the blocker
@@ -420,6 +420,8 @@ return cVar4 && cVar3 && cVar2         // ALL three must succeed
 - **Session 2 (game):** `0x3e9` login → reply `0x03e9/0x03` enter-game packet using saved `entity_type`, `map_id`, `x`, and `y`
 - After enter-game, server sends `0x03f6 / 0x0a` to apply the saved aptitude to the live entity
 - Incoming `0x03eb` updates refresh the saved `mapId/x/y` for the next relog
+- Current dev config forces the start scene to Peach Garden (`map_id=209`, `x=115`, `y=98`) instead of reusing persisted map position
+- Current dev config still includes Peach Garden static NPC spawn experiments, but those ids are not yet producing visible in-world NPCs
 
 ## Test Credentials (from SETUP.INI)
 - Username: `000000`
@@ -434,6 +436,29 @@ return cVar4 && cVar3 && cVar2         // ALL three must succeed
 - [ ] Purpose of `0x044f` in the login→role flow
 - [ ] Full meanings of `0x044d` subcmds `0x27`, `0x28`, `0x33`
 - [ ] Proper "existing role list" packet so persisted roles do not show the create-success popup
+- [ ] Real Apollo transition from Peach Garden (`map 209`) to Rainbow Valley
+- [ ] Exact world-entity spawn/update fields needed to render named map NPCs beyond Scholar
+
+## Peach Garden Trace
+- `136` was a false lead: `macro_ChangeScene(136,44,311)` is the Rainbow Valley quest jump into Bling Alley 1, not Peach Garden
+- Quest/help-layer map numbers are not always interchangeable with the enter-game map flow; `210` resolved to West County Pass in practice
+- Peach Garden was pinned through NPC cross-reference, not scene-change guessing:
+  - Peach Garden setup block contains NPCs `3142`, `3144`, `3136`, `3326`, `3413`, `3751`, etc.
+  - quest/help text ties NPC `3142` to `macro_GetMapName(209)`
+  - same Peach Garden block places `3142` at `115,98`
+- Current forced start scene uses that confirmed Peach Garden position: `map 209 @ 115,98`
+
+## NPC Rendering Findings
+- `macro_AddMapNpc(npcId, npcTypeFlags, name, x, y)` populates map/UI/script metadata, not necessarily a directly renderable world entity
+- The second argument is a bitmask/category (`PLAYER=1`, `SELL=2`, `TASK=4`, `OTHER=8`), not a world `entity_type`
+- `ScriptMacroSetClientNpcType` writes a client-side override to `entity + 0x5d8`
+- `ApplyClientNpcTypeAndRefreshAppearance` rebuilds visuals from that override
+- `0x03eb / 0x15` dispatches into `ParseEntitySpawnFrom03eb`, which has both short and extended entity forms
+- Scholar is still the only live-confirmed static NPC render from the spoofed spawn path
+- Replaying Peach Garden's full `macro_AddMapNpc` list on the server did **not** produce visible NPCs in-world
+- Current conclusion: map-NPC ids and coordinates are correct, but named NPCs still need either:
+  - the richer `0x03eb` entity record that drives the `+0x5d8` appearance path, or
+  - a separate client-side `npc_id -> clientNpcType` mapping step before they can render
 
 ## Resolved Highlights
 - Login packet payload is `0x3e9 + username + MD5 + 'S'`
@@ -448,3 +473,4 @@ return cVar4 && cVar3 && cVar2         // ALL three must succeed
 - Live aptitude is applied by `0x03f6 / 0x0a`
 - Position persistence is driven by client `0x03eb` updates
 - `LoadMapAndEnterGame` and the GCG VFS were verified and are not the current blocker
+- Peach Garden is confirmed as `map 209`; `136` is Bling Alley 1 and `210` is West County Pass in the live flow

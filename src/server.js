@@ -31,7 +31,10 @@ function startServer() {
       }
     });
 
-    socket.on('close', () => logger.log(`[S${session.id}] Disconnected`));
+    socket.on('close', () => {
+      session.dispose();
+      logger.log(`[S${session.id}] Disconnected`);
+    });
     socket.on('error', (err) => logger.log(`[S${session.id}] Socket error: ${err.message}`));
   });
 

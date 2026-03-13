@@ -4,6 +4,7 @@ const {
   AREA_ID,
   DEFAULT_FLAGS,
   ENTITY_TYPE,
+  GAME_SPAWN_BATCH_SUBCMD,
   GAME_POSITION_QUERY_CMD,
   GAME_SELF_STATE_CMD,
   HANDSHAKE_CMD,
@@ -11,6 +12,7 @@ const {
   LOGIN_SERVER_LIST_RESULT,
   LINE_SELECT_RESULT,
   MAP_ID,
+  FORCE_START_SCENE,
   PING_CMD,
   PONG_CMD,
   PORT,
@@ -19,6 +21,7 @@ const {
   SELF_STATE_APTITUDE_SUBCMD,
   SPAWN_X,
   SPAWN_Y,
+  STATIC_NPCS,
   SPECIAL_FLAGS,
   VALID_FLAG_MASK,
   VALID_FLAG_VALUE,
@@ -52,9 +55,9 @@ class Session {
       this.roleEntityType = sharedState.pendingGameCharacter.roleEntityType || this.entityType;
       this.roleData = sharedState.pendingGameCharacter.roleData || 0;
       this.selectedAptitude = sharedState.pendingGameCharacter.selectedAptitude || 0;
-      this.currentMapId = sharedState.pendingGameCharacter.mapId || MAP_ID;
-      this.currentX = sharedState.pendingGameCharacter.x || SPAWN_X;
-      this.currentY = sharedState.pendingGameCharacter.y || SPAWN_Y;
+      this.currentMapId = FORCE_START_SCENE ? MAP_ID : (sharedState.pendingGameCharacter.mapId || MAP_ID);
+      this.currentX = FORCE_START_SCENE ? SPAWN_X : (sharedState.pendingGameCharacter.x || SPAWN_X);
+      this.currentY = FORCE_START_SCENE ? SPAWN_Y : (sharedState.pendingGameCharacter.y || SPAWN_Y);
       sharedState.pendingGameCharacter = null;
     }
   }
@@ -322,9 +325,9 @@ class Session {
       roleEntityType: persisted?.roleEntityType || this.roleEntityType,
       roleData,
       selectedAptitude: persisted?.selectedAptitude || this.selectedAptitude || 0,
-      mapId: persisted?.mapId || this.currentMapId || MAP_ID,
-      x: persisted?.x || this.currentX || SPAWN_X,
-      y: persisted?.y || this.currentY || SPAWN_Y,
+      mapId: FORCE_START_SCENE ? MAP_ID : (persisted?.mapId || this.currentMapId || MAP_ID),
+      x: FORCE_START_SCENE ? SPAWN_X : (persisted?.x || this.currentX || SPAWN_X),
+      y: FORCE_START_SCENE ? SPAWN_Y : (persisted?.y || this.currentY || SPAWN_Y),
     };
     this.sharedState.nextSessionIsGame = true;
 
@@ -357,6 +360,7 @@ class Session {
       `Sending enter-game success char="${this.charName}" entity=0x${this.entityType.toString(16)} roleEntity=0x${this.roleEntityType.toString(16)} aptitude=${this.selectedAptitude} map=${this.currentMapId} pos=${this.currentX},${this.currentY}`
     );
     this.sendSelfStateAptitudeSync();
+    this.sendStaticNpcSpawns();
   }
 
   sendPong(token) {
@@ -420,9 +424,9 @@ class Session {
     this.roleEntityType = character.roleEntityType || ENTITY_TYPE;
     this.roleData = resolveRoleData(character);
     this.selectedAptitude = character.selectedAptitude || 0;
-    this.currentMapId = character.mapId || MAP_ID;
-    this.currentX = character.x || SPAWN_X;
-    this.currentY = character.y || SPAWN_Y;
+    this.currentMapId = FORCE_START_SCENE ? MAP_ID : (character.mapId || MAP_ID);
+    this.currentX = FORCE_START_SCENE ? SPAWN_X : (character.x || SPAWN_X);
+    this.currentY = FORCE_START_SCENE ? SPAWN_Y : (character.y || SPAWN_Y);
     this.sendCreateRoleOk({
       ...character,
       entityType: this.roleEntityType,
@@ -488,6 +492,58 @@ class Session {
       DEFAULT_FLAGS,
       `Sending self-state aptitude sync cmd=0x${GAME_SELF_STATE_CMD.toString(16)} sub=0x${SELF_STATE_APTITUDE_SUBCMD.toString(16)} aptitude=${this.selectedAptitude}`
     );
+  }
+
+  dispose() {}
+
+  sendStaticNpcSpawns() {
+    if (!Array.isArray(STATIC_NPCS) || STATIC_NPCS.length === 0) {
+      return;
+    }
+
+    const writer = new PacketWriter();
+    writer.writeUint16(GAME_POSITION_QUERY_CMD);
+    writer.writeUint8(GAME_SPAWN_BATCH_SUBCMD);
+    writer.writeUint16(STATIC_NPCS.length);
+
+    for (const npc of STATIC_NPCS) {
+      this.writeNpcSpawnRecord(writer, npc);
+    }
+
+    this.writePacket(
+      writer.payload(),
+      DEFAULT_FLAGS,
+      `Sending static NPC spawn batch cmd=0x${GAME_POSITION_QUERY_CMD.toString(16)} count=${STATIC_NPCS.length}`
+    );
+  }
+
+  writeNpcSpawnRecord(writer, npc) {
+    const x = (typeof npc.x === 'number' ? npc.x : this.currentX + (npc.dx || 0)) & 0xffff;
+    const y = (typeof npc.y === 'number' ? npc.y : this.currentY + (npc.dy || 0)) & 0xffff;
+
+    writer.writeUint32(npc.id >>> 0);
+    writer.writeUint16(npc.entityType & 0xffff);
+    writer.writeUint16(x);
+    writer.writeUint16(y);
+
+    if (typeof npc.clientNpcType !== 'number') {
+      return;
+    }
+
+    // Extended ParseEntitySpawnFrom03eb form used for entities that need
+    // a client-side NPC appearance override via entity+0x5d8.
+    writer.writeUint32(0);
+    writer.writeUint16(0);
+    writer.writeString(`${npc.name || ''}\0`);
+
+    writer.writeUint16(npc.clientNpcType & 0xffff);
+    writer.writeUint8(0);
+    writer.writeUint16(0);
+    writer.writeUint8(0);
+    writer.writeUint16(2);
+    writer.writeUint8(0);
+
+    writer.writeUint16(0);
   }
 }
 
