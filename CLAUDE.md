@@ -92,6 +92,7 @@ Total packet size = 5 + payload_length
 | `0042e6c0` | `MapEftLoad`                  | Loads .eft file via VFS/disk |
 | `00436930` | `ReadEntityFromPacket`        | Reads entity fields from recv buffer into entity struct |
 | `00444790` | `LookupEntityTemplate`        | Looks up entity type in template table; returns 0 if invalid |
+| `00441490` | —                             | Applies live aptitude/Strength Type to entity (`entity+0x650`) and copies `zizhi` stat multipliers |
 | `0040f200` | `GetGameObject`               | Returns main game object ptr (`DAT_0064328c`) |
 | `0040f1f0` | `GetActiveEntity`             | Returns active player entity ptr (`DAT_0064328c + 0x526e8`) |
 | `00560a60` | `VfsLookupFile`               | Looks up filename in GCG VFS, returns file data + size |
@@ -167,6 +168,7 @@ Two separate handler tables, registered at startup via different functions:
 | cmd    | Handler      | Description |
 |--------|-------------|-------------|
 | `0x3e9` | `GameServerLoginResponse` (`0050a200`) | Enter game — result 0x03 loads map |
+| `0x3f6` | `HandleGamePacket03f6` (`00504b90`) | Active-entity subtype update packet; subtype `0x0a` applies live aptitude |
 | `0x3fd` | `00504bf0`  | unknown game cmd |
 | `0x403` | `00504840`  | unknown |
 | `0x44f` | `0050d2f0`  | unknown |
@@ -228,6 +230,34 @@ Moves client from server-select to role-select UI (state 4).
 |--------|-------------|
 | `0x05` | Character create success |
 | `0x06` | Character create failed |
+
+## In-Game Aptitude Sync (CONFIRMED)
+
+The create-selected aptitude is **not** finalized by the login/role packet path.
+
+- Create request `0x044c / 0x04` carries:
+  - `month`
+  - `day`
+  - `selectedAptitude`
+  - `u16 extra1`
+  - `u16 extra2`
+- Role create success `0x044c / 0x05` does **not** populate the live in-game aptitude byte.
+- The live Character Panel / "Strength Type" value is stored at:
+  - `activeEntity + 0x650`
+- That byte is written by `00441490`, which also copies the selected `zizhi` stat multipliers into:
+  - `entity + 0x624 .. +0x634`
+
+### Packet path
+- Game packet `0x03f6`
+- Internal subtype byte dispatched by `DispatchActiveEntitySubtypeUpdate03f6`
+- Subtype `0x0a` calls the path that writes `entity + 0x650`
+
+### Practical server behavior
+- Persist `selectedAptitude` with the created character
+- Carry it through the session-1 `0x0d` redirect into the game session
+- After sending enter-game success on session 2, send a `0x03f6 / 0x0a` self-state packet with the selected aptitude byte
+
+This is required for the in-game Character Panel to match the aptitude chosen during character creation.
 
 ## Two-Connection Architecture (CONFIRMED)
 

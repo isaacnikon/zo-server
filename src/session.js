@@ -4,6 +4,7 @@ const {
   AREA_ID,
   DEFAULT_FLAGS,
   ENTITY_TYPE,
+  GAME_SELF_STATE_CMD,
   HANDSHAKE_CMD,
   LOGIN_CMD,
   LOGIN_SERVER_LIST_RESULT,
@@ -14,6 +15,7 @@ const {
   PORT,
   REDIRECT_RESULT,
   ROLE_CMD,
+  SELF_STATE_APTITUDE_SUBCMD,
   SPAWN_X,
   SPAWN_Y,
   SPECIAL_FLAGS,
@@ -37,11 +39,15 @@ class Session {
     this.charName = 'Hero';
     this.entityType = ENTITY_TYPE;
     this.roleEntityType = ENTITY_TYPE;
+    this.roleData = 0;
+    this.selectedAptitude = 0;
 
     if (isGame && sharedState.pendingGameCharacter) {
       this.charName = sharedState.pendingGameCharacter.charName;
       this.entityType = sharedState.pendingGameCharacter.entityType;
       this.roleEntityType = sharedState.pendingGameCharacter.roleEntityType || this.entityType;
+      this.roleData = sharedState.pendingGameCharacter.roleData || 0;
+      this.selectedAptitude = sharedState.pendingGameCharacter.selectedAptitude || 0;
       sharedState.pendingGameCharacter = null;
     }
   }
@@ -195,29 +201,44 @@ class Session {
     const nameStart = 6;
     const nameEnd = Math.min(payload.length, nameStart + nameLen);
     const roleName = payload.slice(nameStart, nameEnd).toString('latin1').replace(/\0.*$/, '');
-    const trait1 = payload.length > nameEnd ? payload[nameEnd] : 0;
-    const trait2 = payload.length > nameEnd + 1 ? payload[nameEnd + 1] : 0;
-    const trait3 = payload.length > nameEnd + 2 ? payload[nameEnd + 2] : 0;
+    const birthMonth = payload.length > nameEnd ? payload[nameEnd] : 0;
+    const birthDay = payload.length > nameEnd + 1 ? payload[nameEnd + 1] : 0;
+    const selectedAptitude = payload.length > nameEnd + 2 ? payload[nameEnd + 2] : 0;
+    const extra1 = payload.length >= nameEnd + 5 ? payload.readUInt16LE(nameEnd + 3) : 0;
+    const extra2 = payload.length >= nameEnd + 7 ? payload.readUInt16LE(nameEnd + 5) : 0;
 
-    this.log(`Create role request template=0x${templateIndex.toString(16)} name="${roleName}" traits=${trait1},${trait2},${trait3}`);
+    this.log(
+      `Create role request template=0x${templateIndex.toString(16)} name="${roleName}" month=${birthMonth} day=${birthDay} selectedAptitude=${selectedAptitude} extra1=0x${extra1.toString(16)} extra2=0x${extra2.toString(16)}`
+    );
 
     this.charName = roleName || 'Hero';
     this.entityType = ENTITY_TYPE;
     this.roleEntityType = ENTITY_TYPE + templateIndex;
+    this.roleData = packRoleData(extra1, extra2);
+    this.selectedAptitude = selectedAptitude;
     this.saveCharacter({
       slot: 0,
       roleName: this.charName,
-      trait1,
-      trait2,
+      birthMonth,
+      birthDay,
+      selectedAptitude,
+      extra1,
+      extra2,
+      level: 1,
       requestedTemplateIndex: templateIndex,
       entityType: this.entityType,
       roleEntityType: this.roleEntityType,
+      roleData: this.roleData,
     });
     this.sendCreateRoleOk({
       slot: 0,
       roleName: this.charName,
-      trait1,
-      trait2,
+      birthMonth,
+      birthDay,
+      level: 1,
+      extra1,
+      extra2,
+      roleData: this.roleData,
     });
   }
 
@@ -263,12 +284,12 @@ class Session {
     writer.writeUint16(ROLE_CMD);
     writer.writeUint8(0x05);
     writer.writeUint8(role.slot & 0xff);
-    writer.writeUint32(0);
+    writer.writeUint32(resolveRoleData(role));
     writer.writeUint16(role.entityType || this.roleEntityType || ENTITY_TYPE);
-    writer.writeUint8(0);
+    writer.writeUint8(resolveRoleLevel(role));
     writer.writeString(`${role.roleName}\0`);
-    writer.writeUint8(role.trait1 & 0xff);
-    writer.writeUint8(role.trait2 & 0xff);
+    writer.writeUint8(resolveBirthMonth(role));
+    writer.writeUint8(resolveBirthDay(role));
     this.writePacket(
       writer.payload(),
       DEFAULT_FLAGS,
@@ -278,11 +299,14 @@ class Session {
 
   sendGameServerRedirect() {
     const persisted = this.getPersistedCharacter();
+    const roleData = persisted ? resolveRoleData(persisted) : this.roleData;
     this.sharedState.pendingGameCharacter = {
       accountName: this.accountName,
       charName: persisted?.roleName || this.charName,
       entityType: persisted?.roleEntityType || this.roleEntityType || this.entityType,
       roleEntityType: persisted?.roleEntityType || this.roleEntityType,
+      roleData,
+      selectedAptitude: persisted?.selectedAptitude || this.selectedAptitude || 0,
     };
     this.sharedState.nextSessionIsGame = true;
 
@@ -302,7 +326,7 @@ class Session {
     writer.writeUint8(LOGIN_SERVER_LIST_RESULT);
     writer.writeUint32(0);
     writer.writeUint16(this.entityType);
-    writer.writeUint32(0);
+    writer.writeUint32(this.roleData);
     writer.writeUint16(SPAWN_X);
     writer.writeUint16(SPAWN_Y);
     writer.writeUint16(0);
@@ -312,8 +336,9 @@ class Session {
     this.writePacket(
       writer.payload(),
       DEFAULT_FLAGS,
-      `Sending enter-game success char="${this.charName}" entity=0x${this.entityType.toString(16)} roleEntity=0x${this.roleEntityType.toString(16)} map=${MAP_ID}`
+      `Sending enter-game success char="${this.charName}" entity=0x${this.entityType.toString(16)} roleEntity=0x${this.roleEntityType.toString(16)} aptitude=${this.selectedAptitude} map=${MAP_ID}`
     );
+    this.sendSelfStateAptitudeSync();
   }
 
   sendPong(token) {
@@ -375,12 +400,82 @@ class Session {
     this.charName = character.roleName;
     this.entityType = ENTITY_TYPE;
     this.roleEntityType = character.roleEntityType || ENTITY_TYPE;
+    this.roleData = resolveRoleData(character);
+    this.selectedAptitude = character.selectedAptitude || 0;
     this.sendCreateRoleOk({
       ...character,
       entityType: this.roleEntityType,
     });
     this.log(`Replayed persisted character "${character.roleName}" for account "${this.accountName}"`);
   }
+
+  sendSelfStateAptitudeSync() {
+    const writer = new PacketWriter();
+    writer.writeUint16(GAME_SELF_STATE_CMD);
+    writer.writeUint8(SELF_STATE_APTITUDE_SUBCMD);
+    writer.writeUint8(this.selectedAptitude & 0xff);
+
+    // Minimal self-state payload for FUN_00430300 case 10.
+    writer.writeUint32(0);
+    writer.writeUint32(0);
+    writer.writeUint32(0);
+    writer.writeUint8(0);
+    writer.writeUint32(0);
+    writer.writeUint32(0);
+    writer.writeUint32(0);
+    writer.writeUint32(0);
+    writer.writeUint32(0);
+    writer.writeUint32(0);
+    writer.writeUint16(0);
+    writer.writeUint16(1);
+    writer.writeUint16(15);
+    writer.writeUint16(15);
+    writer.writeUint16(15);
+    writer.writeUint16(15);
+    writer.writeUint16(0);
+    writer.writeUint8(0);
+
+    this.writePacket(
+      writer.payload(),
+      DEFAULT_FLAGS,
+      `Sending self-state aptitude sync cmd=0x${GAME_SELF_STATE_CMD.toString(16)} sub=0x${SELF_STATE_APTITUDE_SUBCMD.toString(16)} aptitude=${this.selectedAptitude}`
+    );
+  }
+}
+
+function packRoleData(extra1, extra2) {
+  return ((extra2 & 0xffff) << 16) | (extra1 & 0xffff);
+}
+
+function resolveRoleData(role) {
+  if (typeof role.extra1 === 'number' || typeof role.extra2 === 'number') {
+    return packRoleData(role.extra1 || 0, role.extra2 || 0) >>> 0;
+  }
+  if (typeof role.roleData === 'number' && typeof role.aptitude === 'number') {
+    return role.roleData >>> 0;
+  }
+  return 0;
+}
+
+function resolveRoleLevel(role) {
+  if (typeof role.level === 'number') {
+    return role.level & 0xff;
+  }
+  return 1;
+}
+
+function resolveBirthMonth(role) {
+  if (typeof role.birthMonth === 'number') {
+    return role.birthMonth & 0xff;
+  }
+  return (role.trait1 || 0) & 0xff;
+}
+
+function resolveBirthDay(role) {
+  if (typeof role.birthDay === 'number') {
+    return role.birthDay & 0xff;
+  }
+  return (role.trait2 || 0) & 0xff;
 }
 
 module.exports = {
