@@ -168,6 +168,7 @@ Two separate handler tables, registered at startup via different functions:
 | cmd    | Handler      | Description |
 |--------|-------------|-------------|
 | `0x3e9` | `GameServerLoginResponse` (`0050a200`) | Enter game — result 0x03 loads map |
+| `0x3eb` | `HandleGamePacket03eb` (`005047e0`) | Map/entity query family; client also sends current `x/y/mapId` |
 | `0x3f6` | `HandleGamePacket03f6` (`00504b90`) | Active-entity subtype update packet; subtype `0x0a` applies live aptitude |
 | `0x3fd` | `00504bf0`  | unknown game cmd |
 | `0x403` | `00504840`  | unknown |
@@ -258,6 +259,23 @@ The create-selected aptitude is **not** finalized by the login/role packet path.
 - After sending enter-game success on session 2, send a `0x03f6 / 0x0a` self-state packet with the selected aptitude byte
 
 This is required for the in-game Character Panel to match the aptitude chosen during character creation.
+
+## Position Persistence (CONFIRMED)
+
+The client repeatedly sends game packet `0x03eb` with:
+
+- `u16 x`
+- `u16 y`
+- `u16 mapId`
+
+Practical server behavior:
+
+- treat incoming `0x03eb` as the latest player position report
+- persist `mapId/x/y` into `characters.json`
+- carry that saved location through the session-1 `0x0d` redirect into the game session
+- use the saved `mapId/x/y` in the next enter-game `0x03e9 / 0x03` packet instead of the fixed spawn
+
+This is enough to keep the player at the last known location across relogs without implementing full movement simulation yet.
 
 ## Two-Connection Architecture (CONFIRMED)
 

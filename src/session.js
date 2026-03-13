@@ -4,6 +4,7 @@ const {
   AREA_ID,
   DEFAULT_FLAGS,
   ENTITY_TYPE,
+  GAME_POSITION_QUERY_CMD,
   GAME_SELF_STATE_CMD,
   HANDSHAKE_CMD,
   LOGIN_CMD,
@@ -41,6 +42,9 @@ class Session {
     this.roleEntityType = ENTITY_TYPE;
     this.roleData = 0;
     this.selectedAptitude = 0;
+    this.currentMapId = MAP_ID;
+    this.currentX = SPAWN_X;
+    this.currentY = SPAWN_Y;
 
     if (isGame && sharedState.pendingGameCharacter) {
       this.charName = sharedState.pendingGameCharacter.charName;
@@ -48,6 +52,9 @@ class Session {
       this.roleEntityType = sharedState.pendingGameCharacter.roleEntityType || this.entityType;
       this.roleData = sharedState.pendingGameCharacter.roleData || 0;
       this.selectedAptitude = sharedState.pendingGameCharacter.selectedAptitude || 0;
+      this.currentMapId = sharedState.pendingGameCharacter.mapId || MAP_ID;
+      this.currentX = sharedState.pendingGameCharacter.x || SPAWN_X;
+      this.currentY = sharedState.pendingGameCharacter.y || SPAWN_Y;
       sharedState.pendingGameCharacter = null;
     }
   }
@@ -144,6 +151,11 @@ class Session {
       return;
     }
 
+    if (cmdWord === GAME_POSITION_QUERY_CMD) {
+      this.handlePositionUpdate(payload);
+      return;
+    }
+
     this.log(`Unhandled game cmd8=0x${cmdByte.toString(16)} cmd16=0x${cmdWord.toString(16)}`);
   }
 
@@ -229,6 +241,9 @@ class Session {
       entityType: this.entityType,
       roleEntityType: this.roleEntityType,
       roleData: this.roleData,
+      mapId: MAP_ID,
+      x: SPAWN_X,
+      y: SPAWN_Y,
     });
     this.sendCreateRoleOk({
       slot: 0,
@@ -307,6 +322,9 @@ class Session {
       roleEntityType: persisted?.roleEntityType || this.roleEntityType,
       roleData,
       selectedAptitude: persisted?.selectedAptitude || this.selectedAptitude || 0,
+      mapId: persisted?.mapId || this.currentMapId || MAP_ID,
+      x: persisted?.x || this.currentX || SPAWN_X,
+      y: persisted?.y || this.currentY || SPAWN_Y,
     };
     this.sharedState.nextSessionIsGame = true;
 
@@ -327,16 +345,16 @@ class Session {
     writer.writeUint32(0);
     writer.writeUint16(this.entityType);
     writer.writeUint32(this.roleData);
-    writer.writeUint16(SPAWN_X);
-    writer.writeUint16(SPAWN_Y);
+    writer.writeUint16(this.currentX);
+    writer.writeUint16(this.currentY);
     writer.writeUint16(0);
     writer.writeString(`${this.charName}\0`);
     writer.writeUint8(0);
-    writer.writeUint16(MAP_ID);
+    writer.writeUint16(this.currentMapId);
     this.writePacket(
       writer.payload(),
       DEFAULT_FLAGS,
-      `Sending enter-game success char="${this.charName}" entity=0x${this.entityType.toString(16)} roleEntity=0x${this.roleEntityType.toString(16)} aptitude=${this.selectedAptitude} map=${MAP_ID}`
+      `Sending enter-game success char="${this.charName}" entity=0x${this.entityType.toString(16)} roleEntity=0x${this.roleEntityType.toString(16)} aptitude=${this.selectedAptitude} map=${this.currentMapId} pos=${this.currentX},${this.currentY}`
     );
     this.sendSelfStateAptitudeSync();
   }
@@ -402,11 +420,41 @@ class Session {
     this.roleEntityType = character.roleEntityType || ENTITY_TYPE;
     this.roleData = resolveRoleData(character);
     this.selectedAptitude = character.selectedAptitude || 0;
+    this.currentMapId = character.mapId || MAP_ID;
+    this.currentX = character.x || SPAWN_X;
+    this.currentY = character.y || SPAWN_Y;
     this.sendCreateRoleOk({
       ...character,
       entityType: this.roleEntityType,
     });
     this.log(`Replayed persisted character "${character.roleName}" for account "${this.accountName}"`);
+  }
+
+  handlePositionUpdate(payload) {
+    if (payload.length < 8) {
+      this.log('Short 0x03eb payload');
+      return;
+    }
+
+    const x = payload.readUInt16LE(2);
+    const y = payload.readUInt16LE(4);
+    const mapId = payload.readUInt16LE(6);
+    this.currentX = x;
+    this.currentY = y;
+    this.currentMapId = mapId;
+    this.log(`Position update map=${mapId} pos=${x},${y}`);
+
+    const persisted = this.getPersistedCharacter();
+    if (!persisted) {
+      return;
+    }
+
+    this.saveCharacter({
+      ...persisted,
+      mapId,
+      x,
+      y,
+    });
   }
 
   sendSelfStateAptitudeSync() {
