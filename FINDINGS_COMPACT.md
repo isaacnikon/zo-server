@@ -211,6 +211,22 @@ u8  line_no
   - line-select is already confirmed
   - next work is the first role-select / character-list packet flow
 
+## Role-Select Gate Found
+- `SelectRoleIn` / `rolesel0/1/2` handler is at `0x00478520`
+- It does **not** send the next packet unless one of the role widgets satisfies:
+  - `byte [widget + 0x1d0] != 0`
+  - `dword [widget + 0x200] >= 0`
+- If a valid slot exists, it calls `005014a0(client+0x52744, slot_index)`
+- `005014a0` sends:
+```text
+u16 cmd = 0x044c
+u8  subcmd = 0x0d
+u8  slot_index
+```
+- Current implication:
+  - create success popup works
+  - but the fake `0x044c / 0x05` response is still not populating role-select widgets enough for `SelectRoleIn` / Enter to become active
+
 ## Open Unknowns
 - Exact packet flow after server selection
 - Exact role/character list packet format

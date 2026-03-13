@@ -252,6 +252,9 @@ class Session {
 
     const subcmd = payload[2];
     switch (subcmd) {
+      case 0x04:
+        this.handleCreateRole(payload);
+        break;
       case 0x1c: {
         const lineNo = payload.length >= 4 ? payload[3] : 0;
         log(`[S${this.id}] Line select request for line ${lineNo}`);
@@ -261,6 +264,36 @@ class Session {
       default:
         log(`[S${this.id}] Unhandled 0x044c subcmd=0x${subcmd.toString(16)}`);
     }
+  }
+
+  handleCreateRole(payload) {
+    if (payload.length < 6) {
+      log(`[S${this.id}] Short create-role payload`);
+      return;
+    }
+
+    const templateIndex = payload[3];
+    const nameLen = payload.readUInt16LE(4);
+    const nameStart = 6;
+    const nameEnd = Math.min(payload.length, nameStart + nameLen);
+    const rawName = payload.slice(nameStart, nameEnd);
+    const roleName = rawName.toString('latin1').replace(/\0.*$/, '');
+
+    const trait1 = payload.length > nameEnd ? payload[nameEnd] : 0;
+    const trait2 = payload.length > nameEnd + 1 ? payload[nameEnd + 1] : 0;
+    const trait3 = payload.length > nameEnd + 2 ? payload[nameEnd + 2] : 0;
+
+    log(
+      `[S${this.id}] Create role request template=0x${templateIndex.toString(16)} name="${roleName}" traits=${trait1},${trait2},${trait3}`
+    );
+
+    this.sendCreateRoleOk({
+      slot: 0,
+      roleTemplateId: 0x03e9 + templateIndex,
+      roleName,
+      trait1,
+      trait2,
+    });
   }
 
   sendLineSelectOk(lineNo) {
@@ -273,6 +306,33 @@ class Session {
     const pkt = buildPacket(pw.payload(), this.serverSeq++);
     if (this.serverSeq > 65000) this.serverSeq = 1;
     log(`[S${this.id}] Sending line-select success for line ${lineNo}`);
+    log(hexDump(pkt, `[S${this.id}] > `));
+    this.socket.write(pkt);
+  }
+
+  sendCreateRoleOk(role) {
+    // `FUN_00502ef0` parses:
+    //   u8 slot
+    //   u32 unknown
+    //   u16 role_type
+    //   u8 unknown
+    //   string name
+    //   u8 trait1
+    //   u8 trait2
+    const pw = new PacketWriter();
+    pw.writeUint16(0x044c);
+    pw.writeUint8(0x05);
+    pw.writeUint8(role.slot & 0xff);
+    pw.writeUint32(0);
+    pw.writeUint16(role.roleTemplateId & 0xffff);
+    pw.writeUint8(0);
+    pw.writeString(`${role.roleName}\0`);
+    pw.writeUint8(role.trait1 & 0xff);
+    pw.writeUint8(role.trait2 & 0xff);
+
+    const pkt = buildPacket(pw.payload(), this.serverSeq++);
+    if (this.serverSeq > 65000) this.serverSeq = 1;
+    log(`[S${this.id}] Sending create-role success for "${role.roleName}" templateId=0x${role.roleTemplateId.toString(16)}`);
     log(hexDump(pkt, `[S${this.id}] > `));
     this.socket.write(pkt);
   }
