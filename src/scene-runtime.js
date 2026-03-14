@@ -51,8 +51,16 @@ function expandAction(action, context, enableDialogExperiment) {
   return action;
 }
 
-function resolveServerRunAction({ mapId, subtype, scriptId, mode = null, enableDialogExperiment = ENABLE_DIALOG_EXPERIMENT }) {
-  const trigger = resolveServerRunTrigger(mapId, subtype, scriptId, mode);
+function resolveServerRunAction({
+  mapId,
+  subtype,
+  scriptId,
+  mode = null,
+  x = null,
+  y = null,
+  enableDialogExperiment = ENABLE_DIALOG_EXPERIMENT,
+}) {
+  const trigger = resolveServerRunTrigger(mapId, subtype, scriptId, mode, x, y);
   const action = expandAction(getTriggerAction(trigger), { mapId, subtype, scriptId }, enableDialogExperiment);
   if (action) {
     return action;
@@ -75,6 +83,10 @@ function resolveServerRunAction({ mapId, subtype, scriptId, mode = null, enableD
 
 function resolveTileSceneAction({ mapId, tileSceneId, enableDialogExperiment = ENABLE_DIALOG_EXPERIMENT }) {
   const trigger = resolveTileTrigger(mapId, tileSceneId);
+  if (!trigger) {
+    return null;
+  }
+
   const action = expandAction(getTriggerAction(trigger), { mapId, tileSceneId }, enableDialogExperiment);
   if (action) {
     return action.kind === 'transition'
@@ -85,10 +97,7 @@ function resolveTileSceneAction({ mapId, tileSceneId, enableDialogExperiment = E
       : action;
   }
 
-  return {
-    kind: 'unhandled',
-    tileSceneId,
-  };
+  return null;
 }
 
 module.exports = {

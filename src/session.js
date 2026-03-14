@@ -510,6 +510,10 @@ class Session {
       tileSceneId,
     });
 
+    if (!action) {
+      return;
+    }
+
     if (action.kind === 'transition') {
       this.currentTileSceneId = 0;
       this.transitionToScene(action.targetSceneId, action.targetX, action.targetY, action.reason);
@@ -536,6 +540,8 @@ class Session {
         mapId,
         subtype,
         scriptId,
+        x: this.currentX,
+        y: this.currentY,
       });
       if (action.kind === 'transition') {
         this.transitionToScene(action.targetSceneId, action.targetX, action.targetY, action.reason);
@@ -580,6 +586,8 @@ class Session {
         subtype,
         mode,
         scriptId,
+        x: this.currentX,
+        y: this.currentY,
       });
       if (action.kind === 'transition') {
         this.transitionToScene(action.targetSceneId, action.targetX, action.targetY, action.reason);
