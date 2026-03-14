@@ -31,8 +31,8 @@ module.exports = {
   MAP_ID: 207,
   AREA_ID: 6101,
   ENTITY_TYPE: 0x3e9,
-  SPAWN_X: 115,
-  SPAWN_Y: 98,
+  SPAWN_X: 70,
+  SPAWN_Y: 95,
   STATIC_NPCS_BY_MAP: {
     206: [
       {
@@ -52,7 +52,7 @@ module.exports = {
         templateFlags: 0,
       },
       {
-        id: 3325,
+        id: 3325001,
         entityType: 3325,
         x: 51,
         y: 94,
@@ -68,7 +68,7 @@ module.exports = {
         templateFlags: 0,
       },
       {
-        id: 3139,
+        id: 3139001,
         entityType: 3139,
         x: 111,
         y: 173,
@@ -84,7 +84,65 @@ module.exports = {
         templateFlags: 0,
       },
       {
+        id: 3140001,
+        entityType: 3140,
+        x: 120,
+        y: 52,
+        richSpawn: false,
+        templateFlags: 0,
+      },
+    ],
+    207: [
+      {
+        id: 3141,
+        entityType: 3141,
+        x: 57,
+        y: 88,
+        richSpawn: false,
+        templateFlags: 0,
+      },
+      {
+        id: 3325,
+        entityType: 3325,
+        x: 62,
+        y: 82,
+        richSpawn: false,
+        templateFlags: 0,
+      },
+      {
+        id: 3325001,
+        entityType: 3325,
+        x: 51,
+        y: 94,
+        richSpawn: false,
+        templateFlags: 0,
+      },
+      {
+        id: 3139,
+        entityType: 3139,
+        x: 27,
+        y: 146,
+        richSpawn: false,
+        templateFlags: 0,
+      },
+      {
+        id: 3139001,
+        entityType: 3139,
+        x: 111,
+        y: 173,
+        richSpawn: false,
+        templateFlags: 0,
+      },
+      {
         id: 3140,
+        entityType: 3140,
+        x: 82,
+        y: 76,
+        richSpawn: false,
+        templateFlags: 0,
+      },
+      {
+        id: 3140001,
         entityType: 3140,
         x: 120,
         y: 52,
@@ -182,7 +240,7 @@ module.exports = {
         templateFlags: 0,
       },
       {
-        id: 3323,
+        id: 3323001,
         entityType: 3323,
         x: 105,
         y: 48,
