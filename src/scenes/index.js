@@ -60,16 +60,29 @@ const SCENES = {
     ],
     metadataNpcs: [],
     demoNpcs: [],
-    tileTriggers: [],
+    tileTriggers: [
+      {
+        sceneId: 1,
+        action: {
+          kind: 'serverRunBridge',
+          subtype: 0x01,
+          scriptId: 1,
+          reason: 'Cloud Hall tile scene 1',
+        },
+      },
+    ],
     triggers: [
       {
         type: 'serverRun',
         subtype: 0x01,
         scriptId: 1,
-        targetSceneId: SCENE_IDS.PEACH_GARDEN,
-        targetX: 13,
-        targetY: 205,
-        reason: 'Cloud Hall teleporter',
+        action: {
+          kind: 'transition',
+          targetSceneId: SCENE_IDS.PEACH_GARDEN,
+          targetX: 13,
+          targetY: 205,
+          reason: 'Cloud Hall teleporter',
+        },
       },
     ],
   },
@@ -114,10 +127,13 @@ const SCENES = {
         type: 'serverRun',
         subtype: 0x01,
         scriptId: 1,
-        targetSceneId: SCENE_IDS.CLOUD_HALL,
-        targetX: 112,
-        targetY: 21,
-        reason: 'Peach Garden teleporter',
+        action: {
+          kind: 'transition',
+          targetSceneId: SCENE_IDS.CLOUD_HALL,
+          targetX: 112,
+          targetY: 21,
+          reason: 'Peach Garden teleporter',
+        },
       },
     ],
   },
@@ -166,12 +182,35 @@ function resolveTileTrigger(sceneId, tileSceneId) {
   return scene.tileTriggers.find((trigger) => trigger.sceneId === tileSceneId) || null;
 }
 
+function getTriggerAction(trigger) {
+  if (!trigger) {
+    return null;
+  }
+
+  if (trigger.action) {
+    return trigger.action;
+  }
+
+  if (trigger.targetSceneId !== undefined) {
+    return {
+      kind: 'transition',
+      targetSceneId: trigger.targetSceneId,
+      targetX: trigger.targetX,
+      targetY: trigger.targetY,
+      reason: trigger.reason,
+    };
+  }
+
+  return null;
+}
+
 module.exports = {
   SCENE_IDS,
   SCENES,
   getScene,
   getSceneName,
   getSceneWorldSpawns,
+  getTriggerAction,
   resolveServerRunTrigger,
   resolveTileTrigger,
 };
