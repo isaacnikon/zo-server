@@ -43,6 +43,7 @@ function expandAction(action, context, enableDialogExperiment) {
       mapId: context.mapId,
       subtype: action.subtype,
       scriptId: action.scriptId,
+      mode: action.mode,
       enableDialogExperiment,
     });
   }
@@ -50,8 +51,8 @@ function expandAction(action, context, enableDialogExperiment) {
   return action;
 }
 
-function resolveServerRunAction({ mapId, subtype, scriptId, enableDialogExperiment = ENABLE_DIALOG_EXPERIMENT }) {
-  const trigger = resolveServerRunTrigger(mapId, subtype, scriptId);
+function resolveServerRunAction({ mapId, subtype, scriptId, mode = null, enableDialogExperiment = ENABLE_DIALOG_EXPERIMENT }) {
+  const trigger = resolveServerRunTrigger(mapId, subtype, scriptId, mode);
   const action = expandAction(getTriggerAction(trigger), { mapId, subtype, scriptId }, enableDialogExperiment);
   if (action) {
     return action;
@@ -59,12 +60,9 @@ function resolveServerRunAction({ mapId, subtype, scriptId, enableDialogExperime
 
   if (enableDialogExperiment && mapId === 209 && scriptId === 1000) {
     return {
-      kind: 'dialogue',
-      speaker: 'Jade Emperor',
-      message: 'Apollo will take you to the human world.',
-      subtype: 0x05,
-      flags: 0,
-      extraText: '#0<00>Apollo will take you to the human world.\n\n#2<08><1000><0>\nGo to human world',
+      kind: 'message',
+      npcId: 3326,
+      msgId: 1000,
     };
   }
 

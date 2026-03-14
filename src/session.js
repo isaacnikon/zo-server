@@ -541,6 +541,14 @@ class Session {
         this.transitionToScene(action.targetSceneId, action.targetX, action.targetY, action.reason);
         return;
       }
+      if (action.kind === 'scriptEvent') {
+        if (action.mode === 'deferred') {
+          this.sendServerRunScriptDeferred(action.scriptId);
+          return;
+        }
+        this.sendServerRunScriptImmediate(action.scriptId);
+        return;
+      }
       if (action.kind === 'dialogue') {
         this.sendGameDialogue(
           action.speaker,
@@ -556,16 +564,46 @@ class Session {
     }
 
     if (subtype === 0x02) {
-      if (payload.length < 8) {
+      if (payload.length < 9) {
         this.log('Short 0x03f1/0x02 payload');
         return;
       }
       const mode = payload[3];
-      const npcId = payload.readUInt32LE(4);
-      const scriptId = payload.length >= 10 ? payload.readUInt16LE(8) : null;
+      const contextId = payload.readUInt16LE(4);
+      const extra = payload[6];
+      const scriptId = payload.length >= 9 ? payload.readUInt16LE(7) : 0;
       this.log(
-        `Server-run request sub=0x02 mode=${mode} npcId=${npcId}${scriptId !== null ? ` script=${scriptId}` : ''}`
+        `Server-run request sub=0x02 mode=${mode} contextId=${contextId} extra=${extra} script=${scriptId} map=${this.currentMapId} pos=${this.currentX},${this.currentY}`
       );
+      const action = resolveServerRunAction({
+        mapId: this.currentMapId,
+        subtype,
+        mode,
+        scriptId,
+      });
+      if (action.kind === 'transition') {
+        this.transitionToScene(action.targetSceneId, action.targetX, action.targetY, action.reason);
+        return;
+      }
+      if (action.kind === 'scriptEvent') {
+        if (action.mode === 'deferred') {
+          this.sendServerRunScriptDeferred(action.scriptId);
+          return;
+        }
+        this.sendServerRunScriptImmediate(action.scriptId);
+        return;
+      }
+      if (action.kind === 'dialogue') {
+        this.sendGameDialogue(
+          action.speaker,
+          action.message,
+          action.subtype,
+          action.flags,
+          action.extraText
+        );
+        return;
+      }
+      this.sendServerRunMessage(action.npcId, action.msgId);
       return;
     }
 
