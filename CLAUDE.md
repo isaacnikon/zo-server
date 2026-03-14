@@ -519,6 +519,11 @@ return cVar4 && cVar3 && cVar2         // ALL three must succeed
   - `206` = South Gate
   - `208` = Covert Palace
 - Current forced start no longer uses Peach Garden; it now uses confirmed Cloud Hall `map 207`
+- Ghidra follow-up on `macro_GetMapName`:
+  - script macro bridge is `FUN_00532500`
+  - it resolves the current map id from `DAT_008ed358`
+  - name lookup goes through `FUN_00547bb0` -> `FUN_0042bfc0`, which walks the runtime map-info tree
+  - practical implication: map names are not exposed as a simple hardcoded switch/string table in `gc12.exe`; recovering more names will likely require tracing the loaded map metadata path, not just scanning strings
 
 ## NPC Rendering Findings
 - `macro_AddMapNpc(npcId, npcTypeFlags, name, x, y)` populates map/UI/script metadata, not necessarily a directly renderable world entity

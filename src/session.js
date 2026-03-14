@@ -4,7 +4,6 @@ const {
   AREA_ID,
   DEFAULT_FLAGS,
   ENTITY_TYPE,
-  ENABLE_DIALOG_EXPERIMENT,
   GAME_DIALOG_CMD,
   GAME_SPAWN_BATCH_SUBCMD,
   GAME_POSITION_QUERY_CMD,
@@ -27,12 +26,18 @@ const {
   SERVER_SCRIPT_IMMEDIATE_SUBCMD,
   SPAWN_X,
   SPAWN_Y,
-  STATIC_NPCS_BY_MAP,
   SPECIAL_FLAGS,
   VALID_FLAG_MASK,
   VALID_FLAG_VALUE,
 } = require('./config');
 const { PacketWriter, buildPacket } = require('./protocol');
+const {
+  describeScene,
+  getBootstrapWorldSpawns,
+  resolveCharacterScene,
+  resolveServerRunAction,
+  resolveTileSceneAction,
+} = require('./scene-runtime');
 
 class Session {
   constructor(socket, id, isGame, sharedState, logger) {
@@ -54,6 +59,7 @@ class Session {
     this.currentMapId = MAP_ID;
     this.currentX = SPAWN_X;
     this.currentY = SPAWN_Y;
+    this.currentTileSceneId = 0;
 
     if (isGame && sharedState.pendingGameCharacter) {
       this.charName = sharedState.pendingGameCharacter.charName;
@@ -61,9 +67,10 @@ class Session {
       this.roleEntityType = sharedState.pendingGameCharacter.roleEntityType || this.entityType;
       this.roleData = sharedState.pendingGameCharacter.roleData || 0;
       this.selectedAptitude = sharedState.pendingGameCharacter.selectedAptitude || 0;
-      this.currentMapId = FORCE_START_SCENE ? MAP_ID : (sharedState.pendingGameCharacter.mapId || MAP_ID);
-      this.currentX = FORCE_START_SCENE ? SPAWN_X : (sharedState.pendingGameCharacter.x || SPAWN_X);
-      this.currentY = FORCE_START_SCENE ? SPAWN_Y : (sharedState.pendingGameCharacter.y || SPAWN_Y);
+      const scene = resolveCharacterScene(sharedState.pendingGameCharacter);
+      this.currentMapId = scene.mapId;
+      this.currentX = scene.x;
+      this.currentY = scene.y;
       sharedState.pendingGameCharacter = null;
     }
   }
@@ -336,9 +343,11 @@ class Session {
       roleEntityType: persisted?.roleEntityType || this.roleEntityType,
       roleData,
       selectedAptitude: persisted?.selectedAptitude || this.selectedAptitude || 0,
-      mapId: FORCE_START_SCENE ? MAP_ID : (persisted?.mapId || this.currentMapId || MAP_ID),
-      x: FORCE_START_SCENE ? SPAWN_X : (persisted?.x || this.currentX || SPAWN_X),
-      y: FORCE_START_SCENE ? SPAWN_Y : (persisted?.y || this.currentY || SPAWN_Y),
+      ...resolveCharacterScene({
+        mapId: persisted?.mapId || this.currentMapId || MAP_ID,
+        x: persisted?.x || this.currentX || SPAWN_X,
+        y: persisted?.y || this.currentY || SPAWN_Y,
+      }),
     };
     this.sharedState.nextSessionIsGame = true;
 
@@ -368,7 +377,7 @@ class Session {
     this.writePacket(
       writer.payload(),
       DEFAULT_FLAGS,
-      `Sending enter-game success char="${this.charName}" entity=0x${this.entityType.toString(16)} roleEntity=0x${this.roleEntityType.toString(16)} aptitude=${this.selectedAptitude} map=${this.currentMapId} pos=${this.currentX},${this.currentY}`
+      `Sending enter-game success char="${this.charName}" entity=0x${this.entityType.toString(16)} roleEntity=0x${this.roleEntityType.toString(16)} aptitude=${this.selectedAptitude} map=${this.currentMapId} (${describeScene(this.currentMapId)}) pos=${this.currentX},${this.currentY}`
     );
     this.sendSelfStateAptitudeSync();
     this.sendStaticNpcSpawns();
@@ -435,9 +444,10 @@ class Session {
     this.roleEntityType = character.roleEntityType || ENTITY_TYPE;
     this.roleData = resolveRoleData(character);
     this.selectedAptitude = character.selectedAptitude || 0;
-    this.currentMapId = FORCE_START_SCENE ? MAP_ID : (character.mapId || MAP_ID);
-    this.currentX = FORCE_START_SCENE ? SPAWN_X : (character.x || SPAWN_X);
-    this.currentY = FORCE_START_SCENE ? SPAWN_Y : (character.y || SPAWN_Y);
+    const scene = resolveCharacterScene(character);
+    this.currentMapId = scene.mapId;
+    this.currentX = scene.x;
+    this.currentY = scene.y;
     this.sendCreateRoleOk({
       ...character,
       entityType: this.roleEntityType,
@@ -458,6 +468,7 @@ class Session {
     this.currentY = y;
     this.currentMapId = mapId;
     this.log(`Position update map=${mapId} pos=${x},${y}`);
+    this.handleTileSceneTrigger(mapId, x, y);
 
     const persisted = this.getPersistedCharacter();
     if (!persisted) {
@@ -472,6 +483,44 @@ class Session {
     });
   }
 
+  handleTileSceneTrigger(mapId, x, y) {
+    const cell = this.sharedState.mapCellStore?.getCell(mapId, x, y) || null;
+    const tileSceneId = cell?.sceneId || 0;
+
+    if (tileSceneId === this.currentTileSceneId) {
+      return;
+    }
+
+    const previousTileSceneId = this.currentTileSceneId;
+    this.currentTileSceneId = tileSceneId;
+
+    if (tileSceneId === 0) {
+      if (previousTileSceneId !== 0) {
+        this.log(`Left tile scene trigger sceneId=${previousTileSceneId} map=${mapId} pos=${x},${y}`);
+      }
+      return;
+    }
+
+    this.log(
+      `Entered tile scene trigger map=${mapId} (${describeScene(mapId)}) pos=${x},${y} sceneId=${tileSceneId} flags=0x${(cell.flags || 0).toString(16)} aux=${cell.auxValue || 0}`
+    );
+
+    const action = resolveTileSceneAction({
+      mapId,
+      tileSceneId,
+    });
+
+    if (action.kind === 'transition') {
+      this.currentTileSceneId = 0;
+      this.transitionToScene(action.targetSceneId, action.targetX, action.targetY, action.reason);
+      return;
+    }
+
+    this.log(
+      `No server-side tile scene action mapped for map=${mapId} (${describeScene(mapId)}) sceneId=${tileSceneId}`
+    );
+  }
+
   handleServerRunRequest(payload) {
     if (payload.length < 5) {
       this.log('Short 0x03f1 payload');
@@ -483,22 +532,26 @@ class Session {
       const scriptId = payload.readUInt16LE(3);
       const mapId = payload.length >= 7 ? payload.readUInt16LE(5) : 0;
       this.log(`Server-run request sub=0x01 script=${scriptId} map=${mapId} pos=${this.currentX},${this.currentY}`);
-      if (mapId === 209 && scriptId === 1) {
-        this.transitionToScene(208, 57, 88, 'Peach Garden teleporter');
+      const action = resolveServerRunAction({
+        mapId,
+        subtype,
+        scriptId,
+      });
+      if (action.kind === 'transition') {
+        this.transitionToScene(action.targetSceneId, action.targetX, action.targetY, action.reason);
         return;
       }
-      if (ENABLE_DIALOG_EXPERIMENT && mapId === 209 && scriptId === 1000) {
+      if (action.kind === 'dialogue') {
         this.sendGameDialogue(
-          'Jade Emperor',
-          'Apollo will take you to the human world.',
-          0x05,
-          0,
-          '#0<00>Apollo will take you to the human world.\n\n#2<08><1000><0>\nGo to human world'
+          action.speaker,
+          action.message,
+          action.subtype,
+          action.flags,
+          action.extraText
         );
         return;
       }
-      const msgId = scriptId === 1 ? 1 : scriptId;
-      this.sendServerRunMessage(3142, msgId);
+      this.sendServerRunMessage(action.npcId, action.msgId);
       return;
     }
 
@@ -556,7 +609,8 @@ class Session {
     this.currentMapId = mapId;
     this.currentX = x;
     this.currentY = y;
-    this.log(`Transitioning scene reason="${reason}" map=${mapId} pos=${x},${y}`);
+    this.currentTileSceneId = 0;
+    this.log(`Transitioning scene reason="${reason}" map=${mapId} (${describeScene(mapId)}) pos=${x},${y}`);
 
     const persisted = this.getPersistedCharacter();
     if (persisted) {
@@ -574,7 +628,7 @@ class Session {
   dispose() {}
 
   sendStaticNpcSpawns() {
-    const staticNpcs = STATIC_NPCS_BY_MAP?.[this.currentMapId] || [];
+    const staticNpcs = getBootstrapWorldSpawns(this.currentMapId);
     if (!Array.isArray(staticNpcs) || staticNpcs.length === 0) {
       return;
     }
@@ -591,7 +645,7 @@ class Session {
     this.writePacket(
       writer.payload(),
       DEFAULT_FLAGS,
-      `Sending static NPC spawn batch cmd=0x${GAME_POSITION_QUERY_CMD.toString(16)} map=${this.currentMapId} count=${staticNpcs.length}`
+      `Sending static NPC spawn batch cmd=0x${GAME_POSITION_QUERY_CMD.toString(16)} map=${this.currentMapId} (${describeScene(this.currentMapId)}) count=${staticNpcs.length}`
     );
   }
 

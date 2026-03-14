@@ -6,6 +6,7 @@ function createSessionState() {
     nextSessionIsGame: false,
     pendingGameCharacter: null,
     characterStore: null,
+    mapCellStore: null,
   };
 }
 
