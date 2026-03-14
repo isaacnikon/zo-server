@@ -169,9 +169,11 @@ Two separate handler tables, registered at startup via different functions:
 |--------|-------------|-------------|
 | `0x3e9` | `GameServerLoginResponse` (`0050a200`) | Enter game — result 0x03 loads map |
 | `0x3eb` | `HandleGamePacket03eb` (`005047e0`) | Map/entity query family; client also sends current `x/y/mapId` |
+| `0x3f1` | `HandleGamePacket03f1` (`0050bda0`) | Server→client message/display packet family |
 | `0x3f6` | `HandleGamePacket03f6` (`00504b90`) | Active-entity subtype update packet; subtype `0x0a` applies live aptitude |
 | `0x3fd` | `00504bf0`  | unknown game cmd |
 | `0x403` | `00504840`  | unknown |
+| `0x407` | `HandleGamePacket0407` (`005084a0`) | Client-side `script\\serverrun\\%d.lua` executor |
 | `0x44f` | `0050d2f0`  | unknown |
 | `0x453` | `00505720`  | unknown |
 | ... | (many more game cmds) | |
@@ -397,7 +399,7 @@ return cVar4 && cVar3 && cVar2         // ALL three must succeed
 
 ### map\mapset.ini [Main]:
 - Valid map IDs: 101–299 (`map101=101` through `map299=299`)
-- Current server can force a start scene via config; latest traced start scene is `map_id=209` (Peach Garden)
+- Current server can force a start scene via config; latest traced start scene is `map_id=207` (Cloud Hall)
 
 ### Status
 - `LoadMapAndEnterGame` was **not** the blocker
@@ -420,8 +422,55 @@ return cVar4 && cVar3 && cVar2         // ALL three must succeed
 - **Session 2 (game):** `0x3e9` login → reply `0x03e9/0x03` enter-game packet using saved `entity_type`, `map_id`, `x`, and `y`
 - After enter-game, server sends `0x03f6 / 0x0a` to apply the saved aptitude to the live entity
 - Incoming `0x03eb` updates refresh the saved `mapId/x/y` for the next relog
-- Current dev config forces the start scene to Peach Garden (`map_id=209`, `x=115`, `y=98`) instead of reusing persisted map position
-- Current dev config still includes Peach Garden static NPC spawn experiments, but those ids are not yet producing visible in-world NPCs
+- Current dev config forces the start scene to Cloud Hall (`map_id=207`)
+- Teleporter/scene changes now work via direct mid-session enter-game reloads, not via `0x0407`
+- Static NPC spawns are now map-specific in server config (`STATIC_NPCS_BY_MAP`)
+
+## Script Dispatch Findings (`0x03f1` / `0x0407`)
+
+### Key functions
+- `00532490` → `ScriptMacroServerRunScript`
+- `004322b0` → `SendServerRunScriptRequest03f1`
+- `0050bda0` → `HandleGamePacket03f1`
+- `005084a0` → `HandleGamePacket0407`
+
+### Confirmed behavior
+- `macro_ServerRunScript(a, b)` in client Lua does **not** execute a local script directly.
+- It calls `ScriptMacroServerRunScript`, which parses 2 numeric args and sends client→server packet `0x03f1`.
+- Server→client `0x0407` is the actual local script executor for:
+  - `script\\serverrun\\%d.lua`
+
+### `0x0407` subtypes
+- `'z'` (`0x7a`) → immediate `script\\serverrun\\%d.lua` execution from a `u16 scriptId`
+- `'{'` (`0x7b`) → stores a `u16 scriptId` at `gameObj + 0x3cd6`, later executed by `FUN_00519ca0`
+
+### Confirmed request layout for the visible Peach Garden click
+- The Apollo-related UI click in Peach Garden currently sends:
+  - `u16 cmd = 0x03f1`
+  - `u8 subtype = 0x01`
+  - `u16 scriptId = 1000`
+  - `u16 mapId = 209`
+- Live packet captured:
+  - `f1 03 01 e8 03 d1 00`
+
+### Important distinction
+- Replying with `0x0407 / 'z' / 1000` is valid, but it only drives the generic onboarding/help text path.
+- It does **not** run the Jade Emperor/Apollo Peach Garden film.
+- Therefore `scriptId=1000` in `0x03f1/sub=0x01` is a request/action code, not the actual film script id.
+
+### Script archive correlation
+- The Peach Garden film block contains:
+  - `macro_ClearNpcDemo()`
+  - `macro_AddNpcDemo(1,3142,x,y,\"Jade Emperor\")`
+  - `macro_AddNpcDemo(2,3054,117,127,\"Apollo\")`
+  - film dialogue / camera movement
+  - then `macro_ServerRunScript(2,20001)`
+- That means `20001` is downstream from the film block, not evidence that `20001` starts the film.
+
+### Current conclusion
+- `macro_ServerRunScript(1,1000)` and `macro_ServerRunScript(2,1000)` are different branches.
+- The currently visible Peach Garden click only triggers the `sub=0x01` help/onboarding branch.
+- The Apollo intro film is likely behind the `0x03f1 / sub=0x02` family or another higher-context branch, not the already-mapped `sub=0x01` request.
 
 ## Test Credentials (from SETUP.INI)
 - Username: `000000`
@@ -437,7 +486,25 @@ return cVar4 && cVar3 && cVar2         // ALL three must succeed
 - [ ] Full meanings of `0x044d` subcmds `0x27`, `0x28`, `0x33`
 - [ ] Proper "existing role list" packet so persisted roles do not show the create-success popup
 - [ ] Real Apollo transition from Peach Garden (`map 209`) to Rainbow Valley
+- [ ] Exact request/response mapping for `0x03f1 / sub=0x02`, which is now the strongest lead for the Peach Garden Apollo film path
 - [ ] Exact world-entity spawn/update fields needed to render named map NPCs beyond Scholar
+
+## Heaven Map Progression
+- Direct scene reload via the existing `0x03e9 / 0x03` enter-game packet works mid-session for Heaven-side transitions
+- Confirmed map ids from live tests:
+  - `204` = `Celestial State`
+  - `206` = `South Gate`
+  - `207` = `Cloud Hall`
+  - `208` = `Covert Palace`
+  - `209` = `Peach Garden`
+- The Peach Garden standing teleporter request is:
+  - client -> server `0x03f1 / sub=0x01 / script=1 / map=209`
+- That request is **not** satisfied by:
+  - `0x03f1` message reply
+  - `0x0407 / 'z' / 1`
+  - `0x0407 / '{' / 1`
+- The currently working server-side approach is to treat that request as a scene transition trigger and send a direct enter-scene reload instead
+- Current dev start scene is pinned to `207` (Cloud Hall)
 
 ## Peach Garden Trace
 - `136` was a false lead: `macro_ChangeScene(136,44,311)` is the Rainbow Valley quest jump into Bling Alley 1, not Peach Garden
@@ -446,7 +513,12 @@ return cVar4 && cVar3 && cVar2         // ALL three must succeed
   - Peach Garden setup block contains NPCs `3142`, `3144`, `3136`, `3326`, `3413`, `3751`, etc.
   - quest/help text ties NPC `3142` to `macro_GetMapName(209)`
   - same Peach Garden block places `3142` at `115,98`
-- Current forced start scene uses that confirmed Peach Garden position: `map 209 @ 115,98`
+- The Peach Garden teleporter trigger currently emits:
+  - `0x03f1 / sub=0x01 / script=1 / map=209`
+- Live scene tests from that trigger established the Heaven-side ids:
+  - `206` = South Gate
+  - `208` = Covert Palace
+- Current forced start no longer uses Peach Garden; it now uses confirmed Cloud Hall `map 207`
 
 ## NPC Rendering Findings
 - `macro_AddMapNpc(npcId, npcTypeFlags, name, x, y)` populates map/UI/script metadata, not necessarily a directly renderable world entity
@@ -459,6 +531,9 @@ return cVar4 && cVar3 && cVar2         // ALL three must succeed
 - Current conclusion: map-NPC ids and coordinates are correct, but named NPCs still need either:
   - the richer `0x03eb` entity record that drives the `+0x5d8` appearance path, or
   - a separate client-side `npc_id -> clientNpcType` mapping step before they can render
+- Apollo in Peach Garden is not yet proven to be a normal free-roam world spawn:
+  - `macro_AddNpcDemo(2,3054,117,127,\"Apollo\")` shows Apollo is spawned client-side inside a film/demo block
+  - direct `0x03eb` world-spawn attempts with `entity_type=3054` did not show Apollo
 
 ## Resolved Highlights
 - Login packet payload is `0x3e9 + username + MD5 + 'S'`

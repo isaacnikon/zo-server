@@ -4,8 +4,12 @@ const {
   AREA_ID,
   DEFAULT_FLAGS,
   ENTITY_TYPE,
+  ENABLE_DIALOG_EXPERIMENT,
+  GAME_DIALOG_CMD,
   GAME_SPAWN_BATCH_SUBCMD,
   GAME_POSITION_QUERY_CMD,
+  GAME_SERVER_RUN_CMD,
+  GAME_SCRIPT_EVENT_CMD,
   GAME_SELF_STATE_CMD,
   HANDSHAKE_CMD,
   LOGIN_CMD,
@@ -19,9 +23,11 @@ const {
   REDIRECT_RESULT,
   ROLE_CMD,
   SELF_STATE_APTITUDE_SUBCMD,
+  SERVER_SCRIPT_DEFERRED_SUBCMD,
+  SERVER_SCRIPT_IMMEDIATE_SUBCMD,
   SPAWN_X,
   SPAWN_Y,
-  STATIC_NPCS,
+  STATIC_NPCS_BY_MAP,
   SPECIAL_FLAGS,
   VALID_FLAG_MASK,
   VALID_FLAG_VALUE,
@@ -156,6 +162,11 @@ class Session {
 
     if (cmdWord === GAME_POSITION_QUERY_CMD) {
       this.handlePositionUpdate(payload);
+      return;
+    }
+
+    if (cmdWord === GAME_SERVER_RUN_CMD) {
+      this.handleServerRunRequest(payload);
       return;
     }
 
@@ -461,6 +472,53 @@ class Session {
     });
   }
 
+  handleServerRunRequest(payload) {
+    if (payload.length < 5) {
+      this.log('Short 0x03f1 payload');
+      return;
+    }
+
+    const subtype = payload[2];
+    if (subtype === 0x01) {
+      const scriptId = payload.readUInt16LE(3);
+      const mapId = payload.length >= 7 ? payload.readUInt16LE(5) : 0;
+      this.log(`Server-run request sub=0x01 script=${scriptId} map=${mapId} pos=${this.currentX},${this.currentY}`);
+      if (mapId === 209 && scriptId === 1) {
+        this.transitionToScene(208, 57, 88, 'Peach Garden teleporter');
+        return;
+      }
+      if (ENABLE_DIALOG_EXPERIMENT && mapId === 209 && scriptId === 1000) {
+        this.sendGameDialogue(
+          'Jade Emperor',
+          'Apollo will take you to the human world.',
+          0x05,
+          0,
+          '#0<00>Apollo will take you to the human world.\n\n#2<08><1000><0>\nGo to human world'
+        );
+        return;
+      }
+      const msgId = scriptId === 1 ? 1 : scriptId;
+      this.sendServerRunMessage(3142, msgId);
+      return;
+    }
+
+    if (subtype === 0x02) {
+      if (payload.length < 8) {
+        this.log('Short 0x03f1/0x02 payload');
+        return;
+      }
+      const mode = payload[3];
+      const npcId = payload.readUInt32LE(4);
+      const scriptId = payload.length >= 10 ? payload.readUInt16LE(8) : null;
+      this.log(
+        `Server-run request sub=0x02 mode=${mode} npcId=${npcId}${scriptId !== null ? ` script=${scriptId}` : ''}`
+      );
+      return;
+    }
+
+    this.log(`Unhandled 0x03f1 subtype=0x${subtype.toString(16)}`);
+  }
+
   sendSelfStateAptitudeSync() {
     const writer = new PacketWriter();
     writer.writeUint16(GAME_SELF_STATE_CMD);
@@ -494,26 +552,46 @@ class Session {
     );
   }
 
+  transitionToScene(mapId, x, y, reason) {
+    this.currentMapId = mapId;
+    this.currentX = x;
+    this.currentY = y;
+    this.log(`Transitioning scene reason="${reason}" map=${mapId} pos=${x},${y}`);
+
+    const persisted = this.getPersistedCharacter();
+    if (persisted) {
+      this.saveCharacter({
+        ...persisted,
+        mapId,
+        x,
+        y,
+      });
+    }
+
+    this.sendEnterGameOk();
+  }
+
   dispose() {}
 
   sendStaticNpcSpawns() {
-    if (!Array.isArray(STATIC_NPCS) || STATIC_NPCS.length === 0) {
+    const staticNpcs = STATIC_NPCS_BY_MAP?.[this.currentMapId] || [];
+    if (!Array.isArray(staticNpcs) || staticNpcs.length === 0) {
       return;
     }
 
     const writer = new PacketWriter();
     writer.writeUint16(GAME_POSITION_QUERY_CMD);
     writer.writeUint8(GAME_SPAWN_BATCH_SUBCMD);
-    writer.writeUint16(STATIC_NPCS.length);
+    writer.writeUint16(staticNpcs.length);
 
-    for (const npc of STATIC_NPCS) {
+    for (const npc of staticNpcs) {
       this.writeNpcSpawnRecord(writer, npc);
     }
 
     this.writePacket(
       writer.payload(),
       DEFAULT_FLAGS,
-      `Sending static NPC spawn batch cmd=0x${GAME_POSITION_QUERY_CMD.toString(16)} count=${STATIC_NPCS.length}`
+      `Sending static NPC spawn batch cmd=0x${GAME_POSITION_QUERY_CMD.toString(16)} map=${this.currentMapId} count=${staticNpcs.length}`
     );
   }
 
@@ -525,25 +603,82 @@ class Session {
     writer.writeUint16(npc.entityType & 0xffff);
     writer.writeUint16(x);
     writer.writeUint16(y);
+    writer.writeUint32((npc.templateFlags || 0) >>> 0);
 
-    if (typeof npc.clientNpcType !== 'number') {
+    if (!npc.richSpawn) {
       return;
     }
 
-    // Extended ParseEntitySpawnFrom03eb form used for entities that need
-    // a client-side NPC appearance override via entity+0x5d8.
-    writer.writeUint32(0);
-    writer.writeUint16(0);
+    // Rich class-1 ParseEntitySpawnFrom03eb form:
+    // u32, u16 level, string name, then 3x (u16 appearanceType + u8 variant), then u16 extraFlags.
+    writer.writeUint32((npc.richValue || 0) >>> 0);
+    writer.writeUint16((npc.level || 0) & 0xffff);
     writer.writeString(`${npc.name || ''}\0`);
 
-    writer.writeUint16(npc.clientNpcType & 0xffff);
-    writer.writeUint8(0);
-    writer.writeUint16(0);
-    writer.writeUint8(0);
-    writer.writeUint16(2);
-    writer.writeUint8(0);
+    const triples = Array.isArray(npc.appearanceTriples) ? npc.appearanceTriples : [];
+    for (let i = 0; i < 3; i += 1) {
+      const triple = triples[i] || {};
+      writer.writeUint16((triple.type || 0) & 0xffff);
+      writer.writeUint8((triple.variant || 0) & 0xff);
+    }
 
-    writer.writeUint16(0);
+    writer.writeUint16((npc.extraFlags || 0) & 0xffff);
+  }
+
+  sendServerRunScriptImmediate(scriptId) {
+    const writer = new PacketWriter();
+    writer.writeUint16(GAME_SCRIPT_EVENT_CMD);
+    writer.writeUint8(SERVER_SCRIPT_IMMEDIATE_SUBCMD);
+    writer.writeUint16(scriptId & 0xffff);
+    this.writePacket(
+      writer.payload(),
+      DEFAULT_FLAGS,
+      `Sending script event cmd=0x${GAME_SCRIPT_EVENT_CMD.toString(16)} sub=0x${SERVER_SCRIPT_IMMEDIATE_SUBCMD.toString(16)} script=${scriptId}`
+    );
+  }
+
+  sendServerRunScriptDeferred(scriptId) {
+    const writer = new PacketWriter();
+    writer.writeUint16(GAME_SCRIPT_EVENT_CMD);
+    writer.writeUint8(SERVER_SCRIPT_DEFERRED_SUBCMD);
+    writer.writeUint16(scriptId & 0xffff);
+    this.writePacket(
+      writer.payload(),
+      DEFAULT_FLAGS,
+      `Sending deferred script event cmd=0x${GAME_SCRIPT_EVENT_CMD.toString(16)} sub=0x${SERVER_SCRIPT_DEFERRED_SUBCMD.toString(16)} script=${scriptId}`
+    );
+  }
+
+  sendServerRunMessage(npcId, msgId) {
+    const writer = new PacketWriter();
+    writer.writeUint16(GAME_SERVER_RUN_CMD);
+    writer.writeUint8(0x01);
+    writer.writeUint32(npcId >>> 0);
+    writer.writeUint16(msgId & 0xffff);
+    this.writePacket(
+      writer.payload(),
+      DEFAULT_FLAGS,
+      `Sending server-run message cmd=0x${GAME_SERVER_RUN_CMD.toString(16)} sub=0x01 npcId=${npcId} msg=${msgId}`
+    );
+  }
+
+  sendGameDialogue(speaker, message, subtype = 0x01, flags = 0, extraText = null) {
+    const writer = new PacketWriter();
+    writer.writeUint16(GAME_DIALOG_CMD);
+    writer.writeUint8(subtype & 0xff);
+    writer.writeUint8(flags & 0xff);
+    writer.writeString(`${speaker}\0`);
+    if (subtype === 0x05) {
+      writer.writeString(`${extraText || ''}\0`);
+    }
+    writer.writeString(`${message}\0`);
+    writer.writeUint8(0);
+    writer.writeUint8(0);
+    this.writePacket(
+      writer.payload(),
+      DEFAULT_FLAGS,
+      `Sending dialogue cmd=0x${GAME_DIALOG_CMD.toString(16)} sub=0x${subtype.toString(16)} speaker="${speaker}"`
+    );
   }
 }
 
