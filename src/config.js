@@ -7,7 +7,7 @@ module.exports = {
   LOG_FILE: 'server.log',
   CHARACTER_STORE_FILE: 'characters.json',
   COMBAT_PROBE_STATE_FILE: 'combat-probe-state.json',
-  COMBAT_REFERENCE_ROOT: process.env.COMBAT_REFERENCE_ROOT || '/home/nikon/Downloads/shengxiao/Server',
+  COMBAT_REFERENCE_ROOT: process.env.COMBAT_REFERENCE_ROOT || 'third_party/shengxiao-server',
   MAX_PACKET_SIZE: 0x4000,
   VALID_FLAG_MASK: 0xe0,
   VALID_FLAG_VALUE: 0x40,
