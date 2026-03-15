@@ -258,6 +258,47 @@ Important limitation:
   - it toggles additional fight UI state such as `0x00627ee8`
   This makes `0x01` a stronger ring-open candidate than `0x02` or `0x64`.
 - Active-fighter lookup detail:
+### 2026-03-16 Live Breakpoint Findings For `Combat data error!`
+
+- Debug target: `/home/nikon/Data/Zodiac Online/gc12.exe`
+- Located popup string:
+  - `"Combat data error!"` at `0x005d508c`
+- `gdb` watchpoint on the string first broke in helper `0x004cacb7`
+- Combat-adjacent xrefs then led to breakpoints at:
+  - `0x005221ad`
+  - `0x00522809`
+- Live breakpoint hit:
+  - `0x00522809`
+- Failure branch near the hit:
+  - `0x005227db` prepares dialog args
+  - `0x00522802` calls `0x004c9c70`
+  - `0x00522809` calls `0x004cac10`
+- Success branch immediately above:
+  - `0x005227ca..0x005227d4` pushes three signed bytes and constants, then calls `0x00519bf0`
+- Live disassembly of `0x00519bf0` showed:
+  - arg1 (`edx`) must satisfy `0 <= arg1 < 3`
+  - arg3 (`ecx`) must satisfy `0 <= arg3 < 5`
+  - arg2 selects side handling (`1` vs `-1`)
+  - on success writes:
+    - `+0x5bc = row`
+    - `+0x5bd = col`
+    - `+0x5be = side flag`
+- Stack-derived values at the popup breakpoint for the broken multi-enemy startup decoded as:
+  - `row = 2`
+  - `col = 3`
+  - `side = 0x78`
+- `0x78` is decimal `120`, exactly matching the synthetic enemy HP value. This proved the per-fighter parse was shifted and not merely using a bad slot or template id.
+- Tracing earlier in the parser from `0x005223d0` showed the row decode structure:
+  - read base fields for every fighter row
+  - if the row is the active player, consume an extended tail:
+    - extra short values
+    - extra byte values
+    - trailing name-related block
+  - non-player rows do not consume that same tail before placement validation
+- Practical RE conclusion:
+  - the local `0x03fa / 0x65` harness must not serialize the extended row tail for enemies
+  - the previous single-enemy success had masked this because the bad tail was at packet end
+  - adding a second enemy exposed it by shifting the next row so HP landed in the side byte
   `FUN_00515cf0` scans the fight table for an entry whose pointed fighter object's `+0x5b0` matches the queried id.
   The latest live behavior strongly suggests the active player's runtime `+0x5b0` is not matching the `entityId` we serialize in the synthetic fight rows.
   Since the current server writes `this.entityType` into that `entityId` field, the most likely remaining bug is that we are using a template/type identifier where the client expects the active combatant's runtime identity.
@@ -439,3 +480,7 @@ Important limitation:
 - Turn-pacing adjustment:
   reopening commands immediately after the last queued enemy playback made the wheel appear too early relative to the visual timing of the enemy action.
   The local harness now delays the end-of-round `0x01 + 0x34 + 0x03f0` refresh by a short timer (`700ms`) so the wheel returns after the enemy action has visibly settled.
+- `Combat data error!` isolation:
+  with the fight-enter packet now stable and multi-enemy playback working, the remaining popup is more likely tied to the synthetic `0x03f0` command table than to the `0x65` encounter rows.
+  The harness now uses a single-row minimal `0x03f0` profile based on the first reference action id instead of advertising six guessed reference skills at once.
+  This is intended to test whether extra invalid action rows are what trigger the client's combat-data popup while still leaving the basic `atk` flow intact.

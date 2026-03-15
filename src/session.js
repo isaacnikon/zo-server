@@ -1482,6 +1482,21 @@ class Session {
         appearanceVariants: [0, 0, 0],
         name: 'Enemy A',
       },
+      {
+        side: 1,
+        entityId: 0x700002,
+        logicalId: 2,
+        typeId: 5015,
+        row: 0,
+        col: 3,
+        hpLike: 120,
+        mpLike: 0,
+        aptitude: 0,
+        levelLike: 15,
+        appearanceTypes: [0, 0, 0],
+        appearanceVariants: [0, 0, 0],
+        name: 'Enemy B',
+      },
     ];
     const writer = new PacketWriter();
     writer.writeUint16(GAME_FIGHT_STREAM_CMD);
@@ -1502,6 +1517,7 @@ class Session {
       appearanceTypes: player.appearanceTypes,
       appearanceVariants: player.appearanceVariants,
       name: player.name,
+      extended: true,
     });
     for (const enemy of enemies) {
       this.writeFightProbeEntry(writer, enemy);
@@ -1521,14 +1537,6 @@ class Session {
   }
 
   sendReducedFightStartup(action, enemyCount) {
-    if (enemyCount > 1) {
-      this.log(
-        `Using reduced multi-enemy startup probe trigger=${action.probeId} enemyCount=${enemyCount} probes=0x34`
-      );
-      this.sendFightControlShowProbe(action);
-      return;
-    }
-
     this.sendFightRingOpenProbe(action);
     this.sendFightStateModeProbe64(action);
     this.sendFightControlInitProbe(action);
@@ -1699,6 +1707,10 @@ class Session {
     writer.writeUint8(entry.aptitude & 0xff);
     writer.writeUint16(entry.levelLike & 0xffff);
 
+    if (!entry.extended) {
+      return;
+    }
+
     const appearanceTypes = Array.isArray(entry.appearanceTypes) ? entry.appearanceTypes : [0, 0, 0];
     for (let i = 0; i < 3; i += 1) {
       writer.writeUint16((appearanceTypes[i] || 0) & 0xffff);
@@ -1708,7 +1720,6 @@ class Session {
     for (let i = 0; i < 3; i += 1) {
       writer.writeUint8((appearanceVariants[i] || 0) & 0xff);
     }
-
     writer.writeString(`${entry.name || 'Unknown'}\0`);
   }
 }

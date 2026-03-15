@@ -218,6 +218,34 @@ Confirmed semantics:
   - `u32 stateC = 0`
   This is intended to trigger the branch's compact control-state path without the optional extra fields.
 - Live UI clue from double-click:
+### 2026-03-16 Multi-Enemy `0x03fa / 0x65` Parse Findings
+
+- Live client debugging of `/home/nikon/Data/Zodiac Online/gc12.exe` identified the `Combat data error!` popup path at `0x005227db -> 0x00522809`.
+- The popup is raised when the client falls through instead of taking the success call to `0x00519bf0`.
+- `0x00519bf0` validates the board-placement tuple used for a fighter record. From live disassembly:
+  - first signed byte must satisfy `0 <= value < 3`
+  - third signed byte must satisfy `0 <= value < 5`
+  - side/mode handling only accepts the expected values (`1` or `-1` branch)
+- At the breakpoint during broken 2-enemy startup, the client had decoded:
+  - `col = 3`
+  - `row = 2`
+  - `side = 0x78`
+- `0x78` is decimal `120`, matching the synthetic enemy HP. This proved the second fighter record was misaligned and the client was reading the side byte from the previous row's HP field.
+- Tracing the same client parser backward from `0x005223d0` showed that the `0x03fa / 0x65` fighter rows are not all the same shape:
+  - active player row: base fields plus an extended tail
+  - non-player rows: base fields only
+- Practical implication for the local harness:
+  - only the player row should be serialized with the extended tail (`appearanceTypes`, `appearanceVariants`, and trailing name block)
+  - enemy rows should stop after the base fields
+- This explains the old behavior:
+  - single-enemy startup tolerated the bad enemy-row tail because it sat at packet end
+  - multi-enemy startup shifted the second row and triggered `Combat data error!`
+- Current local patch:
+  - player row is written with `extended: true`
+  - enemy rows are written in short/base form
+- Immediate live result after this patch:
+  - the old popup path was not reached in the same way, but the startup UI froze
+  - therefore the row-shape mismatch is real, but additional multi-enemy startup/control-state work is still required before multi-enemy startup is considered solved
   double-clicking the enemy during the synthetic fight now triggers the client dialog:
   `You are not in battle. You can not give orders!`
   This is important because it proves the click/attack handler is firing, but the client's own command helper still believes the active entity is not registered in a valid fight-command state.
@@ -598,3 +626,5 @@ Replying with `0x0407 / 'z' / 1000` is valid, but it only drives the generic onb
 - After a valid player-command refresh, the client often emits one more bare `0x03ed / 0x09`.
 - In the local combat harness that packet must be suppressed explicitly; otherwise the server re-sends `0x03fa / 0x01`, `0x03fa / 0x34`, and `0x03f0`, which makes the wheel reopen redundantly.
 - The harness now tracks this with `syntheticFight.suppressNextReadyRepeat`, set on command refresh and cleared once a player or enemy action actually begins resolving.
+- The current `Combat data error!` investigation is focused on `0x03f0`, not `0x03fa / 0x65`.
+  The harness now sends a single-row minimal turn table built from the first reference action id instead of a six-row reference-skill batch, to test whether the popup is caused by extra invalid action rows.
