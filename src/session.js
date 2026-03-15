@@ -1,9 +1,24 @@
 'use strict';
 
+const fs = require('fs');
+
+const {
+  buildCombatTurnProfiles,
+  loadCombatReference,
+} = require('./combat-reference');
+
 const {
   AREA_ID,
+  COMBAT_PROBE_STATE_FILE,
   DEFAULT_FLAGS,
   ENTITY_TYPE,
+  GAME_FIGHT_ACTION_CMD,
+  GAME_FIGHT_CLIENT_CMD,
+  GAME_FIGHT_MISC_CMD,
+  GAME_FIGHT_RESULT_CMD,
+  GAME_FIGHT_STATE_CMD,
+  GAME_FIGHT_STREAM_CMD,
+  GAME_FIGHT_TURN_CMD,
   GAME_DIALOG_CMD,
   GAME_SPAWN_BATCH_SUBCMD,
   GAME_POSITION_QUERY_CMD,
@@ -30,14 +45,26 @@ const {
   VALID_FLAG_MASK,
   VALID_FLAG_VALUE,
 } = require('./config');
+const {
+  createCombatState,
+  describeCombatCommand,
+  isCombatCommand,
+  parseCombatPacket,
+  recordInboundCombatPacket,
+  recordOutboundCombatPacket,
+} = require('./combat-runtime');
 const { PacketWriter, buildPacket } = require('./protocol');
 const {
   describeScene,
   getBootstrapWorldSpawns,
   resolveCharacterScene,
+  resolveEncounterAction,
   resolveServerRunAction,
   resolveTileSceneAction,
 } = require('./scene-runtime');
+
+const COMBAT_REFERENCE = loadCombatReference();
+const COMBAT_TURN_PROBE_PROFILES = buildCombatTurnProfiles();
 
 class Session {
   constructor(socket, id, isGame, sharedState, logger) {
@@ -56,17 +83,53 @@ class Session {
     this.roleEntityType = ENTITY_TYPE;
     this.roleData = 0;
     this.selectedAptitude = 0;
+    this.level = 1;
+    this.experience = 0;
+    this.currentHealth = 398;
+    this.currentMana = 600;
+    this.currentRage = 100;
+    this.gold = 0;
+    this.bankGold = 0;
+    this.boundGold = 0;
+    this.coins = 0;
+    this.renown = 0;
+    this.primaryAttributes = {
+      intelligence: 15,
+      vitality: 15,
+      dexterity: 15,
+      strength: 15,
+    };
+    this.statusPoints = 0;
     this.currentMapId = MAP_ID;
     this.currentX = SPAWN_X;
     this.currentY = SPAWN_Y;
     this.currentTileSceneId = 0;
+    this.currentEncounterTriggerId = null;
+    this.combatState = createCombatState();
+    this.pendingCombatTurnProbe = null;
+    this.awaitingCombatTurnHandshake = false;
+    this.syntheticFight = null;
+    this.combatReference = COMBAT_REFERENCE;
+    this.syntheticCommandRefreshTimer = null;
 
     if (isGame && sharedState.pendingGameCharacter) {
       this.charName = sharedState.pendingGameCharacter.charName;
       this.entityType = sharedState.pendingGameCharacter.entityType;
       this.roleEntityType = sharedState.pendingGameCharacter.roleEntityType || this.entityType;
       this.roleData = sharedState.pendingGameCharacter.roleData || 0;
-      this.selectedAptitude = sharedState.pendingGameCharacter.selectedAptitude || 0;
+      this.selectedAptitude = numberOrDefault(sharedState.pendingGameCharacter.selectedAptitude, 0);
+      this.level = numberOrDefault(sharedState.pendingGameCharacter.level, 1);
+      this.experience = numberOrDefault(sharedState.pendingGameCharacter.experience, 0);
+      this.currentHealth = numberOrDefault(sharedState.pendingGameCharacter.currentHealth, 398);
+      this.currentMana = numberOrDefault(sharedState.pendingGameCharacter.currentMana, 600);
+      this.currentRage = numberOrDefault(sharedState.pendingGameCharacter.currentRage, 100);
+      this.gold = numberOrDefault(sharedState.pendingGameCharacter.gold, 0);
+      this.bankGold = numberOrDefault(sharedState.pendingGameCharacter.bankGold, 0);
+      this.boundGold = numberOrDefault(sharedState.pendingGameCharacter.boundGold, 0);
+      this.coins = numberOrDefault(sharedState.pendingGameCharacter.coins, 0);
+      this.renown = numberOrDefault(sharedState.pendingGameCharacter.renown, 0);
+      this.primaryAttributes = normalizePrimaryAttributes(sharedState.pendingGameCharacter.primaryAttributes);
+      this.statusPoints = numberOrDefault(sharedState.pendingGameCharacter.statusPoints, 0);
       const scene = resolveCharacterScene(sharedState.pendingGameCharacter);
       this.currentMapId = scene.mapId;
       this.currentX = scene.x;
@@ -177,6 +240,11 @@ class Session {
       return;
     }
 
+    if (cmdWord === GAME_FIGHT_CLIENT_CMD || isCombatCommand(cmdWord)) {
+      this.handleCombatPacket(cmdWord, payload);
+      return;
+    }
+
     this.log(`Unhandled game cmd8=0x${cmdByte.toString(16)} cmd16=0x${cmdWord.toString(16)}`);
   }
 
@@ -249,6 +317,18 @@ class Session {
     this.roleEntityType = ENTITY_TYPE + templateIndex;
     this.roleData = packRoleData(extra1, extra2);
     this.selectedAptitude = selectedAptitude;
+    this.level = 1;
+    this.experience = 0;
+    this.currentHealth = 398;
+    this.currentMana = 600;
+    this.currentRage = 100;
+    this.gold = 0;
+    this.bankGold = 0;
+    this.boundGold = 0;
+    this.coins = 0;
+    this.renown = 0;
+    this.primaryAttributes = defaultPrimaryAttributes();
+    this.statusPoints = 0;
     this.saveCharacter({
       slot: 0,
       roleName: this.charName,
@@ -262,6 +342,17 @@ class Session {
       entityType: this.entityType,
       roleEntityType: this.roleEntityType,
       roleData: this.roleData,
+      experience: this.experience,
+      currentHealth: this.currentHealth,
+      currentMana: this.currentMana,
+      currentRage: this.currentRage,
+      gold: this.gold,
+      bankGold: this.bankGold,
+      boundGold: this.boundGold,
+      coins: this.coins,
+      renown: this.renown,
+      primaryAttributes: this.primaryAttributes,
+      statusPoints: this.statusPoints,
       mapId: MAP_ID,
       x: SPAWN_X,
       y: SPAWN_Y,
@@ -343,6 +434,18 @@ class Session {
       roleEntityType: persisted?.roleEntityType || this.roleEntityType,
       roleData,
       selectedAptitude: persisted?.selectedAptitude || this.selectedAptitude || 0,
+      level: persisted?.level || this.level || 1,
+      experience: persisted?.experience || this.experience || 0,
+      currentHealth: persisted?.currentHealth || this.currentHealth || 398,
+      currentMana: persisted?.currentMana || this.currentMana || 600,
+      currentRage: persisted?.currentRage || this.currentRage || 100,
+      gold: persisted?.gold || this.gold || 0,
+      bankGold: persisted?.bankGold || this.bankGold || 0,
+      boundGold: persisted?.boundGold || this.boundGold || 0,
+      coins: persisted?.coins || this.coins || 0,
+      renown: persisted?.renown || this.renown || 0,
+      primaryAttributes: normalizePrimaryAttributes(persisted?.primaryAttributes || this.primaryAttributes),
+      statusPoints: persisted?.statusPoints || this.statusPoints || 0,
       ...resolveCharacterScene({
         mapId: persisted?.mapId || this.currentMapId || MAP_ID,
         x: persisted?.x || this.currentX || SPAWN_X,
@@ -365,7 +468,7 @@ class Session {
     const writer = new PacketWriter();
     writer.writeUint16(LOGIN_CMD);
     writer.writeUint8(LOGIN_SERVER_LIST_RESULT);
-    writer.writeUint32(0);
+    writer.writeUint32(this.entityType >>> 0);
     writer.writeUint16(this.entityType);
     writer.writeUint32(this.roleData);
     writer.writeUint16(this.currentX);
@@ -377,7 +480,7 @@ class Session {
     this.writePacket(
       writer.payload(),
       DEFAULT_FLAGS,
-      `Sending enter-game success char="${this.charName}" entity=0x${this.entityType.toString(16)} roleEntity=0x${this.roleEntityType.toString(16)} aptitude=${this.selectedAptitude} map=${this.currentMapId} (${describeScene(this.currentMapId)}) pos=${this.currentX},${this.currentY}`
+      `Sending enter-game success char="${this.charName}" runtimeId=0x${this.entityType.toString(16)} entity=0x${this.entityType.toString(16)} roleEntity=0x${this.roleEntityType.toString(16)} aptitude=${this.selectedAptitude} map=${this.currentMapId} (${describeScene(this.currentMapId)}) pos=${this.currentX},${this.currentY}`
     );
     this.sendSelfStateAptitudeSync();
     this.sendStaticNpcSpawns();
@@ -392,6 +495,48 @@ class Session {
 
   writePacket(payload, flags, message) {
     const packet = buildPacket(payload, this.serverSeq, flags);
+    if (payload.length >= 2) {
+      const cmdWord = payload.readUInt16LE(0);
+      if (isCombatCommand(cmdWord)) {
+        const combatPacket = parseCombatPacket(cmdWord, payload);
+        const recorded = recordOutboundCombatPacket(this.combatState, combatPacket);
+        this.combatState = recorded.state;
+
+        if (Array.isArray(this.sharedState.combatTrace)) {
+          this.sharedState.combatTrace.push({
+            sessionId: this.id,
+            timestamp: Date.now(),
+            direction: 'outbound',
+            inFight: recorded.snapshot.inFight,
+            stateChanged: recorded.snapshot.stateChanged,
+            ...combatPacket,
+          });
+          if (this.sharedState.combatTrace.length > 200) {
+            this.sharedState.combatTrace.shift();
+          }
+        }
+
+        const pieces = [
+          `Combat send kind=${combatPacket.kind}`,
+          `cmd=0x${cmdWord.toString(16)}`,
+        ];
+        if (combatPacket.subcmd !== null) {
+          pieces.push(`sub=0x${combatPacket.subcmd.toString(16)}`);
+        }
+        if (combatPacket.detail16 !== null) {
+          pieces.push(`detail16=${combatPacket.detail16}`);
+        }
+        if (combatPacket.detail32 !== null) {
+          pieces.push(`detail32=${combatPacket.detail32}`);
+        }
+        pieces.push(`len=${combatPacket.payloadLength}`);
+        pieces.push(`inFight=${recorded.snapshot.inFight ? 1 : 0}`);
+        if (recorded.snapshot.stateChanged) {
+          pieces.push('stateChanged=1');
+        }
+        this.log(pieces.join(' '));
+      }
+    }
     this.serverSeq += 1;
     if (this.serverSeq > 65000) {
       this.serverSeq = 1;
@@ -422,15 +567,20 @@ class Session {
   }
 
   getPersistedCharacter() {
-    return this.sharedState.characterStore?.get(this.accountName) || null;
+    const character = this.sharedState.characterStore?.get(this.accountName) || null;
+    if (!character) {
+      return null;
+    }
+    return normalizeCharacterRecord(character);
   }
 
   saveCharacter(character) {
     if (!this.accountName || !this.sharedState.characterStore) {
       return;
     }
-    this.sharedState.characterStore.set(this.accountName, character);
-    this.log(`Persisted character "${character.roleName}" for account "${this.accountName}"`);
+    const normalized = normalizeCharacterRecord(character);
+    this.sharedState.characterStore.set(this.accountName, normalized);
+    this.log(`Persisted character "${normalized.roleName}" for account "${this.accountName}"`);
   }
 
   replayPersistedCharacter() {
@@ -443,11 +593,24 @@ class Session {
     this.entityType = ENTITY_TYPE;
     this.roleEntityType = character.roleEntityType || ENTITY_TYPE;
     this.roleData = resolveRoleData(character);
-    this.selectedAptitude = character.selectedAptitude || 0;
+    this.selectedAptitude = numberOrDefault(character.selectedAptitude, 0);
+    this.level = numberOrDefault(character.level, 1);
+    this.experience = numberOrDefault(character.experience, 0);
+    this.currentHealth = numberOrDefault(character.currentHealth, 398);
+    this.currentMana = numberOrDefault(character.currentMana, 600);
+    this.currentRage = numberOrDefault(character.currentRage, 100);
+    this.gold = numberOrDefault(character.gold, 0);
+    this.bankGold = numberOrDefault(character.bankGold, 0);
+    this.boundGold = numberOrDefault(character.boundGold, 0);
+    this.coins = numberOrDefault(character.coins, 0);
+    this.renown = numberOrDefault(character.renown, 0);
+    this.primaryAttributes = normalizePrimaryAttributes(character.primaryAttributes);
+    this.statusPoints = numberOrDefault(character.statusPoints, 0);
     const scene = resolveCharacterScene(character);
     this.currentMapId = scene.mapId;
     this.currentX = scene.x;
     this.currentY = scene.y;
+    this.saveCharacter(character);
     this.sendCreateRoleOk({
       ...character,
       entityType: this.roleEntityType,
@@ -469,6 +632,7 @@ class Session {
     this.currentMapId = mapId;
     this.log(`Position update map=${mapId} pos=${x},${y}`);
     this.handleTileSceneTrigger(mapId, x, y);
+    this.handleEncounterTrigger(mapId, x, y);
 
     const persisted = this.getPersistedCharacter();
     if (!persisted) {
@@ -523,6 +687,33 @@ class Session {
     this.log(
       `No server-side tile scene action mapped for map=${mapId} (${describeScene(mapId)}) sceneId=${tileSceneId}`
     );
+  }
+
+  handleEncounterTrigger(mapId, x, y) {
+    const action = resolveEncounterAction({
+      mapId,
+      x,
+      y,
+    });
+
+    const triggerId = action?.probeId || null;
+    if (triggerId === this.currentEncounterTriggerId) {
+      return;
+    }
+
+    this.currentEncounterTriggerId = triggerId;
+    if (!action) {
+      return;
+    }
+
+    if (action.kind === 'encounterProbe') {
+      this.sendCombatEncounterProbe(action);
+      return;
+    }
+
+    if (action.kind === 'encounterProbeExit') {
+      this.sendCombatExitProbe(action);
+    }
   }
 
   handleServerRunRequest(payload) {
@@ -618,36 +809,528 @@ class Session {
     this.log(`Unhandled 0x03f1 subtype=0x${subtype.toString(16)}`);
   }
 
+  handleCombatPacket(cmdWord, payload) {
+    const packet = parseCombatPacket(cmdWord, payload);
+    const recorded = recordInboundCombatPacket(this.combatState, packet);
+    this.combatState = recorded.state;
+
+    if (Array.isArray(this.sharedState.combatTrace)) {
+      this.sharedState.combatTrace.push({
+        sessionId: this.id,
+        timestamp: Date.now(),
+        direction: 'inbound',
+        inFight: recorded.snapshot.inFight,
+        stateChanged: recorded.snapshot.stateChanged,
+        ...packet,
+      });
+      if (this.sharedState.combatTrace.length > 200) {
+        this.sharedState.combatTrace.shift();
+      }
+    }
+
+    const pieces = [
+      `Combat packet kind=${describeCombatCommand(cmdWord)}`,
+      `cmd=0x${cmdWord.toString(16)}`,
+    ];
+    if (packet.subcmd !== null) {
+      pieces.push(`sub=0x${packet.subcmd.toString(16)}`);
+    }
+    if (packet.detail16 !== null) {
+      pieces.push(`detail16=${packet.detail16}`);
+    }
+    if (packet.detail32 !== null) {
+      pieces.push(`detail32=${packet.detail32}`);
+    }
+    pieces.push(`len=${packet.payloadLength}`);
+    pieces.push(`inFight=${recorded.snapshot.inFight ? 1 : 0}`);
+    if (recorded.snapshot.stateChanged) {
+      pieces.push('stateChanged=1');
+    }
+    this.log(pieces.join(' '));
+
+    if (
+      cmdWord === GAME_FIGHT_ACTION_CMD &&
+      packet.subcmd === 0x09 &&
+      this.awaitingCombatTurnHandshake &&
+      this.pendingCombatTurnProbe
+    ) {
+      const action = this.pendingCombatTurnProbe;
+      this.awaitingCombatTurnHandshake = false;
+      this.pendingCombatTurnProbe = null;
+      if (this.syntheticFight) {
+        this.syntheticFight.phase = 'command';
+      }
+      this.sendCombatCommandRefresh(action, 'client-03ed-09');
+      return;
+    }
+
+    if (
+      cmdWord === GAME_FIGHT_ACTION_CMD &&
+      packet.subcmd === 0x09 &&
+      this.syntheticFight &&
+      !this.awaitingCombatTurnHandshake
+    ) {
+      if (this.syntheticFight.phase === 'finished') {
+        this.log('Ignoring client 0x03ed/0x09 because synthetic fight is finished');
+        return;
+      }
+      if (this.syntheticFight.suppressNextReadyRepeat) {
+        this.syntheticFight.suppressNextReadyRepeat = false;
+        this.log('Ignoring duplicate client 0x03ed/0x09 immediately after command refresh');
+        return;
+      }
+      if (this.syntheticFight.phase === 'command' && this.syntheticFight.awaitingPlayerAction) {
+        this.log('Ignoring client 0x03ed/0x09 while waiting for player action');
+        return;
+      }
+      if (this.syntheticFight.turnQueue.length > 0) {
+        this.resolveSyntheticQueuedTurn({ probeId: 'client-ready-repeat' });
+        return;
+      }
+      this.syntheticFight.phase = 'command';
+      this.sendCombatCommandRefresh({ probeId: 'client-ready-repeat' }, 'client-03ed-09-repeat');
+      return;
+    }
+
+    if (cmdWord === GAME_FIGHT_ACTION_CMD && packet.subcmd === 0x03) {
+      if (this.syntheticFight?.phase === 'finished') {
+        this.log('Ignoring client 0x03ed/0x03 because synthetic fight is finished');
+        return;
+      }
+      this.handleSyntheticAttackSelection(payload);
+    }
+  }
+
+  handleSyntheticAttackSelection(payload) {
+    if (!this.syntheticFight || payload.length < 6) {
+      return;
+    }
+
+    const player = this.getSyntheticPlayerFighter();
+    if (!player) {
+      return;
+    }
+
+    const attackMode = payload[3] & 0xff;
+    const targetA = payload[4] & 0xff;
+    const targetB = payload[5] & 0xff;
+    const enemy = this.findSyntheticEnemyTarget(targetA, targetB);
+    const targetMatches = enemy !== null;
+
+    this.syntheticFight.lastAction = {
+      actorEntityId: player.entityId,
+      attackMode,
+      targetA,
+      targetB,
+      targetMatches,
+      targetEntityId: enemy?.entityId || 0,
+      timestamp: Date.now(),
+    };
+    this.syntheticFight.phase = 'resolving';
+    this.syntheticFight.awaitingPlayerAction = false;
+    this.syntheticFight.suppressNextReadyRepeat = false;
+
+    this.log(
+      `Synthetic attack selection mode=${attackMode} targetA=${targetA} targetB=${targetB} targetMatches=${targetMatches ? 1 : 0} enemy=${enemy?.name || 'none'} hp=${enemy?.hp || 0}`
+    );
+
+    if (!targetMatches) {
+      this.sendCombatTurnProbe({ probeId: 'attack-reprompt' }, 'attack-invalid-target');
+      return;
+    }
+
+    const damage = Math.min(enemy.hp, 40);
+    enemy.hp = Math.max(0, enemy.hp - damage);
+    enemy.alive = enemy.hp > 0;
+    player.lastActionAt = Date.now();
+    this.log(
+      `Synthetic combat resolved attack damage=${damage} enemy=${enemy.name} remainingHp=${enemy.hp}`
+    );
+
+    this.sendSyntheticAttackPlayback({
+      attackerEntityId: player.entityId,
+      targetEntityId: enemy.entityId,
+      resultCode: enemy.hp === 0 ? 0x03 : 0x01,
+      damage,
+    });
+
+    const livingEnemies = this.syntheticFight.enemies.filter((candidate) => candidate.hp > 0);
+
+    if (this.syntheticFight.enemies.length > 1 && livingEnemies.length > 0) {
+      this.awaitingCombatTurnHandshake = false;
+      this.pendingCombatTurnProbe = null;
+      this.initializeSyntheticEnemyTurnQueue(player.entityId);
+      const nextEnemyActor = this.syntheticFight.turnQueue[0]?.attackerEntityId || enemy.entityId;
+      this.sendCombatCommandHide(
+        { probeId: 'enemy-turn-queue', entityId: nextEnemyActor },
+        'player-action-complete'
+      );
+      this.log(
+        `Queued synthetic enemy turns count=${this.syntheticFight.turnQueue.length} after player action livingEnemies=${livingEnemies.length}`
+      );
+      return;
+    }
+
+    this.sendSyntheticAttackResultUpdate({
+      actionMode: 0x66,
+      enemy,
+      damage,
+    });
+    this.sendSyntheticAttackMirrorUpdate({
+      actionMode: 0x67,
+    });
+
+    if (enemy.hp === 0) {
+      this.log(`Synthetic enemy defeated enemy=${enemy.name} entity=${enemy.entityId}`);
+      if (livingEnemies.length === 0) {
+        this.syntheticFight.phase = 'finished';
+        this.syntheticFight.awaitingPlayerAction = false;
+        this.sendGameDialogue('Combat', `${this.charName} defeats the enemy group.`);
+        this.awaitingCombatTurnHandshake = false;
+        this.pendingCombatTurnProbe = null;
+        return;
+      }
+    }
+
+    if (this.awaitingCombatTurnHandshake && this.pendingCombatTurnProbe) {
+      this.log(
+        `Skipping attack follow-up turn probe while startup handshake is still pending expected=0x${GAME_FIGHT_ACTION_CMD.toString(16)}/0x09`
+      );
+      return;
+    }
+
+    this.sendCombatCommandRefresh({ probeId: 'attack-followup' }, 'attack-selected');
+  }
+
+  findSyntheticEnemyTarget(targetA, targetB) {
+    if (!this.syntheticFight || !Array.isArray(this.syntheticFight.enemies)) {
+      return null;
+    }
+
+    return this.syntheticFight.enemies.find((enemy) => {
+      if (enemy.hp <= 0) {
+        return false;
+      }
+      return targetA === enemy.row && targetB === enemy.col;
+    }) || null;
+  }
+
+  getSyntheticPlayerFighter() {
+    if (!this.syntheticFight || !Array.isArray(this.syntheticFight.fighters)) {
+      return null;
+    }
+    return this.syntheticFight.fighters.find((fighter) => fighter.side === 0xff) || null;
+  }
+
+  selectSyntheticEnemyAttacker(preferredEnemy = null) {
+    if (!this.syntheticFight || !Array.isArray(this.syntheticFight.enemies)) {
+      return null;
+    }
+    if (preferredEnemy && preferredEnemy.hp > 0) {
+      return preferredEnemy;
+    }
+    return this.syntheticFight.enemies.find((enemy) => enemy.hp > 0) || null;
+  }
+
+  initializeSyntheticEnemyTurnQueue(targetEntityId) {
+    if (!this.syntheticFight) {
+      return;
+    }
+    const liveEnemies = this.syntheticFight.enemies.filter((enemy) => enemy.hp > 0);
+    const ordered = liveEnemies
+      .map((enemy) => ({
+        attackerEntityId: enemy.entityId,
+        targetEntityId,
+        plannedDamage: 18,
+        initiative: this.getSyntheticInitiative(enemy),
+      }))
+      .sort((left, right) => right.initiative - left.initiative || left.attackerEntityId - right.attackerEntityId);
+    this.syntheticFight.turnQueue = ordered;
+    this.syntheticFight.phase = ordered.length > 0 ? 'enemy-turn' : 'command';
+  }
+
+  getSyntheticInitiative(fighter) {
+    if (!fighter) {
+      return 0;
+    }
+    if (fighter.side === 0xff) {
+      return 100 + ((fighter.level || 0) * 2);
+    }
+    return 80 + ((fighter.level || 0) * 2) + ((fighter.logicalId || 0) % 3);
+  }
+
+  resolveSyntheticQueuedTurn(action) {
+    if (!this.syntheticFight?.turnQueue?.length) {
+      this.sendCombatCommandRefresh(action, 'enemy-turn-missing');
+      return;
+    }
+
+    const player = this.getSyntheticPlayerFighter();
+    const currentTurn = this.syntheticFight.turnQueue.shift();
+    const attacker = this.syntheticFight.enemies.find(
+      (enemy) => enemy.entityId === currentTurn.attackerEntityId && enemy.hp > 0
+    ) || this.selectSyntheticEnemyAttacker();
+    if (!player || !attacker) {
+      if (this.syntheticFight.turnQueue.length === 0) {
+        this.syntheticFight.phase = 'command';
+        this.syntheticFight.round += 1;
+        this.sendCombatCommandRefresh(action, 'enemy-turn-skipped');
+      }
+      return;
+    }
+
+    this.syntheticFight.phase = 'resolving';
+    this.syntheticFight.awaitingPlayerAction = false;
+    this.syntheticFight.suppressNextReadyRepeat = false;
+    const damage = Math.min(player.hp, currentTurn.plannedDamage || 18);
+    player.hp = Math.max(0, player.hp - damage);
+    player.alive = player.hp > 0;
+    this.currentHealth = player.hp;
+    player.lastActionAt = Date.now();
+    this.syntheticFight.lastAction = {
+      actorEntityId: attacker.entityId,
+      attackMode: 1,
+      targetA: player.row,
+      targetB: player.col,
+      targetMatches: true,
+      targetEntityId: player.entityId,
+      timestamp: Date.now(),
+    };
+    this.log(
+      `Synthetic enemy turn attacker=${attacker.name} damage=${damage} playerHp=${player.hp}`
+    );
+
+    this.sendSyntheticAttackPlayback({
+      attackerEntityId: attacker.entityId,
+      targetEntityId: player.entityId,
+      resultCode: player.hp === 0 ? 0x03 : 0x01,
+      damage,
+    });
+    this.sendSelfStateAptitudeSync();
+    if (player.hp === 0) {
+      this.finishSyntheticFight('defeat', `${this.charName} was defeated.`);
+      return;
+    }
+    if (this.syntheticFight.turnQueue.length > 0) {
+      this.syntheticFight.phase = 'enemy-turn';
+      const nextEnemyActor = this.syntheticFight.turnQueue[0]?.attackerEntityId || attacker.entityId;
+      this.sendCombatCommandHide(
+        { ...action, entityId: nextEnemyActor },
+        'enemy-turn-continues'
+      );
+      return;
+    }
+
+    this.syntheticFight.phase = 'command';
+    this.syntheticFight.round += 1;
+    this.scheduleSyntheticCommandRefresh(action, 'enemy-turn-complete', 700);
+  }
+
+  finishSyntheticFight(outcome, message) {
+    if (!this.syntheticFight) {
+      return;
+    }
+    this.clearSyntheticCommandRefreshTimer();
+    this.syntheticFight.phase = 'finished';
+    this.syntheticFight.turnQueue = [];
+    this.syntheticFight.awaitingPlayerAction = false;
+    this.syntheticFight.suppressNextReadyRepeat = false;
+    this.awaitingCombatTurnHandshake = false;
+    this.pendingCombatTurnProbe = null;
+    this.log(`Synthetic fight finished outcome=${outcome}`);
+    if (message) {
+      this.sendGameDialogue('Combat', message);
+    }
+  }
+
+  createSyntheticFight(action, enemies) {
+    this.clearSyntheticCommandRefreshTimer();
+    const player = {
+      side: 0xff,
+      entityId: this.entityType >>> 0,
+      logicalId: 0,
+      typeId: (this.roleEntityType || this.entityType) & 0xffff,
+      row: 1,
+      col: 2,
+      hp: this.currentHealth >>> 0,
+      maxHp: this.currentHealth >>> 0,
+      mp: this.currentMana >>> 0,
+      maxMp: this.currentMana >>> 0,
+      rage: this.currentRage >>> 0,
+      aptitude: 0,
+      level: this.level & 0xffff,
+      appearanceTypes: [0, 0, 0],
+      appearanceVariants: [0, 0, 0],
+      alive: true,
+      name: this.charName || 'Hero',
+      templateFlags: 0,
+      lastActionAt: 0,
+    };
+    const enemyFighters = enemies.map((enemy) => ({
+      side: enemy.side & 0xff,
+      entityId: enemy.entityId >>> 0,
+      logicalId: enemy.logicalId & 0xffff,
+      typeId: enemy.typeId & 0xffff,
+      row: enemy.row & 0xff,
+      col: enemy.col & 0xff,
+      hp: enemy.hpLike >>> 0,
+      maxHp: enemy.hpLike >>> 0,
+      mp: enemy.mpLike >>> 0,
+      maxMp: enemy.mpLike >>> 0,
+      rage: 0,
+      aptitude: enemy.aptitude & 0xff,
+      level: enemy.levelLike & 0xffff,
+      appearanceTypes: Array.isArray(enemy.appearanceTypes) ? enemy.appearanceTypes.slice(0, 3) : [0, 0, 0],
+      appearanceVariants: Array.isArray(enemy.appearanceVariants) ? enemy.appearanceVariants.slice(0, 3) : [0, 0, 0],
+      alive: true,
+      name: enemy.name,
+      templateFlags: 0,
+      lastActionAt: 0,
+    }));
+    return {
+      trigger: action.probeId,
+      startedAt: Date.now(),
+      round: 1,
+      phase: 'command',
+      activeEntityId: player.entityId,
+      activeName: player.name,
+      turnProfile: selectCombatTurnProbeProfile(),
+      fighters: [player, ...enemyFighters],
+      enemies: enemyFighters,
+      lastAction: null,
+      turnQueue: [],
+      awaitingPlayerAction: false,
+      suppressNextReadyRepeat: false,
+    };
+  }
+
+  clearSyntheticCommandRefreshTimer() {
+    if (this.syntheticCommandRefreshTimer) {
+      clearTimeout(this.syntheticCommandRefreshTimer);
+      this.syntheticCommandRefreshTimer = null;
+    }
+  }
+
+  scheduleSyntheticCommandRefresh(action, reason, delayMs) {
+    this.clearSyntheticCommandRefreshTimer();
+    this.syntheticCommandRefreshTimer = setTimeout(() => {
+      this.syntheticCommandRefreshTimer = null;
+      if (!this.syntheticFight || this.syntheticFight.phase === 'finished') {
+        return;
+      }
+      this.sendCombatCommandRefresh(action, reason);
+    }, Math.max(0, delayMs | 0));
+  }
+
+  sendSyntheticAttackPlayback({ attackerEntityId, targetEntityId, resultCode, damage }) {
+    const writer = new PacketWriter();
+
+    writer.writeUint16(GAME_FIGHT_STREAM_CMD);
+    writer.writeUint8(0x03);
+
+    // Original-server anchor from `gc_server.exe`:
+    // attack case 3 writes:
+    //   u32 attacker_runtime_id
+    //   u32 target_runtime_id
+    //   u8  result_code
+    //   u32 damage
+    // before any death/state follow-up.
+    writer.writeUint32(attackerEntityId >>> 0);
+    writer.writeUint32(targetEntityId >>> 0);
+    writer.writeUint8(resultCode & 0xff);
+    writer.writeUint32(damage >>> 0);
+
+    this.writePacket(
+      writer.payload(),
+      DEFAULT_FLAGS,
+      `Sending synthetic fight playback cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x03 attacker=${attackerEntityId} target=${targetEntityId} result=${resultCode} damage=${damage}`
+    );
+  }
+
+  sendSyntheticAttackResultUpdate({ actionMode, enemy, damage }) {
+    const writer = new PacketWriter();
+    const player = this.getSyntheticPlayerFighter();
+    const targetState = enemy.hp > 0 ? 0 : 1;
+    const encodedBoardSlot = (((enemy.row & 0xff) << 8) | (enemy.col & 0xff)) >>> 0;
+
+    writer.writeUint16(GAME_FIGHT_STREAM_CMD);
+    writer.writeUint8(actionMode & 0xff);
+
+    // Minimal `0x03fa / 0x66` result/state update modeled on the original server's
+    // post-attack packet family. This keeps the no-companion path and feeds the client
+    // a compact target/result update before the next turn refresh.
+    writer.writeUint32(Math.max(1, player?.hp || this.currentHealth) >>> 0);
+    writer.writeUint32((player?.mp || this.currentMana) >>> 0);
+    writer.writeUint32((player?.rage || this.currentRage) >>> 0);
+    writer.writeUint32(0xfffe7960); // -100000 sentinel for absent companion block
+    writer.writeUint32(encodedBoardSlot);
+    writer.writeUint32(damage >>> 0);
+    writer.writeUint32(targetState >>> 0);
+
+    if (targetState > 0) {
+      writer.writeUint32(enemy.entityId >>> 0);
+    }
+
+    this.writePacket(
+      writer.payload(),
+      DEFAULT_FLAGS,
+      `Sending synthetic fight result update cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${actionMode.toString(16)} enemy=${enemy.entityId} row=${enemy.row} col=${enemy.col} damage=${damage} remainingHp=${enemy.hp} targetState=${targetState}`
+    );
+  }
+
+  sendSyntheticAttackMirrorUpdate({ actionMode }) {
+    const writer = new PacketWriter();
+    const player = this.getSyntheticPlayerFighter();
+
+    writer.writeUint16(GAME_FIGHT_STREAM_CMD);
+    writer.writeUint8(actionMode & 0xff);
+    writer.writeUint32(Math.max(1, player?.hp || this.currentHealth) >>> 0);
+    writer.writeUint32((player?.mp || this.currentMana) >>> 0);
+    writer.writeUint32((player?.rage || this.currentRage) >>> 0);
+    writer.writeUint32(0xfffe7960); // -100000 sentinel for absent companion block
+
+    this.writePacket(
+      writer.payload(),
+      DEFAULT_FLAGS,
+      `Sending synthetic fight mirror update cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${actionMode.toString(16)} hp=${player?.hp || this.currentHealth} mp=${player?.mp || this.currentMana} rage=${player?.rage || this.currentRage}`
+    );
+  }
+
   sendSelfStateAptitudeSync() {
+    const player = this.getSyntheticPlayerFighter();
+    const currentHealth = (player?.hp || this.currentHealth) >>> 0;
+    const currentMana = (player?.mp || this.currentMana) >>> 0;
+    const currentRage = (player?.rage || this.currentRage) >>> 0;
     const writer = new PacketWriter();
     writer.writeUint16(GAME_SELF_STATE_CMD);
     writer.writeUint8(SELF_STATE_APTITUDE_SUBCMD);
     writer.writeUint8(this.selectedAptitude & 0xff);
 
-    // Minimal self-state payload for FUN_00430300 case 10.
-    writer.writeUint32(0);
-    writer.writeUint32(0);
-    writer.writeUint32(0);
-    writer.writeUint8(0);
-    writer.writeUint32(0);
-    writer.writeUint32(0);
-    writer.writeUint32(0);
-    writer.writeUint32(0);
-    writer.writeUint32(0);
-    writer.writeUint32(0);
+    // Active-entity subtype 0x0a snapshot used by DispatchActiveEntitySubtypeUpdate03f6.
+    writer.writeUint32(currentHealth);
+    writer.writeUint32(currentMana);
+    writer.writeUint32(currentRage);
+    writer.writeUint8(this.level & 0xff);
+    writer.writeUint32(this.experience >>> 0);
+    writer.writeUint32(this.bankGold >>> 0);
+    writer.writeUint32(this.gold >>> 0);
+    writer.writeUint32(this.boundGold >>> 0);
+    writer.writeUint32(this.coins >>> 0);
+    writer.writeUint32(this.renown >>> 0);
+    // Two 16-bit fields here are still not fully identified client-side.
     writer.writeUint16(0);
     writer.writeUint16(1);
-    writer.writeUint16(15);
-    writer.writeUint16(15);
-    writer.writeUint16(15);
-    writer.writeUint16(15);
-    writer.writeUint16(0);
+    writer.writeUint16(this.primaryAttributes.intelligence & 0xffff);
+    writer.writeUint16(this.primaryAttributes.vitality & 0xffff);
+    writer.writeUint16(this.primaryAttributes.dexterity & 0xffff);
+    writer.writeUint16(this.primaryAttributes.strength & 0xffff);
+    writer.writeUint16(this.statusPoints & 0xffff);
     writer.writeUint8(0);
 
     this.writePacket(
       writer.payload(),
       DEFAULT_FLAGS,
-      `Sending self-state aptitude sync cmd=0x${GAME_SELF_STATE_CMD.toString(16)} sub=0x${SELF_STATE_APTITUDE_SUBCMD.toString(16)} aptitude=${this.selectedAptitude}`
+      `Sending self-state stat sync cmd=0x${GAME_SELF_STATE_CMD.toString(16)} sub=0x${SELF_STATE_APTITUDE_SUBCMD.toString(16)} aptitude=${this.selectedAptitude} level=${this.level} hp/mp/rage=${currentHealth}/${currentMana}/${currentRage} stats=${this.primaryAttributes.intelligence}/${this.primaryAttributes.vitality}/${this.primaryAttributes.dexterity}/${this.primaryAttributes.strength} statusPoints=${this.statusPoints}`
     );
   }
 
@@ -656,6 +1339,7 @@ class Session {
     this.currentX = x;
     this.currentY = y;
     this.currentTileSceneId = 0;
+    this.currentEncounterTriggerId = null;
     this.log(`Transitioning scene reason="${reason}" map=${mapId} (${describeScene(mapId)}) pos=${x},${y}`);
 
     const persisted = this.getPersistedCharacter();
@@ -780,10 +1464,301 @@ class Session {
       `Sending dialogue cmd=0x${GAME_DIALOG_CMD.toString(16)} sub=0x${subtype.toString(16)} speaker="${speaker}"`
     );
   }
+
+  sendCombatEncounterProbe(action) {
+    const enemies = [
+      {
+        side: 1,
+        entityId: 0x700001,
+        logicalId: 1,
+        typeId: 5002,
+        row: 0,
+        col: 1,
+        hpLike: 120,
+        mpLike: 0,
+        aptitude: 0,
+        levelLike: 1,
+        appearanceTypes: [0, 0, 0],
+        appearanceVariants: [0, 0, 0],
+        name: 'Beetle A',
+      },
+      {
+        side: 1,
+        entityId: 0x700002,
+        logicalId: 2,
+        typeId: 5002,
+        row: 0,
+        col: 3,
+        hpLike: 140,
+        mpLike: 0,
+        aptitude: 0,
+        levelLike: 1,
+        appearanceTypes: [0, 0, 0],
+        appearanceVariants: [0, 0, 0],
+        name: 'Beetle B',
+      },
+    ];
+    const writer = new PacketWriter();
+    writer.writeUint16(GAME_FIGHT_STREAM_CMD);
+    writer.writeUint8(0x65);
+    writer.writeUint32(this.entityType >>> 0);
+    const syntheticFight = this.createSyntheticFight(action, enemies);
+    const player = syntheticFight.fighters[0];
+    this.writeFightProbeEntry(writer, {
+      side: player.side,
+      entityId: player.entityId,
+      typeId: player.typeId,
+      row: player.row,
+      col: player.col,
+      hpLike: player.hp,
+      mpLike: player.mp,
+      aptitude: player.aptitude,
+      levelLike: player.level,
+      appearanceTypes: player.appearanceTypes,
+      appearanceVariants: player.appearanceVariants,
+      name: player.name,
+    });
+    for (const enemy of enemies) {
+      this.writeFightProbeEntry(writer, enemy);
+    }
+    this.writePacket(
+      writer.payload(),
+      DEFAULT_FLAGS,
+      `Sending experimental combat encounter probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x65 trigger=${action.probeId} active=${this.entityType} enemies=${enemies.map((enemy) => enemy.entityId).join('/')} map=${this.currentMapId} pos=${this.currentX},${this.currentY} referenceCommands=${this.combatReference.fightCommands.map((command) => command.id).join('/') || 'none'} referenceSkills=${this.combatReference.skills.slice(0, 6).map((skill) => skill.id).join('/') || 'none'}`
+    );
+    this.syntheticFight = syntheticFight;
+    this.sendReducedFightStartup(action, enemies.length);
+    this.pendingCombatTurnProbe = action;
+    this.awaitingCombatTurnHandshake = true;
+    this.log(
+      `Deferring combat turn probe until client readiness handshake trigger=${action.probeId} expected=0x${GAME_FIGHT_ACTION_CMD.toString(16)}/0x09`
+    );
+  }
+
+  sendReducedFightStartup(action, enemyCount) {
+    if (enemyCount > 1) {
+      this.log(
+        `Using reduced multi-enemy startup probe trigger=${action.probeId} enemyCount=${enemyCount} probes=0x01/0x34`
+      );
+      this.sendFightRingOpenProbe(action);
+      this.sendFightControlShowProbe(action);
+      return;
+    }
+
+    this.sendFightRingOpenProbe(action);
+    this.sendFightStateModeProbe64(action);
+    this.sendFightControlInitProbe(action);
+    this.sendFightActiveStateProbe(action);
+    this.sendFightEntityFlagProbe(action, 0x33);
+    this.sendFightControlShowProbe(action);
+  }
+
+  sendFightControlInitProbe(action) {
+    const writer = new PacketWriter();
+    writer.writeUint16(GAME_FIGHT_STREAM_CMD);
+    writer.writeUint8(0x02);
+    this.writePacket(
+      writer.payload(),
+      DEFAULT_FLAGS,
+      `Sending experimental fight control init probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x02 trigger=${action.probeId}`
+    );
+  }
+
+  sendFightRingOpenProbe(action) {
+    const writer = new PacketWriter();
+    writer.writeUint16(GAME_FIGHT_STREAM_CMD);
+    writer.writeUint8(0x01);
+    this.writePacket(
+      writer.payload(),
+      DEFAULT_FLAGS,
+      `Sending experimental fight ring-open probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x01 trigger=${action.probeId}`
+    );
+  }
+
+  sendFightStateModeProbe64(action) {
+    const writer = new PacketWriter();
+    writer.writeUint16(GAME_FIGHT_STREAM_CMD);
+    writer.writeUint8(0x64);
+
+    // Minimal structured body for the `0x64` control-state branch:
+    // u32 stateA, u32 stateB, u32 stateC, then optional extras only when stateC > 0.
+    // Using stateA = -1 preserves the branch's "snapshot current active fighter" path
+    // without forcing the optional fields.
+    writer.writeUint32(0xffffffff);
+    writer.writeUint32(0);
+    writer.writeUint32(0);
+
+    this.writePacket(
+      writer.payload(),
+      DEFAULT_FLAGS,
+      `Sending experimental fight mode probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x64 trigger=${action.probeId} stateA=-1 stateB=0 stateC=0`
+    );
+  }
+
+  sendFightActiveStateProbe(action) {
+    const writer = new PacketWriter();
+    writer.writeUint16(GAME_FIGHT_STREAM_CMD);
+    writer.writeUint8(0x03);
+    writer.writeUint32(this.entityType >>> 0);
+    writer.writeUint8(0x01);
+
+    // `0x03` gates through the active entity's board slot type and can consume
+    // one of two 3x u32 state blocks before a trailing linked-entity id.
+    // The synthetic start path has those globals zeroed, so probe with zeros.
+    writer.writeUint32(0);
+    writer.writeUint32(0);
+    writer.writeUint32(0);
+    writer.writeUint32(0);
+
+    this.writePacket(
+      writer.payload(),
+      DEFAULT_FLAGS,
+      `Sending experimental fight active-state probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x03 trigger=${action.probeId} active=${this.entityType} enabled=1 state=0,0,0 linked=0`
+    );
+  }
+
+  sendFightEntityFlagProbe(action, subcommand) {
+    const activeEntityId =
+      typeof action?.entityId === 'number' ? action.entityId >>> 0 : this.entityType >>> 0;
+    const writer = new PacketWriter();
+    writer.writeUint16(GAME_FIGHT_STREAM_CMD);
+    writer.writeUint8(subcommand & 0xff);
+    writer.writeUint32(activeEntityId);
+    this.writePacket(
+      writer.payload(),
+      DEFAULT_FLAGS,
+      `Sending experimental fight entity flag probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${subcommand.toString(16)} trigger=${action.probeId} active=${activeEntityId}`
+    );
+  }
+
+  sendFightControlShowProbe(action) {
+    const activeEntityId =
+      typeof action?.entityId === 'number' ? action.entityId >>> 0 : this.entityType >>> 0;
+    const writer = new PacketWriter();
+    writer.writeUint16(GAME_FIGHT_STREAM_CMD);
+    writer.writeUint8(0x34);
+    writer.writeUint32(activeEntityId);
+    this.writePacket(
+      writer.payload(),
+      DEFAULT_FLAGS,
+      `Sending experimental fight control probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x34 trigger=${action.probeId} active=${activeEntityId}`
+    );
+  }
+
+  sendCombatTurnProbe(action, reason = 'startup-sequence') {
+    const activeTurnProfile = this.syntheticFight?.turnProfile || selectCombatTurnProbeProfile();
+    const probeIndex = activeTurnProfile.index;
+    const probeProfile = activeTurnProfile.profile;
+    if (this.syntheticFight) {
+      this.syntheticFight.phase = 'command';
+    }
+
+    const writer = new PacketWriter();
+    writer.writeUint16(GAME_FIGHT_TURN_CMD);
+    writer.writeUint8(0);
+    writer.writeUint16(probeProfile.rows.length);
+    for (const row of probeProfile.rows) {
+      writer.writeUint16(row.fieldA & 0xffff);
+      writer.writeUint16(row.fieldB & 0xffff);
+      writer.writeUint16(row.fieldC & 0xffff);
+    }
+    this.writePacket(
+      writer.payload(),
+      DEFAULT_FLAGS,
+      `Sending experimental combat turn probe cmd=0x${GAME_FIGHT_TURN_CMD.toString(16)} trigger=${action.probeId} reason=${reason} count=${probeProfile.rows.length} probeIndex=${probeIndex} profile=${probeProfile.profile} rows=${probeProfile.rows.map((row) => `${row.fieldA}/${row.fieldB}/${row.fieldC}`).join(',')}`
+    );
+  }
+
+  sendCombatCommandRefresh(action, reason) {
+    if (this.syntheticFight) {
+      this.syntheticFight.phase = 'command';
+      this.syntheticFight.awaitingPlayerAction = true;
+      this.syntheticFight.suppressNextReadyRepeat = true;
+    }
+    const playerEntityId = this.getSyntheticPlayerFighter()?.entityId || this.entityType;
+    this.sendFightRingOpenProbe({
+      ...action,
+      probeId: `${action.probeId || 'refresh'}:${reason}`,
+    });
+    this.sendFightControlShowProbe({
+      ...action,
+      probeId: `${action.probeId || 'refresh'}:${reason}`,
+      entityId: playerEntityId,
+    });
+    this.sendCombatTurnProbe(action, reason);
+  }
+
+  sendCombatCommandHide(action, reason) {
+    this.sendFightEntityFlagProbe(
+      {
+        ...action,
+        probeId: `${action.probeId || 'hide'}:${reason}`,
+      },
+      0x33
+    );
+  }
+
+  sendCombatExitProbe(action) {
+    this.log(
+      `Ignoring synthetic combat-exit probe trigger=${action.probeId} map=${this.currentMapId} pos=${this.currentX},${this.currentY}`
+    );
+  }
+
+  writeFightProbeEntry(writer, entry) {
+    writer.writeUint8(entry.side & 0xff);
+    writer.writeUint32(entry.entityId >>> 0);
+    writer.writeUint16(entry.typeId & 0xffff);
+    writer.writeUint8(entry.row & 0xff);
+    writer.writeUint8(entry.col & 0xff);
+    writer.writeUint32(entry.hpLike >>> 0);
+    writer.writeUint32(entry.mpLike >>> 0);
+    writer.writeUint8(entry.aptitude & 0xff);
+    writer.writeUint16(entry.levelLike & 0xffff);
+
+    const appearanceTypes = Array.isArray(entry.appearanceTypes) ? entry.appearanceTypes : [0, 0, 0];
+    for (let i = 0; i < 3; i += 1) {
+      writer.writeUint16((appearanceTypes[i] || 0) & 0xffff);
+    }
+
+    const appearanceVariants = Array.isArray(entry.appearanceVariants) ? entry.appearanceVariants : [0, 0, 0];
+    for (let i = 0; i < 3; i += 1) {
+      writer.writeUint8((appearanceVariants[i] || 0) & 0xff);
+    }
+
+    writer.writeString(`${entry.name || 'Unknown'}\0`);
+  }
 }
 
 function packRoleData(extra1, extra2) {
   return ((extra2 & 0xffff) << 16) | (extra1 & 0xffff);
+}
+
+function loadCombatProbeIndex() {
+  try {
+    const raw = fs.readFileSync(COMBAT_PROBE_STATE_FILE, 'utf8');
+    const parsed = JSON.parse(raw);
+    return Number.isInteger(parsed?.nextProbeIndex) && parsed.nextProbeIndex >= 0
+      ? parsed.nextProbeIndex
+      : 0;
+  } catch (err) {
+    return 0;
+  }
+}
+
+function selectCombatTurnProbeProfile() {
+  const persistedProbeIndex = loadCombatProbeIndex();
+  const probeIndex = persistedProbeIndex % COMBAT_TURN_PROBE_PROFILES.length;
+  const probeProfile = COMBAT_TURN_PROBE_PROFILES[probeIndex];
+  saveCombatProbeIndex(persistedProbeIndex + 1);
+  return {
+    index: probeIndex,
+    profile: probeProfile,
+  };
+}
+
+function saveCombatProbeIndex(nextProbeIndex) {
+  const payload = JSON.stringify({ nextProbeIndex }, null, 2);
+  fs.writeFileSync(COMBAT_PROBE_STATE_FILE, `${payload}\n`);
 }
 
 function resolveRoleData(role) {
@@ -801,6 +1776,60 @@ function resolveRoleLevel(role) {
     return role.level & 0xff;
   }
   return 1;
+}
+
+function defaultPrimaryAttributes() {
+  return {
+    intelligence: 15,
+    vitality: 15,
+    dexterity: 15,
+    strength: 15,
+  };
+}
+
+function numberOrDefault(value, fallback) {
+  return typeof value === 'number' ? value : fallback;
+}
+
+function normalizePrimaryAttributes(primaryAttributes) {
+  const defaults = defaultPrimaryAttributes();
+  return {
+    intelligence:
+      typeof primaryAttributes?.intelligence === 'number'
+        ? primaryAttributes.intelligence
+        : (typeof primaryAttributes?.ene === 'number' ? primaryAttributes.ene : defaults.intelligence),
+    vitality:
+      typeof primaryAttributes?.vitality === 'number'
+        ? primaryAttributes.vitality
+        : (typeof primaryAttributes?.con === 'number' ? primaryAttributes.con : defaults.vitality),
+    dexterity:
+      typeof primaryAttributes?.dexterity === 'number'
+        ? primaryAttributes.dexterity
+        : (typeof primaryAttributes?.dex === 'number' ? primaryAttributes.dex : defaults.dexterity),
+    strength:
+      typeof primaryAttributes?.strength === 'number'
+        ? primaryAttributes.strength
+        : (typeof primaryAttributes?.str === 'number' ? primaryAttributes.str : defaults.strength),
+  };
+}
+
+function normalizeCharacterRecord(character) {
+  return {
+    ...character,
+    level: numberOrDefault(character.level, 1),
+    selectedAptitude: numberOrDefault(character.selectedAptitude, 0),
+    experience: numberOrDefault(character.experience, 0),
+    currentHealth: numberOrDefault(character.currentHealth, 398),
+    currentMana: numberOrDefault(character.currentMana, 600),
+    currentRage: numberOrDefault(character.currentRage, 100),
+    gold: numberOrDefault(character.gold, 0),
+    bankGold: numberOrDefault(character.bankGold, 0),
+    boundGold: numberOrDefault(character.boundGold, 0),
+    coins: numberOrDefault(character.coins, 0),
+    renown: numberOrDefault(character.renown, 0),
+    statusPoints: numberOrDefault(character.statusPoints, 0),
+    primaryAttributes: normalizePrimaryAttributes(character.primaryAttributes),
+  };
 }
 
 function resolveBirthMonth(role) {
