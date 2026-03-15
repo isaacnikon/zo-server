@@ -7,6 +7,7 @@ function createSessionState() {
     pendingGameCharacter: null,
     characterStore: null,
     mapCellStore: null,
+    combatTrace: [],
   };
 }
 

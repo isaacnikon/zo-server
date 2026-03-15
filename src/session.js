@@ -1123,7 +1123,7 @@ class Session {
 
     this.syntheticFight.phase = 'command';
     this.syntheticFight.round += 1;
-    this.scheduleSyntheticCommandRefresh(action, 'enemy-turn-complete', 700);
+    this.scheduleSyntheticCommandRefresh(action, 'enemy-turn-complete', 1500);
   }
 
   finishSyntheticFight(outcome, message) {

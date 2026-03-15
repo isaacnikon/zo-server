@@ -41,6 +41,7 @@ const SCENES = {
     metadataNpcs: [],
     demoNpcs: [],
     tileTriggers: [],
+    encounterTriggers: [],
     triggers: [
       {
         type: 'serverRun',
@@ -71,6 +72,7 @@ const SCENES = {
     metadataNpcs: [],
     demoNpcs: [],
     tileTriggers: [],
+    encounterTriggers: [],
     triggers: [
       {
         type: 'serverRun',
@@ -101,6 +103,32 @@ const SCENES = {
     metadataNpcs: [],
     demoNpcs: [],
     tileTriggers: [],
+    encounterTriggers: [
+      {
+        id: 'bling_spring_training_probe',
+        minX: 50,
+        maxX: 54,
+        minY: 114,
+        maxY: 118,
+        action: {
+          kind: 'encounterProbe',
+          probeId: 'blingSpringTraining',
+          reason: 'Bling Spring training encounter',
+        },
+      },
+      {
+        id: 'bling_spring_training_probe_exit',
+        minX: 55,
+        maxX: 59,
+        minY: 114,
+        maxY: 118,
+        action: {
+          kind: 'encounterProbeExit',
+          probeId: 'blingSpringTrainingExit',
+          reason: 'Bling Spring training encounter exit',
+        },
+      },
+    ],
     triggers: [
       {
         type: 'serverRun',
@@ -150,6 +178,7 @@ const SCENES = {
     metadataNpcs: [],
     demoNpcs: [],
     tileTriggers: [],
+    encounterTriggers: [],
     triggers: [],
   },
   [SCENE_IDS.CELESTIAL_STATE]: {
@@ -159,6 +188,7 @@ const SCENES = {
     metadataNpcs: [],
     demoNpcs: [],
     tileTriggers: [],
+    encounterTriggers: [],
     triggers: [],
   },
   [SCENE_IDS.SOUTH_GATE]: {
@@ -176,6 +206,7 @@ const SCENES = {
     metadataNpcs: [],
     demoNpcs: [],
     tileTriggers: [],
+    encounterTriggers: [],
     triggers: [],
   },
   [SCENE_IDS.CLOUD_HALL]: {
@@ -193,6 +224,7 @@ const SCENES = {
     metadataNpcs: [],
     demoNpcs: [],
     tileTriggers: [],
+    encounterTriggers: [],
     triggers: [
       {
         type: 'serverRun',
@@ -231,6 +263,7 @@ const SCENES = {
     metadataNpcs: [],
     demoNpcs: [],
     tileTriggers: [],
+    encounterTriggers: [],
     triggers: [],
   },
   [SCENE_IDS.PEACH_GARDEN]: {
@@ -258,6 +291,7 @@ const SCENES = {
       { id: 3054, entityType: 3054, x: 117, y: 127, templateFlags: 0, name: 'Apollo' },
     ],
     tileTriggers: [],
+    encounterTriggers: [],
     triggers: [
       {
         type: 'serverRun',
@@ -310,6 +344,7 @@ const SCENES = {
     metadataNpcs: [],
     demoNpcs: [],
     tileTriggers: [],
+    encounterTriggers: [],
     triggers: [],
   },
 };
@@ -374,6 +409,15 @@ function resolveTileTrigger(sceneId, tileSceneId) {
   return scene.tileTriggers.find((trigger) => trigger.sceneId === tileSceneId) || null;
 }
 
+function resolveEncounterTrigger(sceneId, x, y) {
+  const scene = getScene(sceneId);
+  if (!scene) {
+    return null;
+  }
+
+  return (scene.encounterTriggers || []).find((trigger) => positionMatches(trigger, x, y)) || null;
+}
+
 function getTriggerAction(trigger) {
   if (!trigger) {
     return null;
@@ -403,6 +447,7 @@ module.exports = {
   getSceneName,
   getSceneWorldSpawns,
   getTriggerAction,
+  resolveEncounterTrigger,
   resolveServerRunTrigger,
   resolveTileTrigger,
 };

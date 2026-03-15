@@ -2,10 +2,34 @@
   "0000001": {
     "slot": 0,
     "roleName": "NeoE5F",
-    "trait1": 6,
-    "trait2": 15,
+    "birthMonth": 11,
+    "birthDay": 11,
+    "selectedAptitude": 11,
+    "extra1": 0,
+    "extra2": 0,
+    "level": 1,
     "requestedTemplateIndex": 20,
     "entityType": 1001,
-    "roleEntityType": 1021
+    "roleEntityType": 1021,
+    "statusPoints": 5,
+    "roleData": 0,
+    "mapId": 103,
+    "x": 51,
+    "y": 116,
+    "experience": 0,
+    "currentHealth": 398,
+    "currentMana": 600,
+    "currentRage": 100,
+    "gold": 0,
+    "bankGold": 0,
+    "boundGold": 0,
+    "coins": 0,
+    "renown": 0,
+    "primaryAttributes": {
+      "intelligence": 15,
+      "vitality": 15,
+      "dexterity": 15,
+      "strength": 15
+    }
   }
 }

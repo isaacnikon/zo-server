@@ -3,6 +3,7 @@
 const { ENABLE_DIALOG_EXPERIMENT, FORCE_START_SCENE, MAP_ID, SPAWN_X, SPAWN_Y } = require('./config');
 const {
   getSceneName,
+  resolveEncounterTrigger,
   getSceneWorldSpawns,
   getTriggerAction,
   resolveServerRunTrigger,
@@ -100,10 +101,20 @@ function resolveTileSceneAction({ mapId, tileSceneId, enableDialogExperiment = E
   return null;
 }
 
+function resolveEncounterAction({ mapId, x, y, enableDialogExperiment = ENABLE_DIALOG_EXPERIMENT }) {
+  const trigger = resolveEncounterTrigger(mapId, x, y);
+  if (!trigger) {
+    return null;
+  }
+
+  return expandAction(getTriggerAction(trigger), { mapId, x, y }, enableDialogExperiment);
+}
+
 module.exports = {
   describeScene,
   getBootstrapWorldSpawns,
   resolveCharacterScene,
+  resolveEncounterAction,
   resolveServerRunAction,
   resolveTileSceneAction,
 };
