@@ -956,7 +956,7 @@ class Session {
 
     const livingEnemies = this.syntheticFight.enemies.filter((candidate) => candidate.hp > 0);
 
-    if (this.syntheticFight.enemies.length > 1 && livingEnemies.length > 0) {
+    if (livingEnemies.length > 0) {
       this.awaitingCombatTurnHandshake = false;
       this.pendingCombatTurnProbe = null;
       this.initializeSyntheticEnemyTurnQueue(player.entityId);
@@ -1471,31 +1471,16 @@ class Session {
         side: 1,
         entityId: 0x700001,
         logicalId: 1,
-        typeId: 5002,
+        typeId: 5015,
         row: 0,
-        col: 1,
+        col: 2,
         hpLike: 120,
         mpLike: 0,
         aptitude: 0,
-        levelLike: 1,
+        levelLike: 15,
         appearanceTypes: [0, 0, 0],
         appearanceVariants: [0, 0, 0],
-        name: 'Beetle A',
-      },
-      {
-        side: 1,
-        entityId: 0x700002,
-        logicalId: 2,
-        typeId: 5002,
-        row: 0,
-        col: 3,
-        hpLike: 140,
-        mpLike: 0,
-        aptitude: 0,
-        levelLike: 1,
-        appearanceTypes: [0, 0, 0],
-        appearanceVariants: [0, 0, 0],
-        name: 'Beetle B',
+        name: 'Enemy A',
       },
     ];
     const writer = new PacketWriter();
@@ -1538,9 +1523,8 @@ class Session {
   sendReducedFightStartup(action, enemyCount) {
     if (enemyCount > 1) {
       this.log(
-        `Using reduced multi-enemy startup probe trigger=${action.probeId} enemyCount=${enemyCount} probes=0x01/0x34`
+        `Using reduced multi-enemy startup probe trigger=${action.probeId} enemyCount=${enemyCount} probes=0x34`
       );
-      this.sendFightRingOpenProbe(action);
       this.sendFightControlShowProbe(action);
       return;
     }
