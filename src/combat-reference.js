@@ -40,19 +40,20 @@ function buildCombatTurnProfiles() {
   const reference = loadCombatReference();
   const skillIds = reference.skills.slice(0, 6).map((skill) => skill.id);
   const actionIds = skillIds.length > 0 ? skillIds : [1001, 1002, 1003, 1004, 1005, 1006];
+  const primaryActionId = actionIds[0];
 
   return [
     {
-      profile: 'reference-skills-lv0',
-      rows: actionIds.map((fieldA) => ({ fieldA, fieldB: 0, fieldC: 0 })),
+      profile: 'reference-skill-minimal-lv0',
+      rows: [{ fieldA: primaryActionId, fieldB: 0, fieldC: 0 }],
     },
     {
-      profile: 'reference-skills-lv1',
-      rows: actionIds.map((fieldA) => ({ fieldA, fieldB: 1, fieldC: 0 })),
+      profile: 'reference-skill-minimal-lv1',
+      rows: [{ fieldA: primaryActionId, fieldB: 1, fieldC: 0 }],
     },
     {
-      profile: 'reference-skills-lv0-flag1',
-      rows: actionIds.map((fieldA) => ({ fieldA, fieldB: 0, fieldC: 1 })),
+      profile: 'reference-skill-minimal-lv0-flag1',
+      rows: [{ fieldA: primaryActionId, fieldB: 0, fieldC: 1 }],
     },
   ];
 }
