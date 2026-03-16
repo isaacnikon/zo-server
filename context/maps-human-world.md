@@ -53,6 +53,17 @@ The client reuses the same `0x03f1` family across multiple exits, so route resol
 - destination:
   - `Bling Alley`
 
+## Bling Spring Combat Note
+- The client’s on-enter area hint shows:
+  - `Dragonfly Level [1-3]`
+  - user also observed the paired Beetle line in the same popup flow
+- Extracted client `roleinfo.txt` confirms both low-level monsters are mapped to Bling Spring:
+  - `5001` `Dragonfly`
+    - description includes `Location [Bling Spring][Bling Alley]`
+  - `5002` `Beetle`
+    - description includes `Location [Bling Spring] and [Bling Alley]`
+- Server synthetic encounters for `103` should therefore use Bling Spring-local `5001/5002` enemies at level `1..3`, not unrelated higher-level placeholder mobs.
+
 ## Arrival Points Currently Used
 - `Rainbow Valley -> Bling Spring`
   - lands near Bling Spring east edge to avoid the middle of the map

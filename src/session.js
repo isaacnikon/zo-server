@@ -1538,6 +1538,7 @@ class Session {
       }, 900);
       return;
     }
+    this.currentEncounterTriggerId = null;
     this.syntheticFight = null;
   }
 
@@ -1786,38 +1787,7 @@ class Session {
   }
 
   sendCombatEncounterProbe(action) {
-    const enemies = [
-      {
-        side: 1,
-        entityId: 0x700001,
-        logicalId: 1,
-        typeId: 5001,
-        row: 0,
-        col: 2,
-        hpLike: 120,
-        mpLike: 0,
-        aptitude: 0,
-        levelLike: 15,
-        appearanceTypes: [0, 0, 0],
-        appearanceVariants: [0, 0, 0],
-        name: 'Enemy A',
-      },
-      {
-        side: 1,
-        entityId: 0x700002,
-        logicalId: 2,
-        typeId: 5001,
-        row: 0,
-        col: 3,
-        hpLike: 120,
-        mpLike: 0,
-        aptitude: 0,
-        levelLike: 15,
-        appearanceTypes: [0, 0, 0],
-        appearanceVariants: [0, 0, 0],
-        name: 'Enemy B',
-      },
-    ];
+    const enemies = buildSyntheticEncounterEnemies(action, this.currentMapId);
     const syntheticFight = this.createSyntheticFight(action, enemies);
     const player = syntheticFight.fighters[0];
     const playerEntry = {
@@ -1842,7 +1812,7 @@ class Session {
         enemies,
       }),
       DEFAULT_FLAGS,
-      `Sending experimental combat encounter probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${FIGHT_ENCOUNTER_PROBE_SUBCMD.toString(16)} trigger=${action.probeId} active=${this.entityType} enemies=${enemies.map((enemy) => enemy.entityId).join('/')} map=${this.currentMapId} pos=${this.currentX},${this.currentY} referenceCommands=${this.combatReference.fightCommands.map((command) => command.id).join('/') || 'none'} referenceSkills=${this.combatReference.skills.slice(0, 6).map((skill) => skill.id).join('/') || 'none'}`
+      `Sending experimental combat encounter probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${FIGHT_ENCOUNTER_PROBE_SUBCMD.toString(16)} trigger=${action.probeId} active=${this.entityType} enemies=${enemies.map((enemy) => `${enemy.typeId}@${enemy.entityId}`).join('/')} count=${enemies.length} map=${this.currentMapId} pos=${this.currentX},${this.currentY} referenceCommands=${this.combatReference.fightCommands.map((command) => command.id).join('/') || 'none'} referenceSkills=${this.combatReference.skills.slice(0, 6).map((skill) => skill.id).join('/') || 'none'}`
     );
     this.syntheticFight = syntheticFight;
     this.sendReducedFightStartup(action, enemies.length);
@@ -1967,6 +1937,106 @@ class Session {
 
 function packRoleData(extra1, extra2) {
   return ((extra2 & 0xffff) << 16) | (extra1 & 0xffff);
+}
+
+const SYNTHETIC_ENCOUNTER_POSITIONS = [
+  { row: 0, col: 2 },
+  { row: 1, col: 1 },
+  { row: 1, col: 3 },
+];
+
+function randomIntInclusive(min, max) {
+  const low = Math.min(min, max);
+  const high = Math.max(min, max);
+  return low + Math.floor(Math.random() * ((high - low) + 1));
+}
+
+function pickWeightedEncounterTemplate(pool) {
+  const weightedPool = Array.isArray(pool)
+    ? pool.filter((entry) => entry && Number.isInteger(entry.typeId) && (entry.weight || 1) > 0)
+    : [];
+  if (weightedPool.length === 0) {
+    return null;
+  }
+
+  const totalWeight = weightedPool.reduce((sum, entry) => sum + Math.max(1, entry.weight || 1), 0);
+  let roll = Math.floor(Math.random() * totalWeight);
+  for (const entry of weightedPool) {
+    roll -= Math.max(1, entry.weight || 1);
+    if (roll < 0) {
+      return entry;
+    }
+  }
+
+  return weightedPool[weightedPool.length - 1];
+}
+
+function buildSyntheticEncounterEnemies(action, mapId) {
+  const profile = action?.encounterProfile;
+  if (!profile || !Array.isArray(profile.pool) || profile.pool.length === 0) {
+    return [
+      {
+        side: 1,
+        entityId: 0x700001,
+        logicalId: 1,
+        typeId: 5001,
+        row: 0,
+        col: 2,
+        hpLike: 120,
+        mpLike: 0,
+        aptitude: 0,
+        levelLike: 15,
+        appearanceTypes: [0, 0, 0],
+        appearanceVariants: [0, 0, 0],
+        name: `Map ${mapId} Enemy 5001`,
+      },
+      {
+        side: 1,
+        entityId: 0x700002,
+        logicalId: 2,
+        typeId: 5001,
+        row: 1,
+        col: 1,
+        hpLike: 120,
+        mpLike: 0,
+        aptitude: 0,
+        levelLike: 15,
+        appearanceTypes: [0, 0, 0],
+        appearanceVariants: [0, 0, 0],
+        name: `Map ${mapId} Enemy 5001`,
+      },
+    ];
+  }
+
+  const count = randomIntInclusive(
+    profile.minEnemies || 1,
+    Math.min(profile.maxEnemies || 1, SYNTHETIC_ENCOUNTER_POSITIONS.length)
+  );
+  const enemies = [];
+  for (let index = 0; index < count; index += 1) {
+    const template = pickWeightedEncounterTemplate(profile.pool) || profile.pool[0];
+    const position = SYNTHETIC_ENCOUNTER_POSITIONS[index];
+    const levelLike = randomIntInclusive(template.levelMin || 1, template.levelMax || template.levelMin || 1);
+    const hpLike = (template.hpBase || 80) + ((template.hpPerLevel || 5) * Math.max(0, levelLike - (template.levelMin || 1)));
+
+    enemies.push({
+      side: 1,
+      entityId: 0x700001 + index,
+      logicalId: Number.isInteger(template.logicalId) ? template.logicalId : (template.typeId & 0xffff),
+      typeId: template.typeId & 0xffff,
+      row: position.row,
+      col: position.col,
+      hpLike,
+      mpLike: 0,
+      aptitude: template.aptitude || 0,
+      levelLike,
+      appearanceTypes: Array.isArray(template.appearanceTypes) ? template.appearanceTypes.slice(0, 3) : [0, 0, 0],
+      appearanceVariants: Array.isArray(template.appearanceVariants) ? template.appearanceVariants.slice(0, 3) : [0, 0, 0],
+      name: template.name || `Map ${mapId} Enemy ${template.typeId}`,
+    });
+  }
+
+  return enemies;
 }
 
 function loadCombatProbeIndex() {

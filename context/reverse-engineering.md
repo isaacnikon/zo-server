@@ -39,6 +39,15 @@ struct MapCellSceneRecord {
   - `FUN_00422200(x, y, mask)` -> flag test
 - Tile scene data identifies triggers, not destinations.
 - Scene travel is best reconstructed from script extraction plus live `0x03f1` requests.
+- Bling Spring combat notes:
+  - client map intro popup shows `Dragonfly Level [1-3]`
+  - extracted `roleinfo.txt` confirms:
+    - `5001` `Dragonfly` -> `Location [Bling Spring][Bling Alley]`
+    - `5002` `Beetle` -> `Location [Bling Spring] and [Bling Alley]`
+  - for server synthetic encounters on map `103`, the correct low-level local pool is therefore `5001/5002` at level `1..3`
+  - practical server runtime note:
+    - a single large encounter region needs the session’s encounter-trigger latch cleared after combat teardown
+    - otherwise the player only gets one fight until leaving and re-entering the region
 
 ## Core Combat Findings
 - `0x03fa` is the main fight stream dispatcher.

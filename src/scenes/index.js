@@ -14,6 +14,19 @@ const SCENE_IDS = {
   WEST_COUNTY_PASS: 210,
 };
 
+const BLING_SPRING_ENCOUNTER_PROFILE = {
+  source: 'client roleinfo + map intro popup',
+  minEnemies: 1,
+  maxEnemies: 3,
+  pool: [
+    // `roleinfo.txt` explicitly places both monsters in `[Bling Spring]`.
+    // The on-enter popup also advertises `Dragonfly Level [1-3]`; the paired
+    // Beetle line is the same area hint shown in the client.
+    { typeId: 5001, logicalId: 1, levelMin: 1, levelMax: 3, hpBase: 38, hpPerLevel: 8, weight: 5, name: 'Dragonfly' },
+    { typeId: 5002, logicalId: 2, levelMin: 1, levelMax: 3, hpBase: 42, hpPerLevel: 8, weight: 5, name: 'Beetle' },
+  ],
+};
+
 const SCENES = {
   [SCENE_IDS.RAINBOW_VALLEY]: {
     id: SCENE_IDS.RAINBOW_VALLEY,
@@ -109,27 +122,24 @@ const SCENES = {
     tileTriggers: [],
     encounterTriggers: [
       {
-        id: 'bling_spring_training_probe',
-        minX: 50,
-        maxX: 54,
-        minY: 114,
-        maxY: 118,
+        id: 'bling_spring_field_probe',
+        minX: 0,
+        maxX: 127,
+        minY: 0,
+        maxY: 195,
+        excludeRects: [
+          // East / west exits should stay usable without combat interception.
+          { minX: 102, maxX: 127, minY: 176, maxY: 195 },
+          { minX: 0, maxX: 24, minY: 176, maxY: 195 },
+          // Keep the two visible NPC/service pads safe while the rest of the map fights.
+          { minX: 0, maxX: 28, minY: 40, maxY: 64 },
+          { minX: 36, maxX: 68, minY: 104, maxY: 128 },
+        ],
         action: {
           kind: 'encounterProbe',
-          probeId: 'blingSpringTraining',
-          reason: 'Bling Spring training encounter',
-        },
-      },
-      {
-        id: 'bling_spring_training_probe_exit',
-        minX: 55,
-        maxX: 59,
-        minY: 114,
-        maxY: 118,
-        action: {
-          kind: 'encounterProbeExit',
-          probeId: 'blingSpringTrainingExit',
-          reason: 'Bling Spring training encounter exit',
+          probeId: 'blingSpringField',
+          reason: 'Bling Spring field encounter',
+          encounterProfile: BLING_SPRING_ENCOUNTER_PROFILE,
         },
       },
     ],
@@ -384,6 +394,13 @@ function positionMatches(trigger, x, y) {
   }
   if (trigger.maxY !== undefined && y > trigger.maxY) {
     return false;
+  }
+
+  if (Array.isArray(trigger.excludeRects)) {
+    const excluded = trigger.excludeRects.some((rect) => positionMatches(rect, x, y));
+    if (excluded) {
+      return false;
+    }
   }
 
   return true;
