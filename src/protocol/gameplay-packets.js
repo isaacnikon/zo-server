@@ -134,7 +134,9 @@ function buildQuestPacket(subtype, taskId, extraValue = null, extraType = 'u32')
   writer.writeUint8(subtype & 0xff);
   writer.writeUint16(taskId & 0xffff);
   if (typeof extraValue === 'number') {
-    if (extraType === 'u16') {
+    if (extraType === 'u8') {
+      writer.writeUint8(extraValue & 0xff);
+    } else if (extraType === 'u16') {
       writer.writeUint16(extraValue & 0xffff);
     } else {
       writer.writeUint32(extraValue >>> 0);

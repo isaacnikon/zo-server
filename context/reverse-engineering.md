@@ -307,6 +307,12 @@ damage    = floor((roll * roll) / max(roll + defender_stat8 * 2, 1))
       - `0x03f4` remove item
     - practical implication:
       - store buy, pickup, sell, stack split, and other item mutations may rely on `0x03f2` container updates in addition to `0x03f3` / `0x03f4`
+  - `0x03ff / 0x0e` is the local task-history setter:
+    - handler removes the active quest entry by task id, then writes a single history byte into the local player's quest-history tree at `player + 0xca8`
+    - client scripts use `macro_GetTaskHistoryLevel(taskId)` against that tree
+    - practical implication:
+      - `0x03ff / 0x04` complete is not enough by itself for NPC menus that check task history
+      - the server must also send `0x03ff / 0x0e` on completion and on bootstrap sync for already-completed quests
   - live quest-token debugging tightened the model further:
     - `0x03f2 / 0x00` is the authoritative bag refresh path the client uses to populate the counted container state
     - `0x03f3` alone is not enough to conclude `macro_GetItemCount(...)` will succeed

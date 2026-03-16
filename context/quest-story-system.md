@@ -8,6 +8,7 @@
   - `0x03ff / 0x04` complete
   - `0x03ff / 0x05` abandon
   - `0x03ff / 0x08` status update
+  - `0x03ff / 0x0e` task history update
   - `0x03ff / 0x0c` NPC marker
 - The server also reacts to `GAME_SERVER_RUN_CMD (0x03f1)` NPC/script callbacks and uses those as quest triggers.
 
@@ -53,7 +54,8 @@ Supported quest-side effects today:
 - Minimal bag state exists in [src/inventory.js](/home/nikon/projects/zo-server/src/inventory.js).
 - Quest events can emit `item-granted`, which [src/session.js](/home/nikon/projects/zo-server/src/session.js) turns into:
   - bag persistence update
-  - experimental `0x03f3` item-add packet
+  - authoritative `0x03f2 / 0x00` bag sync
+  - `0x03f3` item-arrival packet when needed
 
 ## Client Extraction Pipeline
 
@@ -130,6 +132,8 @@ This was verified against the installed client task/help data and live packet lo
 - The server now sends both:
   - `0x03f2 / 0x00` authoritative bag full-sync
   - `0x03f3` item receive packets for item-arrival UX
+- The server also sends `0x03ff / 0x0e` on completion/bootstrap so the client updates `macro_GetTaskHistoryLevel(...)`.
+- Without that history packet, an NPC script can re-offer a completed quest even when the server save already has the task in `completedQuests`.
 - Live client debugging showed the quest token `21098` can exist in the authoritative bag tree and still fail the quest UI count.
 - The concrete client-side count path is `LuaMacro_GetItemCount -> FUN_0053e2a0`.
 - For template family `0x74` items such as quest token `21098`, that counter reads the parsed `u16` quantity field at `clientItem + 0x08`, not merely node presence.

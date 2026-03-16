@@ -1061,6 +1061,7 @@ class Session {
         inventoryDirty = inventoryDirty || rewardResult.inventoryDirty;
         if (!suppressPackets) {
           this.sendQuestComplete(event.taskId);
+          this.sendQuestHistory(event.taskId, 0);
         }
         if (!suppressDialogues) {
           const rewardText = rewardResult.rewardMessages.length > 0
@@ -1112,6 +1113,10 @@ class Session {
   }
 
   syncQuestStateToClient() {
+    for (const taskId of this.completedQuests) {
+      this.sendQuestHistory(taskId, 0);
+    }
+
     const syncState = buildQuestSyncState({
       activeQuests: this.activeQuests,
       completedQuests: this.completedQuests,
@@ -1166,6 +1171,14 @@ class Session {
       buildQuestPacket(0x05, taskId),
       DEFAULT_FLAGS,
       `Sending quest abandon cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x05 taskId=${taskId}`
+    );
+  }
+
+  sendQuestHistory(taskId, historyLevel = 0) {
+    this.writePacket(
+      buildQuestPacket(0x0e, taskId, historyLevel & 0xff, 'u8'),
+      DEFAULT_FLAGS,
+      `Sending quest history cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x0e taskId=${taskId} history=${historyLevel}`
     );
   }
 

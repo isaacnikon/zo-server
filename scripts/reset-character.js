@@ -26,20 +26,20 @@ const profileDoc = {
   roleEntityType: 1021,
   roleData: 0,
   selectedAptitude: 11,
-  level: 1,
+  level: 2,
   experience: 77,
   gold: 66,
   bankGold: 0,
   boundGold: 0,
-  coins: 0,
+  coins: 100,
   renown: 0,
-  statusPoints: 5,
+  statusPoints: 9,
   mapId: 101,
-  x: 26,
-  y: 186,
+  x: 25,
+  y: 184,
   lastTownMapId: 101,
-  lastTownX: 26,
-  lastTownY: 186,
+  lastTownX: 25,
+  lastTownY: 184,
   updatedAt,
 };
 
@@ -68,21 +68,34 @@ const activeQuestsDoc = {
 
 const completedQuestsDoc = {
   characterId,
-  taskIds: [],
+  taskIds: [1],
   updatedAt,
 };
 
 const inventoryItemsDoc = {
   characterId,
-  items: [],
+  items: [
+    {
+      instanceId: 3,
+      templateId: 20001,
+      quantity: 5,
+      slot: 1,
+    },
+    {
+      instanceId: 4,
+      templateId: 20004,
+      quantity: 5,
+      slot: 2,
+    },
+  ],
   updatedAt,
 };
 
 const inventoryStateDoc = {
   characterId,
   bagSize: 24,
-  nextItemInstanceId: 1,
-  nextBagSlot: 0,
+  nextItemInstanceId: 5,
+  nextBagSlot: 3,
   updatedAt,
 };
 
