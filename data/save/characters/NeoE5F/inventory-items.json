@@ -1,0 +1,18 @@
+{
+  "characterId": "NeoE5F",
+  "items": [
+    {
+      "instanceId": 3,
+      "templateId": 20001,
+      "quantity": 5,
+      "slot": 1
+    },
+    {
+      "instanceId": 4,
+      "templateId": 20004,
+      "quantity": 5,
+      "slot": 2
+    }
+  ],
+  "updatedAt": "2026-03-16T21:33:33.409Z"
+}

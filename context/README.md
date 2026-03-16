@@ -22,3 +22,6 @@ Use these focused notes instead of loading all historical context at once.
 
 - `item-acquisition-plan.md`
   Current `0x03f3` findings, minimal inventory implementation status, and the remaining work for visible bag items, drops, and stores.
+
+- `character-persistence.md`
+  Proposed normalized character/account/quest/inventory schema and the migration path away from one large `characters.json`.

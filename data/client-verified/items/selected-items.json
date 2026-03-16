@@ -2,10 +2,28 @@
   "source": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
   "items": [
     {
+      "template_id": 21098,
+      "name": "Zodiac Recommendation Token",
+      "evidence": "Installed script.gcg task 1 info block uses macro_GetItemName(21098) and GetItem={21098,1} for Apollo's handoff item to Blacksmith.",
+      "notes": "Exact client-version verification for Back to Earth. Replaces the earlier 21018 guess from the older Shengxiao dump."
+    },
+    {
       "template_id": 21116,
       "name": "Wood",
       "evidence": "Installed script.gcg checks macro_GetItemCount(21116)==0 before Matt says 'The wood is in your pack!!!'.",
       "notes": "Quest item for Back to Earth follow-up. Full template row in installed item tables still needs direct extraction."
+    },
+    {
+      "template_id": 20001,
+      "name": "Medicine",
+      "evidence": "Installed script.gcg Back to Earth(II) reward block grants macro_GetItemName(20001) x5.",
+      "notes": "Matches the server-family potion table row 20001."
+    },
+    {
+      "template_id": 20004,
+      "name": "Heal Grass",
+      "evidence": "Installed script.gcg Back to Earth(II) reward block grants macro_GetItemName(20004) x5.",
+      "notes": "Matches the server-family potion table row 20004."
     }
   ]
 }

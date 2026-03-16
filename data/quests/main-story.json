@@ -5,41 +5,68 @@
     "tasklist": "/home/nikon/projects/zo-server/data/client-verified/tasks/tasklist.json",
     "overrides": "/home/nikon/projects/zo-server/data/quests/main-story.overrides.json"
   },
-  "generatedAt": "2026-03-16T18:21:00.621Z",
+  "generatedAt": "2026-03-16T19:28:11.044Z",
   "quests": [
     {
       "id": 1,
       "name": "Back to Earth",
       "type": "story",
-      "acceptMessage": "Back to Earth is active. Apollo sent you to Blacksmith.",
+      "acceptMessage": "Back to Earth is active. Apollo gave you a recommendation token for Blacksmith.",
       "completionMessage": "Back to Earth is complete.",
       "acceptNpcId": 3054,
       "acceptSubtype": 3,
       "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21098,
+          "quantity": 1,
+          "name": "Zodiac Recommendation Token"
+        }
+      ],
       "rewards": {
-        "gold": 66,
-        "experience": 77
+        "gold": 0,
+        "experience": 100,
+        "coins": 100,
+        "renown": 0,
+        "items": [
+          {
+            "templateId": 20001,
+            "quantity": 5,
+            "name": "Medicine"
+          },
+          {
+            "templateId": 20004,
+            "quantity": 5,
+            "name": "Heal Grass"
+          }
+        ]
       },
       "steps": [
         {
           "type": "talk",
           "npcId": 3276,
           "status": 1,
-          "description": "Speak with Blacksmith.",
-          "subtype": 15
+          "description": "Bring Apollo's recommendation token to Blacksmith.",
+          "consumeItems": [
+            {
+              "templateId": 21098,
+              "quantity": 1,
+              "name": "Zodiac Recommendation Token"
+            }
+          ]
         },
         {
           "type": "talk",
           "npcId": 3029,
           "status": 2,
-          "description": "Speak with Matt and collect the wood.",
+          "description": "Blacksmith sent you to Matt to collect timber.",
           "subtype": 2,
           "scriptId": 10000,
           "grantItems": [
             {
               "templateId": 21116,
               "quantity": 1,
-              "name": "Wood"
+              "name": "Timber"
             }
           ]
         },
@@ -47,8 +74,14 @@
           "type": "talk",
           "npcId": 3276,
           "status": 3,
-          "description": "Bring the wood to Blacksmith.",
-          "subtype": 15
+          "description": "Bring the timber back to Blacksmith.",
+          "consumeItems": [
+            {
+              "templateId": 21116,
+              "quantity": 1,
+              "name": "Timber"
+            }
+          ]
         }
       ]
     },
@@ -63,7 +96,10 @@
       "prerequisiteTaskIds": [],
       "rewards": {
         "gold": 0,
-        "experience": 0
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "items": []
       },
       "steps": [
         {
@@ -78,8 +114,7 @@
           "type": "talk",
           "npcId": 3383,
           "status": 2,
-          "description": "Report back to Gamba.",
-          "subtype": 3
+          "description": "Report back to Gamba."
         }
       ]
     },
@@ -94,7 +129,10 @@
       "prerequisiteTaskIds": [],
       "rewards": {
         "gold": 0,
-        "experience": 0
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "items": []
       },
       "steps": [
         {
@@ -109,8 +147,7 @@
           "type": "talk",
           "npcId": 3019,
           "status": 1,
-          "description": "Speak with Miser.",
-          "subtype": 3
+          "description": "Speak with Miser."
         }
       ]
     },
@@ -125,7 +162,10 @@
       "prerequisiteTaskIds": [],
       "rewards": {
         "gold": 0,
-        "experience": 0
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "items": []
       },
       "steps": [
         {
@@ -140,8 +180,7 @@
           "type": "talk",
           "npcId": 3124,
           "status": 2,
-          "description": "Report the situation to Hell Nowt.",
-          "subtype": 3
+          "description": "Report the situation to Hell Nowt."
         }
       ]
     },
@@ -158,7 +197,10 @@
       ],
       "rewards": {
         "gold": 0,
-        "experience": 0
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "items": []
       },
       "steps": [
         {

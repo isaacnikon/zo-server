@@ -88,9 +88,31 @@ function buildQuestFromHelp(overrideQuest, helpByTaskId, itemNameById, taskById)
     acceptNpcId: firstNumber(overrideQuest.acceptNpcId, task?.npc_id),
     acceptSubtype: Number.isInteger(overrideQuest.acceptSubtype) ? overrideQuest.acceptSubtype : undefined,
     prerequisiteTaskIds: normalizePrerequisiteTaskIds(overrideQuest.prerequisiteTaskIds, task?.field_5),
+    acceptGrantItems: Array.isArray(overrideQuest.acceptGrantItems) && overrideQuest.acceptGrantItems.length > 0
+      ? overrideQuest.acceptGrantItems.map((item) => ({
+          templateId: item.templateId,
+          quantity: Math.max(1, numberOrDefault(item.quantity, 1)),
+          name:
+            typeof item.name === 'string' && item.name.length > 0
+              ? item.name
+              : (itemNameById.get(item.templateId) || ''),
+        }))
+      : undefined,
     rewards: {
       gold: numberOrDefault(overrideQuest?.rewards?.gold, 0),
       experience: numberOrDefault(overrideQuest?.rewards?.experience, 0),
+      coins: numberOrDefault(overrideQuest?.rewards?.coins, 0),
+      renown: numberOrDefault(overrideQuest?.rewards?.renown, 0),
+      items: Array.isArray(overrideQuest?.rewards?.items)
+        ? overrideQuest.rewards.items.map((item) => ({
+            templateId: item.templateId,
+            quantity: Math.max(1, numberOrDefault(item.quantity, 1)),
+            name:
+              typeof item.name === 'string' && item.name.length > 0
+                ? item.name
+                : (itemNameById.get(item.templateId) || ''),
+          }))
+        : [],
     },
     steps,
   };
@@ -135,6 +157,16 @@ function mergeStep(helpStep, overrideStep, itemNameById, index) {
   }
   if (Array.isArray(overrideStep.grantItems) && overrideStep.grantItems.length > 0) {
     step.grantItems = overrideStep.grantItems.map((item) => ({
+      templateId: item.templateId,
+      quantity: Math.max(1, numberOrDefault(item.quantity, 1)),
+      name:
+        typeof item.name === 'string' && item.name.length > 0
+          ? item.name
+          : (itemNameById.get(item.templateId) || ''),
+    }));
+  }
+  if (Array.isArray(overrideStep.consumeItems) && overrideStep.consumeItems.length > 0) {
+    step.consumeItems = overrideStep.consumeItems.map((item) => ({
       templateId: item.templateId,
       quantity: Math.max(1, numberOrDefault(item.quantity, 1)),
       name:

@@ -4,7 +4,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node scripts/refactor-smoke.js"
+    "test": "node scripts/refactor-smoke.js",
+    "reset:character": "node scripts/reset-character.js"
   },
   "keywords": [],
   "author": "",
