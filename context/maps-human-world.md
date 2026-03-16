@@ -22,6 +22,13 @@ The client reuses the same `0x03f1` family across multiple exits, so route resol
 
 ### Rainbow Valley
 - `map=101, sub=0x01, script=1` -> `Bling Spring`
+- verified exit window near:
+  - `x=70..77`
+  - `y=0..20`
+- practical note:
+  - `script=1` in Rainbow Valley is reused by non-travel paths too
+  - leaving this trigger ungated causes quest/script collisions
+  - the working server fix is a narrow position window plus transition priority inside that window
 
 ### Bling Alley
 - `map=102, sub=0x01, script=1`

@@ -331,6 +331,12 @@ damage    = floor((roll * roll) / max(roll + defender_stat8 * 2, 1))
     - `HandleItemContainerInteraction` (`0x0048b9a0`) calls `MoveItemBetweenContainerSlots` directly for same-container moves
     - raw server receive logs show no new opcode when dragging an item within the bag
     - implication: startup layout can be server-controlled, but manual drag state is local-only unless the client is modified
+  - Rainbow Valley travel collision:
+    - `map=101, sub=0x01, script=1` is reused by both travel and non-travel flows
+    - an ungated scene trigger makes quest handling and teleport handling collide
+    - confirmed working fix on the server side:
+      - restrict the Rainbow Valley exit to the observed top-edge window `x=70..77, y=0..20`
+      - if a concrete position-aware transition matches, let it win before quest dispatch
   - drop-item UI integration details:
     - `ResolveItemRecordFromInteractionSelection` resolves script-drop selections by calling `GetOrCreateScriptDropItemRecord` when `containerType == -1`
     - world-drop selection widgets and hover/preview paths feed those script-drop records into the same item-tooltip / interaction UI helpers used by normal inventory items
