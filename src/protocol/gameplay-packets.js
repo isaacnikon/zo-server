@@ -7,6 +7,7 @@ const {
   GAME_DIALOG_CMD,
   GAME_FIGHT_STREAM_CMD,
   GAME_ITEM_CONTAINER_CMD,
+  ITEM_CONTAINER_POSITION_SUBCMD,
   GAME_ITEM_CMD,
   GAME_QUEST_CMD,
   GAME_SCRIPT_EVENT_CMD,
@@ -152,6 +153,7 @@ function writeClientItemInstancePayload(writer, {
   bindState = 0,
   quantity = 1,
   extraValue = 0,
+  clientTemplateFamily = null,
   attributePairs = [],
 }) {
   writer.writeUint16(templateId & 0xffff);
@@ -162,9 +164,16 @@ function writeClientItemInstancePayload(writer, {
   writer.writeUint8(bindState & 0xff);
   writer.writeUint16(quantity & 0xffff);
   writer.writeUint16(extraValue & 0xffff);
-  // Minimal item-instance payload shape derived from client deserialization:
-  // template id, runtime id, stack count, flags, two u16 fields, six template
-  // fields for common item types, then zero embedded entries.
+
+  // Family 0x41 and 0x74 stop here and immediately read the embedded-entry
+  // count. Sending the generic six trailing u16s corrupts the next item in
+  // 0x03f2 bulk sync, which is why only the first starter item appeared.
+  if (clientTemplateFamily === 0x41 || clientTemplateFamily === 0x74) {
+    writer.writeUint8(0);
+    return;
+  }
+
+  // Fallback shape for families that do consume the six trailing u16 fields.
   for (let index = 0; index < 6; index += 1) {
     const pair = attributePairs[index];
     writer.writeUint16((pair?.value || 0) & 0xffff);
@@ -190,6 +199,24 @@ function buildInventoryContainerBulkSyncPacket({
   return writer.payload();
 }
 
+function buildInventoryContainerPositionPacket({
+  containerType,
+  instanceId,
+  slotIndex,
+  column,
+  row,
+}) {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_ITEM_CONTAINER_CMD);
+  writer.writeUint8(containerType & 0xff);
+  writer.writeUint8(ITEM_CONTAINER_POSITION_SUBCMD & 0xff);
+  writer.writeUint32(instanceId >>> 0);
+  writer.writeUint16(slotIndex & 0xffff);
+  writer.writeUint16(column & 0xffff);
+  writer.writeUint16(row & 0xffff);
+  return writer.payload();
+}
+
 function buildItemAddPacket({
   containerType,
   templateId,
@@ -199,6 +226,7 @@ function buildItemAddPacket({
   quantity = 1,
   extraValue = 0,
   attributePairs = [],
+  clientTemplateFamily = null,
 }) {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_ITEM_CMD);
@@ -211,6 +239,7 @@ function buildItemAddPacket({
     bindState,
     quantity,
     extraValue,
+    clientTemplateFamily,
     attributePairs,
   });
   return writer.payload();
@@ -250,6 +279,7 @@ function buildGameDialoguePacket({ speaker, message, subtype = GAME_DIALOG_MESSA
 
 module.exports = {
   buildInventoryContainerBulkSyncPacket,
+  buildInventoryContainerPositionPacket,
   buildGameDialoguePacket,
   buildItemAddPacket,
   buildItemRemovePacket,

@@ -10,6 +10,7 @@ const ITEM_DEFINITIONS = Object.freeze([
     name: 'Zodiac Recommendation Token',
     containerType: BAG_CONTAINER_TYPE,
     maxStack: 1,
+    clientTemplateFamily: 0x74,
     clientEvidence:
       'Installed script.gcg task 1 info block uses macro_GetItemName(21098) and GetItem={21098,1} for Apollo\'s recommendation token.',
   },
@@ -18,14 +19,34 @@ const ITEM_DEFINITIONS = Object.freeze([
     name: 'Timber',
     containerType: BAG_CONTAINER_TYPE,
     maxStack: 1,
+    clientTemplateFamily: 0x74,
     clientEvidence:
       'Installed script.gcg checks macro_GetItemCount(21116)==0 before showing "The wood is in your pack".',
+  },
+  {
+    templateId: 21099,
+    name: 'Spinning Token',
+    containerType: BAG_CONTAINER_TYPE,
+    maxStack: 1,
+    clientTemplateFamily: 0x74,
+    clientEvidence:
+      'Installed script.gcg Spinning(I) block uses macro_GetItemName(21099) and tells the player to bring it from Blacksmith to Candy.',
+  },
+  {
+    templateId: 21115,
+    name: "Dragonfly's Sting",
+    containerType: BAG_CONTAINER_TYPE,
+    maxStack: 99,
+    clientTemplateFamily: 0x74,
+    clientEvidence:
+      'Installed script.gcg Spinning(II) block requires 10x macro_GetItemName(21115) from Dragonfly and hand-in to Candy.',
   },
   {
     templateId: 20001,
     name: 'Medicine',
     containerType: BAG_CONTAINER_TYPE,
     maxStack: 99,
+    clientTemplateFamily: 0x41,
     clientEvidence:
       'Installed script.gcg Back to Earth(II) reward block grants macro_GetItemName(20001) x5; matching server-family potion table row 20001.',
   },
@@ -34,6 +55,7 @@ const ITEM_DEFINITIONS = Object.freeze([
     name: 'Heal Grass',
     containerType: BAG_CONTAINER_TYPE,
     maxStack: 99,
+    clientTemplateFamily: 0x41,
     clientEvidence:
       'Installed script.gcg Back to Earth(II) reward block grants macro_GetItemName(20004) x5; matching server-family potion table row 20004.',
   },

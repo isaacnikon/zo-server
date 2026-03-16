@@ -138,6 +138,11 @@ This was verified against the installed client task/help data and live packet lo
 - The concrete client-side count path is `LuaMacro_GetItemCount -> FUN_0053e2a0`.
 - For template family `0x74` items such as quest token `21098`, that counter reads the parsed `u16` quantity field at `clientItem + 0x08`, not merely node presence.
 - A prior server serializer bug populated the preceding `u8` field instead, which made the item visible in the bag while `macro_GetItemCount(21098)` still returned `0`.
+- Live March 17 bag debugging also confirmed a second serializer failure:
+  - starter rewards `20001` and `20004` are client template family `0x41`
+  - family `0x41` stops parsing after the base fields plus the embedded-entry count byte
+  - sending the generic six trailing `u16` fields shifts the next item in `0x03f2 / 0x00`, so only the first bag item becomes a live client item
+  - fixing `0x03f2`/`0x03f3` to serialize by template family restored both visible starter items
 - Result: for item-backed quests, do not trust bag visibility alone; verify the counted quantity field used by `FUN_0053e2a0`.
 
 ### Full quest automation is not complete

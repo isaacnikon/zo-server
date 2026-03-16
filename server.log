@@ -1,74 +1,74 @@
-[2026-03-16T21:39:13.386Z] Zodiac Online server listening on port 7777
-[2026-03-16T21:39:13.389Z] Logs: server.log
-[2026-03-16T21:39:30.089Z] 
-=== SESSION 1 CONNECTED from 127.0.0.1:33093 mode=LOGIN ===
-[2026-03-16T21:39:30.090Z] [S1] Sending handshake (flags=0x44, seed=0, no encryption)
-[2026-03-16T21:39:30.090Z] [S1] > 0000: 44 06 00 00 00 01 00 00 00 00 00                | D..........
-[2026-03-16T21:39:30.108Z] [S1] RECV pkt flags=0x40 len=48 seq=0
-[2026-03-16T21:39:30.108Z] [S1] < 0000: e9 03 08 00 30 30 30 30 30 30 31 00 21 00 34 35 | ....0000001.!.45
-[S1] < 0010: 31 35 39 39 41 35 46 39 41 46 41 39 31 41 30 46 | 1599A5F9AFA91A0F
-[S1] < 0020: 32 30 39 37 30 34 30 41 37 39 36 46 33 44 00 53 | 2097040A796F3D.S
-[2026-03-16T21:39:30.108Z] [S1] CMD8=0xe9 CMD16=0x03e9 state=CONNECTED
-[2026-03-16T21:39:30.108Z] [S1] ASCII: ....0000001.!.451599A5F9AFA91A0F2097040A796F3D.S
-[2026-03-16T21:39:30.109Z] [S1] Login packet cmd=0xe9 mode=LOGIN
-[2026-03-16T21:39:30.109Z] [S1] Full payload hex: e90308003030303030303100210034353135393941354639414641393141304632303937303430413739364633440053
-[2026-03-16T21:39:30.109Z] [S1] String at 11: "0000001"
-[2026-03-16T21:39:30.109Z] [S1] String at 46: "451599A5F9AFA91A0F2097040A796F3D"
-[2026-03-16T21:39:30.109Z] [S1] Parsed account="0000001"
-[2026-03-16T21:39:30.109Z] [S1] Sending login server-list response
-[2026-03-16T21:39:30.110Z] [S1] > 0000: 40 30 00 01 00 e9 03 03 00 00 00 00 00 00 01 00 | @0..............
+[2026-03-16T22:40:50.329Z] Zodiac Online server listening on port 7777
+[2026-03-16T22:40:50.332Z] Logs: server.log
+[2026-03-16T22:40:57.041Z] 
+=== SESSION 1 CONNECTED from 127.0.0.1:41411 mode=LOGIN ===
+[2026-03-16T22:40:57.042Z] [S1] Sending handshake (flags=0x44, seed=0, no encryption)
+[2026-03-16T22:40:57.042Z] [S1] > 0000: 44 06 00 00 00 01 00 00 00 00 00                | D..........
+[2026-03-16T22:40:57.061Z] [S1] RECV pkt flags=0x40 len=48 seq=0
+[2026-03-16T22:40:57.061Z] [S1] < 0000: e9 03 08 00 30 30 30 30 30 30 31 00 21 00 32 43 | ....0000001.!.2C
+[S1] < 0010: 36 30 43 32 34 45 37 30 38 37 45 31 38 45 34 35 | 60C24E7087E18E45
+[S1] < 0020: 30 35 35 41 33 33 46 39 41 35 42 45 39 31 00 53 | 055A33F9A5BE91.S
+[2026-03-16T22:40:57.061Z] [S1] CMD8=0xe9 CMD16=0x03e9 state=CONNECTED
+[2026-03-16T22:40:57.061Z] [S1] ASCII: ....0000001.!.2C60C24E7087E18E45055A33F9A5BE91.S
+[2026-03-16T22:40:57.062Z] [S1] Login packet cmd=0xe9 mode=LOGIN
+[2026-03-16T22:40:57.062Z] [S1] Full payload hex: e90308003030303030303100210032433630433234453730383745313845343530353541333346394135424539310053
+[2026-03-16T22:40:57.062Z] [S1] String at 11: "0000001"
+[2026-03-16T22:40:57.062Z] [S1] String at 46: "2C60C24E7087E18E45055A33F9A5BE91"
+[2026-03-16T22:40:57.062Z] [S1] Parsed account="0000001"
+[2026-03-16T22:40:57.062Z] [S1] Sending login server-list response
+[2026-03-16T22:40:57.063Z] [S1] > 0000: 40 30 00 01 00 e9 03 03 00 00 00 00 00 00 01 00 | @0..............
 [S1] > 0010: 00 00 00 00 00 00 d5 17 00 00 61 1e 01 09 00 31 | ..........a....1
 [S1] > 0020: 32 37 2e 30 2e 30 2e 31 00 00 00 00 00 00 00 00 | 27.0.0.1........
 [S1] > 0030: 00 00 00 00 00                                  | .....
-[2026-03-16T21:39:31.874Z] [S1] RECV pkt flags=0x40 len=4 seq=1
-[2026-03-16T21:39:31.875Z] [S1] < 0000: 4c 04 1c 01                                     | L...
-[2026-03-16T21:39:31.875Z] [S1] CMD8=0x4c CMD16=0x044c state=LOGGED_IN
-[2026-03-16T21:39:31.875Z] [S1] ASCII: L...
-[2026-03-16T21:39:31.875Z] [S1] Game packet flags=0x40 cmd8=0x4c cmd16=0x044c
-[2026-03-16T21:39:31.875Z] [S1] Line select request for line 1
-[2026-03-16T21:39:31.875Z] [S1] Sending line-select success for line 1
-[2026-03-16T21:39:31.875Z] [S1] > 0000: 40 04 00 02 00 e9 03 1b 01                      | @........
-[2026-03-16T21:39:31.878Z] [S1] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:31.879Z] [S1] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:31.879Z] [S1] Sending create-role success for "NeoE5F" entity_type=0x3fd
-[2026-03-16T21:39:31.880Z] [S1] > 0000: 40 16 00 03 00 4c 04 05 00 00 00 00 00 fd 03 01 | @....L..........
+[2026-03-16T22:40:58.769Z] [S1] RECV pkt flags=0x40 len=4 seq=1
+[2026-03-16T22:40:58.770Z] [S1] < 0000: 4c 04 1c 01                                     | L...
+[2026-03-16T22:40:58.770Z] [S1] CMD8=0x4c CMD16=0x044c state=LOGGED_IN
+[2026-03-16T22:40:58.770Z] [S1] ASCII: L...
+[2026-03-16T22:40:58.770Z] [S1] Game packet flags=0x40 cmd8=0x4c cmd16=0x044c
+[2026-03-16T22:40:58.770Z] [S1] Line select request for line 1
+[2026-03-16T22:40:58.770Z] [S1] Sending line-select success for line 1
+[2026-03-16T22:40:58.770Z] [S1] > 0000: 40 04 00 02 00 e9 03 1b 01                      | @........
+[2026-03-16T22:40:58.773Z] [S1] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:40:58.774Z] [S1] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:40:58.775Z] [S1] Sending create-role success for "NeoE5F" entity_type=0x3fd
+[2026-03-16T22:40:58.775Z] [S1] > 0000: 40 16 00 03 00 4c 04 05 00 00 00 00 00 fd 03 02 | @....L..........
 [S1] > 0010: 07 00 4e 65 6f 45 35 46 00 00 00                | ..NeoE5F...
-[2026-03-16T21:39:31.880Z] [S1] Replayed persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:35.797Z] [S1] RECV pkt flags=0x40 len=4 seq=2
-[2026-03-16T21:39:35.798Z] [S1] < 0000: 4c 04 0d 00                                     | L...
-[2026-03-16T21:39:35.798Z] [S1] CMD8=0x4c CMD16=0x044c state=LOGGED_IN
-[2026-03-16T21:39:35.798Z] [S1] ASCII: L...
-[2026-03-16T21:39:35.798Z] [S1] Game packet flags=0x40 cmd8=0x4c cmd16=0x044c
-[2026-03-16T21:39:35.798Z] [S1] Enter game request slot=0
-[2026-03-16T21:39:35.798Z] [S1] Sending 0x0d game-server redirect to 127.0.0.1:7777
-[2026-03-16T21:39:35.798Z] [S1] > 0000: 40 15 00 04 00 e9 03 0d 0a 00 31 32 37 2e 30 2e | @.........127.0.
+[2026-03-16T22:40:58.775Z] [S1] Replayed persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:41:00.853Z] [S1] RECV pkt flags=0x40 len=4 seq=2
+[2026-03-16T22:41:00.853Z] [S1] < 0000: 4c 04 0d 00                                     | L...
+[2026-03-16T22:41:00.853Z] [S1] CMD8=0x4c CMD16=0x044c state=LOGGED_IN
+[2026-03-16T22:41:00.854Z] [S1] ASCII: L...
+[2026-03-16T22:41:00.854Z] [S1] Game packet flags=0x40 cmd8=0x4c cmd16=0x044c
+[2026-03-16T22:41:00.854Z] [S1] Enter game request slot=0
+[2026-03-16T22:41:00.854Z] [S1] Sending 0x0d game-server redirect to 127.0.0.1:7777
+[2026-03-16T22:41:00.854Z] [S1] > 0000: 40 15 00 04 00 e9 03 0d 0a 00 31 32 37 2e 30 2e | @.........127.0.
 [S1] > 0010: 30 2e 31 00 61 1e 00 00 00 00                   | 0.1.a.....
-[2026-03-16T21:39:35.805Z] 
-=== SESSION 2 CONNECTED from 127.0.0.1:38715 mode=GAME ===
-[2026-03-16T21:39:35.805Z] [S2] Sending handshake (flags=0x44, seed=0, no encryption)
-[2026-03-16T21:39:35.805Z] [S2] > 0000: 44 06 00 00 00 01 00 00 00 00 00                | D..........
-[2026-03-16T21:39:35.816Z] [S2] RECV pkt flags=0x40 len=47 seq=0
-[2026-03-16T21:39:35.817Z] [S2] < 0000: e9 03 08 00 30 30 30 30 30 30 31 00 21 00 34 35 | ....0000001.!.45
-[S2] < 0010: 31 35 39 39 41 35 46 39 41 46 41 39 31 41 30 46 | 1599A5F9AFA91A0F
-[S2] < 0020: 32 30 39 37 30 34 30 41 37 39 36 46 33 44 00    | 2097040A796F3D.
-[2026-03-16T21:39:35.817Z] [S2] CMD8=0xe9 CMD16=0x03e9 state=CONNECTED
-[2026-03-16T21:39:35.817Z] [S2] ASCII: ....0000001.!.451599A5F9AFA91A0F2097040A796F3D.
-[2026-03-16T21:39:35.817Z] [S2] Login packet cmd=0xe9 mode=GAME
-[2026-03-16T21:39:35.817Z] [S2] Full payload hex: e903080030303030303031002100343531353939413546394146413931413046323039373034304137393646334400
-[2026-03-16T21:39:35.817Z] [S2] String at 11: "0000001"
-[2026-03-16T21:39:35.817Z] [S2] String at 46: "451599A5F9AFA91A0F2097040A796F3D"
-[2026-03-16T21:39:35.817Z] [S2] Parsed account="0000001"
-[2026-03-16T21:39:35.818Z] [S2] Sending enter-game success char="NeoE5F" runtimeId=0x3fd entity=0x3fd roleEntity=0x3fd aptitude=11 map=101 (Rainbow Valley) pos=26,186
-[2026-03-16T21:39:35.818Z] [S2] > 0000: 40 1f 00 01 00 e9 03 03 fd 03 00 00 fd 03 00 00 | @...............
-[S2] > 0010: 00 00 1a 00 ba 00 00 00 07 00 4e 65 6f 45 35 46 | ..........NeoE5F
+[2026-03-16T22:41:00.863Z] 
+=== SESSION 2 CONNECTED from 127.0.0.1:35603 mode=GAME ===
+[2026-03-16T22:41:00.863Z] [S2] Sending handshake (flags=0x44, seed=0, no encryption)
+[2026-03-16T22:41:00.863Z] [S2] > 0000: 44 06 00 00 00 01 00 00 00 00 00                | D..........
+[2026-03-16T22:41:00.872Z] [S2] RECV pkt flags=0x40 len=47 seq=0
+[2026-03-16T22:41:00.873Z] [S2] < 0000: e9 03 08 00 30 30 30 30 30 30 31 00 21 00 32 43 | ....0000001.!.2C
+[S2] < 0010: 36 30 43 32 34 45 37 30 38 37 45 31 38 45 34 35 | 60C24E7087E18E45
+[S2] < 0020: 30 35 35 41 33 33 46 39 41 35 42 45 39 31 00    | 055A33F9A5BE91.
+[2026-03-16T22:41:00.873Z] [S2] CMD8=0xe9 CMD16=0x03e9 state=CONNECTED
+[2026-03-16T22:41:00.873Z] [S2] ASCII: ....0000001.!.2C60C24E7087E18E45055A33F9A5BE91.
+[2026-03-16T22:41:00.873Z] [S2] Login packet cmd=0xe9 mode=GAME
+[2026-03-16T22:41:00.873Z] [S2] Full payload hex: e903080030303030303031002100324336304332344537303837453138453435303535413333463941354245393100
+[2026-03-16T22:41:00.873Z] [S2] String at 11: "0000001"
+[2026-03-16T22:41:00.873Z] [S2] String at 46: "2C60C24E7087E18E45055A33F9A5BE91"
+[2026-03-16T22:41:00.873Z] [S2] Parsed account="0000001"
+[2026-03-16T22:41:00.874Z] [S2] Sending enter-game success char="NeoE5F" runtimeId=0x3fd entity=0x3fd roleEntity=0x3fd aptitude=11 map=101 (Rainbow Valley) pos=25,184
+[2026-03-16T22:41:00.874Z] [S2] > 0000: 40 1f 00 01 00 e9 03 03 fd 03 00 00 fd 03 00 00 | @...............
+[S2] > 0010: 00 00 19 00 b8 00 00 00 07 00 4e 65 6f 45 35 46 | ..........NeoE5F
 [S2] > 0020: 00 00 65 00                                     | ..e.
-[2026-03-16T21:39:35.819Z] [S2] Sending self-state stat sync cmd=0x3f6 sub=0xa aptitude=11 level=1 hp/mp/rage=398/600/100 stats=15/15/15/15 statusPoints=5
-[2026-03-16T21:39:35.819Z] [S2] > 0000: 40 38 00 02 00 f6 03 0a 0b 8e 01 00 00 58 02 00 | @8...........X..
-[S2] > 0010: 00 64 00 00 00 01 4d 00 00 00 00 00 00 00 42 00 | .d....M.......B.
-[S2] > 0020: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................
-[S2] > 0030: 01 00 0f 00 0f 00 0f 00 0f 00 05 00 00          | .............
-[2026-03-16T21:39:35.819Z] [S2] Sending static NPC spawn batch cmd=0x3eb map=101 (Rainbow Valley) count=18
-[2026-03-16T21:39:35.820Z] [S2] > 0000: 40 01 01 03 00 eb 03 15 12 00 cd 0c 00 00 cd 0c | @...............
+[2026-03-16T22:41:00.874Z] [S2] Sending self-state stat sync cmd=0x3f6 sub=0xa aptitude=11 level=2 hp/mp/rage=398/600/100 stats=15/15/15/15 statusPoints=9
+[2026-03-16T22:41:00.874Z] [S2] > 0000: 40 38 00 02 00 f6 03 0a 0b 8e 01 00 00 58 02 00 | @8...........X..
+[S2] > 0010: 00 64 00 00 00 02 4d 00 00 00 00 00 00 00 42 00 | .d....M.......B.
+[S2] > 0020: 00 00 00 00 00 00 64 00 00 00 00 00 00 00 00 00 | ......d.........
+[S2] > 0030: 01 00 0f 00 0f 00 0f 00 0f 00 09 00 00          | .............
+[2026-03-16T22:41:00.874Z] [S2] Sending static NPC spawn batch cmd=0x3eb map=101 (Rainbow Valley) count=18
+[2026-03-16T22:41:00.875Z] [S2] > 0000: 40 01 01 03 00 eb 03 15 12 00 cd 0c 00 00 cd 0c | @...............
 [S2] > 0010: 15 00 d0 00 00 00 00 00 cc 0c 00 00 cc 0c 11 00 | ................
 [S2] > 0020: a9 00 00 00 00 00 67 0c 00 00 67 0c 44 00 57 00 | ......g...g.D.W.
 [S2] > 0030: 00 00 00 00 bc 0b 00 00 bc 0b 60 00 9a 00 00 00 | ..........`.....
@@ -85,1827 +85,453 @@
 [S2] > 00e0: 91 0c 78 00 ad 00 00 00 00 00 02 0c 00 00 02 0c | ..x.............
 [S2] > 00f0: 66 00 a4 00 00 00 00 00 de 0b 00 00 de 0b 56 00 | f.............V.
 [S2] > 0100: 9f 00 00 00 00 00                               | ......
-[2026-03-16T21:39:35.820Z] [S2] Sending inventory full sync cmd=0x3f2 container=1 items=0
-[2026-03-16T21:39:35.820Z] [S2] > 0000: 40 06 00 04 00 f2 03 01 00 00 00                | @..........
-[2026-03-16T21:39:37.396Z] [S2] RECV pkt flags=0x40 len=7 seq=1
-[2026-03-16T21:39:37.396Z] [S2] < 0000: 06 04 4f 02 00 00 00                            | ..O....
-[2026-03-16T21:39:37.396Z] [S2] CMD8=0x06 CMD16=0x0406 state=LOGGED_IN
-[2026-03-16T21:39:37.396Z] [S2] ASCII: ..O....
-[2026-03-16T21:39:37.396Z] [S2] Game packet flags=0x40 cmd8=0x06 cmd16=0x0406
-[2026-03-16T21:39:37.397Z] [S2] Combat packet kind=fightClient cmd=0x406 sub=0x4f detail16=2 detail32=2 len=7 inFight=0
-[2026-03-16T21:39:37.539Z] [S2] RECV pkt flags=0x40 len=8 seq=2
-[2026-03-16T21:39:37.539Z] [S2] < 0000: eb 03 1d 00 be 00 65 00                         | ......e.
-[2026-03-16T21:39:37.539Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:37.539Z] [S2] ASCII: ......e.
-[2026-03-16T21:39:37.539Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:37.539Z] [S2] Position update map=101 pos=29,190
-[2026-03-16T21:39:37.553Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:37.555Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:38.046Z] [S2] RECV pkt flags=0x40 len=8 seq=3
-[2026-03-16T21:39:38.046Z] [S2] < 0000: eb 03 20 00 c2 00 65 00                         | .. ...e.
-[2026-03-16T21:39:38.047Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:38.047Z] [S2] ASCII: .. ...e.
-[2026-03-16T21:39:38.047Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:38.047Z] [S2] Position update map=101 pos=32,194
-[2026-03-16T21:39:38.048Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:38.050Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:38.554Z] [S2] RECV pkt flags=0x40 len=8 seq=4
-[2026-03-16T21:39:38.554Z] [S2] < 0000: eb 03 23 00 c5 00 65 00                         | ..#...e.
-[2026-03-16T21:39:38.554Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:38.554Z] [S2] ASCII: ..#...e.
-[2026-03-16T21:39:38.554Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:38.554Z] [S2] Position update map=101 pos=35,197
-[2026-03-16T21:39:38.555Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:38.556Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:39.061Z] [S2] RECV pkt flags=0x40 len=8 seq=5
-[2026-03-16T21:39:39.061Z] [S2] < 0000: eb 03 26 00 c7 00 65 00                         | ..&...e.
-[2026-03-16T21:39:39.061Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:39.061Z] [S2] ASCII: ..&...e.
-[2026-03-16T21:39:39.061Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:39.061Z] [S2] Position update map=101 pos=38,199
-[2026-03-16T21:39:39.062Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:39.064Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:39.567Z] [S2] RECV pkt flags=0x40 len=8 seq=6
-[2026-03-16T21:39:39.567Z] [S2] < 0000: eb 03 2b 00 c8 00 65 00                         | ..+...e.
-[2026-03-16T21:39:39.567Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:39.567Z] [S2] ASCII: ..+...e.
-[2026-03-16T21:39:39.567Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:39.567Z] [S2] Position update map=101 pos=43,200
-[2026-03-16T21:39:39.569Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:39.571Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:40.068Z] [S2] RECV pkt flags=0x40 len=8 seq=7
-[2026-03-16T21:39:40.068Z] [S2] < 0000: eb 03 2e 00 c8 00 65 00                         | ......e.
-[2026-03-16T21:39:40.069Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:40.069Z] [S2] ASCII: ......e.
-[2026-03-16T21:39:40.069Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:40.069Z] [S2] Position update map=101 pos=46,200
-[2026-03-16T21:39:40.070Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:40.072Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:40.570Z] [S2] RECV pkt flags=0x40 len=8 seq=8
-[2026-03-16T21:39:40.570Z] [S2] < 0000: eb 03 32 00 c8 00 65 00                         | ..2...e.
-[2026-03-16T21:39:40.570Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:40.570Z] [S2] ASCII: ..2...e.
-[2026-03-16T21:39:40.570Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:40.571Z] [S2] Position update map=101 pos=50,200
-[2026-03-16T21:39:40.572Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:40.574Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:41.080Z] [S2] RECV pkt flags=0x40 len=8 seq=9
-[2026-03-16T21:39:41.080Z] [S2] < 0000: eb 03 35 00 c8 00 65 00                         | ..5...e.
-[2026-03-16T21:39:41.080Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:41.080Z] [S2] ASCII: ..5...e.
-[2026-03-16T21:39:41.080Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:41.081Z] [S2] Position update map=101 pos=53,200
-[2026-03-16T21:39:41.082Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:41.083Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:41.590Z] [S2] RECV pkt flags=0x40 len=8 seq=10
-[2026-03-16T21:39:41.590Z] [S2] < 0000: eb 03 38 00 ca 00 65 00                         | ..8...e.
-[2026-03-16T21:39:41.590Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:41.590Z] [S2] ASCII: ..8...e.
-[2026-03-16T21:39:41.590Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:41.591Z] [S2] Position update map=101 pos=56,202
-[2026-03-16T21:39:41.592Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:41.594Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:42.091Z] [S2] RECV pkt flags=0x40 len=8 seq=11
-[2026-03-16T21:39:42.091Z] [S2] < 0000: eb 03 3b 00 cd 00 65 00                         | ..;...e.
-[2026-03-16T21:39:42.091Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:42.091Z] [S2] ASCII: ..;...e.
-[2026-03-16T21:39:42.091Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:42.091Z] [S2] Position update map=101 pos=59,205
-[2026-03-16T21:39:42.093Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:42.095Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:42.597Z] [S2] RECV pkt flags=0x40 len=8 seq=12
-[2026-03-16T21:39:42.598Z] [S2] < 0000: eb 03 3f 00 d0 00 65 00                         | ..?...e.
-[2026-03-16T21:39:42.598Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:42.598Z] [S2] ASCII: ..?...e.
-[2026-03-16T21:39:42.598Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:42.598Z] [S2] Position update map=101 pos=63,208
-[2026-03-16T21:39:42.598Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:42.600Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:43.107Z] [S2] RECV pkt flags=0x40 len=8 seq=13
-[2026-03-16T21:39:43.107Z] [S2] < 0000: eb 03 42 00 d3 00 65 00                         | ..B...e.
-[2026-03-16T21:39:43.107Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:43.107Z] [S2] ASCII: ..B...e.
-[2026-03-16T21:39:43.107Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:43.107Z] [S2] Position update map=101 pos=66,211
-[2026-03-16T21:39:43.107Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:43.110Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:43.614Z] [S2] RECV pkt flags=0x40 len=8 seq=14
-[2026-03-16T21:39:43.614Z] [S2] < 0000: eb 03 45 00 d7 00 65 00                         | ..E...e.
-[2026-03-16T21:39:43.614Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:43.614Z] [S2] ASCII: ..E...e.
-[2026-03-16T21:39:43.614Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:43.615Z] [S2] Position update map=101 pos=69,215
-[2026-03-16T21:39:43.615Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:43.616Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:44.123Z] [S2] RECV pkt flags=0x40 len=8 seq=15
-[2026-03-16T21:39:44.123Z] [S2] < 0000: eb 03 48 00 da 00 65 00                         | ..H...e.
-[2026-03-16T21:39:44.123Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:44.123Z] [S2] ASCII: ..H...e.
-[2026-03-16T21:39:44.123Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:44.124Z] [S2] Position update map=101 pos=72,218
-[2026-03-16T21:39:44.124Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:44.126Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:44.633Z] [S2] RECV pkt flags=0x40 len=8 seq=16
-[2026-03-16T21:39:44.633Z] [S2] < 0000: eb 03 4c 00 dd 00 65 00                         | ..L...e.
-[2026-03-16T21:39:44.633Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:44.633Z] [S2] ASCII: ..L...e.
-[2026-03-16T21:39:44.633Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:44.633Z] [S2] Position update map=101 pos=76,221
-[2026-03-16T21:39:44.634Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:44.636Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:45.140Z] [S2] RECV pkt flags=0x40 len=8 seq=17
-[2026-03-16T21:39:45.140Z] [S2] < 0000: eb 03 4f 00 e0 00 65 00                         | ..O...e.
-[2026-03-16T21:39:45.140Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:45.140Z] [S2] ASCII: ..O...e.
-[2026-03-16T21:39:45.140Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:45.140Z] [S2] Position update map=101 pos=79,224
-[2026-03-16T21:39:45.141Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:45.143Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:45.648Z] [S2] RECV pkt flags=0x40 len=8 seq=18
-[2026-03-16T21:39:45.648Z] [S2] < 0000: eb 03 52 00 e3 00 65 00                         | ..R...e.
-[2026-03-16T21:39:45.648Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:45.648Z] [S2] ASCII: ..R...e.
-[2026-03-16T21:39:45.648Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:45.648Z] [S2] Position update map=101 pos=82,227
-[2026-03-16T21:39:45.649Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:45.651Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:46.156Z] [S2] RECV pkt flags=0x40 len=8 seq=19
-[2026-03-16T21:39:46.156Z] [S2] < 0000: eb 03 55 00 e6 00 65 00                         | ..U...e.
-[2026-03-16T21:39:46.156Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:46.156Z] [S2] ASCII: ..U...e.
-[2026-03-16T21:39:46.156Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:46.156Z] [S2] Position update map=101 pos=85,230
-[2026-03-16T21:39:46.157Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:46.158Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:49.762Z] [S2] RECV pkt flags=0x40 len=8 seq=20
-[2026-03-16T21:39:49.762Z] [S2] < 0000: eb 03 56 00 e7 00 65 00                         | ..V...e.
-[2026-03-16T21:39:49.762Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:49.762Z] [S2] ASCII: ..V...e.
-[2026-03-16T21:39:49.762Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:49.762Z] [S2] Position update map=101 pos=86,231
-[2026-03-16T21:39:49.763Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:49.765Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:50.263Z] [S2] RECV pkt flags=0x40 len=8 seq=21
-[2026-03-16T21:39:50.263Z] [S2] < 0000: eb 03 52 00 e6 00 65 00                         | ..R...e.
-[2026-03-16T21:39:50.263Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:50.263Z] [S2] ASCII: ..R...e.
-[2026-03-16T21:39:50.263Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:50.263Z] [S2] Position update map=101 pos=82,230
-[2026-03-16T21:39:50.264Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:50.267Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:50.770Z] [S2] RECV pkt flags=0x40 len=8 seq=22
-[2026-03-16T21:39:50.770Z] [S2] < 0000: eb 03 4f 00 e5 00 65 00                         | ..O...e.
-[2026-03-16T21:39:50.770Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:50.770Z] [S2] ASCII: ..O...e.
-[2026-03-16T21:39:50.770Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:50.770Z] [S2] Position update map=101 pos=79,229
-[2026-03-16T21:39:50.771Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:50.772Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:51.293Z] [S2] RECV pkt flags=0x40 len=8 seq=23
-[2026-03-16T21:39:51.293Z] [S2] < 0000: eb 03 4c 00 e2 00 65 00                         | ..L...e.
-[2026-03-16T21:39:51.294Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:51.294Z] [S2] ASCII: ..L...e.
-[2026-03-16T21:39:51.294Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:51.294Z] [S2] Position update map=101 pos=76,226
-[2026-03-16T21:39:51.295Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:51.296Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:51.800Z] [S2] RECV pkt flags=0x40 len=8 seq=24
-[2026-03-16T21:39:51.800Z] [S2] < 0000: eb 03 49 00 df 00 65 00                         | ..I...e.
-[2026-03-16T21:39:51.800Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:51.800Z] [S2] ASCII: ..I...e.
-[2026-03-16T21:39:51.800Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:51.800Z] [S2] Position update map=101 pos=73,223
-[2026-03-16T21:39:51.802Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:51.803Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:52.118Z] [S2] RECV pkt flags=0x40 len=9 seq=25
-[2026-03-16T21:39:52.118Z] [S2] < 0000: f1 03 03 ee 0b 00 00 01 00                      | .........
-[2026-03-16T21:39:52.118Z] [S2] CMD8=0xf1 CMD16=0x03f1 state=LOGGED_IN
-[2026-03-16T21:39:52.118Z] [S2] ASCII: .........
-[2026-03-16T21:39:52.118Z] [S2] Game packet flags=0x40 cmd8=0xf1 cmd16=0x03f1
-[2026-03-16T21:39:52.118Z] [S2] Server-run request sub=0x3 npcId=3054 script=1 map=101 pos=73,223
-[2026-03-16T21:39:52.119Z] [S2] [accept] task=1 "Back to Earth" matched
-[2026-03-16T21:39:52.120Z] [S2] Quest event source=server-run type=item-granted taskId=1
-[2026-03-16T21:39:52.120Z] [S2] Sending inventory full sync cmd=0x3f2 container=1 items=1
-[2026-03-16T21:39:52.121Z] [S2] > 0000: 40 23 00 05 00 f2 03 01 00 01 00 01 00 00 00 6a | @#.............j
-[S2] > 0010: 52 01 00 00 00 00 00 01 00 00 00 00 00 00 00 00 | R...............
-[S2] > 0020: 00 00 00 00 00 00 00 00                         | ........
-[2026-03-16T21:39:52.121Z] [S2] Sending dialogue cmd=0x3e7 sub=0x1 speaker="Quest"
-[2026-03-16T21:39:52.121Z] [S2] > 0000: 40 44 00 06 00 e7 03 01 00 06 00 51 75 65 73 74 | @D.........Quest
-[S2] > 0010: 00 34 00 5a 6f 64 69 61 63 20 52 65 63 6f 6d 6d | .4.Zodiac Recomm
-[S2] > 0020: 65 6e 64 61 74 69 6f 6e 20 54 6f 6b 65 6e 20 77 | endation Token w
-[S2] > 0030: 61 73 20 61 64 64 65 64 20 74 6f 20 79 6f 75 72 | as added to your
-[S2] > 0040: 20 70 61 63 6b 2e 00 00 00                      |  pack....
-[2026-03-16T21:39:52.121Z] [S2] Quest event source=server-run type=accepted taskId=1 status=0 markerNpcId=3276 step="Bring Apollo's recommendation token to Blacksmith."
-[2026-03-16T21:39:52.121Z] [S2] Sending quest accept cmd=0x3ff sub=0x03 taskId=1
-[2026-03-16T21:39:52.122Z] [S2] > 0000: 40 05 00 07 00 ff 03 03 01 00                   | @.........
-[2026-03-16T21:39:52.122Z] [S2] Sending quest marker cmd=0x3ff sub=0x0c taskId=1 npcId=3276
-[2026-03-16T21:39:52.122Z] [S2] > 0000: 40 09 00 08 00 ff 03 0c 01 00 cc 0c 00 00       | @.............
-[2026-03-16T21:39:52.122Z] [S2] Sending dialogue cmd=0x3e7 sub=0x1 speaker="Quest"
-[2026-03-16T21:39:52.122Z] [S2] > 0000: 40 9e 00 09 00 e7 03 01 00 06 00 51 75 65 73 74 | @..........Quest
-[S2] > 0010: 00 8e 00 42 61 63 6b 20 74 6f 20 45 61 72 74 68 | ...Back to Earth
-[S2] > 0020: 20 69 73 20 61 63 74 69 76 65 2e 20 41 70 6f 6c |  is active. Apol
-[S2] > 0030: 6c 6f 20 67 61 76 65 20 79 6f 75 20 61 20 72 65 | lo gave you a re
-[S2] > 0040: 63 6f 6d 6d 65 6e 64 61 74 69 6f 6e 20 74 6f 6b | commendation tok
-[S2] > 0050: 65 6e 20 66 6f 72 20 42 6c 61 63 6b 73 6d 69 74 | en for Blacksmit
-[S2] > 0060: 68 2e 20 4f 62 6a 65 63 74 69 76 65 3a 20 42 72 | h. Objective: Br
-[S2] > 0070: 69 6e 67 20 41 70 6f 6c 6c 6f 27 73 20 72 65 63 | ing Apollo's rec
-[S2] > 0080: 6f 6d 6d 65 6e 64 61 74 69 6f 6e 20 74 6f 6b 65 | ommendation toke
-[S2] > 0090: 6e 20 74 6f 20 42 6c 61 63 6b 73 6d 69 74 68 2e | n to Blacksmith.
-[S2] > 00a0: 00 00 00                                        | ...
-[2026-03-16T21:39:52.124Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:52.311Z] [S2] RECV pkt flags=0x40 len=8 seq=26
-[2026-03-16T21:39:52.311Z] [S2] < 0000: eb 03 45 00 dc 00 65 00                         | ..E...e.
-[2026-03-16T21:39:52.311Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:52.311Z] [S2] ASCII: ..E...e.
-[2026-03-16T21:39:52.311Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:52.311Z] [S2] Position update map=101 pos=69,220
-[2026-03-16T21:39:52.312Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:52.314Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:52.817Z] [S2] RECV pkt flags=0x40 len=8 seq=27
-[2026-03-16T21:39:52.817Z] [S2] < 0000: eb 03 42 00 d9 00 65 00                         | ..B...e.
-[2026-03-16T21:39:52.817Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:52.817Z] [S2] ASCII: ..B...e.
-[2026-03-16T21:39:52.817Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:52.817Z] [S2] Position update map=101 pos=66,217
-[2026-03-16T21:39:52.819Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:52.820Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:53.323Z] [S2] RECV pkt flags=0x40 len=8 seq=28
-[2026-03-16T21:39:53.323Z] [S2] < 0000: eb 03 3e 00 d6 00 65 00                         | ..>...e.
-[2026-03-16T21:39:53.323Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:53.323Z] [S2] ASCII: ..>...e.
-[2026-03-16T21:39:53.323Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:53.323Z] [S2] Position update map=101 pos=62,214
-[2026-03-16T21:39:53.324Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:53.326Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:53.833Z] [S2] RECV pkt flags=0x40 len=8 seq=29
-[2026-03-16T21:39:53.833Z] [S2] < 0000: eb 03 3b 00 d2 00 65 00                         | ..;...e.
-[2026-03-16T21:39:53.833Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:53.833Z] [S2] ASCII: ..;...e.
-[2026-03-16T21:39:53.833Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:53.833Z] [S2] Position update map=101 pos=59,210
-[2026-03-16T21:39:53.834Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:53.835Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:54.299Z] [S2] RECV pkt flags=0x40 len=7 seq=30
-[2026-03-16T21:39:54.299Z] [S2] < 0000: 06 04 4f 42 00 00 00                            | ..OB...
-[2026-03-16T21:39:54.299Z] [S2] CMD8=0x06 CMD16=0x0406 state=LOGGED_IN
-[2026-03-16T21:39:54.299Z] [S2] ASCII: ..OB...
-[2026-03-16T21:39:54.299Z] [S2] Game packet flags=0x40 cmd8=0x06 cmd16=0x0406
-[2026-03-16T21:39:54.299Z] [S2] Combat packet kind=fightClient cmd=0x406 sub=0x4f detail16=66 detail32=66 len=7 inFight=0
-[2026-03-16T21:39:54.336Z] [S2] RECV pkt flags=0x40 len=8 seq=31
-[2026-03-16T21:39:54.336Z] [S2] < 0000: eb 03 38 00 cf 00 65 00                         | ..8...e.
-[2026-03-16T21:39:54.336Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:54.336Z] [S2] ASCII: ..8...e.
-[2026-03-16T21:39:54.336Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:54.336Z] [S2] Position update map=101 pos=56,207
-[2026-03-16T21:39:54.338Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:54.339Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:54.847Z] [S2] RECV pkt flags=0x40 len=8 seq=32
-[2026-03-16T21:39:54.847Z] [S2] < 0000: eb 03 35 00 cc 00 65 00                         | ..5...e.
-[2026-03-16T21:39:54.847Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:54.847Z] [S2] ASCII: ..5...e.
-[2026-03-16T21:39:54.847Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:54.847Z] [S2] Position update map=101 pos=53,204
-[2026-03-16T21:39:54.848Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:54.849Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:55.348Z] [S2] RECV pkt flags=0x40 len=8 seq=33
-[2026-03-16T21:39:55.348Z] [S2] < 0000: eb 03 31 00 c9 00 65 00                         | ..1...e.
-[2026-03-16T21:39:55.348Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:55.348Z] [S2] ASCII: ..1...e.
-[2026-03-16T21:39:55.348Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:55.348Z] [S2] Position update map=101 pos=49,201
-[2026-03-16T21:39:55.350Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:55.350Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:55.850Z] [S2] RECV pkt flags=0x40 len=8 seq=34
-[2026-03-16T21:39:55.851Z] [S2] < 0000: eb 03 2e 00 c6 00 65 00                         | ......e.
-[2026-03-16T21:39:55.851Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:55.851Z] [S2] ASCII: ......e.
-[2026-03-16T21:39:55.851Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:55.851Z] [S2] Position update map=101 pos=46,198
-[2026-03-16T21:39:55.851Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:55.852Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:56.352Z] [S2] RECV pkt flags=0x40 len=8 seq=35
-[2026-03-16T21:39:56.352Z] [S2] < 0000: eb 03 2b 00 c2 00 65 00                         | ..+...e.
-[2026-03-16T21:39:56.352Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:56.352Z] [S2] ASCII: ..+...e.
-[2026-03-16T21:39:56.352Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:56.352Z] [S2] Position update map=101 pos=43,194
-[2026-03-16T21:39:56.353Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:56.354Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:56.861Z] [S2] RECV pkt flags=0x40 len=8 seq=36
-[2026-03-16T21:39:56.861Z] [S2] < 0000: eb 03 28 00 bf 00 65 00                         | ..(...e.
-[2026-03-16T21:39:56.861Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:56.861Z] [S2] ASCII: ..(...e.
-[2026-03-16T21:39:56.861Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:56.861Z] [S2] Position update map=101 pos=40,191
-[2026-03-16T21:39:56.862Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:56.863Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:57.362Z] [S2] RECV pkt flags=0x40 len=8 seq=37
-[2026-03-16T21:39:57.362Z] [S2] < 0000: eb 03 25 00 bc 00 65 00                         | ..%...e.
-[2026-03-16T21:39:57.362Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:57.363Z] [S2] ASCII: ..%...e.
-[2026-03-16T21:39:57.363Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:57.363Z] [S2] Position update map=101 pos=37,188
-[2026-03-16T21:39:57.364Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:57.365Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:57.873Z] [S2] RECV pkt flags=0x40 len=8 seq=38
-[2026-03-16T21:39:57.873Z] [S2] < 0000: eb 03 22 00 ba 00 65 00                         | .."...e.
-[2026-03-16T21:39:57.873Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:57.873Z] [S2] ASCII: .."...e.
-[2026-03-16T21:39:57.873Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:57.873Z] [S2] Position update map=101 pos=34,186
-[2026-03-16T21:39:57.874Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:57.875Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:58.383Z] [S2] RECV pkt flags=0x40 len=8 seq=39
-[2026-03-16T21:39:58.383Z] [S2] < 0000: eb 03 1e 00 b6 00 65 00                         | ......e.
-[2026-03-16T21:39:58.383Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:58.383Z] [S2] ASCII: ......e.
-[2026-03-16T21:39:58.383Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:58.383Z] [S2] Position update map=101 pos=30,182
-[2026-03-16T21:39:58.384Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:58.385Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:58.883Z] [S2] RECV pkt flags=0x40 len=8 seq=40
-[2026-03-16T21:39:58.884Z] [S2] < 0000: eb 03 1b 00 b3 00 65 00                         | ......e.
-[2026-03-16T21:39:58.884Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:58.884Z] [S2] ASCII: ......e.
-[2026-03-16T21:39:58.884Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:58.884Z] [S2] Position update map=101 pos=27,179
-[2026-03-16T21:39:58.885Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:58.886Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:59.394Z] [S2] RECV pkt flags=0x40 len=8 seq=41
-[2026-03-16T21:39:59.394Z] [S2] < 0000: eb 03 18 00 b0 00 65 00                         | ......e.
-[2026-03-16T21:39:59.394Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:59.394Z] [S2] ASCII: ......e.
-[2026-03-16T21:39:59.394Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:59.394Z] [S2] Position update map=101 pos=24,176
-[2026-03-16T21:39:59.395Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:59.395Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:59.905Z] [S2] RECV pkt flags=0x40 len=8 seq=42
-[2026-03-16T21:39:59.905Z] [S2] < 0000: eb 03 15 00 ad 00 65 00                         | ......e.
-[2026-03-16T21:39:59.905Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:39:59.905Z] [S2] ASCII: ......e.
-[2026-03-16T21:39:59.905Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:39:59.905Z] [S2] Position update map=101 pos=21,173
-[2026-03-16T21:39:59.907Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:39:59.908Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:00.105Z] [S1] RECV pkt flags=0x44 len=6 seq=3
-[2026-03-16T21:40:00.106Z] [S1] < 0000: 02 00 e5 28 e6 0c                               | ...(..
-[2026-03-16T21:40:00.106Z] [S1] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:40:00.106Z] [S1] ASCII: ...(..
-[2026-03-16T21:40:00.106Z] [S1] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:40:00.106Z] [S1] Sending pong token=0xce628e5
-[2026-03-16T21:40:00.106Z] [S1] > 0000: 44 06 00 05 00 03 00 e5 28 e6 0c                | D.......(..
-[2026-03-16T21:40:00.413Z] [S2] RECV pkt flags=0x40 len=8 seq=43
-[2026-03-16T21:40:00.413Z] [S2] < 0000: eb 03 12 00 aa 00 65 00                         | ......e.
-[2026-03-16T21:40:00.413Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:00.413Z] [S2] ASCII: ......e.
-[2026-03-16T21:40:00.413Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:00.413Z] [S2] Position update map=101 pos=18,170
-[2026-03-16T21:40:00.415Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:00.417Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:01.402Z] [S2] RECV pkt flags=0x40 len=7 seq=44
-[2026-03-16T21:40:01.402Z] [S2] < 0000: 06 04 4f 42 00 02 00                            | ..OB...
-[2026-03-16T21:40:01.402Z] [S2] CMD8=0x06 CMD16=0x0406 state=LOGGED_IN
-[2026-03-16T21:40:01.402Z] [S2] ASCII: ..OB...
-[2026-03-16T21:40:01.402Z] [S2] Game packet flags=0x40 cmd8=0x06 cmd16=0x0406
-[2026-03-16T21:40:01.402Z] [S2] Combat packet kind=fightClient cmd=0x406 sub=0x4f detail16=66 detail32=131138 len=7 inFight=0
-[2026-03-16T21:40:02.766Z] [S2] RECV pkt flags=0x40 len=8 seq=45
-[2026-03-16T21:40:02.766Z] [S2] < 0000: eb 03 11 00 a9 00 65 00                         | ......e.
-[2026-03-16T21:40:02.767Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:02.767Z] [S2] ASCII: ......e.
-[2026-03-16T21:40:02.767Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:02.767Z] [S2] Position update map=101 pos=17,169
-[2026-03-16T21:40:02.768Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:02.770Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:03.275Z] [S2] RECV pkt flags=0x40 len=8 seq=46
-[2026-03-16T21:40:03.275Z] [S2] < 0000: eb 03 15 00 aa 00 65 00                         | ......e.
-[2026-03-16T21:40:03.276Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:03.276Z] [S2] ASCII: ......e.
-[2026-03-16T21:40:03.276Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:03.276Z] [S2] Position update map=101 pos=21,170
-[2026-03-16T21:40:03.277Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:03.279Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:03.776Z] [S2] RECV pkt flags=0x40 len=8 seq=47
-[2026-03-16T21:40:03.776Z] [S2] < 0000: eb 03 18 00 ad 00 65 00                         | ......e.
-[2026-03-16T21:40:03.776Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:03.776Z] [S2] ASCII: ......e.
-[2026-03-16T21:40:03.776Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:03.776Z] [S2] Position update map=101 pos=24,173
-[2026-03-16T21:40:03.777Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:03.779Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:04.288Z] [S2] RECV pkt flags=0x40 len=8 seq=48
-[2026-03-16T21:40:04.288Z] [S2] < 0000: eb 03 1b 00 b1 00 65 00                         | ......e.
-[2026-03-16T21:40:04.288Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:04.288Z] [S2] ASCII: ......e.
-[2026-03-16T21:40:04.288Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:04.288Z] [S2] Position update map=101 pos=27,177
-[2026-03-16T21:40:04.289Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:04.291Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:04.798Z] [S2] RECV pkt flags=0x40 len=8 seq=49
-[2026-03-16T21:40:04.798Z] [S2] < 0000: eb 03 1f 00 b4 00 65 00                         | ......e.
-[2026-03-16T21:40:04.798Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:04.798Z] [S2] ASCII: ......e.
-[2026-03-16T21:40:04.798Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:04.798Z] [S2] Position update map=101 pos=31,180
-[2026-03-16T21:40:04.799Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:04.800Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:05.307Z] [S2] RECV pkt flags=0x40 len=8 seq=50
-[2026-03-16T21:40:05.307Z] [S2] < 0000: eb 03 22 00 b4 00 65 00                         | .."...e.
-[2026-03-16T21:40:05.307Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:05.307Z] [S2] ASCII: .."...e.
-[2026-03-16T21:40:05.307Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:05.307Z] [S2] Position update map=101 pos=34,180
-[2026-03-16T21:40:05.308Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:05.310Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:05.679Z] [S2] RECV pkt flags=0x40 len=9 seq=51
-[2026-03-16T21:40:05.679Z] [S2] < 0000: f1 03 08 cc 0c 00 00 01 00                      | .........
-[2026-03-16T21:40:05.679Z] [S2] CMD8=0xf1 CMD16=0x03f1 state=LOGGED_IN
-[2026-03-16T21:40:05.679Z] [S2] ASCII: .........
-[2026-03-16T21:40:05.680Z] [S2] Game packet flags=0x40 cmd8=0xf1 cmd16=0x03f1
-[2026-03-16T21:40:05.680Z] [S2] Server-run request sub=0x8 npcId=3276 script=1 map=101 pos=34,180
-[2026-03-16T21:40:05.680Z] [S2] [step] task=1 "Back to Earth" step=0 matched: Bring Apollo's recommendation token to Blacksmith.
-[2026-03-16T21:40:05.680Z] [S2] Quest event source=server-run type=item-consumed taskId=1
-[2026-03-16T21:40:05.680Z] [S2] Sending inventory full sync cmd=0x3f2 container=1 items=0
-[2026-03-16T21:40:05.680Z] [S2] > 0000: 40 06 00 0a 00 f2 03 01 00 00 00                | @..........
-[2026-03-16T21:40:05.680Z] [S2] Sending dialogue cmd=0x3e7 sub=0x1 speaker="Quest"
-[2026-03-16T21:40:05.680Z] [S2] > 0000: 40 3d 00 0b 00 e7 03 01 00 06 00 51 75 65 73 74 | @=.........Quest
-[S2] > 0010: 00 2d 00 5a 6f 64 69 61 63 20 52 65 63 6f 6d 6d | .-.Zodiac Recomm
-[S2] > 0020: 65 6e 64 61 74 69 6f 6e 20 54 6f 6b 65 6e 20 77 | endation Token w
-[S2] > 0030: 61 73 20 68 61 6e 64 65 64 20 6f 76 65 72 2e 00 | as handed over..
-[S2] > 0040: 00 00                                           | ..
-[2026-03-16T21:40:05.681Z] [S2] Quest event source=server-run type=advanced taskId=1 status=1 markerNpcId=3029 step="Blacksmith sent you to Matt to collect timber."
-[2026-03-16T21:40:05.681Z] [S2] Sending quest update cmd=0x3ff sub=0x08 taskId=1 status=1
-[2026-03-16T21:40:05.681Z] [S2] > 0000: 40 07 00 0c 00 ff 03 08 01 00 01 00             | @...........
-[2026-03-16T21:40:05.681Z] [S2] Sending quest marker cmd=0x3ff sub=0x0c taskId=1 npcId=3029
-[2026-03-16T21:40:05.681Z] [S2] > 0000: 40 09 00 0d 00 ff 03 0c 01 00 d5 0b 00 00       | @.............
-[2026-03-16T21:40:05.681Z] [S2] Sending dialogue cmd=0x3e7 sub=0x1 speaker="Quest"
-[2026-03-16T21:40:05.681Z] [S2] > 0000: 40 5d 00 0e 00 e7 03 01 00 06 00 51 75 65 73 74 | @].........Quest
-[S2] > 0010: 00 4d 00 51 75 65 73 74 20 75 70 64 61 74 65 64 | .M.Quest updated
-[S2] > 0020: 3a 20 42 61 63 6b 20 74 6f 20 45 61 72 74 68 2e | : Back to Earth.
-[S2] > 0030: 20 42 6c 61 63 6b 73 6d 69 74 68 20 73 65 6e 74 |  Blacksmith sent
-[S2] > 0040: 20 79 6f 75 20 74 6f 20 4d 61 74 74 20 74 6f 20 |  you to Matt to 
-[S2] > 0050: 63 6f 6c 6c 65 63 74 20 74 69 6d 62 65 72 2e 00 | collect timber..
-[S2] > 0060: 00 00                                           | ..
-[2026-03-16T21:40:05.682Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:05.807Z] [S2] RECV pkt flags=0x44 len=6 seq=52
-[2026-03-16T21:40:05.807Z] [S2] < 0000: 02 00 2a 3f e6 0c                               | ..*?..
-[2026-03-16T21:40:05.807Z] [S2] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:40:05.807Z] [S2] ASCII: ..*?..
-[2026-03-16T21:40:05.807Z] [S2] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:40:05.807Z] [S2] Sending pong token=0xce63f2a
-[2026-03-16T21:40:05.807Z] [S2] > 0000: 44 06 00 0f 00 03 00 2a 3f e6 0c                | D......*?..
-[2026-03-16T21:40:05.808Z] [S2] RECV pkt flags=0x40 len=8 seq=53
-[2026-03-16T21:40:05.808Z] [S2] < 0000: eb 03 26 00 af 00 65 00                         | ..&...e.
-[2026-03-16T21:40:05.808Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:05.808Z] [S2] ASCII: ..&...e.
-[2026-03-16T21:40:05.808Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:05.808Z] [S2] Position update map=101 pos=38,175
-[2026-03-16T21:40:05.809Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:05.811Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:06.315Z] [S2] RECV pkt flags=0x40 len=8 seq=54
-[2026-03-16T21:40:06.315Z] [S2] < 0000: eb 03 29 00 ac 00 65 00                         | ..)...e.
-[2026-03-16T21:40:06.316Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:06.316Z] [S2] ASCII: ..)...e.
-[2026-03-16T21:40:06.316Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:06.316Z] [S2] Position update map=101 pos=41,172
-[2026-03-16T21:40:06.317Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:06.318Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:06.823Z] [S2] RECV pkt flags=0x40 len=8 seq=55
-[2026-03-16T21:40:06.823Z] [S2] < 0000: eb 03 2d 00 a8 00 65 00                         | ..-...e.
-[2026-03-16T21:40:06.823Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:06.823Z] [S2] ASCII: ..-...e.
-[2026-03-16T21:40:06.823Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:06.823Z] [S2] Position update map=101 pos=45,168
-[2026-03-16T21:40:06.824Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:06.826Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:07.332Z] [S2] RECV pkt flags=0x40 len=8 seq=56
-[2026-03-16T21:40:07.332Z] [S2] < 0000: eb 03 30 00 a4 00 65 00                         | ..0...e.
-[2026-03-16T21:40:07.332Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:07.333Z] [S2] ASCII: ..0...e.
-[2026-03-16T21:40:07.333Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:07.333Z] [S2] Position update map=101 pos=48,164
-[2026-03-16T21:40:07.334Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:07.334Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:07.839Z] [S2] RECV pkt flags=0x40 len=8 seq=57
-[2026-03-16T21:40:07.839Z] [S2] < 0000: eb 03 33 00 9f 00 65 00                         | ..3...e.
-[2026-03-16T21:40:07.839Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:07.839Z] [S2] ASCII: ..3...e.
-[2026-03-16T21:40:07.839Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:07.839Z] [S2] Position update map=101 pos=51,159
-[2026-03-16T21:40:07.840Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:07.841Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:08.348Z] [S2] RECV pkt flags=0x40 len=8 seq=58
-[2026-03-16T21:40:08.349Z] [S2] < 0000: eb 03 36 00 99 00 65 00                         | ..6...e.
-[2026-03-16T21:40:08.349Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:08.349Z] [S2] ASCII: ..6...e.
-[2026-03-16T21:40:08.349Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:08.349Z] [S2] Position update map=101 pos=54,153
-[2026-03-16T21:40:08.350Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:08.350Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:08.851Z] [S2] RECV pkt flags=0x40 len=8 seq=59
-[2026-03-16T21:40:08.851Z] [S2] < 0000: eb 03 39 00 93 00 65 00                         | ..9...e.
-[2026-03-16T21:40:08.851Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:08.851Z] [S2] ASCII: ..9...e.
-[2026-03-16T21:40:08.851Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:08.851Z] [S2] Position update map=101 pos=57,147
-[2026-03-16T21:40:08.852Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:08.854Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:09.355Z] [S2] RECV pkt flags=0x40 len=8 seq=60
-[2026-03-16T21:40:09.355Z] [S2] < 0000: eb 03 3c 00 8d 00 65 00                         | ..<...e.
-[2026-03-16T21:40:09.355Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:09.355Z] [S2] ASCII: ..<...e.
-[2026-03-16T21:40:09.355Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:09.355Z] [S2] Position update map=101 pos=60,141
-[2026-03-16T21:40:09.356Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:09.357Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:09.865Z] [S2] RECV pkt flags=0x40 len=8 seq=61
-[2026-03-16T21:40:09.865Z] [S2] < 0000: eb 03 3f 00 87 00 65 00                         | ..?...e.
-[2026-03-16T21:40:09.865Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:09.866Z] [S2] ASCII: ..?...e.
-[2026-03-16T21:40:09.866Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:09.866Z] [S2] Position update map=101 pos=63,135
-[2026-03-16T21:40:09.867Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:09.868Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:10.372Z] [S2] RECV pkt flags=0x40 len=8 seq=62
-[2026-03-16T21:40:10.372Z] [S2] < 0000: eb 03 42 00 82 00 65 00                         | ..B...e.
-[2026-03-16T21:40:10.372Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:10.372Z] [S2] ASCII: ..B...e.
-[2026-03-16T21:40:10.372Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:10.372Z] [S2] Position update map=101 pos=66,130
-[2026-03-16T21:40:10.373Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:10.373Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:10.877Z] [S2] RECV pkt flags=0x40 len=8 seq=63
-[2026-03-16T21:40:10.877Z] [S2] < 0000: eb 03 44 00 7b 00 65 00                         | ..D.{.e.
-[2026-03-16T21:40:10.877Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:10.877Z] [S2] ASCII: ..D.{.e.
-[2026-03-16T21:40:10.877Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:10.877Z] [S2] Position update map=101 pos=68,123
-[2026-03-16T21:40:10.878Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:10.879Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:11.386Z] [S2] RECV pkt flags=0x40 len=8 seq=64
-[2026-03-16T21:40:11.386Z] [S2] < 0000: eb 03 46 00 75 00 65 00                         | ..F.u.e.
-[2026-03-16T21:40:11.386Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:11.386Z] [S2] ASCII: ..F.u.e.
-[2026-03-16T21:40:11.386Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:11.387Z] [S2] Position update map=101 pos=70,117
-[2026-03-16T21:40:11.388Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:11.389Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:11.894Z] [S2] RECV pkt flags=0x40 len=8 seq=65
-[2026-03-16T21:40:11.894Z] [S2] < 0000: eb 03 48 00 6e 00 65 00                         | ..H.n.e.
-[2026-03-16T21:40:11.894Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:11.894Z] [S2] ASCII: ..H.n.e.
-[2026-03-16T21:40:11.894Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:11.894Z] [S2] Position update map=101 pos=72,110
-[2026-03-16T21:40:11.896Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:11.897Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:12.399Z] [S2] RECV pkt flags=0x40 len=8 seq=66
-[2026-03-16T21:40:12.399Z] [S2] < 0000: eb 03 4a 00 67 00 65 00                         | ..J.g.e.
-[2026-03-16T21:40:12.399Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:12.399Z] [S2] ASCII: ..J.g.e.
-[2026-03-16T21:40:12.399Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:12.400Z] [S2] Position update map=101 pos=74,103
-[2026-03-16T21:40:12.401Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:12.402Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:12.468Z] [S2] RECV pkt flags=0x40 len=7 seq=67
-[2026-03-16T21:40:12.469Z] [S2] < 0000: 06 04 4f 46 00 02 00                            | ..OF...
-[2026-03-16T21:40:12.469Z] [S2] CMD8=0x06 CMD16=0x0406 state=LOGGED_IN
-[2026-03-16T21:40:12.469Z] [S2] ASCII: ..OF...
-[2026-03-16T21:40:12.469Z] [S2] Game packet flags=0x40 cmd8=0x06 cmd16=0x0406
-[2026-03-16T21:40:12.469Z] [S2] Combat packet kind=fightClient cmd=0x406 sub=0x4f detail16=70 detail32=131142 len=7 inFight=0
-[2026-03-16T21:40:12.907Z] [S2] RECV pkt flags=0x40 len=8 seq=68
-[2026-03-16T21:40:12.908Z] [S2] < 0000: eb 03 4d 00 61 00 65 00                         | ..M.a.e.
-[2026-03-16T21:40:12.908Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:12.908Z] [S2] ASCII: ..M.a.e.
-[2026-03-16T21:40:12.908Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:12.908Z] [S2] Position update map=101 pos=77,97
-[2026-03-16T21:40:12.909Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:12.910Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:13.415Z] [S2] RECV pkt flags=0x40 len=8 seq=69
-[2026-03-16T21:40:13.415Z] [S2] < 0000: eb 03 50 00 5b 00 65 00                         | ..P.[.e.
-[2026-03-16T21:40:13.415Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:13.415Z] [S2] ASCII: ..P.[.e.
-[2026-03-16T21:40:13.415Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:13.415Z] [S2] Position update map=101 pos=80,91
-[2026-03-16T21:40:13.416Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:13.417Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:13.925Z] [S2] RECV pkt flags=0x40 len=8 seq=70
-[2026-03-16T21:40:13.925Z] [S2] < 0000: eb 03 53 00 55 00 65 00                         | ..S.U.e.
-[2026-03-16T21:40:13.925Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:13.925Z] [S2] ASCII: ..S.U.e.
-[2026-03-16T21:40:13.925Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:13.925Z] [S2] Position update map=101 pos=83,85
-[2026-03-16T21:40:13.926Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:13.927Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:14.431Z] [S2] RECV pkt flags=0x40 len=8 seq=71
-[2026-03-16T21:40:14.431Z] [S2] < 0000: eb 03 57 00 50 00 65 00                         | ..W.P.e.
-[2026-03-16T21:40:14.431Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:14.431Z] [S2] ASCII: ..W.P.e.
-[2026-03-16T21:40:14.431Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:14.431Z] [S2] Position update map=101 pos=87,80
-[2026-03-16T21:40:14.433Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:14.434Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:14.939Z] [S2] RECV pkt flags=0x40 len=8 seq=72
-[2026-03-16T21:40:14.939Z] [S2] < 0000: eb 03 5a 00 4c 00 65 00                         | ..Z.L.e.
-[2026-03-16T21:40:14.939Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:14.939Z] [S2] ASCII: ..Z.L.e.
-[2026-03-16T21:40:14.939Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:14.939Z] [S2] Position update map=101 pos=90,76
-[2026-03-16T21:40:14.940Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:14.941Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:15.439Z] [S2] RECV pkt flags=0x40 len=8 seq=73
-[2026-03-16T21:40:15.439Z] [S2] < 0000: eb 03 5d 00 49 00 65 00                         | ..].I.e.
-[2026-03-16T21:40:15.439Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:15.439Z] [S2] ASCII: ..].I.e.
-[2026-03-16T21:40:15.439Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:15.439Z] [S2] Position update map=101 pos=93,73
-[2026-03-16T21:40:15.440Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:15.441Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:15.947Z] [S2] RECV pkt flags=0x40 len=8 seq=74
-[2026-03-16T21:40:15.947Z] [S2] < 0000: eb 03 60 00 43 00 65 00                         | ..`.C.e.
-[2026-03-16T21:40:15.947Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:15.947Z] [S2] ASCII: ..`.C.e.
-[2026-03-16T21:40:15.948Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:15.948Z] [S2] Position update map=101 pos=96,67
-[2026-03-16T21:40:15.949Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:15.949Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:16.448Z] [S2] RECV pkt flags=0x40 len=8 seq=75
-[2026-03-16T21:40:16.448Z] [S2] < 0000: eb 03 63 00 3e 00 65 00                         | ..c.>.e.
-[2026-03-16T21:40:16.448Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:16.448Z] [S2] ASCII: ..c.>.e.
-[2026-03-16T21:40:16.448Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:16.448Z] [S2] Position update map=101 pos=99,62
-[2026-03-16T21:40:16.449Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:16.450Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:16.956Z] [S2] RECV pkt flags=0x40 len=8 seq=76
-[2026-03-16T21:40:16.956Z] [S2] < 0000: eb 03 65 00 39 00 65 00                         | ..e.9.e.
-[2026-03-16T21:40:16.956Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:16.956Z] [S2] ASCII: ..e.9.e.
-[2026-03-16T21:40:16.956Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:16.956Z] [S2] Position update map=101 pos=101,57
-[2026-03-16T21:40:16.957Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:16.959Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:17.467Z] [S2] RECV pkt flags=0x40 len=8 seq=77
-[2026-03-16T21:40:17.467Z] [S2] < 0000: eb 03 63 00 35 00 65 00                         | ..c.5.e.
-[2026-03-16T21:40:17.467Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:17.467Z] [S2] ASCII: ..c.5.e.
-[2026-03-16T21:40:17.467Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:17.467Z] [S2] Position update map=101 pos=99,53
-[2026-03-16T21:40:17.468Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:17.470Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:17.975Z] [S2] RECV pkt flags=0x40 len=8 seq=78
-[2026-03-16T21:40:17.975Z] [S2] < 0000: eb 03 60 00 33 00 65 00                         | ..`.3.e.
-[2026-03-16T21:40:17.975Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:17.975Z] [S2] ASCII: ..`.3.e.
-[2026-03-16T21:40:17.976Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:17.976Z] [S2] Position update map=101 pos=96,51
-[2026-03-16T21:40:17.977Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:17.979Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:18.484Z] [S2] RECV pkt flags=0x40 len=8 seq=79
-[2026-03-16T21:40:18.484Z] [S2] < 0000: eb 03 5d 00 30 00 65 00                         | ..].0.e.
-[2026-03-16T21:40:18.484Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:18.484Z] [S2] ASCII: ..].0.e.
-[2026-03-16T21:40:18.484Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:18.484Z] [S2] Position update map=101 pos=93,48
-[2026-03-16T21:40:18.485Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:18.487Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:18.985Z] [S2] RECV pkt flags=0x40 len=8 seq=80
-[2026-03-16T21:40:18.985Z] [S2] < 0000: eb 03 59 00 2c 00 65 00                         | ..Y.,.e.
-[2026-03-16T21:40:18.986Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:18.986Z] [S2] ASCII: ..Y.,.e.
-[2026-03-16T21:40:18.986Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:18.986Z] [S2] Position update map=101 pos=89,44
-[2026-03-16T21:40:18.987Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:18.989Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:19.496Z] [S2] RECV pkt flags=0x40 len=8 seq=81
-[2026-03-16T21:40:19.496Z] [S2] < 0000: eb 03 56 00 29 00 65 00                         | ..V.).e.
-[2026-03-16T21:40:19.496Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:19.496Z] [S2] ASCII: ..V.).e.
-[2026-03-16T21:40:19.496Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:19.496Z] [S2] Position update map=101 pos=86,41
-[2026-03-16T21:40:19.497Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:19.498Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:20.004Z] [S2] RECV pkt flags=0x40 len=8 seq=82
-[2026-03-16T21:40:20.004Z] [S2] < 0000: eb 03 53 00 26 00 65 00                         | ..S.&.e.
-[2026-03-16T21:40:20.004Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:20.004Z] [S2] ASCII: ..S.&.e.
-[2026-03-16T21:40:20.004Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:20.004Z] [S2] Position update map=101 pos=83,38
-[2026-03-16T21:40:20.005Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:20.007Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:20.509Z] [S2] RECV pkt flags=0x40 len=8 seq=83
-[2026-03-16T21:40:20.509Z] [S2] < 0000: eb 03 50 00 23 00 65 00                         | ..P.#.e.
-[2026-03-16T21:40:20.509Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:20.509Z] [S2] ASCII: ..P.#.e.
-[2026-03-16T21:40:20.509Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:20.509Z] [S2] Position update map=101 pos=80,35
-[2026-03-16T21:40:20.511Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:20.513Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:21.019Z] [S2] RECV pkt flags=0x40 len=8 seq=84
-[2026-03-16T21:40:21.019Z] [S2] < 0000: eb 03 4b 00 23 00 65 00                         | ..K.#.e.
-[2026-03-16T21:40:21.019Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:21.019Z] [S2] ASCII: ..K.#.e.
-[2026-03-16T21:40:21.019Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:21.020Z] [S2] Position update map=101 pos=75,35
-[2026-03-16T21:40:21.020Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:21.022Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:21.536Z] [S2] RECV pkt flags=0x40 len=8 seq=85
-[2026-03-16T21:40:21.536Z] [S2] < 0000: eb 03 47 00 23 00 65 00                         | ..G.#.e.
-[2026-03-16T21:40:21.536Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:21.536Z] [S2] ASCII: ..G.#.e.
-[2026-03-16T21:40:21.536Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:21.536Z] [S2] Position update map=101 pos=71,35
-[2026-03-16T21:40:21.537Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:21.539Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:22.037Z] [S2] RECV pkt flags=0x40 len=8 seq=86
-[2026-03-16T21:40:22.037Z] [S2] < 0000: eb 03 42 00 23 00 65 00                         | ..B.#.e.
-[2026-03-16T21:40:22.037Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:22.037Z] [S2] ASCII: ..B.#.e.
-[2026-03-16T21:40:22.037Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:22.038Z] [S2] Position update map=101 pos=66,35
-[2026-03-16T21:40:22.039Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:22.040Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:22.542Z] [S2] RECV pkt flags=0x40 len=8 seq=87
-[2026-03-16T21:40:22.542Z] [S2] < 0000: eb 03 3e 00 23 00 65 00                         | ..>.#.e.
-[2026-03-16T21:40:22.542Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:22.542Z] [S2] ASCII: ..>.#.e.
-[2026-03-16T21:40:22.542Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:22.542Z] [S2] Position update map=101 pos=62,35
-[2026-03-16T21:40:22.543Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:22.545Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:23.043Z] [S2] RECV pkt flags=0x40 len=8 seq=88
-[2026-03-16T21:40:23.043Z] [S2] < 0000: eb 03 3b 00 23 00 65 00                         | ..;.#.e.
-[2026-03-16T21:40:23.043Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:23.043Z] [S2] ASCII: ..;.#.e.
-[2026-03-16T21:40:23.043Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:23.043Z] [S2] Position update map=101 pos=59,35
-[2026-03-16T21:40:23.044Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:23.046Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:23.552Z] [S2] RECV pkt flags=0x40 len=8 seq=89
-[2026-03-16T21:40:23.552Z] [S2] < 0000: eb 03 38 00 20 00 65 00                         | ..8. .e.
-[2026-03-16T21:40:23.552Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:23.552Z] [S2] ASCII: ..8. .e.
-[2026-03-16T21:40:23.552Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:23.552Z] [S2] Position update map=101 pos=56,32
-[2026-03-16T21:40:23.554Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:23.555Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:24.062Z] [S2] RECV pkt flags=0x40 len=8 seq=90
-[2026-03-16T21:40:24.062Z] [S2] < 0000: eb 03 34 00 1d 00 65 00                         | ..4...e.
-[2026-03-16T21:40:24.063Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:24.063Z] [S2] ASCII: ..4...e.
-[2026-03-16T21:40:24.063Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:24.063Z] [S2] Position update map=101 pos=52,29
-[2026-03-16T21:40:24.063Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:24.065Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:24.550Z] [S2] RECV pkt flags=0x40 len=9 seq=91
-[2026-03-16T21:40:24.551Z] [S2] < 0000: f1 03 02 d5 0b 00 00 10 27                      | ........'
-[2026-03-16T21:40:24.551Z] [S2] CMD8=0xf1 CMD16=0x03f1 state=LOGGED_IN
-[2026-03-16T21:40:24.551Z] [S2] ASCII: ........'
-[2026-03-16T21:40:24.551Z] [S2] Game packet flags=0x40 cmd8=0xf1 cmd16=0x03f1
-[2026-03-16T21:40:24.551Z] [S2] Server-run request sub=0x2 mode=213 contextId=11 extra=0 script=10000 map=101 pos=52,29
-[2026-03-16T21:40:24.551Z] [S2] [step] task=1 "Back to Earth" step=1 matched: Blacksmith sent you to Matt to collect timber.
-[2026-03-16T21:40:24.551Z] [S2] Quest event source=server-run type=item-granted taskId=1
-[2026-03-16T21:40:24.551Z] [S2] Sending inventory full sync cmd=0x3f2 container=1 items=1
-[2026-03-16T21:40:24.551Z] [S2] > 0000: 40 23 00 10 00 f2 03 01 00 01 00 02 00 00 00 7c | @#.............|
-[S2] > 0010: 52 02 00 00 00 00 00 01 00 00 00 00 00 00 00 00 | R...............
-[S2] > 0020: 00 00 00 00 00 00 00 00                         | ........
-[2026-03-16T21:40:24.551Z] [S2] Sending dialogue cmd=0x3e7 sub=0x1 speaker="Quest"
-[2026-03-16T21:40:24.552Z] [S2] > 0000: 40 2f 00 11 00 e7 03 01 00 06 00 51 75 65 73 74 | @/.........Quest
-[S2] > 0010: 00 1f 00 54 69 6d 62 65 72 20 77 61 73 20 61 64 | ...Timber was ad
-[S2] > 0020: 64 65 64 20 74 6f 20 79 6f 75 72 20 70 61 63 6b | ded to your pack
-[S2] > 0030: 2e 00 00 00                                     | ....
-[2026-03-16T21:40:24.552Z] [S2] Quest event source=server-run type=advanced taskId=1 status=2 markerNpcId=3276 step="Bring the timber back to Blacksmith."
-[2026-03-16T21:40:24.552Z] [S2] Sending quest update cmd=0x3ff sub=0x08 taskId=1 status=2
-[2026-03-16T21:40:24.552Z] [S2] > 0000: 40 07 00 12 00 ff 03 08 01 00 02 00             | @...........
-[2026-03-16T21:40:24.552Z] [S2] Sending quest marker cmd=0x3ff sub=0x0c taskId=1 npcId=3276
-[2026-03-16T21:40:24.552Z] [S2] > 0000: 40 09 00 13 00 ff 03 0c 01 00 cc 0c 00 00       | @.............
-[2026-03-16T21:40:24.552Z] [S2] Sending dialogue cmd=0x3e7 sub=0x1 speaker="Quest"
-[2026-03-16T21:40:24.552Z] [S2] > 0000: 40 53 00 14 00 e7 03 01 00 06 00 51 75 65 73 74 | @S.........Quest
-[S2] > 0010: 00 43 00 51 75 65 73 74 20 75 70 64 61 74 65 64 | .C.Quest updated
-[S2] > 0020: 3a 20 42 61 63 6b 20 74 6f 20 45 61 72 74 68 2e | : Back to Earth.
-[S2] > 0030: 20 42 72 69 6e 67 20 74 68 65 20 74 69 6d 62 65 |  Bring the timbe
-[S2] > 0040: 72 20 62 61 63 6b 20 74 6f 20 42 6c 61 63 6b 73 | r back to Blacks
-[S2] > 0050: 6d 69 74 68 2e 00 00 00                         | mith....
-[2026-03-16T21:40:24.553Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:24.566Z] [S2] RECV pkt flags=0x40 len=8 seq=92
-[2026-03-16T21:40:24.566Z] [S2] < 0000: eb 03 31 00 19 00 65 00                         | ..1...e.
-[2026-03-16T21:40:24.566Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:24.566Z] [S2] ASCII: ..1...e.
-[2026-03-16T21:40:24.566Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:24.566Z] [S2] Position update map=101 pos=49,25
-[2026-03-16T21:40:24.567Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:24.568Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:25.066Z] [S2] RECV pkt flags=0x40 len=8 seq=93
-[2026-03-16T21:40:25.066Z] [S2] < 0000: eb 03 2e 00 16 00 65 00                         | ......e.
-[2026-03-16T21:40:25.067Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:25.067Z] [S2] ASCII: ......e.
-[2026-03-16T21:40:25.067Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:25.067Z] [S2] Position update map=101 pos=46,22
-[2026-03-16T21:40:25.067Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:25.069Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:26.127Z] [S2] RECV pkt flags=0x40 len=8 seq=94
-[2026-03-16T21:40:26.127Z] [S2] < 0000: eb 03 2d 00 15 00 65 00                         | ..-...e.
-[2026-03-16T21:40:26.127Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:26.127Z] [S2] ASCII: ..-...e.
-[2026-03-16T21:40:26.127Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:26.127Z] [S2] Position update map=101 pos=45,21
-[2026-03-16T21:40:26.128Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:26.130Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:26.633Z] [S2] RECV pkt flags=0x40 len=8 seq=95
-[2026-03-16T21:40:26.633Z] [S2] < 0000: eb 03 32 00 15 00 65 00                         | ..2...e.
-[2026-03-16T21:40:26.633Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:26.633Z] [S2] ASCII: ..2...e.
-[2026-03-16T21:40:26.633Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:26.633Z] [S2] Position update map=101 pos=50,21
-[2026-03-16T21:40:26.634Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:26.636Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:27.141Z] [S2] RECV pkt flags=0x40 len=8 seq=96
-[2026-03-16T21:40:27.141Z] [S2] < 0000: eb 03 37 00 15 00 65 00                         | ..7...e.
-[2026-03-16T21:40:27.141Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:27.141Z] [S2] ASCII: ..7...e.
-[2026-03-16T21:40:27.141Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:27.141Z] [S2] Position update map=101 pos=55,21
-[2026-03-16T21:40:27.142Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:27.145Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:27.649Z] [S2] RECV pkt flags=0x40 len=8 seq=97
-[2026-03-16T21:40:27.649Z] [S2] < 0000: eb 03 3c 00 16 00 65 00                         | ..<...e.
-[2026-03-16T21:40:27.649Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:27.649Z] [S2] ASCII: ..<...e.
-[2026-03-16T21:40:27.649Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:27.649Z] [S2] Position update map=101 pos=60,22
-[2026-03-16T21:40:27.650Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:27.652Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:28.158Z] [S2] RECV pkt flags=0x40 len=8 seq=98
-[2026-03-16T21:40:28.158Z] [S2] < 0000: eb 03 40 00 16 00 65 00                         | ..@...e.
-[2026-03-16T21:40:28.158Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:28.158Z] [S2] ASCII: ..@...e.
-[2026-03-16T21:40:28.158Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:28.158Z] [S2] Position update map=101 pos=64,22
-[2026-03-16T21:40:28.159Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:28.161Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:28.667Z] [S2] RECV pkt flags=0x40 len=8 seq=99
-[2026-03-16T21:40:28.668Z] [S2] < 0000: eb 03 43 00 16 00 65 00                         | ..C...e.
-[2026-03-16T21:40:28.668Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:28.668Z] [S2] ASCII: ..C...e.
-[2026-03-16T21:40:28.668Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:28.668Z] [S2] Position update map=101 pos=67,22
-[2026-03-16T21:40:28.668Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:28.669Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:29.170Z] [S2] RECV pkt flags=0x40 len=8 seq=100
-[2026-03-16T21:40:29.170Z] [S2] < 0000: eb 03 46 00 19 00 65 00                         | ..F...e.
-[2026-03-16T21:40:29.170Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:29.170Z] [S2] ASCII: ..F...e.
-[2026-03-16T21:40:29.170Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:29.170Z] [S2] Position update map=101 pos=70,25
-[2026-03-16T21:40:29.171Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:29.173Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:29.672Z] [S2] RECV pkt flags=0x40 len=8 seq=101
-[2026-03-16T21:40:29.672Z] [S2] < 0000: eb 03 4a 00 1c 00 65 00                         | ..J...e.
-[2026-03-16T21:40:29.672Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:29.672Z] [S2] ASCII: ..J...e.
-[2026-03-16T21:40:29.672Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:29.672Z] [S2] Position update map=101 pos=74,28
-[2026-03-16T21:40:29.674Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:29.675Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:30.107Z] [S1] RECV pkt flags=0x44 len=6 seq=4
-[2026-03-16T21:40:30.107Z] [S1] < 0000: 02 00 16 9e e6 0c                               | ......
-[2026-03-16T21:40:30.107Z] [S1] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:40:30.107Z] [S1] ASCII: ......
-[2026-03-16T21:40:30.107Z] [S1] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:40:30.107Z] [S1] Sending pong token=0xce69e16
-[2026-03-16T21:40:30.107Z] [S1] > 0000: 44 06 00 06 00 03 00 16 9e e6 0c                | D..........
-[2026-03-16T21:40:30.181Z] [S2] RECV pkt flags=0x40 len=8 seq=102
-[2026-03-16T21:40:30.181Z] [S2] < 0000: eb 03 4d 00 1f 00 65 00                         | ..M...e.
-[2026-03-16T21:40:30.181Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:30.181Z] [S2] ASCII: ..M...e.
-[2026-03-16T21:40:30.181Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:30.181Z] [S2] Position update map=101 pos=77,31
-[2026-03-16T21:40:30.183Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:30.185Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:30.682Z] [S2] RECV pkt flags=0x40 len=8 seq=103
-[2026-03-16T21:40:30.682Z] [S2] < 0000: eb 03 50 00 22 00 65 00                         | ..P.".e.
-[2026-03-16T21:40:30.682Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:30.683Z] [S2] ASCII: ..P.".e.
-[2026-03-16T21:40:30.683Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:30.683Z] [S2] Position update map=101 pos=80,34
-[2026-03-16T21:40:30.684Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:30.686Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:31.191Z] [S2] RECV pkt flags=0x40 len=8 seq=104
-[2026-03-16T21:40:31.191Z] [S2] < 0000: eb 03 53 00 25 00 65 00                         | ..S.%.e.
-[2026-03-16T21:40:31.191Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:31.191Z] [S2] ASCII: ..S.%.e.
-[2026-03-16T21:40:31.191Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:31.191Z] [S2] Position update map=101 pos=83,37
-[2026-03-16T21:40:31.192Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:31.194Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:31.693Z] [S2] RECV pkt flags=0x40 len=8 seq=105
-[2026-03-16T21:40:31.693Z] [S2] < 0000: eb 03 56 00 29 00 65 00                         | ..V.).e.
-[2026-03-16T21:40:31.693Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:31.693Z] [S2] ASCII: ..V.).e.
-[2026-03-16T21:40:31.693Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:31.693Z] [S2] Position update map=101 pos=86,41
-[2026-03-16T21:40:31.694Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:31.696Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:32.204Z] [S2] RECV pkt flags=0x40 len=8 seq=106
-[2026-03-16T21:40:32.204Z] [S2] < 0000: eb 03 5a 00 2c 00 65 00                         | ..Z.,.e.
-[2026-03-16T21:40:32.204Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:32.204Z] [S2] ASCII: ..Z.,.e.
-[2026-03-16T21:40:32.204Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:32.205Z] [S2] Position update map=101 pos=90,44
-[2026-03-16T21:40:32.206Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:32.208Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:32.705Z] [S2] RECV pkt flags=0x40 len=8 seq=107
-[2026-03-16T21:40:32.705Z] [S2] < 0000: eb 03 5d 00 2f 00 65 00                         | ..]./.e.
-[2026-03-16T21:40:32.705Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:32.705Z] [S2] ASCII: ..]./.e.
-[2026-03-16T21:40:32.705Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:32.705Z] [S2] Position update map=101 pos=93,47
-[2026-03-16T21:40:32.706Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:32.708Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:33.215Z] [S2] RECV pkt flags=0x40 len=8 seq=108
-[2026-03-16T21:40:33.215Z] [S2] < 0000: eb 03 61 00 33 00 65 00                         | ..a.3.e.
-[2026-03-16T21:40:33.215Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:33.215Z] [S2] ASCII: ..a.3.e.
-[2026-03-16T21:40:33.215Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:33.215Z] [S2] Position update map=101 pos=97,51
-[2026-03-16T21:40:33.217Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:33.219Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:33.726Z] [S2] RECV pkt flags=0x40 len=8 seq=109
-[2026-03-16T21:40:33.726Z] [S2] < 0000: eb 03 64 00 37 00 65 00                         | ..d.7.e.
-[2026-03-16T21:40:33.726Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:33.726Z] [S2] ASCII: ..d.7.e.
-[2026-03-16T21:40:33.726Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:33.726Z] [S2] Position update map=101 pos=100,55
-[2026-03-16T21:40:33.727Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:33.729Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:34.236Z] [S2] RECV pkt flags=0x40 len=8 seq=110
-[2026-03-16T21:40:34.236Z] [S2] < 0000: eb 03 64 00 3d 00 65 00                         | ..d.=.e.
-[2026-03-16T21:40:34.236Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:34.236Z] [S2] ASCII: ..d.=.e.
-[2026-03-16T21:40:34.236Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:34.236Z] [S2] Position update map=101 pos=100,61
-[2026-03-16T21:40:34.237Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:34.239Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:34.742Z] [S2] RECV pkt flags=0x40 len=8 seq=111
-[2026-03-16T21:40:34.742Z] [S2] < 0000: eb 03 61 00 43 00 65 00                         | ..a.C.e.
-[2026-03-16T21:40:34.742Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:34.742Z] [S2] ASCII: ..a.C.e.
-[2026-03-16T21:40:34.742Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:34.742Z] [S2] Position update map=101 pos=97,67
-[2026-03-16T21:40:34.743Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:34.745Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:35.249Z] [S2] RECV pkt flags=0x40 len=8 seq=112
-[2026-03-16T21:40:35.249Z] [S2] < 0000: eb 03 5e 00 49 00 65 00                         | ..^.I.e.
-[2026-03-16T21:40:35.249Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:35.249Z] [S2] ASCII: ..^.I.e.
-[2026-03-16T21:40:35.249Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:35.249Z] [S2] Position update map=101 pos=94,73
-[2026-03-16T21:40:35.250Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:35.252Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:35.750Z] [S2] RECV pkt flags=0x40 len=8 seq=113
-[2026-03-16T21:40:35.750Z] [S2] < 0000: eb 03 5b 00 4f 00 65 00                         | ..[.O.e.
-[2026-03-16T21:40:35.751Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:35.751Z] [S2] ASCII: ..[.O.e.
-[2026-03-16T21:40:35.751Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:35.751Z] [S2] Position update map=101 pos=91,79
-[2026-03-16T21:40:35.752Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:35.753Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:35.813Z] [S2] RECV pkt flags=0x44 len=6 seq=114
-[2026-03-16T21:40:35.813Z] [S2] < 0000: 02 00 60 b4 e6 0c                               | ..`...
-[2026-03-16T21:40:35.813Z] [S2] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:40:35.813Z] [S2] ASCII: ..`...
-[2026-03-16T21:40:35.813Z] [S2] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:40:35.813Z] [S2] Sending pong token=0xce6b460
-[2026-03-16T21:40:35.813Z] [S2] > 0000: 44 06 00 15 00 03 00 60 b4 e6 0c                | D......`...
-[2026-03-16T21:40:36.261Z] [S2] RECV pkt flags=0x40 len=8 seq=115
-[2026-03-16T21:40:36.261Z] [S2] < 0000: eb 03 57 00 54 00 65 00                         | ..W.T.e.
-[2026-03-16T21:40:36.261Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:36.261Z] [S2] ASCII: ..W.T.e.
-[2026-03-16T21:40:36.261Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:36.261Z] [S2] Position update map=101 pos=87,84
-[2026-03-16T21:40:36.262Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:36.263Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:36.768Z] [S2] RECV pkt flags=0x40 len=8 seq=116
-[2026-03-16T21:40:36.768Z] [S2] < 0000: eb 03 54 00 59 00 65 00                         | ..T.Y.e.
-[2026-03-16T21:40:36.768Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:36.768Z] [S2] ASCII: ..T.Y.e.
-[2026-03-16T21:40:36.768Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:36.768Z] [S2] Position update map=101 pos=84,89
-[2026-03-16T21:40:36.769Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:36.771Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:37.275Z] [S2] RECV pkt flags=0x40 len=8 seq=117
-[2026-03-16T21:40:37.275Z] [S2] < 0000: eb 03 51 00 5d 00 65 00                         | ..Q.].e.
-[2026-03-16T21:40:37.275Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:37.275Z] [S2] ASCII: ..Q.].e.
-[2026-03-16T21:40:37.275Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:37.275Z] [S2] Position update map=101 pos=81,93
-[2026-03-16T21:40:37.278Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:37.279Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:37.783Z] [S2] RECV pkt flags=0x40 len=8 seq=118
-[2026-03-16T21:40:37.783Z] [S2] < 0000: eb 03 4d 00 62 00 65 00                         | ..M.b.e.
-[2026-03-16T21:40:37.783Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:37.783Z] [S2] ASCII: ..M.b.e.
-[2026-03-16T21:40:37.783Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:37.783Z] [S2] Position update map=101 pos=77,98
-[2026-03-16T21:40:37.784Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:37.785Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:38.288Z] [S2] RECV pkt flags=0x40 len=8 seq=119
-[2026-03-16T21:40:38.288Z] [S2] < 0000: eb 03 4a 00 68 00 65 00                         | ..J.h.e.
-[2026-03-16T21:40:38.288Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:38.288Z] [S2] ASCII: ..J.h.e.
-[2026-03-16T21:40:38.288Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:38.288Z] [S2] Position update map=101 pos=74,104
-[2026-03-16T21:40:38.289Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:38.291Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:38.796Z] [S2] RECV pkt flags=0x40 len=8 seq=120
-[2026-03-16T21:40:38.796Z] [S2] < 0000: eb 03 47 00 6e 00 65 00                         | ..G.n.e.
-[2026-03-16T21:40:38.796Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:38.796Z] [S2] ASCII: ..G.n.e.
-[2026-03-16T21:40:38.796Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:38.796Z] [S2] Position update map=101 pos=71,110
-[2026-03-16T21:40:38.797Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:38.798Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:39.305Z] [S2] RECV pkt flags=0x40 len=8 seq=121
-[2026-03-16T21:40:39.305Z] [S2] < 0000: eb 03 46 00 74 00 65 00                         | ..F.t.e.
-[2026-03-16T21:40:39.305Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:39.305Z] [S2] ASCII: ..F.t.e.
-[2026-03-16T21:40:39.305Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:39.305Z] [S2] Position update map=101 pos=70,116
-[2026-03-16T21:40:39.306Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:39.306Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:39.810Z] [S2] RECV pkt flags=0x40 len=8 seq=122
-[2026-03-16T21:40:39.810Z] [S2] < 0000: eb 03 44 00 7b 00 65 00                         | ..D.{.e.
-[2026-03-16T21:40:39.810Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:39.810Z] [S2] ASCII: ..D.{.e.
-[2026-03-16T21:40:39.810Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:39.810Z] [S2] Position update map=101 pos=68,123
-[2026-03-16T21:40:39.811Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:39.812Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:40.321Z] [S2] RECV pkt flags=0x40 len=8 seq=123
-[2026-03-16T21:40:40.321Z] [S2] < 0000: eb 03 42 00 81 00 65 00                         | ..B...e.
-[2026-03-16T21:40:40.321Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:40.321Z] [S2] ASCII: ..B...e.
-[2026-03-16T21:40:40.321Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:40.321Z] [S2] Position update map=101 pos=66,129
-[2026-03-16T21:40:40.323Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:40.324Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:40.822Z] [S2] RECV pkt flags=0x40 len=8 seq=124
-[2026-03-16T21:40:40.822Z] [S2] < 0000: eb 03 40 00 86 00 65 00                         | ..@...e.
-[2026-03-16T21:40:40.822Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:40.822Z] [S2] ASCII: ..@...e.
-[2026-03-16T21:40:40.822Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:40.823Z] [S2] Position update map=101 pos=64,134
-[2026-03-16T21:40:40.823Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:40.825Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:41.329Z] [S2] RECV pkt flags=0x40 len=8 seq=125
-[2026-03-16T21:40:41.329Z] [S2] < 0000: eb 03 3d 00 8c 00 65 00                         | ..=...e.
-[2026-03-16T21:40:41.329Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:41.329Z] [S2] ASCII: ..=...e.
-[2026-03-16T21:40:41.329Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:41.329Z] [S2] Position update map=101 pos=61,140
-[2026-03-16T21:40:41.331Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:41.332Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:41.838Z] [S2] RECV pkt flags=0x40 len=8 seq=126
-[2026-03-16T21:40:41.839Z] [S2] < 0000: eb 03 3a 00 92 00 65 00                         | ..:...e.
-[2026-03-16T21:40:41.839Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:41.839Z] [S2] ASCII: ..:...e.
-[2026-03-16T21:40:41.839Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:41.839Z] [S2] Position update map=101 pos=58,146
-[2026-03-16T21:40:41.839Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:41.840Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:42.347Z] [S2] RECV pkt flags=0x40 len=8 seq=127
-[2026-03-16T21:40:42.347Z] [S2] < 0000: eb 03 37 00 98 00 65 00                         | ..7...e.
-[2026-03-16T21:40:42.347Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:42.347Z] [S2] ASCII: ..7...e.
-[2026-03-16T21:40:42.347Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:42.347Z] [S2] Position update map=101 pos=55,152
-[2026-03-16T21:40:42.348Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:42.349Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:42.854Z] [S2] RECV pkt flags=0x40 len=8 seq=128
-[2026-03-16T21:40:42.854Z] [S2] < 0000: eb 03 34 00 9e 00 65 00                         | ..4...e.
-[2026-03-16T21:40:42.855Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:42.855Z] [S2] ASCII: ..4...e.
-[2026-03-16T21:40:42.855Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:42.855Z] [S2] Position update map=101 pos=52,158
-[2026-03-16T21:40:42.856Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:42.857Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:43.361Z] [S2] RECV pkt flags=0x40 len=8 seq=129
-[2026-03-16T21:40:43.362Z] [S2] < 0000: eb 03 30 00 a4 00 65 00                         | ..0...e.
-[2026-03-16T21:40:43.362Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:43.362Z] [S2] ASCII: ..0...e.
-[2026-03-16T21:40:43.362Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:43.362Z] [S2] Position update map=101 pos=48,164
-[2026-03-16T21:40:43.362Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:43.364Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:43.868Z] [S2] RECV pkt flags=0x40 len=8 seq=130
-[2026-03-16T21:40:43.868Z] [S2] < 0000: eb 03 2d 00 a9 00 65 00                         | ..-...e.
-[2026-03-16T21:40:43.869Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:43.869Z] [S2] ASCII: ..-...e.
-[2026-03-16T21:40:43.869Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:43.869Z] [S2] Position update map=101 pos=45,169
-[2026-03-16T21:40:43.870Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:43.871Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:44.377Z] [S2] RECV pkt flags=0x40 len=8 seq=131
-[2026-03-16T21:40:44.377Z] [S2] < 0000: eb 03 2a 00 ad 00 65 00                         | ..*...e.
-[2026-03-16T21:40:44.377Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:44.377Z] [S2] ASCII: ..*...e.
-[2026-03-16T21:40:44.377Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:44.377Z] [S2] Position update map=101 pos=42,173
-[2026-03-16T21:40:44.378Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:44.378Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:44.886Z] [S2] RECV pkt flags=0x40 len=8 seq=132
-[2026-03-16T21:40:44.886Z] [S2] < 0000: eb 03 27 00 b0 00 65 00                         | ..'...e.
-[2026-03-16T21:40:44.886Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:44.886Z] [S2] ASCII: ..'...e.
-[2026-03-16T21:40:44.886Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:44.886Z] [S2] Position update map=101 pos=39,176
-[2026-03-16T21:40:44.887Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:44.888Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:45.394Z] [S2] RECV pkt flags=0x40 len=8 seq=133
-[2026-03-16T21:40:45.395Z] [S2] < 0000: eb 03 24 00 b3 00 65 00                         | ..$...e.
-[2026-03-16T21:40:45.395Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:45.395Z] [S2] ASCII: ..$...e.
-[2026-03-16T21:40:45.395Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:45.395Z] [S2] Position update map=101 pos=36,179
-[2026-03-16T21:40:45.396Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:45.396Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:45.896Z] [S2] RECV pkt flags=0x40 len=8 seq=134
-[2026-03-16T21:40:45.896Z] [S2] < 0000: eb 03 20 00 b5 00 65 00                         | .. ...e.
-[2026-03-16T21:40:45.896Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:45.896Z] [S2] ASCII: .. ...e.
-[2026-03-16T21:40:45.896Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:45.896Z] [S2] Position update map=101 pos=32,181
-[2026-03-16T21:40:45.897Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:45.899Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:46.403Z] [S2] RECV pkt flags=0x40 len=8 seq=135
-[2026-03-16T21:40:46.403Z] [S2] < 0000: eb 03 1d 00 b5 00 65 00                         | ......e.
-[2026-03-16T21:40:46.403Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:46.403Z] [S2] ASCII: ......e.
-[2026-03-16T21:40:46.403Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:46.403Z] [S2] Position update map=101 pos=29,181
-[2026-03-16T21:40:46.404Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:46.405Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:46.854Z] [S2] RECV pkt flags=0x40 len=10 seq=136
-[2026-03-16T21:40:46.855Z] [S2] < 0000: f1 03 04 01 cc 0c 00 00 01 00                   | ..........
-[2026-03-16T21:40:46.855Z] [S2] CMD8=0xf1 CMD16=0x03f1 state=LOGGED_IN
-[2026-03-16T21:40:46.855Z] [S2] ASCII: ..........
-[2026-03-16T21:40:46.855Z] [S2] Game packet flags=0x40 cmd8=0xf1 cmd16=0x03f1
-[2026-03-16T21:40:46.855Z] [S2] Server-run request sub=0x4 mode=1 npcId=3276 script=1 map=101 pos=29,181
-[2026-03-16T21:40:46.855Z] [S2] [step] task=1 "Back to Earth" step=2 matched: Bring the timber back to Blacksmith.
-[2026-03-16T21:40:46.855Z] [S2] Quest event source=server-run type=item-consumed taskId=1
-[2026-03-16T21:40:46.855Z] [S2] Sending inventory full sync cmd=0x3f2 container=1 items=0
-[2026-03-16T21:40:46.855Z] [S2] > 0000: 40 06 00 16 00 f2 03 01 00 00 00                | @..........
-[2026-03-16T21:40:46.855Z] [S2] Sending dialogue cmd=0x3e7 sub=0x1 speaker="Quest"
-[2026-03-16T21:40:46.855Z] [S2] > 0000: 40 28 00 17 00 e7 03 01 00 06 00 51 75 65 73 74 | @(.........Quest
-[S2] > 0010: 00 18 00 54 69 6d 62 65 72 20 77 61 73 20 68 61 | ...Timber was ha
-[S2] > 0020: 6e 64 65 64 20 6f 76 65 72 2e 00 00 00          | nded over....
-[2026-03-16T21:40:46.855Z] [S2] Quest event source=server-run type=completed taskId=1
-[2026-03-16T21:40:46.856Z] [S2] Sending self-state value update cmd=0x3f6 kind=coins value=100
-[2026-03-16T21:40:46.856Z] [S2] > 0000: 40 08 00 18 00 f6 03 0c 4e 64 00 00 00          | @.......Nd...
-[2026-03-16T21:40:46.856Z] [S2] Sending item add cmd=0x3f3 templateId=20001 slot=1 qty=5 instanceId=3 name=Medicine
-[2026-03-16T21:40:46.856Z] [S2] > 0000: 40 20 00 19 00 f3 03 01 03 00 00 00 21 4e 03 00 | @ ..........!N..
-[S2] > 0010: 00 00 00 00 05 00 00 00 00 00 00 00 00 00 00 00 | ................
-[S2] > 0020: 00 00 00 00 00                                  | .....
-[2026-03-16T21:40:46.856Z] [S2] Sending item add cmd=0x3f3 templateId=20004 slot=2 qty=5 instanceId=4 name=Heal Grass
-[2026-03-16T21:40:46.856Z] [S2] > 0000: 40 20 00 1a 00 f3 03 01 04 00 00 00 24 4e 04 00 | @ ..........$N..
-[S2] > 0010: 00 00 00 00 05 00 00 00 00 00 00 00 00 00 00 00 | ................
-[S2] > 0020: 00 00 00 00 00                                  | .....
-[2026-03-16T21:40:46.856Z] [S2] Sending quest complete cmd=0x3ff sub=0x04 taskId=1
-[2026-03-16T21:40:46.856Z] [S2] > 0000: 40 05 00 1b 00 ff 03 04 01 00                   | @.........
-[2026-03-16T21:40:46.857Z] [S2] Sending quest history cmd=0x3ff sub=0x0e taskId=1 history=0
-[2026-03-16T21:40:46.857Z] [S2] > 0000: 40 06 00 1c 00 ff 03 0e 01 00 00                | @..........
-[2026-03-16T21:40:46.857Z] [S2] Sending dialogue cmd=0x3e7 sub=0x1 speaker="Quest"
-[2026-03-16T21:40:46.857Z] [S2] > 0000: 40 8c 00 1d 00 e7 03 01 00 06 00 51 75 65 73 74 | @..........Quest
-[S2] > 0010: 00 7c 00 42 61 63 6b 20 74 6f 20 45 61 72 74 68 | .|.Back to Earth
-[S2] > 0020: 20 69 73 20 63 6f 6d 70 6c 65 74 65 2e 20 52 65 |  is complete. Re
-[S2] > 0030: 77 61 72 64 3a 20 31 30 30 20 63 6f 69 6e 2c 20 | ward: 100 coin, 
-[S2] > 0040: 31 30 30 20 65 78 70 2c 20 4d 65 64 69 63 69 6e | 100 exp, Medicin
-[S2] > 0050: 65 20 78 35 2c 20 48 65 61 6c 20 47 72 61 73 73 | e x5, Heal Grass
-[S2] > 0060: 20 78 35 2e 20 4c 65 76 65 6c 20 75 70 3a 20 31 |  x5. Level up: 1
-[S2] > 0070: 20 2d 3e 20 6c 65 76 65 6c 20 32 2c 20 73 74 61 |  -> level 2, sta
-[S2] > 0080: 74 75 73 20 70 6f 69 6e 74 73 20 2b 34 2e 00 00 | tus points +4...
-[S2] > 0090: 00                                              | .
-[2026-03-16T21:40:46.857Z] [S2] Sending self-state stat sync cmd=0x3f6 sub=0xa aptitude=11 level=2 hp/mp/rage=398/600/100 stats=15/15/15/15 statusPoints=9
-[2026-03-16T21:40:46.857Z] [S2] > 0000: 40 38 00 1e 00 f6 03 0a 0b 8e 01 00 00 58 02 00 | @8...........X..
-[S2] > 0010: 00 64 00 00 00 02 4d 00 00 00 00 00 00 00 42 00 | .d....M.......B.
-[S2] > 0020: 00 00 00 00 00 00 64 00 00 00 00 00 00 00 00 00 | ......d.........
-[S2] > 0030: 01 00 0f 00 0f 00 0f 00 0f 00 09 00 00          | .............
-[2026-03-16T21:40:46.858Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:46.911Z] [S2] RECV pkt flags=0x40 len=8 seq=137
-[2026-03-16T21:40:46.911Z] [S2] < 0000: eb 03 1a 00 b2 00 65 00                         | ......e.
-[2026-03-16T21:40:46.911Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:46.911Z] [S2] ASCII: ......e.
-[2026-03-16T21:40:46.911Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:46.911Z] [S2] Position update map=101 pos=26,178
-[2026-03-16T21:40:46.912Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:46.913Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:47.420Z] [S2] RECV pkt flags=0x40 len=8 seq=138
-[2026-03-16T21:40:47.420Z] [S2] < 0000: eb 03 16 00 af 00 65 00                         | ......e.
-[2026-03-16T21:40:47.420Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:47.420Z] [S2] ASCII: ......e.
-[2026-03-16T21:40:47.420Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:47.420Z] [S2] Position update map=101 pos=22,175
-[2026-03-16T21:40:47.422Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:47.423Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:47.929Z] [S2] RECV pkt flags=0x40 len=8 seq=139
-[2026-03-16T21:40:47.929Z] [S2] < 0000: eb 03 13 00 ab 00 65 00                         | ......e.
-[2026-03-16T21:40:47.929Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:40:47.929Z] [S2] ASCII: ......e.
-[2026-03-16T21:40:47.929Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:40:47.929Z] [S2] Position update map=101 pos=19,171
-[2026-03-16T21:40:47.931Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:40:47.932Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:00.113Z] [S1] RECV pkt flags=0x44 len=6 seq=5
-[2026-03-16T21:41:00.113Z] [S1] < 0000: 02 00 4c 13 e7 0c                               | ..L...
-[2026-03-16T21:41:00.113Z] [S1] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:41:00.113Z] [S1] ASCII: ..L...
-[2026-03-16T21:41:00.113Z] [S1] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:41:00.113Z] [S1] Sending pong token=0xce7134c
-[2026-03-16T21:41:00.113Z] [S1] > 0000: 44 06 00 07 00 03 00 4c 13 e7 0c                | D......L...
-[2026-03-16T21:41:04.623Z] [S2] RECV pkt flags=0x40 len=8 seq=140
-[2026-03-16T21:41:04.624Z] [S2] < 0000: eb 03 12 00 aa 00 65 00                         | ......e.
-[2026-03-16T21:41:04.624Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:04.624Z] [S2] ASCII: ......e.
-[2026-03-16T21:41:04.624Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:04.624Z] [S2] Position update map=101 pos=18,170
-[2026-03-16T21:41:04.625Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:04.627Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:05.128Z] [S2] RECV pkt flags=0x40 len=8 seq=141
-[2026-03-16T21:41:05.128Z] [S2] < 0000: eb 03 15 00 ad 00 65 00                         | ......e.
-[2026-03-16T21:41:05.128Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:05.128Z] [S2] ASCII: ......e.
-[2026-03-16T21:41:05.128Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:05.128Z] [S2] Position update map=101 pos=21,173
-[2026-03-16T21:41:05.129Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:05.131Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:05.636Z] [S2] RECV pkt flags=0x40 len=8 seq=142
-[2026-03-16T21:41:05.637Z] [S2] < 0000: eb 03 18 00 b0 00 65 00                         | ......e.
-[2026-03-16T21:41:05.637Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:05.637Z] [S2] ASCII: ......e.
-[2026-03-16T21:41:05.637Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:05.637Z] [S2] Position update map=101 pos=24,176
-[2026-03-16T21:41:05.638Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:05.640Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:05.817Z] [S2] RECV pkt flags=0x44 len=6 seq=143
-[2026-03-16T21:41:05.817Z] [S2] < 0000: 02 00 95 29 e7 0c                               | ...)..
-[2026-03-16T21:41:05.817Z] [S2] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:41:05.817Z] [S2] ASCII: ...)..
-[2026-03-16T21:41:05.817Z] [S2] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:41:05.817Z] [S2] Sending pong token=0xce72995
-[2026-03-16T21:41:05.817Z] [S2] > 0000: 44 06 00 1f 00 03 00 95 29 e7 0c                | D.......)..
-[2026-03-16T21:41:06.216Z] [S2] RECV pkt flags=0x40 len=8 seq=144
-[2026-03-16T21:41:06.216Z] [S2] < 0000: eb 03 1c 00 b4 00 65 00                         | ......e.
-[2026-03-16T21:41:06.216Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:06.216Z] [S2] ASCII: ......e.
-[2026-03-16T21:41:06.216Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:06.216Z] [S2] Position update map=101 pos=28,180
-[2026-03-16T21:41:06.218Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:06.220Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:06.717Z] [S2] RECV pkt flags=0x40 len=8 seq=145
-[2026-03-16T21:41:06.717Z] [S2] < 0000: eb 03 1f 00 b6 00 65 00                         | ......e.
-[2026-03-16T21:41:06.717Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:06.717Z] [S2] ASCII: ......e.
-[2026-03-16T21:41:06.717Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:06.717Z] [S2] Position update map=101 pos=31,182
-[2026-03-16T21:41:06.718Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:06.720Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:07.225Z] [S2] RECV pkt flags=0x40 len=8 seq=146
-[2026-03-16T21:41:07.225Z] [S2] < 0000: eb 03 22 00 b9 00 65 00                         | .."...e.
-[2026-03-16T21:41:07.225Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:07.225Z] [S2] ASCII: .."...e.
-[2026-03-16T21:41:07.225Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:07.225Z] [S2] Position update map=101 pos=34,185
-[2026-03-16T21:41:07.226Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:07.228Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:07.726Z] [S2] RECV pkt flags=0x40 len=8 seq=147
-[2026-03-16T21:41:07.726Z] [S2] < 0000: eb 03 25 00 bc 00 65 00                         | ..%...e.
-[2026-03-16T21:41:07.726Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:07.726Z] [S2] ASCII: ..%...e.
-[2026-03-16T21:41:07.726Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:07.727Z] [S2] Position update map=101 pos=37,188
-[2026-03-16T21:41:07.727Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:07.729Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:08.234Z] [S2] RECV pkt flags=0x40 len=8 seq=148
-[2026-03-16T21:41:08.234Z] [S2] < 0000: eb 03 28 00 be 00 65 00                         | ..(...e.
-[2026-03-16T21:41:08.234Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:08.234Z] [S2] ASCII: ..(...e.
-[2026-03-16T21:41:08.234Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:08.234Z] [S2] Position update map=101 pos=40,190
-[2026-03-16T21:41:08.236Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:08.238Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:08.735Z] [S2] RECV pkt flags=0x40 len=8 seq=149
-[2026-03-16T21:41:08.735Z] [S2] < 0000: eb 03 2b 00 bf 00 65 00                         | ..+...e.
-[2026-03-16T21:41:08.735Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:08.735Z] [S2] ASCII: ..+...e.
-[2026-03-16T21:41:08.736Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:08.736Z] [S2] Position update map=101 pos=43,191
-[2026-03-16T21:41:08.736Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:08.738Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:09.246Z] [S2] RECV pkt flags=0x40 len=8 seq=150
-[2026-03-16T21:41:09.246Z] [S2] < 0000: eb 03 2f 00 c3 00 65 00                         | ../...e.
-[2026-03-16T21:41:09.246Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:09.246Z] [S2] ASCII: ../...e.
-[2026-03-16T21:41:09.246Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:09.246Z] [S2] Position update map=101 pos=47,195
-[2026-03-16T21:41:09.247Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:09.249Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:09.751Z] [S2] RECV pkt flags=0x40 len=8 seq=151
-[2026-03-16T21:41:09.751Z] [S2] < 0000: eb 03 32 00 c6 00 65 00                         | ..2...e.
-[2026-03-16T21:41:09.751Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:09.751Z] [S2] ASCII: ..2...e.
-[2026-03-16T21:41:09.751Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:09.751Z] [S2] Position update map=101 pos=50,198
-[2026-03-16T21:41:09.752Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:09.754Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:10.261Z] [S2] RECV pkt flags=0x40 len=8 seq=152
-[2026-03-16T21:41:10.261Z] [S2] < 0000: eb 03 35 00 c9 00 65 00                         | ..5...e.
-[2026-03-16T21:41:10.261Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:10.261Z] [S2] ASCII: ..5...e.
-[2026-03-16T21:41:10.261Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:10.261Z] [S2] Position update map=101 pos=53,201
-[2026-03-16T21:41:10.262Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:10.264Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:10.770Z] [S2] RECV pkt flags=0x40 len=8 seq=153
-[2026-03-16T21:41:10.770Z] [S2] < 0000: eb 03 38 00 cc 00 65 00                         | ..8...e.
-[2026-03-16T21:41:10.770Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:10.770Z] [S2] ASCII: ..8...e.
-[2026-03-16T21:41:10.770Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:10.770Z] [S2] Position update map=101 pos=56,204
-[2026-03-16T21:41:10.771Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:10.772Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:11.276Z] [S2] RECV pkt flags=0x40 len=8 seq=154
-[2026-03-16T21:41:11.277Z] [S2] < 0000: eb 03 3c 00 cf 00 65 00                         | ..<...e.
-[2026-03-16T21:41:11.277Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:11.277Z] [S2] ASCII: ..<...e.
-[2026-03-16T21:41:11.277Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:11.277Z] [S2] Position update map=101 pos=60,207
-[2026-03-16T21:41:11.277Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:11.279Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:11.785Z] [S2] RECV pkt flags=0x40 len=8 seq=155
-[2026-03-16T21:41:11.785Z] [S2] < 0000: eb 03 3f 00 d2 00 65 00                         | ..?...e.
-[2026-03-16T21:41:11.785Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:11.785Z] [S2] ASCII: ..?...e.
-[2026-03-16T21:41:11.785Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:11.785Z] [S2] Position update map=101 pos=63,210
-[2026-03-16T21:41:11.786Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:11.788Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:11.823Z] [S2] RECV pkt flags=0x40 len=7 seq=156
-[2026-03-16T21:41:11.823Z] [S2] < 0000: 06 04 4f 4e 00 02 00                            | ..ON...
-[2026-03-16T21:41:11.823Z] [S2] CMD8=0x06 CMD16=0x0406 state=LOGGED_IN
-[2026-03-16T21:41:11.823Z] [S2] ASCII: ..ON...
-[2026-03-16T21:41:11.823Z] [S2] Game packet flags=0x40 cmd8=0x06 cmd16=0x0406
-[2026-03-16T21:41:11.823Z] [S2] Combat packet kind=fightClient cmd=0x406 sub=0x4f detail16=78 detail32=131150 len=7 inFight=0
-[2026-03-16T21:41:12.293Z] [S2] RECV pkt flags=0x40 len=8 seq=157
-[2026-03-16T21:41:12.293Z] [S2] < 0000: eb 03 42 00 d6 00 65 00                         | ..B...e.
-[2026-03-16T21:41:12.293Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:12.293Z] [S2] ASCII: ..B...e.
-[2026-03-16T21:41:12.293Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:12.293Z] [S2] Position update map=101 pos=66,214
-[2026-03-16T21:41:12.294Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:12.296Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:12.798Z] [S2] RECV pkt flags=0x40 len=8 seq=158
-[2026-03-16T21:41:12.798Z] [S2] < 0000: eb 03 46 00 d9 00 65 00                         | ..F...e.
-[2026-03-16T21:41:12.798Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:12.798Z] [S2] ASCII: ..F...e.
-[2026-03-16T21:41:12.798Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:12.798Z] [S2] Position update map=101 pos=70,217
-[2026-03-16T21:41:12.799Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:12.801Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:13.306Z] [S2] RECV pkt flags=0x40 len=8 seq=159
-[2026-03-16T21:41:13.306Z] [S2] < 0000: eb 03 49 00 dc 00 65 00                         | ..I...e.
-[2026-03-16T21:41:13.306Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:13.306Z] [S2] ASCII: ..I...e.
-[2026-03-16T21:41:13.306Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:13.306Z] [S2] Position update map=101 pos=73,220
-[2026-03-16T21:41:13.307Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:13.309Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:13.813Z] [S2] RECV pkt flags=0x40 len=8 seq=160
-[2026-03-16T21:41:13.813Z] [S2] < 0000: eb 03 4c 00 df 00 65 00                         | ..L...e.
-[2026-03-16T21:41:13.813Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:13.813Z] [S2] ASCII: ..L...e.
-[2026-03-16T21:41:13.813Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:13.813Z] [S2] Position update map=101 pos=76,223
-[2026-03-16T21:41:13.814Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:13.816Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:14.319Z] [S2] RECV pkt flags=0x40 len=8 seq=161
-[2026-03-16T21:41:14.319Z] [S2] < 0000: eb 03 4f 00 e3 00 65 00                         | ..O...e.
-[2026-03-16T21:41:14.319Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:14.319Z] [S2] ASCII: ..O...e.
-[2026-03-16T21:41:14.319Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:14.319Z] [S2] Position update map=101 pos=79,227
-[2026-03-16T21:41:14.320Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:14.322Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:14.827Z] [S2] RECV pkt flags=0x40 len=8 seq=162
-[2026-03-16T21:41:14.827Z] [S2] < 0000: eb 03 53 00 e6 00 65 00                         | ..S...e.
-[2026-03-16T21:41:14.827Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:14.827Z] [S2] ASCII: ..S...e.
-[2026-03-16T21:41:14.827Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:14.827Z] [S2] Position update map=101 pos=83,230
-[2026-03-16T21:41:14.828Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:14.830Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:30.114Z] [S1] RECV pkt flags=0x44 len=6 seq=6
-[2026-03-16T21:41:30.114Z] [S1] < 0000: 02 00 7d 88 e7 0c                               | ..}...
-[2026-03-16T21:41:30.114Z] [S1] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:41:30.114Z] [S1] ASCII: ..}...
-[2026-03-16T21:41:30.114Z] [S1] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:41:30.114Z] [S1] Sending pong token=0xce7887d
-[2026-03-16T21:41:30.114Z] [S1] > 0000: 44 06 00 08 00 03 00 7d 88 e7 0c                | D......}...
-[2026-03-16T21:41:35.819Z] [S2] RECV pkt flags=0x44 len=6 seq=163
-[2026-03-16T21:41:35.819Z] [S2] < 0000: 02 00 c7 9e e7 0c                               | ......
-[2026-03-16T21:41:35.819Z] [S2] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:41:35.819Z] [S2] ASCII: ......
-[2026-03-16T21:41:35.819Z] [S2] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:41:35.820Z] [S2] Sending pong token=0xce79ec7
-[2026-03-16T21:41:35.820Z] [S2] > 0000: 44 06 00 20 00 03 00 c7 9e e7 0c                | D.. .......
-[2026-03-16T21:41:46.006Z] [S2] RECV pkt flags=0x40 len=8 seq=164
-[2026-03-16T21:41:46.006Z] [S2] < 0000: eb 03 53 00 e7 00 65 00                         | ..S...e.
-[2026-03-16T21:41:46.006Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:46.006Z] [S2] ASCII: ..S...e.
-[2026-03-16T21:41:46.006Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:46.006Z] [S2] Position update map=101 pos=83,231
-[2026-03-16T21:41:46.007Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:46.009Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:46.515Z] [S2] RECV pkt flags=0x40 len=8 seq=165
-[2026-03-16T21:41:46.515Z] [S2] < 0000: eb 03 50 00 e1 00 65 00                         | ..P...e.
-[2026-03-16T21:41:46.515Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:46.515Z] [S2] ASCII: ..P...e.
-[2026-03-16T21:41:46.515Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:46.515Z] [S2] Position update map=101 pos=80,225
-[2026-03-16T21:41:46.516Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:46.517Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:47.020Z] [S2] RECV pkt flags=0x40 len=8 seq=166
-[2026-03-16T21:41:47.020Z] [S2] < 0000: eb 03 4d 00 dc 00 65 00                         | ..M...e.
-[2026-03-16T21:41:47.020Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:47.020Z] [S2] ASCII: ..M...e.
-[2026-03-16T21:41:47.020Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:47.020Z] [S2] Position update map=101 pos=77,220
-[2026-03-16T21:41:47.021Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:47.022Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:47.526Z] [S2] RECV pkt flags=0x40 len=8 seq=167
-[2026-03-16T21:41:47.526Z] [S2] < 0000: eb 03 4a 00 d9 00 65 00                         | ..J...e.
-[2026-03-16T21:41:47.526Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:47.526Z] [S2] ASCII: ..J...e.
-[2026-03-16T21:41:47.526Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:47.526Z] [S2] Position update map=101 pos=74,217
-[2026-03-16T21:41:47.527Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:47.529Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:48.036Z] [S2] RECV pkt flags=0x40 len=8 seq=168
-[2026-03-16T21:41:48.036Z] [S2] < 0000: eb 03 46 00 d5 00 65 00                         | ..F...e.
-[2026-03-16T21:41:48.036Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:48.036Z] [S2] ASCII: ..F...e.
-[2026-03-16T21:41:48.036Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:48.036Z] [S2] Position update map=101 pos=70,213
-[2026-03-16T21:41:48.037Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:48.039Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:48.546Z] [S2] RECV pkt flags=0x40 len=8 seq=169
-[2026-03-16T21:41:48.547Z] [S2] < 0000: eb 03 43 00 d1 00 65 00                         | ..C...e.
-[2026-03-16T21:41:48.547Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:48.547Z] [S2] ASCII: ..C...e.
-[2026-03-16T21:41:48.547Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:48.547Z] [S2] Position update map=101 pos=67,209
-[2026-03-16T21:41:48.547Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:48.548Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:49.056Z] [S2] RECV pkt flags=0x40 len=8 seq=170
-[2026-03-16T21:41:49.056Z] [S2] < 0000: eb 03 3f 00 ce 00 65 00                         | ..?...e.
-[2026-03-16T21:41:49.056Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:49.056Z] [S2] ASCII: ..?...e.
-[2026-03-16T21:41:49.056Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:49.056Z] [S2] Position update map=101 pos=63,206
-[2026-03-16T21:41:49.057Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:49.059Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:49.562Z] [S2] RECV pkt flags=0x40 len=8 seq=171
-[2026-03-16T21:41:49.563Z] [S2] < 0000: eb 03 3b 00 ce 00 65 00                         | ..;...e.
-[2026-03-16T21:41:49.563Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:49.563Z] [S2] ASCII: ..;...e.
-[2026-03-16T21:41:49.563Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:49.563Z] [S2] Position update map=101 pos=59,206
-[2026-03-16T21:41:49.563Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:49.566Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:50.069Z] [S2] RECV pkt flags=0x40 len=8 seq=172
-[2026-03-16T21:41:50.069Z] [S2] < 0000: eb 03 37 00 ce 00 65 00                         | ..7...e.
-[2026-03-16T21:41:50.069Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:50.069Z] [S2] ASCII: ..7...e.
-[2026-03-16T21:41:50.069Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:50.069Z] [S2] Position update map=101 pos=55,206
-[2026-03-16T21:41:50.070Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:50.072Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:50.579Z] [S2] RECV pkt flags=0x40 len=8 seq=173
-[2026-03-16T21:41:50.579Z] [S2] < 0000: eb 03 33 00 cc 00 65 00                         | ..3...e.
-[2026-03-16T21:41:50.579Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:50.579Z] [S2] ASCII: ..3...e.
-[2026-03-16T21:41:50.579Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:50.579Z] [S2] Position update map=101 pos=51,204
-[2026-03-16T21:41:50.581Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:50.583Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:51.086Z] [S2] RECV pkt flags=0x40 len=8 seq=174
-[2026-03-16T21:41:51.087Z] [S2] < 0000: eb 03 30 00 c9 00 65 00                         | ..0...e.
-[2026-03-16T21:41:51.087Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:51.087Z] [S2] ASCII: ..0...e.
-[2026-03-16T21:41:51.087Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:51.087Z] [S2] Position update map=101 pos=48,201
-[2026-03-16T21:41:51.088Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:51.088Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:51.795Z] [S2] RECV pkt flags=0x40 len=8 seq=175
-[2026-03-16T21:41:51.795Z] [S2] < 0000: eb 03 2d 00 c6 00 65 00                         | ..-...e.
-[2026-03-16T21:41:51.795Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:51.795Z] [S2] ASCII: ..-...e.
-[2026-03-16T21:41:51.795Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:51.795Z] [S2] Position update map=101 pos=45,198
-[2026-03-16T21:41:51.795Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:51.797Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:52.301Z] [S2] RECV pkt flags=0x40 len=8 seq=176
-[2026-03-16T21:41:52.301Z] [S2] < 0000: eb 03 29 00 c6 00 65 00                         | ..)...e.
-[2026-03-16T21:41:52.301Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:52.301Z] [S2] ASCII: ..)...e.
-[2026-03-16T21:41:52.301Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:52.301Z] [S2] Position update map=101 pos=41,198
-[2026-03-16T21:41:52.302Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:52.304Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:52.802Z] [S2] RECV pkt flags=0x40 len=8 seq=177
-[2026-03-16T21:41:52.802Z] [S2] < 0000: eb 03 26 00 c4 00 65 00                         | ..&...e.
-[2026-03-16T21:41:52.802Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:52.802Z] [S2] ASCII: ..&...e.
-[2026-03-16T21:41:52.802Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:52.802Z] [S2] Position update map=101 pos=38,196
-[2026-03-16T21:41:52.803Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:52.804Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:53.310Z] [S2] RECV pkt flags=0x40 len=8 seq=178
-[2026-03-16T21:41:53.310Z] [S2] < 0000: eb 03 23 00 c1 00 65 00                         | ..#...e.
-[2026-03-16T21:41:53.310Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:53.310Z] [S2] ASCII: ..#...e.
-[2026-03-16T21:41:53.310Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:53.310Z] [S2] Position update map=101 pos=35,193
-[2026-03-16T21:41:53.311Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:53.313Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:53.816Z] [S2] RECV pkt flags=0x40 len=8 seq=179
-[2026-03-16T21:41:53.816Z] [S2] < 0000: eb 03 20 00 be 00 65 00                         | .. ...e.
-[2026-03-16T21:41:53.816Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:53.816Z] [S2] ASCII: .. ...e.
-[2026-03-16T21:41:53.816Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:53.816Z] [S2] Position update map=101 pos=32,190
-[2026-03-16T21:41:53.816Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:53.818Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:54.326Z] [S2] RECV pkt flags=0x40 len=8 seq=180
-[2026-03-16T21:41:54.326Z] [S2] < 0000: eb 03 1c 00 ba 00 65 00                         | ......e.
-[2026-03-16T21:41:54.326Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:41:54.326Z] [S2] ASCII: ......e.
-[2026-03-16T21:41:54.326Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:41:54.326Z] [S2] Position update map=101 pos=28,186
-[2026-03-16T21:41:54.327Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:41:54.329Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:42:00.124Z] [S1] RECV pkt flags=0x44 len=6 seq=7
-[2026-03-16T21:42:00.124Z] [S1] < 0000: 02 00 b8 fd e7 0c                               | ......
-[2026-03-16T21:42:00.124Z] [S1] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:42:00.124Z] [S1] ASCII: ......
-[2026-03-16T21:42:00.124Z] [S1] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:42:00.124Z] [S1] Sending pong token=0xce7fdb8
-[2026-03-16T21:42:00.124Z] [S1] > 0000: 44 06 00 09 00 03 00 b8 fd e7 0c                | D..........
-[2026-03-16T21:42:05.828Z] [S2] RECV pkt flags=0x44 len=6 seq=181
-[2026-03-16T21:42:05.828Z] [S2] < 0000: 02 00 00 14 e8 0c                               | ......
-[2026-03-16T21:42:05.828Z] [S2] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:42:05.828Z] [S2] ASCII: ......
-[2026-03-16T21:42:05.828Z] [S2] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:42:05.828Z] [S2] Sending pong token=0xce81400
-[2026-03-16T21:42:05.828Z] [S2] > 0000: 44 06 00 21 00 03 00 00 14 e8 0c                | D..!.......
-[2026-03-16T21:42:30.134Z] [S1] RECV pkt flags=0x44 len=6 seq=8
-[2026-03-16T21:42:30.135Z] [S1] < 0000: 02 00 f2 72 e8 0c                               | ...r..
-[2026-03-16T21:42:30.135Z] [S1] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:42:30.135Z] [S1] ASCII: ...r..
-[2026-03-16T21:42:30.135Z] [S1] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:42:30.135Z] [S1] Sending pong token=0xce872f2
-[2026-03-16T21:42:30.135Z] [S1] > 0000: 44 06 00 0a 00 03 00 f2 72 e8 0c                | D.......r..
-[2026-03-16T21:42:35.839Z] [S2] RECV pkt flags=0x44 len=6 seq=182
-[2026-03-16T21:42:35.839Z] [S2] < 0000: 02 00 3a 89 e8 0c                               | ..:...
-[2026-03-16T21:42:35.839Z] [S2] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:42:35.839Z] [S2] ASCII: ..:...
-[2026-03-16T21:42:35.839Z] [S2] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:42:35.839Z] [S2] Sending pong token=0xce8893a
-[2026-03-16T21:42:35.839Z] [S2] > 0000: 44 06 00 22 00 03 00 3a 89 e8 0c                | D.."...:...
-[2026-03-16T21:43:00.143Z] [S1] RECV pkt flags=0x44 len=6 seq=9
-[2026-03-16T21:43:00.144Z] [S1] < 0000: 02 00 2b e8 e8 0c                               | ..+...
-[2026-03-16T21:43:00.144Z] [S1] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:43:00.144Z] [S1] ASCII: ..+...
-[2026-03-16T21:43:00.144Z] [S1] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:43:00.144Z] [S1] Sending pong token=0xce8e82b
-[2026-03-16T21:43:00.144Z] [S1] > 0000: 44 06 00 0b 00 03 00 2b e8 e8 0c                | D......+...
-[2026-03-16T21:43:05.841Z] [S2] RECV pkt flags=0x44 len=6 seq=183
-[2026-03-16T21:43:05.841Z] [S2] < 0000: 02 00 6d fe e8 0c                               | ..m...
-[2026-03-16T21:43:05.841Z] [S2] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:43:05.841Z] [S2] ASCII: ..m...
-[2026-03-16T21:43:05.841Z] [S2] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:43:05.841Z] [S2] Sending pong token=0xce8fe6d
-[2026-03-16T21:43:05.841Z] [S2] > 0000: 44 06 00 23 00 03 00 6d fe e8 0c                | D..#...m...
-[2026-03-16T21:43:05.967Z] [S2] RECV pkt flags=0x40 len=8 seq=184
-[2026-03-16T21:43:05.967Z] [S2] < 0000: eb 03 1c 00 ba 00 65 00                         | ......e.
-[2026-03-16T21:43:05.967Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:43:05.967Z] [S2] ASCII: ......e.
-[2026-03-16T21:43:05.967Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:43:05.967Z] [S2] Position update map=101 pos=28,186
-[2026-03-16T21:43:05.968Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:05.968Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:06.476Z] [S2] RECV pkt flags=0x40 len=8 seq=185
-[2026-03-16T21:43:06.476Z] [S2] < 0000: eb 03 1f 00 c0 00 65 00                         | ......e.
-[2026-03-16T21:43:06.476Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:43:06.476Z] [S2] ASCII: ......e.
-[2026-03-16T21:43:06.476Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:43:06.476Z] [S2] Position update map=101 pos=31,192
-[2026-03-16T21:43:06.477Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:06.477Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:06.943Z] [S2] RECV pkt flags=0x40 len=9 seq=186
-[2026-03-16T21:43:06.943Z] [S2] < 0000: f1 03 03 cc 0c 00 00 02 00                      | .........
-[2026-03-16T21:43:06.943Z] [S2] CMD8=0xf1 CMD16=0x03f1 state=LOGGED_IN
-[2026-03-16T21:43:06.943Z] [S2] ASCII: .........
-[2026-03-16T21:43:06.943Z] [S2] Game packet flags=0x40 cmd8=0xf1 cmd16=0x03f1
-[2026-03-16T21:43:06.943Z] [S2] Server-run request sub=0x3 npcId=3276 script=2 map=101 pos=31,192
-[2026-03-16T21:43:06.943Z] [S2] [quest-trace] no acceptors or active talk steps evaluated
-[2026-03-16T21:43:06.943Z] [S2] Sending server-run message cmd=0x3f1 sub=0x1 npcId=3142 msg=2
-[2026-03-16T21:43:06.943Z] [S2] > 0000: 40 09 00 24 00 f1 03 01 46 0c 00 00 02 00       | @..$....F.....
-[2026-03-16T21:43:06.980Z] [S2] RECV pkt flags=0x40 len=8 seq=187
-[2026-03-16T21:43:06.980Z] [S2] < 0000: eb 03 20 00 c7 00 65 00                         | .. ...e.
-[2026-03-16T21:43:06.980Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:43:06.980Z] [S2] ASCII: .. ...e.
-[2026-03-16T21:43:06.980Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:43:06.980Z] [S2] Position update map=101 pos=32,199
-[2026-03-16T21:43:06.982Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:06.983Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:07.485Z] [S2] RECV pkt flags=0x40 len=8 seq=188
-[2026-03-16T21:43:07.485Z] [S2] < 0000: eb 03 1f 00 ce 00 65 00                         | ......e.
-[2026-03-16T21:43:07.485Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:43:07.486Z] [S2] ASCII: ......e.
-[2026-03-16T21:43:07.486Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:43:07.486Z] [S2] Position update map=101 pos=31,206
-[2026-03-16T21:43:07.486Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:07.487Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:07.994Z] [S2] RECV pkt flags=0x40 len=8 seq=189
-[2026-03-16T21:43:07.994Z] [S2] < 0000: eb 03 1e 00 d5 00 65 00                         | ......e.
-[2026-03-16T21:43:07.994Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:43:07.994Z] [S2] ASCII: ......e.
-[2026-03-16T21:43:07.994Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:43:07.994Z] [S2] Position update map=101 pos=30,213
-[2026-03-16T21:43:07.995Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:07.997Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:08.524Z] [S2] RECV pkt flags=0x40 len=8 seq=190
-[2026-03-16T21:43:08.524Z] [S2] < 0000: eb 03 1c 00 da 00 65 00                         | ......e.
-[2026-03-16T21:43:08.524Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:43:08.524Z] [S2] ASCII: ......e.
-[2026-03-16T21:43:08.525Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:43:08.525Z] [S2] Position update map=101 pos=28,218
-[2026-03-16T21:43:08.525Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:08.526Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:09.033Z] [S2] RECV pkt flags=0x40 len=8 seq=191
-[2026-03-16T21:43:09.033Z] [S2] < 0000: eb 03 18 00 d6 00 65 00                         | ......e.
-[2026-03-16T21:43:09.033Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:43:09.033Z] [S2] ASCII: ......e.
-[2026-03-16T21:43:09.033Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:43:09.033Z] [S2] Position update map=101 pos=24,214
-[2026-03-16T21:43:09.034Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:09.036Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:20.433Z] [S2] RECV pkt flags=0x40 len=8 seq=192
-[2026-03-16T21:43:20.433Z] [S2] < 0000: eb 03 15 00 d1 00 65 00                         | ......e.
-[2026-03-16T21:43:20.433Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:43:20.433Z] [S2] ASCII: ......e.
-[2026-03-16T21:43:20.433Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:43:20.433Z] [S2] Position update map=101 pos=21,209
-[2026-03-16T21:43:20.434Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:20.435Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:20.933Z] [S2] RECV pkt flags=0x40 len=8 seq=193
-[2026-03-16T21:43:20.934Z] [S2] < 0000: eb 03 18 00 d6 00 65 00                         | ......e.
-[2026-03-16T21:43:20.934Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:43:20.934Z] [S2] ASCII: ......e.
-[2026-03-16T21:43:20.934Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:43:20.934Z] [S2] Position update map=101 pos=24,214
-[2026-03-16T21:43:20.935Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:20.935Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:21.442Z] [S2] RECV pkt flags=0x40 len=8 seq=194
-[2026-03-16T21:43:21.443Z] [S2] < 0000: eb 03 1c 00 da 00 65 00                         | ......e.
-[2026-03-16T21:43:21.443Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:43:21.443Z] [S2] ASCII: ......e.
-[2026-03-16T21:43:21.443Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:43:21.443Z] [S2] Position update map=101 pos=28,218
-[2026-03-16T21:43:21.443Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:21.444Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:21.951Z] [S2] RECV pkt flags=0x40 len=8 seq=195
-[2026-03-16T21:43:21.951Z] [S2] < 0000: eb 03 1d 00 d5 00 65 00                         | ......e.
-[2026-03-16T21:43:21.951Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:43:21.951Z] [S2] ASCII: ......e.
-[2026-03-16T21:43:21.951Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:43:21.951Z] [S2] Position update map=101 pos=29,213
-[2026-03-16T21:43:21.952Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:21.953Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:22.459Z] [S2] RECV pkt flags=0x40 len=8 seq=196
-[2026-03-16T21:43:22.459Z] [S2] < 0000: eb 03 1f 00 cf 00 65 00                         | ......e.
-[2026-03-16T21:43:22.459Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:43:22.459Z] [S2] ASCII: ......e.
-[2026-03-16T21:43:22.459Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:43:22.459Z] [S2] Position update map=101 pos=31,207
-[2026-03-16T21:43:22.460Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:22.461Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:22.960Z] [S2] RECV pkt flags=0x40 len=8 seq=197
-[2026-03-16T21:43:22.960Z] [S2] < 0000: eb 03 20 00 c8 00 65 00                         | .. ...e.
-[2026-03-16T21:43:22.960Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:43:22.960Z] [S2] ASCII: .. ...e.
-[2026-03-16T21:43:22.960Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:43:22.960Z] [S2] Position update map=101 pos=32,200
-[2026-03-16T21:43:22.961Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:22.962Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:23.466Z] [S2] RECV pkt flags=0x40 len=8 seq=198
-[2026-03-16T21:43:23.466Z] [S2] < 0000: eb 03 1f 00 c3 00 65 00                         | ......e.
-[2026-03-16T21:43:23.466Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:43:23.466Z] [S2] ASCII: ......e.
-[2026-03-16T21:43:23.466Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:43:23.466Z] [S2] Position update map=101 pos=31,195
-[2026-03-16T21:43:23.467Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:23.468Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:23.976Z] [S2] RECV pkt flags=0x40 len=8 seq=199
-[2026-03-16T21:43:23.976Z] [S2] < 0000: eb 03 1c 00 bd 00 65 00                         | ......e.
-[2026-03-16T21:43:23.976Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:43:23.976Z] [S2] ASCII: ......e.
-[2026-03-16T21:43:23.976Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:43:23.976Z] [S2] Position update map=101 pos=28,189
-[2026-03-16T21:43:23.976Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:23.977Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:24.485Z] [S2] RECV pkt flags=0x40 len=8 seq=200
-[2026-03-16T21:43:24.486Z] [S2] < 0000: eb 03 19 00 b8 00 65 00                         | ......e.
-[2026-03-16T21:43:24.486Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
-[2026-03-16T21:43:24.486Z] [S2] ASCII: ......e.
-[2026-03-16T21:43:24.486Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
-[2026-03-16T21:43:24.486Z] [S2] Position update map=101 pos=25,184
-[2026-03-16T21:43:24.487Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:24.488Z] [S2] Persisted character "NeoE5F" for account "0000001"
-[2026-03-16T21:43:30.150Z] [S1] RECV pkt flags=0x44 len=6 seq=10
-[2026-03-16T21:43:30.150Z] [S1] < 0000: 02 00 62 5d e9 0c                               | ..b]..
-[2026-03-16T21:43:30.150Z] [S1] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:43:30.150Z] [S1] ASCII: ..b]..
-[2026-03-16T21:43:30.150Z] [S1] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:43:30.150Z] [S1] Sending pong token=0xce95d62
-[2026-03-16T21:43:30.150Z] [S1] > 0000: 44 06 00 0c 00 03 00 62 5d e9 0c                | D......b]..
-[2026-03-16T21:43:32.764Z] [S2] RECV pkt flags=0x40 len=9 seq=201
-[2026-03-16T21:43:32.764Z] [S2] < 0000: f1 03 03 cc 0c 00 00 02 00                      | .........
-[2026-03-16T21:43:32.764Z] [S2] CMD8=0xf1 CMD16=0x03f1 state=LOGGED_IN
-[2026-03-16T21:43:32.764Z] [S2] ASCII: .........
-[2026-03-16T21:43:32.764Z] [S2] Game packet flags=0x40 cmd8=0xf1 cmd16=0x03f1
-[2026-03-16T21:43:32.764Z] [S2] Server-run request sub=0x3 npcId=3276 script=2 map=101 pos=25,184
-[2026-03-16T21:43:32.764Z] [S2] [quest-trace] no acceptors or active talk steps evaluated
-[2026-03-16T21:43:32.764Z] [S2] Sending server-run message cmd=0x3f1 sub=0x1 npcId=3142 msg=2
-[2026-03-16T21:43:32.764Z] [S2] > 0000: 40 09 00 25 00 f1 03 01 46 0c 00 00 02 00       | @..%....F.....
-[2026-03-16T21:43:35.857Z] [S2] RECV pkt flags=0x44 len=6 seq=202
-[2026-03-16T21:43:35.857Z] [S2] < 0000: 02 00 ad 73 e9 0c                               | ...s..
-[2026-03-16T21:43:35.857Z] [S2] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:43:35.857Z] [S2] ASCII: ...s..
-[2026-03-16T21:43:35.857Z] [S2] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:43:35.857Z] [S2] Sending pong token=0xce973ad
-[2026-03-16T21:43:35.857Z] [S2] > 0000: 44 06 00 26 00 03 00 ad 73 e9 0c                | D..&....s..
-[2026-03-16T21:44:00.154Z] [S1] RECV pkt flags=0x44 len=6 seq=11
-[2026-03-16T21:44:00.154Z] [S1] < 0000: 02 00 95 d2 e9 0c                               | ......
-[2026-03-16T21:44:00.154Z] [S1] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:44:00.154Z] [S1] ASCII: ......
-[2026-03-16T21:44:00.154Z] [S1] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:44:00.155Z] [S1] Sending pong token=0xce9d295
-[2026-03-16T21:44:00.155Z] [S1] > 0000: 44 06 00 0d 00 03 00 95 d2 e9 0c                | D..........
-[2026-03-16T21:44:05.862Z] [S2] RECV pkt flags=0x44 len=6 seq=203
-[2026-03-16T21:44:05.862Z] [S2] < 0000: 02 00 e2 e8 e9 0c                               | ......
-[2026-03-16T21:44:05.862Z] [S2] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:44:05.862Z] [S2] ASCII: ......
-[2026-03-16T21:44:05.862Z] [S2] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:44:05.862Z] [S2] Sending pong token=0xce9e8e2
-[2026-03-16T21:44:05.863Z] [S2] > 0000: 44 06 00 27 00 03 00 e2 e8 e9 0c                | D..'.......
-[2026-03-16T21:44:30.157Z] [S1] RECV pkt flags=0x44 len=6 seq=12
-[2026-03-16T21:44:30.158Z] [S1] < 0000: 02 00 c9 47 ea 0c                               | ...G..
-[2026-03-16T21:44:30.158Z] [S1] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:44:30.158Z] [S1] ASCII: ...G..
-[2026-03-16T21:44:30.158Z] [S1] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:44:30.158Z] [S1] Sending pong token=0xcea47c9
-[2026-03-16T21:44:30.158Z] [S1] > 0000: 44 06 00 0e 00 03 00 c9 47 ea 0c                | D.......G..
-[2026-03-16T21:44:35.867Z] [S2] RECV pkt flags=0x44 len=6 seq=204
-[2026-03-16T21:44:35.868Z] [S2] < 0000: 02 00 17 5e ea 0c                               | ...^..
-[2026-03-16T21:44:35.868Z] [S2] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:44:35.868Z] [S2] ASCII: ...^..
-[2026-03-16T21:44:35.868Z] [S2] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:44:35.868Z] [S2] Sending pong token=0xcea5e17
-[2026-03-16T21:44:35.868Z] [S2] > 0000: 44 06 00 28 00 03 00 17 5e ea 0c                | D..(....^..
-[2026-03-16T21:45:00.163Z] [S1] RECV pkt flags=0x44 len=6 seq=13
-[2026-03-16T21:45:00.163Z] [S1] < 0000: 02 00 ff bc ea 0c                               | ......
-[2026-03-16T21:45:00.163Z] [S1] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:45:00.163Z] [S1] ASCII: ......
-[2026-03-16T21:45:00.163Z] [S1] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:45:00.163Z] [S1] Sending pong token=0xceabcff
-[2026-03-16T21:45:00.163Z] [S1] > 0000: 44 06 00 0f 00 03 00 ff bc ea 0c                | D..........
-[2026-03-16T21:45:05.880Z] [S2] RECV pkt flags=0x44 len=6 seq=205
-[2026-03-16T21:45:05.880Z] [S2] < 0000: 02 00 54 d3 ea 0c                               | ..T...
-[2026-03-16T21:45:05.880Z] [S2] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:45:05.880Z] [S2] ASCII: ..T...
-[2026-03-16T21:45:05.880Z] [S2] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:45:05.880Z] [S2] Sending pong token=0xcead354
-[2026-03-16T21:45:05.880Z] [S2] > 0000: 44 06 00 29 00 03 00 54 d3 ea 0c                | D..)...T...
-[2026-03-16T21:45:30.176Z] [S1] RECV pkt flags=0x44 len=6 seq=14
-[2026-03-16T21:45:30.176Z] [S1] < 0000: 02 00 3c 32 eb 0c                               | ..<2..
-[2026-03-16T21:45:30.176Z] [S1] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:45:30.176Z] [S1] ASCII: ..<2..
-[2026-03-16T21:45:30.176Z] [S1] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:45:30.176Z] [S1] Sending pong token=0xceb323c
-[2026-03-16T21:45:30.176Z] [S1] > 0000: 44 06 00 10 00 03 00 3c 32 eb 0c                | D......<2..
-[2026-03-16T21:45:35.883Z] [S2] RECV pkt flags=0x44 len=6 seq=206
-[2026-03-16T21:45:35.883Z] [S2] < 0000: 02 00 87 48 eb 0c                               | ...H..
-[2026-03-16T21:45:35.883Z] [S2] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
-[2026-03-16T21:45:35.883Z] [S2] ASCII: ...H..
-[2026-03-16T21:45:35.883Z] [S2] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
-[2026-03-16T21:45:35.883Z] [S2] Sending pong token=0xceb4887
-[2026-03-16T21:45:35.883Z] [S2] > 0000: 44 06 00 2a 00 03 00 87 48 eb 0c                | D..*....H..
+[2026-03-16T22:41:00.875Z] [S2] Sending inventory full sync cmd=0x3f2 container=1 items=2
+[2026-03-16T22:41:00.875Z] [S2] > 0000: 40 28 00 04 00 f2 03 01 00 02 00 03 00 00 00 21 | @(.............!
+[S2] > 0010: 4e 03 00 00 00 00 00 05 00 00 00 00 04 00 00 00 | N...............
+[S2] > 0020: 24 4e 04 00 00 00 00 00 05 00 00 00 00          | $N...........
+[2026-03-16T22:41:00.875Z] [S2] Sending quest history cmd=0x3ff sub=0x0e taskId=1 history=0
+[2026-03-16T22:41:00.876Z] [S2] > 0000: 40 06 00 05 00 ff 03 0e 01 00 00                | @..........
+[2026-03-16T22:41:27.053Z] [S1] RECV pkt flags=0x44 len=6 seq=3
+[2026-03-16T22:41:27.054Z] [S1] < 0000: 02 00 13 6b 1e 0d                               | ...k..
+[2026-03-16T22:41:27.054Z] [S1] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
+[2026-03-16T22:41:27.054Z] [S1] ASCII: ...k..
+[2026-03-16T22:41:27.054Z] [S1] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
+[2026-03-16T22:41:27.054Z] [S1] Sending pong token=0xd1e6b13
+[2026-03-16T22:41:27.054Z] [S1] > 0000: 44 06 00 05 00 03 00 13 6b 1e 0d                | D.......k..
+[2026-03-16T22:41:30.880Z] [S2] RECV pkt flags=0x44 len=6 seq=1
+[2026-03-16T22:41:30.880Z] [S2] < 0000: 02 00 05 7a 1e 0d                               | ...z..
+[2026-03-16T22:41:30.880Z] [S2] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
+[2026-03-16T22:41:30.880Z] [S2] ASCII: ...z..
+[2026-03-16T22:41:30.880Z] [S2] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
+[2026-03-16T22:41:30.880Z] [S2] Sending pong token=0xd1e7a05
+[2026-03-16T22:41:30.880Z] [S2] > 0000: 44 06 00 06 00 03 00 05 7a 1e 0d                | D.......z..
+[2026-03-16T22:41:57.059Z] [S1] RECV pkt flags=0x44 len=6 seq=4
+[2026-03-16T22:41:57.060Z] [S1] < 0000: 02 00 49 e0 1e 0d                               | ..I...
+[2026-03-16T22:41:57.060Z] [S1] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
+[2026-03-16T22:41:57.060Z] [S1] ASCII: ..I...
+[2026-03-16T22:41:57.060Z] [S1] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
+[2026-03-16T22:41:57.060Z] [S1] Sending pong token=0xd1ee049
+[2026-03-16T22:41:57.060Z] [S1] > 0000: 44 06 00 06 00 03 00 49 e0 1e 0d                | D......I...
+[2026-03-16T22:42:00.896Z] [S2] RECV pkt flags=0x44 len=6 seq=2
+[2026-03-16T22:42:00.896Z] [S2] < 0000: 02 00 45 ef 1e 0d                               | ..E...
+[2026-03-16T22:42:00.896Z] [S2] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
+[2026-03-16T22:42:00.896Z] [S2] ASCII: ..E...
+[2026-03-16T22:42:00.896Z] [S2] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
+[2026-03-16T22:42:00.896Z] [S2] Sending pong token=0xd1eef45
+[2026-03-16T22:42:00.896Z] [S2] > 0000: 44 06 00 07 00 03 00 45 ef 1e 0d                | D......E...
+[2026-03-16T22:42:10.974Z] [S2] RECV pkt flags=0x40 len=7 seq=3
+[2026-03-16T22:42:10.975Z] [S2] < 0000: 06 04 4f c0 00 00 00                            | ..O....
+[2026-03-16T22:42:10.975Z] [S2] CMD8=0x06 CMD16=0x0406 state=LOGGED_IN
+[2026-03-16T22:42:10.975Z] [S2] ASCII: ..O....
+[2026-03-16T22:42:10.975Z] [S2] Game packet flags=0x40 cmd8=0x06 cmd16=0x0406
+[2026-03-16T22:42:10.975Z] [S2] Combat packet kind=fightClient cmd=0x406 sub=0x4f detail16=192 detail32=192 len=7 inFight=0
+[2026-03-16T22:42:27.061Z] [S1] RECV pkt flags=0x44 len=6 seq=5
+[2026-03-16T22:42:27.061Z] [S1] < 0000: 02 00 7b 55 1f 0d                               | ..{U..
+[2026-03-16T22:42:27.061Z] [S1] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
+[2026-03-16T22:42:27.061Z] [S1] ASCII: ..{U..
+[2026-03-16T22:42:27.061Z] [S1] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
+[2026-03-16T22:42:27.061Z] [S1] Sending pong token=0xd1f557b
+[2026-03-16T22:42:27.061Z] [S1] > 0000: 44 06 00 07 00 03 00 7b 55 1f 0d                | D......{U..
+[2026-03-16T22:42:30.941Z] [S2] RECV pkt flags=0x44 len=6 seq=4
+[2026-03-16T22:42:30.941Z] [S2] < 0000: 02 00 a3 64 1f 0d                               | ...d..
+[2026-03-16T22:42:30.941Z] [S2] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
+[2026-03-16T22:42:30.941Z] [S2] ASCII: ...d..
+[2026-03-16T22:42:30.941Z] [S2] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
+[2026-03-16T22:42:30.941Z] [S2] Sending pong token=0xd1f64a3
+[2026-03-16T22:42:30.941Z] [S2] > 0000: 44 06 00 08 00 03 00 a3 64 1f 0d                | D.......d..
+[2026-03-16T22:42:57.071Z] [S1] RECV pkt flags=0x44 len=6 seq=6
+[2026-03-16T22:42:57.071Z] [S1] < 0000: 02 00 b5 ca 1f 0d                               | ......
+[2026-03-16T22:42:57.071Z] [S1] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
+[2026-03-16T22:42:57.071Z] [S1] ASCII: ......
+[2026-03-16T22:42:57.071Z] [S1] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
+[2026-03-16T22:42:57.071Z] [S1] Sending pong token=0xd1fcab5
+[2026-03-16T22:42:57.071Z] [S1] > 0000: 44 06 00 08 00 03 00 b5 ca 1f 0d                | D..........
+[2026-03-16T22:43:00.945Z] [S2] RECV pkt flags=0x44 len=6 seq=5
+[2026-03-16T22:43:00.945Z] [S2] < 0000: 02 00 d7 d9 1f 0d                               | ......
+[2026-03-16T22:43:00.945Z] [S2] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
+[2026-03-16T22:43:00.945Z] [S2] ASCII: ......
+[2026-03-16T22:43:00.945Z] [S2] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
+[2026-03-16T22:43:00.945Z] [S2] Sending pong token=0xd1fd9d7
+[2026-03-16T22:43:00.945Z] [S2] > 0000: 44 06 00 09 00 03 00 d7 d9 1f 0d                | D..........
+[2026-03-16T22:43:27.076Z] [S1] RECV pkt flags=0x44 len=6 seq=7
+[2026-03-16T22:43:27.076Z] [S1] < 0000: 02 00 ea 3f 20 0d                               | ...? .
+[2026-03-16T22:43:27.076Z] [S1] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
+[2026-03-16T22:43:27.076Z] [S1] ASCII: ...? .
+[2026-03-16T22:43:27.076Z] [S1] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
+[2026-03-16T22:43:27.076Z] [S1] Sending pong token=0xd203fea
+[2026-03-16T22:43:27.076Z] [S1] > 0000: 44 06 00 09 00 03 00 ea 3f 20 0d                | D.......? .
+[2026-03-16T22:43:30.949Z] [S2] RECV pkt flags=0x44 len=6 seq=6
+[2026-03-16T22:43:30.950Z] [S2] < 0000: 02 00 0c 4f 20 0d                               | ...O .
+[2026-03-16T22:43:30.950Z] [S2] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
+[2026-03-16T22:43:30.950Z] [S2] ASCII: ...O .
+[2026-03-16T22:43:30.950Z] [S2] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
+[2026-03-16T22:43:30.950Z] [S2] Sending pong token=0xd204f0c
+[2026-03-16T22:43:30.950Z] [S2] > 0000: 44 06 00 0a 00 03 00 0c 4f 20 0d                | D.......O .
+[2026-03-16T22:43:57.089Z] [S1] RECV pkt flags=0x44 len=6 seq=8
+[2026-03-16T22:43:57.090Z] [S1] < 0000: 02 00 28 b5 20 0d                               | ..(. .
+[2026-03-16T22:43:57.090Z] [S1] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
+[2026-03-16T22:43:57.090Z] [S1] ASCII: ..(. .
+[2026-03-16T22:43:57.090Z] [S1] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
+[2026-03-16T22:43:57.090Z] [S1] Sending pong token=0xd20b528
+[2026-03-16T22:43:57.090Z] [S1] > 0000: 44 06 00 0a 00 03 00 28 b5 20 0d                | D......(. .
+[2026-03-16T22:44:00.955Z] [S2] RECV pkt flags=0x44 len=6 seq=7
+[2026-03-16T22:44:00.956Z] [S2] < 0000: 02 00 43 c4 20 0d                               | ..C. .
+[2026-03-16T22:44:00.956Z] [S2] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
+[2026-03-16T22:44:00.956Z] [S2] ASCII: ..C. .
+[2026-03-16T22:44:00.956Z] [S2] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
+[2026-03-16T22:44:00.956Z] [S2] Sending pong token=0xd20c443
+[2026-03-16T22:44:00.956Z] [S2] > 0000: 44 06 00 0b 00 03 00 43 c4 20 0d                | D......C. .
+[2026-03-16T22:44:25.226Z] [S2] RECV pkt flags=0x40 len=9 seq=8
+[2026-03-16T22:44:25.226Z] [S2] < 0000: f1 03 03 cc 0c 00 00 02 00                      | .........
+[2026-03-16T22:44:25.226Z] [S2] CMD8=0xf1 CMD16=0x03f1 state=LOGGED_IN
+[2026-03-16T22:44:25.226Z] [S2] ASCII: .........
+[2026-03-16T22:44:25.226Z] [S2] Game packet flags=0x40 cmd8=0xf1 cmd16=0x03f1
+[2026-03-16T22:44:25.226Z] [S2] Server-run request sub=0x3 npcId=3276 script=2 map=101 pos=25,184
+[2026-03-16T22:44:25.227Z] [S2] [accept] task=2 "Spinning" matched
+[2026-03-16T22:44:25.227Z] [S2] Quest event source=server-run type=item-granted taskId=2
+[2026-03-16T22:44:25.228Z] [S2] Sending item add cmd=0x3f3 templateId=21099 slot=3 qty=1 instanceId=5 name=Spinning Token
+[2026-03-16T22:44:25.228Z] [S2] > 0000: 40 14 00 0c 00 f3 03 01 05 00 00 00 6b 52 05 00 | @...........kR..
+[S2] > 0010: 00 00 00 00 01 00 00 00 00                      | .........
+[2026-03-16T22:44:25.228Z] [S2] Sending inventory full sync cmd=0x3f2 container=1 items=3
+[2026-03-16T22:44:25.228Z] [S2] > 0000: 40 39 00 0d 00 f2 03 01 00 03 00 03 00 00 00 21 | @9.............!
+[S2] > 0010: 4e 03 00 00 00 00 00 05 00 00 00 00 04 00 00 00 | N...............
+[S2] > 0020: 24 4e 04 00 00 00 00 00 05 00 00 00 00 05 00 00 | $N..............
+[S2] > 0030: 00 6b 52 05 00 00 00 00 00 01 00 00 00 00       | .kR...........
+[2026-03-16T22:44:25.228Z] [S2] Sending dialogue cmd=0x3e7 sub=0x1 speaker="Quest"
+[2026-03-16T22:44:25.228Z] [S2] > 0000: 40 37 00 0e 00 e7 03 01 00 06 00 51 75 65 73 74 | @7.........Quest
+[S2] > 0010: 00 27 00 53 70 69 6e 6e 69 6e 67 20 54 6f 6b 65 | .'.Spinning Toke
+[S2] > 0020: 6e 20 77 61 73 20 61 64 64 65 64 20 74 6f 20 79 | n was added to y
+[S2] > 0030: 6f 75 72 20 70 61 63 6b 2e 00 00 00             | our pack....
+[2026-03-16T22:44:25.228Z] [S2] Quest event source=server-run type=accepted taskId=2 status=0 markerNpcId=3277 step="Bring Blacksmith's quest item to Candy."
+[2026-03-16T22:44:25.228Z] [S2] Sending quest accept cmd=0x3ff sub=0x03 taskId=2
+[2026-03-16T22:44:25.228Z] [S2] > 0000: 40 05 00 0f 00 ff 03 03 02 00                   | @.........
+[2026-03-16T22:44:25.229Z] [S2] Sending quest marker cmd=0x3ff sub=0x0c taskId=2 npcId=3277
+[2026-03-16T22:44:25.229Z] [S2] > 0000: 40 09 00 10 00 ff 03 0c 02 00 cd 0c 00 00       | @.............
+[2026-03-16T22:44:25.229Z] [S2] Sending dialogue cmd=0x3e7 sub=0x1 speaker="Quest"
+[2026-03-16T22:44:25.229Z] [S2] > 0000: 40 7b 00 11 00 e7 03 01 00 06 00 51 75 65 73 74 | @{.........Quest
+[S2] > 0010: 00 6b 00 53 70 69 6e 6e 69 6e 67 20 69 73 20 61 | .k.Spinning is a
+[S2] > 0020: 63 74 69 76 65 2e 20 42 6c 61 63 6b 73 6d 69 74 | ctive. Blacksmit
+[S2] > 0030: 68 20 61 73 6b 65 64 20 79 6f 75 20 74 6f 20 68 | h asked you to h
+[S2] > 0040: 65 6c 70 20 43 61 6e 64 79 2e 20 4f 62 6a 65 63 | elp Candy. Objec
+[S2] > 0050: 74 69 76 65 3a 20 42 72 69 6e 67 20 42 6c 61 63 | tive: Bring Blac
+[S2] > 0060: 6b 73 6d 69 74 68 27 73 20 71 75 65 73 74 20 69 | ksmith's quest i
+[S2] > 0070: 74 65 6d 20 74 6f 20 43 61 6e 64 79 2e 00 00 00 | tem to Candy....
+[2026-03-16T22:44:25.230Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:27.095Z] [S1] RECV pkt flags=0x44 len=6 seq=9
+[2026-03-16T22:44:27.095Z] [S1] < 0000: 02 00 5e 2a 21 0d                               | ..^*!.
+[2026-03-16T22:44:27.095Z] [S1] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
+[2026-03-16T22:44:27.095Z] [S1] ASCII: ..^*!.
+[2026-03-16T22:44:27.095Z] [S1] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
+[2026-03-16T22:44:27.095Z] [S1] Sending pong token=0xd212a5e
+[2026-03-16T22:44:27.095Z] [S1] > 0000: 44 06 00 0b 00 03 00 5e 2a 21 0d                | D......^*!.
+[2026-03-16T22:44:29.672Z] [S2] RECV pkt flags=0x40 len=7 seq=9
+[2026-03-16T22:44:29.672Z] [S2] < 0000: 06 04 4f c0 00 02 00                            | ..O....
+[2026-03-16T22:44:29.672Z] [S2] CMD8=0x06 CMD16=0x0406 state=LOGGED_IN
+[2026-03-16T22:44:29.673Z] [S2] ASCII: ..O....
+[2026-03-16T22:44:29.673Z] [S2] Game packet flags=0x40 cmd8=0x06 cmd16=0x0406
+[2026-03-16T22:44:29.673Z] [S2] Combat packet kind=fightClient cmd=0x406 sub=0x4f detail16=192 detail32=131264 len=7 inFight=0
+[2026-03-16T22:44:30.958Z] [S2] RECV pkt flags=0x44 len=6 seq=10
+[2026-03-16T22:44:30.958Z] [S2] < 0000: 02 00 76 39 21 0d                               | ..v9!.
+[2026-03-16T22:44:30.958Z] [S2] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
+[2026-03-16T22:44:30.958Z] [S2] ASCII: ..v9!.
+[2026-03-16T22:44:30.958Z] [S2] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
+[2026-03-16T22:44:30.958Z] [S2] Sending pong token=0xd213976
+[2026-03-16T22:44:30.958Z] [S2] > 0000: 44 06 00 12 00 03 00 76 39 21 0d                | D......v9!.
+[2026-03-16T22:44:35.214Z] [S2] RECV pkt flags=0x40 len=9 seq=11
+[2026-03-16T22:44:35.214Z] [S2] < 0000: f1 03 08 cd 0c 00 00 02 00                      | .........
+[2026-03-16T22:44:35.214Z] [S2] CMD8=0xf1 CMD16=0x03f1 state=LOGGED_IN
+[2026-03-16T22:44:35.214Z] [S2] ASCII: .........
+[2026-03-16T22:44:35.214Z] [S2] Game packet flags=0x40 cmd8=0xf1 cmd16=0x03f1
+[2026-03-16T22:44:35.214Z] [S2] Server-run request sub=0x8 npcId=3277 script=2 map=101 pos=25,184
+[2026-03-16T22:44:35.214Z] [S2] [step] task=2 "Spinning" step=0 matched: Bring Blacksmith's quest item to Candy.
+[2026-03-16T22:44:35.214Z] [S2] Quest event source=server-run type=item-consumed taskId=2
+[2026-03-16T22:44:35.215Z] [S2] Sending item remove cmd=0x3f4 instanceId=5
+[2026-03-16T22:44:35.215Z] [S2] > 0000: 40 07 00 13 00 f4 03 01 05 00 00 00             | @...........
+[2026-03-16T22:44:35.215Z] [S2] Sending inventory full sync cmd=0x3f2 container=1 items=2
+[2026-03-16T22:44:35.215Z] [S2] > 0000: 40 28 00 14 00 f2 03 01 00 02 00 03 00 00 00 21 | @(.............!
+[S2] > 0010: 4e 03 00 00 00 00 00 05 00 00 00 00 04 00 00 00 | N...............
+[S2] > 0020: 24 4e 04 00 00 00 00 00 05 00 00 00 00          | $N...........
+[2026-03-16T22:44:35.215Z] [S2] Sending dialogue cmd=0x3e7 sub=0x1 speaker="Quest"
+[2026-03-16T22:44:35.215Z] [S2] > 0000: 40 2c 00 15 00 e7 03 01 00 06 00 51 75 65 73 74 | @,.........Quest
+[S2] > 0010: 00 1c 00 51 75 65 73 74 20 69 74 65 6d 20 77 61 | ...Quest item wa
+[S2] > 0020: 73 20 68 61 6e 64 65 64 20 6f 76 65 72 2e 00 00 | s handed over...
+[S2] > 0030: 00                                              | .
+[2026-03-16T22:44:35.215Z] [S2] Quest event source=server-run type=advanced taskId=2 status=1 markerNpcId=3277 step="Bring 10 Dragonfly quest items back to Candy."
+[2026-03-16T22:44:35.215Z] [S2] Sending quest update cmd=0x3ff sub=0x08 taskId=2 status=1
+[2026-03-16T22:44:35.215Z] [S2] > 0000: 40 07 00 16 00 ff 03 08 02 00 01 00             | @...........
+[2026-03-16T22:44:35.215Z] [S2] Sending quest marker cmd=0x3ff sub=0x0c taskId=2 npcId=3277
+[2026-03-16T22:44:35.215Z] [S2] > 0000: 40 09 00 17 00 ff 03 0c 02 00 cd 0c 00 00       | @.............
+[2026-03-16T22:44:35.215Z] [S2] Sending dialogue cmd=0x3e7 sub=0x1 speaker="Quest"
+[2026-03-16T22:44:35.215Z] [S2] > 0000: 40 57 00 18 00 e7 03 01 00 06 00 51 75 65 73 74 | @W.........Quest
+[S2] > 0010: 00 47 00 51 75 65 73 74 20 75 70 64 61 74 65 64 | .G.Quest updated
+[S2] > 0020: 3a 20 53 70 69 6e 6e 69 6e 67 2e 20 42 72 69 6e | : Spinning. Brin
+[S2] > 0030: 67 20 31 30 20 44 72 61 67 6f 6e 66 6c 79 20 71 | g 10 Dragonfly q
+[S2] > 0040: 75 65 73 74 20 69 74 65 6d 73 20 62 61 63 6b 20 | uest items back 
+[S2] > 0050: 74 6f 20 43 61 6e 64 79 2e 00 00 00             | to Candy....
+[2026-03-16T22:44:35.216Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:38.081Z] [S2] RECV pkt flags=0x40 len=7 seq=12
+[2026-03-16T22:44:38.082Z] [S2] < 0000: 06 04 4f c4 00 02 00                            | ..O....
+[2026-03-16T22:44:38.082Z] [S2] CMD8=0x06 CMD16=0x0406 state=LOGGED_IN
+[2026-03-16T22:44:38.082Z] [S2] ASCII: ..O....
+[2026-03-16T22:44:38.082Z] [S2] Game packet flags=0x40 cmd8=0x06 cmd16=0x0406
+[2026-03-16T22:44:38.082Z] [S2] Combat packet kind=fightClient cmd=0x406 sub=0x4f detail16=196 detail32=131268 len=7 inFight=0
+[2026-03-16T22:44:49.729Z] [S2] RECV pkt flags=0x40 len=7 seq=13
+[2026-03-16T22:44:49.730Z] [S2] < 0000: 06 04 4f c6 00 02 00                            | ..O....
+[2026-03-16T22:44:49.730Z] [S2] CMD8=0x06 CMD16=0x0406 state=LOGGED_IN
+[2026-03-16T22:44:49.730Z] [S2] ASCII: ..O....
+[2026-03-16T22:44:49.730Z] [S2] Game packet flags=0x40 cmd8=0x06 cmd16=0x0406
+[2026-03-16T22:44:49.730Z] [S2] Combat packet kind=fightClient cmd=0x406 sub=0x4f detail16=198 detail32=131270 len=7 inFight=0
+[2026-03-16T22:44:52.286Z] [S2] RECV pkt flags=0x40 len=8 seq=14
+[2026-03-16T22:44:52.286Z] [S2] < 0000: eb 03 19 00 b8 00 65 00                         | ......e.
+[2026-03-16T22:44:52.287Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:44:52.287Z] [S2] ASCII: ......e.
+[2026-03-16T22:44:52.287Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:44:52.287Z] [S2] Position update map=101 pos=25,184
+[2026-03-16T22:44:52.304Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:52.306Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:52.795Z] [S2] RECV pkt flags=0x40 len=8 seq=15
+[2026-03-16T22:44:52.796Z] [S2] < 0000: eb 03 1d 00 b8 00 65 00                         | ......e.
+[2026-03-16T22:44:52.796Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:44:52.796Z] [S2] ASCII: ......e.
+[2026-03-16T22:44:52.796Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:44:52.796Z] [S2] Position update map=101 pos=29,184
+[2026-03-16T22:44:52.798Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:52.799Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:53.304Z] [S2] RECV pkt flags=0x40 len=8 seq=16
+[2026-03-16T22:44:53.304Z] [S2] < 0000: eb 03 22 00 b5 00 65 00                         | .."...e.
+[2026-03-16T22:44:53.304Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:44:53.305Z] [S2] ASCII: .."...e.
+[2026-03-16T22:44:53.305Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:44:53.305Z] [S2] Position update map=101 pos=34,181
+[2026-03-16T22:44:53.306Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:53.307Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:53.814Z] [S2] RECV pkt flags=0x40 len=8 seq=17
+[2026-03-16T22:44:53.814Z] [S2] < 0000: eb 03 25 00 b0 00 65 00                         | ..%...e.
+[2026-03-16T22:44:53.814Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:44:53.814Z] [S2] ASCII: ..%...e.
+[2026-03-16T22:44:53.814Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:44:53.814Z] [S2] Position update map=101 pos=37,176
+[2026-03-16T22:44:53.816Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:53.817Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:54.325Z] [S2] RECV pkt flags=0x40 len=8 seq=18
+[2026-03-16T22:44:54.325Z] [S2] < 0000: eb 03 28 00 ac 00 65 00                         | ..(...e.
+[2026-03-16T22:44:54.325Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:44:54.325Z] [S2] ASCII: ..(...e.
+[2026-03-16T22:44:54.325Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:44:54.326Z] [S2] Position update map=101 pos=40,172
+[2026-03-16T22:44:54.326Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:54.328Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:54.831Z] [S2] RECV pkt flags=0x40 len=8 seq=19
+[2026-03-16T22:44:54.832Z] [S2] < 0000: eb 03 2c 00 a9 00 65 00                         | ..,...e.
+[2026-03-16T22:44:54.832Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:44:54.832Z] [S2] ASCII: ..,...e.
+[2026-03-16T22:44:54.832Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:44:54.832Z] [S2] Position update map=101 pos=44,169
+[2026-03-16T22:44:54.832Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:54.833Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:55.363Z] [S2] RECV pkt flags=0x40 len=8 seq=20
+[2026-03-16T22:44:55.363Z] [S2] < 0000: eb 03 2f 00 a4 00 65 00                         | ../...e.
+[2026-03-16T22:44:55.363Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:44:55.364Z] [S2] ASCII: ../...e.
+[2026-03-16T22:44:55.364Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:44:55.364Z] [S2] Position update map=101 pos=47,164
+[2026-03-16T22:44:55.365Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:55.366Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:55.873Z] [S2] RECV pkt flags=0x40 len=8 seq=21
+[2026-03-16T22:44:55.873Z] [S2] < 0000: eb 03 32 00 a0 00 65 00                         | ..2...e.
+[2026-03-16T22:44:55.873Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:44:55.873Z] [S2] ASCII: ..2...e.
+[2026-03-16T22:44:55.873Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:44:55.873Z] [S2] Position update map=101 pos=50,160
+[2026-03-16T22:44:55.874Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:55.876Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:56.379Z] [S2] RECV pkt flags=0x40 len=8 seq=22
+[2026-03-16T22:44:56.379Z] [S2] < 0000: eb 03 36 00 9b 00 65 00                         | ..6...e.
+[2026-03-16T22:44:56.379Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:44:56.379Z] [S2] ASCII: ..6...e.
+[2026-03-16T22:44:56.379Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:44:56.379Z] [S2] Position update map=101 pos=54,155
+[2026-03-16T22:44:56.380Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:56.382Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:56.888Z] [S2] RECV pkt flags=0x40 len=8 seq=23
+[2026-03-16T22:44:56.888Z] [S2] < 0000: eb 03 39 00 94 00 65 00                         | ..9...e.
+[2026-03-16T22:44:56.888Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:44:56.888Z] [S2] ASCII: ..9...e.
+[2026-03-16T22:44:56.888Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:44:56.888Z] [S2] Position update map=101 pos=57,148
+[2026-03-16T22:44:56.889Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:56.890Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:57.109Z] [S1] RECV pkt flags=0x44 len=6 seq=10
+[2026-03-16T22:44:57.109Z] [S1] < 0000: 02 00 9d 9f 21 0d                               | ....!.
+[2026-03-16T22:44:57.109Z] [S1] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
+[2026-03-16T22:44:57.109Z] [S1] ASCII: ....!.
+[2026-03-16T22:44:57.109Z] [S1] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
+[2026-03-16T22:44:57.109Z] [S1] Sending pong token=0xd219f9d
+[2026-03-16T22:44:57.109Z] [S1] > 0000: 44 06 00 0c 00 03 00 9d 9f 21 0d                | D........!.
+[2026-03-16T22:44:57.401Z] [S2] RECV pkt flags=0x40 len=8 seq=24
+[2026-03-16T22:44:57.401Z] [S2] < 0000: eb 03 3d 00 8d 00 65 00                         | ..=...e.
+[2026-03-16T22:44:57.401Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:44:57.401Z] [S2] ASCII: ..=...e.
+[2026-03-16T22:44:57.401Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:44:57.401Z] [S2] Position update map=101 pos=61,141
+[2026-03-16T22:44:57.402Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:57.404Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:57.904Z] [S2] RECV pkt flags=0x40 len=8 seq=25
+[2026-03-16T22:44:57.905Z] [S2] < 0000: eb 03 40 00 85 00 65 00                         | ..@...e.
+[2026-03-16T22:44:57.905Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:44:57.905Z] [S2] ASCII: ..@...e.
+[2026-03-16T22:44:57.905Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:44:57.905Z] [S2] Position update map=101 pos=64,133
+[2026-03-16T22:44:57.906Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:57.908Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:58.411Z] [S2] RECV pkt flags=0x40 len=8 seq=26
+[2026-03-16T22:44:58.411Z] [S2] < 0000: eb 03 42 00 7e 00 65 00                         | ..B.~.e.
+[2026-03-16T22:44:58.412Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:44:58.412Z] [S2] ASCII: ..B.~.e.
+[2026-03-16T22:44:58.412Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:44:58.412Z] [S2] Position update map=101 pos=66,126
+[2026-03-16T22:44:58.412Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:58.414Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:58.919Z] [S2] RECV pkt flags=0x40 len=8 seq=27
+[2026-03-16T22:44:58.919Z] [S2] < 0000: eb 03 45 00 75 00 65 00                         | ..E.u.e.
+[2026-03-16T22:44:58.919Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:44:58.919Z] [S2] ASCII: ..E.u.e.
+[2026-03-16T22:44:58.919Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:44:58.919Z] [S2] Position update map=101 pos=69,117
+[2026-03-16T22:44:58.920Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:58.921Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:59.430Z] [S2] RECV pkt flags=0x40 len=8 seq=28
+[2026-03-16T22:44:59.430Z] [S2] < 0000: eb 03 48 00 6e 00 65 00                         | ..H.n.e.
+[2026-03-16T22:44:59.430Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:44:59.430Z] [S2] ASCII: ..H.n.e.
+[2026-03-16T22:44:59.430Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:44:59.430Z] [S2] Position update map=101 pos=72,110
+[2026-03-16T22:44:59.431Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:59.433Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:59.931Z] [S2] RECV pkt flags=0x40 len=8 seq=29
+[2026-03-16T22:44:59.931Z] [S2] < 0000: eb 03 4b 00 66 00 65 00                         | ..K.f.e.
+[2026-03-16T22:44:59.931Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:44:59.931Z] [S2] ASCII: ..K.f.e.
+[2026-03-16T22:44:59.931Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:44:59.931Z] [S2] Position update map=101 pos=75,102
+[2026-03-16T22:44:59.932Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:44:59.933Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:00.434Z] [S2] RECV pkt flags=0x40 len=8 seq=30
+[2026-03-16T22:45:00.434Z] [S2] < 0000: eb 03 4e 00 60 00 65 00                         | ..N.`.e.
+[2026-03-16T22:45:00.434Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:45:00.434Z] [S2] ASCII: ..N.`.e.
+[2026-03-16T22:45:00.434Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:45:00.434Z] [S2] Position update map=101 pos=78,96
+[2026-03-16T22:45:00.435Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:00.436Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:00.945Z] [S2] RECV pkt flags=0x40 len=8 seq=31
+[2026-03-16T22:45:00.945Z] [S2] < 0000: eb 03 52 00 5a 00 65 00                         | ..R.Z.e.
+[2026-03-16T22:45:00.945Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:45:00.945Z] [S2] ASCII: ..R.Z.e.
+[2026-03-16T22:45:00.945Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:45:00.945Z] [S2] Position update map=101 pos=82,90
+[2026-03-16T22:45:00.947Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:00.948Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:00.963Z] [S2] RECV pkt flags=0x44 len=6 seq=32
+[2026-03-16T22:45:00.963Z] [S2] < 0000: 02 00 ab ae 21 0d                               | ....!.
+[2026-03-16T22:45:00.963Z] [S2] CMD8=0x02 CMD16=0x0002 state=LOGGED_IN
+[2026-03-16T22:45:00.963Z] [S2] ASCII: ....!.
+[2026-03-16T22:45:00.963Z] [S2] Game packet flags=0x44 cmd8=0x02 cmd16=0x0002
+[2026-03-16T22:45:00.963Z] [S2] Sending pong token=0xd21aeab
+[2026-03-16T22:45:00.963Z] [S2] > 0000: 44 06 00 19 00 03 00 ab ae 21 0d                | D........!.
+[2026-03-16T22:45:01.455Z] [S2] RECV pkt flags=0x40 len=8 seq=33
+[2026-03-16T22:45:01.455Z] [S2] < 0000: eb 03 56 00 53 00 65 00                         | ..V.S.e.
+[2026-03-16T22:45:01.455Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:45:01.455Z] [S2] ASCII: ..V.S.e.
+[2026-03-16T22:45:01.455Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:45:01.455Z] [S2] Position update map=101 pos=86,83
+[2026-03-16T22:45:01.456Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:01.458Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:01.972Z] [S2] RECV pkt flags=0x40 len=8 seq=34
+[2026-03-16T22:45:01.972Z] [S2] < 0000: eb 03 5a 00 4d 00 65 00                         | ..Z.M.e.
+[2026-03-16T22:45:01.972Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:45:01.972Z] [S2] ASCII: ..Z.M.e.
+[2026-03-16T22:45:01.972Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:45:01.972Z] [S2] Position update map=101 pos=90,77
+[2026-03-16T22:45:01.974Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:01.975Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:02.475Z] [S2] RECV pkt flags=0x40 len=8 seq=35
+[2026-03-16T22:45:02.475Z] [S2] < 0000: eb 03 5e 00 48 00 65 00                         | ..^.H.e.
+[2026-03-16T22:45:02.475Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:45:02.475Z] [S2] ASCII: ..^.H.e.
+[2026-03-16T22:45:02.475Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:45:02.475Z] [S2] Position update map=101 pos=94,72
+[2026-03-16T22:45:02.476Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:02.478Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:02.976Z] [S2] RECV pkt flags=0x40 len=8 seq=36
+[2026-03-16T22:45:02.976Z] [S2] < 0000: eb 03 62 00 42 00 65 00                         | ..b.B.e.
+[2026-03-16T22:45:02.976Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:45:02.976Z] [S2] ASCII: ..b.B.e.
+[2026-03-16T22:45:02.976Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:45:02.976Z] [S2] Position update map=101 pos=98,66
+[2026-03-16T22:45:02.977Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:02.979Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:03.487Z] [S2] RECV pkt flags=0x40 len=8 seq=37
+[2026-03-16T22:45:03.487Z] [S2] < 0000: eb 03 65 00 3b 00 65 00                         | ..e.;.e.
+[2026-03-16T22:45:03.487Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:45:03.487Z] [S2] ASCII: ..e.;.e.
+[2026-03-16T22:45:03.487Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:45:03.487Z] [S2] Position update map=101 pos=101,59
+[2026-03-16T22:45:03.488Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:03.490Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:03.999Z] [S2] RECV pkt flags=0x40 len=8 seq=38
+[2026-03-16T22:45:04.000Z] [S2] < 0000: eb 03 63 00 35 00 65 00                         | ..c.5.e.
+[2026-03-16T22:45:04.000Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:45:04.000Z] [S2] ASCII: ..c.5.e.
+[2026-03-16T22:45:04.000Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:45:04.000Z] [S2] Position update map=101 pos=99,53
+[2026-03-16T22:45:04.001Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:04.003Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:04.506Z] [S2] RECV pkt flags=0x40 len=8 seq=39
+[2026-03-16T22:45:04.506Z] [S2] < 0000: eb 03 5f 00 30 00 65 00                         | .._.0.e.
+[2026-03-16T22:45:04.506Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:45:04.506Z] [S2] ASCII: .._.0.e.
+[2026-03-16T22:45:04.506Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:45:04.506Z] [S2] Position update map=101 pos=95,48
+[2026-03-16T22:45:04.507Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:04.509Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:05.022Z] [S2] RECV pkt flags=0x40 len=8 seq=40
+[2026-03-16T22:45:05.022Z] [S2] < 0000: eb 03 5b 00 2b 00 65 00                         | ..[.+.e.
+[2026-03-16T22:45:05.022Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:45:05.022Z] [S2] ASCII: ..[.+.e.
+[2026-03-16T22:45:05.022Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:45:05.022Z] [S2] Position update map=101 pos=91,43
+[2026-03-16T22:45:05.023Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:05.024Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:05.532Z] [S2] RECV pkt flags=0x40 len=8 seq=41
+[2026-03-16T22:45:05.532Z] [S2] < 0000: eb 03 57 00 26 00 65 00                         | ..W.&.e.
+[2026-03-16T22:45:05.532Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:45:05.532Z] [S2] ASCII: ..W.&.e.
+[2026-03-16T22:45:05.532Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:45:05.532Z] [S2] Position update map=101 pos=87,38
+[2026-03-16T22:45:05.533Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:05.533Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:06.047Z] [S2] RECV pkt flags=0x40 len=8 seq=42
+[2026-03-16T22:45:06.047Z] [S2] < 0000: eb 03 53 00 20 00 65 00                         | ..S. .e.
+[2026-03-16T22:45:06.047Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:45:06.047Z] [S2] ASCII: ..S. .e.
+[2026-03-16T22:45:06.047Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:45:06.047Z] [S2] Position update map=101 pos=83,32
+[2026-03-16T22:45:06.048Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:06.050Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:06.552Z] [S2] RECV pkt flags=0x40 len=8 seq=43
+[2026-03-16T22:45:06.552Z] [S2] < 0000: eb 03 4f 00 1a 00 65 00                         | ..O...e.
+[2026-03-16T22:45:06.552Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:45:06.552Z] [S2] ASCII: ..O...e.
+[2026-03-16T22:45:06.552Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:45:06.552Z] [S2] Position update map=101 pos=79,26
+[2026-03-16T22:45:06.554Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:06.555Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:07.063Z] [S2] RECV pkt flags=0x40 len=8 seq=44
+[2026-03-16T22:45:07.063Z] [S2] < 0000: eb 03 4b 00 14 00 65 00                         | ..K...e.
+[2026-03-16T22:45:07.063Z] [S2] CMD8=0xeb CMD16=0x03eb state=LOGGED_IN
+[2026-03-16T22:45:07.063Z] [S2] ASCII: ..K...e.
+[2026-03-16T22:45:07.063Z] [S2] Game packet flags=0x40 cmd8=0xeb cmd16=0x03eb
+[2026-03-16T22:45:07.063Z] [S2] Position update map=101 pos=75,20
+[2026-03-16T22:45:07.065Z] [S2] Persisted character "NeoE5F" for account "0000001"
+[2026-03-16T22:45:07.066Z] [S2] Persisted character "NeoE5F" for account "0000001"

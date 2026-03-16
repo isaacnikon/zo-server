@@ -86,6 +86,60 @@
       ]
     },
     {
+      "id": 2,
+      "name": "Spinning",
+      "type": "story",
+      "acceptMessage": "Spinning is active. Blacksmith asked you to help Candy.",
+      "completionMessage": "Spinning is complete.",
+      "acceptNpcId": 3276,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        1
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21099,
+          "quantity": 1,
+          "name": ""
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 300,
+        "coins": 200,
+        "renown": 0,
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3277,
+          "status": 1,
+          "description": "Bring Blacksmith's quest item to Candy.",
+          "consumeItems": [
+            {
+              "templateId": 21099,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3277,
+          "status": 2,
+          "description": "Bring 10 Dragonfly quest items back to Candy.",
+          "consumeItems": [
+            {
+              "templateId": 21115,
+              "quantity": 10,
+              "name": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": 481,
       "name": "Vulture Fight",
       "type": "story",

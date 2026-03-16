@@ -32,6 +32,7 @@ const {
   GAME_FIGHT_TURN_CMD,
   GAME_DIALOG_CMD,
   GAME_DIALOG_MESSAGE_SUBCMD,
+  GAME_ITEM_CONTAINER_CMD,
   GAME_ITEM_CMD,
   GAME_SPAWN_BATCH_SUBCMD,
   GAME_POSITION_QUERY_CMD,
@@ -340,6 +341,18 @@ class Session {
     if (cmdWord === GAME_FIGHT_CLIENT_CMD || isCombatCommand(cmdWord)) {
       this.handleCombatPacket(cmdWord, payload);
       return;
+    }
+
+    if (
+      cmdWord === GAME_ITEM_CONTAINER_CMD ||
+      cmdWord === GAME_ITEM_CMD ||
+      cmdWord === (GAME_ITEM_CMD + 1) ||
+      cmdWord === 0x03f8 ||
+      cmdWord === 0x0400
+    ) {
+      this.log(
+        `Unhandled inventory-related cmd16=0x${cmdWord.toString(16)} payload=${payload.toString('hex')}`
+      );
     }
 
     this.log(`Unhandled game cmd8=0x${cmdByte.toString(16)} cmd16=0x${cmdWord.toString(16)}`);

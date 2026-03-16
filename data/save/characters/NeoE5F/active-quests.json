@@ -1,5 +1,13 @@
 {
   "characterId": "NeoE5F",
-  "quests": [],
-  "updatedAt": "2026-03-16T21:43:24.487Z"
+  "quests": [
+    {
+      "id": 2,
+      "stepIndex": 1,
+      "status": 1,
+      "progress": {},
+      "acceptedAt": 1773701065227
+    }
+  ],
+  "updatedAt": "2026-03-16T22:45:07.066Z"
 }

@@ -238,6 +238,11 @@
   - template `21098` resolves to family `0x74`
   - for that family the counter uses the parsed `u16` at `clientItem + 0x08`
   - if the server writes quantity into the preceding `u8`, the item is visible but quest UI stays `0/1`
+- Live March 17 finding for starter consumables:
+  - `20001` and `20004` resolve to client template family `0x41`
+  - family `0x41` does not consume the generic six trailing `u16` fields in the server's old serializer
+  - overlong item payloads in `0x03f2 / 0x00` shift the next item record, which is why only one starter item appeared in the bag even though both existed server-side
+  - serializer must be family-aware for both `0x03f2` bulk sync and `0x03f3` add/update
 - `0x03f6` subcase `0x0c` is the generic value update path for:
   - gold
   - coins
@@ -280,5 +285,9 @@
 - `0x0053eef0` -> `ApplyInventoryContainerItemUpdateSubcommand`
   - applies per-container item mutations such as full item replace, quantity updates, and embedded-field updates
   - ends by refreshing visible inventory containers
+- `0x0048b9a0` -> `HandleItemContainerInteraction`
+  - same-container bag drag calls `MoveItemBetweenContainerSlots` locally
+  - no packet is emitted for same-bag rearrange in the tested client
+  - practical implication: server can choose startup slot assignment, but cannot persist manual same-bag drag from protocol traffic alone
 - `0x00541530` -> `LookupItemSetBonusEntryByIndex`
   - fetches one set-bonus entry from the loaded `taozhuang.txt` table by set id and slot index

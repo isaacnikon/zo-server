@@ -321,6 +321,16 @@ damage    = floor((roll * roll) / max(roll + defender_stat8 * 2, 1))
       - template `21098` resolves to family `0x74`
       - `FUN_0053e2a0` counts family `>= 0x40` items by `*(u16 *)(clientItem + 0x08)`
       - writing quantity into the adjacent `u8` field makes the icon visible but the quest UI remains `0/1`
+  - later bag debugging ruled out the guessed `0x03f2 / 0x17` position theory for the missing starter item:
+    - after fixing quantity placement, only one live starter item still appeared even though the save and bulk sync contained both `20001` and `20004`
+    - live template inspection showed both are family `0x41`
+    - family `0x41` stops parsing after the base fields plus the embedded-entry count
+    - the old server serializer appended six extra `u16` fields anyway, shifting the next item record in `0x03f2 / 0x00`
+    - once the serializer became family-aware, both starter items rendered correctly without any `0x17` packet
+  - same-bag drag persistence is not a server-protocol problem in the tested client:
+    - `HandleItemContainerInteraction` (`0x0048b9a0`) calls `MoveItemBetweenContainerSlots` directly for same-container moves
+    - raw server receive logs show no new opcode when dragging an item within the bag
+    - implication: startup layout can be server-controlled, but manual drag state is local-only unless the client is modified
   - drop-item UI integration details:
     - `ResolveItemRecordFromInteractionSelection` resolves script-drop selections by calling `GetOrCreateScriptDropItemRecord` when `containerType == -1`
     - world-drop selection widgets and hover/preview paths feed those script-drop records into the same item-tooltip / interaction UI helpers used by normal inventory items

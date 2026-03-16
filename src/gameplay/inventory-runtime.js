@@ -1,6 +1,10 @@
 'use strict';
 
-const { DEFAULT_FLAGS, GAME_ITEM_CMD, GAME_ITEM_CONTAINER_CMD } = require('../config');
+const {
+  DEFAULT_FLAGS,
+  GAME_ITEM_CMD,
+  GAME_ITEM_CONTAINER_CMD,
+} = require('../config');
 const {
   buildInventoryContainerBulkSyncPacket,
   buildItemAddPacket,
@@ -26,6 +30,7 @@ function sendItemAdd(session, templateId, slot, quantity = 1, instanceId = 0) {
       bindState: 0,
       quantity,
       extraValue: 0,
+      clientTemplateFamily: definition?.clientTemplateFamily ?? null,
       attributePairs: [],
     }),
     DEFAULT_FLAGS,
@@ -34,7 +39,12 @@ function sendItemAdd(session, templateId, slot, quantity = 1, instanceId = 0) {
 }
 
 function sendInventoryFullSync(session) {
-  const bagItems = Array.isArray(session.bagItems) ? session.bagItems : [];
+  const bagItems = Array.isArray(session.bagItems)
+    ? session.bagItems.map((item) => ({
+        ...item,
+        clientTemplateFamily: getItemDefinition(item.templateId)?.clientTemplateFamily ?? null,
+      }))
+    : [];
   session.writePacket(
     buildInventoryContainerBulkSyncPacket({
       containerType: BAG_CONTAINER_TYPE,
@@ -81,6 +91,13 @@ function applyInventoryQuestEvent(session, event, options = {}) {
     }
 
     if (!suppressPackets) {
+      sendItemAdd(
+        session,
+        grantResult.item.templateId,
+        grantResult.item.slot,
+        grantResult.item.quantity,
+        grantResult.item.instanceId
+      );
       sendInventoryFullSync(session);
     }
     if (!suppressDialogues) {
@@ -106,6 +123,17 @@ function applyInventoryQuestEvent(session, event, options = {}) {
     }
 
     if (!suppressPackets) {
+      if (consumeResult.removed) {
+        sendItemRemove(session, consumeResult.item.instanceId);
+      } else {
+        sendItemAdd(
+          session,
+          consumeResult.item.templateId,
+          consumeResult.item.slot,
+          consumeResult.item.quantity,
+          consumeResult.item.instanceId
+        );
+      }
       sendInventoryFullSync(session);
     }
     if (!suppressDialogues) {
