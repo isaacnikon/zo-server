@@ -12,6 +12,17 @@ const {
   COMBAT_PROBE_STATE_FILE,
   DEFAULT_FLAGS,
   ENTITY_TYPE,
+  FIGHT_ACTIVE_STATE_SUBCMD,
+  FIGHT_CLIENT_ATTACK_SELECTION_SUBCMD,
+  FIGHT_CLIENT_READY_SUBCMD,
+  FIGHT_CONTROL_INIT_SUBCMD,
+  FIGHT_CONTROL_RING_OPEN_SUBCMD,
+  FIGHT_CONTROL_SHOW_SUBCMD,
+  FIGHT_ENCOUNTER_PROBE_SUBCMD,
+  FIGHT_ENTITY_FLAG_HIDE_SUBCMD,
+  FIGHT_RESULT_DEFEAT_SUBCMD,
+  FIGHT_RESULT_VICTORY_SUBCMD,
+  FIGHT_STATE_MODE_SUBCMD,
   GAME_FIGHT_ACTION_CMD,
   GAME_FIGHT_CLIENT_CMD,
   GAME_FIGHT_MISC_CMD,
@@ -20,6 +31,7 @@ const {
   GAME_FIGHT_STREAM_CMD,
   GAME_FIGHT_TURN_CMD,
   GAME_DIALOG_CMD,
+  GAME_DIALOG_MESSAGE_SUBCMD,
   GAME_SPAWN_BATCH_SUBCMD,
   GAME_POSITION_QUERY_CMD,
   GAME_SERVER_RUN_CMD,
@@ -36,6 +48,7 @@ const {
   PORT,
   REDIRECT_RESULT,
   ROLE_CMD,
+  SERVER_RUN_MESSAGE_SUBCMD,
   SELF_STATE_APTITUDE_SUBCMD,
   SERVER_SCRIPT_DEFERRED_SUBCMD,
   SERVER_SCRIPT_IMMEDIATE_SUBCMD,
@@ -54,6 +67,47 @@ const {
   recordOutboundCombatPacket,
 } = require('./combat-runtime');
 const { PacketWriter, buildPacket } = require('./protocol');
+const {
+  buildGameDialoguePacket,
+  buildSelfStateAptitudeSyncPacket,
+  buildServerRunMessagePacket,
+  buildServerRunScriptPacket,
+  buildSyntheticAttackMirrorUpdatePacket,
+  buildSyntheticAttackPlaybackPacket,
+  buildSyntheticAttackResultUpdatePacket,
+} = require('./protocol/gameplay-packets');
+const {
+  buildDefeatRespawnState,
+  resolveInnRestVitals,
+} = require('./gameplay/session-flows');
+const {
+  executeServerRunAction,
+  parseServerRunRequest,
+} = require('./interactions/server-run');
+const {
+  computeSyntheticDamage,
+  createSyntheticFightState,
+  findSyntheticEnemyTarget,
+  getSyntheticPlayerFighter,
+  hasLivingSyntheticAllies,
+  initializeSyntheticEnemyTurnQueue,
+  selectSyntheticEnemyAttacker,
+} = require('./combat/synthetic-fight');
+const {
+  finalizeSyntheticFightState,
+  resolvePlayerAttackSelection,
+  resolveQueuedEnemyTurn,
+} = require('./combat/synthetic-fight-flow');
+const {
+  buildCombatEncounterProbePacket,
+  buildCombatTurnProbePacket,
+  buildFightActiveStateProbePacket,
+  buildFightControlInitProbePacket,
+  buildFightControlShowProbePacket,
+  buildFightEntityFlagProbePacket,
+  buildFightRingOpenProbePacket,
+  buildFightStateModeProbe64Packet,
+} = require('./combat/synthetic-fight-packets');
 const {
   describeScene,
   getBootstrapWorldSpawns,
@@ -748,135 +802,59 @@ class Session {
   }
 
   handleServerRunRequest(payload) {
-    if (payload.length < 5) {
-      this.log('Short 0x03f1 payload');
+    const request = parseServerRunRequest(payload, {
+      currentMapId: this.currentMapId,
+      currentX: this.currentX,
+      currentY: this.currentY,
+    });
+
+    if (request.kind === 'invalid') {
+      this.log(request.reason);
       return;
     }
 
-    const subtype = payload[2];
-    if (subtype === 0x01) {
-      const scriptId = payload.readUInt16LE(3);
-      const mapId = payload.length >= 7 ? payload.readUInt16LE(5) : 0;
-      this.log(`Server-run request sub=0x01 script=${scriptId} map=${mapId} pos=${this.currentX},${this.currentY}`);
-      const action = resolveServerRunAction({
-        mapId,
-        subtype,
-        scriptId,
-        x: this.currentX,
-        y: this.currentY,
-      });
-      if (action.kind === 'transition') {
-        this.transitionToScene(action.targetSceneId, action.targetX, action.targetY, action.reason);
-        return;
-      }
-      if (action.kind === 'scriptEvent') {
-        if (action.mode === 'deferred') {
-          this.sendServerRunScriptDeferred(action.scriptId);
-          return;
-        }
-        this.sendServerRunScriptImmediate(action.scriptId);
-        return;
-      }
-      if (action.kind === 'dialogue') {
-        this.sendGameDialogue(
-          action.speaker,
-          action.message,
-          action.subtype,
-          action.flags,
-          action.extraText
-        );
-        return;
-      }
-      if (action.kind === 'rest') {
-        this.restoreAtInn(action.npcId || 0);
-        return;
-      }
-      this.sendServerRunMessage(action.npcId, action.msgId);
+    if (request.kind === 'unhandled') {
+      this.log(`Unhandled 0x03f1 subtype=0x${request.subtype.toString(16)}`);
       return;
     }
 
-    if (subtype === 0x02) {
-      if (payload.length < 9) {
-        this.log('Short 0x03f1/0x02 payload');
-        return;
-      }
-      const mode = payload[3];
-      const contextId = payload.readUInt16LE(4);
-      const extra = payload[6];
-      const scriptId = payload.length >= 9 ? payload.readUInt16LE(7) : 0;
-      this.log(
-        `Server-run request sub=0x02 mode=${mode} contextId=${contextId} extra=${extra} script=${scriptId} map=${this.currentMapId} pos=${this.currentX},${this.currentY}`
-      );
-      const action = resolveServerRunAction({
-        mapId: this.currentMapId,
-        subtype,
-        mode,
-        scriptId,
-        x: this.currentX,
-        y: this.currentY,
-      });
-      if (action.kind === 'transition') {
-        this.transitionToScene(action.targetSceneId, action.targetX, action.targetY, action.reason);
-        return;
-      }
-      if (action.kind === 'scriptEvent') {
-        if (action.mode === 'deferred') {
-          this.sendServerRunScriptDeferred(action.scriptId);
-          return;
-        }
-        this.sendServerRunScriptImmediate(action.scriptId);
-        return;
-      }
-      if (action.kind === 'dialogue') {
-        this.sendGameDialogue(
-          action.speaker,
-          action.message,
-          action.subtype,
-          action.flags,
-          action.extraText
-        );
-        return;
-      }
-      if (action.kind === 'rest') {
-        this.restoreAtInn(action.npcId || 0);
-        return;
-      }
-      this.sendServerRunMessage(action.npcId, action.msgId);
+    this.log(request.logMessage);
+
+    if (request.kind === 'direct-rest') {
+      this.restoreAtInn(request.npcId);
       return;
     }
 
-    if (subtype === 0x0f) {
-      if (payload.length < 7) {
-        this.log('Short 0x03f1/0x0f payload');
-        return;
-      }
-      const npcId = payload.readUInt32LE(3);
-      this.log(
-        `Server-run request sub=0x0f npcId=${npcId} map=${this.currentMapId} pos=${this.currentX},${this.currentY}`
-      );
-      this.restoreAtInn(npcId);
-      return;
-    }
+    const action = resolveServerRunAction({
+      mapId: request.mapId,
+      subtype: request.subtype,
+      mode: request.mode,
+      scriptId: request.scriptId,
+      x: request.x,
+      y: request.y,
+    });
 
-    this.log(`Unhandled 0x03f1 subtype=0x${subtype.toString(16)}`);
+    executeServerRunAction(action, this.getServerRunActionHandlers());
   }
 
   restoreAtInn(npcId) {
-    const restoredHealth = Math.max(this.currentHealth || 0, 398);
-    const restoredMana = Math.max(this.currentMana || 0, 600);
-    const restoredRage = Math.max(this.currentRage || 0, 100);
+    const restoredVitals = resolveInnRestVitals({
+      health: this.currentHealth,
+      mana: this.currentMana,
+      rage: this.currentRage,
+    });
 
-    this.currentHealth = restoredHealth;
-    this.currentMana = restoredMana;
-    this.currentRage = restoredRage;
+    this.currentHealth = restoredVitals.health;
+    this.currentMana = restoredVitals.mana;
+    this.currentRage = restoredVitals.rage;
 
     const persisted = this.getPersistedCharacter();
     if (persisted) {
       this.saveCharacter({
         ...persisted,
-        currentHealth: restoredHealth,
-        currentMana: restoredMana,
-        currentRage: restoredRage,
+        currentHealth: restoredVitals.health,
+        currentMana: restoredVitals.mana,
+        currentRage: restoredVitals.rage,
       });
     }
 
@@ -884,13 +862,24 @@ class Session {
     this.sendGameDialogue(
       'Innkeeper',
       'You feel fully rested.',
-      0x01,
+      GAME_DIALOG_MESSAGE_SUBCMD,
       0,
       null
     );
     this.log(
-      `Rested at inn npcId=${npcId} restored hp/mp/rage=${restoredHealth}/${restoredMana}/${restoredRage}`
+      `Rested at inn npcId=${npcId} restored hp/mp/rage=${restoredVitals.health}/${restoredVitals.mana}/${restoredVitals.rage}`
     );
+  }
+
+  getServerRunActionHandlers() {
+    return {
+      restoreAtInn: this.restoreAtInn.bind(this),
+      sendGameDialogue: this.sendGameDialogue.bind(this),
+      sendServerRunMessage: this.sendServerRunMessage.bind(this),
+      sendServerRunScriptDeferred: this.sendServerRunScriptDeferred.bind(this),
+      sendServerRunScriptImmediate: this.sendServerRunScriptImmediate.bind(this),
+      transitionToScene: this.transitionToScene.bind(this),
+    };
   }
 
   handleCombatPacket(cmdWord, payload) {
@@ -934,7 +923,7 @@ class Session {
 
     if (
       cmdWord === GAME_FIGHT_ACTION_CMD &&
-      packet.subcmd === 0x09 &&
+      packet.subcmd === FIGHT_CLIENT_READY_SUBCMD &&
       this.awaitingCombatTurnHandshake &&
       this.pendingCombatTurnProbe
     ) {
@@ -944,7 +933,7 @@ class Session {
       if (this.syntheticFight) {
         this.syntheticFight.phase = 'command';
       }
-      this.sendCombatCommandRefresh(action, 'client-03ed-09');
+      this.sendCombatCommandRefresh(action, `client-03ed-${FIGHT_CLIENT_READY_SUBCMD.toString(16)}`);
       return;
     }
 
@@ -964,21 +953,21 @@ class Session {
 
     if (
       cmdWord === GAME_FIGHT_ACTION_CMD &&
-      packet.subcmd === 0x09 &&
+      packet.subcmd === FIGHT_CLIENT_READY_SUBCMD &&
       this.syntheticFight &&
       !this.awaitingCombatTurnHandshake
     ) {
       if (this.syntheticFight.phase === 'finished') {
-        this.log('Ignoring client 0x03ed/0x09 because synthetic fight is finished');
+        this.log(`Ignoring client 0x03ed/0x${FIGHT_CLIENT_READY_SUBCMD.toString(16)} because synthetic fight is finished`);
         return;
       }
       if (this.syntheticFight.suppressNextReadyRepeat) {
         this.syntheticFight.suppressNextReadyRepeat = false;
-        this.log('Ignoring duplicate client 0x03ed/0x09 immediately after command refresh');
+        this.log(`Ignoring duplicate client 0x03ed/0x${FIGHT_CLIENT_READY_SUBCMD.toString(16)} immediately after command refresh`);
         return;
       }
       if (this.syntheticFight.phase === 'command' && this.syntheticFight.awaitingPlayerAction) {
-        this.log('Ignoring client 0x03ed/0x09 while waiting for player action');
+        this.log(`Ignoring client 0x03ed/0x${FIGHT_CLIENT_READY_SUBCMD.toString(16)} while waiting for player action`);
         return;
       }
       if (this.syntheticFight.turnQueue.length > 0) {
@@ -986,13 +975,16 @@ class Session {
         return;
       }
       this.syntheticFight.phase = 'command';
-      this.sendCombatCommandRefresh({ probeId: 'client-ready-repeat' }, 'client-03ed-09-repeat');
+      this.sendCombatCommandRefresh(
+        { probeId: 'client-ready-repeat' },
+        `client-03ed-${FIGHT_CLIENT_READY_SUBCMD.toString(16)}-repeat`
+      );
       return;
     }
 
-    if (cmdWord === GAME_FIGHT_ACTION_CMD && packet.subcmd === 0x03) {
+    if (cmdWord === GAME_FIGHT_ACTION_CMD && packet.subcmd === FIGHT_CLIENT_ATTACK_SELECTION_SUBCMD) {
       if (this.syntheticFight?.phase === 'finished') {
-        this.log('Ignoring client 0x03ed/0x03 because synthetic fight is finished');
+        this.log(`Ignoring client 0x03ed/0x${FIGHT_CLIENT_ATTACK_SELECTION_SUBCMD.toString(16)} because synthetic fight is finished`);
         return;
       }
       this.handleSyntheticAttackSelection(payload);
@@ -1004,261 +996,148 @@ class Session {
       return;
     }
 
-    const player = this.getSyntheticPlayerFighter();
-    if (!player) {
-      return;
-    }
-
     const attackMode = payload[3] & 0xff;
     const targetA = payload[4] & 0xff;
     const targetB = payload[5] & 0xff;
-    const enemy = this.findSyntheticEnemyTarget(targetA, targetB);
-    const targetMatches = enemy !== null;
-
-    this.syntheticFight.lastAction = {
-      actorEntityId: player.entityId,
+    const resolution = resolvePlayerAttackSelection({
+      syntheticFight: this.syntheticFight,
       attackMode,
       targetA,
       targetB,
-      targetMatches,
-      targetEntityId: enemy?.entityId || 0,
-      timestamp: Date.now(),
-    };
-    this.syntheticFight.phase = 'resolving';
-    this.syntheticFight.awaitingPlayerAction = false;
-    this.syntheticFight.suppressNextReadyRepeat = false;
+      charName: this.charName,
+      findSyntheticEnemyTarget,
+      computeSyntheticDamage,
+      initializeSyntheticEnemyTurnQueue,
+    });
 
     this.log(
-      `Synthetic attack selection mode=${attackMode} targetA=${targetA} targetB=${targetB} targetMatches=${targetMatches ? 1 : 0} enemy=${enemy?.name || 'none'} hp=${enemy?.hp || 0}`
+      `Synthetic attack selection mode=${attackMode} targetA=${targetA} targetB=${targetB} targetMatches=${resolution.enemy ? 1 : 0} enemy=${resolution.enemy?.name || 'none'} hp=${resolution.enemy?.hp || 0}`
     );
 
-    if (!targetMatches) {
+    if (resolution.kind === 'noop') {
+      return;
+    }
+
+    if (resolution.kind === 'invalid-target') {
       this.sendCombatTurnProbe({ probeId: 'attack-reprompt' }, 'attack-invalid-target');
       return;
     }
 
-    const damage = Math.min(enemy.hp, this.computeSyntheticDamage(player, enemy));
-    enemy.hp = Math.max(0, enemy.hp - damage);
-    enemy.alive = enemy.hp > 0;
-    player.lastActionAt = Date.now();
     this.log(
-      `Synthetic combat resolved attack damage=${damage} enemy=${enemy.name} remainingHp=${enemy.hp}`
+      `Synthetic combat resolved attack damage=${resolution.damage} enemy=${resolution.enemy.name} remainingHp=${resolution.enemy.hp}`
     );
 
     this.sendSyntheticAttackPlayback({
-      attackerEntityId: player.entityId,
-      targetEntityId: enemy.entityId,
-      resultCode: enemy.hp === 0 ? 0x03 : 0x01,
-      damage,
+      attackerEntityId: resolution.player.entityId,
+      targetEntityId: resolution.enemy.entityId,
+      resultCode: resolution.enemy.hp === 0 ? FIGHT_ACTIVE_STATE_SUBCMD : FIGHT_CONTROL_RING_OPEN_SUBCMD,
+      damage: resolution.damage,
     });
 
-    const livingEnemies = this.syntheticFight.enemies.filter((candidate) => candidate.hp > 0);
-
-    if (livingEnemies.length > 0) {
+    if (resolution.kind === 'enemy-turn-queue') {
       this.awaitingCombatTurnHandshake = false;
       this.pendingCombatTurnProbe = null;
-      this.initializeSyntheticEnemyTurnQueue(player.entityId);
-      const nextEnemyActor = this.syntheticFight.turnQueue[0]?.attackerEntityId || enemy.entityId;
       this.sendCombatCommandHide(
-        { probeId: 'enemy-turn-queue', entityId: nextEnemyActor },
+        { probeId: 'enemy-turn-queue', entityId: resolution.nextEnemyActor },
         'player-action-complete'
       );
       this.log(
-        `Queued synthetic enemy turns count=${this.syntheticFight.turnQueue.length} after player action livingEnemies=${livingEnemies.length}`
+        `Queued synthetic enemy turns count=${this.syntheticFight.turnQueue.length} after player action livingEnemies=${resolution.livingEnemies.length}`
       );
       return;
     }
 
     this.sendSyntheticAttackResultUpdate({
-      actionMode: 0x66,
-      target: enemy,
-      damage,
+      actionMode: FIGHT_RESULT_VICTORY_SUBCMD,
+      target: resolution.enemy,
+      damage: resolution.damage,
     });
     this.sendSyntheticAttackMirrorUpdate({
-      actionMode: 0x67,
+      actionMode: FIGHT_RESULT_DEFEAT_SUBCMD,
     });
 
-    if (enemy.hp === 0) {
-      this.log(`Synthetic enemy defeated enemy=${enemy.name} entity=${enemy.entityId}`);
-      if (livingEnemies.length === 0) {
-        this.syntheticFight.phase = 'finished';
-        this.syntheticFight.awaitingPlayerAction = false;
-        this.sendGameDialogue('Combat', `${this.charName} defeats the enemy group.`);
-        this.awaitingCombatTurnHandshake = false;
-        this.pendingCombatTurnProbe = null;
-        return;
-      }
-    }
-
-    if (this.awaitingCombatTurnHandshake && this.pendingCombatTurnProbe) {
-      this.log(
-        `Skipping attack follow-up turn probe while startup handshake is still pending expected=0x${GAME_FIGHT_ACTION_CMD.toString(16)}/0x09`
-      );
-      return;
-    }
-
-    this.sendCombatCommandRefresh({ probeId: 'attack-followup' }, 'attack-selected');
-  }
-
-  findSyntheticEnemyTarget(targetA, targetB) {
-    if (!this.syntheticFight || !Array.isArray(this.syntheticFight.enemies)) {
-      return null;
-    }
-
-    return this.syntheticFight.enemies.find((enemy) => {
-      if (enemy.hp <= 0) {
-        return false;
-      }
-      return targetA === enemy.row && targetB === enemy.col;
-    }) || null;
+    this.log(`Synthetic enemy defeated enemy=${resolution.enemy.name} entity=${resolution.enemy.entityId}`);
+    this.awaitingCombatTurnHandshake = false;
+    this.pendingCombatTurnProbe = null;
+    this.sendGameDialogue('Combat', resolution.message);
   }
 
   getSyntheticPlayerFighter() {
-    if (!this.syntheticFight || !Array.isArray(this.syntheticFight.fighters)) {
-      return null;
-    }
-    return this.syntheticFight.fighters.find((fighter) => fighter.side === 0xff) || null;
+    return getSyntheticPlayerFighter(this.syntheticFight);
   }
 
-  selectSyntheticEnemyAttacker(preferredEnemy = null) {
-    if (!this.syntheticFight || !Array.isArray(this.syntheticFight.enemies)) {
-      return null;
-    }
-    if (preferredEnemy && preferredEnemy.hp > 0) {
-      return preferredEnemy;
-    }
-    return this.syntheticFight.enemies.find((enemy) => enemy.hp > 0) || null;
-  }
-
-  initializeSyntheticEnemyTurnQueue(targetEntityId) {
-    if (!this.syntheticFight) {
-      return;
-    }
-    const liveEnemies = this.syntheticFight.enemies.filter((enemy) => enemy.hp > 0);
-    const ordered = liveEnemies
-      .map((enemy) => ({
-        attackerEntityId: enemy.entityId,
-        targetEntityId,
-        initiative: this.getSyntheticInitiative(enemy),
-      }))
-      .sort((left, right) => right.initiative - left.initiative || left.attackerEntityId - right.attackerEntityId);
-    this.syntheticFight.turnQueue = ordered;
-    this.syntheticFight.phase = ordered.length > 0 ? 'enemy-turn' : 'command';
-  }
-
-  getSyntheticInitiative(fighter) {
-    if (!fighter) {
-      return 0;
-    }
-    if (fighter.side === 0xff) {
-      return 100 + ((fighter.level || 0) * 2) + ((fighter.dexterity || 0) >> 1);
-    }
-    return 80 + ((fighter.level || 0) * 2) + ((fighter.dexterity || 0) >> 1) + ((fighter.logicalId || 0) % 3);
+  findSyntheticEnemyTarget(targetA, targetB) {
+    return findSyntheticEnemyTarget(this.syntheticFight, targetA, targetB);
   }
 
   computeSyntheticDamage(attacker, defender) {
-    if (!attacker || !defender) {
-      return 1;
-    }
-    const minRoll = Math.max(1, attacker.damageMin || attacker.attackPower || 1);
-    const maxRoll = Math.max(minRoll, attacker.damageMax || minRoll);
-    const baseRoll = minRoll + Math.floor(Math.random() * ((maxRoll - minRoll) + 1));
-    const armor = Math.max(0, defender.armorStat || defender.defensePower || 0);
-    let damage = Math.floor((baseRoll * baseRoll) / Math.max(1, baseRoll + (armor * 2)));
-    const levelDiff = (attacker.level || 0) - (defender.level || 0);
-
-    if (Math.abs(levelDiff) > 5) {
-      damage = Math.floor((damage * ((levelDiff * 4) + 100)) / 100);
-    }
-
-    return Math.max(1, damage);
+    return computeSyntheticDamage(attacker, defender);
   }
 
   hasLivingSyntheticAllies(fighter) {
-    if (!this.syntheticFight || !fighter) {
-      return false;
-    }
+    return hasLivingSyntheticAllies(this.syntheticFight, fighter);
+  }
 
-    return this.syntheticFight.fighters.some((candidate) => {
-      if (!candidate || candidate.entityId === fighter.entityId) {
-        return false;
-      }
-      return candidate.side === fighter.side && candidate.hp > 0 && candidate.alive !== false;
-    });
+  initializeSyntheticEnemyTurnQueue(targetEntityId) {
+    initializeSyntheticEnemyTurnQueue(this.syntheticFight, targetEntityId);
+  }
+
+  selectSyntheticEnemyAttacker(preferredEnemy = null) {
+    return selectSyntheticEnemyAttacker(this.syntheticFight, preferredEnemy);
   }
 
   resolveSyntheticQueuedTurn(action) {
-    if (!this.syntheticFight?.turnQueue?.length) {
+    const resolution = resolveQueuedEnemyTurn({
+      syntheticFight: this.syntheticFight,
+      selectSyntheticEnemyAttacker,
+      computeSyntheticDamage,
+      hasLivingSyntheticAllies,
+    });
+
+    if (resolution.kind === 'missing-turn') {
       this.sendCombatCommandRefresh(action, 'enemy-turn-missing');
       return;
     }
 
-    const player = this.getSyntheticPlayerFighter();
-    const currentTurn = this.syntheticFight.turnQueue.shift();
-    const attacker = this.syntheticFight.enemies.find(
-      (enemy) => enemy.entityId === currentTurn.attackerEntityId && enemy.hp > 0
-    ) || this.selectSyntheticEnemyAttacker();
-    if (!player || !attacker) {
-      if (this.syntheticFight.turnQueue.length === 0) {
-        this.syntheticFight.phase = 'command';
-        this.syntheticFight.round += 1;
+    if (resolution.kind === 'skipped') {
+      if (this.syntheticFight?.turnQueue?.length === 0) {
         this.sendCombatCommandRefresh(action, 'enemy-turn-skipped');
       }
       return;
     }
 
-    this.syntheticFight.phase = 'resolving';
-    this.syntheticFight.awaitingPlayerAction = false;
-    this.syntheticFight.suppressNextReadyRepeat = false;
-    const damage = Math.min(player.hp, this.computeSyntheticDamage(attacker, player));
-    player.hp = Math.max(0, player.hp - damage);
-    player.alive = player.hp > 0;
-    player.downed = player.hp === 0;
-    this.currentHealth = player.hp;
-    player.lastActionAt = Date.now();
-    this.syntheticFight.lastAction = {
-      actorEntityId: attacker.entityId,
-      attackMode: 1,
-      targetA: player.row,
-      targetB: player.col,
-      targetMatches: true,
-      targetEntityId: player.entityId,
-      timestamp: Date.now(),
-    };
+    this.currentHealth = resolution.player.hp;
     this.log(
-      `Synthetic enemy turn attacker=${attacker.name} damage=${damage} playerHp=${player.hp}`
+      `Synthetic enemy turn attacker=${resolution.attacker.name} damage=${resolution.damage} playerHp=${resolution.player.hp}`
     );
 
     this.sendSyntheticAttackPlayback({
-      attackerEntityId: attacker.entityId,
-      targetEntityId: player.entityId,
-      resultCode: player.hp === 0 ? 0x03 : 0x01,
-      damage,
+      attackerEntityId: resolution.attacker.entityId,
+      targetEntityId: resolution.player.entityId,
+      resultCode: resolution.player.hp === 0 ? FIGHT_ACTIVE_STATE_SUBCMD : FIGHT_CONTROL_RING_OPEN_SUBCMD,
+      damage: resolution.damage,
     });
-    if (player.hp === 0) {
+
+    if (resolution.kind === 'downed-awaiting-allies' || resolution.kind === 'defeat') {
       this.sendSyntheticAttackMirrorUpdate({
-        actionMode: 0x67,
+        actionMode: FIGHT_RESULT_DEFEAT_SUBCMD,
       });
-      if (this.hasLivingSyntheticAllies(player)) {
-        this.syntheticFight.phase = 'ally-turn';
-        this.log(`Synthetic fighter downed entity=${player.entityId} awaiting ally outcome`);
+      if (resolution.kind === 'downed-awaiting-allies') {
+        this.log(`Synthetic fighter downed entity=${resolution.player.entityId} awaiting ally outcome`);
         return;
       }
       this.finishSyntheticFight('defeat', `${this.charName} was defeated.`);
       return;
     }
-    if (this.syntheticFight.turnQueue.length > 0) {
-      this.syntheticFight.phase = 'enemy-turn';
-      const nextEnemyActor = this.syntheticFight.turnQueue[0]?.attackerEntityId || attacker.entityId;
+
+    if (resolution.kind === 'enemy-turn-continues') {
       this.sendCombatCommandHide(
-        { ...action, entityId: nextEnemyActor },
+        { ...action, entityId: resolution.nextEnemyActor },
         'enemy-turn-continues'
       );
       return;
     }
 
-    this.syntheticFight.phase = 'command';
-    this.syntheticFight.round += 1;
     this.scheduleSyntheticCommandRefresh(action, 'enemy-turn-complete', 1500);
   }
 
@@ -1266,12 +1145,9 @@ class Session {
     if (!this.syntheticFight) {
       return;
     }
-    const player = this.getSyntheticPlayerFighter();
     this.clearSyntheticCommandRefreshTimer();
-    this.syntheticFight.phase = 'finished';
-    this.syntheticFight.turnQueue = [];
-    this.syntheticFight.awaitingPlayerAction = false;
-    this.syntheticFight.suppressNextReadyRepeat = false;
+    const finished = finalizeSyntheticFightState(this.syntheticFight, outcome);
+    const player = finished.player;
     this.awaitingCombatTurnHandshake = false;
     this.pendingCombatTurnProbe = null;
     this.combatState = createCombatState();
@@ -1281,15 +1157,17 @@ class Session {
     }
     if (outcome === 'defeat') {
       const persisted = this.getPersistedCharacter();
-      const respawn = resolveTownRespawn({
-        ...(persisted || {}),
-        mapId: this.currentMapId,
-        x: this.currentX,
-        y: this.currentY,
+      const defeatRespawn = buildDefeatRespawnState({
+        persistedCharacter: persisted,
+        currentMapId: this.currentMapId,
+        currentX: this.currentX,
+        currentY: this.currentY,
+        player,
+        currentMana: this.currentMana,
+        currentRage: this.currentRage,
+        resolveTownRespawn,
       });
-      const respawnHealth = Math.max(1, player?.maxHp ? Math.min(player.maxHp, 1) : 1);
-      const respawnMana = Math.max(0, player?.mp || this.currentMana || 0);
-      const respawnRage = Math.max(0, player?.rage || this.currentRage || 0);
+      const { respawn, vitals } = defeatRespawn;
 
       this.currentHealth = 0;
       this.currentMana = Math.max(0, player?.mp || this.currentMana || 0);
@@ -1301,16 +1179,16 @@ class Session {
         if (this.socket.destroyed) {
           return;
         }
-        this.currentHealth = respawnHealth;
-        this.currentMana = respawnMana;
-        this.currentRage = respawnRage;
+        this.currentHealth = vitals.health;
+        this.currentMana = vitals.mana;
+        this.currentRage = vitals.rage;
         const freshPersisted = this.getPersistedCharacter();
         if (freshPersisted) {
           this.saveCharacter({
             ...freshPersisted,
-            currentHealth: respawnHealth,
-            currentMana: respawnMana,
-            currentRage: respawnRage,
+            currentHealth: vitals.health,
+            currentMana: vitals.mana,
+            currentRage: vitals.rage,
             mapId: respawn.mapId,
             x: respawn.x,
             y: respawn.y,
@@ -1341,135 +1219,19 @@ class Session {
 
   createSyntheticFight(action, enemies) {
     this.clearSyntheticCommandRefreshTimer();
-    const player = {
-      side: 0xff,
-      entityId: this.entityType >>> 0,
-      logicalId: 0,
-      typeId: (this.roleEntityType || this.entityType) & 0xffff,
-      row: 1,
-      col: 2,
-      hp: this.currentHealth >>> 0,
-      maxHp: this.currentHealth >>> 0,
-      mp: this.currentMana >>> 0,
-      maxMp: this.currentMana >>> 0,
-      rage: this.currentRage >>> 0,
-      intelligence: this.primaryAttributes.intelligence >>> 0,
-      vitality: this.primaryAttributes.vitality >>> 0,
-      dexterity: this.primaryAttributes.dexterity >>> 0,
-      strength: this.primaryAttributes.strength >>> 0,
-      accuracyStat:
-        20 +
-        ((this.primaryAttributes.dexterity || 0) * 2) +
-        ((this.level || 0) * 2),
-      dodgeStat:
-        10 +
-        (this.primaryAttributes.dexterity || 0) +
-        (this.level || 0),
-      armorStat:
-        8 +
-        (this.primaryAttributes.vitality || 0) +
-        ((this.primaryAttributes.dexterity || 0) >> 1) +
-        (this.level || 0),
-      damageMin:
-        8 +
-        ((this.primaryAttributes.strength || 0) * 2) +
-        (this.level || 0),
-      damageMax:
-        14 +
-        ((this.primaryAttributes.strength || 0) * 3) +
-        (this.primaryAttributes.dexterity || 0) +
-        ((this.level || 0) * 2),
-      attackPower:
-        12 +
-        ((this.primaryAttributes.strength || 0) * 2) +
-        (this.primaryAttributes.dexterity || 0) +
-        ((this.level || 0) * 3),
-      defensePower:
-        8 +
-        ((this.primaryAttributes.vitality || 0) * 2) +
-        (this.primaryAttributes.dexterity || 0) +
-        ((this.level || 0) * 2),
-      aptitude: 0,
-      level: this.level & 0xffff,
-      appearanceTypes: [0, 0, 0],
-      appearanceVariants: [0, 0, 0],
-      alive: true,
-      name: this.charName || 'Hero',
-      templateFlags: 0,
-      lastActionAt: 0,
-      downed: false,
-    };
-    const enemyFighters = enemies.map((enemy) => ({
-      side: enemy.side & 0xff,
-      entityId: enemy.entityId >>> 0,
-      logicalId: enemy.logicalId & 0xffff,
-      typeId: enemy.typeId & 0xffff,
-      row: enemy.row & 0xff,
-      col: enemy.col & 0xff,
-      hp: enemy.hpLike >>> 0,
-      maxHp: enemy.hpLike >>> 0,
-      mp: enemy.mpLike >>> 0,
-      maxMp: enemy.mpLike >>> 0,
-      rage: 0,
-      intelligence: 8 + (enemy.levelLike & 0xffff),
-      vitality: 10 + ((enemy.levelLike & 0xffff) >> 1),
-      dexterity: 10 + ((enemy.levelLike & 0xffff) >> 1),
-      strength: 12 + (enemy.levelLike & 0xffff),
-      accuracyStat:
-        22 +
-        ((enemy.levelLike & 0xffff) * 2) +
-        ((enemy.logicalId & 0xffff) * 2),
-      dodgeStat:
-        10 +
-        (enemy.levelLike & 0xffff) +
-        (enemy.logicalId & 0xffff),
-      armorStat:
-        12 +
-        ((enemy.levelLike & 0xffff) * 2) +
-        (enemy.aptitude & 0xff),
-      damageMin:
-        10 +
-        ((enemy.levelLike & 0xffff) * 2) +
-        (enemy.aptitude & 0xff),
-      damageMax:
-        18 +
-        ((enemy.levelLike & 0xffff) * 3) +
-        ((enemy.logicalId & 0xffff) * 2) +
-        (enemy.aptitude & 0xff),
-      attackPower:
-        18 +
-        ((enemy.levelLike & 0xffff) * 3) +
-        ((enemy.logicalId & 0xffff) * 4) +
-        (enemy.aptitude & 0xff),
-      defensePower:
-        10 +
-        ((enemy.levelLike & 0xffff) * 2) +
-        ((enemy.logicalId & 0xffff) * 3),
-      aptitude: enemy.aptitude & 0xff,
-      level: enemy.levelLike & 0xffff,
-      appearanceTypes: Array.isArray(enemy.appearanceTypes) ? enemy.appearanceTypes.slice(0, 3) : [0, 0, 0],
-      appearanceVariants: Array.isArray(enemy.appearanceVariants) ? enemy.appearanceVariants.slice(0, 3) : [0, 0, 0],
-      alive: true,
-      name: enemy.name,
-      templateFlags: 0,
-      lastActionAt: 0,
-      downed: false,
-    }));
-    return {
-      trigger: action.probeId,
-      startedAt: Date.now(),
-      round: 1,
-      phase: 'command',
-      activeEntityId: player.entityId,
-      activeName: player.name,
+    return createSyntheticFightState({
+      action,
+      entityType: this.entityType,
+      roleEntityType: this.roleEntityType,
+      currentHealth: this.currentHealth,
+      currentMana: this.currentMana,
+      currentRage: this.currentRage,
+      primaryAttributes: this.primaryAttributes,
+      level: this.level,
+      charName: this.charName,
+      enemies,
       turnProfile: selectCombatTurnProbeProfile(),
-      fighters: [player, ...enemyFighters],
-      enemies: enemyFighters,
-      lastAction: null,
-      turnQueue: [],
-      awaitingPlayerAction: false,
-      suppressNextReadyRepeat: false,
-    };
+    });
   }
 
   clearSyntheticCommandRefreshTimer() {
@@ -1491,75 +1253,52 @@ class Session {
   }
 
   sendSyntheticAttackPlayback({ attackerEntityId, targetEntityId, resultCode, damage }) {
-    const writer = new PacketWriter();
-
-    writer.writeUint16(GAME_FIGHT_STREAM_CMD);
-    writer.writeUint8(0x03);
-
-    // Original-server anchor from `gc_server.exe`:
-    // attack case 3 writes:
-    //   u32 attacker_runtime_id
-    //   u32 target_runtime_id
-    //   u8  result_code
-    //   u32 damage
-    // before any death/state follow-up.
-    writer.writeUint32(attackerEntityId >>> 0);
-    writer.writeUint32(targetEntityId >>> 0);
-    writer.writeUint8(resultCode & 0xff);
-    writer.writeUint32(damage >>> 0);
-
     this.writePacket(
-      writer.payload(),
+      buildSyntheticAttackPlaybackPacket({
+        attackerEntityId,
+        targetEntityId,
+        resultCode,
+        damage,
+      }),
       DEFAULT_FLAGS,
       `Sending synthetic fight playback cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x03 attacker=${attackerEntityId} target=${targetEntityId} result=${resultCode} damage=${damage}`
     );
   }
 
   sendSyntheticAttackResultUpdate({ actionMode, target, damage, targetStateOverride = null, includeEntityId = null }) {
-    const writer = new PacketWriter();
     const player = this.getSyntheticPlayerFighter();
     const targetState = targetStateOverride === null ? (target.hp > 0 ? 0 : 1) : (targetStateOverride >>> 0);
-    const encodedBoardSlot = (((target.row & 0xff) << 8) | (target.col & 0xff)) >>> 0;
-    const shouldIncludeEntityId = includeEntityId === null ? targetState > 0 : includeEntityId;
-
-    writer.writeUint16(GAME_FIGHT_STREAM_CMD);
-    writer.writeUint8(actionMode & 0xff);
-
-    // Minimal `0x03fa / 0x66` result/state update modeled on the original server's
-    // post-attack packet family. This keeps the no-companion path and feeds the client
-    // a compact target/result update before the next turn refresh.
-    writer.writeUint32(Math.max(1, player?.hp || this.currentHealth) >>> 0);
-    writer.writeUint32((player?.mp || this.currentMana) >>> 0);
-    writer.writeUint32((player?.rage || this.currentRage) >>> 0);
-    writer.writeUint32(0xfffe7960); // -100000 sentinel for absent companion block
-    writer.writeUint32(encodedBoardSlot);
-    writer.writeUint32(damage >>> 0);
-    writer.writeUint32(targetState >>> 0);
-
-    if (shouldIncludeEntityId) {
-      writer.writeUint32(target.entityId >>> 0);
-    }
 
     this.writePacket(
-      writer.payload(),
+      buildSyntheticAttackResultUpdatePacket({
+        actionMode,
+        playerVitals: {
+          health: player?.hp || this.currentHealth,
+          mana: player?.mp || this.currentMana,
+          rage: player?.rage || this.currentRage,
+        },
+        target,
+        damage,
+        targetStateOverride,
+        includeEntityId,
+      }),
       DEFAULT_FLAGS,
       `Sending synthetic fight result update cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${actionMode.toString(16)} target=${target.entityId} row=${target.row} col=${target.col} damage=${damage} remainingHp=${target.hp} targetState=${targetState}`
     );
   }
 
   sendSyntheticAttackMirrorUpdate({ actionMode }) {
-    const writer = new PacketWriter();
     const player = this.getSyntheticPlayerFighter();
 
-    writer.writeUint16(GAME_FIGHT_STREAM_CMD);
-    writer.writeUint8(actionMode & 0xff);
-    writer.writeUint32(Math.max(1, player?.hp || this.currentHealth) >>> 0);
-    writer.writeUint32((player?.mp || this.currentMana) >>> 0);
-    writer.writeUint32((player?.rage || this.currentRage) >>> 0);
-    writer.writeUint32(0xfffe7960); // -100000 sentinel for absent companion block
-
     this.writePacket(
-      writer.payload(),
+      buildSyntheticAttackMirrorUpdatePacket({
+        actionMode,
+        playerVitals: {
+          health: player?.hp || this.currentHealth,
+          mana: player?.mp || this.currentMana,
+          rage: player?.rage || this.currentRage,
+        },
+      }),
       DEFAULT_FLAGS,
       `Sending synthetic fight mirror update cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${actionMode.toString(16)} hp=${player?.hp || this.currentHealth} mp=${player?.mp || this.currentMana} rage=${player?.rage || this.currentRage}`
     );
@@ -1570,34 +1309,23 @@ class Session {
     const currentHealth = (player?.hp || this.currentHealth) >>> 0;
     const currentMana = (player?.mp || this.currentMana) >>> 0;
     const currentRage = (player?.rage || this.currentRage) >>> 0;
-    const writer = new PacketWriter();
-    writer.writeUint16(GAME_SELF_STATE_CMD);
-    writer.writeUint8(SELF_STATE_APTITUDE_SUBCMD);
-    writer.writeUint8(this.selectedAptitude & 0xff);
-
-    // Active-entity subtype 0x0a snapshot used by DispatchActiveEntitySubtypeUpdate03f6.
-    writer.writeUint32(currentHealth);
-    writer.writeUint32(currentMana);
-    writer.writeUint32(currentRage);
-    writer.writeUint8(this.level & 0xff);
-    writer.writeUint32(this.experience >>> 0);
-    writer.writeUint32(this.bankGold >>> 0);
-    writer.writeUint32(this.gold >>> 0);
-    writer.writeUint32(this.boundGold >>> 0);
-    writer.writeUint32(this.coins >>> 0);
-    writer.writeUint32(this.renown >>> 0);
-    // Two 16-bit fields here are still not fully identified client-side.
-    writer.writeUint16(0);
-    writer.writeUint16(1);
-    writer.writeUint16(this.primaryAttributes.intelligence & 0xffff);
-    writer.writeUint16(this.primaryAttributes.vitality & 0xffff);
-    writer.writeUint16(this.primaryAttributes.dexterity & 0xffff);
-    writer.writeUint16(this.primaryAttributes.strength & 0xffff);
-    writer.writeUint16(this.statusPoints & 0xffff);
-    writer.writeUint8(0);
 
     this.writePacket(
-      writer.payload(),
+      buildSelfStateAptitudeSyncPacket({
+        selectedAptitude: this.selectedAptitude,
+        level: this.level,
+        experience: this.experience,
+        bankGold: this.bankGold,
+        gold: this.gold,
+        boundGold: this.boundGold,
+        coins: this.coins,
+        renown: this.renown,
+        primaryAttributes: this.primaryAttributes,
+        statusPoints: this.statusPoints,
+        currentHealth,
+        currentMana,
+        currentRage,
+      }),
       DEFAULT_FLAGS,
       `Sending self-state stat sync cmd=0x${GAME_SELF_STATE_CMD.toString(16)} sub=0x${SELF_STATE_APTITUDE_SUBCMD.toString(16)} aptitude=${this.selectedAptitude} level=${this.level} hp/mp/rage=${currentHealth}/${currentMana}/${currentRage} stats=${this.primaryAttributes.intelligence}/${this.primaryAttributes.vitality}/${this.primaryAttributes.dexterity}/${this.primaryAttributes.strength} statusPoints=${this.statusPoints}`
     );
@@ -1682,56 +1410,38 @@ class Session {
   }
 
   sendServerRunScriptImmediate(scriptId) {
-    const writer = new PacketWriter();
-    writer.writeUint16(GAME_SCRIPT_EVENT_CMD);
-    writer.writeUint8(SERVER_SCRIPT_IMMEDIATE_SUBCMD);
-    writer.writeUint16(scriptId & 0xffff);
     this.writePacket(
-      writer.payload(),
+      buildServerRunScriptPacket(scriptId, SERVER_SCRIPT_IMMEDIATE_SUBCMD),
       DEFAULT_FLAGS,
       `Sending script event cmd=0x${GAME_SCRIPT_EVENT_CMD.toString(16)} sub=0x${SERVER_SCRIPT_IMMEDIATE_SUBCMD.toString(16)} script=${scriptId}`
     );
   }
 
   sendServerRunScriptDeferred(scriptId) {
-    const writer = new PacketWriter();
-    writer.writeUint16(GAME_SCRIPT_EVENT_CMD);
-    writer.writeUint8(SERVER_SCRIPT_DEFERRED_SUBCMD);
-    writer.writeUint16(scriptId & 0xffff);
     this.writePacket(
-      writer.payload(),
+      buildServerRunScriptPacket(scriptId, SERVER_SCRIPT_DEFERRED_SUBCMD),
       DEFAULT_FLAGS,
       `Sending deferred script event cmd=0x${GAME_SCRIPT_EVENT_CMD.toString(16)} sub=0x${SERVER_SCRIPT_DEFERRED_SUBCMD.toString(16)} script=${scriptId}`
     );
   }
 
   sendServerRunMessage(npcId, msgId) {
-    const writer = new PacketWriter();
-    writer.writeUint16(GAME_SERVER_RUN_CMD);
-    writer.writeUint8(0x01);
-    writer.writeUint32(npcId >>> 0);
-    writer.writeUint16(msgId & 0xffff);
     this.writePacket(
-      writer.payload(),
+      buildServerRunMessagePacket(npcId, msgId),
       DEFAULT_FLAGS,
-      `Sending server-run message cmd=0x${GAME_SERVER_RUN_CMD.toString(16)} sub=0x01 npcId=${npcId} msg=${msgId}`
+      `Sending server-run message cmd=0x${GAME_SERVER_RUN_CMD.toString(16)} sub=0x${SERVER_RUN_MESSAGE_SUBCMD.toString(16)} npcId=${npcId} msg=${msgId}`
     );
   }
 
-  sendGameDialogue(speaker, message, subtype = 0x01, flags = 0, extraText = null) {
-    const writer = new PacketWriter();
-    writer.writeUint16(GAME_DIALOG_CMD);
-    writer.writeUint8(subtype & 0xff);
-    writer.writeUint8(flags & 0xff);
-    writer.writeString(`${speaker}\0`);
-    if (subtype === 0x05) {
-      writer.writeString(`${extraText || ''}\0`);
-    }
-    writer.writeString(`${message}\0`);
-    writer.writeUint8(0);
-    writer.writeUint8(0);
+  sendGameDialogue(speaker, message, subtype = GAME_DIALOG_MESSAGE_SUBCMD, flags = 0, extraText = null) {
     this.writePacket(
-      writer.payload(),
+      buildGameDialoguePacket({
+        speaker,
+        message,
+        subtype,
+        flags,
+        extraText,
+      }),
       DEFAULT_FLAGS,
       `Sending dialogue cmd=0x${GAME_DIALOG_CMD.toString(16)} sub=0x${subtype.toString(16)} speaker="${speaker}"`
     );
@@ -1770,13 +1480,9 @@ class Session {
         name: 'Enemy B',
       },
     ];
-    const writer = new PacketWriter();
-    writer.writeUint16(GAME_FIGHT_STREAM_CMD);
-    writer.writeUint8(0x65);
-    writer.writeUint32(this.entityType >>> 0);
     const syntheticFight = this.createSyntheticFight(action, enemies);
     const player = syntheticFight.fighters[0];
-    this.writeFightProbeEntry(writer, {
+    const playerEntry = {
       side: player.side,
       entityId: player.entityId,
       typeId: player.typeId,
@@ -1790,21 +1496,22 @@ class Session {
       appearanceVariants: player.appearanceVariants,
       name: player.name,
       extended: true,
-    });
-    for (const enemy of enemies) {
-      this.writeFightProbeEntry(writer, enemy);
-    }
+    };
     this.writePacket(
-      writer.payload(),
+      buildCombatEncounterProbePacket({
+        activeEntityId: this.entityType,
+        playerEntry,
+        enemies,
+      }),
       DEFAULT_FLAGS,
-      `Sending experimental combat encounter probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x65 trigger=${action.probeId} active=${this.entityType} enemies=${enemies.map((enemy) => enemy.entityId).join('/')} map=${this.currentMapId} pos=${this.currentX},${this.currentY} referenceCommands=${this.combatReference.fightCommands.map((command) => command.id).join('/') || 'none'} referenceSkills=${this.combatReference.skills.slice(0, 6).map((skill) => skill.id).join('/') || 'none'}`
+      `Sending experimental combat encounter probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${FIGHT_ENCOUNTER_PROBE_SUBCMD.toString(16)} trigger=${action.probeId} active=${this.entityType} enemies=${enemies.map((enemy) => enemy.entityId).join('/')} map=${this.currentMapId} pos=${this.currentX},${this.currentY} referenceCommands=${this.combatReference.fightCommands.map((command) => command.id).join('/') || 'none'} referenceSkills=${this.combatReference.skills.slice(0, 6).map((skill) => skill.id).join('/') || 'none'}`
     );
     this.syntheticFight = syntheticFight;
     this.sendReducedFightStartup(action, enemies.length);
     this.pendingCombatTurnProbe = action;
     this.awaitingCombatTurnHandshake = true;
     this.log(
-      `Deferring combat turn probe until client readiness handshake trigger=${action.probeId} expected=0x${GAME_FIGHT_ACTION_CMD.toString(16)}/0x09`
+      `Deferring combat turn probe until client readiness handshake trigger=${action.probeId} expected=0x${GAME_FIGHT_ACTION_CMD.toString(16)}/0x${FIGHT_CLIENT_READY_SUBCMD.toString(16)}`
     );
   }
 
@@ -1813,83 +1520,47 @@ class Session {
     this.sendFightStateModeProbe64(action);
     this.sendFightControlInitProbe(action);
     this.sendFightActiveStateProbe(action);
-    this.sendFightEntityFlagProbe(action, 0x33);
+    this.sendFightEntityFlagProbe(action, FIGHT_ENTITY_FLAG_HIDE_SUBCMD);
     this.sendFightControlShowProbe(action);
   }
 
   sendFightControlInitProbe(action) {
-    const writer = new PacketWriter();
-    writer.writeUint16(GAME_FIGHT_STREAM_CMD);
-    writer.writeUint8(0x02);
     this.writePacket(
-      writer.payload(),
+      buildFightControlInitProbePacket(),
       DEFAULT_FLAGS,
-      `Sending experimental fight control init probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x02 trigger=${action.probeId}`
+      `Sending experimental fight control init probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${FIGHT_CONTROL_INIT_SUBCMD.toString(16)} trigger=${action.probeId}`
     );
   }
 
   sendFightRingOpenProbe(action) {
-    const writer = new PacketWriter();
-    writer.writeUint16(GAME_FIGHT_STREAM_CMD);
-    writer.writeUint8(0x01);
     this.writePacket(
-      writer.payload(),
+      buildFightRingOpenProbePacket(),
       DEFAULT_FLAGS,
-      `Sending experimental fight ring-open probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x01 trigger=${action.probeId}`
+      `Sending experimental fight ring-open probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${FIGHT_CONTROL_RING_OPEN_SUBCMD.toString(16)} trigger=${action.probeId}`
     );
   }
 
   sendFightStateModeProbe64(action) {
-    const writer = new PacketWriter();
-    writer.writeUint16(GAME_FIGHT_STREAM_CMD);
-    writer.writeUint8(0x64);
-
-    // Minimal structured body for the `0x64` control-state branch:
-    // u32 stateA, u32 stateB, u32 stateC, then optional extras only when stateC > 0.
-    // Using stateA = -1 preserves the branch's "snapshot current active fighter" path
-    // without forcing the optional fields.
-    writer.writeUint32(0xffffffff);
-    writer.writeUint32(0);
-    writer.writeUint32(0);
-
     this.writePacket(
-      writer.payload(),
+      buildFightStateModeProbe64Packet(),
       DEFAULT_FLAGS,
-      `Sending experimental fight mode probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x64 trigger=${action.probeId} stateA=-1 stateB=0 stateC=0`
+      `Sending experimental fight mode probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${FIGHT_STATE_MODE_SUBCMD.toString(16)} trigger=${action.probeId} stateA=-1 stateB=0 stateC=0`
     );
   }
 
   sendFightActiveStateProbe(action) {
-    const writer = new PacketWriter();
-    writer.writeUint16(GAME_FIGHT_STREAM_CMD);
-    writer.writeUint8(0x03);
-    writer.writeUint32(this.entityType >>> 0);
-    writer.writeUint8(0x01);
-
-    // `0x03` gates through the active entity's board slot type and can consume
-    // one of two 3x u32 state blocks before a trailing linked-entity id.
-    // The synthetic start path has those globals zeroed, so probe with zeros.
-    writer.writeUint32(0);
-    writer.writeUint32(0);
-    writer.writeUint32(0);
-    writer.writeUint32(0);
-
     this.writePacket(
-      writer.payload(),
+      buildFightActiveStateProbePacket(this.entityType),
       DEFAULT_FLAGS,
-      `Sending experimental fight active-state probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x03 trigger=${action.probeId} active=${this.entityType} enabled=1 state=0,0,0 linked=0`
+      `Sending experimental fight active-state probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${FIGHT_ACTIVE_STATE_SUBCMD.toString(16)} trigger=${action.probeId} active=${this.entityType} enabled=1 state=0,0,0 linked=0`
     );
   }
 
   sendFightEntityFlagProbe(action, subcommand) {
     const activeEntityId =
       typeof action?.entityId === 'number' ? action.entityId >>> 0 : this.entityType >>> 0;
-    const writer = new PacketWriter();
-    writer.writeUint16(GAME_FIGHT_STREAM_CMD);
-    writer.writeUint8(subcommand & 0xff);
-    writer.writeUint32(activeEntityId);
     this.writePacket(
-      writer.payload(),
+      buildFightEntityFlagProbePacket(activeEntityId, subcommand),
       DEFAULT_FLAGS,
       `Sending experimental fight entity flag probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${subcommand.toString(16)} trigger=${action.probeId} active=${activeEntityId}`
     );
@@ -1898,14 +1569,10 @@ class Session {
   sendFightControlShowProbe(action) {
     const activeEntityId =
       typeof action?.entityId === 'number' ? action.entityId >>> 0 : this.entityType >>> 0;
-    const writer = new PacketWriter();
-    writer.writeUint16(GAME_FIGHT_STREAM_CMD);
-    writer.writeUint8(0x34);
-    writer.writeUint32(activeEntityId);
     this.writePacket(
-      writer.payload(),
+      buildFightControlShowProbePacket(activeEntityId),
       DEFAULT_FLAGS,
-      `Sending experimental fight control probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x34 trigger=${action.probeId} active=${activeEntityId}`
+      `Sending experimental fight control probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${FIGHT_CONTROL_SHOW_SUBCMD.toString(16)} trigger=${action.probeId} active=${activeEntityId}`
     );
   }
 
@@ -1917,17 +1584,8 @@ class Session {
       this.syntheticFight.phase = 'command';
     }
 
-    const writer = new PacketWriter();
-    writer.writeUint16(GAME_FIGHT_TURN_CMD);
-    writer.writeUint8(0);
-    writer.writeUint16(probeProfile.rows.length);
-    for (const row of probeProfile.rows) {
-      writer.writeUint16(row.fieldA & 0xffff);
-      writer.writeUint16(row.fieldB & 0xffff);
-      writer.writeUint16(row.fieldC & 0xffff);
-    }
     this.writePacket(
-      writer.payload(),
+      buildCombatTurnProbePacket(probeProfile),
       DEFAULT_FLAGS,
       `Sending experimental combat turn probe cmd=0x${GAME_FIGHT_TURN_CMD.toString(16)} trigger=${action.probeId} reason=${reason} count=${probeProfile.rows.length} probeIndex=${probeIndex} profile=${probeProfile.profile} rows=${probeProfile.rows.map((row) => `${row.fieldA}/${row.fieldB}/${row.fieldC}`).join(',')}`
     );
@@ -1958,7 +1616,7 @@ class Session {
         ...action,
         probeId: `${action.probeId || 'hide'}:${reason}`,
       },
-      0x33
+      FIGHT_ENTITY_FLAG_HIDE_SUBCMD
     );
   }
 
@@ -1966,33 +1624,6 @@ class Session {
     this.log(
       `Ignoring synthetic combat-exit probe trigger=${action.probeId} map=${this.currentMapId} pos=${this.currentX},${this.currentY}`
     );
-  }
-
-  writeFightProbeEntry(writer, entry) {
-    writer.writeUint8(entry.side & 0xff);
-    writer.writeUint32(entry.entityId >>> 0);
-    writer.writeUint16(entry.typeId & 0xffff);
-    writer.writeUint8(entry.row & 0xff);
-    writer.writeUint8(entry.col & 0xff);
-    writer.writeUint32(entry.hpLike >>> 0);
-    writer.writeUint32(entry.mpLike >>> 0);
-    writer.writeUint8(entry.aptitude & 0xff);
-    writer.writeUint16(entry.levelLike & 0xffff);
-
-    if (!entry.extended) {
-      return;
-    }
-
-    const appearanceTypes = Array.isArray(entry.appearanceTypes) ? entry.appearanceTypes : [0, 0, 0];
-    for (let i = 0; i < 3; i += 1) {
-      writer.writeUint16((appearanceTypes[i] || 0) & 0xffff);
-    }
-
-    const appearanceVariants = Array.isArray(entry.appearanceVariants) ? entry.appearanceVariants : [0, 0, 0];
-    for (let i = 0; i < 3; i += 1) {
-      writer.writeUint8((appearanceVariants[i] || 0) & 0xff);
-    }
-    writer.writeString(`${entry.name || 'Unknown'}\0`);
   }
 }
 
