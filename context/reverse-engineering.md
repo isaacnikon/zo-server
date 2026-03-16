@@ -144,6 +144,32 @@ repeat count:
   - then `0x0043ae30`
 - Normal attack mode is `3`.
 
+## Physical Damage Core
+- Dumped fight scripts:
+  - `afight.lua`
+  - `dfight.lua`
+- Both show combat is attribute-driven, not fixed-damage:
+
+```text
+aact = macro_GetActAttr(22)
+adef = macro_GetActAttr(8)
+dact = macro_GetDefAttr(22)
+ddef = macro_GetDefAttr(8)
+res  = ddef - aact
+```
+
+- More concrete native physical-hit arithmetic appears in `fight_part2.c`:
+
+```text
+hitChance = min(95, floor(attacker_stat6 * 8 / max(defender_stat7, 1)) + 70)
+roll      = random(attacker_attr0x15, attacker_attr0x16)
+damage    = floor((roll * roll) / max(roll + defender_stat8 * 2, 1))
+```
+
+- If `|attacker_level - defender_level| > 5`, native code scales damage by `(levelDiff * 4 + 100)%`.
+- Additional elemental/resistance scaling exists through attacker attr selection around `0x37` and defender attrs `0x38..0x3b`.
+- Miss handling is clearly part of the native path, but the exact client playback result byte for misses is still not confirmed.
+
 ## Enter-Game Identity Note
 - `ReadEntityFromPacket` loads the active entity runtime id into `activeEntity + 0x5b0`.
 - Client fight-command lookups use that id via `FUN_00515cf0`.
@@ -153,4 +179,24 @@ repeat count:
 - Single-enemy startup is the stable reference.
 - Multi-enemy `Combat data error!` was traced to row misalignment in `0x03fa / 0x65`.
 - Current local fix is the player-row/ enemy-row shape split.
-- Remaining work should focus on multi-enemy startup/control polish and turn-flow correctness, not on the old popup path.
+- Defeat / respawn findings:
+  - server log confirms the defeat path can transition the player to Rainbow Valley with a fresh enter-game bootstrap
+  - the remaining client-facing defect is not “server failed to respawn”, but “client still shows reward/result UI or odd combat-close behavior depending on the defeat-close packet family”
+  - client dispatcher mapping from `gc12.exe`:
+    - `0x03fa / 0x66` -> `FUN_00520f3e`
+    - `0x03fa / 0x67` -> `FUN_005211c0`
+    - `0x03ee / 0x58` does not map to a dedicated close handler; it falls through the generic/default path
+  - `0x66` is a win/result-state packet:
+    - updates local hp/mp/rage
+    - can parse optional reward/result payload into fight-end buffers
+    - sets `+0x3cb4 = 1`, later shown by `FUN_00519ca0` as `Won combat`
+  - `0x67` is the failure-state packet:
+    - updates local hp/mp/rage mirror only
+    - sets `+0x3cb4 = 2`, later shown by `FUN_00519ca0` as `Combat failed`
+    - does not populate the reward/item-list buffers used for the loot window
+  - fight teardown is not immediate on packet receipt:
+    - combat loop `FUN_00523b70` waits for end-of-round / animation settle and then calls `FUN_00519ca0`
+  - loot/reward UI is not supposed to appear on player defeat:
+    - `FUN_00519ca0` only opens `FIGHTWIN.itemlist` when reward/result buffers are non-zero
+    - sending `0x66` on defeat is the most plausible way to trigger a false reward/result screen
+- Remaining work should focus on defeat-close packet semantics and turn-flow polish, not on the old startup popup path.

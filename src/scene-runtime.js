@@ -2,6 +2,7 @@
 
 const { ENABLE_DIALOG_EXPERIMENT, FORCE_START_SCENE, MAP_ID, SPAWN_X, SPAWN_Y } = require('./config');
 const {
+  SCENE_IDS,
   getSceneName,
   resolveEncounterTrigger,
   getSceneWorldSpawns,
@@ -9,6 +10,78 @@ const {
   resolveServerRunTrigger,
   resolveTileTrigger,
 } = require('./scenes');
+
+const TOWN_SCENE_IDS = new Set([
+  SCENE_IDS.RAINBOW_VALLEY,
+  SCENE_IDS.BLING_ALLEY,
+  SCENE_IDS.CELESTIAL_STATE,
+  SCENE_IDS.SOUTH_GATE,
+  SCENE_IDS.CLOUD_HALL,
+  SCENE_IDS.COVERT_PALACE,
+  SCENE_IDS.PEACH_GARDEN,
+]);
+
+const TOWN_RESPAWN_POINTS = {
+  // Safe anchors use a stable nearby landmark, not the player's last exact tile:
+  // - `shopkeeper`: towns with a merchant / service cluster
+  // - `frog`: towns that should fall back near the teleporter frog
+  [SCENE_IDS.RAINBOW_VALLEY]: { mapId: SCENE_IDS.RAINBOW_VALLEY, x: 68, y: 87, anchor: 'shopkeeper' },
+  [SCENE_IDS.BLING_ALLEY]: { mapId: SCENE_IDS.BLING_ALLEY, x: 74, y: 120, anchor: 'shopkeeper' },
+  [SCENE_IDS.CELESTIAL_STATE]: { mapId: SCENE_IDS.CELESTIAL_STATE, x: 64, y: 64, anchor: 'frog' },
+  [SCENE_IDS.SOUTH_GATE]: { mapId: SCENE_IDS.SOUTH_GATE, x: 64, y: 96, anchor: 'frog' },
+  [SCENE_IDS.CLOUD_HALL]: { mapId: SCENE_IDS.CLOUD_HALL, x: 58, y: 88, anchor: 'frog' },
+  [SCENE_IDS.COVERT_PALACE]: { mapId: SCENE_IDS.COVERT_PALACE, x: 64, y: 128, anchor: 'shopkeeper' },
+  [SCENE_IDS.PEACH_GARDEN]: { mapId: SCENE_IDS.PEACH_GARDEN, x: 64, y: 160, anchor: 'frog' },
+};
+
+function isTownScene(mapId) {
+  return TOWN_SCENE_IDS.has(mapId);
+}
+
+function getDefaultTownRespawn(mapId) {
+  return TOWN_RESPAWN_POINTS[mapId] || TOWN_RESPAWN_POINTS[SCENE_IDS.RAINBOW_VALLEY];
+}
+
+function sanitizeTownRespawn(mapId, x, y) {
+  const fallback = getDefaultTownRespawn(mapId);
+
+  // Death respawn should land on a stable town safe point, not the exact last
+  // persisted town tile. The anchor is intentionally per-town:
+  // near the shopkeeper where available, otherwise near the teleporter frog.
+  return {
+    mapId,
+    x: fallback.x,
+    y: fallback.y,
+  };
+}
+
+function resolveTownRespawn(character) {
+  if (FORCE_START_SCENE) {
+    return {
+      mapId: MAP_ID,
+      x: SPAWN_X,
+      y: SPAWN_Y,
+    };
+  }
+
+  if (isTownScene(character?.lastTownMapId)) {
+    return sanitizeTownRespawn(
+      character.lastTownMapId,
+      character.lastTownX || getDefaultTownRespawn(character.lastTownMapId).x,
+      character.lastTownY || getDefaultTownRespawn(character.lastTownMapId).y
+    );
+  }
+
+  if (isTownScene(character?.mapId)) {
+    return sanitizeTownRespawn(
+      character.mapId,
+      character.x || getDefaultTownRespawn(character.mapId).x,
+      character.y || getDefaultTownRespawn(character.mapId).y
+    );
+  }
+
+  return getDefaultTownRespawn(SCENE_IDS.RAINBOW_VALLEY);
+}
 
 function resolveCharacterScene(character) {
   if (FORCE_START_SCENE) {
@@ -67,6 +140,13 @@ function resolveServerRunAction({
     return action;
   }
 
+  if (mapId === SCENE_IDS.RAINBOW_VALLEY && subtype === 0x02 && scriptId === 5001) {
+    return {
+      kind: 'rest',
+      npcId: 3175,
+    };
+  }
+
   if (enableDialogExperiment && mapId === 209 && scriptId === 1000) {
     return {
       kind: 'message',
@@ -113,8 +193,10 @@ function resolveEncounterAction({ mapId, x, y, enableDialogExperiment = ENABLE_D
 module.exports = {
   describeScene,
   getBootstrapWorldSpawns,
+  isTownScene,
   resolveCharacterScene,
   resolveEncounterAction,
   resolveServerRunAction,
   resolveTileSceneAction,
+  resolveTownRespawn,
 };

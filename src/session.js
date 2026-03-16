@@ -57,9 +57,11 @@ const { PacketWriter, buildPacket } = require('./protocol');
 const {
   describeScene,
   getBootstrapWorldSpawns,
+  isTownScene,
   resolveCharacterScene,
   resolveEncounterAction,
   resolveServerRunAction,
+  resolveTownRespawn,
   resolveTileSceneAction,
 } = require('./scene-runtime');
 
@@ -111,6 +113,7 @@ class Session {
     this.syntheticFight = null;
     this.combatReference = COMBAT_REFERENCE;
     this.syntheticCommandRefreshTimer = null;
+    this.defeatRespawnPending = false;
 
     if (isGame && sharedState.pendingGameCharacter) {
       this.charName = sharedState.pendingGameCharacter.charName;
@@ -446,6 +449,9 @@ class Session {
       renown: persisted?.renown || this.renown || 0,
       primaryAttributes: normalizePrimaryAttributes(persisted?.primaryAttributes || this.primaryAttributes),
       statusPoints: persisted?.statusPoints || this.statusPoints || 0,
+      lastTownMapId: persisted?.lastTownMapId,
+      lastTownX: persisted?.lastTownX,
+      lastTownY: persisted?.lastTownY,
       ...resolveCharacterScene({
         mapId: persisted?.mapId || this.currentMapId || MAP_ID,
         x: persisted?.x || this.currentX || SPAWN_X,
@@ -583,6 +589,24 @@ class Session {
     this.log(`Persisted character "${normalized.roleName}" for account "${this.accountName}"`);
   }
 
+  updateTownRespawnAnchor(mapId, x, y) {
+    if (!isTownScene(mapId)) {
+      return;
+    }
+
+    const persisted = this.getPersistedCharacter();
+    if (!persisted) {
+      return;
+    }
+
+    this.saveCharacter({
+      ...persisted,
+      lastTownMapId: mapId,
+      lastTownX: x,
+      lastTownY: y,
+    });
+  }
+
   replayPersistedCharacter() {
     const character = this.getPersistedCharacter();
     if (!character) {
@@ -611,6 +635,7 @@ class Session {
     this.currentX = scene.x;
     this.currentY = scene.y;
     this.saveCharacter(character);
+    this.updateTownRespawnAnchor(this.currentMapId, this.currentX, this.currentY);
     this.sendCreateRoleOk({
       ...character,
       entityType: this.roleEntityType,
@@ -621,6 +646,11 @@ class Session {
   handlePositionUpdate(payload) {
     if (payload.length < 8) {
       this.log('Short 0x03eb payload');
+      return;
+    }
+
+    if (this.defeatRespawnPending) {
+      this.log('Ignoring position update while defeat respawn is pending');
       return;
     }
 
@@ -645,6 +675,7 @@ class Session {
       x,
       y,
     });
+    this.updateTownRespawnAnchor(mapId, x, y);
   }
 
   handleTileSceneTrigger(mapId, x, y) {
@@ -756,6 +787,10 @@ class Session {
         );
         return;
       }
+      if (action.kind === 'rest') {
+        this.restoreAtInn(action.npcId || 0);
+        return;
+      }
       this.sendServerRunMessage(action.npcId, action.msgId);
       return;
     }
@@ -802,11 +837,60 @@ class Session {
         );
         return;
       }
+      if (action.kind === 'rest') {
+        this.restoreAtInn(action.npcId || 0);
+        return;
+      }
       this.sendServerRunMessage(action.npcId, action.msgId);
       return;
     }
 
+    if (subtype === 0x0f) {
+      if (payload.length < 7) {
+        this.log('Short 0x03f1/0x0f payload');
+        return;
+      }
+      const npcId = payload.readUInt32LE(3);
+      this.log(
+        `Server-run request sub=0x0f npcId=${npcId} map=${this.currentMapId} pos=${this.currentX},${this.currentY}`
+      );
+      this.restoreAtInn(npcId);
+      return;
+    }
+
     this.log(`Unhandled 0x03f1 subtype=0x${subtype.toString(16)}`);
+  }
+
+  restoreAtInn(npcId) {
+    const restoredHealth = Math.max(this.currentHealth || 0, 398);
+    const restoredMana = Math.max(this.currentMana || 0, 600);
+    const restoredRage = Math.max(this.currentRage || 0, 100);
+
+    this.currentHealth = restoredHealth;
+    this.currentMana = restoredMana;
+    this.currentRage = restoredRage;
+
+    const persisted = this.getPersistedCharacter();
+    if (persisted) {
+      this.saveCharacter({
+        ...persisted,
+        currentHealth: restoredHealth,
+        currentMana: restoredMana,
+        currentRage: restoredRage,
+      });
+    }
+
+    this.sendSelfStateAptitudeSync();
+    this.sendGameDialogue(
+      'Innkeeper',
+      'You feel fully rested.',
+      0x01,
+      0,
+      null
+    );
+    this.log(
+      `Rested at inn npcId=${npcId} restored hp/mp/rage=${restoredHealth}/${restoredMana}/${restoredRage}`
+    );
   }
 
   handleCombatPacket(cmdWord, payload) {
@@ -861,6 +945,20 @@ class Session {
         this.syntheticFight.phase = 'command';
       }
       this.sendCombatCommandRefresh(action, 'client-03ed-09');
+      return;
+    }
+
+    if (
+      this.defeatRespawnPending &&
+      (cmdWord === GAME_FIGHT_ACTION_CMD ||
+        cmdWord === GAME_FIGHT_STREAM_CMD ||
+        cmdWord === GAME_FIGHT_RESULT_CMD ||
+        cmdWord === GAME_FIGHT_STATE_CMD ||
+        cmdWord === GAME_FIGHT_TURN_CMD ||
+        cmdWord === GAME_FIGHT_CLIENT_CMD ||
+        cmdWord === GAME_FIGHT_MISC_CMD)
+    ) {
+      this.log(`Ignoring lingering combat packet cmd=0x${cmdWord.toString(16)} during defeat respawn`);
       return;
     }
 
@@ -939,7 +1037,7 @@ class Session {
       return;
     }
 
-    const damage = Math.min(enemy.hp, 40);
+    const damage = Math.min(enemy.hp, this.computeSyntheticDamage(player, enemy));
     enemy.hp = Math.max(0, enemy.hp - damage);
     enemy.alive = enemy.hp > 0;
     player.lastActionAt = Date.now();
@@ -973,7 +1071,7 @@ class Session {
 
     this.sendSyntheticAttackResultUpdate({
       actionMode: 0x66,
-      enemy,
+      target: enemy,
       damage,
     });
     this.sendSyntheticAttackMirrorUpdate({
@@ -1041,7 +1139,6 @@ class Session {
       .map((enemy) => ({
         attackerEntityId: enemy.entityId,
         targetEntityId,
-        plannedDamage: 18,
         initiative: this.getSyntheticInitiative(enemy),
       }))
       .sort((left, right) => right.initiative - left.initiative || left.attackerEntityId - right.attackerEntityId);
@@ -1054,9 +1151,40 @@ class Session {
       return 0;
     }
     if (fighter.side === 0xff) {
-      return 100 + ((fighter.level || 0) * 2);
+      return 100 + ((fighter.level || 0) * 2) + ((fighter.dexterity || 0) >> 1);
     }
-    return 80 + ((fighter.level || 0) * 2) + ((fighter.logicalId || 0) % 3);
+    return 80 + ((fighter.level || 0) * 2) + ((fighter.dexterity || 0) >> 1) + ((fighter.logicalId || 0) % 3);
+  }
+
+  computeSyntheticDamage(attacker, defender) {
+    if (!attacker || !defender) {
+      return 1;
+    }
+    const minRoll = Math.max(1, attacker.damageMin || attacker.attackPower || 1);
+    const maxRoll = Math.max(minRoll, attacker.damageMax || minRoll);
+    const baseRoll = minRoll + Math.floor(Math.random() * ((maxRoll - minRoll) + 1));
+    const armor = Math.max(0, defender.armorStat || defender.defensePower || 0);
+    let damage = Math.floor((baseRoll * baseRoll) / Math.max(1, baseRoll + (armor * 2)));
+    const levelDiff = (attacker.level || 0) - (defender.level || 0);
+
+    if (Math.abs(levelDiff) > 5) {
+      damage = Math.floor((damage * ((levelDiff * 4) + 100)) / 100);
+    }
+
+    return Math.max(1, damage);
+  }
+
+  hasLivingSyntheticAllies(fighter) {
+    if (!this.syntheticFight || !fighter) {
+      return false;
+    }
+
+    return this.syntheticFight.fighters.some((candidate) => {
+      if (!candidate || candidate.entityId === fighter.entityId) {
+        return false;
+      }
+      return candidate.side === fighter.side && candidate.hp > 0 && candidate.alive !== false;
+    });
   }
 
   resolveSyntheticQueuedTurn(action) {
@@ -1082,9 +1210,10 @@ class Session {
     this.syntheticFight.phase = 'resolving';
     this.syntheticFight.awaitingPlayerAction = false;
     this.syntheticFight.suppressNextReadyRepeat = false;
-    const damage = Math.min(player.hp, currentTurn.plannedDamage || 18);
+    const damage = Math.min(player.hp, this.computeSyntheticDamage(attacker, player));
     player.hp = Math.max(0, player.hp - damage);
     player.alive = player.hp > 0;
+    player.downed = player.hp === 0;
     this.currentHealth = player.hp;
     player.lastActionAt = Date.now();
     this.syntheticFight.lastAction = {
@@ -1106,8 +1235,15 @@ class Session {
       resultCode: player.hp === 0 ? 0x03 : 0x01,
       damage,
     });
-    this.sendSelfStateAptitudeSync();
     if (player.hp === 0) {
+      this.sendSyntheticAttackMirrorUpdate({
+        actionMode: 0x67,
+      });
+      if (this.hasLivingSyntheticAllies(player)) {
+        this.syntheticFight.phase = 'ally-turn';
+        this.log(`Synthetic fighter downed entity=${player.entityId} awaiting ally outcome`);
+        return;
+      }
       this.finishSyntheticFight('defeat', `${this.charName} was defeated.`);
       return;
     }
@@ -1130,6 +1266,7 @@ class Session {
     if (!this.syntheticFight) {
       return;
     }
+    const player = this.getSyntheticPlayerFighter();
     this.clearSyntheticCommandRefreshTimer();
     this.syntheticFight.phase = 'finished';
     this.syntheticFight.turnQueue = [];
@@ -1137,10 +1274,69 @@ class Session {
     this.syntheticFight.suppressNextReadyRepeat = false;
     this.awaitingCombatTurnHandshake = false;
     this.pendingCombatTurnProbe = null;
+    this.combatState = createCombatState();
     this.log(`Synthetic fight finished outcome=${outcome}`);
-    if (message) {
+    if (message && outcome !== 'defeat') {
       this.sendGameDialogue('Combat', message);
     }
+    if (outcome === 'defeat') {
+      const persisted = this.getPersistedCharacter();
+      const respawn = resolveTownRespawn({
+        ...(persisted || {}),
+        mapId: this.currentMapId,
+        x: this.currentX,
+        y: this.currentY,
+      });
+      const respawnHealth = Math.max(1, player?.maxHp ? Math.min(player.maxHp, 1) : 1);
+      const respawnMana = Math.max(0, player?.mp || this.currentMana || 0);
+      const respawnRage = Math.max(0, player?.rage || this.currentRage || 0);
+
+      this.currentHealth = 0;
+      this.currentMana = Math.max(0, player?.mp || this.currentMana || 0);
+      this.currentRage = Math.max(0, player?.rage || this.currentRage || 0);
+      this.currentEncounterTriggerId = null;
+      this.syntheticFight = null;
+      this.defeatRespawnPending = true;
+      setTimeout(() => {
+        if (this.socket.destroyed) {
+          return;
+        }
+        this.currentHealth = respawnHealth;
+        this.currentMana = respawnMana;
+        this.currentRage = respawnRage;
+        const freshPersisted = this.getPersistedCharacter();
+        if (freshPersisted) {
+          this.saveCharacter({
+            ...freshPersisted,
+            currentHealth: respawnHealth,
+            currentMana: respawnMana,
+            currentRage: respawnRage,
+            mapId: respawn.mapId,
+            x: respawn.x,
+            y: respawn.y,
+            lastTownMapId: respawn.mapId,
+            lastTownX: respawn.x,
+            lastTownY: respawn.y,
+          });
+        }
+        this.currentMapId = respawn.mapId;
+        this.currentX = respawn.x;
+        this.currentY = respawn.y;
+        this.currentTileSceneId = 0;
+        this.currentEncounterTriggerId = null;
+        this.transitionToScene(respawn.mapId, respawn.x, respawn.y, 'defeat-respawn');
+      }, 900);
+      return;
+    }
+    this.syntheticFight = null;
+  }
+
+  ignorePostDefeatCombatPacket() {
+    if (!this.syntheticFight && this.currentHealth <= 0) {
+      this.log('Ignoring lingering combat packet after defeat teardown');
+      return true;
+    }
+    return false;
   }
 
   createSyntheticFight(action, enemies) {
@@ -1157,6 +1353,42 @@ class Session {
       mp: this.currentMana >>> 0,
       maxMp: this.currentMana >>> 0,
       rage: this.currentRage >>> 0,
+      intelligence: this.primaryAttributes.intelligence >>> 0,
+      vitality: this.primaryAttributes.vitality >>> 0,
+      dexterity: this.primaryAttributes.dexterity >>> 0,
+      strength: this.primaryAttributes.strength >>> 0,
+      accuracyStat:
+        20 +
+        ((this.primaryAttributes.dexterity || 0) * 2) +
+        ((this.level || 0) * 2),
+      dodgeStat:
+        10 +
+        (this.primaryAttributes.dexterity || 0) +
+        (this.level || 0),
+      armorStat:
+        8 +
+        (this.primaryAttributes.vitality || 0) +
+        ((this.primaryAttributes.dexterity || 0) >> 1) +
+        (this.level || 0),
+      damageMin:
+        8 +
+        ((this.primaryAttributes.strength || 0) * 2) +
+        (this.level || 0),
+      damageMax:
+        14 +
+        ((this.primaryAttributes.strength || 0) * 3) +
+        (this.primaryAttributes.dexterity || 0) +
+        ((this.level || 0) * 2),
+      attackPower:
+        12 +
+        ((this.primaryAttributes.strength || 0) * 2) +
+        (this.primaryAttributes.dexterity || 0) +
+        ((this.level || 0) * 3),
+      defensePower:
+        8 +
+        ((this.primaryAttributes.vitality || 0) * 2) +
+        (this.primaryAttributes.dexterity || 0) +
+        ((this.level || 0) * 2),
       aptitude: 0,
       level: this.level & 0xffff,
       appearanceTypes: [0, 0, 0],
@@ -1165,6 +1397,7 @@ class Session {
       name: this.charName || 'Hero',
       templateFlags: 0,
       lastActionAt: 0,
+      downed: false,
     };
     const enemyFighters = enemies.map((enemy) => ({
       side: enemy.side & 0xff,
@@ -1178,6 +1411,40 @@ class Session {
       mp: enemy.mpLike >>> 0,
       maxMp: enemy.mpLike >>> 0,
       rage: 0,
+      intelligence: 8 + (enemy.levelLike & 0xffff),
+      vitality: 10 + ((enemy.levelLike & 0xffff) >> 1),
+      dexterity: 10 + ((enemy.levelLike & 0xffff) >> 1),
+      strength: 12 + (enemy.levelLike & 0xffff),
+      accuracyStat:
+        22 +
+        ((enemy.levelLike & 0xffff) * 2) +
+        ((enemy.logicalId & 0xffff) * 2),
+      dodgeStat:
+        10 +
+        (enemy.levelLike & 0xffff) +
+        (enemy.logicalId & 0xffff),
+      armorStat:
+        12 +
+        ((enemy.levelLike & 0xffff) * 2) +
+        (enemy.aptitude & 0xff),
+      damageMin:
+        10 +
+        ((enemy.levelLike & 0xffff) * 2) +
+        (enemy.aptitude & 0xff),
+      damageMax:
+        18 +
+        ((enemy.levelLike & 0xffff) * 3) +
+        ((enemy.logicalId & 0xffff) * 2) +
+        (enemy.aptitude & 0xff),
+      attackPower:
+        18 +
+        ((enemy.levelLike & 0xffff) * 3) +
+        ((enemy.logicalId & 0xffff) * 4) +
+        (enemy.aptitude & 0xff),
+      defensePower:
+        10 +
+        ((enemy.levelLike & 0xffff) * 2) +
+        ((enemy.logicalId & 0xffff) * 3),
       aptitude: enemy.aptitude & 0xff,
       level: enemy.levelLike & 0xffff,
       appearanceTypes: Array.isArray(enemy.appearanceTypes) ? enemy.appearanceTypes.slice(0, 3) : [0, 0, 0],
@@ -1186,6 +1453,7 @@ class Session {
       name: enemy.name,
       templateFlags: 0,
       lastActionAt: 0,
+      downed: false,
     }));
     return {
       trigger: action.probeId,
@@ -1247,11 +1515,12 @@ class Session {
     );
   }
 
-  sendSyntheticAttackResultUpdate({ actionMode, enemy, damage }) {
+  sendSyntheticAttackResultUpdate({ actionMode, target, damage, targetStateOverride = null, includeEntityId = null }) {
     const writer = new PacketWriter();
     const player = this.getSyntheticPlayerFighter();
-    const targetState = enemy.hp > 0 ? 0 : 1;
-    const encodedBoardSlot = (((enemy.row & 0xff) << 8) | (enemy.col & 0xff)) >>> 0;
+    const targetState = targetStateOverride === null ? (target.hp > 0 ? 0 : 1) : (targetStateOverride >>> 0);
+    const encodedBoardSlot = (((target.row & 0xff) << 8) | (target.col & 0xff)) >>> 0;
+    const shouldIncludeEntityId = includeEntityId === null ? targetState > 0 : includeEntityId;
 
     writer.writeUint16(GAME_FIGHT_STREAM_CMD);
     writer.writeUint8(actionMode & 0xff);
@@ -1267,14 +1536,14 @@ class Session {
     writer.writeUint32(damage >>> 0);
     writer.writeUint32(targetState >>> 0);
 
-    if (targetState > 0) {
-      writer.writeUint32(enemy.entityId >>> 0);
+    if (shouldIncludeEntityId) {
+      writer.writeUint32(target.entityId >>> 0);
     }
 
     this.writePacket(
       writer.payload(),
       DEFAULT_FLAGS,
-      `Sending synthetic fight result update cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${actionMode.toString(16)} enemy=${enemy.entityId} row=${enemy.row} col=${enemy.col} damage=${damage} remainingHp=${enemy.hp} targetState=${targetState}`
+      `Sending synthetic fight result update cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${actionMode.toString(16)} target=${target.entityId} row=${target.row} col=${target.col} damage=${damage} remainingHp=${target.hp} targetState=${targetState}`
     );
   }
 
@@ -1335,6 +1604,7 @@ class Session {
   }
 
   transitionToScene(mapId, x, y, reason) {
+    this.defeatRespawnPending = false;
     this.currentMapId = mapId;
     this.currentX = x;
     this.currentY = y;
@@ -1351,6 +1621,8 @@ class Session {
         y,
       });
     }
+
+    this.updateTownRespawnAnchor(mapId, x, y);
 
     this.sendEnterGameOk();
   }
@@ -1809,8 +2081,26 @@ function normalizePrimaryAttributes(primaryAttributes) {
 }
 
 function normalizeCharacterRecord(character) {
+  const mapId = numberOrDefault(character.mapId, MAP_ID);
+  const x = numberOrDefault(character.x, SPAWN_X);
+  const y = numberOrDefault(character.y, SPAWN_Y);
+  const lastTownMapId =
+    typeof character.lastTownMapId === 'number'
+      ? character.lastTownMapId
+      : (isTownScene(mapId) ? mapId : undefined);
+  const lastTownX =
+    typeof character.lastTownX === 'number'
+      ? character.lastTownX
+      : (isTownScene(mapId) ? x : undefined);
+  const lastTownY =
+    typeof character.lastTownY === 'number'
+      ? character.lastTownY
+      : (isTownScene(mapId) ? y : undefined);
   return {
     ...character,
+    mapId,
+    x,
+    y,
     level: numberOrDefault(character.level, 1),
     selectedAptitude: numberOrDefault(character.selectedAptitude, 0),
     experience: numberOrDefault(character.experience, 0),
@@ -1823,6 +2113,9 @@ function normalizeCharacterRecord(character) {
     coins: numberOrDefault(character.coins, 0),
     renown: numberOrDefault(character.renown, 0),
     statusPoints: numberOrDefault(character.statusPoints, 0),
+    lastTownMapId,
+    lastTownX,
+    lastTownY,
     primaryAttributes: normalizePrimaryAttributes(character.primaryAttributes),
   };
 }

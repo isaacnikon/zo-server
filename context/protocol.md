@@ -177,7 +177,42 @@ repeat count:
   - queued enemy turns
   - player HP sync via `0x03f6 / 0x0a`
 
+## Physical Damage Formula
+- Dumped Lua scripts `attrres/fight/afight.lua` and `dfight.lua` prove combat is attribute-driven:
+  - `macro_GetActAttr(22)`
+  - `macro_GetActAttr(8)`
+  - `macro_GetDefAttr(22)`
+  - `macro_GetDefAttr(8)`
+  - `res = ddef - aact`
+- Native physical-hit path in `fight_part2.c` gives the concrete damage core currently mirrored by the harness:
+
+```text
+hitChance = min(95, floor(attacker_stat6 * 8 / max(defender_stat7, 1)) + 70)
+roll      = random(attacker_attr0x15, attacker_attr0x16)
+damage    = floor((roll * roll) / max(roll + defender_stat8 * 2, 1))
+if abs(attacker_level - defender_level) > 5:
+  damage = floor(damage * ((levelDiff * 4 + 100) / 100))
+damage = max(1, damage)
+```
+
+- Extra elemental/resistance scaling exists through attacker attr selection around `0x37` and defender attrs `0x38..0x3b`.
+- The local server now uses the validated roll/armor/level-diff core.
+- Miss handling exists in native code through `hitChance`, but the exact client playback `result_code` for misses is still not confirmed, so misses are not yet emitted locally.
+
 ## Current Stable State
 - Single-enemy startup: stable
 - Multi-enemy startup: popup fixed
 - Multi-enemy fight loop exists, but remaining turn-flow/UI polish may still need work
+- On player defeat, the server now:
+  - tears combat down
+  - respawns to the last persisted safe town anchor
+  - falls back to Rainbow Valley if no valid safe town exists
+- Rainbow Valley teleporter tiles are sanitized out of the respawn anchor; current safe fallback is the interior point near the shopkeeper.
+- Important current caveat:
+  - server-side respawn is confirmed in `server.log`
+  - brief Mission Report / reward-style UI was previously correlated with defeat-close `0x66/0x67`
+  - local harness now suppresses `0x66/0x67` on player defeat; the next live check is whether the client still flashes result UI without them
+  - current death-respawn policy uses fixed per-town safe anchors:
+    - near the shopkeeper when the town has one
+    - otherwise near the teleporter frog
+  - follow-up task: verify and tighten the exact frog/shopkeeper coordinates town-by-town
