@@ -47,6 +47,10 @@ const SCENES = {
         type: 'serverRun',
         subtype: 0x01,
         scriptId: 1,
+        minX: 70,
+        maxX: 77,
+        minY: 0,
+        maxY: 20,
         action: {
           kind: 'transition',
           targetSceneId: SCENE_IDS.BLING_SPRING,

@@ -58,6 +58,23 @@ function handleServerRunRequest(session, payload) {
 
   session.log(request.logMessage);
 
+  const action = resolveServerRunAction({
+    mapId: request.mapId,
+    subtype: request.subtype,
+    mode: request.mode,
+    scriptId: request.scriptId,
+    x: request.x,
+    y: request.y,
+  });
+
+  // Position-aware scene transitions reuse the same server-run family as NPC
+  // callbacks. When a concrete transition matches, it must win over quest
+  // script collisions in that hotspot.
+  if (action?.kind === 'transition') {
+    executeServerRunAction(action, session.getServerRunActionHandlers());
+    return;
+  }
+
   const questState = {
     activeQuests: session.activeQuests,
     completedQuests: session.completedQuests,
@@ -86,15 +103,6 @@ function handleServerRunRequest(session, payload) {
     restoreAtInn(session, request.npcId);
     return;
   }
-
-  const action = resolveServerRunAction({
-    mapId: request.mapId,
-    subtype: request.subtype,
-    mode: request.mode,
-    scriptId: request.scriptId,
-    x: request.x,
-    y: request.y,
-  });
 
   executeServerRunAction(action, session.getServerRunActionHandlers());
 }
