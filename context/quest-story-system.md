@@ -1,0 +1,157 @@
+# Quest & Story System
+
+## Current Runtime
+
+- Quest lifecycle packets are implemented on the server with `GAME_QUEST_CMD (0x03ff)`.
+- Client-visible quest sync currently uses:
+  - `0x03ff / 0x03` accept
+  - `0x03ff / 0x04` complete
+  - `0x03ff / 0x05` abandon
+  - `0x03ff / 0x08` status update
+  - `0x03ff / 0x0c` NPC marker
+- The server also reacts to `GAME_SERVER_RUN_CMD (0x03f1)` NPC/script callbacks and uses those as quest triggers.
+
+## Implemented Server Architecture
+
+### Data-driven quest engine
+
+- Runtime quest logic lives in [src/quest-engine.js](/home/nikon/projects/zo-server/src/quest-engine.js).
+- Live quest definitions are loaded from [data/quests/main-story.json](/home/nikon/projects/zo-server/data/quests/main-story.json).
+- The maintained source of truth for hand-authored runtime details is [data/quests/main-story.overrides.json](/home/nikon/projects/zo-server/data/quests/main-story.overrides.json).
+
+Each live quest can define:
+
+- `acceptNpcId`
+- `acceptSubtype`
+- `prerequisiteTaskIds`
+- `steps`
+- `rewards`
+
+Supported step types today:
+
+- `talk`
+- `kill`
+- `transition`
+
+Supported quest-side effects today:
+
+- accept
+- progress/status update
+- completion
+- item grant event emission
+- NPC marker sync
+
+### Persistence
+
+- Character quest state is persisted in [characters.json](/home/nikon/projects/zo-server/characters.json).
+- Normalized fields:
+  - `activeQuests`
+  - `completedQuests`
+
+### Inventory linkage
+
+- Minimal bag state exists in [src/inventory.js](/home/nikon/projects/zo-server/src/inventory.js).
+- Quest events can emit `item-granted`, which [src/session.js](/home/nikon/projects/zo-server/src/session.js) turns into:
+  - bag persistence update
+  - experimental `0x03f3` item-add packet
+
+## Client Extraction Pipeline
+
+### Verified asset sources
+
+- Installed client task metadata:
+  - [data/client-verified/tasks/tasklist.txt](/home/nikon/projects/zo-server/data/client-verified/tasks/tasklist.txt)
+  - [data/client-verified/tasks/tasklist.json](/home/nikon/projects/zo-server/data/client-verified/tasks/tasklist.json)
+- Installed client help/script text:
+  - extracted from `/home/nikon/Data/Zodiac Online/gcg/script.gcg`
+  - normalized to [data/client-verified/quests/client-help-quests.json](/home/nikon/projects/zo-server/data/client-verified/quests/client-help-quests.json)
+
+### Generation scripts
+
+- [scripts/extract-client-quest-help.js](/home/nikon/projects/zo-server/scripts/extract-client-quest-help.js)
+  - extracts:
+    - `taskId`
+    - title/help variant
+    - start NPC ids
+    - map ids
+    - target NPC ids inferred from `macro_GetTypeNpcName(...)`
+    - item ids
+    - goal count
+    - referenced task ids
+- [scripts/generate-main-story-quests.js](/home/nikon/projects/zo-server/scripts/generate-main-story-quests.js)
+  - merges extracted help with runtime overrides into `data/quests/main-story.json`
+- [scripts/generate-quest-catalog.js](/home/nikon/projects/zo-server/scripts/generate-quest-catalog.js)
+  - builds [data/quests/generated/catalog.json](/home/nikon/projects/zo-server/data/quests/generated/catalog.json)
+
+### Catalog status model
+
+Generated catalog entries are classified as:
+
+- `runnable`
+- `needs_override`
+- `metadata_only`
+
+This is the staging shape intended for a future database import.
+
+## Current Live Quest Set
+
+Runnable quests currently promoted into `main-story.json`:
+
+- `1` Back to Earth
+- `408` Achelous's Tortoise
+- `426` Rebel in Hell
+- `467` Elfin
+- `481` Vulture Fight
+
+Verified/implemented patterns:
+
+- accept from specific NPC click
+- kill objective progression from synthetic combat completion
+- talk hand-in progression
+- prerequisite gate enforcement
+
+## Proven Client-verified Example
+
+`Back to Earth` is the most verified quest path so far:
+
+1. Apollo accepts the quest
+2. Blacksmith advances it
+3. Matt triggers `0x03f1 sub=0x02 script=10000`
+4. Server grants wood item `21116`
+5. Blacksmith hand-in completes the quest
+
+This was verified against the installed client task/help data and live packet logs.
+
+## Known Gaps
+
+### Item-backed quest completion is still incomplete
+
+- The server emits an experimental `0x03f3` item-add packet.
+- Quest state can advance and persist correctly.
+- The client does not reliably render granted items in the bag yet.
+- Result: item-based quests can be scaffolded, but bag-visible item delivery is not fully solved.
+
+### Full quest automation is not complete
+
+- Many quests can be scaffolded from client help text.
+- Help text alone does not recover:
+  - exact `0x03f1` subtype per step
+  - script callback ids for every NPC path
+  - precise item-grant vs item-require semantics
+  - exact hand-in packet behavior for every chain
+
+## Recommended Next Promotion Strategy
+
+Promote quests in this order:
+
+1. talk-only quests
+2. kill-plus-talk quests
+3. item-backed quests only after `0x03f3` serialization is confirmed
+
+When promoting a quest:
+
+1. verify task id and start NPC from `tasklist.json`
+2. verify step hints from `client-help-quests.json`
+3. add only the runtime details missing from extraction to `main-story.overrides.json`
+4. regenerate `main-story.json` and `generated/catalog.json`
+5. test against live client logs

@@ -15,6 +15,27 @@ function parseServerRunRequest(payload, sessionState) {
   }
 
   const subtype = payload[2];
+  if (subtype === 0x03) {
+    if (payload.length < 9) {
+      return {
+        kind: 'invalid',
+        reason: 'Short 0x03f1/0x03 payload',
+      };
+    }
+    const npcId = payload.readUInt32LE(3);
+    const scriptId = payload.readUInt16LE(7);
+    return {
+      kind: 'npc-interact',
+      subtype,
+      npcId,
+      scriptId,
+      mapId: sessionState.currentMapId,
+      x: sessionState.currentX,
+      y: sessionState.currentY,
+      logMessage: `Server-run request sub=0x03 npcId=${npcId} script=${scriptId} map=${sessionState.currentMapId} pos=${sessionState.currentX},${sessionState.currentY}`,
+    };
+  }
+
   if (subtype === SERVER_RUN_MESSAGE_SUBCMD) {
     return {
       kind: 'resolved',

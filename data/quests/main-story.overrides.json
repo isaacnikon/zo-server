@@ -1,0 +1,146 @@
+{
+  "source": "runtime-verified packet details that are not recoverable from help text alone",
+  "quests": [
+    {
+      "id": 1,
+      "name": "Back to Earth",
+      "type": "story",
+      "acceptSubtype": 3,
+      "acceptMessage": "Back to Earth is active. Apollo sent you to Blacksmith.",
+      "completionMessage": "Back to Earth is complete.",
+      "rewards": {
+        "gold": 66,
+        "experience": 77
+      },
+      "steps": [
+        {
+          "subtype": 15,
+          "description": "Speak with Blacksmith."
+        },
+        {
+          "npcId": 3029,
+          "subtype": 2,
+          "scriptId": 10000,
+          "description": "Speak with Matt and collect the wood.",
+          "grantItems": [
+            {
+              "templateId": 21116,
+              "quantity": 1,
+              "name": "Wood"
+            }
+          ]
+        },
+        {
+          "npcId": 3276,
+          "subtype": 15,
+          "description": "Bring the wood to Blacksmith."
+        }
+      ]
+    },
+    {
+      "id": 481,
+      "name": "Vulture Fight",
+      "type": "story",
+      "acceptNpcId": 3439,
+      "acceptSubtype": 3,
+      "acceptMessage": "Vulture Fight is active. Jeff asked you to help Gamba.",
+      "completionMessage": "Vulture Fight is complete.",
+      "rewards": {
+        "gold": 0,
+        "experience": 0
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "monsterId": 3384,
+          "count": 1,
+          "description": "Defeat the Vulture threatening Gamba."
+        },
+        {
+          "type": "talk",
+          "npcId": 3383,
+          "subtype": 3,
+          "description": "Report back to Gamba."
+        }
+      ]
+    },
+    {
+      "id": 408,
+      "name": "Achelous's Tortoise",
+      "type": "story",
+      "acceptNpcId": 3093,
+      "acceptSubtype": 3,
+      "acceptMessage": "Achelous's Tortoise is active.",
+      "completionMessage": "Achelous's Tortoise is complete.",
+      "rewards": {
+        "gold": 0,
+        "experience": 0
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "monsterId": 5086,
+          "count": 1,
+          "description": "Defeat the thief who stole the tortoise."
+        },
+        {
+          "type": "talk",
+          "npcId": 3019,
+          "subtype": 3,
+          "description": "Speak with Miser."
+        }
+      ]
+    },
+    {
+      "id": 426,
+      "name": "Rebel in Hell",
+      "type": "story",
+      "acceptNpcId": 3262,
+      "acceptSubtype": 3,
+      "acceptMessage": "Rebel in Hell is active.",
+      "completionMessage": "Rebel in Hell is complete.",
+      "rewards": {
+        "gold": 0,
+        "experience": 0
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "monsterId": 5165,
+          "count": 10,
+          "description": "Defeat 10 Evil Rogues."
+        },
+        {
+          "type": "talk",
+          "npcId": 3124,
+          "subtype": 3,
+          "description": "Report the situation to Hell Nowt."
+        }
+      ]
+    },
+    {
+      "id": 467,
+      "name": "Elfin",
+      "type": "story",
+      "acceptNpcId": 3381,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        481
+      ],
+      "acceptMessage": "Elfin is active.",
+      "completionMessage": "Elfin is complete.",
+      "rewards": {
+        "gold": 0,
+        "experience": 0
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "monsterId": 5282,
+          "count": 1,
+          "description": "Teach Trick Sprite a lesson."
+        }
+      ]
+    }
+  ]
+}

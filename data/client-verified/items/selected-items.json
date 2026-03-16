@@ -1,0 +1,11 @@
+{
+  "source": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+  "items": [
+    {
+      "template_id": 21116,
+      "name": "Wood",
+      "evidence": "Installed script.gcg checks macro_GetItemCount(21116)==0 before Matt says 'The wood is in your pack!!!'.",
+      "notes": "Quest item for Back to Earth follow-up. Full template row in installed item tables still needs direct extraction."
+    }
+  ]
+}

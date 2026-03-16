@@ -16,3 +16,9 @@ Use these focused notes instead of loading all historical context at once.
 
 - `reverse-engineering.md`
   Client files, Ghidra project details, key renamed functions, and map/script extraction findings.
+
+- `quest-story-system.md`
+  Current data-driven quest runtime, extraction pipeline, live promoted quest set, and remaining quest gaps.
+
+- `item-acquisition-plan.md`
+  Current `0x03f3` findings, minimal inventory implementation status, and the remaining work for visible bag items, drops, and stores.

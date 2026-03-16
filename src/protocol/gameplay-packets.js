@@ -6,6 +6,8 @@ const {
   SERVER_RUN_MESSAGE_SUBCMD,
   GAME_DIALOG_CMD,
   GAME_FIGHT_STREAM_CMD,
+  GAME_ITEM_CMD,
+  GAME_QUEST_CMD,
   GAME_SCRIPT_EVENT_CMD,
   GAME_SELF_STATE_CMD,
   GAME_SERVER_RUN_CMD,
@@ -115,6 +117,43 @@ function buildServerRunScriptPacket(scriptId, subtype) {
   return writer.payload();
 }
 
+function buildQuestPacket(subtype, taskId, extraValue = null, extraType = 'u32') {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_QUEST_CMD);
+  writer.writeUint8(subtype & 0xff);
+  writer.writeUint16(taskId & 0xffff);
+  if (typeof extraValue === 'number') {
+    if (extraType === 'u16') {
+      writer.writeUint16(extraValue & 0xffff);
+    } else {
+      writer.writeUint32(extraValue >>> 0);
+    }
+  }
+  return writer.payload();
+}
+
+function buildItemAddPacket({
+  containerType,
+  slot,
+  templateId,
+  itemFlags = 0,
+  itemClass = 0,
+  quantity = 1,
+  auxValue = 1,
+}) {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_ITEM_CMD);
+  writer.writeUint8(containerType & 0xff);
+  writer.writeUint32(slot >>> 0);
+  writer.writeUint16(templateId & 0xffff);
+  writer.writeUint32(itemFlags >>> 0);
+  writer.writeUint8(itemClass & 0xff);
+  writer.writeUint8(0);
+  writer.writeUint16(quantity & 0xffff);
+  writer.writeUint16(auxValue & 0xffff);
+  return writer.payload();
+}
+
 function buildServerRunMessagePacket(npcId, msgId) {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_SERVER_RUN_CMD);
@@ -141,6 +180,8 @@ function buildGameDialoguePacket({ speaker, message, subtype = GAME_DIALOG_MESSA
 
 module.exports = {
   buildGameDialoguePacket,
+  buildItemAddPacket,
+  buildQuestPacket,
   buildSelfStateAptitudeSyncPacket,
   buildServerRunMessagePacket,
   buildServerRunScriptPacket,

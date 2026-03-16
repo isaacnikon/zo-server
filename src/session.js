@@ -32,8 +32,10 @@ const {
   GAME_FIGHT_TURN_CMD,
   GAME_DIALOG_CMD,
   GAME_DIALOG_MESSAGE_SUBCMD,
+  GAME_ITEM_CMD,
   GAME_SPAWN_BATCH_SUBCMD,
   GAME_POSITION_QUERY_CMD,
+  GAME_QUEST_CMD,
   GAME_SERVER_RUN_CMD,
   GAME_SCRIPT_EVENT_CMD,
   GAME_SELF_STATE_CMD,
@@ -69,6 +71,8 @@ const {
 const { PacketWriter, buildPacket } = require('./protocol');
 const {
   buildGameDialoguePacket,
+  buildItemAddPacket,
+  buildQuestPacket,
   buildSelfStateAptitudeSyncPacket,
   buildServerRunMessagePacket,
   buildServerRunScriptPacket,
@@ -108,6 +112,23 @@ const {
   buildFightRingOpenProbePacket,
   buildFightStateModeProbe64Packet,
 } = require('./combat/synthetic-fight-packets');
+const {
+  abandonQuest,
+  applyMonsterDefeat,
+  applySceneTransition,
+  applyServerRunEvent,
+  buildQuestSyncState,
+  normalizeQuestState,
+  reconcileAutoAccept,
+} = require('./quest-engine');
+const {
+  BAG_CONTAINER_TYPE,
+  bagHasTemplateId,
+  buildInventorySnapshot,
+  getItemDefinition,
+  grantItemToBag,
+  normalizeInventoryState,
+} = require('./inventory');
 const {
   describeScene,
   getBootstrapWorldSpawns,
@@ -156,6 +177,12 @@ class Session {
       strength: 15,
     };
     this.statusPoints = 0;
+    this.activeQuests = [];
+    this.completedQuests = [];
+    this.bagItems = [];
+    this.bagSize = 24;
+    this.nextItemInstanceId = 1;
+    this.nextBagSlot = 0;
     this.currentMapId = MAP_ID;
     this.currentX = SPAWN_X;
     this.currentY = SPAWN_Y;
@@ -168,6 +195,7 @@ class Session {
     this.combatReference = COMBAT_REFERENCE;
     this.syntheticCommandRefreshTimer = null;
     this.defeatRespawnPending = false;
+    this.hasAnnouncedQuestOverview = false;
 
     if (isGame && sharedState.pendingGameCharacter) {
       this.charName = sharedState.pendingGameCharacter.charName;
@@ -187,6 +215,14 @@ class Session {
       this.renown = numberOrDefault(sharedState.pendingGameCharacter.renown, 0);
       this.primaryAttributes = normalizePrimaryAttributes(sharedState.pendingGameCharacter.primaryAttributes);
       this.statusPoints = numberOrDefault(sharedState.pendingGameCharacter.statusPoints, 0);
+      const questState = normalizeQuestState(sharedState.pendingGameCharacter);
+      this.activeQuests = questState.activeQuests;
+      this.completedQuests = questState.completedQuests;
+      const inventoryState = normalizeInventoryState(sharedState.pendingGameCharacter);
+      this.bagItems = inventoryState.inventory.bag;
+      this.bagSize = inventoryState.inventory.bagSize;
+      this.nextItemInstanceId = inventoryState.inventory.nextItemInstanceId;
+      this.nextBagSlot = inventoryState.inventory.nextBagSlot;
       const scene = resolveCharacterScene(sharedState.pendingGameCharacter);
       this.currentMapId = scene.mapId;
       this.currentX = scene.x;
@@ -297,6 +333,11 @@ class Session {
       return;
     }
 
+    if (cmdWord === GAME_QUEST_CMD) {
+      this.handleQuestPacket(payload);
+      return;
+    }
+
     if (cmdWord === GAME_FIGHT_CLIENT_CMD || isCombatCommand(cmdWord)) {
       this.handleCombatPacket(cmdWord, payload);
       return;
@@ -386,6 +427,8 @@ class Session {
     this.renown = 0;
     this.primaryAttributes = defaultPrimaryAttributes();
     this.statusPoints = 0;
+    this.activeQuests = [];
+    this.completedQuests = [];
     this.saveCharacter({
       slot: 0,
       roleName: this.charName,
@@ -410,6 +453,8 @@ class Session {
       renown: this.renown,
       primaryAttributes: this.primaryAttributes,
       statusPoints: this.statusPoints,
+      activeQuests: this.activeQuests,
+      completedQuests: this.completedQuests,
       mapId: MAP_ID,
       x: SPAWN_X,
       y: SPAWN_Y,
@@ -503,6 +548,8 @@ class Session {
       renown: persisted?.renown || this.renown || 0,
       primaryAttributes: normalizePrimaryAttributes(persisted?.primaryAttributes || this.primaryAttributes),
       statusPoints: persisted?.statusPoints || this.statusPoints || 0,
+      activeQuests: normalizeQuestState(persisted || {}).activeQuests,
+      completedQuests: normalizeQuestState(persisted || {}).completedQuests,
       lastTownMapId: persisted?.lastTownMapId,
       lastTownX: persisted?.lastTownX,
       lastTownY: persisted?.lastTownY,
@@ -525,6 +572,8 @@ class Session {
   }
 
   sendEnterGameOk() {
+    this.ensureQuestStateReady();
+
     const writer = new PacketWriter();
     writer.writeUint16(LOGIN_CMD);
     writer.writeUint8(LOGIN_SERVER_LIST_RESULT);
@@ -544,6 +593,8 @@ class Session {
     );
     this.sendSelfStateAptitudeSync();
     this.sendStaticNpcSpawns();
+    this.syncInventoryStateToClient();
+    this.syncQuestStateToClient();
   }
 
   sendPong(token) {
@@ -643,18 +694,88 @@ class Session {
     this.log(`Persisted character "${normalized.roleName}" for account "${this.accountName}"`);
   }
 
+  ensureQuestStateReady() {
+    const persisted = this.getPersistedCharacter();
+    if (persisted) {
+      const questState = normalizeQuestState(persisted);
+      this.activeQuests = questState.activeQuests;
+      this.completedQuests = questState.completedQuests;
+      const inventoryState = normalizeInventoryState(persisted);
+      this.bagItems = inventoryState.inventory.bag;
+      this.bagSize = inventoryState.inventory.bagSize;
+      this.nextItemInstanceId = inventoryState.inventory.nextItemInstanceId;
+      this.nextBagSlot = inventoryState.inventory.nextBagSlot;
+    }
+
+    const events = reconcileAutoAccept({
+      activeQuests: this.activeQuests,
+      completedQuests: this.completedQuests,
+    });
+    if (events.length > 0) {
+      this.applyQuestEvents(events, 'bootstrap', {
+        suppressPackets: true,
+        suppressDialogues: true,
+        suppressStatSync: true,
+      });
+    }
+
+    const transitionEvents = applySceneTransition(
+      {
+        activeQuests: this.activeQuests,
+        completedQuests: this.completedQuests,
+      },
+      this.currentMapId
+    );
+    if (transitionEvents.length > 0) {
+      this.applyQuestEvents(transitionEvents, 'bootstrap-scene', {
+        suppressPackets: true,
+        suppressDialogues: true,
+        suppressStatSync: true,
+      });
+    }
+  }
+
+  buildCharacterSnapshot(overrides = {}) {
+    const persisted = this.getPersistedCharacter() || {};
+    return {
+      ...persisted,
+      roleName: this.charName,
+      roleData: this.roleData,
+      entityType: this.entityType,
+      roleEntityType: this.roleEntityType,
+      selectedAptitude: this.selectedAptitude,
+      level: this.level,
+      experience: this.experience,
+      currentHealth: this.currentHealth,
+      currentMana: this.currentMana,
+      currentRage: this.currentRage,
+      gold: this.gold,
+      bankGold: this.bankGold,
+      boundGold: this.boundGold,
+      coins: this.coins,
+      renown: this.renown,
+      primaryAttributes: this.primaryAttributes,
+      statusPoints: this.statusPoints,
+      activeQuests: this.activeQuests,
+      completedQuests: this.completedQuests,
+      inventory: buildInventorySnapshot(this),
+      mapId: this.currentMapId,
+      x: this.currentX,
+      y: this.currentY,
+      ...overrides,
+    };
+  }
+
+  persistCurrentCharacter(overrides = {}) {
+    this.saveCharacter(this.buildCharacterSnapshot(overrides));
+  }
+
   updateTownRespawnAnchor(mapId, x, y) {
     if (!isTownScene(mapId)) {
       return;
     }
 
-    const persisted = this.getPersistedCharacter();
-    if (!persisted) {
-      return;
-    }
-
-    this.saveCharacter({
-      ...persisted,
+    this.persistCurrentCharacter({
       lastTownMapId: mapId,
       lastTownX: x,
       lastTownY: y,
@@ -684,6 +805,14 @@ class Session {
     this.renown = numberOrDefault(character.renown, 0);
     this.primaryAttributes = normalizePrimaryAttributes(character.primaryAttributes);
     this.statusPoints = numberOrDefault(character.statusPoints, 0);
+    const questState = normalizeQuestState(character);
+    this.activeQuests = questState.activeQuests;
+    this.completedQuests = questState.completedQuests;
+    const inventoryState = normalizeInventoryState(character);
+    this.bagItems = inventoryState.inventory.bag;
+    this.bagSize = inventoryState.inventory.bagSize;
+    this.nextItemInstanceId = inventoryState.inventory.nextItemInstanceId;
+    this.nextBagSlot = inventoryState.inventory.nextBagSlot;
     const scene = resolveCharacterScene(character);
     this.currentMapId = scene.mapId;
     this.currentX = scene.x;
@@ -711,6 +840,7 @@ class Session {
     const x = payload.readUInt16LE(2);
     const y = payload.readUInt16LE(4);
     const mapId = payload.readUInt16LE(6);
+    const previousMapId = this.currentMapId;
     this.currentX = x;
     this.currentY = y;
     this.currentMapId = mapId;
@@ -718,18 +848,25 @@ class Session {
     this.handleTileSceneTrigger(mapId, x, y);
     this.handleEncounterTrigger(mapId, x, y);
 
-    const persisted = this.getPersistedCharacter();
-    if (!persisted) {
-      return;
-    }
-
-    this.saveCharacter({
-      ...persisted,
+    this.persistCurrentCharacter({
       mapId,
       x,
       y,
     });
     this.updateTownRespawnAnchor(mapId, x, y);
+
+    if (previousMapId !== mapId) {
+      const questEvents = applySceneTransition(
+        {
+          activeQuests: this.activeQuests,
+          completedQuests: this.completedQuests,
+        },
+        mapId
+      );
+      if (questEvents.length > 0) {
+        this.applyQuestEvents(questEvents, 'position-map-change');
+      }
+    }
   }
 
   handleTileSceneTrigger(mapId, x, y) {
@@ -820,8 +957,26 @@ class Session {
 
     this.log(request.logMessage);
 
+    const questEvents = applyServerRunEvent(
+      {
+        activeQuests: this.activeQuests,
+        completedQuests: this.completedQuests,
+      },
+      {
+        mapId: request.mapId,
+        subtype: request.subtype,
+        npcId: request.npcId,
+        scriptId: request.scriptId,
+      }
+    );
+    if (questEvents.length > 0) {
+      this.applyQuestEvents(questEvents, 'server-run');
+    }
+
     if (request.kind === 'direct-rest') {
-      this.restoreAtInn(request.npcId);
+      if (questEvents.length === 0) {
+        this.restoreAtInn(request.npcId);
+      }
       return;
     }
 
@@ -848,15 +1003,11 @@ class Session {
     this.currentMana = restoredVitals.mana;
     this.currentRage = restoredVitals.rage;
 
-    const persisted = this.getPersistedCharacter();
-    if (persisted) {
-      this.saveCharacter({
-        ...persisted,
-        currentHealth: restoredVitals.health,
-        currentMana: restoredVitals.mana,
-        currentRage: restoredVitals.rage,
-      });
-    }
+    this.persistCurrentCharacter({
+      currentHealth: restoredVitals.health,
+      currentMana: restoredVitals.mana,
+      currentRage: restoredVitals.rage,
+    });
 
     this.sendSelfStateAptitudeSync();
     this.sendGameDialogue(
@@ -868,6 +1019,260 @@ class Session {
     );
     this.log(
       `Rested at inn npcId=${npcId} restored hp/mp/rage=${restoredVitals.health}/${restoredVitals.mana}/${restoredVitals.rage}`
+    );
+  }
+
+  handleQuestPacket(payload) {
+    if (payload.length < 5) {
+      this.log('Short 0x03ff payload');
+      return;
+    }
+
+    const subcmd = payload[2];
+    const taskId = payload.readUInt16LE(3);
+    this.log(`Quest packet sub=0x${subcmd.toString(16)} taskId=${taskId}`);
+
+    if (subcmd === 0x05) {
+      const events = abandonQuest(
+        {
+          activeQuests: this.activeQuests,
+          completedQuests: this.completedQuests,
+        },
+        taskId
+      );
+      if (events.length > 0) {
+        this.applyQuestEvents(events, 'client-abandon');
+      }
+      return;
+    }
+
+    if (subcmd === 0x0c) {
+      const syncState = buildQuestSyncState({
+        activeQuests: this.activeQuests,
+        completedQuests: this.completedQuests,
+      }).find((quest) => quest.taskId === taskId);
+      if (syncState?.markerNpcId) {
+        this.sendQuestFindNpc(taskId, syncState.markerNpcId);
+      }
+      return;
+    }
+
+    this.log(`Unhandled quest subcmd=0x${subcmd.toString(16)} taskId=${taskId}`);
+  }
+
+  applyQuestEvents(events, source = 'runtime', options = {}) {
+    if (!Array.isArray(events) || events.length === 0) {
+      return;
+    }
+
+    const suppressPackets = options.suppressPackets === true;
+    const suppressDialogues = options.suppressDialogues === true;
+    const suppressStatSync = options.suppressStatSync === true;
+    let statsDirty = false;
+    let questStateDirty = false;
+    let inventoryDirty = false;
+
+    for (const event of events) {
+      if (event.type === 'item-granted') {
+        if (bagHasTemplateId(this, event.templateId)) {
+          continue;
+        }
+        const grantResult = grantItemToBag(this, event.templateId, event.quantity);
+        if (!grantResult.ok) {
+          if (!suppressDialogues) {
+            this.sendGameDialogue(
+              'Quest',
+              `${event.itemName || 'Quest item'} could not be added: ${grantResult.reason}.`
+            );
+          }
+          continue;
+        }
+        inventoryDirty = true;
+        if (!suppressPackets) {
+          this.sendItemAdd(grantResult.item.templateId, grantResult.item.slot, grantResult.item.quantity);
+        }
+        if (!suppressDialogues) {
+          this.sendGameDialogue(
+            'Quest',
+            `${event.itemName || grantResult.definition.name} was added to your pack.`
+          );
+        }
+        continue;
+      }
+
+      if (event.type === 'accepted') {
+        questStateDirty = true;
+        if (!suppressPackets) {
+          this.sendQuestAccept(event.taskId);
+          if (event.status > 0) {
+            this.sendQuestUpdate(event.taskId, event.status);
+          }
+          if (event.markerNpcId > 0) {
+            this.sendQuestFindNpc(event.taskId, event.markerNpcId);
+          }
+        }
+        if (!suppressDialogues) {
+          this.sendGameDialogue(
+            'Quest',
+            `${event.definition.acceptMessage || `${event.definition.name} accepted.`}${event.stepDescription ? ` Objective: ${event.stepDescription}` : ''}`
+          );
+        }
+        continue;
+      }
+
+      if (event.type === 'progress' || event.type === 'advanced') {
+        questStateDirty = true;
+        if (!suppressPackets) {
+          this.sendQuestUpdate(event.taskId, event.status);
+          if (event.markerNpcId > 0) {
+            this.sendQuestFindNpc(event.taskId, event.markerNpcId);
+          }
+        }
+        if (!suppressDialogues) {
+          const progressText = event.type === 'progress' ? ` Progress: ${event.status}.` : '';
+          this.sendGameDialogue(
+            'Quest',
+            `Quest updated: ${event.definition.name}.${event.stepDescription ? ` ${event.stepDescription}` : ''}${progressText}`
+          );
+        }
+        continue;
+      }
+
+      if (event.type === 'completed') {
+        questStateDirty = true;
+        this.gold += event.reward.gold;
+        this.experience += event.reward.experience;
+        statsDirty = statsDirty || event.reward.gold > 0 || event.reward.experience > 0;
+        if (!suppressPackets) {
+          this.sendQuestComplete(event.taskId);
+        }
+        if (!suppressDialogues) {
+          this.sendGameDialogue(
+            'Quest',
+            `${event.definition.completionMessage || `${event.definition.name} completed.`} Reward: ${event.reward.gold} gold, ${event.reward.experience} exp.`
+          );
+        }
+        continue;
+      }
+
+      if (event.type === 'abandoned') {
+        questStateDirty = true;
+        if (!suppressPackets) {
+          this.sendQuestAbandon(event.taskId);
+        }
+        if (!suppressDialogues) {
+          this.sendGameDialogue('Quest', `${event.definition.name} abandoned.`);
+        }
+      }
+    }
+
+    if (statsDirty && !suppressStatSync) {
+      this.sendSelfStateAptitudeSync();
+    }
+
+    if (questStateDirty || statsDirty || inventoryDirty) {
+      this.persistCurrentCharacter();
+    }
+  }
+
+  handleQuestMonsterDefeat(monsterId, count = 1) {
+    const events = applyMonsterDefeat(
+      {
+        activeQuests: this.activeQuests,
+        completedQuests: this.completedQuests,
+      },
+      monsterId,
+      count
+    );
+    if (events.length > 0) {
+      this.applyQuestEvents(events, 'monster-defeat');
+    }
+  }
+
+  syncQuestStateToClient() {
+    const syncState = buildQuestSyncState({
+      activeQuests: this.activeQuests,
+      completedQuests: this.completedQuests,
+    });
+
+    for (const quest of syncState) {
+      this.sendQuestAccept(quest.taskId);
+      if (quest.status > 0) {
+        this.sendQuestUpdate(quest.taskId, quest.status);
+      }
+      if (quest.markerNpcId > 0) {
+        this.sendQuestFindNpc(quest.taskId, quest.markerNpcId);
+      }
+    }
+
+    if (!this.hasAnnouncedQuestOverview && syncState.length > 0) {
+      const activeQuest = syncState[0];
+      this.sendGameDialogue(
+        'Quest',
+        `Active quest loaded.${activeQuest.stepDescription ? ` ${activeQuest.stepDescription}` : ''}`
+      );
+      this.hasAnnouncedQuestOverview = true;
+    }
+  }
+
+  syncInventoryStateToClient() {
+    for (const item of this.bagItems) {
+      this.sendItemAdd(item.templateId, item.slot, item.quantity);
+    }
+  }
+
+  sendQuestAccept(taskId) {
+    this.writePacket(
+      buildQuestPacket(0x03, taskId),
+      DEFAULT_FLAGS,
+      `Sending quest accept cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x03 taskId=${taskId}`
+    );
+  }
+
+  sendQuestUpdate(taskId, status) {
+    this.writePacket(
+      buildQuestPacket(0x08, taskId, status & 0xffff, 'u16'),
+      DEFAULT_FLAGS,
+      `Sending quest update cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x08 taskId=${taskId} status=${status}`
+    );
+  }
+
+  sendQuestComplete(taskId) {
+    this.writePacket(
+      buildQuestPacket(0x04, taskId),
+      DEFAULT_FLAGS,
+      `Sending quest complete cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x04 taskId=${taskId}`
+    );
+  }
+
+  sendQuestAbandon(taskId) {
+    this.writePacket(
+      buildQuestPacket(0x05, taskId),
+      DEFAULT_FLAGS,
+      `Sending quest abandon cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x05 taskId=${taskId}`
+    );
+  }
+
+  sendQuestFindNpc(taskId, npcId) {
+    this.writePacket(
+      buildQuestPacket(0x0c, taskId, npcId >>> 0),
+      DEFAULT_FLAGS,
+      `Sending quest marker cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x0c taskId=${taskId} npcId=${npcId}`
+    );
+  }
+
+  sendItemAdd(templateId, slot, quantity = 1) {
+    const definition = getItemDefinition(templateId);
+    this.writePacket(
+      buildItemAddPacket({
+        containerType: BAG_CONTAINER_TYPE,
+        slot,
+        templateId,
+        quantity,
+        auxValue: quantity,
+      }),
+      DEFAULT_FLAGS,
+      `Sending item add cmd=0x${GAME_ITEM_CMD.toString(16)} templateId=${templateId} slot=${slot} qty=${quantity}${definition ? ` name=${definition.name}` : ''}`
     );
   }
 
@@ -1034,6 +1439,10 @@ class Session {
       damage: resolution.damage,
     });
 
+    if (resolution.enemy.hp === 0) {
+      this.handleQuestMonsterDefeat(resolution.enemy.typeId, 1);
+    }
+
     if (resolution.kind === 'enemy-turn-queue') {
       this.awaitingCombatTurnHandshake = false;
       this.pendingCombatTurnProbe = null;
@@ -1182,21 +1591,17 @@ class Session {
         this.currentHealth = vitals.health;
         this.currentMana = vitals.mana;
         this.currentRage = vitals.rage;
-        const freshPersisted = this.getPersistedCharacter();
-        if (freshPersisted) {
-          this.saveCharacter({
-            ...freshPersisted,
-            currentHealth: vitals.health,
-            currentMana: vitals.mana,
-            currentRage: vitals.rage,
-            mapId: respawn.mapId,
-            x: respawn.x,
-            y: respawn.y,
-            lastTownMapId: respawn.mapId,
-            lastTownX: respawn.x,
-            lastTownY: respawn.y,
-          });
-        }
+        this.persistCurrentCharacter({
+          currentHealth: vitals.health,
+          currentMana: vitals.mana,
+          currentRage: vitals.rage,
+          mapId: respawn.mapId,
+          x: respawn.x,
+          y: respawn.y,
+          lastTownMapId: respawn.mapId,
+          lastTownX: respawn.x,
+          lastTownY: respawn.y,
+        });
         this.currentMapId = respawn.mapId;
         this.currentX = respawn.x;
         this.currentY = respawn.y;
@@ -1340,17 +1745,23 @@ class Session {
     this.currentEncounterTriggerId = null;
     this.log(`Transitioning scene reason="${reason}" map=${mapId} (${describeScene(mapId)}) pos=${x},${y}`);
 
-    const persisted = this.getPersistedCharacter();
-    if (persisted) {
-      this.saveCharacter({
-        ...persisted,
-        mapId,
-        x,
-        y,
-      });
-    }
+    this.persistCurrentCharacter({
+      mapId,
+      x,
+      y,
+    });
 
     this.updateTownRespawnAnchor(mapId, x, y);
+    const questEvents = applySceneTransition(
+      {
+        activeQuests: this.activeQuests,
+        completedQuests: this.completedQuests,
+      },
+      mapId
+    );
+    if (questEvents.length > 0) {
+      this.applyQuestEvents(questEvents, 'scene-transition');
+    }
 
     this.sendEnterGameOk();
   }
@@ -1453,7 +1864,7 @@ class Session {
         side: 1,
         entityId: 0x700001,
         logicalId: 1,
-        typeId: 5015,
+        typeId: 5001,
         row: 0,
         col: 2,
         hpLike: 120,
@@ -1468,7 +1879,7 @@ class Session {
         side: 1,
         entityId: 0x700002,
         logicalId: 2,
-        typeId: 5015,
+        typeId: 5001,
         row: 0,
         col: 3,
         hpLike: 120,
@@ -1727,6 +2138,8 @@ function normalizeCharacterRecord(character) {
     typeof character.lastTownY === 'number'
       ? character.lastTownY
       : (isTownScene(mapId) ? y : undefined);
+  const questState = normalizeQuestState(character);
+  const inventoryState = normalizeInventoryState(character);
   return {
     ...character,
     mapId,
@@ -1748,6 +2161,9 @@ function normalizeCharacterRecord(character) {
     lastTownX,
     lastTownY,
     primaryAttributes: normalizePrimaryAttributes(character.primaryAttributes),
+    activeQuests: questState.activeQuests,
+    completedQuests: questState.completedQuests,
+    inventory: inventoryState.inventory,
   };
 }
 
