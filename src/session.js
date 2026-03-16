@@ -71,7 +71,6 @@ const {
 const { PacketWriter, buildPacket } = require('./protocol');
 const {
   buildGameDialoguePacket,
-  buildItemAddPacket,
   buildQuestPacket,
   buildSelfStateAptitudeSyncPacket,
   buildServerRunMessagePacket,
@@ -81,13 +80,19 @@ const {
   buildSyntheticAttackResultUpdatePacket,
 } = require('./protocol/gameplay-packets');
 const {
-  buildDefeatRespawnState,
-  resolveInnRestVitals,
-} = require('./gameplay/session-flows');
+  applyInventoryQuestEvent,
+  syncInventoryStateToClient,
+} = require('./gameplay/inventory-runtime');
 const {
-  executeServerRunAction,
-  parseServerRunRequest,
-} = require('./interactions/server-run');
+  applyQuestCompletionReward,
+} = require('./gameplay/reward-runtime');
+const {
+  handleServerRunRequest: processNpcInteractionRequest,
+  restoreAtInn: processInnRest,
+} = require('./gameplay/npc-interactions');
+const {
+  buildDefeatRespawnState,
+} = require('./gameplay/session-flows');
 const {
   computeSyntheticDamage,
   createSyntheticFightState,
@@ -116,17 +121,12 @@ const {
   abandonQuest,
   applyMonsterDefeat,
   applySceneTransition,
-  applyServerRunEvent,
   buildQuestSyncState,
   normalizeQuestState,
   reconcileAutoAccept,
 } = require('./quest-engine');
 const {
-  BAG_CONTAINER_TYPE,
-  bagHasTemplateId,
   buildInventorySnapshot,
-  getItemDefinition,
-  grantItemToBag,
   normalizeInventoryState,
 } = require('./inventory');
 const {
@@ -135,7 +135,6 @@ const {
   isTownScene,
   resolveCharacterScene,
   resolveEncounterAction,
-  resolveServerRunAction,
   resolveTownRespawn,
   resolveTileSceneAction,
 } = require('./scene-runtime');
@@ -531,7 +530,7 @@ class Session {
     const roleData = persisted ? resolveRoleData(persisted) : this.roleData;
     this.sharedState.pendingGameCharacter = {
       accountName: this.accountName,
-      charName: persisted?.roleName || this.charName,
+      charName: persisted?.charName || persisted?.roleName || this.charName,
       entityType: persisted?.roleEntityType || this.roleEntityType || this.entityType,
       roleEntityType: persisted?.roleEntityType || this.roleEntityType,
       roleData,
@@ -593,7 +592,7 @@ class Session {
     );
     this.sendSelfStateAptitudeSync();
     this.sendStaticNpcSpawns();
-    this.syncInventoryStateToClient();
+    syncInventoryStateToClient(this);
     this.syncQuestStateToClient();
   }
 
@@ -691,7 +690,9 @@ class Session {
     }
     const normalized = normalizeCharacterRecord(character);
     this.sharedState.characterStore.set(this.accountName, normalized);
-    this.log(`Persisted character "${normalized.roleName}" for account "${this.accountName}"`);
+    this.log(
+      `Persisted character "${normalized.charName || normalized.roleName || 'Hero'}" for account "${this.accountName}"`
+    );
   }
 
   ensureQuestStateReady() {
@@ -788,7 +789,7 @@ class Session {
       return;
     }
 
-    this.charName = character.roleName;
+    this.charName = character.charName || character.roleName || 'Hero';
     this.entityType = ENTITY_TYPE;
     this.roleEntityType = character.roleEntityType || ENTITY_TYPE;
     this.roleData = resolveRoleData(character);
@@ -823,7 +824,9 @@ class Session {
       ...character,
       entityType: this.roleEntityType,
     });
-    this.log(`Replayed persisted character "${character.roleName}" for account "${this.accountName}"`);
+    this.log(
+      `Replayed persisted character "${character.charName || character.roleName || 'Hero'}" for account "${this.accountName}"`
+    );
   }
 
   handlePositionUpdate(payload) {
@@ -939,87 +942,11 @@ class Session {
   }
 
   handleServerRunRequest(payload) {
-    const request = parseServerRunRequest(payload, {
-      currentMapId: this.currentMapId,
-      currentX: this.currentX,
-      currentY: this.currentY,
-    });
-
-    if (request.kind === 'invalid') {
-      this.log(request.reason);
-      return;
-    }
-
-    if (request.kind === 'unhandled') {
-      this.log(`Unhandled 0x03f1 subtype=0x${request.subtype.toString(16)}`);
-      return;
-    }
-
-    this.log(request.logMessage);
-
-    const questEvents = applyServerRunEvent(
-      {
-        activeQuests: this.activeQuests,
-        completedQuests: this.completedQuests,
-      },
-      {
-        mapId: request.mapId,
-        subtype: request.subtype,
-        npcId: request.npcId,
-        scriptId: request.scriptId,
-      }
-    );
-    if (questEvents.length > 0) {
-      this.applyQuestEvents(questEvents, 'server-run');
-    }
-
-    if (request.kind === 'direct-rest') {
-      if (questEvents.length === 0) {
-        this.restoreAtInn(request.npcId);
-      }
-      return;
-    }
-
-    const action = resolveServerRunAction({
-      mapId: request.mapId,
-      subtype: request.subtype,
-      mode: request.mode,
-      scriptId: request.scriptId,
-      x: request.x,
-      y: request.y,
-    });
-
-    executeServerRunAction(action, this.getServerRunActionHandlers());
+    processNpcInteractionRequest(this, payload);
   }
 
   restoreAtInn(npcId) {
-    const restoredVitals = resolveInnRestVitals({
-      health: this.currentHealth,
-      mana: this.currentMana,
-      rage: this.currentRage,
-    });
-
-    this.currentHealth = restoredVitals.health;
-    this.currentMana = restoredVitals.mana;
-    this.currentRage = restoredVitals.rage;
-
-    this.persistCurrentCharacter({
-      currentHealth: restoredVitals.health,
-      currentMana: restoredVitals.mana,
-      currentRage: restoredVitals.rage,
-    });
-
-    this.sendSelfStateAptitudeSync();
-    this.sendGameDialogue(
-      'Innkeeper',
-      'You feel fully rested.',
-      GAME_DIALOG_MESSAGE_SUBCMD,
-      0,
-      null
-    );
-    this.log(
-      `Rested at inn npcId=${npcId} restored hp/mp/rage=${restoredVitals.health}/${restoredVitals.mana}/${restoredVitals.rage}`
-    );
+    processInnRest(this, npcId);
   }
 
   handleQuestPacket(payload) {
@@ -1073,30 +1000,16 @@ class Session {
     let inventoryDirty = false;
 
     for (const event of events) {
-      if (event.type === 'item-granted') {
-        if (bagHasTemplateId(this, event.templateId)) {
-          continue;
-        }
-        const grantResult = grantItemToBag(this, event.templateId, event.quantity);
-        if (!grantResult.ok) {
-          if (!suppressDialogues) {
-            this.sendGameDialogue(
-              'Quest',
-              `${event.itemName || 'Quest item'} could not be added: ${grantResult.reason}.`
-            );
-          }
-          continue;
-        }
-        inventoryDirty = true;
-        if (!suppressPackets) {
-          this.sendItemAdd(grantResult.item.templateId, grantResult.item.slot, grantResult.item.quantity);
-        }
-        if (!suppressDialogues) {
-          this.sendGameDialogue(
-            'Quest',
-            `${event.itemName || grantResult.definition.name} was added to your pack.`
-          );
-        }
+      this.log(
+        `Quest event source=${source} type=${event.type} taskId=${numberOrDefault(event.taskId, 0)}${typeof event.status === 'number' ? ` status=${event.status}` : ''}${typeof event.markerNpcId === 'number' ? ` markerNpcId=${event.markerNpcId}` : ''}${event.stepDescription ? ` step="${event.stepDescription}"` : ''}`
+      );
+
+      const inventoryEventResult = applyInventoryQuestEvent(this, event, {
+        suppressPackets,
+        suppressDialogues,
+      });
+      if (inventoryEventResult.handled) {
+        inventoryDirty = inventoryDirty || inventoryEventResult.dirty;
         continue;
       }
 
@@ -1140,16 +1053,25 @@ class Session {
 
       if (event.type === 'completed') {
         questStateDirty = true;
-        this.gold += event.reward.gold;
-        this.experience += event.reward.experience;
-        statsDirty = statsDirty || event.reward.gold > 0 || event.reward.experience > 0;
+        const rewardResult = applyQuestCompletionReward(this, event.reward, {
+          suppressPackets,
+          suppressDialogues,
+        });
+        statsDirty = statsDirty || rewardResult.statsDirty;
+        inventoryDirty = inventoryDirty || rewardResult.inventoryDirty;
         if (!suppressPackets) {
           this.sendQuestComplete(event.taskId);
         }
         if (!suppressDialogues) {
+          const rewardText = rewardResult.rewardMessages.length > 0
+            ? rewardResult.rewardMessages.join(', ')
+            : 'no reward';
+          const levelText = rewardResult.levelSummary?.levelsGained > 0
+            ? ` Level up: ${rewardResult.levelSummary.levelsGained} -> level ${this.level}, status points +${rewardResult.levelSummary.statusPointsGained}.`
+            : '';
           this.sendGameDialogue(
             'Quest',
-            `${event.definition.completionMessage || `${event.definition.name} completed.`} Reward: ${event.reward.gold} gold, ${event.reward.experience} exp.`
+            `${event.definition.completionMessage || `${event.definition.name} completed.`} Reward: ${rewardText}.${levelText}`
           );
         }
         continue;
@@ -1215,12 +1137,6 @@ class Session {
     }
   }
 
-  syncInventoryStateToClient() {
-    for (const item of this.bagItems) {
-      this.sendItemAdd(item.templateId, item.slot, item.quantity);
-    }
-  }
-
   sendQuestAccept(taskId) {
     this.writePacket(
       buildQuestPacket(0x03, taskId),
@@ -1258,21 +1174,6 @@ class Session {
       buildQuestPacket(0x0c, taskId, npcId >>> 0),
       DEFAULT_FLAGS,
       `Sending quest marker cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x0c taskId=${taskId} npcId=${npcId}`
-    );
-  }
-
-  sendItemAdd(templateId, slot, quantity = 1) {
-    const definition = getItemDefinition(templateId);
-    this.writePacket(
-      buildItemAddPacket({
-        containerType: BAG_CONTAINER_TYPE,
-        slot,
-        templateId,
-        quantity,
-        auxValue: quantity,
-      }),
-      DEFAULT_FLAGS,
-      `Sending item add cmd=0x${GAME_ITEM_CMD.toString(16)} templateId=${templateId} slot=${slot} qty=${quantity}${definition ? ` name=${definition.name}` : ''}`
     );
   }
 
@@ -2142,6 +2043,8 @@ function normalizeCharacterRecord(character) {
   const inventoryState = normalizeInventoryState(character);
   return {
     ...character,
+    charName: character.charName || character.roleName || 'Hero',
+    roleName: character.roleName || character.charName || 'Hero',
     mapId,
     x,
     y,

@@ -32,10 +32,22 @@ function normalizeQuestDefinition(quest) {
     acceptNpcId: Number.isInteger(quest.acceptNpcId) ? quest.acceptNpcId >>> 0 : undefined,
     acceptSubtype: Number.isInteger(quest.acceptSubtype) ? quest.acceptSubtype & 0xff : undefined,
     prerequisiteTaskIds: ensureNumberSet(quest.prerequisiteTaskIds),
+    acceptGrantItems: Array.isArray(quest.acceptGrantItems)
+      ? quest.acceptGrantItems
+          .map((item) => normalizeGrantedItem(item))
+          .filter(Boolean)
+      : undefined,
     nextQuestId: Number.isInteger(quest.nextQuestId) ? quest.nextQuestId >>> 0 : undefined,
     rewards: {
       gold: numberOrDefault(quest?.rewards?.gold, 0),
       experience: numberOrDefault(quest?.rewards?.experience, 0),
+      coins: numberOrDefault(quest?.rewards?.coins, 0),
+      renown: numberOrDefault(quest?.rewards?.renown, 0),
+      items: Array.isArray(quest?.rewards?.items)
+        ? quest.rewards.items
+            .map((item) => normalizeGrantedItem(item))
+            .filter(Boolean)
+        : [],
     },
     steps: quest.steps
       .map((step) => normalizeQuestStep(step))
@@ -58,6 +70,11 @@ function normalizeQuestStep(step) {
     count: Number.isInteger(step.count) ? step.count >>> 0 : undefined,
     status: Number.isInteger(step.status) ? step.status >>> 0 : undefined,
     description: typeof step.description === 'string' ? step.description : '',
+    consumeItems: Array.isArray(step.consumeItems)
+      ? step.consumeItems
+          .map((item) => normalizeGrantedItem(item))
+          .filter(Boolean)
+      : undefined,
     grantItems: Array.isArray(step.grantItems)
       ? step.grantItems
           .map((item) => normalizeGrantedItem(item))
@@ -159,7 +176,7 @@ function getQuestStatus(definition, questRecord) {
     return killCount;
   }
 
-  return numberOrDefault(step.status, questRecord?.stepIndex || 0);
+  return numberOrDefault(questRecord?.stepIndex, 0);
 }
 
 function getQuestMarkerNpcId(definition, questRecord) {
@@ -193,6 +210,19 @@ function acceptQuest(state, taskId, events, reason = 'accepted') {
 
   const record = createQuestRecord(definition);
   state.activeQuests.push(record);
+  if (Array.isArray(definition.acceptGrantItems)) {
+    for (const item of definition.acceptGrantItems) {
+      events.push({
+        type: 'item-granted',
+        taskId,
+        definition,
+        templateId: numberOrDefault(item?.templateId, 0),
+        quantity: Math.max(1, numberOrDefault(item?.quantity, 1)),
+        itemName: typeof item?.name === 'string' ? item.name : '',
+        reason,
+      });
+    }
+  }
   events.push({
     type: 'accepted',
     taskId,
@@ -226,6 +256,9 @@ function advanceQuest(state, record, definition, events, reason = 'advanced') {
     const reward = {
       gold: numberOrDefault(definition.rewards?.gold, 0),
       experience: numberOrDefault(definition.rewards?.experience, 0),
+      coins: numberOrDefault(definition.rewards?.coins, 0),
+      renown: numberOrDefault(definition.rewards?.renown, 0),
+      items: Array.isArray(definition.rewards?.items) ? definition.rewards.items : [],
     };
     events.push({
       type: 'completed',
@@ -358,6 +391,41 @@ function applyServerRunEvent(state, event) {
       continue;
     }
 
+    if (Array.isArray(step.consumeItems)) {
+      let missingRequiredItem = false;
+      for (const item of step.consumeItems) {
+        const requiredQuantity = Math.max(1, numberOrDefault(item?.quantity, 1));
+        const matchedItem = Array.isArray(event.inventory)
+          ? event.inventory.find((entry) => entry?.templateId === numberOrDefault(item?.templateId, 0))
+          : null;
+        if (!matchedItem || numberOrDefault(matchedItem.quantity, 0) < requiredQuantity) {
+          missingRequiredItem = true;
+          events.push({
+            type: 'item-missing',
+            taskId: definition.id,
+            definition,
+            templateId: numberOrDefault(item?.templateId, 0),
+            quantity: requiredQuantity,
+            itemName: typeof item?.name === 'string' ? item.name : '',
+          });
+          break;
+        }
+      }
+      if (missingRequiredItem) {
+        continue;
+      }
+      for (const item of step.consumeItems) {
+        events.push({
+          type: 'item-consumed',
+          taskId: definition.id,
+          definition,
+          templateId: numberOrDefault(item?.templateId, 0),
+          quantity: Math.max(1, numberOrDefault(item?.quantity, 1)),
+          itemName: typeof item?.name === 'string' ? item.name : '',
+        });
+      }
+    }
+
     if (Array.isArray(step.grantItems)) {
       for (const item of step.grantItems) {
         events.push({
@@ -375,6 +443,108 @@ function applyServerRunEvent(state, event) {
   }
 
   return events;
+}
+
+function buildServerRunQuestTrace(state, event) {
+  const trace = [];
+
+  for (const definition of QUEST_DEFINITIONS) {
+    if (typeof definition.acceptNpcId === 'number' || typeof definition.acceptSubtype === 'number') {
+      const mismatchReasons = [];
+      if (typeof definition.acceptNpcId === 'number' && definition.acceptNpcId !== event.npcId) {
+        mismatchReasons.push(`npc ${definition.acceptNpcId}!=${numberOrDefault(event.npcId, 0)}`);
+      }
+      if (typeof definition.acceptSubtype === 'number' && definition.acceptSubtype !== event.subtype) {
+        mismatchReasons.push(`subtype 0x${definition.acceptSubtype.toString(16)}!=0x${numberOrDefault(event.subtype, 0).toString(16)}`);
+      }
+
+      if (mismatchReasons.length === 0) {
+        const alreadyCompleted = state.completedQuests.includes(definition.id);
+        const alreadyActive = state.activeQuests.some((quest) => quest.id === definition.id);
+        const missingPrerequisites = definition.prerequisiteTaskIds.filter(
+          (prerequisiteTaskId) => !state.completedQuests.includes(prerequisiteTaskId)
+        );
+        if (alreadyCompleted) {
+          trace.push(`[accept] task=${definition.id} "${definition.name}" skipped: already completed`);
+        } else if (alreadyActive) {
+          trace.push(`[accept] task=${definition.id} "${definition.name}" skipped: already active`);
+        } else if (missingPrerequisites.length > 0) {
+          trace.push(`[accept] task=${definition.id} "${definition.name}" skipped: missing prerequisites ${missingPrerequisites.join(',')}`);
+        } else {
+          trace.push(`[accept] task=${definition.id} "${definition.name}" matched`);
+        }
+      }
+    }
+  }
+
+  for (const record of state.activeQuests) {
+    const definition = getQuestDefinition(record.id);
+    const step = getCurrentStep(definition, record);
+    if (!definition) {
+      trace.push(`[step] task=${numberOrDefault(record?.id, 0)} missing definition`);
+      continue;
+    }
+    if (!step) {
+      trace.push(`[step] task=${definition.id} "${definition.name}" has no current step`);
+      continue;
+    }
+    if (step.type !== 'talk') {
+      trace.push(`[step] task=${definition.id} "${definition.name}" ignored: current step type=${step.type}`);
+      continue;
+    }
+
+    const mismatchReasons = [];
+    if (typeof step.mapId === 'number' && step.mapId !== event.mapId) {
+      mismatchReasons.push(`map ${step.mapId}!=${numberOrDefault(event.mapId, 0)}`);
+    }
+    if (typeof step.subtype === 'number' && step.subtype !== event.subtype) {
+      mismatchReasons.push(`subtype 0x${step.subtype.toString(16)}!=0x${numberOrDefault(event.subtype, 0).toString(16)}`);
+    }
+    if (
+      typeof step.npcId === 'number' &&
+      typeof event.npcId === 'number' &&
+      step.npcId !== event.npcId
+    ) {
+      mismatchReasons.push(`npc ${step.npcId}!=${event.npcId}`);
+    }
+    if (typeof step.scriptId === 'number' && step.scriptId !== event.scriptId) {
+      mismatchReasons.push(`script ${step.scriptId}!=${numberOrDefault(event.scriptId, 0)}`);
+    }
+
+    if (Array.isArray(step.consumeItems)) {
+      for (const item of step.consumeItems) {
+        const requiredQuantity = Math.max(1, numberOrDefault(item?.quantity, 1));
+        const matchedItem = Array.isArray(event.inventory)
+          ? event.inventory.find((entry) => entry?.templateId === numberOrDefault(item?.templateId, 0))
+          : null;
+        if (!matchedItem) {
+          mismatchReasons.push(`missing item ${numberOrDefault(item?.templateId, 0)} x${requiredQuantity}`);
+          break;
+        }
+        if (numberOrDefault(matchedItem.quantity, 0) < requiredQuantity) {
+          mismatchReasons.push(`item ${numberOrDefault(item?.templateId, 0)} short ${numberOrDefault(matchedItem.quantity, 0)}/${requiredQuantity}`);
+          break;
+        }
+      }
+    }
+
+    if (mismatchReasons.length > 0) {
+      trace.push(
+        `[step] task=${definition.id} "${definition.name}" step=${record.stepIndex} blocked: ${mismatchReasons.join(', ')}`
+      );
+      continue;
+    }
+
+    trace.push(
+      `[step] task=${definition.id} "${definition.name}" step=${record.stepIndex} matched${step.description ? `: ${step.description}` : ''}`
+    );
+  }
+
+  if (trace.length === 0) {
+    trace.push('[quest-trace] no acceptors or active talk steps evaluated');
+  }
+
+  return trace;
 }
 
 function abandonQuest(state, taskId) {
@@ -422,6 +592,7 @@ module.exports = {
   applyMonsterDefeat,
   applySceneTransition,
   applyServerRunEvent,
+  buildServerRunQuestTrace,
   abandonQuest,
   getQuestDefinition,
 };

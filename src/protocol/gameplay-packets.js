@@ -6,12 +6,14 @@ const {
   SERVER_RUN_MESSAGE_SUBCMD,
   GAME_DIALOG_CMD,
   GAME_FIGHT_STREAM_CMD,
+  GAME_ITEM_CONTAINER_CMD,
   GAME_ITEM_CMD,
   GAME_QUEST_CMD,
   GAME_SCRIPT_EVENT_CMD,
   GAME_SELF_STATE_CMD,
   GAME_SERVER_RUN_CMD,
   SELF_STATE_APTITUDE_SUBCMD,
+  SELF_STATE_VALUE_UPDATE_SUBCMD,
 } = require('../config');
 const { PacketWriter } = require('../protocol');
 
@@ -117,6 +119,15 @@ function buildServerRunScriptPacket(scriptId, subtype) {
   return writer.payload();
 }
 
+function buildSelfStateValueUpdatePacket({ discriminator, value }) {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_SELF_STATE_CMD);
+  writer.writeUint8(SELF_STATE_VALUE_UPDATE_SUBCMD);
+  writer.writeUint8(discriminator & 0xff);
+  writer.writeUint32(value >>> 0);
+  return writer.payload();
+}
+
 function buildQuestPacket(subtype, taskId, extraValue = null, extraType = 'u32') {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_QUEST_CMD);
@@ -132,25 +143,82 @@ function buildQuestPacket(subtype, taskId, extraValue = null, extraType = 'u32')
   return writer.payload();
 }
 
+function writeClientItemInstancePayload(writer, {
+  templateId,
+  instanceId = 0,
+  stateCode = 0,
+  bindState = 0,
+  quantity = 1,
+  extraValue = 0,
+  attributePairs = [],
+}) {
+  writer.writeUint16(templateId & 0xffff);
+  writer.writeUint32(instanceId >>> 0);
+  // The client's item counter reads the u16 field after these two bytes for
+  // template family 0x74 quest items like 21098, so quantity must land there.
+  writer.writeUint8(stateCode & 0xff);
+  writer.writeUint8(bindState & 0xff);
+  writer.writeUint16(quantity & 0xffff);
+  writer.writeUint16(extraValue & 0xffff);
+  // Minimal item-instance payload shape derived from client deserialization:
+  // template id, runtime id, stack count, flags, two u16 fields, six template
+  // fields for common item types, then zero embedded entries.
+  for (let index = 0; index < 6; index += 1) {
+    const pair = attributePairs[index];
+    writer.writeUint16((pair?.value || 0) & 0xffff);
+  }
+  writer.writeUint8(0);
+}
+
+function buildInventoryContainerBulkSyncPacket({
+  containerType,
+  items,
+}) {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_ITEM_CONTAINER_CMD);
+  writer.writeUint8(containerType & 0xff);
+  writer.writeUint8(0x00);
+  writer.writeUint16(items.length & 0xffff);
+
+  for (const item of items) {
+    writer.writeUint32((item.instanceId || 0) >>> 0);
+    writeClientItemInstancePayload(writer, item);
+  }
+
+  return writer.payload();
+}
+
 function buildItemAddPacket({
   containerType,
-  slot,
   templateId,
-  itemFlags = 0,
-  itemClass = 0,
+  instanceId = 0,
+  stateCode = 0,
+  bindState = 0,
   quantity = 1,
-  auxValue = 1,
+  extraValue = 0,
+  attributePairs = [],
 }) {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_ITEM_CMD);
   writer.writeUint8(containerType & 0xff);
-  writer.writeUint32(slot >>> 0);
-  writer.writeUint16(templateId & 0xffff);
-  writer.writeUint32(itemFlags >>> 0);
-  writer.writeUint8(itemClass & 0xff);
-  writer.writeUint8(0);
-  writer.writeUint16(quantity & 0xffff);
-  writer.writeUint16(auxValue & 0xffff);
+  writer.writeUint32(instanceId >>> 0);
+  writeClientItemInstancePayload(writer, {
+    templateId,
+    instanceId,
+    stateCode,
+    bindState,
+    quantity,
+    extraValue,
+    attributePairs,
+  });
+  return writer.payload();
+}
+
+function buildItemRemovePacket({ containerType, instanceId }) {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_ITEM_CMD + 1);
+  writer.writeUint8(containerType & 0xff);
+  writer.writeUint32(instanceId >>> 0);
   return writer.payload();
 }
 
@@ -179,10 +247,13 @@ function buildGameDialoguePacket({ speaker, message, subtype = GAME_DIALOG_MESSA
 }
 
 module.exports = {
+  buildInventoryContainerBulkSyncPacket,
   buildGameDialoguePacket,
   buildItemAddPacket,
+  buildItemRemovePacket,
   buildQuestPacket,
   buildSelfStateAptitudeSyncPacket,
+  buildSelfStateValueUpdatePacket,
   buildServerRunMessagePacket,
   buildServerRunScriptPacket,
   buildSyntheticAttackMirrorUpdatePacket,

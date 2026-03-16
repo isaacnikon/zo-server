@@ -115,10 +115,11 @@ Verified/implemented patterns:
 `Back to Earth` is the most verified quest path so far:
 
 1. Apollo accepts the quest
-2. Blacksmith advances it
-3. Matt triggers `0x03f1 sub=0x02 script=10000`
-4. Server grants wood item `21116`
-5. Blacksmith hand-in completes the quest
+2. Apollo hands off a recommendation token for Blacksmith
+3. Blacksmith advances the quest and sends the player to Matt
+4. Matt triggers `0x03f1 sub=0x02 script=10000`
+5. Server grants timber item `21116`
+6. Blacksmith hand-in completes the quest
 
 This was verified against the installed client task/help data and live packet logs.
 
@@ -126,10 +127,14 @@ This was verified against the installed client task/help data and live packet lo
 
 ### Item-backed quest completion is still incomplete
 
-- The server emits an experimental `0x03f3` item-add packet.
-- Quest state can advance and persist correctly.
-- The client does not reliably render granted items in the bag yet.
-- Result: item-based quests can be scaffolded, but bag-visible item delivery is not fully solved.
+- The server now sends both:
+  - `0x03f2 / 0x00` authoritative bag full-sync
+  - `0x03f3` item receive packets for item-arrival UX
+- Live client debugging showed the quest token `21098` can exist in the authoritative bag tree and still fail the quest UI count.
+- The concrete client-side count path is `LuaMacro_GetItemCount -> FUN_0053e2a0`.
+- For template family `0x74` items such as quest token `21098`, that counter reads the parsed `u16` quantity field at `clientItem + 0x08`, not merely node presence.
+- A prior server serializer bug populated the preceding `u8` field instead, which made the item visible in the bag while `macro_GetItemCount(21098)` still returned `0`.
+- Result: for item-backed quests, do not trust bag visibility alone; verify the counted quantity field used by `FUN_0053e2a0`.
 
 ### Full quest automation is not complete
 
@@ -146,7 +151,7 @@ Promote quests in this order:
 
 1. talk-only quests
 2. kill-plus-talk quests
-3. item-backed quests only after `0x03f3` serialization is confirmed
+3. item-backed quests only after the counted quantity field for the relevant item template family is confirmed
 
 When promoting a quest:
 

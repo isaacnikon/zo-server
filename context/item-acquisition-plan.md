@@ -195,7 +195,7 @@
 
 1. Identify the exact normal shop purchase request packet.
 2. Identify the exact world-drop spawn and pickup request packet.
-3. Fully decode the `0x03f3` item serialization fields by instrumenting `FUN_00547740` and `FUN_00540100`.
+3. Fully decode the `0x03f3` item serialization fields by instrumenting `DeserializeItemInstanceFromPacket` (`0x00547740`) and the family-specific field parser inside `DeserializeItemInstanceFieldsByTemplateType`.
 4. Verify whether one-item add packet is enough for stack updates and multi-quantity buys, or whether the client expects one packet per slot changed.
 
 ## Recommended Build Order
@@ -212,6 +212,11 @@
 - Exact outbound packet for normal gold-shop buy
 - Exact outbound packet for ground-item pickup
 - Full `0x03f3` item-instance field layout beyond template id and parsed extra blob
+- Per-template-family meaning of the bytes parsed into:
+  - `clientItem + 0x06`
+  - `clientItem + 0x08`
+  - `clientItem + 0x04`
+  - `clientItem + 0x1e`
 - Exact world-drop spawn and despawn opcode for visible ground loot
 
 ## Additional Packet Map
@@ -227,6 +232,12 @@
   - parses item template and state with `FUN_00547740`
   - emits `Get item ...`
   - refreshes bag UI
+- Live March 17 finding for `Back to Earth` token `21098`:
+  - `LuaMacro_GetItemCount(21098)` stops in `FUN_0053e2a0`
+  - the authoritative bag tree can contain the token item object while the counter still returns `0`
+  - template `21098` resolves to family `0x74`
+  - for that family the counter uses the parsed `u16` at `clientItem + 0x08`
+  - if the server writes quantity into the preceding `u8`, the item is visible but quest UI stays `0/1`
 - `0x03f6` subcase `0x0c` is the generic value update path for:
   - gold
   - coins
@@ -234,3 +245,40 @@
   - experience
 - `/openstore <name>` from `FUN_004126a0` sends `0x044e` sub `0x32` with a string payload.
 - Normal buy confirmation lives in `FUN_0048b9a0`, but the exact emitted purchase request is still behind inventory-manager virtual calls and remains unresolved.
+
+## Inventory Symbol Map
+
+- `0x004344d0` -> `HandleInventoryContainerUpdatePacket`
+  - reads container type + container subcommand from the packet
+  - dispatches into the per-container update handler
+  - refreshes visible inventory windows afterward
+- `0x00536020` -> `SendItemServiceRequest_03F8`
+  - emits opcode `0x03f8`
+  - covers at least buy, sell, and repair-related item service requests
+  - validates bag space and local affordability before sending
+- `0x00539a90` -> `PopulateInteractionSelectionDescriptor`
+  - resolves the selected interaction item runtime id, template id, and icon resources
+  - supports normal containers plus script-drop-backed selections
+- `0x00539910` -> `GetOrCreateScriptDropItemRecord`
+  - lazily creates a client item record for `script\\dropitem\\%d.lua`
+  - caches it in the script-drop lookup tree
+- `0x00537b60` -> `EnsureRuntimeIdAssignedToItemSlot`
+  - inserts a runtime id into the first empty slot entry if it is not already indexed
+- `0x0053e2a0` -> counts container items by template id
+  - used by `LuaMacro_GetItemCount`
+  - compares requested template id against `clientItem + 0x40`
+  - for template families `< 0x40`, increments by `1`
+  - for families `>= 0x40`, increments by `*(u16 *)(clientItem + 0x08)`
+- `0x0053fe60` -> `ClearEmbeddedItemEntries`
+- `0x00547870` -> `ResetEmbeddedItemEntry`
+- `0x00547890` -> `InitializeEmbeddedItemEntry`
+- `0x0053fe20` -> `AppendEmbeddedItemEntry`
+  - these four helpers manage the fixed-size embedded-item subrecord array attached to a client item
+- `0x005415d0` -> `LoadItemSetBonusTable`
+  - loads `attrres\\item\\taozhuang.txt`
+  - builds the client-side set-bonus lookup table used during item parsing
+- `0x0053eef0` -> `ApplyInventoryContainerItemUpdateSubcommand`
+  - applies per-container item mutations such as full item replace, quantity updates, and embedded-field updates
+  - ends by refreshing visible inventory containers
+- `0x00541530` -> `LookupItemSetBonusEntryByIndex`
+  - fetches one set-bonus entry from the loaded `taozhuang.txt` table by set id and slot index

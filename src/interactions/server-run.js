@@ -15,11 +15,11 @@ function parseServerRunRequest(payload, sessionState) {
   }
 
   const subtype = payload[2];
-  if (subtype === 0x03) {
+  if (subtype === 0x03 || subtype === 0x08) {
     if (payload.length < 9) {
       return {
         kind: 'invalid',
-        reason: 'Short 0x03f1/0x03 payload',
+        reason: `Short 0x03f1/0x${subtype.toString(16)} payload`,
       };
     }
     const npcId = payload.readUInt32LE(3);
@@ -32,7 +32,30 @@ function parseServerRunRequest(payload, sessionState) {
       mapId: sessionState.currentMapId,
       x: sessionState.currentX,
       y: sessionState.currentY,
-      logMessage: `Server-run request sub=0x03 npcId=${npcId} script=${scriptId} map=${sessionState.currentMapId} pos=${sessionState.currentX},${sessionState.currentY}`,
+      logMessage: `Server-run request sub=0x${subtype.toString(16)} npcId=${npcId} script=${scriptId} map=${sessionState.currentMapId} pos=${sessionState.currentX},${sessionState.currentY}`,
+    };
+  }
+
+  if (subtype === 0x04) {
+    if (payload.length < 10) {
+      return {
+        kind: 'invalid',
+        reason: 'Short 0x03f1/0x4 payload',
+      };
+    }
+    const mode = payload[3];
+    const npcId = payload.readUInt16LE(4);
+    const scriptId = payload.readUInt16LE(8);
+    return {
+      kind: 'npc-interact',
+      subtype,
+      mode,
+      npcId,
+      scriptId,
+      mapId: sessionState.currentMapId,
+      x: sessionState.currentX,
+      y: sessionState.currentY,
+      logMessage: `Server-run request sub=0x4 mode=${mode} npcId=${npcId} script=${scriptId} map=${sessionState.currentMapId} pos=${sessionState.currentX},${sessionState.currentY}`,
     };
   }
 
