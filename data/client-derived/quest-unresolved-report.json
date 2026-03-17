@@ -1,0 +1,12 @@
+{
+  "source": {
+    "runtimeCandidates": "/home/nikon/projects/zo-server/data/client-derived/quest-runtime-candidates.json",
+    "roleinfo": "/home/nikon/projects/zo-server/data/client-derived/roleinfo.json"
+  },
+  "generatedAt": "2026-03-17T14:59:53.766Z",
+  "summary": {
+    "unresolvedQuestCount": 0,
+    "conflictCounts": {}
+  },
+  "quests": []
+}

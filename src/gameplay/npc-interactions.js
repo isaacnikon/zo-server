@@ -78,6 +78,7 @@ function handleServerRunRequest(session, payload) {
   const questState = {
     activeQuests: session.activeQuests,
     completedQuests: session.completedQuests,
+    level: session.level,
   };
   const questEventInput = {
     mapId: request.mapId,

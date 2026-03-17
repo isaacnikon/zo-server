@@ -31,6 +31,17 @@
   - `helpfiles.json`
   - `roleinfo.json`
   - `quests.json`
+  - `quest-flow.json`
+  - `task-runtime.json`
+  - `quest-schema.json`
+  - `task-state-clusters.json`
+  - `task-state-matches.json`
+  - `task-chains.json`
+  - `quest-workflow.json`
+  - `quest-dispatch.json`
+  - `quest-full-workflow.json`
+  - `task-context.json`
+  - `quest-runtime-candidates.json`
 
 ## Working So Far
 - `Spinning(II)` completion path is fixed:
@@ -55,6 +66,43 @@
   - monster name lookup from `roleinfo.json`
   - starter-role gender lookup from `roleinfo.json`
   - scene ordinary-monster lookup by location text from `roleinfo.json`
+- Quest-derived runtime data now has a client-first pipeline:
+  - `quest-flow.json` from `script.gcg` help blocks
+  - `task-runtime.json` from `script.gcg` reward blocks and NPC task tables
+  - `quest-schema.json` as merged quest metadata/flow/runtime evidence
+  - `task-state-clusters.json` from anonymous `macro_SetTask*` clusters in `script.gcg`
+  - `task-chains.json` as canonical matched state chains per quest step
+  - `quest-workflow.json` as the full client-derived workflow catalog
+  - `scripts/trace-client-quest-runtime.js` can emit a deterministic console trace for one task id
+- Current full-workflow coverage:
+  - `160` quests in `quest-workflow.json`
+  - `109` quests marked `runtimeReady`
+  - `51` quests still flagged for low-confidence/conflicting steps
+  - use `quest-workflow.json` for broad client-derived quest state, not the live quest engine
+  - `quest-full-workflow.json` is the best single-file view for known quests:
+    - step flow
+    - matched client state
+    - reward choices
+    - dispatch/dialog phase data
+  - `quest-runtime-candidates.json` is the current best state-preferred runnable candidate set:
+    - `160` quests covered
+    - `160` candidate-ready
+    - `0` unresolved
+    - the last NPC conflicts were resolved by quest-flow-aware rules:
+      - trust a single explicit flow target NPC when the state cluster matches it
+      - for capture steps with no alternate target NPC, trust the quest giver from flow/tasklist
+      - reject state NPCs that are not present anywhere in the flow header NPC set
+      - trust the tasklist start NPC when the state cluster agrees and flow keeps both participants
+  - unresolved report:
+    - `quest-unresolved-report.json`
+    - currently empty when generated after the candidate file
+  - live quest runtime source:
+    - `data/quests/main-story.json` is now generated from `quest-runtime-candidates.json`
+    - it currently contains all `160` client-derived quests
+    - runtime normalization:
+      - server-supported `kill` steps stay `kill`
+      - client-derived `kill_collect` and `capture` steps are normalized into `talk` hand-ins with the same NPC/item requirements
+    - `main-story.overrides.json` is now only for runtime-only corrections, packet details, and cases where the live engine cannot safely infer behavior from the client-derived catalog alone
 
 ## Key Verified Findings
 - Client inventory/equipment:
@@ -68,6 +116,28 @@
 - Quest reward panels:
   - the real in-game quest/help window can disagree with script dump assumptions
   - reward validation should use live client UI and binary/UI behavior, not just extracted text
+- `script.gcg` quest runtime:
+  - it contains more than help text
+  - relevant structures already confirmed:
+    - `task_addid`
+    - `task_talkid`
+    - `task_awardid`
+    - reward blocks ending at `macro_SetTaskFinished(taskId)`
+    - anonymous state-setting clusters containing:
+      - `macro_SetTaskMaxStep`
+      - `macro_SetTaskType`
+      - `macro_SetOverNpc`
+      - `macro_SetTaskStep`
+      - optional `macro_SetTaskItemParam` / `macro_SetTaskKillParam`
+  - this is enough to recover many step/reward details without using copied dumps
+- `gc12.exe` still references a deeper task layer:
+  - `script\\task\\doing\\%d_%d.lua`
+  - `script\\task\\updo\\%d_%d.lua`
+  - `script\\task\\trace\\index.lua`
+  - those files are not yet recovered from the client assets in repo
+  - implication: fully eliminating overrides still likely requires either:
+    - recovering those task scripts, or
+    - tracing/interpreting the relevant macro execution path
 - `roleinfo.txt`:
   - `roleClassField=1` player avatars
   - `roleClassField=2` pets
@@ -99,6 +169,9 @@
   - `Spinning(II)` reward ids were inferred from dump/script text only
   - corrected by using the real in-game reward panel and client item tables
 - Wrong assumption:
+  - `script.gcg` was only useful as help text
+  - corrected: it also contains quest runtime evidence via task tables and reward blocks
+- Wrong assumption:
   - starter-role gender should be inferred from odd/even id only
   - corrected to prefer client-derived role names from `roleinfo`
 - Wrong assumption:
@@ -120,15 +193,148 @@
   - `iteminfo.json` lookup
   - `stuff.json` lookup
 
+## Quest Tooling Added
+- `scripts/extract-client-task-runtime.js`
+  - extracts reward blocks and NPC task tables from `script.gcg`
+- `scripts/generate-client-quest-schema.js`
+  - merges `quests.json`, `quest-flow.json`, and `task-runtime.json`
+- `scripts/export-client-quest-schema-lua.js`
+  - exports `quest-schema.json` into a Lua table file
+- `scripts/export-client-task-runtime-lua.js`
+  - exports `task-runtime.json` into a Lua table file
+- `scripts/trace-client-quest-runtime.js`
+  - console tracer for one task id using the merged schema
+  - current scope:
+    - accept metadata
+    - step sequence
+    - inferred consume items
+    - runtime reward choices
+  - current limit:
+    - this is a schema-driven tracer, not a full macro interpreter
+- `scripts/trace-client-quest-runtime.lua`
+  - working Lua console tracer over `data/client-derived/quest-schema.lua`
+  - verified locally with Lua 5.4 on tasks `2` and `51`
+  - current scope matches the JS tracer
+  - next step is to move from schema replay toward real `macro_*` tracing
+- `scripts/trace-client-reward-macros.lua`
+  - working Lua reward-block executor over `data/client-derived/task-runtime.lua`
+  - executes extracted reward snippets inside a sandboxed `macro_*` environment
+  - current supported runtime behavior:
+    - `macro_GetSelectAward`
+    - `macro_Rand`
+    - `macro_GetPlayerAttr`
+    - `macro_GetPlayerVar`
+    - `macro_SetPlayerVar`
+    - `macro_Data`
+    - `macro_Chu`
+    - reward macros (`macro_AddItem`, `macro_AddItemBangDing`, `macro_AddPet`, `macro_AddExp`, `macro_AddMoney`, `macro_AddTongBan`, `macro_AddRp`)
+    - task markers (`macro_SetTaskFinished`, `macro_SetTaskStep`, `macro_SetTaskKillParam`, `macro_SetTaskItemParam`, `macro_SetOverNpc`)
+  - verified locally:
+    - task `2` correctly yields `13001 + 10001`, `300 exp`, `200 coin` for award `1`
+    - task `51` snippet executes and shows the combined dynamic branches currently embedded in that reward block
+- `scripts/extract-client-task-state.py`
+  - extracts anonymous state-setting clusters from `script.gcg`
+- `scripts/export-client-task-state-lua.js`
+  - exports `task-state-clusters.json` into Lua
+- `scripts/trace-client-task-state-macros.lua`
+  - executes one extracted state cluster inside a sandboxed `macro_*` environment
+  - verified locally on clusters `1`, `14`, and `20`
+- `scripts/match-client-task-state.py`
+  - heuristic matcher from quest-schema steps to anonymous state clusters
+  - current useful result:
+    - `Back to Earth` step 1 -> clusters `17` / `688`
+    - `Back to Earth` step 2 -> clusters `18` / `689`
+    - `Spinning` step 1 -> clusters `65` / `736`
+    - `Spinning` step 2 -> clusters `66` / `737`
+    - `Pet` steps 1-3 -> clusters `391-393` and duplicate set `1062-1064`
+  - key finding:
+    - `Spinning` step 2 matched state cluster includes:
+      - `overNpcId=3277`
+      - `itemParam=21115 x10`
+      - `killParam monsterId=5001`
+    - `Pet` step 4 still points to an unresolved proxy/alias issue:
+      - top matched cluster uses `monsterId=5106`
+      - tested runtime path has used `5003`
+- `scripts/generate-client-dialog-links.py`
+  - first pass attempting to link NPC dialog/task tables to canonical state clusters
+  - result:
+    - simple line-nearby matching is not valid
+    - NPC dialog/task tables are dispatched indirectly through shared public scripts
+    - next useful layer is public-script dispatch tracing, not more adjacency scraping
+- `scripts/generate-client-quest-workflow.js`
+  - builds `data/client-derived/quest-workflow.json` from `quest-schema.json` + `task-chains.json`
+  - emits:
+    - full step workflow
+    - canonical client state for each step
+    - conflict markers when help-flow and state-chain disagree
+    - per-step confidence
+    - quest-level `runtimeReady` classification
+- `scripts/generate-client-quest-dispatch.js`
+  - builds `data/client-derived/quest-dispatch.json` from `task-runtime.json` + `quest-workflow.json`
+  - emits:
+    - accept dialog surface
+    - phase-indexed talk entries
+    - phase-indexed award entries
+    - raw dispatch blocks that reference each task id
+  - important note:
+    - this models the data consumed by shared public scripts
+    - it does not yet execute `pub_see.lua` / `add_award.lua`
+- `scripts/generate-client-full-quest-workflow.js`
+  - merges `quest-workflow.json` and `quest-dispatch.json`
+  - output: `data/client-derived/quest-full-workflow.json`
+  - current best source for “full quest workflow” reconstruction without pushing ambiguous quests into live runtime
+- `scripts/extract-client-task-context.js`
+  - scans `script.gcg` for explicit `macro_CheckFinished(taskId, npcId, phase)` references
+  - output: `data/client-derived/task-context.json`
+  - useful for validating state-chain NPC bindings on ambiguous steps
+- `scripts/generate-client-runtime-candidates.js`
+  - builds `data/client-derived/quest-runtime-candidates.json` from `quest-full-workflow.json` + `task-context.json`
+  - now also consumes `quest-flow.json`
+  - prefers client state-chain values over help text when they conflict, but only when the flow layer supports that choice
+  - upgrades NPC-only conflicts when the client script independently confirms the same npc/phase
+  - also resolves NPC ownership from flow headers:
+    - single target NPC in flow + matching state NPC => choose state NPC
+    - capture step with no alternate target NPC => choose flow/tasklist quest giver
+    - if state NPC is not part of the flow header NPC set but schema NPC is, choose schema NPC
+    - if the tasklist start NPC matches the state cluster on a first-step talk task, choose the start NPC
+  - example:
+    - task `4` `First Trial` step `4` now moves into the candidate-ready set because `macro_CheckFinished(4,3006,4)` confirms the state-chain npc
+  - also upgrades same-name monster variants
+  - example:
+    - task `51` `Pet` now treats `5003` / `5106` as the same `Little Boar` encounter family and moves into the candidate-ready set
+- `scripts/generate-unresolved-quest-report.js`
+  - builds `data/client-derived/quest-unresolved-report.json`
+  - summarizes only quests that remain unresolved in `quest-runtime-candidates.json`
+  - includes monster names/classes where relevant
+    - naive line-proximity does not work
+    - dialog blocks and task-state clusters are stored in different script regions
+  - implication:
+    - the client is selecting state clusters indirectly via shared public scripts / table-driven control flow, not local adjacency
+
 ## Current Limits
 - No real crafting runtime yet
   - only client-derived crafting/material data accessors exist
+- No real client-script quest interpreter yet
+- current tooling now executes reward blocks and anonymous state clusters directly
+- but it still does not execute the broader NPC/dialog/task control flow end-to-end
+- simple "nearby lines" linkage between NPC dialog tables and task-state clusters is false
 - `iteminfo.json` semantics are only partially decoded
 - `combinitem.json` is parsed and queryable, but not yet enforced in gameplay
 - Scene encounter coverage is only implemented where the server already has encounter triggers
 - Full `roleinfo` stat-field semantics are still only partly decoded
+- Quest reward choice semantics are not yet represented in server runtime
+  - `quest-schema.json` preserves reward choices
+  - `main-story.json` intentionally avoids flattening multi-choice rewards automatically
+  - task-specific runtime fallback is still needed for cases like `Spinning`
+- The live quest engine still only executes `talk` and `kill`
+  - `main-story.json` generation now adapts unsupported client step types into that runtime shape
 
 ## Next Best Steps
 - Use `src/crafting-data.js` when implementing actual compose/socket/refine handlers
 - Expand client-derived scene monster pools beyond `Bling Spring` as more maps get encounter triggers
 - Continue replacing hand-maintained monster/item behavior with `roleinfo.json`, `iteminfo.json`, and `combinitem.json`
+- Build the next quest-runtime step as a real quest macro tracer/interpreter:
+  - stitch anonymous state clusters into canonical per-task chains
+  - resolve duplicated cluster families
+  - trace the NPC/dialog control flow that selects those clusters
+  - resolve proxy combat targets like `Pet` step 4 (`5106` vs `5003`)

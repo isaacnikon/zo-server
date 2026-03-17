@@ -1,11 +1,10 @@
 {
   "source": {
-    "help": "/home/nikon/projects/zo-server/data/client-verified/quests/client-help-quests.json",
-    "items": "/home/nikon/projects/zo-server/data/client-verified/items/selected-items.json",
-    "tasklist": "/home/nikon/projects/zo-server/data/client-verified/tasks/tasklist.json",
+    "runtimeCandidates": "/home/nikon/projects/zo-server/data/client-derived/quest-runtime-candidates.json",
+    "tasklist": "/home/nikon/projects/zo-server/data/client-derived/quests.json",
     "overrides": "/home/nikon/projects/zo-server/data/quests/main-story.overrides.json"
   },
-  "generatedAt": "2026-03-16T19:28:11.044Z",
+  "generatedAt": "2026-03-17T15:04:59.734Z",
   "quests": [
     {
       "id": 1,
@@ -28,6 +27,7 @@
         "experience": 100,
         "coins": 100,
         "renown": 0,
+        "pets": [],
         "items": [
           {
             "templateId": 20001,
@@ -47,6 +47,7 @@
           "npcId": 3276,
           "status": 1,
           "description": "Bring Apollo's recommendation token to Blacksmith.",
+          "mapId": 101,
           "consumeItems": [
             {
               "templateId": 21098,
@@ -62,6 +63,7 @@
           "description": "Blacksmith sent you to Matt to collect timber.",
           "subtype": 2,
           "scriptId": 10000,
+          "mapId": 101,
           "grantItems": [
             {
               "templateId": 21116,
@@ -83,7 +85,8 @@
             }
           ]
         }
-      ]
+      ],
+      "minLevel": 1
     },
     {
       "id": 2,
@@ -108,7 +111,29 @@
         "experience": 300,
         "coins": 200,
         "renown": 0,
-        "items": []
+        "pets": [],
+        "items": [
+          {
+            "templateId": 13001,
+            "quantity": 1,
+            "name": "Shoes"
+          },
+          {
+            "templateId": 10001,
+            "quantity": 1,
+            "name": "Light Hood"
+          },
+          {
+            "templateId": 18001,
+            "quantity": 1,
+            "name": "Embordered Shoes"
+          },
+          {
+            "templateId": 15001,
+            "quantity": 1,
+            "name": "Red String"
+          }
+        ]
       },
       "steps": [
         {
@@ -116,6 +141,7 @@
           "npcId": 3277,
           "status": 1,
           "description": "Bring Blacksmith's quest item to Candy.",
+          "mapId": 101,
           "consumeItems": [
             {
               "templateId": 21099,
@@ -129,48 +155,4043 @@
           "npcId": 3277,
           "status": 2,
           "description": "Bring 10 Dragonfly quest items back to Candy.",
+          "mapId": 101,
           "consumeItems": [
             {
               "templateId": 21115,
               "quantity": 10,
               "name": ""
             }
-          ]
+          ],
+          "originalType": "kill_collect"
         }
-      ]
+      ],
+      "minLevel": 1
     },
     {
-      "id": 481,
-      "name": "Vulture Fight",
+      "id": 3,
+      "name": "Magic Flask",
       "type": "story",
-      "acceptMessage": "Vulture Fight is active. Jeff asked you to help Gamba.",
-      "completionMessage": "Vulture Fight is complete.",
-      "acceptNpcId": 3439,
+      "acceptMessage": "Magic Flask is active.",
+      "completionMessage": "Magic Flask is complete.",
+      "acceptNpcId": 3023,
       "acceptSubtype": 3,
-      "prerequisiteTaskIds": [],
+      "prerequisiteTaskIds": [
+        51
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21118,
+          "quantity": 1,
+          "name": ""
+        }
+      ],
       "rewards": {
         "gold": 0,
-        "experience": 0,
-        "coins": 0,
+        "experience": 1200,
+        "coins": 400,
         "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 29001,
+            "quantity": 1,
+            "name": "Mob Flask Lv.1"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3234,
+          "status": 1,
+          "description": "Speak with \"Grocer\"",
+          "mapId": 102,
+          "grantItems": [
+            {
+              "templateId": 21118,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3234,
+          "status": 2,
+          "description": "Use \"Experimental Mob Flask\" to capture a \"Dragonfly\" and bring it to\"Grocer\"",
+          "mapId": 101,
+          "consumeItems": [
+            {
+              "templateId": 20009,
+              "quantity": 1,
+              "name": ""
+            },
+            {
+              "templateId": 20011,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "originalType": "capture"
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 4,
+      "name": "First Trial",
+      "type": "story",
+      "acceptMessage": "First Trial is active.",
+      "completionMessage": "First Trial is complete.",
+      "acceptNpcId": 3234,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        3
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21128,
+          "quantity": 1,
+          "name": "Brewing Bottle"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 1500,
+        "coins": 500,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3175,
+          "status": 1,
+          "description": "Bring \"Brewing Bottle\" to Shopkeeper",
+          "mapId": 101,
+          "grantItems": [
+            {
+              "templateId": 21128,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3004,
+          "status": 2,
+          "description": "Bring \"Shopkeeper's Letter\" to Scholar",
+          "mapId": 101,
+          "grantItems": [
+            {
+              "templateId": 21117,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3054,
+          "status": 3,
+          "description": "Speak with \"Apollo\"",
+          "mapId": 101,
+          "grantItems": [
+            {
+              "templateId": 21029,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "kill",
+          "npcId": 3006,
+          "status": 4,
+          "description": "Kill \"Evilelf\"",
+          "mapId": 101,
+          "monsterId": 5010,
+          "count": 1
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 5,
+      "name": "Jeff the Door God",
+      "type": "story",
+      "acceptMessage": "Jeff the Door God is active.",
+      "completionMessage": "Jeff the Door God is complete.",
+      "acceptNpcId": 3033,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 500,
+        "experience": 800,
+        "coins": 3000,
+        "renown": 0,
+        "pets": [],
         "items": []
       },
       "steps": [
         {
           "type": "kill",
-          "npcId": 3383,
-          "status": 2,
-          "description": "Defeat the Vulture threatening Gamba.",
-          "monsterId": 3384,
+          "npcId": 3033,
+          "status": 1,
+          "description": "Kill \"Roaming Soul\" in Cloud City: 159.284",
+          "mapId": 112,
+          "monsterId": 5098,
+          "count": 1
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 6,
+      "name": "Kavin the Door God",
+      "type": "story",
+      "acceptMessage": "Kavin the Door God is active.",
+      "completionMessage": "Kavin the Door God is complete.",
+      "acceptNpcId": 3034,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 500,
+        "experience": 800,
+        "coins": 3000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3034,
+          "status": 1,
+          "description": "Kill \"Roaming Soul\"at night in Cloud City : 159.284",
+          "mapId": 112,
+          "monsterId": 5098,
+          "count": 1
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 7,
+      "name": "Disenchanting",
+      "type": "story",
+      "acceptMessage": "Disenchanting is active.",
+      "completionMessage": "Disenchanting is complete.",
+      "acceptNpcId": 3030,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21006,
+          "quantity": 1,
+          "name": "Bonnie's Pendant"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 1200,
+        "coins": 1000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3118,
+          "status": 3,
+          "description": "Bring Bonnie's \"Bonnie's Pendant\" to \"Franklin\"",
+          "mapId": 112,
+          "consumeItems": [
+            {
+              "templateId": 21006,
+              "quantity": 1,
+              "name": "Bonnie's Pendant"
+            }
+          ]
+        }
+      ],
+      "minLevel": 10
+    },
+    {
+      "id": 8,
+      "name": "Magical Adventure",
+      "type": "story",
+      "acceptMessage": "Magical Adventure is active.",
+      "completionMessage": "Magical Adventure is complete.",
+      "acceptNpcId": 3118,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        7
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 800,
+        "experience": 4000,
+        "coins": 1200,
+        "renown": 40,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3036,
+          "status": 1,
+          "description": "Locate Bonnie at Orchid Temple at night. Quest reward: None Quest Description: After getting back to consciousness, Franklin told you his love story in Orchid Temple. He met Bonnie in the temple. He is just a mortal who has no magic power. He can not save Ahriman-possessed Bonnie. But he hopes that there are someone who can help him to save his beloved in Orchid Temple. Tip: Complete \"Task 7\" ¡¡¡¡¡¡¡¡¡¡Soul of Bonnie will appear at night. ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ <204000><0>Previous ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ <200001><0>Back",
+          "mapId": 112
+        },
+        {
+          "type": "kill",
+          "npcId": 3036,
+          "status": 3,
+          "description": "Kill \"Ahriman Lord\"-Orchid Temple(15.72)",
+          "mapId": 163,
+          "monsterId": 5099,
+          "count": 1
+        }
+      ],
+      "minLevel": 14
+    },
+    {
+      "id": 14,
+      "name": "The Forbidden Hell",
+      "type": "story",
+      "acceptMessage": "The Forbidden Hell is active.",
+      "completionMessage": "The Forbidden Hell is complete.",
+      "acceptNpcId": 3120,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        12
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 8000,
+        "coins": 1000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3120,
+          "status": 1,
+          "description": "Kill \"Kobold\"at the hell gate-Judgement Hall(102.152)",
+          "mapId": 213,
+          "monsterId": 5104,
+          "count": 1
+        }
+      ],
+      "minLevel": 24
+    },
+    {
+      "id": 16,
+      "name": "Giant Willow",
+      "type": "story",
+      "acceptMessage": "Giant Willow is active.",
+      "completionMessage": "Giant Willow is complete.",
+      "acceptNpcId": 3218,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        82
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 2000,
+        "experience": 20000,
+        "coins": 3000,
+        "renown": 80,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3218,
+          "status": 1,
+          "description": "Kill \"Giant Willow\"£­Willow Forest(32.473)",
+          "mapId": 146,
+          "monsterId": 5039,
+          "count": 1
+        }
+      ],
+      "minLevel": 24
+    },
+    {
+      "id": 17,
+      "name": "Giant Peach",
+      "type": "story",
+      "acceptMessage": "Giant Peach is active.",
+      "completionMessage": "Giant Peach is complete.",
+      "acceptNpcId": 3218,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        16
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 3000,
+        "experience": 20000,
+        "coins": 3000,
+        "renown": 80,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3218,
+          "status": 1,
+          "description": "Kill \"Giant Peach\"£­Willow Forest(228.46)",
+          "mapId": 146,
+          "monsterId": 5040,
+          "count": 1
+        }
+      ],
+      "minLevel": 24
+    },
+    {
+      "id": 18,
+      "name": "Old Friend",
+      "type": "story",
+      "acceptMessage": "Old Friend is active.",
+      "completionMessage": "Old Friend is complete.",
+      "acceptNpcId": 3162,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        36
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 800,
+        "experience": 3000,
+        "coins": 2000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3162,
+          "status": 1,
+          "description": "Kill vicious \"Spider Overlord\"£­Cobweb Woods(60.229)",
+          "mapId": 120,
+          "monsterId": 5059,
           "count": 1
         },
         {
           "type": "talk",
-          "npcId": 3383,
+          "npcId": 3042,
           "status": 2,
-          "description": "Report back to Gamba."
+          "description": "Tell Flap-eared Pig that Geralyn has returned safely.",
+          "mapId": 120
+        },
+        {
+          "type": "talk",
+          "npcId": 3162,
+          "status": 3,
+          "description": "Bring \"Transformed Cabbage\" to Geralyn",
+          "mapId": 131,
+          "grantItems": [
+            {
+              "templateId": 21101,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
         }
-      ]
+      ],
+      "minLevel": 20
+    },
+    {
+      "id": 19,
+      "name": "Evil Spider",
+      "type": "story",
+      "acceptMessage": "Evil Spider is active.",
+      "completionMessage": "Evil Spider is complete.",
+      "acceptNpcId": 3042,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        81
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 1600,
+        "experience": 4500,
+        "coins": 2000,
+        "renown": 100,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3042,
+          "status": 1,
+          "description": "Kill \"Evil Spider\"-Cobweb Woods (51.86)",
+          "mapId": 131,
+          "monsterId": 5043,
+          "count": 1
+        }
+      ],
+      "minLevel": 20
+    },
+    {
+      "id": 20,
+      "name": "Thief Catcher",
+      "type": "story",
+      "acceptMessage": "Thief Catcher is active.",
+      "completionMessage": "Thief Catcher is complete.",
+      "acceptNpcId": 3022,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21030,
+          "quantity": 1,
+          "name": ""
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 23045,
+            "quantity": 1,
+            "name": "Jade Fragment"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3163,
+          "status": 1,
+          "description": "Bring Commander's Proof to \"General White\"",
+          "mapId": 112,
+          "grantItems": [
+            {
+              "templateId": 21030,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 18
+    },
+    {
+      "id": 21,
+      "name": "Everyboies Wish",
+      "type": "story",
+      "acceptMessage": "Everyboies Wish is active.",
+      "completionMessage": "Everyboies Wish is complete.",
+      "acceptNpcId": 3229,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        35
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 2000,
+        "coins": 1500,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 26015,
+            "quantity": 3,
+            "name": "Equipment Treasure Map (Primary"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3022,
+          "status": 2,
+          "description": "Kill \"Lord Glenn\"",
+          "mapId": 230,
+          "monsterId": 5022,
+          "count": 1
+        }
+      ],
+      "minLevel": 18
+    },
+    {
+      "id": 29,
+      "name": "Illness Beadroll",
+      "type": "story",
+      "acceptMessage": "Illness Beadroll is active.",
+      "completionMessage": "Illness Beadroll is complete.",
+      "acceptNpcId": 3220,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        28
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21140,
+          "quantity": 1,
+          "name": "Broken Tome 1"
+        }
+      ],
+      "rewards": {
+        "gold": 2000,
+        "experience": 200000,
+        "coins": 5000,
+        "renown": 160,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3220,
+          "status": 1,
+          "description": "Kill \"Hoe Ghost\" to obtain \"Broken Tome 1\" .Then take it to Smith",
+          "mapId": 231,
+          "consumeItems": [
+            {
+              "templateId": 21140,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "originalType": "kill_collect"
+        },
+        {
+          "type": "talk",
+          "npcId": 3220,
+          "status": 2,
+          "description": "Kill \"Muscular Nowt\" and obtain \"Broken Tome 2\" .Then bring it to Smith",
+          "mapId": 231,
+          "consumeItems": [
+            {
+              "templateId": 21141,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "originalType": "kill_collect"
+        },
+        {
+          "type": "talk",
+          "npcId": 3053,
+          "status": 3,
+          "description": "Get \"Complete Tome\" and bring it to Fiend of Plague",
+          "mapId": 231,
+          "grantItems": [
+            {
+              "templateId": 21142,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3044,
+          "status": 3,
+          "description": "Bring \"Royal Sword\" and \"Elixir by Fiend of Plague\" to General Lee",
+          "mapId": 214,
+          "grantItems": [
+            {
+              "templateId": 21019,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 38
+    },
+    {
+      "id": 30,
+      "name": "Birth of Nalory",
+      "type": "story",
+      "acceptMessage": "Birth of Nalory is active.",
+      "completionMessage": "Birth of Nalory is complete.",
+      "acceptNpcId": 3098,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21041,
+          "quantity": 1,
+          "name": "Jadeware"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 20000,
+        "coins": 2000,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 24121,
+            "quantity": 1,
+            "name": "Guild Resource Bag"
+          },
+          {
+            "templateId": 24142,
+            "quantity": 1,
+            "name": "Adv. Position Stone Bag"
+          },
+          {
+            "templateId": 24144,
+            "quantity": 1,
+            "name": "Sapphire Key"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3044,
+          "status": 1,
+          "description": "Bring Jadeware to General Lee",
+          "mapId": 164,
+          "grantItems": [
+            {
+              "templateId": 21041,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 40
+    },
+    {
+      "id": 32,
+      "name": "Cosmos Spook",
+      "type": "story",
+      "acceptMessage": "Cosmos Spook is active.",
+      "completionMessage": "Cosmos Spook is complete.",
+      "acceptNpcId": 3033,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 2000,
+        "experience": 1200,
+        "coins": 3000,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 5102,
+            "quantity": 1,
+            "name": "Treasures Club"
+          },
+          {
+            "templateId": 5103,
+            "quantity": 1,
+            "name": "Purple Club"
+          },
+          {
+            "templateId": 5104,
+            "quantity": 1,
+            "name": "Emerald Club"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3033,
+          "status": 1,
+          "description": "Kill \"Cosmos Spook\" in Cloud City(63.437)",
+          "mapId": 112,
+          "monsterId": 5013,
+          "count": 1
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 33,
+      "name": "Lingering Fantom",
+      "type": "story",
+      "acceptMessage": "Lingering Fantom is active.",
+      "completionMessage": "Lingering Fantom is complete.",
+      "acceptNpcId": 3034,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 2000,
+        "experience": 1200,
+        "coins": 3000,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 5102,
+            "quantity": 1,
+            "name": "Treasures Club"
+          },
+          {
+            "templateId": 5103,
+            "quantity": 1,
+            "name": "Purple Club"
+          },
+          {
+            "templateId": 5104,
+            "quantity": 1,
+            "name": "Emerald Club"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3034,
+          "status": 1,
+          "description": "Kill \"Lingering Phantom\" in Cloud City: 7.292",
+          "mapId": 112,
+          "monsterId": 5014,
+          "count": 1
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 34,
+      "name": "The Comeback",
+      "type": "story",
+      "acceptMessage": "The Comeback is active.",
+      "completionMessage": "The Comeback is complete.",
+      "acceptNpcId": 3036,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        8
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21007,
+          "quantity": 1,
+          "name": "Forgotten Pendant"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3118,
+          "status": 1,
+          "description": "Bring Bonnie's \"Forgotten Pendant\" to Franklin",
+          "mapId": 163,
+          "grantItems": [
+            {
+              "templateId": 21131,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3022,
+          "status": 2,
+          "description": "Ar you 18 level, go to speak with \"Commander\" Quest reward: Experience: 2000 Gold: 400 Coin: 800 Item: \"Bonnie's Pendant\" Quest Description: After getting back to consciousness, Franklin told you his love story in Orchid Temple. He met Bonnie in the temple. He is just a mortal who has no magic power. He can not save Ahriman-possessed Bonnie. But he hopes that there are someone who can help him to save his beloved in Orchid Temple. Tip: Complete \"Task 7\" ¡¡¡¡¡¡¡¡¡¡Soul of Bonnie will appear at night. ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ <204000><0>Previous ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ <200001><0>Back",
+          "mapId": 112,
+          "consumeItems": [
+            {
+              "templateId": 8011,
+              "quantity": 1,
+              "name": "Bonnie's Pendant"
+            }
+          ]
+        }
+      ],
+      "minLevel": 14
+    },
+    {
+      "id": 36,
+      "name": "Goal Manor Immortal",
+      "type": "story",
+      "acceptMessage": "Goal Manor Immortal is active.",
+      "completionMessage": "Goal Manor Immortal is complete.",
+      "acceptNpcId": 3022,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        21
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 2000,
+        "coins": 1000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3042,
+          "status": 1,
+          "description": "At your 20 level, travel to \"Map 131\" to speak with \"Flap-eared Pig\"",
+          "mapId": 112
+        },
+        {
+          "type": "talk",
+          "npcId": 3042,
+          "status": 2,
+          "description": "Bring \"Commander\"'s \"Letter of Request\" to \"Flap-eared Pig\"",
+          "mapId": 112,
+          "consumeItems": [
+            {
+              "templateId": 21138,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 18
+    },
+    {
+      "id": 37,
+      "name": "Bad News",
+      "type": "story",
+      "acceptMessage": "Bad News is active.",
+      "completionMessage": "Bad News is complete.",
+      "acceptNpcId": 3042,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        19
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21133,
+          "quantity": 1,
+          "name": "Monster Information"
+        }
+      ],
+      "rewards": {
+        "gold": 500,
+        "experience": 500,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3042,
+          "status": 1,
+          "description": "Bring Badly-wounded Soldier's \"Monster Information\" to Flap-eared Pig",
+          "mapId": 131,
+          "consumeItems": [
+            {
+              "templateId": 21133,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3218,
+          "status": 2,
+          "description": "At your 24 Level, go to speak with Maple Valley Spirit",
+          "mapId": 131
+        }
+      ],
+      "minLevel": 20
+    },
+    {
+      "id": 38,
+      "name": "Perfection",
+      "type": "story",
+      "acceptMessage": "Perfection is active.",
+      "completionMessage": "Perfection is complete.",
+      "acceptNpcId": 3218,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        17
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21152,
+          "quantity": 1,
+          "name": "Rune"
+        }
+      ],
+      "rewards": {
+        "gold": 600,
+        "experience": 1200,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3044,
+          "status": 1,
+          "description": "At your 32 level, bring \"Rune\" to \"General Lee\"",
+          "mapId": 146,
+          "grantItems": [
+            {
+              "templateId": 21152,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 24
+    },
+    {
+      "id": 39,
+      "name": "Demon Party",
+      "type": "story",
+      "acceptMessage": "Demon Party is active.",
+      "completionMessage": "Demon Party is complete.",
+      "acceptNpcId": 3092,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        27
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3044,
+          "status": 1,
+          "description": "At your 35 level, go to speak with \"General Lee\" in Chill Pass",
+          "mapId": 144,
+          "consumeItems": [
+            {
+              "templateId": 21016,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 32
+    },
+    {
+      "id": 41,
+      "name": "Lonely Ghost King",
+      "type": "story",
+      "acceptMessage": "Lonely Ghost King is active.",
+      "completionMessage": "Lonely Ghost King is complete.",
+      "acceptNpcId": 3033,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 500,
+        "experience": 2400,
+        "coins": 3000,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 11102,
+            "quantity": 1,
+            "name": "Universal Armor"
+          },
+          {
+            "templateId": 16102,
+            "quantity": 1,
+            "name": "Mesh Robe"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3033,
+          "status": 1,
+          "description": "Kill \"Lonely Ghost King\" in Cloud City",
+          "mapId": 112,
+          "monsterId": 5007,
+          "count": 1
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 42,
+      "name": "Wild Ghost King",
+      "type": "story",
+      "acceptMessage": "Wild Ghost King is active.",
+      "completionMessage": "Wild Ghost King is complete.",
+      "acceptNpcId": 3034,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 500,
+        "experience": 2400,
+        "coins": 3000,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 11102,
+            "quantity": 1,
+            "name": "Universal Armor"
+          },
+          {
+            "templateId": 16102,
+            "quantity": 1,
+            "name": "Mesh Robe"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3034,
+          "status": 1,
+          "description": "Kill \"Wild Ghost King\" at Cloudy City:196.466",
+          "mapId": 112,
+          "monsterId": 5008,
+          "count": 1
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 44,
+      "name": "Mentor's Care",
+      "type": "story",
+      "acceptMessage": "Mentor's Care is active.",
+      "completionMessage": "Mentor's Care is complete.",
+      "acceptNpcId": 3098,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21144,
+          "quantity": 1,
+          "name": "Supreme Taoist's Letter"
+        }
+      ],
+      "rewards": {
+        "gold": 2000,
+        "experience": 50000,
+        "coins": 2000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3138,
+          "status": 1,
+          "description": "Bring \"Supreme Taoist's Letter\" to \"Evil Cat\"",
+          "mapId": 164,
+          "grantItems": [
+            {
+              "templateId": 21144,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 45
+    },
+    {
+      "id": 51,
+      "name": "Pet",
+      "type": "story",
+      "acceptMessage": "Pet is active.",
+      "completionMessage": "Pet is complete.",
+      "acceptNpcId": 3277,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        2
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21123,
+          "quantity": 1,
+          "name": ""
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 600,
+        "coins": 300,
+        "renown": 0,
+        "pets": [
+          "i"
+        ],
+        "items": [
+          {
+            "templateId": 26036,
+            "quantity": 1,
+            "name": "Ordinary Treasure Map (Primary)"
+          },
+          {
+            "templateId": 26036,
+            "quantity": 1,
+            "name": "Ordinary Treasure Map (Primary)"
+          },
+          {
+            "templateId": 26036,
+            "quantity": 3,
+            "name": "Ordinary Treasure Map (Primary)"
+          },
+          {
+            "templateId": 26036,
+            "quantity": 3,
+            "name": "Ordinary Treasure Map (Primary)"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3004,
+          "status": 1,
+          "description": "Speak with\"Scholar\"",
+          "mapId": 101,
+          "grantItems": [
+            {
+              "templateId": 21123,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3005,
+          "status": 2,
+          "description": "Bring \"Scholar's Letter\" to \"Idler\"",
+          "mapId": 101,
+          "grantItems": [
+            {
+              "templateId": 21001,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3023,
+          "status": 3,
+          "description": "Bring \"Special Wine\" to \"Grandpa\"",
+          "mapId": 101,
+          "grantItems": [
+            {
+              "templateId": 21124,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "kill",
+          "npcId": 3023,
+          "status": 4,
+          "description": "Help Grandpa deal with a Little Boar.",
+          "mapId": 103,
+          "monsterId": 5003,
+          "count": 1
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 52,
+      "name": "Dementor",
+      "type": "story",
+      "acceptMessage": "Dementor is active.",
+      "completionMessage": "Dementor is complete.",
+      "acceptNpcId": 3155,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        49
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21176,
+          "quantity": 1,
+          "name": "Soul Absorber's Memory"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3138,
+          "status": 2,
+          "description": "Take \"Soul Absorber's Memory\" to find \"Evil Cat\"",
+          "mapId": 249,
+          "grantItems": [
+            {
+              "templateId": 21176,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 68
+    },
+    {
+      "id": 57,
+      "name": "Headless Ripper",
+      "type": "story",
+      "acceptMessage": "Headless Ripper is active.",
+      "completionMessage": "Headless Ripper is complete.",
+      "acceptNpcId": 3155,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        52
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21177,
+          "quantity": 1,
+          "name": "Soul of Soul Absorber"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3187,
+          "status": 2,
+          "description": "Bring \"Soul of Soul Absorber\" to\"Night Owl\"",
+          "mapId": 213,
+          "grantItems": [
+            {
+              "templateId": 21177,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 68
+    },
+    {
+      "id": 58,
+      "name": "Farewell to Jessica",
+      "type": "story",
+      "acceptMessage": "Farewell to Jessica is active.",
+      "completionMessage": "Farewell to Jessica is complete.",
+      "acceptNpcId": 3120,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        57
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 20000,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3135,
+          "status": 1,
+          "description": "At your 70 Level, go to speak with \"Governor\" Quest Description:With the help of Zodiac Eudemon, you have successfully run out of the gate. But from Night Owl and Soul Judge's face told you that something unexpected happened. Go to check on Jessica at the Governor's. She may need your help. ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ <210000><0>Previous ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ <200001><0>Back",
+          "mapId": 213
+        }
+      ],
+      "minLevel": 68
+    },
+    {
+      "id": 59,
+      "name": "Punishment",
+      "type": "story",
+      "acceptMessage": "Punishment is active.",
+      "completionMessage": "Punishment is complete.",
+      "acceptNpcId": 3492,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        69
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 30000,
+        "experience": 400000,
+        "coins": 20000,
+        "renown": 300,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3452,
+          "status": 3,
+          "description": "Bring \"Village Head\"'s \"Stone of Remorse\" to \"Lake Spirit\"",
+          "mapId": 170,
+          "consumeItems": [
+            {
+              "templateId": 21286,
+              "quantity": 1,
+              "name": "Stone of Remorse"
+            }
+          ]
+        }
+      ],
+      "minLevel": 74
+    },
+    {
+      "id": 60,
+      "name": "Anxious Thunder God",
+      "type": "story",
+      "acceptMessage": "Anxious Thunder God is active.",
+      "completionMessage": "Anxious Thunder God is complete.",
+      "acceptNpcId": 3452,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        59
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 10000,
+        "experience": 10000000,
+        "coins": 20000,
+        "renown": 300,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3453,
+          "status": 1,
+          "description": "At your 82 level, go to Lotus Peak to speak with \"Thunder God\"",
+          "mapId": 181
+        },
+        {
+          "type": "kill",
+          "npcId": 3453,
+          "status": 2,
+          "description": "Kill \"Roaring Dog\" and save Jerry",
+          "mapId": 165,
+          "monsterId": 5301,
+          "count": 1
+        },
+        {
+          "type": "kill",
+          "npcId": 3453,
+          "status": 3,
+          "description": "Speak with \"Jerry\" and kill \"Jerry\"",
+          "mapId": 165,
+          "monsterId": 5304,
+          "count": 1
+        }
+      ],
+      "minLevel": 78
+    },
+    {
+      "id": 61,
+      "name": "Underground Hall",
+      "type": "story",
+      "acceptMessage": "Underground Hall is active.",
+      "completionMessage": "Underground Hall is complete.",
+      "acceptNpcId": 3453,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        60
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 30000,
+        "experience": 15000000,
+        "coins": 20000,
+        "renown": 400,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3097,
+          "status": 1,
+          "description": "Travel to \"Map 279\" to speak with \"Lakery\"",
+          "mapId": 165
+        },
+        {
+          "type": "kill",
+          "npcId": 3097,
+          "status": 2,
+          "description": "Kill \"White Elephant Spirit\"",
+          "mapId": 279,
+          "monsterId": 5471,
+          "count": 1
+        },
+        {
+          "type": "talk",
+          "npcId": 3452,
+          "status": 3,
+          "description": "Bring \"Moon Lake Symbol\" to \"Lake Spirit\"",
+          "mapId": 279,
+          "grantItems": [
+            {
+              "templateId": 21289,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 82
+    },
+    {
+      "id": 65,
+      "name": "Skull Goblin",
+      "type": "story",
+      "acceptMessage": "Skull Goblin is active.",
+      "completionMessage": "Skull Goblin is complete.",
+      "acceptNpcId": 3097,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        61
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 20000,
+        "experience": 12000000,
+        "coins": 40000,
+        "renown": 300,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3454,
+          "status": 1,
+          "description": "At your 86 level, travel to \"Map 161\" to speak with \"Grandpa\"",
+          "mapId": 181
+        },
+        {
+          "type": "talk",
+          "npcId": 3454,
+          "status": 2,
+          "description": "Find Grandpa's Daughter in Soul-free Valley and back to Grandpa",
+          "mapId": 161,
+          "consumeItems": [
+            {
+              "templateId": 21380,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3454,
+          "status": 3,
+          "description": "Find Grandpa's Fere in Soul-free Valley and back to Grandpa",
+          "mapId": 161,
+          "consumeItems": [
+            {
+              "templateId": 21381,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3457,
+          "status": 4,
+          "description": "Speak with \"Grandpa\" and after his quest, speak with \"Soul-wander Valley Spirit\"",
+          "mapId": 161
+        }
+      ],
+      "minLevel": 82
+    },
+    {
+      "id": 67,
+      "name": "Adversary",
+      "type": "story",
+      "acceptMessage": "Adversary is active.",
+      "completionMessage": "Adversary is complete.",
+      "acceptNpcId": 3211,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 2600,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3211,
+          "status": 1,
+          "description": "Bring \"..macro_GetItemName()..\" to \"Jessica\"",
+          "mapId": 263
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 69,
+      "name": "Giant Icicles",
+      "type": "story",
+      "acceptMessage": "Giant Icicles is active.",
+      "completionMessage": "Giant Icicles is complete.",
+      "acceptNpcId": 3529,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        58
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 4310,
+        "experience": 75000,
+        "coins": 10000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3492,
+          "status": 2,
+          "description": "Kill \"Ice Soul\"",
+          "mapId": 182,
+          "monsterId": 5470,
+          "count": 1
+        }
+      ],
+      "minLevel": 70
+    },
+    {
+      "id": 70,
+      "name": "Apprenticeship",
+      "type": "story",
+      "acceptMessage": "Apprenticeship is active.",
+      "completionMessage": "Apprenticeship is complete.",
+      "acceptNpcId": 3022,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21034,
+          "quantity": 1,
+          "name": "Commander's Letter"
+        }
+      ],
+      "rewards": {
+        "gold": 500,
+        "experience": 1500,
+        "coins": 1000,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 5102,
+            "quantity": 1,
+            "name": "Treasures Club"
+          },
+          {
+            "templateId": 5103,
+            "quantity": 1,
+            "name": "Purple Club"
+          },
+          {
+            "templateId": 5104,
+            "quantity": 1,
+            "name": "Emerald Club"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3080,
+          "status": 1,
+          "description": "Bring \"Commander's Letter\" to \"Freddie\"",
+          "mapId": 112,
+          "grantItems": [
+            {
+              "templateId": 21034,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3089,
+          "status": 2,
+          "description": "Speak with \"Housewife\"",
+          "mapId": 112
+        },
+        {
+          "type": "talk",
+          "npcId": 3110,
+          "status": 3,
+          "description": "Speak with \"M/A Manager\"",
+          "mapId": 112
+        },
+        {
+          "type": "kill",
+          "npcId": 3110,
+          "status": 4,
+          "description": "Kill \"Lizard\"¡Á10",
+          "mapId": 112,
+          "monsterId": 5036,
+          "count": 10
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 71,
+      "name": "Knowing your ways around",
+      "type": "story",
+      "acceptMessage": "Knowing your ways around is active.",
+      "completionMessage": "Knowing your ways around is complete.",
+      "acceptNpcId": 3110,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21102,
+          "quantity": 1,
+          "name": "Letter of M/A Manager"
+        }
+      ],
+      "rewards": {
+        "gold": 800,
+        "experience": 3300,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3013,
+          "status": 1,
+          "description": "Bring \"Letter of M/A Manager\" to \"Pet Curer\"",
+          "mapId": 112,
+          "grantItems": [
+            {
+              "templateId": 21102,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3025,
+          "status": 2,
+          "description": "Travel to East Gate to speak with \"Corey\"",
+          "mapId": 228
+        },
+        {
+          "type": "talk",
+          "npcId": 3118,
+          "status": 3,
+          "description": "Quest step 3",
+          "mapId": 112
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 81,
+      "name": "Geralyn",
+      "type": "story",
+      "acceptMessage": "Geralyn is active.",
+      "completionMessage": "Geralyn is complete.",
+      "acceptNpcId": 3305,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        18
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 1500,
+        "experience": 6000,
+        "coins": 2000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3162,
+          "status": 1,
+          "description": "Travel to \"Map 120\" to liberate \"Geralyn\"",
+          "mapId": 264
+        },
+        {
+          "type": "talk",
+          "npcId": 3042,
+          "status": 2,
+          "description": "Escort \"Geralyn\" to Goal Manor to meet \"Flap-eared Pig\"",
+          "mapId": 120
+        },
+        {
+          "type": "talk",
+          "npcId": 3042,
+          "status": 3,
+          "description": "Bring Flap-eared Pig's Rubble to find out spider sprite in human skin in the manor",
+          "mapId": 131,
+          "consumeItems": [
+            {
+              "templateId": 21291,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 20
+    },
+    {
+      "id": 82,
+      "name": "Flaming Hell",
+      "type": "story",
+      "acceptMessage": "Flaming Hell is active.",
+      "completionMessage": "Flaming Hell is complete.",
+      "acceptNpcId": 3120,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        14
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21013,
+          "quantity": 1,
+          "name": ""
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 8000,
+        "coins": 2000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3218,
+          "status": 1,
+          "description": "Bring \"Rune of Seal\" to Maple Valley Spirit",
+          "mapId": 156,
+          "grantItems": [
+            {
+              "templateId": 21013,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 24
+    },
+    {
+      "id": 84,
+      "name": "Unexpected War",
+      "type": "story",
+      "acceptMessage": "Unexpected War is active.",
+      "completionMessage": "Unexpected War is complete.",
+      "acceptNpcId": 3457,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        65
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 2000,
+        "experience": 1000000,
+        "coins": 20000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3414,
+          "status": 1,
+          "description": "At your 90 level, go to speak with \"Norman\"",
+          "mapId": 161
+        },
+        {
+          "type": "talk",
+          "npcId": 3751,
+          "status": 2,
+          "description": "Travel to \"Map 210\" to speak with \"God of Venus\"",
+          "mapId": 204
+        }
+      ],
+      "minLevel": 86
+    },
+    {
+      "id": 85,
+      "name": "West Pass War",
+      "type": "story",
+      "acceptMessage": "West Pass War is active.",
+      "completionMessage": "West Pass War is complete.",
+      "acceptNpcId": 3751,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        84
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 20000,
+        "experience": 16000000,
+        "coins": 60000,
+        "renown": 300,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3751,
+          "status": 1,
+          "description": "Defeat \"Shadow Bear\" with Nalory",
+          "mapId": 210
+        },
+        {
+          "type": "talk",
+          "npcId": 3751,
+          "status": 2,
+          "description": "Find the point and stick flag at the coordinates, you will get \"Npc 21383\" .Then bring \"Npc 21383\" to \"God of Venus\"",
+          "mapId": 210,
+          "grantItems": [
+            {
+              "templateId": 21384,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "kill",
+          "npcId": 3757,
+          "status": 3,
+          "description": "Kill \"Taoist\"",
+          "mapId": 210,
+          "monsterId": 5584,
+          "count": 1
+        },
+        {
+          "type": "kill",
+          "npcId": 3757,
+          "status": 3,
+          "description": "Kill \"Taoist\"",
+          "mapId": 210,
+          "monsterId": 5584,
+          "count": 1
+        }
+      ],
+      "minLevel": 90
+    },
+    {
+      "id": 86,
+      "name": "North Pass War",
+      "type": "story",
+      "acceptMessage": "North Pass War is active.",
+      "completionMessage": "North Pass War is complete.",
+      "acceptNpcId": 3751,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        85
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 20000,
+        "experience": 18000000,
+        "coins": 60000,
+        "renown": 300,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3751,
+          "status": 1,
+          "description": "At your 92 level, go to speak with \"God of Venus\"",
+          "mapId": 210
+        },
+        {
+          "type": "talk",
+          "npcId": 3754,
+          "status": 2,
+          "description": "Speak with \"Nalory\" at front line",
+          "mapId": 210
+        },
+        {
+          "type": "kill",
+          "npcId": 3754,
+          "status": 3,
+          "description": "Kill \"Thunder Beast\" ºÍ \"Lightning Beast\"",
+          "mapId": 212,
+          "monsterId": 5585,
+          "count": 1
+        },
+        {
+          "type": "talk",
+          "npcId": 3751,
+          "status": 4,
+          "description": "Speak with \"God of Venus\"",
+          "mapId": 212
+        }
+      ],
+      "minLevel": 90
+    },
+    {
+      "id": 87,
+      "name": "Cheering Duo",
+      "type": "story",
+      "acceptMessage": "Cheering Duo is active.",
+      "completionMessage": "Cheering Duo is complete.",
+      "acceptNpcId": 3751,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        86
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 20000,
+        "experience": 20000000,
+        "coins": 60000,
+        "renown": 300,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3754,
+          "status": 1,
+          "description": "At your 94 level, go to speak with \"Nalory\"",
+          "mapId": 210
+        },
+        {
+          "type": "talk",
+          "npcId": 3754,
+          "status": 2,
+          "description": "Disguise in bandit and go to speak with East Gate Guard. Bring the Pulque to \"East Cheerleader\" . Then defeat him.",
+          "mapId": 212
+        },
+        {
+          "type": "talk",
+          "npcId": 3764,
+          "status": 3,
+          "description": "Disguise as a bandit again and speak with West Gate Guard. Then locate and speak with \"West Cheerleader\"",
+          "mapId": 212
+        },
+        {
+          "type": "kill",
+          "npcId": 3764,
+          "status": 4,
+          "description": "Kill \"West Cheerleader\"",
+          "mapId": 212,
+          "monsterId": 5588,
+          "count": 1
+        }
+      ],
+      "minLevel": 92
+    },
+    {
+      "id": 88,
+      "name": "Hell Pass Adventure",
+      "type": "story",
+      "acceptMessage": "Hell Pass Adventure is active.",
+      "completionMessage": "Hell Pass Adventure is complete.",
+      "acceptNpcId": 3771,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        87
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 20000,
+        "experience": 20000000,
+        "coins": 60000,
+        "renown": 300,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3751,
+          "status": 1,
+          "description": "Speak with \"God of Venus\"",
+          "mapId": 212
+        },
+        {
+          "type": "talk",
+          "npcId": 3774,
+          "status": 3,
+          "description": "Speak with \"Triumph Sprite\"",
+          "mapId": 204
+        },
+        {
+          "type": "kill",
+          "npcId": 3775,
+          "status": 4,
+          "description": "Kill \"Hell Keeper\"",
+          "mapId": 130,
+          "monsterId": 5589,
+          "count": 1
+        }
+      ],
+      "minLevel": 94
+    },
+    {
+      "id": 251,
+      "name": "The Mission",
+      "type": "story",
+      "acceptMessage": "The Mission is active.",
+      "completionMessage": "The Mission is complete.",
+      "acceptNpcId": 3022,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 1000,
+        "experience": 5000,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3224,
+          "status": 1,
+          "description": "Speak with \"Mike\"",
+          "mapId": 112
+        }
+      ],
+      "minLevel": 25
+    },
+    {
+      "id": 252,
+      "name": "The Power",
+      "type": "story",
+      "acceptMessage": "The Power is active.",
+      "completionMessage": "The Power is complete.",
+      "acceptNpcId": 3224,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        251
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3224,
+          "status": 3,
+          "description": "Kill \"Golden Beast\"",
+          "mapId": 112,
+          "monsterId": 5340,
+          "count": 1
+        }
+      ],
+      "minLevel": 25
+    },
+    {
+      "id": 253,
+      "name": "The Eudemon",
+      "type": "story",
+      "acceptMessage": "The Eudemon is active.",
+      "completionMessage": "The Eudemon is complete.",
+      "acceptNpcId": 3651,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 1000,
+        "coins": 1000,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 7003,
+            "quantity": 1,
+            "name": "Herald Hairpin"
+          },
+          {
+            "templateId": 7005,
+            "quantity": 1,
+            "name": "Herald Boots"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3651,
+          "status": 1,
+          "description": "Kill 2 \"Dragonfly\" and 5 \"Beetle\"",
+          "mapId": 102,
+          "monsterId": 5001,
+          "count": 2
+        }
+      ],
+      "minLevel": 5
+    },
+    {
+      "id": 254,
+      "name": "The Omen",
+      "type": "story",
+      "acceptMessage": "The Omen is active.",
+      "completionMessage": "The Omen is complete.",
+      "acceptNpcId": 3651,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 1000,
+        "experience": 3000,
+        "coins": 2000,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 7009,
+            "quantity": 1,
+            "name": "Abject Boots"
+          },
+          {
+            "templateId": 7007,
+            "quantity": 1,
+            "name": "Abject Hood"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3651,
+          "status": 1,
+          "description": "At your 16 level, go to \"Map 163\" to speak with \"Zodiac Eudemon\"",
+          "mapId": 102
+        }
+      ],
+      "minLevel": 10
+    },
+    {
+      "id": 255,
+      "name": "Another Possibility",
+      "type": "story",
+      "acceptMessage": "Another Possibility is active.",
+      "completionMessage": "Another Possibility is complete.",
+      "acceptNpcId": 3651,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21314,
+          "quantity": 1,
+          "name": ""
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 7011,
+            "quantity": 1,
+            "name": "Demon Crown"
+          },
+          {
+            "templateId": 7013,
+            "quantity": 1,
+            "name": "Demon Boots"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3651,
+          "status": 1,
+          "description": "Kill 10 \"Mushroom\"",
+          "mapId": 146,
+          "monsterId": 5062,
+          "count": 10
+        }
+      ],
+      "minLevel": 16
+    },
+    {
+      "id": 256,
+      "name": "Force of Zodiac",
+      "type": "story",
+      "acceptMessage": "Force of Zodiac is active.",
+      "completionMessage": "Force of Zodiac is complete.",
+      "acceptNpcId": 3651,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21314,
+          "quantity": 1,
+          "name": "Zodiac Eudemon's Memory"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 5000,
+        "coins": 3000,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 5118,
+            "quantity": 1,
+            "name": "Zodiac Rod"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3651,
+          "status": 1,
+          "description": "Take \"Zodiac Eudemon's Memory\" with you to find out \"Force of Zodiac\" and bring it to \"Zodiac Eudemon\"",
+          "mapId": 146,
+          "grantItems": [
+            {
+              "templateId": 21314,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 24
+    },
+    {
+      "id": 257,
+      "name": "True Power",
+      "type": "story",
+      "acceptMessage": "True Power is active.",
+      "completionMessage": "True Power is complete.",
+      "acceptNpcId": 3651,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        256
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 5118,
+            "quantity": 1,
+            "name": "Zodiac Rod"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3651,
+          "status": 1,
+          "description": "At your 30 level, bring \"Zodiac Rod\" to \"Zodiac Eudemon\" in \"Map 111\"",
+          "mapId": 146,
+          "consumeItems": [
+            {
+              "templateId": 5118,
+              "quantity": 1,
+              "name": "Zodiac Rod"
+            }
+          ]
+        }
+      ],
+      "minLevel": 24
+    },
+    {
+      "id": 260,
+      "name": "The Threat",
+      "type": "story",
+      "acceptMessage": "The Threat is active.",
+      "completionMessage": "The Threat is complete.",
+      "acceptNpcId": 3651,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 2000,
+        "coins": 2000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3651,
+          "status": 1,
+          "description": "Kill 2 \"Bandit\"",
+          "mapId": 127,
+          "monsterId": 5026,
+          "count": 2
+        }
+      ],
+      "minLevel": 14
+    },
+    {
+      "id": 261,
+      "name": "The Right Path",
+      "type": "story",
+      "acceptMessage": "The Right Path is active.",
+      "completionMessage": "The Right Path is complete.",
+      "acceptNpcId": 3651,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 10000,
+        "coins": 3000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3651,
+          "status": 1,
+          "description": "Kill 2 \"Evil Mushroom\"",
+          "mapId": 129,
+          "monsterId": 5188,
+          "count": 2
+        }
+      ],
+      "minLevel": 30
+    },
+    {
+      "id": 351,
+      "name": "Dragonfly Catching",
+      "type": "story",
+      "acceptMessage": "Dragonfly Catching is active.",
+      "completionMessage": "Dragonfly Catching is complete.",
+      "acceptNpcId": 3156,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 800,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3156,
+          "status": 1,
+          "description": "Capture a \"Dragonfly\" to \"Naive Boy\"",
+          "mapId": 101,
+          "originalType": "capture"
+        }
+      ],
+      "minLevel": 7
+    },
+    {
+      "id": 353,
+      "name": "Behind the Curtain",
+      "type": "story",
+      "acceptMessage": "Behind the Curtain is active.",
+      "completionMessage": "Behind the Curtain is complete.",
+      "acceptNpcId": 3004,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        4
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 2000,
+        "coins": 600,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3007,
+          "status": 1,
+          "description": "Quest step 1",
+          "mapId": 103
+        },
+        {
+          "type": "talk",
+          "npcId": 3023,
+          "status": 2,
+          "description": "Speak with \"Grandpa\"",
+          "mapId": 101
+        },
+        {
+          "type": "kill",
+          "npcId": 3023,
+          "status": 3,
+          "description": "Kill \"Piggy\"--Bling Alley(75.238)",
+          "mapId": 103,
+          "monsterId": 5006,
+          "count": 1
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 354,
+      "name": "Passing the Love",
+      "type": "story",
+      "acceptMessage": "Passing the Love is active.",
+      "completionMessage": "Passing the Love is complete.",
+      "acceptNpcId": 3003,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        355
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21002,
+          "quantity": 1,
+          "name": "Sachet"
+        }
+      ],
+      "rewards": {
+        "gold": 500,
+        "experience": 1000,
+        "coins": 800,
+        "renown": 20,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 24051,
+            "quantity": 1,
+            "name": "Angelic Pouch (7 day)"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3028,
+          "status": 1,
+          "description": "Bring \"Fennel\" to \"Maria\"",
+          "mapId": 102,
+          "grantItems": [
+            {
+              "templateId": 21051,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3030,
+          "status": 2,
+          "description": "Bring \"Sachet\" to \"Hubbert\"",
+          "mapId": 103,
+          "grantItems": [
+            {
+              "templateId": 21002,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "kill",
+          "npcId": 3030,
+          "status": 3,
+          "description": "Speak to \"Hubbert\" to know more about Renown Quest reward: Experience: 1000 Gold: 500 Coin: 800 Renown: 20 Quest Description: In Cloud City,Hubbert enjoys great renown and you can refer to him for your renown question. Renown is closely related with your money and skill proficiency degree. ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ <204000><0>Previous ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ <200001><0>Back",
+          "mapId": 112,
+          "monsterId": 5585,
+          "count": 1
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 355,
+      "name": "Hungry Wolves",
+      "type": "story",
+      "acceptMessage": "Hungry Wolves is active.",
+      "completionMessage": "Hungry Wolves is complete.",
+      "acceptNpcId": 3023,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        353
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 3000,
+        "coins": 700,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 5002,
+            "quantity": 1,
+            "name": "Petal Fan"
+          },
+          {
+            "templateId": 5003,
+            "quantity": 1,
+            "name": "Glazed Flask"
+          },
+          {
+            "templateId": 5004,
+            "quantity": 1,
+            "name": "Bronze Kettle"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3003,
+          "status": 2,
+          "description": "Travel to \"Map 102\" to locate \"Farmer\"",
+          "mapId": 103
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 356,
+      "name": "The Lost Child",
+      "type": "story",
+      "acceptMessage": "The Lost Child is active.",
+      "completionMessage": "The Lost Child is complete.",
+      "acceptNpcId": 3055,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 200,
+        "experience": 1000,
+        "coins": 300,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3070,
+          "status": 1,
+          "description": "Take \"Eric\" home",
+          "mapId": 112
+        }
+      ],
+      "minLevel": 9
+    },
+    {
+      "id": 357,
+      "name": "Pork Soup",
+      "type": "story",
+      "acceptMessage": "Pork Soup is active.",
+      "completionMessage": "Pork Soup is complete.",
+      "acceptNpcId": 3191,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        391
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21047,
+          "quantity": 1,
+          "name": "Piggy Circle"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 600,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3183,
+          "status": 1,
+          "description": "Bring \"Piggy Circle\" to \"Jasmin\"",
+          "mapId": 112,
+          "grantItems": [
+            {
+              "templateId": 21047,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 20
+    },
+    {
+      "id": 358,
+      "name": "Fake It to Make It",
+      "type": "story",
+      "acceptMessage": "Fake It to Make It is active.",
+      "completionMessage": "Fake It to Make It is complete.",
+      "acceptNpcId": 3059,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 800,
+        "experience": 2400,
+        "coins": 800,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3059,
+          "status": 1,
+          "description": "Kill \"Zombie\"-Cloud City(89.369)",
+          "mapId": 112,
+          "monsterId": 5126,
+          "count": 1
+        }
+      ],
+      "minLevel": 16
+    },
+    {
+      "id": 359,
+      "name": "The Baby Wolf",
+      "type": "story",
+      "acceptMessage": "The Baby Wolf is active.",
+      "completionMessage": "The Baby Wolf is complete.",
+      "acceptNpcId": 3174,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        355
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21109,
+          "quantity": 1,
+          "name": "Boar Meat"
+        }
+      ],
+      "rewards": {
+        "gold": 1550,
+        "experience": 0,
+        "coins": 1550,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3174,
+          "status": 1,
+          "description": "Gather some \"Boar Meat\" for the baby wolves.",
+          "mapId": 102,
+          "consumeItems": [
+            {
+              "templateId": 21109,
+              "quantity": 3,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 9
+    },
+    {
+      "id": 361,
+      "name": "A Plague Errand",
+      "type": "story",
+      "acceptMessage": "A Plague Errand is active.",
+      "completionMessage": "A Plague Errand is complete.",
+      "acceptNpcId": 3065,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21003,
+          "quantity": 1,
+          "name": "Famous Painting"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 800,
+        "coins": 500,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 11004,
+            "quantity": 1,
+            "name": "Masterly Robe"
+          },
+          {
+            "templateId": 16004,
+            "quantity": 1,
+            "name": "Plum Robe"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3010,
+          "status": 1,
+          "description": "Bring \"Famous Painting\" back to \"Pub Owner\"",
+          "mapId": 112,
+          "grantItems": [
+            {
+              "templateId": 21003,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3009,
+          "status": 2,
+          "description": "Bring \"Dish\" reserved by \"Diana\" to him",
+          "mapId": 226,
+          "grantItems": [
+            {
+              "templateId": 21004,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3015,
+          "status": 3,
+          "description": "Bring \"Chic Apparel\" to Warehouseman- \"Chelyn\"",
+          "mapId": 223,
+          "grantItems": [
+            {
+              "templateId": 21005,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3022,
+          "status": 4,
+          "description": "Bring \"Chelyn's Invitation\" to \"Commander\"",
+          "mapId": 112,
+          "grantItems": [
+            {
+              "templateId": 21181,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 362,
+      "name": "Declaring war against Caterans",
+      "type": "story",
+      "acceptMessage": "Declaring war against Caterans is active.",
+      "completionMessage": "Declaring war against Caterans is complete.",
+      "acceptNpcId": 3022,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 500,
+        "experience": 1000,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3022,
+          "status": 1,
+          "description": "Kill \"Cateran\"¡Á20",
+          "mapId": 112,
+          "monsterId": 5017,
+          "count": 20
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 363,
+      "name": "Fighting against Bandits",
+      "type": "story",
+      "acceptMessage": "Fighting against Bandits is active.",
+      "completionMessage": "Fighting against Bandits is complete.",
+      "acceptNpcId": 3022,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 500,
+        "experience": 1000,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3022,
+          "status": 1,
+          "description": "Kill \"Bandit\"¡Á20",
+          "mapId": 112,
+          "monsterId": 5026,
+          "count": 20
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 365,
+      "name": "Ringleader of Cateran",
+      "type": "story",
+      "acceptMessage": "Ringleader of Cateran is active.",
+      "completionMessage": "Ringleader of Cateran is complete.",
+      "acceptNpcId": 3022,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 500,
+        "experience": 1500,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3022,
+          "status": 1,
+          "description": "Kill 2 \"Ringleader of Cateran\"",
+          "mapId": 112,
+          "monsterId": 5181,
+          "count": 2
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 366,
+      "name": "Ringleader of Bandit",
+      "type": "story",
+      "acceptMessage": "Ringleader of Bandit is active.",
+      "completionMessage": "Ringleader of Bandit is complete.",
+      "acceptNpcId": 3022,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 500,
+        "experience": 1500,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3022,
+          "status": 1,
+          "description": "ÏûÃð ¶þ¸ö\"Ringleader of Bandit\"",
+          "mapId": 112
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 367,
+      "name": "Evil Giant Bear",
+      "type": "story",
+      "acceptMessage": "Evil Giant Bear is active.",
+      "completionMessage": "Evil Giant Bear is complete.",
+      "acceptNpcId": 3022,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 3200,
+        "experience": 1000,
+        "coins": 1000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3022,
+          "status": 1,
+          "description": "Kill 10 noisy \"Giant Bear\"",
+          "mapId": 112,
+          "monsterId": 5063,
+          "count": 10
+        }
+      ],
+      "minLevel": 22
+    },
+    {
+      "id": 369,
+      "name": "Battle between Beetles",
+      "type": "story",
+      "acceptMessage": "Battle between Beetles is active.",
+      "completionMessage": "Battle between Beetles is complete.",
+      "acceptNpcId": 3181,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 300,
+        "experience": 300,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3181,
+          "status": 1,
+          "description": "Capture a \"Beetle\" to \"Ryan\"",
+          "mapId": 112,
+          "originalType": "capture"
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 370,
+      "name": "Rare Material",
+      "type": "story",
+      "acceptMessage": "Rare Material is active.",
+      "completionMessage": "Rare Material is complete.",
+      "acceptNpcId": 3009,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21110,
+          "quantity": 1,
+          "name": "Lizard Skin"
+        }
+      ],
+      "rewards": {
+        "gold": 600,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3009,
+          "status": 1,
+          "description": "Collect 5 \"Lizard Skin\"",
+          "mapId": 223,
+          "consumeItems": [
+            {
+              "templateId": 21110,
+              "quantity": 5,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 371,
+      "name": "Blacksmith's Food",
+      "type": "story",
+      "acceptMessage": "Blacksmith's Food is active.",
+      "completionMessage": "Blacksmith's Food is complete.",
+      "acceptNpcId": 3182,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        379
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21020,
+          "quantity": 1,
+          "name": "Blacksmith's Dish"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 2000,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3008,
+          "status": 1,
+          "description": "By the way, bring \"Blacksmith's Dish\" to \"Blacksmith\"",
+          "mapId": 112,
+          "grantItems": [
+            {
+              "templateId": 21020,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 22
+    },
+    {
+      "id": 373,
+      "name": "Separation",
+      "type": "story",
+      "acceptMessage": "Separation is active.",
+      "completionMessage": "Separation is complete.",
+      "acceptNpcId": 3070,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        385
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21059,
+          "quantity": 1,
+          "name": "Wine Gourd"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 1600,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3070,
+          "status": 1,
+          "description": "Bring \"Wine Gourd\" to \"Gladys\"",
+          "mapId": 112,
+          "consumeItems": [
+            {
+              "templateId": 21059,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3073,
+          "status": 2,
+          "description": "Bring \"Gladys's Ring\" to \"Outcast\"",
+          "mapId": 112,
+          "consumeItems": [
+            {
+              "templateId": 21023,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 12
+    },
+    {
+      "id": 375,
+      "name": "Catcher White Azrael",
+      "type": "story",
+      "acceptMessage": "Catcher White Azrael is active.",
+      "completionMessage": "Catcher White Azrael is complete.",
+      "acceptNpcId": 3079,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 2546,
+        "experience": 1240,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3079,
+          "status": 1,
+          "description": "Capture 2 \"Lonely Soul\" to \"White Azrael\"",
+          "mapId": 160,
+          "originalType": "capture"
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 376,
+      "name": "Green Worm",
+      "type": "story",
+      "acceptMessage": "Green Worm is active.",
+      "completionMessage": "Green Worm is complete.",
+      "acceptNpcId": 3183,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 1000,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3183,
+          "status": 1,
+          "description": "Kill 20 amorous Green Worms",
+          "mapId": 112,
+          "monsterId": 5035,
+          "count": 20
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 377,
+      "name": "Beggar's Secret",
+      "type": "story",
+      "acceptMessage": "Beggar's Secret is active.",
+      "completionMessage": "Beggar's Secret is complete.",
+      "acceptNpcId": 3183,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21186,
+          "quantity": 1,
+          "name": "Silk Clothes"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 2000,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3058,
+          "status": 1,
+          "description": "Bring \"Silk Clothes\" to \"Beggar\"",
+          "mapId": 112,
+          "grantItems": [
+            {
+              "templateId": 21186,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3058,
+          "status": 2,
+          "description": "Bring \"Carbonado\" and \"Heaven Wine\" to \"Beggar\"",
+          "mapId": 112,
+          "consumeItems": [
+            {
+              "templateId": 20009,
+              "quantity": 1,
+              "name": ""
+            },
+            {
+              "templateId": 20011,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 20
+    },
+    {
+      "id": 378,
+      "name": "Fairy's First Thing",
+      "type": "story",
+      "acceptMessage": "Fairy's First Thing is active.",
+      "completionMessage": "Fairy's First Thing is complete.",
+      "acceptNpcId": 3183,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        377
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21047,
+          "quantity": 1,
+          "name": "Piggy Circle"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 500,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3191,
+          "status": 1,
+          "description": "Bring the enchanted \"Piggy Circle\" to \"Samuel\"",
+          "mapId": 112,
+          "grantItems": [
+            {
+              "templateId": 21047,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 20
+    },
+    {
+      "id": 379,
+      "name": "Fairy's 2nd Thing",
+      "type": "story",
+      "acceptMessage": "Fairy's 2nd Thing is active.",
+      "completionMessage": "Fairy's 2nd Thing is complete.",
+      "acceptNpcId": 3183,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        378
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 1000,
+        "experience": 5000,
+        "coins": 2000,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 21119,
+            "quantity": 1,
+            "name": "Fairy's Note"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3183,
+          "status": 1,
+          "description": "Kill monster who disguised as \"Detective Lee\"-Cloud City(134.111)",
+          "mapId": 112,
+          "monsterId": 5127,
+          "count": 1
+        }
+      ],
+      "minLevel": 20
+    },
+    {
+      "id": 385,
+      "name": "Prison Breaker",
+      "type": "story",
+      "acceptMessage": "Prison Breaker is active.",
+      "completionMessage": "Prison Breaker is complete.",
+      "acceptNpcId": 3188,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        384
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 1000,
+        "experience": 8000,
+        "coins": 1200,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 21059,
+            "quantity": 1,
+            "name": "Wine Gourd"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3188,
+          "status": 1,
+          "description": "Arrest \"Prison Breaker\"-Cloud City(142.83)",
+          "mapId": 112
+        }
+      ],
+      "minLevel": 12
+    },
+    {
+      "id": 387,
+      "name": "Leverage",
+      "type": "story",
+      "acceptMessage": "Leverage is active.",
+      "completionMessage": "Leverage is complete.",
+      "acceptNpcId": 3077,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        386
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 2000,
+        "experience": 8000,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3022,
+          "status": 1,
+          "description": "Escort \"Heather\" to \"Map 112\" take him to \"Commander\"",
+          "mapId": 127
+        },
+        {
+          "type": "talk",
+          "npcId": 3022,
+          "status": 2,
+          "description": "In \"Commander\" 's name, go to arrest ¡°Dollary¡±",
+          "mapId": 112
+        }
+      ],
+      "minLevel": 12
+    },
+    {
+      "id": 388,
+      "name": "The Conspiracy",
+      "type": "story",
+      "acceptMessage": "The Conspiracy is active.",
+      "completionMessage": "The Conspiracy is complete.",
+      "acceptNpcId": 3073,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        386
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 3257,
+        "experience": 7570,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3073,
+          "status": 1,
+          "description": "´ò°Ü \"Ninja\"",
+          "mapId": 128
+        }
+      ],
+      "minLevel": 18
+    },
+    {
+      "id": 389,
+      "name": "Gourd with Blood",
+      "type": "story",
+      "acceptMessage": "Gourd with Blood is active.",
+      "completionMessage": "Gourd with Blood is complete.",
+      "acceptNpcId": 3073,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        388
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21053,
+          "quantity": 1,
+          "name": "Bloody Gourd"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 9011,
+            "quantity": 1,
+            "name": "Cardinal Gourd"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3022,
+          "status": 1,
+          "description": "Bring \"Bloody Gourd\" to \"Commander\"",
+          "mapId": 145,
+          "grantItems": [
+            {
+              "templateId": 21053,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 18
+    },
+    {
+      "id": 391,
+      "name": "Mother's Illness",
+      "type": "story",
+      "acceptMessage": "Mother's Illness is active.",
+      "completionMessage": "Mother's Illness is complete.",
+      "acceptNpcId": 3191,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        378
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21182,
+          "quantity": 1,
+          "name": "Heart Powder"
+        }
+      ],
+      "rewards": {
+        "gold": 800,
+        "experience": 2500,
+        "coins": 1500,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3191,
+          "status": 1,
+          "description": "Help \"Samuel\" to gather 10 \"Heart Powder\"",
+          "mapId": 112,
+          "consumeItems": [
+            {
+              "templateId": 21182,
+              "quantity": 5,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 20
+    },
+    {
+      "id": 392,
+      "name": "Blessing Purse",
+      "type": "story",
+      "acceptMessage": "Blessing Purse is active.",
+      "completionMessage": "Blessing Purse is complete.",
+      "acceptNpcId": 3193,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        357
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 50000,
+        "coins": 2000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3193,
+          "status": 1,
+          "description": "Kill \"Ghost Pig\"-Fall Alley(97.59)",
+          "mapId": 112,
+          "monsterId": 5132,
+          "count": 1
+        },
+        {
+          "type": "talk",
+          "npcId": 3193,
+          "status": 2,
+          "description": "Bring 10 \"Memorial Fragment\" to \"Soul of Heaven\"",
+          "mapId": 112,
+          "consumeItems": [
+            {
+              "templateId": 23029,
+              "quantity": 10,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3193,
+          "status": 3,
+          "description": "Bring \"Fine Silk\" to \"Soul of Heaven\"",
+          "mapId": 112,
+          "consumeItems": [
+            {
+              "templateId": 21026,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3191,
+          "status": 4,
+          "description": "Bring \"Blessed Sachet\" to \"Samuel\"",
+          "mapId": 112,
+          "grantItems": [
+            {
+              "templateId": 21027,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 20
+    },
+    {
+      "id": 393,
+      "name": "Recovery",
+      "type": "story",
+      "acceptMessage": "Recovery is active.",
+      "completionMessage": "Recovery is complete.",
+      "acceptNpcId": 3191,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        391
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21049,
+          "quantity": 1,
+          "name": "Info On Sow"
+        }
+      ],
+      "rewards": {
+        "gold": 2000,
+        "experience": 1000,
+        "coins": 2000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3013,
+          "status": 1,
+          "description": "Bring \"Info On Sow\" to \"Pet Curer\"",
+          "mapId": 112,
+          "grantItems": [
+            {
+              "templateId": 21049,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3013,
+          "status": 2,
+          "description": "Help to gather 5 \"Worm Spine\" and 5 \"Memorial Fragment\"",
+          "mapId": 228,
+          "consumeItems": [
+            {
+              "templateId": 23032,
+              "quantity": 5,
+              "name": ""
+            },
+            {
+              "templateId": 23029,
+              "quantity": 5,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3191,
+          "status": 3,
+          "description": "Bring \"Recovered Sow\" back to \"Samuel\"",
+          "mapId": 228,
+          "grantItems": [
+            {
+              "templateId": 21028,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 20
+    },
+    {
+      "id": 398,
+      "name": "Unexpected Help",
+      "type": "story",
+      "acceptMessage": "Unexpected Help is active.",
+      "completionMessage": "Unexpected Help is complete.",
+      "acceptNpcId": 3083,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        399
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 12000,
+        "coins": 1500,
+        "renown": 0,
+        "pets": [
+          "pet"
+        ],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3083,
+          "status": 1,
+          "description": "Kill \"Revenant\"-Butterfly Peak(93.107)",
+          "mapId": 132,
+          "monsterId": 5081,
+          "count": 1
+        }
+      ],
+      "minLevel": 27
+    },
+    {
+      "id": 399,
+      "name": "Zodiac Order",
+      "type": "story",
+      "acceptMessage": "Zodiac Order is active.",
+      "completionMessage": "Zodiac Order is complete.",
+      "acceptNpcId": 3084,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        395
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 1500,
+        "experience": 10000,
+        "coins": 1500,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3084,
+          "status": 1,
+          "description": "Kill \"Specter\"",
+          "mapId": 132,
+          "monsterId": 5217,
+          "count": 1
+        },
+        {
+          "type": "talk",
+          "npcId": 3084,
+          "status": 2,
+          "description": "Kill \"Apparition\" and obtain \"Zodiac Brand\"",
+          "mapId": 132,
+          "consumeItems": [
+            {
+              "templateId": 21055,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "originalType": "kill_collect"
+        }
+      ],
+      "minLevel": 27
+    },
+    {
+      "id": 404,
+      "name": "Cobweb",
+      "type": "story",
+      "acceptMessage": "Cobweb is active.",
+      "completionMessage": "Cobweb is complete.",
+      "acceptNpcId": 3199,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21183,
+          "quantity": 1,
+          "name": "Fine Spider Silk"
+        }
+      ],
+      "rewards": {
+        "gold": 1000,
+        "experience": 8000,
+        "coins": 2000,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 9017,
+            "quantity": 1,
+            "name": "Spider Web"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3199,
+          "status": 1,
+          "description": "Collect 10 \"Fine Spider Silk\"",
+          "mapId": 131,
+          "consumeItems": [
+            {
+              "templateId": 21183,
+              "quantity": 10,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 25
+    },
+    {
+      "id": 406,
+      "name": "Fierce Tortoise",
+      "type": "story",
+      "acceptMessage": "Fierce Tortoise is active.",
+      "completionMessage": "Fierce Tortoise is complete.",
+      "acceptNpcId": 3204,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 2400,
+        "experience": 12000,
+        "coins": 2000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3204,
+          "status": 1,
+          "description": "Kill 20 \"Thorny Tortoise\"",
+          "mapId": 111,
+          "monsterId": 5092,
+          "count": 20
+        }
+      ],
+      "minLevel": 30
+    },
+    {
+      "id": 407,
+      "name": "Good Luck",
+      "type": "story",
+      "acceptMessage": "Good Luck is active.",
+      "completionMessage": "Good Luck is complete.",
+      "acceptNpcId": 3060,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21056,
+          "quantity": 1,
+          "name": ""
+        }
+      ],
+      "rewards": {
+        "gold": 1000,
+        "experience": 1000,
+        "coins": 1000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3018,
+          "status": 1,
+          "description": "Take Fortune Rune with you and speak to Ralph.",
+          "mapId": 112,
+          "grantItems": [
+            {
+              "templateId": 21056,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 12
     },
     {
       "id": 408,
@@ -181,29 +4202,284 @@
       "acceptNpcId": 3093,
       "acceptSubtype": 3,
       "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21065,
+          "quantity": 1,
+          "name": "Info on Tortoise"
+        }
+      ],
       "rewards": {
         "gold": 0,
         "experience": 0,
+        "coins": 2000,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 9018,
+            "quantity": 1,
+            "name": "Rare Turtle Shell"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3019,
+          "status": 2,
+          "description": "Defeat the thief who stole the tortoise.",
+          "mapId": 111,
+          "monsterId": 5086,
+          "count": 1,
+          "originalType": "talk"
+        },
+        {
+          "type": "talk",
+          "npcId": 3019,
+          "status": 3,
+          "description": "Speak with Miser.",
+          "mapId": 108,
+          "consumeItems": [
+            {
+              "templateId": 21035,
+              "quantity": 1,
+              "name": "Gold Tortoise"
+            }
+          ]
+        }
+      ],
+      "minLevel": 32
+    },
+    {
+      "id": 413,
+      "name": "Weird Medicine",
+      "type": "story",
+      "acceptMessage": "Weird Medicine is active.",
+      "completionMessage": "Weird Medicine is complete.",
+      "acceptNpcId": 3100,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 2400,
+        "experience": 6000,
         "coins": 0,
         "renown": 0,
+        "pets": [],
         "items": []
       },
       "steps": [
         {
           "type": "kill",
-          "npcId": 3093,
+          "npcId": 3100,
           "status": 1,
-          "description": "Defeat the thief who stole the tortoise.",
-          "monsterId": 5086,
-          "count": 1
+          "description": "Kill 10 \"Rock Goblin\"",
+          "mapId": 135,
+          "monsterId": 5090,
+          "count": 10
+        }
+      ],
+      "minLevel": 31
+    },
+    {
+      "id": 415,
+      "name": "Training",
+      "type": "story",
+      "acceptMessage": "Training is active.",
+      "completionMessage": "Training is complete.",
+      "acceptNpcId": 3098,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 2400,
+        "experience": 8000,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3098,
+          "status": 1,
+          "description": "´ò°Ü 10¸ö\"Hill Patroller\"¡¢10¸ö\"Hill Roamer\"",
+          "mapId": 164
+        }
+      ],
+      "minLevel": 33
+    },
+    {
+      "id": 416,
+      "name": "Trumpet Shell",
+      "type": "story",
+      "acceptMessage": "Trumpet Shell is active.",
+      "completionMessage": "Trumpet Shell is complete.",
+      "acceptNpcId": 3125,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21184,
+          "quantity": 1,
+          "name": "Exquisite Trumpet Shell"
+        }
+      ],
+      "rewards": {
+        "gold": 2400,
+        "experience": 26000,
+        "coins": 2000,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 8013,
+            "quantity": 1,
+            "name": "Whelk Necklace"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3125,
+          "status": 1,
+          "description": "Collect 10 \"Exquisite Trumpet Shell\"",
+          "mapId": 229,
+          "grantItems": [
+            {
+              "templateId": 21106,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 30
+    },
+    {
+      "id": 417,
+      "name": "Carp King's Sin",
+      "type": "story",
+      "acceptMessage": "Carp King's Sin is active.",
+      "completionMessage": "Carp King's Sin is complete.",
+      "acceptNpcId": 3052,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 2400,
+        "experience": 8000,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3052,
+          "status": 1,
+          "description": "Kill 20 \"Carp King\"",
+          "mapId": 214,
+          "monsterId": 5096,
+          "count": 20
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 418,
+      "name": "Copper",
+      "type": "story",
+      "acceptMessage": "Copper is active.",
+      "completionMessage": "Copper is complete.",
+      "acceptNpcId": 3050,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21071,
+          "quantity": 1,
+          "name": "Nowt's Letter"
+        }
+      ],
+      "rewards": {
+        "gold": 800,
+        "experience": 2500,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3256,
+          "status": 1,
+          "description": "Bring \"Nowt's Letter\" to \"Copper\"",
+          "mapId": 155,
+          "grantItems": [
+            {
+              "templateId": 21071,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
         },
         {
           "type": "talk",
-          "npcId": 3019,
-          "status": 1,
-          "description": "Speak with Miser."
+          "npcId": 3256,
+          "status": 2,
+          "description": "Help Copper to arrest \"Greedy Ghost\"",
+          "mapId": 155
         }
-      ]
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 419,
+      "name": "Past Sins",
+      "type": "story",
+      "acceptMessage": "Past Sins is active.",
+      "completionMessage": "Past Sins is complete.",
+      "acceptNpcId": 3257,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 20013,
+          "quantity": 1,
+          "name": "Hot Crayfish"
+        }
+      ],
+      "rewards": {
+        "gold": 1200,
+        "experience": 2500,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3031,
+          "status": 1,
+          "description": "Bring \"Will of Greedy Ghost\" to his grandson",
+          "mapId": 155,
+          "grantItems": [
+            {
+              "templateId": 21134,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 1
     },
     {
       "id": 426,
@@ -214,29 +4490,937 @@
       "acceptNpcId": 3262,
       "acceptSubtype": 3,
       "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21076,
+          "quantity": 1,
+          "name": ""
+        }
+      ],
       "rewards": {
         "gold": 0,
         "experience": 0,
         "coins": 0,
         "renown": 0,
+        "pets": [],
         "items": []
       },
       "steps": [
         {
           "type": "kill",
-          "npcId": 3262,
-          "status": 1,
+          "npcId": 3263,
+          "status": 3,
           "description": "Defeat 10 Evil Rogues.",
+          "mapId": 158,
           "monsterId": 5165,
-          "count": 10
+          "count": 10,
+          "originalType": "talk"
         },
         {
           "type": "talk",
           "npcId": 3124,
           "status": 2,
-          "description": "Report the situation to Hell Nowt."
+          "description": "Report the situation to Hell Nowt.",
+          "mapId": 158,
+          "grantItems": [
+            {
+              "templateId": 21074,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
         }
-      ]
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 428,
+      "name": "Builup of Evil Troop",
+      "type": "story",
+      "acceptMessage": "Builup of Evil Troop is active.",
+      "completionMessage": "Builup of Evil Troop is complete.",
+      "acceptNpcId": 3263,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 2400,
+        "experience": 32000,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3263,
+          "status": 1,
+          "description": "Capture 5\"Evil Mushroom\"",
+          "mapId": 158,
+          "originalType": "capture"
+        },
+        {
+          "type": "talk",
+          "npcId": 3263,
+          "status": 2,
+          "description": "Take \"Tiercel\" back",
+          "mapId": 158,
+          "consumeItems": [
+            {
+              "templateId": 21078,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 431,
+      "name": "Piggy's Comeback",
+      "type": "story",
+      "acceptMessage": "Piggy's Comeback is active.",
+      "completionMessage": "Piggy's Comeback is complete.",
+      "acceptNpcId": 3265,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 4000,
+        "coins": 1000,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 26004,
+            "quantity": 3,
+            "name": "Treasure Map (S)"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3265,
+          "status": 1,
+          "description": "Kill 3 \"Little Piggy\"\\",
+          "mapId": 112,
+          "monsterId": 5170,
+          "count": 3
+        }
+      ],
+      "minLevel": 12
+    },
+    {
+      "id": 432,
+      "name": "Piggy Leader",
+      "type": "story",
+      "acceptMessage": "Piggy Leader is active.",
+      "completionMessage": "Piggy Leader is complete.",
+      "acceptNpcId": 3265,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        431
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 1000,
+        "experience": 6000,
+        "coins": 1000,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 26015,
+            "quantity": 3,
+            "name": "Equipment Treasure Map (Primary"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3265,
+          "status": 1,
+          "description": "Kill one \"Piggy Leader\"\\",
+          "mapId": 112,
+          "monsterId": 5171,
+          "count": 1
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 450,
+      "name": "The Rumor",
+      "type": "story",
+      "acceptMessage": "The Rumor is active.",
+      "completionMessage": "The Rumor is complete.",
+      "acceptNpcId": 3353,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21229,
+          "quantity": 1,
+          "name": "Bamboo Tube"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 100000,
+        "coins": 1000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3353,
+          "status": 1,
+          "description": "Kill \"Little Leopard\" and bring \"Bamboo Tube\" to \"Laura\"",
+          "mapId": 109,
+          "monsterId": 5237,
+          "count": 1
+        },
+        {
+          "type": "talk",
+          "npcId": 3353,
+          "status": 2,
+          "description": "According to information of \"Bamboo Tube\" , locate and kill Firewood Beast to get \"Complete Bamboo Tube\"",
+          "mapId": 109,
+          "grantItems": [
+            {
+              "templateId": 26030,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "originalType": "kill_collect"
+        },
+        {
+          "type": "talk",
+          "npcId": 3343,
+          "status": 3,
+          "description": "Escort \"Laura\" back to \"Map 169\" \"Grandma Keyla\"",
+          "mapId": 109
+        }
+      ],
+      "minLevel": 50
+    },
+    {
+      "id": 451,
+      "name": "The Giant Petal",
+      "type": "story",
+      "acceptMessage": "The Giant Petal is active.",
+      "completionMessage": "The Giant Petal is complete.",
+      "acceptNpcId": 3278,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        450
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 23075,
+          "quantity": 1,
+          "name": "Large Petal"
+        }
+      ],
+      "rewards": {
+        "gold": 2000,
+        "experience": 60000,
+        "coins": 1000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3278,
+          "status": 1,
+          "description": "Kill \"Maneating Flower\" and get \"Large Petal\"¡Á10",
+          "mapId": 169,
+          "consumeItems": [
+            {
+              "templateId": 23075,
+              "quantity": 10,
+              "name": ""
+            }
+          ],
+          "originalType": "kill_collect"
+        }
+      ],
+      "minLevel": 50
+    },
+    {
+      "id": 452,
+      "name": "The Difficulty",
+      "type": "story",
+      "acceptMessage": "The Difficulty is active.",
+      "completionMessage": "The Difficulty is complete.",
+      "acceptNpcId": 3343,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        451
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21231,
+          "quantity": 1,
+          "name": "Rice Porridge"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 100000,
+        "coins": 1000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3353,
+          "status": 1,
+          "description": "Bring \"Rice Porridge\" to \"Laura\"",
+          "mapId": 169,
+          "grantItems": [
+            {
+              "templateId": 21231,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3278,
+          "status": 2,
+          "description": "Kill \"Armored Tortoise\" to obtain \"Turtle Shell Powder\"¡Á10",
+          "mapId": 169,
+          "consumeItems": [
+            {
+              "templateId": 21232,
+              "quantity": 10,
+              "name": ""
+            }
+          ],
+          "originalType": "kill_collect"
+        },
+        {
+          "type": "talk",
+          "npcId": 3278,
+          "status": 3,
+          "description": "Kill \"Locust\" to obtain \"Rare Insect\"¡Á10",
+          "mapId": 169,
+          "consumeItems": [
+            {
+              "templateId": 21233,
+              "quantity": 10,
+              "name": ""
+            }
+          ],
+          "originalType": "kill_collect"
+        }
+      ],
+      "minLevel": 50
+    },
+    {
+      "id": 453,
+      "name": "The Suffering",
+      "type": "story",
+      "acceptMessage": "The Suffering is active.",
+      "completionMessage": "The Suffering is complete.",
+      "acceptNpcId": 3278,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        452
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21234,
+          "quantity": 1,
+          "name": "Purple Block"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 80000,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3353,
+          "status": 1,
+          "description": "Kill \"Tree Spirit\" to obtain \"Purple Block\"",
+          "mapId": 169,
+          "consumeItems": [
+            {
+              "templateId": 21234,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "originalType": "kill_collect"
+        }
+      ],
+      "minLevel": 50
+    },
+    {
+      "id": 454,
+      "name": "Plague of Locusts",
+      "type": "story",
+      "acceptMessage": "Plague of Locusts is active.",
+      "completionMessage": "Plague of Locusts is complete.",
+      "acceptNpcId": 3344,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 3000,
+        "experience": 100000,
+        "coins": 3000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3344,
+          "status": 1,
+          "description": "Kill \"Locust\"¡Á20 and report to \"Guardian\"",
+          "mapId": 169,
+          "monsterId": 5240,
+          "count": 20
+        }
+      ],
+      "minLevel": 52
+    },
+    {
+      "id": 455,
+      "name": "Evil Dragon",
+      "type": "story",
+      "acceptMessage": "Evil Dragon is active.",
+      "completionMessage": "Evil Dragon is complete.",
+      "acceptNpcId": 3347,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 2000,
+        "experience": 200000,
+        "coins": 2000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3361,
+          "status": 1,
+          "description": "Kill \"Clan Guard\" , you will see \"Old Shaikh\"",
+          "mapId": 240,
+          "monsterId": 5280,
+          "count": 1
+        },
+        {
+          "type": "talk",
+          "npcId": 3355,
+          "status": 2,
+          "description": "Bring \"Swaddle\" to \"Elizabeth\"",
+          "mapId": 113,
+          "grantItems": [
+            {
+              "templateId": 21235,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 52
+    },
+    {
+      "id": 456,
+      "name": "The Dragon's Growth",
+      "type": "story",
+      "acceptMessage": "The Dragon's Growth is active.",
+      "completionMessage": "The Dragon's Growth is complete.",
+      "acceptNpcId": 3355,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        455
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21236,
+          "quantity": 1,
+          "name": "Lotus Petal"
+        }
+      ],
+      "rewards": {
+        "gold": 1000,
+        "experience": 80000,
+        "coins": 1000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3347,
+          "status": 1,
+          "description": "Bring \"Lotus Petal\" to \"Vannessa\"",
+          "mapId": 114,
+          "grantItems": [
+            {
+              "templateId": 21236,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3356,
+          "status": 2,
+          "description": "Bring \"Parcel\" to \"White Dragon\"",
+          "mapId": 114,
+          "grantItems": [
+            {
+              "templateId": 21237,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "kill",
+          "npcId": 3356,
+          "status": 3,
+          "description": "Kill \"Fat Pig\" to collect 10 \"Fresh Pork\" to \"White Dragon\"",
+          "mapId": 114,
+          "monsterId": 5236,
+          "count": 1
+        }
+      ],
+      "minLevel": 52
+    },
+    {
+      "id": 457,
+      "name": "Lonely Heart",
+      "type": "story",
+      "acceptMessage": "Lonely Heart is active.",
+      "completionMessage": "Lonely Heart is complete.",
+      "acceptNpcId": 3356,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        456
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 30000,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 21238,
+            "quantity": 1,
+            "name": "Dragon Scale"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3356,
+          "status": 1,
+          "description": "Capture a \"Iron Crab\" for \"White Dragon\"",
+          "mapId": 114,
+          "originalType": "capture"
+        }
+      ],
+      "minLevel": 52
+    },
+    {
+      "id": 458,
+      "name": "Blood Is Thicker",
+      "type": "story",
+      "acceptMessage": "Blood Is Thicker is active.",
+      "completionMessage": "Blood Is Thicker is complete.",
+      "acceptNpcId": 3347,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        457
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21239,
+          "quantity": 1,
+          "name": "Fragile Wings"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 300000,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3356,
+          "status": 1,
+          "description": "´ò°Ü \"Beatle Soldier\" Bring 15 \"Fragile Wings\" to \"White Dragon\"",
+          "mapId": 240,
+          "consumeItems": [
+            {
+              "templateId": 21239,
+              "quantity": 15,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3361,
+          "status": 2,
+          "description": "Defeat \"Old Shaikh\" and see see how he will react",
+          "mapId": 114
+        }
+      ],
+      "minLevel": 52
+    },
+    {
+      "id": 459,
+      "name": "Cruel Choice",
+      "type": "story",
+      "acceptMessage": "Cruel Choice is active.",
+      "completionMessage": "Cruel Choice is complete.",
+      "acceptNpcId": 3361,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        457
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21241,
+          "quantity": 1,
+          "name": "Dragon Bone"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3361,
+          "status": 1,
+          "description": "Kill \"White Dragon\" to obtain \"Dragon Bone\" and submit it to \"Old Shaikh\"",
+          "mapId": 113,
+          "consumeItems": [
+            {
+              "templateId": 21241,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "originalType": "kill_collect"
+        }
+      ],
+      "minLevel": 52
+    },
+    {
+      "id": 460,
+      "name": "Sudden Attack",
+      "type": "story",
+      "acceptMessage": "Sudden Attack is active.",
+      "completionMessage": "Sudden Attack is complete.",
+      "acceptNpcId": 3342,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21240,
+          "quantity": 1,
+          "name": "Letter of Perplexity"
+        }
+      ],
+      "rewards": {
+        "gold": 2500,
+        "experience": 80000,
+        "coins": 2000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3345,
+          "status": 1,
+          "description": "Bring \"Pet Feeder\"'s \"Letter of Perplexity\" to \"Captor Leo\"",
+          "mapId": 169,
+          "grantItems": [
+            {
+              "templateId": 21240,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "kill",
+          "npcId": 3345,
+          "status": 2,
+          "description": "Kill 15 \"Heart Demon\" and speak with\"Captor Leo\"",
+          "mapId": 169,
+          "monsterId": 5241,
+          "count": 15
+        }
+      ],
+      "minLevel": 55
+    },
+    {
+      "id": 461,
+      "name": "Stubbornness",
+      "type": "story",
+      "acceptMessage": "Stubbornness is active.",
+      "completionMessage": "Stubbornness is complete.",
+      "acceptNpcId": 3364,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 23077,
+          "quantity": 1,
+          "name": "Beetle Horn"
+        }
+      ],
+      "rewards": {
+        "gold": 2500,
+        "experience": 100000,
+        "coins": 2000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3364,
+          "status": 1,
+          "description": "Kill \"Beatle Soldier\" to get 10 \"Beetle Horn\" . Then submit it to \"Joseph\"",
+          "mapId": 239,
+          "consumeItems": [
+            {
+              "templateId": 23077,
+              "quantity": 10,
+              "name": ""
+            }
+          ],
+          "originalType": "kill_collect"
+        }
+      ],
+      "minLevel": 55
+    },
+    {
+      "id": 462,
+      "name": "Frustration",
+      "type": "story",
+      "acceptMessage": "Frustration is active.",
+      "completionMessage": "Frustration is complete.",
+      "acceptNpcId": 3365,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 3500,
+        "experience": 180000,
+        "coins": 3500,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3365,
+          "status": 1,
+          "description": "Kill 15 \"Heart Demon\" to find truth out and then go to check \"Palm\"",
+          "mapId": 238,
+          "monsterId": 5241,
+          "count": 15
+        },
+        {
+          "type": "kill",
+          "npcId": 3365,
+          "status": 1,
+          "description": "Kill \"Heart Demon\" to collect 10 \"Cracked Mirror\" for \"Palm\"",
+          "mapId": 238,
+          "monsterId": 5241,
+          "count": 15
+        }
+      ],
+      "minLevel": 56
+    },
+    {
+      "id": 463,
+      "name": "Flying Little Mouse",
+      "type": "story",
+      "acceptMessage": "Flying Little Mouse is active.",
+      "completionMessage": "Flying Little Mouse is complete.",
+      "acceptNpcId": 3366,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 3000,
+        "experience": 100000,
+        "coins": 3000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3366,
+          "status": 1,
+          "description": "Capture one \"Little Bat\" for \"Alexander\"",
+          "mapId": 238,
+          "originalType": "capture"
+        }
+      ],
+      "minLevel": 57
+    },
+    {
+      "id": 464,
+      "name": "Saving the Doll",
+      "type": "story",
+      "acceptMessage": "Saving the Doll is active.",
+      "completionMessage": "Saving the Doll is complete.",
+      "acceptNpcId": 3363,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 220000,
+        "coins": 3000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3363,
+          "status": 1,
+          "description": "Kill 15 \"Child Corpse\" and then locate \"Old Witch Doctor\"",
+          "mapId": 240,
+          "monsterId": 5243,
+          "count": 15
+        }
+      ],
+      "minLevel": 63
+    },
+    {
+      "id": 465,
+      "name": "Breaking His Words",
+      "type": "story",
+      "acceptMessage": "Breaking His Words is active.",
+      "completionMessage": "Breaking His Words is complete.",
+      "acceptNpcId": 3379,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 23086,
+          "quantity": 1,
+          "name": "Yellow Clay"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3132,
+          "status": 1,
+          "description": "Kill \"One-eyed Beast\" to get 10 \"Yellow Clay\" and submit to \"Longicorn King\"",
+          "mapId": 166,
+          "consumeItems": [
+            {
+              "templateId": 23086,
+              "quantity": 10,
+              "name": ""
+            }
+          ],
+          "originalType": "kill_collect"
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 466,
+      "name": "Richard",
+      "type": "story",
+      "acceptMessage": "Richard is active.",
+      "completionMessage": "Richard is complete.",
+      "acceptNpcId": 3380,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3380,
+          "status": 1,
+          "description": "Kill 10 \"Foliage Ghost\" and locate \"Richard\"",
+          "mapId": 166,
+          "monsterId": 5247,
+          "count": 10
+        }
+      ],
+      "minLevel": 1
     },
     {
       "id": 467,
@@ -249,23 +5433,1918 @@
       "prerequisiteTaskIds": [
         481
       ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21242,
+          "quantity": 1,
+          "name": "Indictment"
+        }
+      ],
       "rewards": {
         "gold": 0,
         "experience": 0,
         "coins": 0,
         "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3381,
+          "status": 1,
+          "description": "Teach Trick Sprite a lesson.",
+          "mapId": 211,
+          "monsterId": 5282,
+          "count": 1,
+          "originalType": "talk"
+        },
+        {
+          "type": "kill",
+          "npcId": 3381,
+          "status": 2,
+          "description": "Kill \"Trick Sprite\" and give him a lesson",
+          "mapId": 166,
+          "monsterId": 5282,
+          "count": 1
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 468,
+      "name": "Oil Story",
+      "type": "story",
+      "acceptMessage": "Oil Story is active.",
+      "completionMessage": "Oil Story is complete.",
+      "acceptNpcId": 3370,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21382,
+          "quantity": 1,
+          "name": "Purchased Oil"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3370,
+          "status": 1,
+          "description": "Locate \"Waiter\" to get Oil Bottle and bring it to \"Grocer Merchant\" . Then take \"Purchased Oil\" to \"Ryan\"",
+          "mapId": 238,
+          "consumeItems": [
+            {
+              "templateId": 21382,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 469,
+      "name": "Flaming Tree",
+      "type": "story",
+      "acceptMessage": "Flaming Tree is active.",
+      "completionMessage": "Flaming Tree is complete.",
+      "acceptNpcId": 3371,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21247,
+          "quantity": 1,
+          "name": "Flaming Leaf"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3374,
+          "status": 1,
+          "description": "Take \"Flaming Leaf\" to speak with \"Beauty\" for answer of Flaming tree's sickness",
+          "mapId": 211,
+          "grantItems": [
+            {
+              "templateId": 21247,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 64
+    },
+    {
+      "id": 470,
+      "name": "Drought",
+      "type": "story",
+      "acceptMessage": "Drought is active.",
+      "completionMessage": "Drought is complete.",
+      "acceptNpcId": 3372,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21248,
+          "quantity": 1,
+          "name": "Tank"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3376,
+          "status": 1,
+          "description": "Bring \"Tank\" to \"Nicholas\"",
+          "mapId": 211,
+          "grantItems": [
+            {
+              "templateId": 21248,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "kill",
+          "npcId": 3376,
+          "status": 2,
+          "description": "Kill 15 \"Jackal\"",
+          "mapId": 182,
+          "monsterId": 5248,
+          "count": 15
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 471,
+      "name": "Sandworm",
+      "type": "story",
+      "acceptMessage": "Sandworm is active.",
+      "completionMessage": "Sandworm is complete.",
+      "acceptNpcId": 3330,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21010,
+          "quantity": 1,
+          "name": ""
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3330,
+          "status": 1,
+          "description": "Capture one \"Sandworm\"",
+          "mapId": 211,
+          "grantItems": [
+            {
+              "templateId": 21010,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "originalType": "capture"
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 472,
+      "name": "The Rock",
+      "type": "story",
+      "acceptMessage": "The Rock is active.",
+      "completionMessage": "The Rock is complete.",
+      "acceptNpcId": 3391,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3391,
+          "status": 1,
+          "description": "Kill 10 \"Gloom Grass\"and 10 \"Rock Flower\"",
+          "mapId": 170,
+          "monsterId": 5257,
+          "count": 10
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 473,
+      "name": "Make A Fire",
+      "type": "story",
+      "acceptMessage": "Make A Fire is active.",
+      "completionMessage": "Make A Fire is complete.",
+      "acceptNpcId": 3392,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 23092,
+          "quantity": 1,
+          "name": "Fire Stone"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3392,
+          "status": 1,
+          "description": "Kill \"Flame\" and get 5 \"Fire Stone\"",
+          "mapId": 170,
+          "consumeItems": [
+            {
+              "templateId": 23092,
+              "quantity": 5,
+              "name": ""
+            }
+          ],
+          "originalType": "kill_collect"
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 474,
+      "name": "For Justice",
+      "type": "story",
+      "acceptMessage": "For Justice is active.",
+      "completionMessage": "For Justice is complete.",
+      "acceptNpcId": 3393,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3393,
+          "status": 1,
+          "description": "Kill 10 \"Scorpion\" and tell \"Leif\" this good news",
+          "mapId": 170,
+          "monsterId": 5253,
+          "count": 10
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 475,
+      "name": "Shared Tribute",
+      "type": "story",
+      "acceptMessage": "Shared Tribute is active.",
+      "completionMessage": "Shared Tribute is complete.",
+      "acceptNpcId": 3377,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21249,
+          "quantity": 1,
+          "name": "Tribute"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3394,
+          "status": 1,
+          "description": "Bring \"Tribute\" to \"Adrian\"",
+          "mapId": 182,
+          "grantItems": [
+            {
+              "templateId": 21249,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3382,
+          "status": 2,
+          "description": "Bring \"Tribute\" to \"Gany\" in \"Map 245\"",
+          "mapId": 170,
+          "grantItems": [
+            {
+              "templateId": 21249,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 476,
+      "name": "Violator Gany",
+      "type": "story",
+      "acceptMessage": "Violator Gany is active.",
+      "completionMessage": "Violator Gany is complete.",
+      "acceptNpcId": 3382,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3382,
+          "status": 1,
+          "description": "Kill 20 \"Acicula\"",
+          "mapId": 245,
+          "monsterId": 5255,
+          "count": 20
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 478,
+      "name": "Fake Immortal",
+      "type": "story",
+      "acceptMessage": "Fake Immortal is active.",
+      "completionMessage": "Fake Immortal is complete.",
+      "acceptNpcId": 3382,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21250,
+          "quantity": 1,
+          "name": "Empty Basket"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3394,
+          "status": 1,
+          "description": "Quest step 1",
+          "mapId": 245,
+          "consumeItems": [
+            {
+              "templateId": 21250,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "kill",
+          "npcId": 3394,
+          "status": 2,
+          "description": "Kill the fake \"Gany\" and speak with \"Adrian\"",
+          "mapId": 170,
+          "monsterId": 5283,
+          "count": 1
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 479,
+      "name": "The Reason",
+      "type": "story",
+      "acceptMessage": "The Reason is active.",
+      "completionMessage": "The Reason is complete.",
+      "acceptNpcId": 3382,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21251,
+          "quantity": 1,
+          "name": "Gany's Testimony"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3394,
+          "status": 1,
+          "description": "Quest step 1",
+          "mapId": 245,
+          "consumeItems": [
+            {
+              "templateId": 21251,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 480,
+      "name": "Club Spirit",
+      "type": "story",
+      "acceptMessage": "Club Spirit is active.",
+      "completionMessage": "Club Spirit is complete.",
+      "acceptNpcId": 3383,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 23095,
+          "quantity": 1,
+          "name": "Thorn Agglomerate"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3438,
+          "status": 1,
+          "description": "Quest step 1",
+          "mapId": 245,
+          "consumeItems": [
+            {
+              "templateId": 23095,
+              "quantity": 10,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3383,
+          "status": 2,
+          "description": "Quest step 2",
+          "mapId": 165,
+          "grantItems": [
+            {
+              "templateId": 21285,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 481,
+      "name": "Vulture Fight",
+      "type": "story",
+      "acceptMessage": "Vulture Fight is active. Jeff asked you to help Gamba.",
+      "completionMessage": "Vulture Fight is complete.",
+      "acceptNpcId": 3439,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21252,
+          "quantity": 1,
+          "name": "Necklace"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
         "items": []
       },
       "steps": [
         {
           "type": "kill",
           "npcId": 3439,
+          "status": 1,
+          "description": "Defeat the Vulture threatening Gamba.",
+          "mapId": 245,
+          "monsterId": 3384,
+          "count": 1,
+          "originalType": "talk"
+        },
+        {
+          "type": "talk",
+          "npcId": 3383,
           "status": 2,
-          "description": "Teach Trick Sprite a lesson.",
-          "monsterId": 5282,
-          "count": 1
+          "description": "Report back to Gamba.",
+          "mapId": 166,
+          "originalType": "kill"
         }
-      ]
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 482,
+      "name": "Happy Family",
+      "type": "story",
+      "acceptMessage": "Happy Family is active.",
+      "completionMessage": "Happy Family is complete.",
+      "acceptNpcId": 3438,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21253,
+          "quantity": 1,
+          "name": ""
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3383,
+          "status": 1,
+          "description": "Quest step 1",
+          "mapId": 245,
+          "grantItems": [
+            {
+              "templateId": 21253,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3383,
+          "status": 2,
+          "description": "Quest step 2",
+          "mapId": 245,
+          "consumeItems": [
+            {
+              "templateId": 21254,
+              "quantity": 10,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 483,
+      "name": "The Fence",
+      "type": "story",
+      "acceptMessage": "The Fence is active.",
+      "completionMessage": "The Fence is complete.",
+      "acceptNpcId": 3395,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21255,
+          "quantity": 1,
+          "name": "Twig bamboo"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3395,
+          "status": 1,
+          "description": "Kill \"Rock Flower\" to obtain 20 \"Twig bamboo\"",
+          "mapId": 170,
+          "consumeItems": [
+            {
+              "templateId": 21255,
+              "quantity": 20,
+              "name": ""
+            }
+          ],
+          "originalType": "kill_collect"
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 484,
+      "name": "Sudden Impulse",
+      "type": "story",
+      "acceptMessage": "Sudden Impulse is active.",
+      "completionMessage": "Sudden Impulse is complete.",
+      "acceptNpcId": 3395,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3395,
+          "status": 1,
+          "description": "Quest step 1",
+          "mapId": 170
+        },
+        {
+          "type": "talk",
+          "npcId": 3396,
+          "status": 2,
+          "description": "Quest step 2",
+          "mapId": 170,
+          "grantItems": [
+            {
+              "templateId": 21256,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 485,
+      "name": "The Beauty",
+      "type": "story",
+      "acceptMessage": "The Beauty is active.",
+      "completionMessage": "The Beauty is complete.",
+      "acceptNpcId": 3397,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21257,
+          "quantity": 1,
+          "name": "Meal"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3395,
+          "status": 1,
+          "description": "Quest step 1",
+          "mapId": 170,
+          "grantItems": [
+            {
+              "templateId": 21257,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3397,
+          "status": 2,
+          "description": "Quest step 2",
+          "mapId": 170,
+          "grantItems": [
+            {
+              "templateId": 21258,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 486,
+      "name": "The Truth",
+      "type": "story",
+      "acceptMessage": "The Truth is active.",
+      "completionMessage": "The Truth is complete.",
+      "acceptNpcId": 3397,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21258,
+          "quantity": 1,
+          "name": "Gift"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3379,
+          "status": 1,
+          "description": "Quest step 1",
+          "mapId": 170,
+          "grantItems": [
+            {
+              "templateId": 21258,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "kill",
+          "npcId": 3378,
+          "status": 2,
+          "description": "According to Tyrant's \"Scruffy Bag\" , find him out and kill him",
+          "mapId": 182,
+          "monsterId": 5276,
+          "count": 1
+        },
+        {
+          "type": "talk",
+          "npcId": 3397,
+          "status": 3,
+          "description": "Bring \"Letter from Ava\" to \"Rane\"",
+          "mapId": 182,
+          "grantItems": [
+            {
+              "templateId": 21259,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 487,
+      "name": "Saffron And Julia",
+      "type": "story",
+      "acceptMessage": "Saffron And Julia is active.",
+      "completionMessage": "Saffron And Julia is complete.",
+      "acceptNpcId": 3398,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21260,
+          "quantity": 1,
+          "name": "Soup of Decline"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3401,
+          "status": 1,
+          "description": "Quest step 1",
+          "mapId": 181,
+          "consumeItems": [
+            {
+              "templateId": 21260,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 488,
+      "name": "Peach wood Timber",
+      "type": "story",
+      "acceptMessage": "Peach wood Timber is active.",
+      "completionMessage": "Peach wood Timber is complete.",
+      "acceptNpcId": 3401,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21261,
+          "quantity": 1,
+          "name": "Trick"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3398,
+          "status": 1,
+          "description": "Quest step 1",
+          "mapId": 161,
+          "grantItems": [
+            {
+              "templateId": 21261,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3398,
+          "status": 2,
+          "description": "Quest step 2",
+          "mapId": 181,
+          "grantItems": [
+            {
+              "templateId": 21383,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 489,
+      "name": "Going the Wrong Way",
+      "type": "story",
+      "acceptMessage": "Going the Wrong Way is active.",
+      "completionMessage": "Going the Wrong Way is complete.",
+      "acceptNpcId": 3401,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21262,
+          "quantity": 1,
+          "name": "Wonder Fruit"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3401,
+          "status": 1,
+          "description": "Quest step 1",
+          "mapId": 161,
+          "consumeItems": [
+            {
+              "templateId": 21262,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 490,
+      "name": "Mountain Spirit's Story",
+      "type": "story",
+      "acceptMessage": "Mountain Spirit's Story is active.",
+      "completionMessage": "Mountain Spirit's Story is complete.",
+      "acceptNpcId": 3402,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3402,
+          "status": 1,
+          "description": "Capture one \"Claybeast\" to \"Mount Spirit\"",
+          "mapId": 119,
+          "originalType": "capture"
+        }
+      ],
+      "minLevel": 90
+    },
+    {
+      "id": 491,
+      "name": "Elaine's Reading",
+      "type": "story",
+      "acceptMessage": "Elaine's Reading is active.",
+      "completionMessage": "Elaine's Reading is complete.",
+      "acceptNpcId": 3403,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        490
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21263,
+          "quantity": 1,
+          "name": "Tome on Mountain God 1"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3403,
+          "status": 1,
+          "description": "Bring \"Tome on Mountain God 1\" to \"Elaine\"",
+          "mapId": 119,
+          "consumeItems": [
+            {
+              "templateId": 21263,
+              "quantity": 1,
+              "name": "Tome on Mountain God 1"
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3404,
+          "status": 2,
+          "description": "Bring \"Good News\" to \"Bob\"",
+          "mapId": 119,
+          "consumeItems": [
+            {
+              "templateId": 20063,
+              "quantity": 1,
+              "name": ""
+            },
+            {
+              "templateId": 20064,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "kill",
+          "npcId": 3404,
+          "status": 2,
+          "description": "Kill 10 \"Skull Soldier\"",
+          "mapId": 119,
+          "monsterId": 5259,
+          "count": 10
+        }
+      ],
+      "minLevel": 91
+    },
+    {
+      "id": 493,
+      "name": "Bob's Reading",
+      "type": "story",
+      "acceptMessage": "Bob's Reading is active.",
+      "completionMessage": "Bob's Reading is complete.",
+      "acceptNpcId": 3404,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        490
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21263,
+          "quantity": 1,
+          "name": "Tome on Mountain God 1"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3404,
+          "status": 1,
+          "description": "Bring \"Tome on Mountain God 1\" to \"Bob\"",
+          "mapId": 119,
+          "consumeItems": [
+            {
+              "templateId": 21263,
+              "quantity": 1,
+              "name": "Tome on Mountain God 1"
+            }
+          ]
+        }
+      ],
+      "minLevel": 91
+    },
+    {
+      "id": 494,
+      "name": "The Curse",
+      "type": "story",
+      "acceptMessage": "The Curse is active.",
+      "completionMessage": "The Curse is complete.",
+      "acceptNpcId": 3402,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        493
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3404,
+          "status": 1,
+          "description": "Travel to \"..macro_GetMapName()..\" to collect 10 \"Ghost Fire\" 's \"Nectar\" and then bring them to \"Bob\" for healing his blindness",
+          "mapId": 119,
+          "consumeItems": [
+            {
+              "templateId": 21266,
+              "quantity": 1,
+              "name": "Nectar"
+            }
+          ]
+        }
+      ],
+      "minLevel": 91
+    },
+    {
+      "id": 495,
+      "name": "Soul Flower",
+      "type": "story",
+      "acceptMessage": "Soul Flower is active.",
+      "completionMessage": "Soul Flower is complete.",
+      "acceptNpcId": 3405,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3405,
+          "status": 1,
+          "description": "Capture one \"Demon Flower\" to \"Danny\"",
+          "mapId": 186,
+          "consumeItems": [
+            {
+              "templateId": 21390,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "originalType": "capture"
+        }
+      ],
+      "minLevel": 93
+    },
+    {
+      "id": 496,
+      "name": "Demon Flower",
+      "type": "story",
+      "acceptMessage": "Demon Flower is active.",
+      "completionMessage": "Demon Flower is complete.",
+      "acceptNpcId": 3777,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        495
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3405,
+          "status": 1,
+          "description": "Quest step 1",
+          "mapId": 204
+        }
+      ],
+      "minLevel": 93
+    },
+    {
+      "id": 497,
+      "name": "Examination Result",
+      "type": "story",
+      "acceptMessage": "Examination Result is active.",
+      "completionMessage": "Examination Result is complete.",
+      "acceptNpcId": 3413,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3414,
+          "status": 1,
+          "description": "Quest step 1",
+          "mapId": 210
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 498,
+      "name": "Ghost Fairy",
+      "type": "story",
+      "acceptMessage": "Ghost Fairy is active.",
+      "completionMessage": "Ghost Fairy is complete.",
+      "acceptNpcId": 3779,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21269,
+          "quantity": 1,
+          "name": "Antelope Grass"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3418,
+          "status": 1,
+          "description": "Bring \"Imperial Ranking\" to locate \"Ghost Fairy\"",
+          "mapId": 204,
+          "consumeItems": [
+            {
+              "templateId": 21268,
+              "quantity": 1,
+              "name": "Imperial Ranking"
+            }
+          ]
+        },
+        {
+          "type": "kill",
+          "npcId": 3418,
+          "status": 2,
+          "description": "Kill 15 \"Ice Demon\"",
+          "mapId": 161,
+          "monsterId": 5264,
+          "count": 15
+        }
+      ],
+      "minLevel": 95
+    },
+    {
+      "id": 499,
+      "name": "Fairy and Phoenix",
+      "type": "story",
+      "acceptMessage": "Fairy and Phoenix is active.",
+      "completionMessage": "Fairy and Phoenix is complete.",
+      "acceptNpcId": 3418,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        498
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21269,
+          "quantity": 1,
+          "name": "Antelope Grass"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3418,
+          "status": 1,
+          "description": "Quest step 1",
+          "mapId": 161,
+          "consumeItems": [
+            {
+              "templateId": 21394,
+              "quantity": 1,
+              "name": "Ghost Fairy's Memory"
+            }
+          ]
+        }
+      ],
+      "minLevel": 95
+    },
+    {
+      "id": 501,
+      "name": "Mysterious Kid",
+      "type": "story",
+      "acceptMessage": "Mysterious Kid is active.",
+      "completionMessage": "Mysterious Kid is complete.",
+      "acceptNpcId": 3054,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21272,
+          "quantity": 1,
+          "name": "Heart Flower"
+        }
+      ],
+      "rewards": {
+        "gold": 20000,
+        "experience": 2000000,
+        "coins": 30000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3433,
+          "status": 1,
+          "description": "Bring \"Heart Flower\" to \"Grocer\"",
+          "mapId": 204,
+          "consumeItems": [
+            {
+              "templateId": 20023,
+              "quantity": 1,
+              "name": ""
+            },
+            {
+              "templateId": 20020,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3414,
+          "status": 2,
+          "description": "½« \"Herb Medicine\" ½»¸ø\"Norman\"",
+          "mapId": 204,
+          "grantItems": [
+            {
+              "templateId": 21273,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 90
+    },
+    {
+      "id": 502,
+      "name": "Ugly Heart",
+      "type": "story",
+      "acceptMessage": "Ugly Heart is active.",
+      "completionMessage": "Ugly Heart is complete.",
+      "acceptNpcId": 3406,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3406,
+          "status": 1,
+          "description": "Quest step 1",
+          "mapId": 186
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 503,
+      "name": "Caught in the Cross Fire",
+      "type": "story",
+      "acceptMessage": "Caught in the Cross Fire is active.",
+      "completionMessage": "Caught in the Cross Fire is complete.",
+      "acceptNpcId": 3407,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 23104,
+          "quantity": 1,
+          "name": "Ice Dust"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3407,
+          "status": 1,
+          "description": "Quest step 1",
+          "mapId": 186,
+          "consumeItems": [
+            {
+              "templateId": 23104,
+              "quantity": 10,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3407,
+          "status": 2,
+          "description": "Quest step 2",
+          "mapId": 186,
+          "consumeItems": [
+            {
+              "templateId": 21274,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 504,
+      "name": "Sandy",
+      "type": "story",
+      "acceptMessage": "Sandy is active.",
+      "completionMessage": "Sandy is complete.",
+      "acceptNpcId": 3417,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21275,
+          "quantity": 1,
+          "name": "Magical Rope"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3409,
+          "status": 1,
+          "description": "Bring \"Magical Rope\" to \"Sandy\"",
+          "mapId": 204,
+          "grantItems": [
+            {
+              "templateId": 21275,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 96
+    },
+    {
+      "id": 505,
+      "name": "Bad Temper",
+      "type": "story",
+      "acceptMessage": "Bad Temper is active.",
+      "completionMessage": "Bad Temper is complete.",
+      "acceptNpcId": 3409,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        504
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21276,
+          "quantity": 1,
+          "name": "Fang Ring"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3410,
+          "status": 1,
+          "description": "Kill \"Evil Fork\" and get \"Fang Ring\" .Then bring it to \"Tina\"",
+          "mapId": 130,
+          "consumeItems": [
+            {
+              "templateId": 21276,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "originalType": "kill_collect"
+        }
+      ],
+      "minLevel": 96
+    },
+    {
+      "id": 506,
+      "name": "Pepperbox",
+      "type": "story",
+      "acceptMessage": "Pepperbox is active.",
+      "completionMessage": "Pepperbox is complete.",
+      "acceptNpcId": 3409,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        505
+      ],
+      "acceptGrantItems": [
+        {
+          "templateId": 21277,
+          "quantity": 1,
+          "name": "Glinting Hat"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3411,
+          "status": 1,
+          "description": "Kill \"Evil Reamer\" and obtain \"Glinting Hat\" . Then submit it to \"Linda\"",
+          "mapId": 130,
+          "consumeItems": [
+            {
+              "templateId": 21277,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "originalType": "kill_collect"
+        }
+      ],
+      "minLevel": 96
+    },
+    {
+      "id": 507,
+      "name": "Crush",
+      "type": "story",
+      "acceptMessage": "Crush is active.",
+      "completionMessage": "Crush is complete.",
+      "acceptNpcId": 3409,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [
+        506
+      ],
+      "acceptGrantItems": [],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3409,
+          "status": 1,
+          "description": "Take \"Sandy\" to leave \"Map 130\" and locate \"Norman\"",
+          "mapId": 130,
+          "consumeItems": [
+            {
+              "templateId": 21278,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 96
+    },
+    {
+      "id": 508,
+      "name": "Icicle Lock",
+      "type": "story",
+      "acceptMessage": "Icicle Lock is active.",
+      "completionMessage": "Icicle Lock is complete.",
+      "acceptNpcId": 3414,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21278,
+          "quantity": 1,
+          "name": "Icicle Lock"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3409,
+          "status": 1,
+          "description": "Travel to \"Map 152\" to defeat \"Soul Envoy\" and get \"Icicle Lock\" .Then bring it to \"Sandy\"",
+          "mapId": 204,
+          "consumeItems": [
+            {
+              "templateId": 21278,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3414,
+          "status": 2,
+          "description": "½« \"Icicle Lock\" ½»¸ø\"Norman\"",
+          "mapId": 204,
+          "grantItems": [
+            {
+              "templateId": 21273,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 509,
+      "name": "Trap",
+      "type": "story",
+      "acceptMessage": "Trap is active.",
+      "completionMessage": "Trap is complete.",
+      "acceptNpcId": 3421,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21279,
+          "quantity": 1,
+          "name": "First Gift"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3412,
+          "status": 1,
+          "description": "Quest step 1",
+          "mapId": 152,
+          "grantItems": [
+            {
+              "templateId": 21275,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3421,
+          "status": 2,
+          "description": "½« \"Nelson's Reply\" ½»¸ø\"Fiend\"",
+          "mapId": 130,
+          "consumeItems": [
+            {
+              "templateId": 21280,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 510,
+      "name": "The Longest Song",
+      "type": "story",
+      "acceptMessage": "The Longest Song is active.",
+      "completionMessage": "The Longest Song is complete.",
+      "acceptNpcId": 3421,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 21281,
+          "quantity": 1,
+          "name": "Sheet Music"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3421,
+          "status": 1,
+          "description": "Quest step 1",
+          "mapId": 152,
+          "consumeItems": [
+            {
+              "templateId": 21281,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 1
+    },
+    {
+      "id": 511,
+      "name": "The Most Diabolic Thing",
+      "type": "story",
+      "acceptMessage": "The Most Diabolic Thing is active.",
+      "completionMessage": "The Most Diabolic Thing is complete.",
+      "acceptNpcId": 3421,
+      "acceptSubtype": 3,
+      "prerequisiteTaskIds": [],
+      "acceptGrantItems": [
+        {
+          "templateId": 20023,
+          "quantity": 1,
+          "name": "Grilled Mutton"
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      },
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3412,
+          "status": 1,
+          "description": "Quest step 1",
+          "mapId": 152,
+          "consumeItems": [
+            {
+              "templateId": 20023,
+              "quantity": 1,
+              "name": ""
+            },
+            {
+              "templateId": 20020,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        },
+        {
+          "type": "talk",
+          "npcId": 3421,
+          "status": 2,
+          "description": "Quest step 2",
+          "mapId": 130,
+          "consumeItems": [
+            {
+              "templateId": 21280,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "minLevel": 1
     }
   ]
 }

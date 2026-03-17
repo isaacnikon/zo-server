@@ -19,10 +19,7 @@ const EQUIPMENT_CONTAINER_TYPE = 0;
 
 function sendItemAdd(session, templateId, slot, quantity = 1, instanceId = 0) {
   const definition = getItemDefinition(templateId);
-  const encodedQuantity =
-    Number.isInteger(definition?.defaultQuantity) && definition.defaultQuantity > 0
-      ? definition.defaultQuantity
-      : quantity;
+  const encodedQuantity = resolveClientItemQuantity(definition, quantity);
   session.writePacket(
     buildItemAddPacket({
       containerType: BAG_CONTAINER_TYPE,
@@ -86,15 +83,26 @@ function buildClientInventoryItem(session, item) {
   const definition = getItemDefinition(item.templateId);
   return {
     ...item,
-    quantity:
-      Number.isInteger(definition?.defaultQuantity) && definition.defaultQuantity > 0
-        ? definition.defaultQuantity
-        : item.quantity,
+    quantity: resolveClientItemQuantity(definition, item.quantity),
     clientTemplateFamily: definition?.clientTemplateFamily ?? null,
     attributePairs: Array.isArray(definition?.defaultAttributePairs)
       ? definition.defaultAttributePairs
       : [],
   };
+}
+
+function resolveClientItemQuantity(definition, quantity) {
+  const isEquipment =
+    Number.isInteger(definition?.clientTemplateFamily) &&
+    definition.clientTemplateFamily >= 0x20 &&
+    definition.clientTemplateFamily < 0x40;
+  if (Number.isInteger(quantity) && (isEquipment ? quantity >= 0 : quantity > 0)) {
+    return quantity;
+  }
+  if (Number.isInteger(definition?.defaultQuantity) && definition.defaultQuantity > 0) {
+    return definition.defaultQuantity;
+  }
+  return isEquipment ? 0 : 1;
 }
 
 function sendEquipmentContainerSync(session) {

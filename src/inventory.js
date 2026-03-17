@@ -199,10 +199,15 @@ function normalizeBagItem(item) {
   if (!definition) {
     return null;
   }
+  const rawQuantity = Number.isInteger(item.quantity)
+    ? item.quantity
+    : isEquipmentDefinition(definition)
+      ? numberOrDefault(definition.defaultQuantity, 0)
+      : 1;
   return {
     instanceId: Number.isInteger(item.instanceId) && item.instanceId > 0 ? item.instanceId : 1,
     templateId: item.templateId >>> 0,
-    quantity: Number.isInteger(item.quantity) && item.quantity > 0 ? item.quantity : 1,
+    quantity: normalizeStoredItemQuantity(definition, rawQuantity),
     equipped: item.equipped === true,
     // Older local saves used 0-based slots; remap them into the client-visible range.
     slot: Math.max(FIRST_BAG_SLOT, item.slot >>> 0),
@@ -331,7 +336,7 @@ function grantItemToBag(session, templateId, quantity = 1) {
     const item = {
       instanceId: nextInstanceId,
       templateId: definition.templateId,
-      quantity: stackQuantity,
+      quantity: initialStoredQuantityForGrant(definition, stackQuantity),
       equipped: false,
       slot,
     };
@@ -441,6 +446,7 @@ function normalizeBagLayout(items, bagSize) {
     }
 
     let remainingQuantity = Math.max(1, originalItem.quantity | 0);
+    const isEquipment = isEquipmentDefinition(definition);
     let preferredSlot = originalItem.slot;
     let firstSplit = true;
     while (remainingQuantity > 0) {
@@ -459,14 +465,16 @@ function normalizeBagLayout(items, bagSize) {
         break;
       }
       usedSlots.add(slot);
-      const quantity = Math.min(definition.maxStack, remainingQuantity);
+      const quantity = isEquipment
+        ? remainingQuantity
+        : Math.min(definition.maxStack, remainingQuantity);
       bag.push({
         ...originalItem,
         instanceId,
         quantity,
         slot,
       });
-      remainingQuantity -= quantity;
+      remainingQuantity = isEquipment ? 0 : remainingQuantity - quantity;
       preferredSlot = slot + 1;
       firstSplit = false;
     }
@@ -484,6 +492,9 @@ function computeRequiredBagSlots(items) {
     const quantity = Number.isInteger(item?.quantity) && item.quantity > 0 ? item.quantity : 1;
     if (!definition) {
       return total;
+    }
+    if (isEquipmentDefinition(definition)) {
+      return total + 1;
     }
     return total + Math.max(1, Math.ceil(quantity / definition.maxStack));
   }, 0);
@@ -514,6 +525,45 @@ function findNextOpenSlot(usedSlots, bagSize, startSlot = FIRST_BAG_SLOT) {
     }
   }
   return null;
+}
+
+function isEquipmentDefinition(definition) {
+  return (
+    Number.isInteger(definition?.clientTemplateFamily) &&
+    definition.clientTemplateFamily >= 0x20 &&
+    definition.clientTemplateFamily < 0x40
+  );
+}
+
+function initialStoredQuantityForGrant(definition, requestedQuantity) {
+  if (isEquipmentDefinition(definition)) {
+    return Number.isInteger(definition.defaultQuantity) && definition.defaultQuantity > 0
+      ? definition.defaultQuantity
+      : Math.max(1, requestedQuantity | 0);
+  }
+  return Math.max(1, requestedQuantity | 0);
+}
+
+function normalizeStoredItemQuantity(definition, rawQuantity) {
+  if (isEquipmentDefinition(definition)) {
+    if (!Number.isInteger(rawQuantity) || rawQuantity < 0) {
+      return Number.isInteger(definition?.defaultQuantity) && definition.defaultQuantity > 0
+        ? definition.defaultQuantity
+        : 0;
+    }
+    return rawQuantity;
+  }
+  if (
+    !Number.isInteger(rawQuantity) ||
+    rawQuantity <= 0
+  ) {
+    return 1;
+  }
+  return rawQuantity;
+}
+
+function numberOrDefault(value, fallback) {
+  return Number.isInteger(value) ? value : fallback;
 }
 
 module.exports = {

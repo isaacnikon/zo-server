@@ -4,6 +4,8 @@ const fs = require('fs');
 const path = require('path');
 
 const QUEST_DATA_FILE = path.resolve(__dirname, '..', 'data', 'quests', 'main-story.json');
+const CLIENT_QUEST_METADATA_FILE = path.resolve(__dirname, '..', 'data', 'client-derived', 'quests.json');
+const CLIENT_QUEST_METADATA = loadClientQuestMetadata();
 const QUEST_DEFINITIONS = Object.freeze(loadQuestDefinitions());
 
 const QUESTS_BY_ID = new Map(QUEST_DEFINITIONS.map((quest) => [quest.id, quest]));
@@ -22,16 +24,33 @@ function normalizeQuestDefinition(quest) {
     return null;
   }
 
+  const clientMeta = CLIENT_QUEST_METADATA.get(quest.id >>> 0) || null;
+  const prerequisiteTaskIds = mergePrerequisiteTaskIds(
+    quest.prerequisiteTaskIds,
+    clientMeta?.prerequisiteTaskId
+  );
+
   return {
     id: quest.id >>> 0,
-    name: typeof quest.name === 'string' ? quest.name : `Quest ${quest.id}`,
+    name:
+      sanitizeClientQuestTitle(clientMeta?.title) ||
+      (typeof quest.name === 'string' ? quest.name : `Quest ${quest.id}`),
     type: typeof quest.type === 'string' ? quest.type : 'story',
     acceptMessage: typeof quest.acceptMessage === 'string' ? quest.acceptMessage : '',
     completionMessage: typeof quest.completionMessage === 'string' ? quest.completionMessage : '',
     autoAccept: quest.autoAccept === true,
-    acceptNpcId: Number.isInteger(quest.acceptNpcId) ? quest.acceptNpcId >>> 0 : undefined,
+    acceptNpcId:
+      Number.isInteger(clientMeta?.startNpcId) && clientMeta.startNpcId > 0
+        ? clientMeta.startNpcId >>> 0
+        : Number.isInteger(quest.acceptNpcId)
+          ? quest.acceptNpcId >>> 0
+          : undefined,
     acceptSubtype: Number.isInteger(quest.acceptSubtype) ? quest.acceptSubtype & 0xff : undefined,
-    prerequisiteTaskIds: ensureNumberSet(quest.prerequisiteTaskIds),
+    prerequisiteTaskIds,
+    minLevel:
+      Number.isInteger(clientMeta?.minLevel) && clientMeta.minLevel > 0
+        ? clientMeta.minLevel >>> 0
+        : 1,
     acceptGrantItems: Array.isArray(quest.acceptGrantItems)
       ? quest.acceptGrantItems
           .map((item) => normalizeGrantedItem(item))
@@ -95,6 +114,36 @@ function normalizeGrantedItem(item) {
   };
 }
 
+function loadClientQuestMetadata() {
+  try {
+    const raw = fs.readFileSync(CLIENT_QUEST_METADATA_FILE, 'utf8');
+    const parsed = JSON.parse(raw);
+    const entries = Array.isArray(parsed?.entries) ? parsed.entries : [];
+    return new Map(
+      entries
+        .filter((entry) => Number.isInteger(entry?.taskId))
+        .map((entry) => [entry.taskId >>> 0, entry])
+    );
+  } catch (err) {
+    return new Map();
+  }
+}
+
+function sanitizeClientQuestTitle(title) {
+  if (typeof title !== 'string' || title.length === 0) {
+    return '';
+  }
+  return title.replace(/<[^>]+>/g, '').trim();
+}
+
+function mergePrerequisiteTaskIds(rawIds, clientPrerequisiteTaskId) {
+  const merged = ensureNumberSet(rawIds);
+  if (Number.isInteger(clientPrerequisiteTaskId) && clientPrerequisiteTaskId > 0) {
+    merged.push(clientPrerequisiteTaskId >>> 0);
+  }
+  return ensureNumberSet(merged);
+}
+
 function cloneProgress(progress) {
   if (!progress || typeof progress !== 'object') {
     return {};
@@ -155,6 +204,7 @@ function normalizeQuestState(character) {
   return {
     activeQuests: [...activeQuestMap.values()],
     completedQuests,
+    level: numberOrDefault(character?.level, 1),
   };
 }
 
@@ -205,6 +255,9 @@ function acceptQuest(state, taskId, events, reason = 'accepted') {
     return false;
   }
   if (definition.prerequisiteTaskIds.some((prerequisiteTaskId) => !state.completedQuests.includes(prerequisiteTaskId))) {
+    return false;
+  }
+  if (numberOrDefault(state?.level, 1) < numberOrDefault(definition.minLevel, 1)) {
     return false;
   }
 
@@ -466,6 +519,8 @@ function buildServerRunQuestTrace(state, event) {
           trace.push(`[accept] task=${definition.id} "${definition.name}" skipped: already active`);
         } else if (missingPrerequisites.length > 0) {
           trace.push(`[accept] task=${definition.id} "${definition.name}" skipped: missing prerequisites ${missingPrerequisites.join(',')}`);
+        } else if (numberOrDefault(state?.level, 1) < numberOrDefault(definition.minLevel, 1)) {
+          trace.push(`[accept] task=${definition.id} "${definition.name}" skipped: level ${numberOrDefault(state?.level, 1)} < ${numberOrDefault(definition.minLevel, 1)}`);
         } else {
           trace.push(`[accept] task=${definition.id} "${definition.name}" matched`);
         }

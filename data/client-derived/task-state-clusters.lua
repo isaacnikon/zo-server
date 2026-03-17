@@ -1,0 +1,29392 @@
+return {
+  source = {
+    script = "/home/nikon/Data/Zodiac Online/gcg/script.gcg"
+  },
+  generatedAt = "2026-03-17T13:42:59.258525Z",
+  clusterCount = 1340,
+  clusters = {
+    {
+      clusterIndex = 1,
+      lineStart = 106695,
+      lineEnd = 106701,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3035,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21010,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21010,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3035)\nmacro_AddItem(21010,1,0)\nmacro_SetTaskItemParam(21010,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 2,
+      lineStart = 106702,
+      lineEnd = 106707,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3035,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5103,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3035)\nmacro_SetTaskKillParam(5103,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 3,
+      lineStart = 106708,
+      lineEnd = 106714,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3078,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21012,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21012,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3078)\nmacro_AddItem(21012,1,0)\nmacro_SetTaskItemParam(21012,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 4,
+      lineStart = 106715,
+      lineEnd = 106721,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3120,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21011,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21011,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3120)\nmacro_AddItem(21011,1,0)\nmacro_SetTaskItemParam(21011,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 5,
+      lineStart = 106722,
+      lineEnd = 106728,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3218,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21043,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21043,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3218)\nmacro_AddItem(21043,1,0)\nmacro_SetTaskItemParam(21043,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 6,
+      lineStart = 106729,
+      lineEnd = 106735,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3120,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21012,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21012,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3120)\nmacro_AddItem(21012,1,0)\nmacro_SetTaskItemParam(21012,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 7,
+      lineStart = 106736,
+      lineEnd = 106742,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3078,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5016,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 10,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3078)\nmacro_SetTaskKillParam(5016,2,0)\nmacro_SetTaskDropRate(10)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 8,
+      lineStart = 106743,
+      lineEnd = 106748,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3120,
+      maxAward = 2,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5104,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3120)\nmacro_SetTaskKillParam(5104,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 9,
+      lineStart = 106749,
+      lineEnd = 106755,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3218,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21013,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21013,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3218)\nmacro_AddItem(21013,1,0)\nmacro_SetTaskItemParam(21013,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 10,
+      lineStart = 106756,
+      lineEnd = 106761,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3218,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5039,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3218)\nmacro_SetTaskKillParam(5039,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 11,
+      lineStart = 106762,
+      lineEnd = 106767,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3218,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5040,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3218)\nmacro_SetTaskKillParam(5040,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 12,
+      lineStart = 106768,
+      lineEnd = 106773,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3162,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5059,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3162)\nmacro_SetTaskKillParam(5059,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 13,
+      lineStart = 106774,
+      lineEnd = 106778,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3042,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3042)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 14,
+      lineStart = 106779,
+      lineEnd = 106785,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3162,
+      maxAward = 2,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21101,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21101,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3162)\nmacro_AddItem(21101,1,0)\nmacro_SetTaskItemParam(21101,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 15,
+      lineStart = 106786,
+      lineEnd = 106791,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3042,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5043,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3042)\nmacro_SetTaskKillParam(5043,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 16,
+      lineStart = 106792,
+      lineEnd = 106797,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3042,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5043,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3042)\nmacro_SetTaskKillParam(5043,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 17,
+      lineStart = 106798,
+      lineEnd = 106804,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3276,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21098,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21098,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3276)\nmacro_AddItem(21098,1,0)\nmacro_SetTaskItemParam(21098,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 18,
+      lineStart = 106805,
+      lineEnd = 106810,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3276,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21116,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3276)\nmacro_SetTaskItemParam(21116,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 19,
+      lineStart = 106811,
+      lineEnd = 106817,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3163,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21030,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21030,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3163)\nmacro_AddItem(21030,1,0)\nmacro_SetTaskItemParam(21030,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 20,
+      lineStart = 106818,
+      lineEnd = 106823,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3163,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5018,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3163)\nmacro_SetTaskKillParam(5018,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 21,
+      lineStart = 106824,
+      lineEnd = 106829,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3230,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5021,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3230)\nmacro_SetTaskKillParam(5021,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 22,
+      lineStart = 106830,
+      lineEnd = 106835,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5022,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5022,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 23,
+      lineStart = 106836,
+      lineEnd = 106841,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3087,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5105,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3087)\nmacro_SetTaskKillParam(5105,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 24,
+      lineStart = 106842,
+      lineEnd = 106848,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3042,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23002,
+          count = 10,
+          index = 0
+        },
+        {
+          templateId = 23006,
+          count = 10,
+          index = 1
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3042)\nmacro_SetTaskItemParam(23002,10,0)\nmacro_SetTaskItemParam(23006,10,1)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 25,
+      lineStart = 106849,
+      lineEnd = 106855,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5030,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 21151,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_AddItem(21151,1,0)\nmacro_SetTaskKillParam(5030,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 26,
+      lineStart = 106856,
+      lineEnd = 106863,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21016,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5107,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 60,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5107,0,0)\nmacro_SetTaskItemParam(21016,1,0)\nmacro_SetTaskDropRate(60)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 27,
+      lineStart = 106864,
+      lineEnd = 106868,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3183,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3183)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 28,
+      lineStart = 106869,
+      lineEnd = 106875,
+      maxStep = 3,
+      taskType = 16,
+      overNpcId = 3183,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5158,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 20,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3183)\nmacro_SetTaskKillParam(5158,1,0)\nmacro_SetTaskDropRate(20)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 29,
+      lineStart = 106876,
+      lineEnd = 106880,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3224)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 30,
+      lineStart = 106881,
+      lineEnd = 106886,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5187,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5187,10,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 31,
+      lineStart = 106887,
+      lineEnd = 106892,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5339,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5339,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 32,
+      lineStart = 106893,
+      lineEnd = 106898,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5340,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5340,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 33,
+      lineStart = 106899,
+      lineEnd = 106905,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 2,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5001,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5001,2,0)\n\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 34,
+      lineStart = 106906,
+      lineEnd = 106911,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 2,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5015,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5015,2,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 35,
+      lineStart = 106912,
+      lineEnd = 106918,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 2,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5015,
+          count = 5,
+          index = 0
+        },
+        {
+          monsterId = 5016,
+          count = 5,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5015,5,0)\nmacro_SetTaskKillParam(5016,5,1)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 36,
+      lineStart = 106919,
+      lineEnd = 106924,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 2,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5067,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5067,2,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 37,
+      lineStart = 106925,
+      lineEnd = 106930,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5062,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5062,10,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 38,
+      lineStart = 106931,
+      lineEnd = 106936,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 2,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5067,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5067,10,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 39,
+      lineStart = 106937,
+      lineEnd = 106943,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3651,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21315,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21314,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3651)\nmacro_AddItem(21314,1,0)\nmacro_SetTaskItemParam(21315,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 40,
+      lineStart = 106944,
+      lineEnd = 106950,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3651,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21316,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3651)\n\nmacro_SetTaskItemParam(21316,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 41,
+      lineStart = 106951,
+      lineEnd = 106957,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5537,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 5117,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_AddItem(5117,1,0)\nmacro_SetTaskKillParam(5537,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 42,
+      lineStart = 106958,
+      lineEnd = 106963,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5339,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5339,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 43,
+      lineStart = 106964,
+      lineEnd = 106971,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3651,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21342,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5340,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5340,0,0)\nmacro_SetTaskItemParam(21342,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 44,
+      lineStart = 106972,
+      lineEnd = 106977,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3651,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21342,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3651)\nmacro_SetTaskItemParam(21342,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 45,
+      lineStart = 106978,
+      lineEnd = 106983,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5298,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5298,2,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 46,
+      lineStart = 106984,
+      lineEnd = 106989,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5298,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5298,10,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 47,
+      lineStart = 106990,
+      lineEnd = 106995,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5097,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5097,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 48,
+      lineStart = 106996,
+      lineEnd = 107001,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5035,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5035,2,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 49,
+      lineStart = 107002,
+      lineEnd = 107009,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3128,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21017,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5030,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3128)\nmacro_SetTaskKillParam(5030,0,0)\nmacro_SetTaskItemParam(21017,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 50,
+      lineStart = 107010,
+      lineEnd = 107016,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21017,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21017,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3044)\nmacro_AddItem(21017,1,0)\nmacro_SetTaskItemParam(21017,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 51,
+      lineStart = 107017,
+      lineEnd = 107022,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5026,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5026,2,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 52,
+      lineStart = 107023,
+      lineEnd = 107028,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 2,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5188,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5188,2,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 53,
+      lineStart = 107029,
+      lineEnd = 107034,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3051,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5055,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3051)\nmacro_SetTaskKillParam(5055,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 54,
+      lineStart = 107035,
+      lineEnd = 107041,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21018,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21018,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3044)\nmacro_AddItem(21018,1,0)\nmacro_SetTaskItemParam(21018,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 55,
+      lineStart = 107042,
+      lineEnd = 107048,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3092,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21019,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21019,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3092)\nmacro_AddItem(21019,1,0)\nmacro_SetTaskItemParam(21019,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 56,
+      lineStart = 107049,
+      lineEnd = 107054,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3092,
+      maxAward = 2,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21038,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3092)\nmacro_SetTaskItemParam(21038,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 57,
+      lineStart = 107055,
+      lineEnd = 107059,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3044,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3044)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 58,
+      lineStart = 107060,
+      lineEnd = 107065,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3044,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21138,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3044)\nmacro_SetTaskItemParam(21138,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 59,
+      lineStart = 107066,
+      lineEnd = 107072,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3120,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21019,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21019,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3120)\nmacro_AddItem(21019,1,0)\nmacro_SetTaskItemParam(21019,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 60,
+      lineStart = 107073,
+      lineEnd = 107079,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3220,
+      maxAward = 2,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21039,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21039,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3220)\nmacro_AddItem(21039,1,0)\nmacro_SetTaskItemParam(21039,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 61,
+      lineStart = 107080,
+      lineEnd = 107087,
+      maxStep = 4,
+      taskType = 4,
+      overNpcId = 3220,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21140,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5145,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3220)\nmacro_SetTaskKillParam(5145,0,0)\nmacro_SetTaskItemParam(21140,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 62,
+      lineStart = 107088,
+      lineEnd = 107095,
+      maxStep = 4,
+      taskType = 4,
+      overNpcId = 3220,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21141,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5157,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3220)\nmacro_SetTaskKillParam(5157,0,0)\nmacro_SetTaskItemParam(21141,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 63,
+      lineStart = 107096,
+      lineEnd = 107102,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3053,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21142,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21142,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3053)\nmacro_AddItem(21142,1,0)\nmacro_SetTaskItemParam(21142,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 64,
+      lineStart = 107103,
+      lineEnd = 107109,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21143,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21143,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3044)\nmacro_AddItem(21143,1,0)\nmacro_SetTaskItemParam(21143,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 65,
+      lineStart = 107110,
+      lineEnd = 107116,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3277,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21099,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21099,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3277)\nmacro_AddItem(21099,1,0)\nmacro_SetTaskItemParam(21099,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 66,
+      lineStart = 107117,
+      lineEnd = 107124,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3277,
+      maxAward = 2,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21115,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5001,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 70,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3277)\nmacro_SetTaskKillParam(5001,0,0)\nmacro_SetTaskItemParam(21115,10,0)\nmacro_SetTaskDropRate(70)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 67,
+      lineStart = 107125,
+      lineEnd = 107129,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3042,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3042)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 68,
+      lineStart = 107130,
+      lineEnd = 107135,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3042,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21103,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3042)\nmacro_SetTaskItemParam(21103,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 69,
+      lineStart = 107136,
+      lineEnd = 107143,
+      maxStep = 4,
+      taskType = 4,
+      overNpcId = 3042,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21291,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5339,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3042)\nmacro_SetTaskKillParam(5339,0,0)\nmacro_SetTaskItemParam(21291,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 70,
+      lineStart = 107144,
+      lineEnd = 107150,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3042,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5340,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 26048,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3042)\nmacro_AddItem(26048,1,0)\nmacro_SetTaskKillParam(5340,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 71,
+      lineStart = 107151,
+      lineEnd = 107156,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3327,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5147,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetTaskKillParam(5147,1,0)\nmacro_SetOverNpc(3327)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 72,
+      lineStart = 107157,
+      lineEnd = 107162,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3104,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5292,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3104)\nmacro_SetTaskKillParam(5292,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 73,
+      lineStart = 107163,
+      lineEnd = 107169,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3025,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5025,
+          count = 30,
+          index = 0
+        },
+        {
+          monsterId = 5026,
+          count = 30,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3025)\nmacro_SetTaskKillParam(5025,30,0)\nmacro_SetTaskKillParam(5026,30,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 74,
+      lineStart = 107180,
+      lineEnd = 107185,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3092,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5109,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "\tmacro_SetTaskMaxStep(1)\n\tmacro_SetTaskType(1)\n\tmacro_SetOverNpc(3092)\n\tmacro_SetTaskKillParam(5109,1,0)\n\tmacro_SetMaxAward(1)\n\tmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 75,
+      lineStart = 107197,
+      lineEnd = 107202,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3093,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5110,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "\tmacro_SetTaskMaxStep(1)\n\tmacro_SetTaskType(1)\n\tmacro_SetOverNpc(3093)\n\tmacro_SetTaskKillParam(5110,1,0)\n\tmacro_SetMaxAward(1)\n\tmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 76,
+      lineStart = 107204,
+      lineEnd = 107209,
+      maxStep = 5,
+      taskType = 1,
+      overNpcId = 3074,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5067,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3074)\nmacro_SetTaskKillParam(5067,30,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 77,
+      lineStart = 107210,
+      lineEnd = 107215,
+      maxStep = 5,
+      taskType = 1,
+      overNpcId = 3074,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5078,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3074)\nmacro_SetTaskKillParam(5078,30,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 78,
+      lineStart = 107216,
+      lineEnd = 107221,
+      maxStep = 5,
+      taskType = 1,
+      overNpcId = 3074,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5211,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3074)\nmacro_SetTaskKillParam(5211,30,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 79,
+      lineStart = 107222,
+      lineEnd = 107227,
+      maxStep = 5,
+      taskType = 1,
+      overNpcId = 3074,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5096,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3074)\nmacro_SetTaskKillParam(5096,30,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 80,
+      lineStart = 107228,
+      lineEnd = 107233,
+      maxStep = 5,
+      taskType = 1,
+      overNpcId = 3074,
+      maxAward = 1,
+      taskStep = 5,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5165,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3074)\nmacro_SetTaskKillParam(5165,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(5)"
+    },
+    {
+      clusterIndex = 81,
+      lineStart = 107234,
+      lineEnd = 107240,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21041,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21041,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3044)\nmacro_AddItem(21041,1,0)\nmacro_SetTaskItemParam(21041,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 82,
+      lineStart = 107241,
+      lineEnd = 107247,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3228,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21042,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21042,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3228)\nmacro_AddItem(21042,1,0)\nmacro_SetTaskItemParam(21042,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 83,
+      lineStart = 107248,
+      lineEnd = 107254,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3311,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21313,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21313,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3311)\nmacro_AddItem(21313,1,0)\nmacro_SetTaskItemParam(21313,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 84,
+      lineStart = 107255,
+      lineEnd = 107260,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3033,
+      maxAward = 3,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5013,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3033)\nmacro_SetTaskKillParam(5013,1,0)\nmacro_SetMaxAward(3)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 85,
+      lineStart = 107261,
+      lineEnd = 107266,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3034,
+      maxAward = 3,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5014,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3034)\nmacro_SetTaskKillParam(5014,1,0)\nmacro_SetMaxAward(3)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 86,
+      lineStart = 107267,
+      lineEnd = 107273,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3118,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21007,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21131,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3118)\nmacro_AddItem(21131,1,0)\nmacro_SetTaskItemParam(21007,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 87,
+      lineStart = 107274,
+      lineEnd = 107278,
+      maxStep = 2,
+      taskType = 32,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3022)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 88,
+      lineStart = 107279,
+      lineEnd = 107285,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3005,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21001,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21001,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3005)\nmacro_AddItem(21001,1,0)\nmacro_SetTaskItemParam(21001,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 89,
+      lineStart = 107286,
+      lineEnd = 107292,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3156,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5001,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 1,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3156)\nmacro_SetTaskKillParam(5001,1,0)\nmacro_SetTaskDropRate(1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 90,
+      lineStart = 107293,
+      lineEnd = 107298,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3023,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 20007,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3023)\nmacro_SetTaskItemParam(20007,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 91,
+      lineStart = 107299,
+      lineEnd = 107304,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3023,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5106,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3023)\nmacro_SetTaskKillParam(5106,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 92,
+      lineStart = 107305,
+      lineEnd = 107309,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3004,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3004)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 93,
+      lineStart = 107310,
+      lineEnd = 107314,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3023,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3023)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 94,
+      lineStart = 107315,
+      lineEnd = 107320,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3023,
+      maxAward = 3,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5006,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3023)\nmacro_SetTaskKillParam(5006,1,0)\nmacro_SetMaxAward(3)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 95,
+      lineStart = 107321,
+      lineEnd = 107327,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3028,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21051,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21051,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3028)\nmacro_AddItem(21051,1,0)\nmacro_SetTaskItemParam(21051,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 96,
+      lineStart = 107328,
+      lineEnd = 107334,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3030,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21002,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21002,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3030)\nmacro_AddItem(21002,1,0)\nmacro_SetTaskItemParam(21002,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 97,
+      lineStart = 107335,
+      lineEnd = 107339,
+      maxStep = 2,
+      taskType = 32,
+      overNpcId = 3003,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3003)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 98,
+      lineStart = 107340,
+      lineEnd = 107345,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3003,
+      maxAward = 3,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5005,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3003)\nmacro_SetTaskKillParam(5005,1,0)\nmacro_SetMaxAward(3)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 99,
+      lineStart = 107346,
+      lineEnd = 107352,
+      maxStep = 1,
+      taskType = 8,
+      overNpcId = 3070,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(8)\nmacro_SetOverNpc(3070)\nmacro_AddTaskCre(3055)\nmacro_SetTaskRole(3055)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 100,
+      lineStart = 107353,
+      lineEnd = 107359,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3183,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21047,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21047,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3183)\nmacro_AddItem(21047,1,0)\nmacro_SetTaskItemParam(21047,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 101,
+      lineStart = 107360,
+      lineEnd = 107365,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3059,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5126,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3059)\nmacro_SetTaskKillParam(5126,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 102,
+      lineStart = 107366,
+      lineEnd = 107373,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3174,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21109,
+          count = 3,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5003,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 50,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3174)\nmacro_SetTaskKillParam(5003,0,0)\nmacro_SetTaskItemParam(21109,3,0)\nmacro_SetTaskDropRate(50)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 103,
+      lineStart = 107374,
+      lineEnd = 107379,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3229,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5020,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3229)\nmacro_SetTaskKillParam(5020,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 104,
+      lineStart = 107380,
+      lineEnd = 107385,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3023,
+      maxAward = 2,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5008,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3023)\nmacro_SetTaskKillParam(5008,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 105,
+      lineStart = 107386,
+      lineEnd = 107392,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3010,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21003,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21003,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3010)\nmacro_AddItem(21003,1,0)\nmacro_SetTaskItemParam(21003,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 106,
+      lineStart = 107393,
+      lineEnd = 107399,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3009,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21004,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21004,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3009)\nmacro_AddItem(21004,1,0)\nmacro_SetTaskItemParam(21004,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 107,
+      lineStart = 107400,
+      lineEnd = 107406,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3015,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21005,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21005,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3015)\nmacro_AddItem(21005,1,0)\nmacro_SetTaskItemParam(21005,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 108,
+      lineStart = 107407,
+      lineEnd = 107413,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3022,
+      maxAward = 2,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21181,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21181,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3022)\nmacro_AddItem(21181,1,0)\nmacro_SetTaskItemParam(21181,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 109,
+      lineStart = 107414,
+      lineEnd = 107419,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5017,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5017,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 110,
+      lineStart = 107420,
+      lineEnd = 107425,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5026,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5026,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 111,
+      lineStart = 107426,
+      lineEnd = 107431,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5025,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5025,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 112,
+      lineStart = 107432,
+      lineEnd = 107437,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5181,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5181,2,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 113,
+      lineStart = 107438,
+      lineEnd = 107443,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5028,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5028,2,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 114,
+      lineStart = 107444,
+      lineEnd = 107449,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5063,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5063,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 115,
+      lineStart = 107450,
+      lineEnd = 107456,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3222,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21045,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3222)\n\nmacro_SetTaskItemParam(21045,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 116,
+      lineStart = 107457,
+      lineEnd = 107463,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3222,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 23014,
+          count = 20,
+          index = 0
+        },
+        {
+          templateId = 23029,
+          count = 10,
+          index = 1
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3222)\nmacro_SetTaskItemParam(23014,20,0)\nmacro_SetTaskItemParam(23029,10,1)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 117,
+      lineStart = 107464,
+      lineEnd = 107470,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3009,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21185,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21185,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3009)\nmacro_AddItem(21185,1,0)\nmacro_SetTaskItemParam(21185,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 118,
+      lineStart = 107471,
+      lineEnd = 107477,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3181,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5002,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 5,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3181)\nmacro_SetTaskKillParam(5002,1,0)\nmacro_SetTaskDropRate(5)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 119,
+      lineStart = 107478,
+      lineEnd = 107482,
+      maxStep = 2,
+      taskType = 32,
+      overNpcId = 3042,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3042)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 120,
+      lineStart = 107483,
+      lineEnd = 107487,
+      maxStep = 2,
+      taskType = 32,
+      overNpcId = 3162,
+      maxAward = 2,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3162)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 121,
+      lineStart = 107488,
+      lineEnd = 107495,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3009,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21110,
+          count = 5,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5036,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3009)\nmacro_SetTaskKillParam(5036,0,0)\nmacro_SetTaskItemParam(21110,5,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 122,
+      lineStart = 107496,
+      lineEnd = 107502,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3008,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21020,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21020,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3008)\nmacro_AddItem(21020,1,0)\nmacro_SetTaskItemParam(21020,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 123,
+      lineStart = 107503,
+      lineEnd = 107508,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3223,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21020,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3223)\nmacro_SetTaskItemParam(21020,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 124,
+      lineStart = 107509,
+      lineEnd = 107515,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3102,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21046,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21046,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3102)\nmacro_AddItem(21046,1,0)\nmacro_SetTaskItemParam(21046,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 125,
+      lineStart = 107516,
+      lineEnd = 107522,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3223,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21022,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21022,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3223)\nmacro_AddItem(21022,1,0)\nmacro_SetTaskItemParam(21022,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 126,
+      lineStart = 107523,
+      lineEnd = 107528,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3070,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21059,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3070)\nmacro_SetTaskItemParam(21059,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 127,
+      lineStart = 107529,
+      lineEnd = 107535,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3073,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21023,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3073)\n\nmacro_SetTaskItemParam(21023,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 128,
+      lineStart = 107536,
+      lineEnd = 107542,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3078,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5016,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 10,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3078)\nmacro_SetTaskKillParam(5016,2,0)\nmacro_SetTaskDropRate(10)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 129,
+      lineStart = 107543,
+      lineEnd = 107549,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3079,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5015,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 10,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3079)\nmacro_SetTaskKillParam(5015,2,0)\nmacro_SetTaskDropRate(10)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 130,
+      lineStart = 107550,
+      lineEnd = 107555,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3183,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5035,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3183)\nmacro_SetTaskKillParam(5035,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 131,
+      lineStart = 107556,
+      lineEnd = 107562,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3058,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21186,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21186,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3058)\nmacro_AddItem(21186,1,0)\nmacro_SetTaskItemParam(21186,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 132,
+      lineStart = 107563,
+      lineEnd = 107569,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3058,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 20009,
+          count = 1,
+          index = 0
+        },
+        {
+          templateId = 20011,
+          count = 1,
+          index = 1
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3058)\nmacro_SetTaskItemParam(20009,1,0)\nmacro_SetTaskItemParam(20011,1,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 133,
+      lineStart = 107570,
+      lineEnd = 107576,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3191,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21047,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21047,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3191)\nmacro_AddItem(21047,1,0)\nmacro_SetTaskItemParam(21047,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 134,
+      lineStart = 107577,
+      lineEnd = 107582,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3183,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5127,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3183)\nmacro_SetTaskKillParam(5127,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 135,
+      lineStart = 107583,
+      lineEnd = 107589,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3042,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21133,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3042)\n\nmacro_SetTaskItemParam(21133,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 136,
+      lineStart = 107590,
+      lineEnd = 107595,
+      maxStep = 2,
+      taskType = 32,
+      overNpcId = 3218,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3218)\n\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 137,
+      lineStart = 107596,
+      lineEnd = 107601,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3183,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5035,
+          count = 40,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3183)\nmacro_SetTaskKillParam(5035,40,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 138,
+      lineStart = 107602,
+      lineEnd = 107607,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3189,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5205,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3189)\nmacro_SetTaskKillParam(5205,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 139,
+      lineStart = 107608,
+      lineEnd = 107615,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3185,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21021,
+          count = 20,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5026,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3185)\nmacro_SetTaskKillParam(5026,0,0)\nmacro_SetTaskItemParam(21021,20,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 140,
+      lineStart = 107616,
+      lineEnd = 107622,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3073,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5027,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 21052,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3073)\nmacro_AddItem(21052,1,0)\nmacro_SetTaskKillParam(5027,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 141,
+      lineStart = 107623,
+      lineEnd = 107629,
+      maxStep = 1,
+      taskType = 8,
+      overNpcId = 3188,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(8)\nmacro_SetOverNpc(3188)\nmacro_AddTaskCre(3073)\nmacro_SetTaskRole(3073)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 142,
+      lineStart = 107630,
+      lineEnd = 107635,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3188,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5133,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3188)\nmacro_SetTaskKillParam(5133,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 143,
+      lineStart = 107636,
+      lineEnd = 107643,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3073,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21024,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5130,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3073)\nmacro_SetTaskKillParam(5130,0,0)\nmacro_SetTaskItemParam(21024,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 144,
+      lineStart = 107644,
+      lineEnd = 107651,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3073,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21025,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5131,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3073)\nmacro_SetTaskKillParam(5131,0,0)\nmacro_SetTaskItemParam(21025,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 145,
+      lineStart = 107652,
+      lineEnd = 107658,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3077,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5029,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 21058,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3077)\nmacro_AddItem(21058,1,0)\nmacro_SetTaskKillParam(5029,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 146,
+      lineStart = 107659,
+      lineEnd = 107665,
+      maxStep = 2,
+      taskType = 8,
+      overNpcId = 3022,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(8)\nmacro_SetOverNpc(3022)\nmacro_AddTaskCre(3077)\nmacro_SetTaskRole(3077)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 147,
+      lineStart = 107666,
+      lineEnd = 107671,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5058,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5058,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 148,
+      lineStart = 107672,
+      lineEnd = 107677,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3073,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5128,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3073)\nmacro_SetTaskKillParam(5128,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 149,
+      lineStart = 107678,
+      lineEnd = 107683,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3226,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5128,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3226)\nmacro_SetTaskKillParam(5128,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 150,
+      lineStart = 107684,
+      lineEnd = 107690,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3022,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21053,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21053,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3022)\nmacro_AddItem(21053,1,0)\nmacro_SetTaskItemParam(21053,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 151,
+      lineStart = 107691,
+      lineEnd = 107696,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5058,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5058,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 152,
+      lineStart = 107697,
+      lineEnd = 107703,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3044,
+      maxAward = 2,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21152,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21152,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3044)\nmacro_AddItem(21152,1,0)\nmacro_SetTaskItemParam(21152,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 153,
+      lineStart = 107704,
+      lineEnd = 107709,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3224,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 9011,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3224)\nmacro_SetTaskItemParam(9011,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 154,
+      lineStart = 107710,
+      lineEnd = 107717,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 23010,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5079,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5079,0,0)\nmacro_SetTaskItemParam(23010,10,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 155,
+      lineStart = 107718,
+      lineEnd = 107725,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3191,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21182,
+          count = 5,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5079,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3191)\nmacro_SetTaskKillParam(5079,0,0)\nmacro_SetTaskItemParam(21182,5,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 156,
+      lineStart = 107726,
+      lineEnd = 107731,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3193,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5132,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3193)\nmacro_SetTaskKillParam(5132,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 157,
+      lineStart = 107732,
+      lineEnd = 107738,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3193,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 23029,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = 70,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3193)\nmacro_SetTaskItemParam(23029,10,0)\nmacro_SetTaskDropRate(70)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 158,
+      lineStart = 107739,
+      lineEnd = 107745,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3193,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21026,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3193)\n\nmacro_SetTaskItemParam(21026,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 159,
+      lineStart = 107746,
+      lineEnd = 107752,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3191,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21027,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21027,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3191)\nmacro_AddItem(21027,1,0)\nmacro_SetTaskItemParam(21027,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 160,
+      lineStart = 107753,
+      lineEnd = 107759,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3013,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21049,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21049,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3013)\nmacro_AddItem(21049,1,0)\nmacro_SetTaskItemParam(21049,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 161,
+      lineStart = 107760,
+      lineEnd = 107766,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3013,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 23032,
+          count = 5,
+          index = 0
+        },
+        {
+          templateId = 23029,
+          count = 5,
+          index = 1
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3013)\nmacro_SetTaskItemParam(23032,5,0)\nmacro_SetTaskItemParam(23029,5,1)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 162,
+      lineStart = 107767,
+      lineEnd = 107773,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3191,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21028,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21028,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3191)\nmacro_AddItem(21028,1,0)\nmacro_SetTaskItemParam(21028,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 163,
+      lineStart = 107774,
+      lineEnd = 107780,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3191,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21028,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21028,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3191)\nmacro_AddItem(21028,1,0)\nmacro_SetTaskItemParam(21028,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 164,
+      lineStart = 107781,
+      lineEnd = 107787,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3195,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21031,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21031,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3195)\nmacro_AddItem(21031,1,0)\nmacro_SetTaskItemParam(21031,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 165,
+      lineStart = 107788,
+      lineEnd = 107794,
+      maxStep = 2,
+      taskType = 16,
+      overNpcId = 3195,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5074,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 15,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3195)\nmacro_SetTaskKillParam(5074,1,0)\nmacro_SetTaskDropRate(15)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 166,
+      lineStart = 107795,
+      lineEnd = 107801,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3083,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21050,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21050,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3083)\nmacro_AddItem(21050,1,0)\nmacro_SetTaskItemParam(21050,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 167,
+      lineStart = 107802,
+      lineEnd = 107810,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3083,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21032,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5175,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 21105,
+          quantity = 1
+        }
+      },
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3083)\nmacro_AddItem(21105,1,0)\nmacro_SetTaskKillParam(5175,0,0)\nmacro_SetTaskItemParam(21032,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 168,
+      lineStart = 107811,
+      lineEnd = 107817,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3300,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21033,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21033,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3300)\nmacro_AddItem(21033,1,0)\nmacro_SetTaskItemParam(21033,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 169,
+      lineStart = 107818,
+      lineEnd = 107824,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3107,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21031,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21031,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3107)\nmacro_AddItem(21031,1,0)\nmacro_SetTaskItemParam(21031,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 170,
+      lineStart = 107825,
+      lineEnd = 107832,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3107,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21113,
+          count = 20,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5066,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 90,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3107)\nmacro_SetTaskKillParam(5066,0,0)\nmacro_SetTaskItemParam(21113,20,0)\nmacro_SetTaskDropRate(90)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 171,
+      lineStart = 107833,
+      lineEnd = 107839,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3195,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5076,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 21054,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3195)\nmacro_AddItem(21054,1,0)\nmacro_SetTaskKillParam(5076,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 172,
+      lineStart = 107840,
+      lineEnd = 107845,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3194,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21054,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3194)\nmacro_SetTaskItemParam(21054,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 173,
+      lineStart = 107846,
+      lineEnd = 107851,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3083,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5081,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3083)\nmacro_SetTaskKillParam(5081,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 174,
+      lineStart = 107852,
+      lineEnd = 107857,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3084,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5217,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3084)\nmacro_SetTaskKillParam(5217,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 175,
+      lineStart = 107858,
+      lineEnd = 107865,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3084,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21055,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5216,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3084)\nmacro_SetTaskKillParam(5216,0,0)\nmacro_SetTaskItemParam(21055,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 176,
+      lineStart = 107866,
+      lineEnd = 107870,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3044,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3044)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 177,
+      lineStart = 107871,
+      lineEnd = 107877,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3295,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21135,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21135,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3295)\nmacro_AddItem(21135,1,0)\nmacro_SetTaskItemParam(21135,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 178,
+      lineStart = 107878,
+      lineEnd = 107883,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3295,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21129,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3295)\nmacro_SetTaskItemParam(21129,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 179,
+      lineStart = 107884,
+      lineEnd = 107890,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5056,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 21129,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3044)\nmacro_AddItem(21129,1,0)\nmacro_SetTaskKillParam(5056,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 180,
+      lineStart = 107891,
+      lineEnd = 107897,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3234,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21118,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21118,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3234)\nmacro_AddItem(21118,1,0)\nmacro_SetTaskItemParam(21118,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 181,
+      lineStart = 107898,
+      lineEnd = 107905,
+      maxStep = 2,
+      taskType = 16,
+      overNpcId = 3234,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5001,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 29011,
+          quantity = 1
+        }
+      },
+      dropRate = 1,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3234)\nmacro_AddItem(29011,1,0)\nmacro_SetTaskKillParam(5001,1,0)\nmacro_SetTaskDropRate(1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 182,
+      lineStart = 107906,
+      lineEnd = 107911,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3120,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5113,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3120)\nmacro_SetTaskKillParam(5113,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 183,
+      lineStart = 107912,
+      lineEnd = 107917,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3120,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5114,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3120)\nmacro_SetTaskKillParam(5114,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 184,
+      lineStart = 107918,
+      lineEnd = 107923,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3211,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5129,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3211)\nmacro_SetTaskKillParam(5129,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 185,
+      lineStart = 107924,
+      lineEnd = 107929,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3197,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 19002,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3197)\nmacro_SetTaskItemParam(19002,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 186,
+      lineStart = 107930,
+      lineEnd = 107935,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3198,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5009,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3198)\nmacro_SetTaskKillParam(5009,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 187,
+      lineStart = 107936,
+      lineEnd = 107943,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3199,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21183,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5041,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 70,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3199)\nmacro_SetTaskKillParam(5041,0,0)\nmacro_SetTaskItemParam(21183,10,0)\nmacro_SetTaskDropRate(70)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 188,
+      lineStart = 107944,
+      lineEnd = 107951,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3203,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21114,
+          count = 5,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5093,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 50,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3203)\nmacro_SetTaskKillParam(5093,0,0)\nmacro_SetTaskItemParam(21114,5,0)\nmacro_SetTaskDropRate(50)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 189,
+      lineStart = 107952,
+      lineEnd = 107957,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3204,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5092,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3204)\nmacro_SetTaskKillParam(5092,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 190,
+      lineStart = 107958,
+      lineEnd = 107964,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3018,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5032,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 21056,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3018)\nmacro_AddItem(21056,1,0)\nmacro_SetTaskKillParam(5032,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 191,
+      lineStart = 107965,
+      lineEnd = 107972,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3093,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21065,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5086,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 70,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3093)\nmacro_SetTaskKillParam(5086,0,0)\nmacro_SetTaskItemParam(21065,1,0)\nmacro_SetTaskDropRate(70)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 192,
+      lineStart = 107973,
+      lineEnd = 107979,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3019,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21066,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21066,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3019)\nmacro_AddItem(21066,1,0)\nmacro_SetTaskItemParam(21066,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 193,
+      lineStart = 107980,
+      lineEnd = 107985,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3093,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5064,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3093)\nmacro_SetTaskKillParam(5064,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 194,
+      lineStart = 107986,
+      lineEnd = 107991,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3206,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5088,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3206)\nmacro_SetTaskKillParam(5088,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 195,
+      lineStart = 107992,
+      lineEnd = 107996,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3044,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3044)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 196,
+      lineStart = 107997,
+      lineEnd = 108002,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3044,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21137,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3044)\nmacro_SetTaskItemParam(21137,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 197,
+      lineStart = 108003,
+      lineEnd = 108008,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21139,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3044)\nmacro_SetTaskItemParam(21139,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 198,
+      lineStart = 108009,
+      lineEnd = 108014,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3149,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21067,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3149)\nmacro_SetTaskItemParam(21067,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 199,
+      lineStart = 108015,
+      lineEnd = 108019,
+      maxStep = 2,
+      taskType = 32,
+      overNpcId = 3099,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3099)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 200,
+      lineStart = 108020,
+      lineEnd = 108025,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3099,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23025,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3099)\nmacro_SetTaskItemParam(23025,10,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 201,
+      lineStart = 108026,
+      lineEnd = 108031,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3099,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21070,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3099)\nmacro_SetTaskItemParam(21070,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 202,
+      lineStart = 108032,
+      lineEnd = 108038,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3149,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21106,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21106,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3149)\nmacro_AddItem(21106,1,0)\nmacro_SetTaskItemParam(21106,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 203,
+      lineStart = 108039,
+      lineEnd = 108045,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3208,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21036,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21036,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3208)\nmacro_AddItem(21036,1,0)\nmacro_SetTaskItemParam(21036,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 204,
+      lineStart = 108046,
+      lineEnd = 108051,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3100,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5090,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3100)\nmacro_SetTaskKillParam(5090,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 205,
+      lineStart = 108052,
+      lineEnd = 108057,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3209,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5067,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3209)\nmacro_SetTaskKillParam(5067,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 206,
+      lineStart = 108058,
+      lineEnd = 108064,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3098,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5086,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5087,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3098)\nmacro_SetTaskKillParam(5086,10,0)\nmacro_SetTaskKillParam(5087,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 207,
+      lineStart = 108065,
+      lineEnd = 108072,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3125,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21108,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5093,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3125)\nmacro_SetTaskKillParam(5093,0,0)\nmacro_SetTaskItemParam(21108,10,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 208,
+      lineStart = 108073,
+      lineEnd = 108078,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3052,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5096,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3052)\nmacro_SetTaskKillParam(5096,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 209,
+      lineStart = 108079,
+      lineEnd = 108085,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3256,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21071,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21071,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3256)\nmacro_AddItem(21071,1,0)\nmacro_SetTaskItemParam(21071,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 210,
+      lineStart = 108086,
+      lineEnd = 108092,
+      maxStep = 2,
+      taskType = 16,
+      overNpcId = 3256,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5050,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 20,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3256)\nmacro_SetTaskKillParam(5050,1,0)\nmacro_SetTaskDropRate(20)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 211,
+      lineStart = 108093,
+      lineEnd = 108098,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3261,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 20013,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3261)\nmacro_SetTaskItemParam(20013,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 212,
+      lineStart = 108099,
+      lineEnd = 108105,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3031,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21134,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21134,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3031)\nmacro_AddItem(21134,1,0)\nmacro_SetTaskItemParam(21134,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 213,
+      lineStart = 108106,
+      lineEnd = 108111,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3033,
+      maxAward = 2,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5007,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3033)\nmacro_SetTaskKillParam(5007,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 214,
+      lineStart = 108112,
+      lineEnd = 108118,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3257,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21072,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21072,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3257)\nmacro_AddItem(21072,1,0)\nmacro_SetTaskItemParam(21072,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 215,
+      lineStart = 108119,
+      lineEnd = 108125,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3050,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21073,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21073,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3050)\nmacro_AddItem(21073,1,0)\nmacro_SetTaskItemParam(21073,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 216,
+      lineStart = 108126,
+      lineEnd = 108132,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3258,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21072,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21072,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3258)\nmacro_AddItem(21072,1,0)\nmacro_SetTaskItemParam(21072,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 217,
+      lineStart = 108133,
+      lineEnd = 108138,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3050,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5108,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3050)\nmacro_SetTaskKillParam(5108,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 218,
+      lineStart = 108139,
+      lineEnd = 108144,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3257,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5168,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3257)\nmacro_SetTaskKillParam(5168,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 219,
+      lineStart = 108145,
+      lineEnd = 108151,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3031,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21134,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21134,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3031)\nmacro_AddItem(21134,1,0)\nmacro_SetTaskItemParam(21134,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 220,
+      lineStart = 108152,
+      lineEnd = 108158,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3050,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5172,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 20,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3050)\nmacro_SetTaskKillParam(5172,1,0)\nmacro_SetTaskDropRate(20)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 221,
+      lineStart = 108159,
+      lineEnd = 108164,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3262,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5165,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3262)\nmacro_SetTaskKillParam(5165,10,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 222,
+      lineStart = 108165,
+      lineEnd = 108171,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3124,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21074,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21074,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3124)\nmacro_AddItem(21074,1,0)\nmacro_SetTaskItemParam(21074,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 223,
+      lineStart = 108172,
+      lineEnd = 108178,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3263,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21076,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21076,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3263)\nmacro_AddItem(21076,1,0)\nmacro_SetTaskItemParam(21076,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 224,
+      lineStart = 108179,
+      lineEnd = 108185,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3120,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21075,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21075,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3120)\nmacro_AddItem(21075,1,0)\nmacro_SetTaskItemParam(21075,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 225,
+      lineStart = 108186,
+      lineEnd = 108193,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3263,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21078,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5124,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3263)\nmacro_SetTaskKillParam(5124,0,0)\nmacro_SetTaskItemParam(21078,1,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 226,
+      lineStart = 108194,
+      lineEnd = 108200,
+      maxStep = 2,
+      taskType = 16,
+      overNpcId = 3263,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5188,
+          count = 5,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 25,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3263)\nmacro_SetTaskKillParam(5188,5,0)\nmacro_SetTaskDropRate(25)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 227,
+      lineStart = 108201,
+      lineEnd = 108207,
+      maxStep = 2,
+      taskType = 16,
+      overNpcId = 3263,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5218,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 40,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3263)\nmacro_SetTaskKillParam(5218,1,0)\nmacro_SetTaskDropRate(40)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 228,
+      lineStart = 108208,
+      lineEnd = 108214,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3264,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21077,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21077,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3264)\nmacro_AddItem(21077,1,0)\nmacro_SetTaskItemParam(21077,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 229,
+      lineStart = 108215,
+      lineEnd = 108220,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3264,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5168,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3264)\nmacro_SetTaskKillParam(5168,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 230,
+      lineStart = 108221,
+      lineEnd = 108226,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3120,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5157,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3120)\nmacro_SetTaskKillParam(5157,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 231,
+      lineStart = 108227,
+      lineEnd = 108232,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3034,
+      maxAward = 2,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5008,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3034)\nmacro_SetTaskKillParam(5008,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 232,
+      lineStart = 108233,
+      lineEnd = 108239,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3124,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21086,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21086,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3124)\nmacro_AddItem(21086,1,0)\nmacro_SetTaskItemParam(21086,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 233,
+      lineStart = 108240,
+      lineEnd = 108245,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3124,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5123,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3124)\nmacro_SetTaskKillParam(5123,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 234,
+      lineStart = 108246,
+      lineEnd = 108251,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3265,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5170,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3265)\nmacro_SetTaskKillParam(5170,3,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 235,
+      lineStart = 108252,
+      lineEnd = 108257,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3265,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5171,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3265)\nmacro_SetTaskKillParam(5171,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 236,
+      lineStart = 108258,
+      lineEnd = 108264,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3083,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21081,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21081,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3083)\nmacro_AddItem(21081,1,0)\nmacro_SetTaskItemParam(21081,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 237,
+      lineStart = 108265,
+      lineEnd = 108270,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3265,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21082,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3265)\nmacro_SetTaskItemParam(21082,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 238,
+      lineStart = 108271,
+      lineEnd = 108278,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3014,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21084,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5215,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3014)\nmacro_SetTaskKillParam(5215,0,0)\nmacro_SetTaskItemParam(21084,1,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 239,
+      lineStart = 108279,
+      lineEnd = 108284,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3014,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21083,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3014)\nmacro_SetTaskItemParam(21083,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 240,
+      lineStart = 108285,
+      lineEnd = 108291,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3019,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21085,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21085,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3019)\nmacro_AddItem(21085,1,0)\nmacro_SetTaskItemParam(21085,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 241,
+      lineStart = 108292,
+      lineEnd = 108299,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3019,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21088,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5021,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3019)\nmacro_SetTaskKillParam(5021,0,0)\nmacro_SetTaskItemParam(21088,1,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 242,
+      lineStart = 108300,
+      lineEnd = 108306,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3014,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21087,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21087,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3014)\nmacro_AddItem(21087,1,0)\nmacro_SetTaskItemParam(21087,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 243,
+      lineStart = 108307,
+      lineEnd = 108312,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3016,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21096,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3016)\nmacro_SetTaskItemParam(21096,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 244,
+      lineStart = 108313,
+      lineEnd = 108318,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3016,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21093,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3016)\nmacro_SetTaskItemParam(21093,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 245,
+      lineStart = 108319,
+      lineEnd = 108324,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5151,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5151,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 246,
+      lineStart = 108325,
+      lineEnd = 108331,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3125,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21106,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21106,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3125)\nmacro_AddItem(21106,1,0)\nmacro_SetTaskItemParam(21106,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 247,
+      lineStart = 108332,
+      lineEnd = 108338,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3125,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21107,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21107,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3125)\nmacro_AddItem(21107,1,0)\nmacro_SetTaskItemParam(21107,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 248,
+      lineStart = 108339,
+      lineEnd = 108345,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3125,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21108,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21108,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3125)\nmacro_AddItem(21108,1,0)\nmacro_SetTaskItemParam(21108,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 249,
+      lineStart = 108346,
+      lineEnd = 108352,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3125,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21105,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21105,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3125)\nmacro_AddItem(21105,1,0)\nmacro_SetTaskItemParam(21105,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 250,
+      lineStart = 108353,
+      lineEnd = 108360,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3098,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21100,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5173,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 50,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3098)\nmacro_SetTaskKillParam(5173,0,0)\nmacro_SetTaskItemParam(21100,1,0)\nmacro_SetTaskDropRate(50)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 251,
+      lineStart = 108361,
+      lineEnd = 108367,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3125,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21101,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21101,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3125)\nmacro_AddItem(21101,1,0)\nmacro_SetTaskItemParam(21101,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 252,
+      lineStart = 108368,
+      lineEnd = 108374,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3265,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21102,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21102,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3265)\nmacro_AddItem(21102,1,0)\nmacro_SetTaskItemParam(21102,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 253,
+      lineStart = 108375,
+      lineEnd = 108382,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3052,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21103,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5094,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 50,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3052)\nmacro_SetTaskKillParam(5094,0,0)\nmacro_SetTaskItemParam(21103,1,0)\nmacro_SetTaskDropRate(50)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 254,
+      lineStart = 108383,
+      lineEnd = 108389,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3102,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21068,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21068,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3102)\nmacro_AddItem(21068,1,0)\nmacro_SetTaskItemParam(21068,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 255,
+      lineStart = 108390,
+      lineEnd = 108395,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3102,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5172,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3102)\nmacro_SetTaskKillParam(5172,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 256,
+      lineStart = 108396,
+      lineEnd = 108402,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3138,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21144,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21144,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3138)\nmacro_AddItem(21144,1,0)\nmacro_SetTaskItemParam(21144,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 257,
+      lineStart = 108403,
+      lineEnd = 108410,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3353,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21229,
+          count = 5,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5237,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 60,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3353)\nmacro_SetTaskKillParam(5237,0,0)\nmacro_SetTaskItemParam(21229,5,0)\nmacro_SetTaskDropRate(60)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 258,
+      lineStart = 108411,
+      lineEnd = 108419,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3353,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21230,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5293,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 26030,
+          quantity = 1
+        }
+      },
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3353)\nmacro_AddItem(26030,1,0)\nmacro_SetTaskKillParam(5293,0,0)\nmacro_SetTaskItemParam(21230,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 259,
+      lineStart = 108420,
+      lineEnd = 108426,
+      maxStep = 3,
+      taskType = 8,
+      overNpcId = 3343,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(8)\nmacro_SetOverNpc(3343)\nmacro_AddTaskCre(3353)\nmacro_SetTaskRole(3353)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 260,
+      lineStart = 108427,
+      lineEnd = 108432,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3278,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23075,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3278)\nmacro_SetTaskItemParam(23075,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 261,
+      lineStart = 108433,
+      lineEnd = 108439,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3353,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21231,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21231,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3353)\nmacro_AddItem(21231,1,0)\nmacro_SetTaskItemParam(21231,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 262,
+      lineStart = 108440,
+      lineEnd = 108447,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3278,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21232,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5198,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 70,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3278)\nmacro_SetTaskKillParam(5198,0,0)\nmacro_SetTaskItemParam(21232,10,0)\nmacro_SetTaskDropRate(70)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 263,
+      lineStart = 108448,
+      lineEnd = 108455,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3278,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21233,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5240,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 70,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3278)\nmacro_SetTaskKillParam(5240,0,0)\nmacro_SetTaskItemParam(21233,10,0)\nmacro_SetTaskDropRate(70)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 264,
+      lineStart = 108456,
+      lineEnd = 108463,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3353,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21234,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5281,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3353)\nmacro_SetTaskKillParam(5281,0,0)\nmacro_SetTaskItemParam(21234,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 265,
+      lineStart = 108464,
+      lineEnd = 108469,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3344,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5240,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3344)\nmacro_SetTaskKillParam(5240,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 266,
+      lineStart = 108470,
+      lineEnd = 108475,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3361,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5280,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3361)\nmacro_SetTaskKillParam(5280,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 267,
+      lineStart = 108476,
+      lineEnd = 108482,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3355,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21235,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21235,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3355)\nmacro_AddItem(21235,1,0)\nmacro_SetTaskItemParam(21235,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 268,
+      lineStart = 108483,
+      lineEnd = 108489,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3347,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21236,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21236,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3347)\nmacro_AddItem(21236,1,0)\nmacro_SetTaskItemParam(21236,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 269,
+      lineStart = 108490,
+      lineEnd = 108496,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3356,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21237,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21237,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3356)\nmacro_AddItem(21237,1,0)\nmacro_SetTaskItemParam(21237,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 270,
+      lineStart = 108497,
+      lineEnd = 108502,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3356,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 23079,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3356)\nmacro_SetTaskItemParam(23079,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 271,
+      lineStart = 108503,
+      lineEnd = 108509,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3356,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5199,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 50,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3356)\nmacro_SetTaskKillParam(5199,1,0)\nmacro_SetTaskDropRate(50)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 272,
+      lineStart = 108510,
+      lineEnd = 108517,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3356,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21239,
+          count = 15,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5234,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3356)\nmacro_SetTaskKillParam(5234,0,0)\nmacro_SetTaskItemParam(21239,15,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 273,
+      lineStart = 108518,
+      lineEnd = 108523,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3361,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5279,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3361)\nmacro_SetTaskKillParam(5279,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 274,
+      lineStart = 108524,
+      lineEnd = 108531,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3361,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21241,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5278,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3361)\nmacro_SetTaskKillParam(5278,0,0)\nmacro_SetTaskItemParam(21241,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 275,
+      lineStart = 108532,
+      lineEnd = 108538,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3312,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21145,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21145,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3312)\nmacro_AddItem(21145,1,0)\nmacro_SetTaskItemParam(21145,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 276,
+      lineStart = 108539,
+      lineEnd = 108544,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3312,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5065,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3312)\nmacro_SetTaskKillParam(5065,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 277,
+      lineStart = 108545,
+      lineEnd = 108550,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3312,
+      maxAward = 2,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 23044,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3312)\nmacro_SetTaskItemParam(23044,10,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 278,
+      lineStart = 108551,
+      lineEnd = 108557,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3345,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21240,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21240,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3345)\nmacro_AddItem(21240,1,0)\nmacro_SetTaskItemParam(21240,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 279,
+      lineStart = 108558,
+      lineEnd = 108563,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3345,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5241,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3345)\nmacro_SetTaskKillParam(5241,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 280,
+      lineStart = 108564,
+      lineEnd = 108569,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3364,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23077,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3364)\nmacro_SetTaskItemParam(23077,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 281,
+      lineStart = 108570,
+      lineEnd = 108575,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3365,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5241,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3365)\nmacro_SetTaskKillParam(5241,15,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 282,
+      lineStart = 108576,
+      lineEnd = 108581,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3365,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 23082,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3365)\nmacro_SetTaskItemParam(23082,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 283,
+      lineStart = 108582,
+      lineEnd = 108588,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3366,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5235,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 55,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3366)\nmacro_SetTaskKillParam(5235,1,0)\nmacro_SetTaskDropRate(55)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 284,
+      lineStart = 108589,
+      lineEnd = 108594,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3363,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5243,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3363)\nmacro_SetTaskKillParam(5243,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 285,
+      lineStart = 108595,
+      lineEnd = 108602,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3132,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23086,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5246,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 70,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3132)\nmacro_SetTaskKillParam(5246,0,0)\nmacro_SetTaskItemParam(23086,10,0)\nmacro_SetTaskDropRate(70)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 286,
+      lineStart = 108603,
+      lineEnd = 108608,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3380,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5246,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3380)\nmacro_SetTaskKillParam(5246,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 287,
+      lineStart = 108609,
+      lineEnd = 108615,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3381,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21242,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21242,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3381)\nmacro_AddItem(21242,1,0)\nmacro_SetTaskItemParam(21242,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 288,
+      lineStart = 108616,
+      lineEnd = 108621,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3381,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5282,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3381)\nmacro_SetTaskKillParam(5282,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 289,
+      lineStart = 108622,
+      lineEnd = 108627,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3370,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21382,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3370)\nmacro_SetTaskItemParam(21382,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 290,
+      lineStart = 108628,
+      lineEnd = 108634,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3374,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21247,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21247,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3374)\nmacro_AddItem(21247,1,0)\nmacro_SetTaskItemParam(21247,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 291,
+      lineStart = 108635,
+      lineEnd = 108641,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3375,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21247,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21247,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3375)\nmacro_AddItem(21247,1,0)\nmacro_SetTaskItemParam(21247,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 292,
+      lineStart = 108642,
+      lineEnd = 108648,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3371,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5244,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5202,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3371)\nmacro_SetTaskKillParam(5244,10,0)\nmacro_SetTaskKillParam(5202,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 293,
+      lineStart = 108649,
+      lineEnd = 108655,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3219,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21146,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21146,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3219)\nmacro_AddItem(21146,1,0)\nmacro_SetTaskItemParam(21146,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 294,
+      lineStart = 108656,
+      lineEnd = 108661,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3219,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5134,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3219)\nmacro_SetTaskKillParam(5134,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 295,
+      lineStart = 108662,
+      lineEnd = 108668,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3312,
+      maxAward = 2,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21092,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21092,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3312)\nmacro_AddItem(21092,1,0)\nmacro_SetTaskItemParam(21092,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 296,
+      lineStart = 108669,
+      lineEnd = 108675,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3376,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21248,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21248,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3376)\nmacro_AddItem(21248,1,0)\nmacro_SetTaskItemParam(21248,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 297,
+      lineStart = 108676,
+      lineEnd = 108681,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3376,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5248,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3376)\nmacro_SetTaskKillParam(5248,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 298,
+      lineStart = 108682,
+      lineEnd = 108688,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3436,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5251,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 67,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3436)\nmacro_SetTaskKillParam(5251,1,0)\nmacro_SetTaskDropRate(67)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 299,
+      lineStart = 108689,
+      lineEnd = 108695,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3391,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5257,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5258,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3391)\nmacro_SetTaskKillParam(5257,10,0)\nmacro_SetTaskKillParam(5258,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 300,
+      lineStart = 108696,
+      lineEnd = 108703,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3392,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23092,
+          count = 5,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5252,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 70,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3392)\nmacro_SetTaskKillParam(5252,0,0)\nmacro_SetTaskItemParam(23092,5,0)\nmacro_SetTaskDropRate(70)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 301,
+      lineStart = 108704,
+      lineEnd = 108709,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3393,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5253,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3393)\nmacro_SetTaskKillParam(5253,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 302,
+      lineStart = 108710,
+      lineEnd = 108716,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3394,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21249,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21249,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3394)\nmacro_AddItem(21249,1,0)\nmacro_SetTaskItemParam(21249,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 303,
+      lineStart = 108717,
+      lineEnd = 108723,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3382,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21249,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21249,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3382)\nmacro_AddItem(21249,1,0)\nmacro_SetTaskItemParam(21249,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 304,
+      lineStart = 108724,
+      lineEnd = 108729,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3382,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5255,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3382)\nmacro_SetTaskKillParam(5255,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 305,
+      lineStart = 108730,
+      lineEnd = 108735,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3394,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21250,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3394)\nmacro_SetTaskItemParam(21250,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 306,
+      lineStart = 108736,
+      lineEnd = 108741,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3394,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5283,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3394)\nmacro_SetTaskKillParam(5283,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 307,
+      lineStart = 108742,
+      lineEnd = 108747,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3394,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21251,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3394)\nmacro_SetTaskItemParam(21251,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 308,
+      lineStart = 108748,
+      lineEnd = 108753,
+      maxStep = 6,
+      taskType = 1,
+      overNpcId = 3283,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5135,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3283)\nmacro_SetTaskKillParam(5135,2,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 309,
+      lineStart = 108754,
+      lineEnd = 108760,
+      maxStep = 6,
+      taskType = 2,
+      overNpcId = 3135,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21147,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21147,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3135)\nmacro_AddItem(21147,1,0)\nmacro_SetTaskItemParam(21147,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 310,
+      lineStart = 108761,
+      lineEnd = 108768,
+      maxStep = 6,
+      taskType = 4,
+      overNpcId = 3135,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21148,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5136,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5136,0,0)\nmacro_SetTaskItemParam(21148,10,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 311,
+      lineStart = 108769,
+      lineEnd = 108775,
+      maxStep = 6,
+      taskType = 2,
+      overNpcId = 3132,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21149,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21149,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3132)\nmacro_AddItem(21149,1,0)\nmacro_SetTaskItemParam(21149,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 312,
+      lineStart = 108776,
+      lineEnd = 108781,
+      maxStep = 6,
+      taskType = 2,
+      overNpcId = 3132,
+      maxAward = 0,
+      taskStep = 5,
+      itemParams = {
+        {
+          templateId = 21150,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3132)\nmacro_SetTaskItemParam(21150,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(5)"
+    },
+    {
+      clusterIndex = 313,
+      lineStart = 108782,
+      lineEnd = 108787,
+      maxStep = 6,
+      taskType = 1,
+      overNpcId = 3173,
+      maxAward = 1,
+      taskStep = 6,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5149,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3173)\nmacro_SetTaskKillParam(5149,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(6)"
+    },
+    {
+      clusterIndex = 314,
+      lineStart = 108788,
+      lineEnd = 108794,
+      maxStep = 7,
+      taskType = 8,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 7,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(7)\nmacro_SetTaskType(8)\nmacro_SetOverNpc(3135)\nmacro_AddTaskCre(3173)\nmacro_SetTaskRole(3173)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(7)"
+    },
+    {
+      clusterIndex = 315,
+      lineStart = 108795,
+      lineEnd = 108800,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3438,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23095,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3438)\nmacro_SetTaskItemParam(23095,10,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 316,
+      lineStart = 108801,
+      lineEnd = 108807,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3383,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21285,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21285,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3383)\nmacro_AddItem(21285,1,0)\nmacro_SetTaskItemParam(21285,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 317,
+      lineStart = 108808,
+      lineEnd = 108814,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3439,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21252,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21252,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3439)\nmacro_AddItem(21252,1,0)\nmacro_SetTaskItemParam(21252,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 318,
+      lineStart = 108815,
+      lineEnd = 108820,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3383,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5284,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3383)\nmacro_SetTaskKillParam(5284,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 319,
+      lineStart = 108821,
+      lineEnd = 108827,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3383,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21253,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21253,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3383)\nmacro_AddItem(21253,1,0)\nmacro_SetTaskItemParam(21253,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 320,
+      lineStart = 108828,
+      lineEnd = 108835,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3383,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21254,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5254,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 70,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3383)\nmacro_SetTaskKillParam(5254,0,0)\nmacro_SetTaskItemParam(21254,10,0)\nmacro_SetTaskDropRate(70)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 321,
+      lineStart = 108836,
+      lineEnd = 108843,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3395,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21255,
+          count = 20,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5258,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3395)\nmacro_SetTaskKillParam(5258,0,0)\nmacro_SetTaskItemParam(21255,20,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 322,
+      lineStart = 108844,
+      lineEnd = 108850,
+      maxStep = 2,
+      taskType = 16,
+      overNpcId = 3395,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5294,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 76,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3395)\nmacro_SetTaskKillParam(5294,1,0)\nmacro_SetTaskDropRate(76)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 323,
+      lineStart = 108851,
+      lineEnd = 108857,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3396,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21256,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21256,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3396)\nmacro_AddItem(21256,1,0)\nmacro_SetTaskItemParam(21256,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 324,
+      lineStart = 108858,
+      lineEnd = 108864,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3395,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21257,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21257,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3395)\nmacro_AddItem(21257,1,0)\nmacro_SetTaskItemParam(21257,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 325,
+      lineStart = 108865,
+      lineEnd = 108871,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3397,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21258,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21258,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3397)\nmacro_AddItem(21258,1,0)\nmacro_SetTaskItemParam(21258,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 326,
+      lineStart = 108872,
+      lineEnd = 108878,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3378,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21258,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21258,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3378)\nmacro_AddItem(21258,1,0)\nmacro_SetTaskItemParam(21258,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 327,
+      lineStart = 108879,
+      lineEnd = 108885,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3378,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5276,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 26031,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3378)\nmacro_AddItem(26031,1,0)\nmacro_SetTaskKillParam(5276,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 328,
+      lineStart = 108886,
+      lineEnd = 108892,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3397,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21259,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21259,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3397)\nmacro_AddItem(21259,1,0)\nmacro_SetTaskItemParam(21259,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 329,
+      lineStart = 108893,
+      lineEnd = 108898,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3401,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21260,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3401)\nmacro_SetTaskItemParam(21260,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 330,
+      lineStart = 108899,
+      lineEnd = 108905,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3398,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21261,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21261,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3398)\nmacro_AddItem(21261,1,0)\nmacro_SetTaskItemParam(21261,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 331,
+      lineStart = 108906,
+      lineEnd = 108912,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3398,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5286,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 21383,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3398)\nmacro_AddItem(21383,1,0)\nmacro_SetTaskKillParam(5286,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 332,
+      lineStart = 108913,
+      lineEnd = 108920,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3401,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21262,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5285,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3401)\nmacro_SetTaskKillParam(5285,0,0)\nmacro_SetTaskItemParam(21262,1,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 333,
+      lineStart = 108921,
+      lineEnd = 108927,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3184,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21172,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21172,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3184)\nmacro_AddItem(21172,1,0)\nmacro_SetTaskItemParam(21172,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 334,
+      lineStart = 108928,
+      lineEnd = 108933,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3184,
+      maxAward = 2,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5150,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3184)\nmacro_SetTaskKillParam(5150,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 335,
+      lineStart = 108934,
+      lineEnd = 108940,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3402,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5249,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 85,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3402)\nmacro_SetTaskKillParam(5249,1,0)\nmacro_SetTaskDropRate(85)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 336,
+      lineStart = 108941,
+      lineEnd = 108945,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3404,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3404)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 337,
+      lineStart = 108946,
+      lineEnd = 108951,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3404,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5259,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3404)\nmacro_SetTaskKillParam(5259,10,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 338,
+      lineStart = 108952,
+      lineEnd = 108956,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3403,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3403)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 339,
+      lineStart = 108957,
+      lineEnd = 108963,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3403,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21265,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21265,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3403)\nmacro_AddItem(21265,1,0)\nmacro_SetTaskItemParam(21265,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 340,
+      lineStart = 108964,
+      lineEnd = 108971,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3402,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21387,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5262,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3402)\nmacro_SetTaskKillParam(5262,0,0)\nmacro_SetTaskItemParam(21387,10,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 341,
+      lineStart = 108972,
+      lineEnd = 108978,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3404,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21389,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21388,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3404)\nmacro_AddItem(21388,1,0)\nmacro_SetTaskItemParam(21389,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 342,
+      lineStart = 108979,
+      lineEnd = 108984,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3402,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5596,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3402)\nmacro_SetTaskKillParam(5596,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 343,
+      lineStart = 108985,
+      lineEnd = 108989,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3404,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3404)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 344,
+      lineStart = 108990,
+      lineEnd = 108995,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3404,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5597,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3404)\nmacro_SetTaskKillParam(5597,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 345,
+      lineStart = 108996,
+      lineEnd = 109000,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3402,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3402)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 346,
+      lineStart = 109001,
+      lineEnd = 109008,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3405,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21390,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5266,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3405)\nmacro_SetTaskKillParam(5266,0,0)\nmacro_SetTaskItemParam(21390,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 347,
+      lineStart = 109009,
+      lineEnd = 109013,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3405,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3405)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 348,
+      lineStart = 109014,
+      lineEnd = 109019,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3778,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5598,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3778)\nmacro_SetTaskKillParam(5598,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 349,
+      lineStart = 109020,
+      lineEnd = 109025,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3405,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5599,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3405)\nmacro_SetTaskKillParam(5599,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 350,
+      lineStart = 109026,
+      lineEnd = 109031,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5259,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3414)\nmacro_SetTaskKillParam(5259,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 351,
+      lineStart = 109032,
+      lineEnd = 109036,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3418,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3418)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 352,
+      lineStart = 109037,
+      lineEnd = 109044,
+      maxStep = 4,
+      taskType = 4,
+      overNpcId = 3418,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21391,
+          count = 15,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5264,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3418)\nmacro_SetTaskKillParam(5264,0,0)\nmacro_SetTaskItemParam(21391,15,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 353,
+      lineStart = 109045,
+      lineEnd = 109051,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3418,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21269,
+          count = 1,
+          index = 0
+        },
+        {
+          templateId = 21270,
+          count = 1,
+          index = 1
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3418)\nmacro_SetTaskItemParam(21269,1,0)\nmacro_SetTaskItemParam(21270,1,1)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 354,
+      lineStart = 109052,
+      lineEnd = 109058,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3779,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21392,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21392,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3779)\nmacro_AddItem(21392,1,0)\nmacro_SetTaskItemParam(21392,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 355,
+      lineStart = 109059,
+      lineEnd = 109065,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3418,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5601,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 21394,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3418)\nmacro_AddItem(21394,1,0)\nmacro_SetTaskKillParam(5601,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 356,
+      lineStart = 109066,
+      lineEnd = 109071,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3418,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5600,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3418)\nmacro_SetTaskKillParam(5600,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 357,
+      lineStart = 109072,
+      lineEnd = 109076,
+      maxStep = 5,
+      taskType = 32,
+      overNpcId = 3187,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3187)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 358,
+      lineStart = 109077,
+      lineEnd = 109084,
+      maxStep = 5,
+      taskType = 4,
+      overNpcId = 3187,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21180,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5213,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3187)\nmacro_SetTaskKillParam(5213,0,0)\nmacro_SetTaskItemParam(21180,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 359,
+      lineStart = 109085,
+      lineEnd = 109092,
+      maxStep = 5,
+      taskType = 4,
+      overNpcId = 3187,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21178,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5212,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3187)\nmacro_SetTaskKillParam(5212,0,0)\nmacro_SetTaskItemParam(21178,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 360,
+      lineStart = 109093,
+      lineEnd = 109100,
+      maxStep = 5,
+      taskType = 4,
+      overNpcId = 3187,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21179,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5214,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3187)\nmacro_SetTaskKillParam(5214,0,0)\nmacro_SetTaskItemParam(21179,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 361,
+      lineStart = 109101,
+      lineEnd = 109107,
+      maxStep = 5,
+      taskType = 2,
+      overNpcId = 3155,
+      maxAward = 1,
+      taskStep = 5,
+      itemParams = {
+        {
+          templateId = 21176,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21176,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3155)\nmacro_AddItem(21176,1,0)\nmacro_SetTaskItemParam(21176,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(5)"
+    },
+    {
+      clusterIndex = 362,
+      lineStart = 109108,
+      lineEnd = 109114,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3175,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21128,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21128,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3175)\nmacro_AddItem(21128,1,0)\nmacro_SetTaskItemParam(21128,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 363,
+      lineStart = 109115,
+      lineEnd = 109121,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3004,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21117,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21117,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3004)\nmacro_AddItem(21117,1,0)\nmacro_SetTaskItemParam(21117,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 364,
+      lineStart = 109122,
+      lineEnd = 109128,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3054,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21029,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21029,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3054)\nmacro_AddItem(21029,1,0)\nmacro_SetTaskItemParam(21029,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 365,
+      lineStart = 109129,
+      lineEnd = 109134,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3006,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5010,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3006)\nmacro_SetTaskKillParam(5010,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 366,
+      lineStart = 109135,
+      lineEnd = 109140,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3054,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21397,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3054)\nmacro_SetTaskItemParam(21397,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 367,
+      lineStart = 109141,
+      lineEnd = 109146,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3054,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21398,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3054)\nmacro_SetTaskItemParam(21398,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 368,
+      lineStart = 109147,
+      lineEnd = 109153,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21273,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21273,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3414)\nmacro_AddItem(21273,1,0)\nmacro_SetTaskItemParam(21273,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 369,
+      lineStart = 109154,
+      lineEnd = 109159,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3406,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5295,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3406)\nmacro_SetTaskKillParam(5295,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 370,
+      lineStart = 109160,
+      lineEnd = 109167,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3407,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23104,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5264,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 70,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3407)\nmacro_SetTaskKillParam(5264,0,0)\nmacro_SetTaskItemParam(23104,10,0)\nmacro_SetTaskDropRate(70)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 371,
+      lineStart = 109168,
+      lineEnd = 109173,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3407,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21274,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3407)\nmacro_SetTaskItemParam(21274,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 372,
+      lineStart = 109174,
+      lineEnd = 109180,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3409,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21275,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21275,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3409)\nmacro_AddItem(21275,1,0)\nmacro_SetTaskItemParam(21275,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 373,
+      lineStart = 109181,
+      lineEnd = 109188,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3410,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21276,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5287,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3410)\nmacro_SetTaskKillParam(5287,0,0)\nmacro_SetTaskItemParam(21276,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 374,
+      lineStart = 109189,
+      lineEnd = 109196,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3411,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21277,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5286,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3411)\nmacro_SetTaskKillParam(5286,0,0)\nmacro_SetTaskItemParam(21277,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 375,
+      lineStart = 109197,
+      lineEnd = 109201,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3414,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3414)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 376,
+      lineStart = 109202,
+      lineEnd = 109207,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3409,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5602,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3409)\nmacro_SetTaskKillParam(5602,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 377,
+      lineStart = 109208,
+      lineEnd = 109214,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21275,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21275,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3414)\nmacro_AddItem(21275,1,0)\nmacro_SetTaskItemParam(21275,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 378,
+      lineStart = 109215,
+      lineEnd = 109222,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3409,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21278,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5289,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3409)\nmacro_SetTaskKillParam(5289,0,0)\nmacro_SetTaskItemParam(21278,1,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 379,
+      lineStart = 109223,
+      lineEnd = 109229,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21275,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21275,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3414)\nmacro_AddItem(21275,1,0)\nmacro_SetTaskItemParam(21275,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 380,
+      lineStart = 109230,
+      lineEnd = 109236,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3412,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21279,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21275,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3412)\nmacro_AddItem(21275,1,0)\nmacro_SetTaskItemParam(21279,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 381,
+      lineStart = 109237,
+      lineEnd = 109242,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3421,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21280,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3421)\nmacro_SetTaskItemParam(21280,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 382,
+      lineStart = 109243,
+      lineEnd = 109249,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3142,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21154,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21154,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3142)\nmacro_AddItem(21154,1,0)\nmacro_SetTaskItemParam(21154,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 383,
+      lineStart = 109250,
+      lineEnd = 109255,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3142,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21155,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3142)\nmacro_SetTaskItemParam(21155,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 384,
+      lineStart = 109256,
+      lineEnd = 109261,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3421,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21281,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3421)\nmacro_SetTaskItemParam(21281,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 385,
+      lineStart = 109262,
+      lineEnd = 109268,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3412,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 20023,
+          count = 1,
+          index = 0
+        },
+        {
+          templateId = 20020,
+          count = 1,
+          index = 1
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3412)\nmacro_SetTaskItemParam(20023,1,0)\nmacro_SetTaskItemParam(20020,1,1)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 386,
+      lineStart = 109269,
+      lineEnd = 109275,
+      maxStep = 2,
+      taskType = 16,
+      overNpcId = 3421,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5268,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 94,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3421)\nmacro_SetTaskKillParam(5268,1,0)\nmacro_SetTaskDropRate(94)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 387,
+      lineStart = 109308,
+      lineEnd = 109313,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5083,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)--É±¹ÖÁìÈ¡¶«Î÷ÐÍ \nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5083,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 388,
+      lineStart = 109347,
+      lineEnd = 109352,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5082,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)--É±¹ÖÁìÈ¡¶«Î÷ÐÍ \nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5082,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 389,
+      lineStart = 109386,
+      lineEnd = 109391,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5146,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)--É±¹ÖÁìÈ¡¶«Î÷ÐÍ \nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5146,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 390,
+      lineStart = 109396,
+      lineEnd = 109403,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3182,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21292,
+          count = 18,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5038,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 60,
+      rawSnippet = "\tmacro_SetTaskMaxStep(1)\n\tmacro_SetTaskType(4)\n\tmacro_SetOverNpc(3182)\n\tmacro_SetTaskKillParam(5038,0,0)\n\tmacro_SetTaskItemParam(21292,18,0)\n\tmacro_SetTaskDropRate(60)\n\tmacro_SetMaxAward(1)\n\tmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 391,
+      lineStart = 109405,
+      lineEnd = 109411,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3004,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21123,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21123,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3004)\nmacro_AddItem(21123,1,0)\nmacro_SetTaskItemParam(21123,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 392,
+      lineStart = 109412,
+      lineEnd = 109418,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3005,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21001,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21001,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3005)\nmacro_AddItem(21001,1,0)\nmacro_SetTaskItemParam(21001,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 393,
+      lineStart = 109419,
+      lineEnd = 109425,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3023,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21124,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21124,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3023)\nmacro_AddItem(21124,1,0)\nmacro_SetTaskItemParam(21124,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 394,
+      lineStart = 109426,
+      lineEnd = 109431,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3023,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5106,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3023)\nmacro_SetTaskKillParam(5106,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 395,
+      lineStart = 109432,
+      lineEnd = 109437,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3155,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21175,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3155)\nmacro_SetTaskItemParam(21175,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 396,
+      lineStart = 109438,
+      lineEnd = 109444,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3138,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21176,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21176,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3138)\nmacro_AddItem(21176,1,0)\nmacro_SetTaskItemParam(21176,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 397,
+      lineStart = 109445,
+      lineEnd = 109451,
+      maxStep = 4,
+      taskType = 8,
+      overNpcId = 3155,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(8)\nmacro_SetOverNpc(3155)\nmacro_AddTaskCre(3138)\nmacro_SetTaskRole(3138)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 398,
+      lineStart = 109452,
+      lineEnd = 109457,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3155,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5115,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3155)\nmacro_SetTaskKillParam(5115,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 399,
+      lineStart = 109458,
+      lineEnd = 109463,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3133,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5155,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3133)\nmacro_SetTaskKillParam(5155,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 400,
+      lineStart = 109464,
+      lineEnd = 109469,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3133,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5152,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3133)\nmacro_SetTaskKillParam(5152,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 401,
+      lineStart = 109470,
+      lineEnd = 109475,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3133,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5154,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3133)\nmacro_SetTaskKillParam(5154,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 402,
+      lineStart = 109476,
+      lineEnd = 109481,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3133,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5152,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3133)\nmacro_SetTaskKillParam(5152,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 403,
+      lineStart = 109482,
+      lineEnd = 109487,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3133,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5153,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3133)\nmacro_SetTaskKillParam(5153,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 404,
+      lineStart = 109488,
+      lineEnd = 109493,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3133,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5073,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3133)\nmacro_SetTaskKillParam(5073,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 405,
+      lineStart = 109494,
+      lineEnd = 109499,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3133,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5073,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3133)\nmacro_SetTaskKillParam(5073,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 406,
+      lineStart = 109500,
+      lineEnd = 109505,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3133,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5148,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3133)\nmacro_SetTaskKillParam(5148,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 407,
+      lineStart = 109506,
+      lineEnd = 109511,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3133,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5156,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3133)\nmacro_SetTaskKillParam(5156,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 408,
+      lineStart = 109512,
+      lineEnd = 109518,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3120,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21173,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21173,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3120)\nmacro_AddItem(21173,1,0)\nmacro_SetTaskItemParam(21173,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 409,
+      lineStart = 109519,
+      lineEnd = 109524,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3120,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5114,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3120)\nmacro_SetTaskKillParam(5114,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 410,
+      lineStart = 109525,
+      lineEnd = 109531,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3187,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21174,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21174,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3187)\nmacro_AddItem(21174,1,0)\nmacro_SetTaskItemParam(21174,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 411,
+      lineStart = 109532,
+      lineEnd = 109538,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3120,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21177,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21177,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3120)\nmacro_AddItem(21177,1,0)\nmacro_SetTaskItemParam(21177,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 412,
+      lineStart = 109539,
+      lineEnd = 109545,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3187,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21177,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21177,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3187)\nmacro_AddItem(21177,1,0)\nmacro_SetTaskItemParam(21177,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 413,
+      lineStart = 109546,
+      lineEnd = 109552,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3120,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5129,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3120)\n\nmacro_SetTaskKillParam(5129,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 414,
+      lineStart = 109553,
+      lineEnd = 109557,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3135,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3135)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 415,
+      lineStart = 109558,
+      lineEnd = 109562,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3132,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3132)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 416,
+      lineStart = 109563,
+      lineEnd = 109567,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3529,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3529)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 417,
+      lineStart = 109568,
+      lineEnd = 109572,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3426,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3426)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 418,
+      lineStart = 109573,
+      lineEnd = 109579,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3452,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21286,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21286,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3452)\nmacro_AddItem(21286,1,0)\nmacro_SetTaskItemParam(21286,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 419,
+      lineStart = 109580,
+      lineEnd = 109585,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3452,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5299,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3452)\nmacro_SetTaskKillParam(5299,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 420,
+      lineStart = 109586,
+      lineEnd = 109591,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3033,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5098,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3033)\nmacro_SetTaskKillParam(5098,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 421,
+      lineStart = 109592,
+      lineEnd = 109597,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5002,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5002,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 422,
+      lineStart = 109598,
+      lineEnd = 109603,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5018,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5018,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 423,
+      lineStart = 109604,
+      lineEnd = 109609,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 29113,
+          count = 50,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3621)\nmacro_SetTaskItemParam(29113,50,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 424,
+      lineStart = 109610,
+      lineEnd = 109615,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 20083,
+          count = 2,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3621)\nmacro_SetTaskItemParam(20083,2,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 425,
+      lineStart = 109616,
+      lineEnd = 109623,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21306,
+          count = 20,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5038,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5038,0,0)\nmacro_SetTaskItemParam(21306,20,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 426,
+      lineStart = 109624,
+      lineEnd = 109629,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5359,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5359,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 427,
+      lineStart = 109630,
+      lineEnd = 109635,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5096,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5096,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 428,
+      lineStart = 109636,
+      lineEnd = 109641,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 20052,
+          count = 5,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3621)\nmacro_SetTaskItemParam(20052,5,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 429,
+      lineStart = 109642,
+      lineEnd = 109647,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5361,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5361,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 430,
+      lineStart = 109648,
+      lineEnd = 109653,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5236,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5236,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 431,
+      lineStart = 109654,
+      lineEnd = 109658,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3453,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3453)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 432,
+      lineStart = 109659,
+      lineEnd = 109664,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3453,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5301,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3453)\nmacro_SetTaskKillParam(5301,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 433,
+      lineStart = 109665,
+      lineEnd = 109670,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3453,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5304,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3453)\nmacro_SetTaskKillParam(5304,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 434,
+      lineStart = 109671,
+      lineEnd = 109676,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 29105,
+          count = 30,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3621)\nmacro_SetTaskItemParam(29105,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 435,
+      lineStart = 109677,
+      lineEnd = 109682,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5244,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5244,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 436,
+      lineStart = 109683,
+      lineEnd = 109688,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 29126,
+          count = 30,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3621)\nmacro_SetTaskItemParam(29126,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 437,
+      lineStart = 109689,
+      lineEnd = 109694,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5246,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5246,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 438,
+      lineStart = 109695,
+      lineEnd = 109701,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21378,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5364,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5364,0,0)\nmacro_SetTaskItemParam(21378,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 439,
+      lineStart = 109702,
+      lineEnd = 109707,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 20054,
+          count = 5,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3621)\nmacro_SetTaskItemParam(20054,5,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 440,
+      lineStart = 109708,
+      lineEnd = 109713,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5252,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5252,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 441,
+      lineStart = 109714,
+      lineEnd = 109719,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5469,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5469,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 442,
+      lineStart = 109720,
+      lineEnd = 109725,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 20076,
+          count = 2,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3621)\nmacro_SetTaskItemParam(20076,2,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 443,
+      lineStart = 109726,
+      lineEnd = 109731,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5552,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5552,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 444,
+      lineStart = 109732,
+      lineEnd = 109736,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3097,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3097)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 445,
+      lineStart = 109737,
+      lineEnd = 109742,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3097,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5471,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3097)\nmacro_SetTaskKillParam(5471,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 446,
+      lineStart = 109743,
+      lineEnd = 109749,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3452,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21289,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21289,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3452)\nmacro_AddItem(21289,1,0)\nmacro_SetTaskItemParam(21289,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 447,
+      lineStart = 109750,
+      lineEnd = 109755,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 29117,
+          count = 20,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3621)\nmacro_SetTaskItemParam(29117,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 448,
+      lineStart = 109756,
+      lineEnd = 109760,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3454,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3454)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 449,
+      lineStart = 109761,
+      lineEnd = 109768,
+      maxStep = 4,
+      taskType = 4,
+      overNpcId = 3454,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21380,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5305,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3454)\nmacro_SetTaskKillParam(5305,0,0)\nmacro_SetTaskItemParam(21380,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 450,
+      lineStart = 109769,
+      lineEnd = 109776,
+      maxStep = 4,
+      taskType = 4,
+      overNpcId = 3454,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21381,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5306,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3454)\nmacro_SetTaskKillParam(5306,0,0)\nmacro_SetTaskItemParam(21381,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 451,
+      lineStart = 109777,
+      lineEnd = 109782,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3457,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5307,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3457)\nmacro_SetTaskKillParam(5307,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 452,
+      lineStart = 109783,
+      lineEnd = 109787,
+      maxStep = 5,
+      taskType = 32,
+      overNpcId = 3457,
+      maxAward = 0,
+      taskStep = 5,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3457)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(5)"
+    },
+    {
+      clusterIndex = 453,
+      lineStart = 109788,
+      lineEnd = 109793,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3211,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21013,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3211)\nmacro_SetTaskItemParam(21013,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 454,
+      lineStart = 109794,
+      lineEnd = 109798,
+      maxStep = 2,
+      taskType = 32,
+      overNpcId = 3218,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3218)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 455,
+      lineStart = 109799,
+      lineEnd = 109805,
+      maxStep = 1,
+      taskType = 8,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(8)\nmacro_SetOverNpc(3135)\nmacro_AddTaskCre(3173)\nmacro_SetTaskRole(3173)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 456,
+      lineStart = 109806,
+      lineEnd = 109813,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21195,
+          count = 15,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5267,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 60,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3414)\nmacro_SetTaskKillParam(5267,0,0)\nmacro_SetTaskItemParam(21195,15,0)\nmacro_SetTaskDropRate(60)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 457,
+      lineStart = 109814,
+      lineEnd = 109820,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5268,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 93,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3414)\nmacro_SetTaskKillParam(5268,3,0)\nmacro_SetTaskDropRate(93)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 458,
+      lineStart = 109821,
+      lineEnd = 109827,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5267,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5268,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3414)\nmacro_SetTaskKillParam(5267,10,0)\nmacro_SetTaskKillParam(5268,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 459,
+      lineStart = 109828,
+      lineEnd = 109835,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21194,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5290,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 60,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3414)\nmacro_SetTaskKillParam(5290,0,0)\nmacro_SetTaskItemParam(21194,10,0)\nmacro_SetTaskDropRate(60)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 460,
+      lineStart = 109836,
+      lineEnd = 109843,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21193,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5244,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 50,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3414)\nmacro_SetTaskKillParam(5244,0,0)\nmacro_SetTaskItemParam(21193,10,0)\nmacro_SetTaskDropRate(50)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 461,
+      lineStart = 109844,
+      lineEnd = 109850,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5266,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 78,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3414)\nmacro_SetTaskKillParam(5266,3,0)\nmacro_SetTaskDropRate(78)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 462,
+      lineStart = 109851,
+      lineEnd = 109855,
+      maxStep = 2,
+      taskType = 32,
+      overNpcId = 3492,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3492)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 463,
+      lineStart = 109856,
+      lineEnd = 109861,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3492,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5470,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3492)\nmacro_SetTaskKillParam(5470,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 464,
+      lineStart = 109862,
+      lineEnd = 109867,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3034,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5098,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3034)\nmacro_SetTaskKillParam(5098,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 465,
+      lineStart = 109868,
+      lineEnd = 109874,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3004,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5002,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 3,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3004)\nmacro_SetTaskKillParam(5002,3,0)\nmacro_SetTaskDropRate(3)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 466,
+      lineStart = 109875,
+      lineEnd = 109881,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3004,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5001,
+          count = 5,
+          index = 0
+        },
+        {
+          monsterId = 5002,
+          count = 5,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3004)\nmacro_SetTaskKillParam(5001,5,0)\nmacro_SetTaskKillParam(5002,5,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 467,
+      lineStart = 109882,
+      lineEnd = 109887,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3004,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23003,
+          count = 15,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3004)\nmacro_SetTaskItemParam(23003,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 468,
+      lineStart = 109888,
+      lineEnd = 109895,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3004,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21109,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5003,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 50,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3004)\nmacro_SetTaskKillParam(5003,0,0)\nmacro_SetTaskItemParam(21109,10,0)\nmacro_SetTaskDropRate(50)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 469,
+      lineStart = 109896,
+      lineEnd = 109902,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5023,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 10,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5023,3,0)\nmacro_SetTaskDropRate(10)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 470,
+      lineStart = 109903,
+      lineEnd = 109909,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5037,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5034,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5037,10,0)\nmacro_SetTaskKillParam(5034,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 471,
+      lineStart = 109910,
+      lineEnd = 109916,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5025,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5026,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5025,10,0)\nmacro_SetTaskKillParam(5026,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 472,
+      lineStart = 109917,
+      lineEnd = 109923,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5015,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5016,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5015,10,0)\nmacro_SetTaskKillParam(5016,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 473,
+      lineStart = 109924,
+      lineEnd = 109929,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3209,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23014,
+          count = 20,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3209)\nmacro_SetTaskItemParam(23014,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 474,
+      lineStart = 109930,
+      lineEnd = 109936,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3080,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21034,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21034,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3080)\nmacro_AddItem(21034,1,0)\nmacro_SetTaskItemParam(21034,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 475,
+      lineStart = 109937,
+      lineEnd = 109941,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3089,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3089)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 476,
+      lineStart = 109942,
+      lineEnd = 109946,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3110,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3110)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 477,
+      lineStart = 109947,
+      lineEnd = 109952,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3110,
+      maxAward = 3,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5036,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3110)\nmacro_SetTaskKillParam(5036,10,0)\nmacro_SetMaxAward(3)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 478,
+      lineStart = 109953,
+      lineEnd = 109959,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3209,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5187,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 15,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3209)\nmacro_SetTaskKillParam(5187,3,0)\nmacro_SetTaskDropRate(15)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 479,
+      lineStart = 109960,
+      lineEnd = 109965,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3209,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5019,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3209)\nmacro_SetTaskKillParam(5019,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 480,
+      lineStart = 109966,
+      lineEnd = 109971,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3209,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5038,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3209)\nmacro_SetTaskKillParam(5038,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 481,
+      lineStart = 109972,
+      lineEnd = 109978,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5090,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5091,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5090,10,0)\nmacro_SetTaskKillParam(5091,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 482,
+      lineStart = 109979,
+      lineEnd = 109984,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5066,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5066,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 483,
+      lineStart = 109985,
+      lineEnd = 109991,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5093,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 27,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5093,3,0)\nmacro_SetTaskDropRate(27)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 484,
+      lineStart = 109992,
+      lineEnd = 109999,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23033,
+          count = 20,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5188,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 50,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5188,0,0)\nmacro_SetTaskItemParam(23033,20,0)\nmacro_SetTaskDropRate(50)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 485,
+      lineStart = 110000,
+      lineEnd = 110007,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21190,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5092,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 60,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5092,0,0)\nmacro_SetTaskItemParam(21190,10,0)\nmacro_SetTaskDropRate(60)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 486,
+      lineStart = 110008,
+      lineEnd = 110013,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5201,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5201,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 487,
+      lineStart = 110014,
+      lineEnd = 110020,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5165,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 41,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5165,3,0)\nmacro_SetTaskDropRate(41)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 488,
+      lineStart = 110021,
+      lineEnd = 110027,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3013,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21102,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21102,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3013)\nmacro_AddItem(21102,1,0)\nmacro_SetTaskItemParam(21102,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 489,
+      lineStart = 110028,
+      lineEnd = 110032,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3025,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3025)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 490,
+      lineStart = 110033,
+      lineEnd = 110037,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3118,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3118)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 491,
+      lineStart = 110038,
+      lineEnd = 110045,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21191,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5093,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 60,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5093,0,0)\nmacro_SetTaskItemParam(21191,10,0)\nmacro_SetTaskDropRate(60)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 492,
+      lineStart = 110046,
+      lineEnd = 110051,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5198,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5198,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 493,
+      lineStart = 110052,
+      lineEnd = 110057,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5241,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5241,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 494,
+      lineStart = 110058,
+      lineEnd = 110064,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5242,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 52,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5242,3,0)\nmacro_SetTaskDropRate(52)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 495,
+      lineStart = 110065,
+      lineEnd = 110071,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5234,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5235,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5234,10,0)\nmacro_SetTaskKillParam(5235,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 496,
+      lineStart = 110072,
+      lineEnd = 110077,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3132,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5243,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3132)\nmacro_SetTaskKillParam(5243,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 497,
+      lineStart = 110078,
+      lineEnd = 110083,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3132,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5247,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3132)\nmacro_SetTaskKillParam(5247,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 498,
+      lineStart = 110084,
+      lineEnd = 110090,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3132,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5244,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 65,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3132)\nmacro_SetTaskKillParam(5244,3,0)\nmacro_SetTaskDropRate(65)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 499,
+      lineStart = 110091,
+      lineEnd = 110097,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3132,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5250,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5253,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3132)\nmacro_SetTaskKillParam(5250,10,0)\nmacro_SetTaskKillParam(5253,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 500,
+      lineStart = 110098,
+      lineEnd = 110103,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3426,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5258,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3426)\nmacro_SetTaskKillParam(5258,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 501,
+      lineStart = 110104,
+      lineEnd = 110110,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3428,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5001,
+          count = 20,
+          index = 0
+        },
+        {
+          monsterId = 5002,
+          count = 20,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3428)\nmacro_SetTaskKillParam(5001,20,0)\nmacro_SetTaskKillParam(5002,20,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 502,
+      lineStart = 110135,
+      lineEnd = 110141,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5256,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5254,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5256,10,0)\nmacro_SetTaskKillParam(5254,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 503,
+      lineStart = 110142,
+      lineEnd = 110147,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3112,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5398,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3112)--ÕÅ¹ûÀÐ\nmacro_SetTaskKillParam(5398,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)macro_SetTaskMaxStep(2)"
+    },
+    {
+      clusterIndex = 504,
+      lineStart = 110147,
+      lineEnd = 110147,
+      maxStep = 2,
+      taskType = nil,
+      overNpcId = nil,
+      maxAward = nil,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskStep(1)macro_SetTaskMaxStep(2)"
+    },
+    {
+      clusterIndex = 505,
+      lineStart = 110154,
+      lineEnd = 110161,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21192,
+          count = 5,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5262,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 50,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3414)\nmacro_SetTaskKillParam(5262,0,0)\nmacro_SetTaskItemParam(21192,5,0)\nmacro_SetTaskDropRate(50)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 506,
+      lineStart = 110162,
+      lineEnd = 110167,
+      maxStep = 6,
+      taskType = 2,
+      overNpcId = 3164,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21196,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3164)\nmacro_SetTaskItemParam(21196,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 507,
+      lineStart = 110168,
+      lineEnd = 110174,
+      maxStep = 6,
+      taskType = 2,
+      overNpcId = 3310,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21197,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21197,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3310)\nmacro_AddItem(21197,1,0)\nmacro_SetTaskItemParam(21197,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 508,
+      lineStart = 110175,
+      lineEnd = 110181,
+      maxStep = 6,
+      taskType = 2,
+      overNpcId = 3194,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21197,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21197,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3194)\nmacro_AddItem(21197,1,0)\nmacro_SetTaskItemParam(21197,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 509,
+      lineStart = 110182,
+      lineEnd = 110188,
+      maxStep = 6,
+      taskType = 2,
+      overNpcId = 3195,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21197,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21197,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3195)\nmacro_AddItem(21197,1,0)\nmacro_SetTaskItemParam(21197,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 510,
+      lineStart = 110189,
+      lineEnd = 110195,
+      maxStep = 6,
+      taskType = 2,
+      overNpcId = 3306,
+      maxAward = 0,
+      taskStep = 5,
+      itemParams = {
+        {
+          templateId = 21198,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21198,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3306)\nmacro_AddItem(21198,1,0)\nmacro_SetTaskItemParam(21198,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(5)"
+    },
+    {
+      clusterIndex = 511,
+      lineStart = 110196,
+      lineEnd = 110202,
+      maxStep = 6,
+      taskType = 2,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 6,
+      itemParams = {
+        {
+          templateId = 21197,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21197,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3022)\nmacro_AddItem(21197,1,0)\nmacro_SetTaskItemParam(21197,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(6)"
+    },
+    {
+      clusterIndex = 512,
+      lineStart = 110203,
+      lineEnd = 110208,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3202,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21199,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3202)\nmacro_SetTaskItemParam(21199,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 513,
+      lineStart = 110209,
+      lineEnd = 110215,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3200,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21200,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21200,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3200)\nmacro_AddItem(21200,1,0)\nmacro_SetTaskItemParam(21200,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 514,
+      lineStart = 110216,
+      lineEnd = 110222,
+      maxStep = 4,
+      taskType = 16,
+      overNpcId = 3200,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5312,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 25,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3200)\nmacro_SetTaskKillParam(5312,1,0)\nmacro_SetTaskDropRate(25)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 515,
+      lineStart = 110223,
+      lineEnd = 110231,
+      maxStep = 4,
+      taskType = 4,
+      overNpcId = 3202,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21284,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5273,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 26021,
+          quantity = 1
+        }
+      },
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3202)\nmacro_AddItem(26021,1,0)\nmacro_SetTaskKillParam(5273,0,0)\nmacro_SetTaskItemParam(21284,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 516,
+      lineStart = 110232,
+      lineEnd = 110237,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3232,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21201,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3232)\nmacro_SetTaskItemParam(21201,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 517,
+      lineStart = 110238,
+      lineEnd = 110244,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3218,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5274,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 26022,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3218)\nmacro_AddItem(26022,1,0)\nmacro_SetTaskKillParam(5274,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 518,
+      lineStart = 110245,
+      lineEnd = 110250,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3307,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21202,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3307)\nmacro_SetTaskItemParam(21202,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 519,
+      lineStart = 110251,
+      lineEnd = 110261,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3307,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21282,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5269,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 26023,
+          quantity = 1
+        }
+      },
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3307)\nmacro_AddItem(26023,1,0)\nmacro_SetTaskKillParam(5269,0,0)\nmacro_SetTaskItemParam(21282,1,0)\n\nmacro_SetTaskDropRate(100)\n\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 520,
+      lineStart = 110262,
+      lineEnd = 110271,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3307,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21283,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5270,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 26024,
+          quantity = 1
+        }
+      },
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3307)\nmacro_AddItem(26024,1,0)\nmacro_SetTaskKillParam(5270,0,0)\nmacro_SetTaskItemParam(21283,1,0)\nmacro_SetTaskDropRate(100)\n\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 521,
+      lineStart = 110272,
+      lineEnd = 110277,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3120,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21203,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3120)\nmacro_SetTaskItemParam(21203,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 522,
+      lineStart = 110278,
+      lineEnd = 110285,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3339,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21204,
+          count = 1,
+          index = 0
+        },
+        {
+          templateId = 21246,
+          count = 1,
+          index = 1
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21204,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3339)\nmacro_AddItem(21204,1,0)\nmacro_SetTaskItemParam(21204,1,0)\nmacro_SetTaskItemParam(21246,1,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 523,
+      lineStart = 110286,
+      lineEnd = 110292,
+      maxStep = 1,
+      taskType = 8,
+      overNpcId = 3073,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(8)\nmacro_SetOverNpc(3073)\nmacro_AddTaskCre(3070)\nmacro_SetTaskRole(3070)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 524,
+      lineStart = 110293,
+      lineEnd = 110302,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3099,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21206,
+          count = 1,
+          index = 0
+        },
+        {
+          templateId = 21091,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5275,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 26026,
+          quantity = 1
+        }
+      },
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3099)\n--macro_AddItem(26026,1,0)\n--macro_SetTaskKillParam(5275,0,0)\n--macro_SetTaskItemParam(21206,1,0)\nmacro_SetTaskItemParam(21091,1,0)\n--macro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 525,
+      lineStart = 110303,
+      lineEnd = 110312,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3099,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21206,
+          count = 1,
+          index = 0
+        },
+        {
+          templateId = 21091,
+          count = 1,
+          index = 1
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5275,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 26026,
+          quantity = 1
+        }
+      },
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3099)\nmacro_AddItem(26026,1,0)\nmacro_SetTaskKillParam(5275,0,0)\nmacro_SetTaskItemParam(21206,1,0)\n---macro_SetTaskItemParam(21091,1,1)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 526,
+      lineStart = 110313,
+      lineEnd = 110318,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3352,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21207,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3352)\nmacro_SetTaskItemParam(21207,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 527,
+      lineStart = 110319,
+      lineEnd = 110327,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21210,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5271,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 21208,
+          quantity = 1
+        }
+      },
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3135)\nmacro_AddItem(21208,1,0)\nmacro_SetTaskKillParam(5271,0,0)\nmacro_SetTaskItemParam(21210,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 528,
+      lineStart = 110329,
+      lineEnd = 110334,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3359,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21214,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3359)\nmacro_SetTaskItemParam(21214,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 529,
+      lineStart = 110335,
+      lineEnd = 110343,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3357,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21215,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5272,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 26028,
+          quantity = 1
+        }
+      },
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3357)\nmacro_AddItem(26028,1,0)\nmacro_SetTaskKillParam(5272,0,0)\nmacro_SetTaskItemParam(21215,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 530,
+      lineStart = 110344,
+      lineEnd = 110349,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3389,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21211,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3389)\nmacro_SetTaskItemParam(21211,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 531,
+      lineStart = 110350,
+      lineEnd = 110357,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3389,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21212,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5194,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 70,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3389)\nmacro_SetTaskKillParam(5194,0,0)\nmacro_SetTaskItemParam(21212,10,0)\nmacro_SetTaskDropRate(70)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 532,
+      lineStart = 110358,
+      lineEnd = 110364,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3204,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21209,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21209,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3204)\nmacro_AddItem(21209,1,0)\nmacro_SetTaskItemParam(21209,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 533,
+      lineStart = 110365,
+      lineEnd = 110370,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3346,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21216,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3346)\nmacro_SetTaskItemParam(21216,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 534,
+      lineStart = 110371,
+      lineEnd = 110377,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3239,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21216,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21216,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3239)\nmacro_AddItem(21216,1,0)\nmacro_SetTaskItemParam(21216,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 535,
+      lineStart = 110378,
+      lineEnd = 110384,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3251,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21216,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21216,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3251)\nmacro_AddItem(21216,1,0)\nmacro_SetTaskItemParam(21216,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 536,
+      lineStart = 110385,
+      lineEnd = 110390,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3354,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5291,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3354)\nmacro_SetTaskKillParam(5291,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 537,
+      lineStart = 110391,
+      lineEnd = 110398,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3341,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21219,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5241,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 30,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3341)\nmacro_SetTaskKillParam(5241,0,0)\nmacro_SetTaskItemParam(21219,1,0)\nmacro_SetTaskDropRate(30)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 538,
+      lineStart = 110399,
+      lineEnd = 110404,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3341,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21218,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3341)\nmacro_SetTaskItemParam(21218,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 539,
+      lineStart = 110405,
+      lineEnd = 110410,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3358,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21220,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3358)\nmacro_SetTaskItemParam(21220,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 540,
+      lineStart = 110411,
+      lineEnd = 110416,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3349,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5277,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3349)\nmacro_SetTaskKillParam(5277,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 541,
+      lineStart = 110417,
+      lineEnd = 110423,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3358,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21221,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21221,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3358)\nmacro_AddItem(21221,1,0)\nmacro_SetTaskItemParam(21221,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 542,
+      lineStart = 110424,
+      lineEnd = 110429,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3386,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21222,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3386)\nmacro_SetTaskItemParam(21222,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 543,
+      lineStart = 110430,
+      lineEnd = 110437,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3386,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21224,
+          count = 5,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5251,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 60,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3386)\nmacro_SetTaskKillParam(5251,0,0)\nmacro_SetTaskItemParam(21224,5,0)\nmacro_SetTaskDropRate(60)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 544,
+      lineStart = 110438,
+      lineEnd = 110444,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3367,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21225,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21225,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3367)\nmacro_AddItem(21225,1,0)\nmacro_SetTaskItemParam(21225,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 545,
+      lineStart = 110445,
+      lineEnd = 110451,
+      maxStep = 5,
+      taskType = 8,
+      overNpcId = 3390,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(8)\nmacro_SetOverNpc(3390)\nmacro_AddTaskCre(3390)\nmacro_SetTaskRole(3390)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 546,
+      lineStart = 110452,
+      lineEnd = 110458,
+      maxStep = 5,
+      taskType = 2,
+      overNpcId = 3390,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 20063,
+          count = 1,
+          index = 0
+        },
+        {
+          templateId = 20064,
+          count = 1,
+          index = 1
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3390)\nmacro_SetTaskItemParam(20063,1,0)\nmacro_SetTaskItemParam(20064,1,1)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 547,
+      lineStart = 110459,
+      lineEnd = 110466,
+      maxStep = 5,
+      taskType = 4,
+      overNpcId = 3388,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21227,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5290,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 60,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3388)\nmacro_SetTaskKillParam(5290,0,0)\nmacro_SetTaskItemParam(21227,10,0)\nmacro_SetTaskDropRate(60)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 548,
+      lineStart = 110467,
+      lineEnd = 110472,
+      maxStep = 5,
+      taskType = 2,
+      overNpcId = 3390,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21226,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3390)\nmacro_SetTaskItemParam(21226,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 549,
+      lineStart = 110473,
+      lineEnd = 110480,
+      maxStep = 5,
+      taskType = 4,
+      overNpcId = 3388,
+      maxAward = 1,
+      taskStep = 5,
+      itemParams = {
+        {
+          templateId = 21228,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5258,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 30,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3388)\nmacro_SetTaskKillParam(5258,0,0)\nmacro_SetTaskItemParam(21228,1,0)\nmacro_SetTaskDropRate(30)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(5)"
+    },
+    {
+      clusterIndex = 550,
+      lineStart = 110481,
+      lineEnd = 110486,
+      maxStep = 5,
+      taskType = 2,
+      overNpcId = 3030,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21157,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3030)\nmacro_SetTaskItemParam(21157,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 551,
+      lineStart = 110487,
+      lineEnd = 110493,
+      maxStep = 5,
+      taskType = 2,
+      overNpcId = 3030,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21158,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3030)\n\nmacro_SetTaskItemParam(21158,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 552,
+      lineStart = 110494,
+      lineEnd = 110500,
+      maxStep = 5,
+      taskType = 2,
+      overNpcId = 3010,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21161,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21159,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3010)\nmacro_AddItem(21159,1,0)\nmacro_SetTaskItemParam(21161,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 553,
+      lineStart = 110501,
+      lineEnd = 110507,
+      maxStep = 5,
+      taskType = 2,
+      overNpcId = 3058,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21162,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21162,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3058)\nmacro_AddItem(21162,1,0)\nmacro_SetTaskItemParam(21162,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 554,
+      lineStart = 110508,
+      lineEnd = 110514,
+      maxStep = 5,
+      taskType = 2,
+      overNpcId = 3010,
+      maxAward = 1,
+      taskStep = 5,
+      itemParams = {
+        {
+          templateId = 21160,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21160,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3010)\nmacro_AddItem(21160,1,0)\nmacro_SetTaskItemParam(21160,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(5)"
+    },
+    {
+      clusterIndex = 555,
+      lineStart = 110515,
+      lineEnd = 110521,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3009,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23015,
+          count = 5,
+          index = 0
+        },
+        {
+          templateId = 21187,
+          count = 1,
+          index = 1
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3009)\nmacro_SetTaskItemParam(23015,5,0)\nmacro_SetTaskItemParam(21187,1,1)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 556,
+      lineStart = 110522,
+      lineEnd = 110528,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3009,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21165,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3009)\n\nmacro_SetTaskItemParam(21165,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 557,
+      lineStart = 110529,
+      lineEnd = 110535,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3009,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21167,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21166,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3009)\nmacro_AddItem(21166,1,0)\nmacro_SetTaskItemParam(21167,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 558,
+      lineStart = 110536,
+      lineEnd = 110542,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3015,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21168,
+          count = 1,
+          index = 0
+        },
+        {
+          templateId = 21188,
+          count = 1,
+          index = 1
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3015)\nmacro_SetTaskItemParam(21168,1,0)\nmacro_SetTaskItemParam(21188,1,1)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 559,
+      lineStart = 110543,
+      lineEnd = 110548,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3015,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5207,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3015)\nmacro_SetTaskKillParam(5207,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 560,
+      lineStart = 110549,
+      lineEnd = 110556,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3022,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23032,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5062,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5062,0,0)\nmacro_SetTaskItemParam(23032,10,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 561,
+      lineStart = 110557,
+      lineEnd = 110563,
+      maxStep = 2,
+      taskType = 16,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5208,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 25,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5208,1,0)\nmacro_SetTaskDropRate(25)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 562,
+      lineStart = 110564,
+      lineEnd = 110570,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3020,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21189,
+          count = 1,
+          index = 0
+        },
+        {
+          templateId = 23030,
+          count = 10,
+          index = 1
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3020)\nmacro_SetTaskItemParam(21189,1,0)\nmacro_SetTaskItemParam(23030,10,1)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 563,
+      lineStart = 110571,
+      lineEnd = 110576,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3020,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5022,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3020)\nmacro_SetTaskKillParam(5022,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 564,
+      lineStart = 110577,
+      lineEnd = 110582,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3044,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21163,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3044)\nmacro_SetTaskItemParam(21163,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 565,
+      lineStart = 110583,
+      lineEnd = 110589,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3044,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5206,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5062,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5206,10,0)\nmacro_SetTaskKillParam(5062,10,1)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 566,
+      lineStart = 110590,
+      lineEnd = 110596,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3209,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21164,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21164,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3209)\nmacro_AddItem(21164,1,0)\nmacro_SetTaskItemParam(21164,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 567,
+      lineStart = 110597,
+      lineEnd = 110602,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3033,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5098,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3033)\nmacro_SetTaskKillParam(5098,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 568,
+      lineStart = 110603,
+      lineEnd = 110609,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5037,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5034,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5037,10,0)\nmacro_SetTaskKillParam(5034,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 569,
+      lineStart = 110610,
+      lineEnd = 110615,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5026,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5026,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 570,
+      lineStart = 110616,
+      lineEnd = 110622,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5215,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 15,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5215,3,0)\nmacro_SetTaskDropRate(15)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 571,
+      lineStart = 110623,
+      lineEnd = 110629,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5015,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5016,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5015,10,0)\nmacro_SetTaskKillParam(5016,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 572,
+      lineStart = 110630,
+      lineEnd = 110636,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3209,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5018,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5019,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3209)\nmacro_SetTaskKillParam(5018,10,0)\nmacro_SetTaskKillParam(5019,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 573,
+      lineStart = 110637,
+      lineEnd = 110642,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3209,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23014,
+          count = 20,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3209)\nmacro_SetTaskItemParam(23014,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 574,
+      lineStart = 110643,
+      lineEnd = 110649,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3209,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5187,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 25,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3209)\nmacro_SetTaskKillParam(5187,3,0)\nmacro_SetTaskDropRate(25)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 575,
+      lineStart = 110650,
+      lineEnd = 110655,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3209,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5038,
+          count = 25,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3209)\nmacro_SetTaskKillParam(5038,25,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 576,
+      lineStart = 110656,
+      lineEnd = 110662,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5090,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5091,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5090,10,0)\nmacro_SetTaskKillParam(5091,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 577,
+      lineStart = 110663,
+      lineEnd = 110668,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23033,
+          count = 20,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3044)\nmacro_SetTaskItemParam(23033,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 578,
+      lineStart = 110669,
+      lineEnd = 110674,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3033,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5013,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3033)\nmacro_SetTaskKillParam(5013,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 579,
+      lineStart = 110675,
+      lineEnd = 110680,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5097,
+          count = 25,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5097,25,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 580,
+      lineStart = 110681,
+      lineEnd = 110687,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5093,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 35,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5093,3,0)\nmacro_SetTaskDropRate(35)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 581,
+      lineStart = 110688,
+      lineEnd = 110693,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5201,
+          count = 25,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5201,25,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 582,
+      lineStart = 110694,
+      lineEnd = 110699,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5298,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5298,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 583,
+      lineStart = 110700,
+      lineEnd = 110706,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5096,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 45,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5096,3,0)\nmacro_SetTaskDropRate(45)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 584,
+      lineStart = 110707,
+      lineEnd = 110712,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5198,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5198,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 585,
+      lineStart = 110713,
+      lineEnd = 110718,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5241,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5241,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 586,
+      lineStart = 110719,
+      lineEnd = 110725,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5235,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 55,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5235,3,0)\nmacro_SetTaskDropRate(55)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 587,
+      lineStart = 110726,
+      lineEnd = 110731,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5234,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5234,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 588,
+      lineStart = 110732,
+      lineEnd = 110737,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5243,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5243,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 589,
+      lineStart = 110738,
+      lineEnd = 110743,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3033,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5007,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3033)\nmacro_SetTaskKillParam(5007,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 590,
+      lineStart = 110744,
+      lineEnd = 110749,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5244,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5244,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 591,
+      lineStart = 110750,
+      lineEnd = 110756,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5202,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 65,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5202,3,0)\nmacro_SetTaskDropRate(65)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 592,
+      lineStart = 110757,
+      lineEnd = 110762,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5364,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5364,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 593,
+      lineStart = 110763,
+      lineEnd = 110768,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5246,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5246,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 594,
+      lineStart = 110769,
+      lineEnd = 110774,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5249,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5249,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 595,
+      lineStart = 110775,
+      lineEnd = 110781,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3426,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5250,
+          count = 15,
+          index = 0
+        },
+        {
+          monsterId = 5253,
+          count = 15,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3426)\nmacro_SetTaskKillParam(5250,15,0)\nmacro_SetTaskKillParam(5253,15,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 596,
+      lineStart = 110782,
+      lineEnd = 110787,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3426,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5255,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3426)\nmacro_SetTaskKillParam(5255,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 597,
+      lineStart = 110788,
+      lineEnd = 110793,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3426,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5254,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3426)\nmacro_SetTaskKillParam(5254,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 598,
+      lineStart = 110794,
+      lineEnd = 110799,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5259,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3414)\nmacro_SetTaskKillParam(5259,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 599,
+      lineStart = 110800,
+      lineEnd = 110805,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5264,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3414)\nmacro_SetTaskKillParam(5264,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 600,
+      lineStart = 110806,
+      lineEnd = 110811,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3034,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5098,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3034)\nmacro_SetTaskKillParam(5098,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 601,
+      lineStart = 110812,
+      lineEnd = 110817,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3034,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5014,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3034)\nmacro_SetTaskKillParam(5014,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 602,
+      lineStart = 110818,
+      lineEnd = 110822,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3118,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3118)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 603,
+      lineStart = 110823,
+      lineEnd = 110827,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3036,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3036)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 604,
+      lineStart = 110828,
+      lineEnd = 110834,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3118,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21006,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21006,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3118)\nmacro_AddItem(21006,1,0)\nmacro_SetTaskItemParam(21006,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 605,
+      lineStart = 112759,
+      lineEnd = 112762,
+      maxStep = 2,
+      taskType = nil,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetOverNpc(3022)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 606,
+      lineStart = 112768,
+      lineEnd = 112771,
+      maxStep = 2,
+      taskType = nil,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetOverNpc(3022)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 607,
+      lineStart = 112774,
+      lineEnd = 112777,
+      maxStep = 2,
+      taskType = nil,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetOverNpc(3022)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 608,
+      lineStart = 112783,
+      lineEnd = 112786,
+      maxStep = 2,
+      taskType = nil,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetOverNpc(3022)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 609,
+      lineStart = 112789,
+      lineEnd = 112792,
+      maxStep = 2,
+      taskType = nil,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetOverNpc(3022)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 610,
+      lineStart = 112798,
+      lineEnd = 112801,
+      maxStep = 2,
+      taskType = nil,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetOverNpc(3022)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 611,
+      lineStart = 112802,
+      lineEnd = 112803,
+      maxStep = 1,
+      taskType = nil,
+      overNpcId = nil,
+      maxAward = nil,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 612,
+      lineStart = 112840,
+      lineEnd = 112844,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3086,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "endmacro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3086)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 613,
+      lineStart = 112888,
+      lineEnd = 112892,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3086,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "endmacro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3086)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 614,
+      lineStart = 112912,
+      lineEnd = 112917,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3034,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5008,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3034)\nmacro_SetTaskKillParam(5008,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 615,
+      lineStart = 112944,
+      lineEnd = 112948,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3621)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 616,
+      lineStart = 112952,
+      lineEnd = 112956,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3621)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 617,
+      lineStart = 112960,
+      lineEnd = 112964,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3621)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 618,
+      lineStart = 112966,
+      lineEnd = 112970,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3162,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3162)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 619,
+      lineStart = 112971,
+      lineEnd = 112977,
+      maxStep = 3,
+      taskType = 8,
+      overNpcId = 3042,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(8)\nmacro_SetOverNpc(3042)\nmacro_AddTaskCre(3162)\nmacro_SetTaskRole(3162)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 620,
+      lineStart = 112978,
+      lineEnd = 112984,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3042,
+      maxAward = 2,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5042,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 21014,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3042)\nmacro_AddItem(21014,1,0)\nmacro_SetTaskKillParam(5042,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 621,
+      lineStart = 112985,
+      lineEnd = 112989,
+      maxStep = 2,
+      taskType = 32,
+      overNpcId = 3160,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3160)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 622,
+      lineStart = 112990,
+      lineEnd = 112996,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3218,
+      maxAward = 2,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21013,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21012,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3218)\nmacro_AddItem(21012,1,0)\nmacro_SetTaskItemParam(21013,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 623,
+      lineStart = 112997,
+      lineEnd = 113001,
+      maxStep = 1,
+      taskType = 32,
+      overNpcId = 3283,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3283)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 624,
+      lineStart = 113002,
+      lineEnd = 113006,
+      maxStep = 2,
+      taskType = 32,
+      overNpcId = 3414,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3414)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 625,
+      lineStart = 113007,
+      lineEnd = 113011,
+      maxStep = 2,
+      taskType = 32,
+      overNpcId = 3751,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3751)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 626,
+      lineStart = 113012,
+      lineEnd = 113017,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3751,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5583,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3751)\nmacro_SetTaskKillParam(5583,2,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 627,
+      lineStart = 113018,
+      lineEnd = 113024,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3751,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21385,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21384,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3751)\nmacro_AddItem(21384,1,0)\nmacro_SetTaskItemParam(21385,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 628,
+      lineStart = 113025,
+      lineEnd = 113030,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3757,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5584,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3757)\nmacro_SetTaskKillParam(5584,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 629,
+      lineStart = 113031,
+      lineEnd = 113035,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3751,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3751)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 630,
+      lineStart = 113036,
+      lineEnd = 113040,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3751,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3751)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 631,
+      lineStart = 113041,
+      lineEnd = 113045,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3754,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3754)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 632,
+      lineStart = 113046,
+      lineEnd = 113052,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3754,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5585,
+          count = 1,
+          index = 0
+        },
+        {
+          monsterId = 5586,
+          count = 1,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3754)\nmacro_SetTaskKillParam(5585,1,0)\nmacro_SetTaskKillParam(5586,1,1)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 633,
+      lineStart = 113053,
+      lineEnd = 113057,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3751,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3751)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 634,
+      lineStart = 113058,
+      lineEnd = 113062,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3754,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3754)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 635,
+      lineStart = 113063,
+      lineEnd = 113069,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3754,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5587,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 21386,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3754)\nmacro_AddItem(21386,1,0)\nmacro_SetTaskKillParam(5587,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 636,
+      lineStart = 113070,
+      lineEnd = 113074,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3764,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3764)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 637,
+      lineStart = 113075,
+      lineEnd = 113080,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3771,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5588,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3771)\nmacro_SetTaskKillParam(5588,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 638,
+      lineStart = 113081,
+      lineEnd = 113085,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3773,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3773)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 639,
+      lineStart = 113086,
+      lineEnd = 113090,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3751,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3751)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 640,
+      lineStart = 113092,
+      lineEnd = 113096,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3774,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3774)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 641,
+      lineStart = 113097,
+      lineEnd = 113102,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3775,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5589,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3775)\nmacro_SetTaskKillParam(5589,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 642,
+      lineStart = 113103,
+      lineEnd = 113107,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3036,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3036)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 643,
+      lineStart = 113108,
+      lineEnd = 113113,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3036,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5100,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3036)\nmacro_SetTaskKillParam(5100,2,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 644,
+      lineStart = 113114,
+      lineEnd = 113119,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3036,
+      maxAward = 2,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5099,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3036)\nmacro_SetTaskKillParam(5099,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 645,
+      lineStart = 113120,
+      lineEnd = 113127,
+      maxStep = 5,
+      taskType = 4,
+      overNpcId = 3112,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21060,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5159,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 30,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3112)\nmacro_SetTaskKillParam(5159,0,0)\nmacro_SetTaskItemParam(21060,1,0)\nmacro_SetTaskDropRate(30)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 646,
+      lineStart = 113128,
+      lineEnd = 113133,
+      maxStep = 5,
+      taskType = 1,
+      overNpcId = 3112,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5160,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3112)\nmacro_SetTaskKillParam(5160,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 647,
+      lineStart = 113134,
+      lineEnd = 113140,
+      maxStep = 5,
+      taskType = 2,
+      overNpcId = 3183,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21061,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21061,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3183)\nmacro_AddItem(21061,1,0)\nmacro_SetTaskItemParam(21061,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 648,
+      lineStart = 113141,
+      lineEnd = 113148,
+      maxStep = 5,
+      taskType = 4,
+      overNpcId = 3183,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21062,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5161,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 10,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3183)\nmacro_SetTaskKillParam(5161,0,0)\nmacro_SetTaskItemParam(21062,1,0)\nmacro_SetTaskDropRate(10)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 649,
+      lineStart = 113149,
+      lineEnd = 113155,
+      maxStep = 5,
+      taskType = 2,
+      overNpcId = 3112,
+      maxAward = 1,
+      taskStep = 5,
+      itemParams = {
+        {
+          templateId = 21063,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21063,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3112)\nmacro_AddItem(21063,1,0)\nmacro_SetTaskItemParam(21063,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(5)"
+    },
+    {
+      clusterIndex = 650,
+      lineStart = 113156,
+      lineEnd = 113161,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3111,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5162,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3111)\nmacro_SetTaskKillParam(5162,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 651,
+      lineStart = 113162,
+      lineEnd = 113169,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3111,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21064,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5163,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 30,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3111)\nmacro_SetTaskKillParam(5163,0,0)\nmacro_SetTaskItemParam(21064,1,0)\nmacro_SetTaskDropRate(30)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 652,
+      lineStart = 113253,
+      lineEnd = 113257,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 653,
+      lineStart = 113259,
+      lineEnd = 113265,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3173,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5378,
+          count = 1,
+          index = 0
+        },
+        {
+          monsterId = 5379,
+          count = 1,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3173)\nmacro_SetTaskKillParam(5378,1,0)\nmacro_SetTaskKillParam(5379,1,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 654,
+      lineStart = 113266,
+      lineEnd = 113272,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3173,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5380,
+          count = 1,
+          index = 0
+        },
+        {
+          monsterId = 5381,
+          count = 1,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3173)\nmacro_SetTaskKillParam(5380,1,0)\nmacro_SetTaskKillParam(5381,1,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 655,
+      lineStart = 113273,
+      lineEnd = 113277,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3527,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3527)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 656,
+      lineStart = 113278,
+      lineEnd = 113284,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3173,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5378,
+          count = 1,
+          index = 0
+        },
+        {
+          monsterId = 5379,
+          count = 1,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3173)\nmacro_SetTaskKillParam(5378,1,0)\nmacro_SetTaskKillParam(5379,1,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 657,
+      lineStart = 113285,
+      lineEnd = 113291,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3173,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5380,
+          count = 1,
+          index = 0
+        },
+        {
+          monsterId = 5381,
+          count = 1,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3173)\nmacro_SetTaskKillParam(5380,1,0)\nmacro_SetTaskKillParam(5381,1,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 658,
+      lineStart = 113292,
+      lineEnd = 113296,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3527,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3527)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 659,
+      lineStart = 113313,
+      lineEnd = 113318,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5349,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5349,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 660,
+      lineStart = 113331,
+      lineEnd = 113336,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5350,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5350,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 661,
+      lineStart = 113356,
+      lineEnd = 113361,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5351,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5351,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 662,
+      lineStart = 113381,
+      lineEnd = 113386,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5352,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5352,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 663,
+      lineStart = 113400,
+      lineEnd = 113405,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5353,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5353,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 664,
+      lineStart = 113425,
+      lineEnd = 113430,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5354,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5354,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 665,
+      lineStart = 113451,
+      lineEnd = 113456,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5355,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5355,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 666,
+      lineStart = 113471,
+      lineEnd = 113476,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5356,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5356,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 667,
+      lineStart = 113495,
+      lineEnd = 113500,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5357,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5357,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 668,
+      lineStart = 113501,
+      lineEnd = 113506,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3035,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5101,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "endmacro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3035)\nmacro_SetTaskKillParam(5101,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 669,
+      lineStart = 113507,
+      lineEnd = 113513,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3216,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21008,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21008,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3216)\nmacro_AddItem(21008,1,0)\nmacro_SetTaskItemParam(21008,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 670,
+      lineStart = 113514,
+      lineEnd = 113519,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3216,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5102,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3216)\nmacro_SetTaskKillParam(5102,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 671,
+      lineStart = 113520,
+      lineEnd = 113526,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3035,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21009,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {
+        {
+          templateId = 21009,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3035)\nmacro_AddItem(21009,1,0)\nmacro_SetTaskItemParam(21009,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 672,
+      lineStart = 145322,
+      lineEnd = 145328,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3035,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21010,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "\t\tmacro_GuiAddText(\"tasktrace\", strTemp)macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3035)\n\nmacro_SetTaskItemParam(21010,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 673,
+      lineStart = 145329,
+      lineEnd = 145334,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3035,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5103,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3035)\nmacro_SetTaskKillParam(5103,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 674,
+      lineStart = 145335,
+      lineEnd = 145340,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3078,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21012,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3078)\nmacro_SetTaskItemParam(21012,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 675,
+      lineStart = 145341,
+      lineEnd = 145346,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3120,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21011,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3120)\nmacro_SetTaskItemParam(21011,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 676,
+      lineStart = 145347,
+      lineEnd = 145353,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3218,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21043,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3218)\n\nmacro_SetTaskItemParam(21043,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 677,
+      lineStart = 145354,
+      lineEnd = 145360,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3120,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21012,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3120)\n\nmacro_SetTaskItemParam(21012,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 678,
+      lineStart = 145361,
+      lineEnd = 145367,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3078,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5016,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 10,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3078)\nmacro_SetTaskKillParam(5016,2,0)\nmacro_SetTaskDropRate(10)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 679,
+      lineStart = 145368,
+      lineEnd = 145373,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3120,
+      maxAward = 2,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5104,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3120)\nmacro_SetTaskKillParam(5104,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 680,
+      lineStart = 145374,
+      lineEnd = 145379,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3218,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21013,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3218)\nmacro_SetTaskItemParam(21013,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 681,
+      lineStart = 145380,
+      lineEnd = 145385,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3218,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5039,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3218)\nmacro_SetTaskKillParam(5039,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 682,
+      lineStart = 145386,
+      lineEnd = 145391,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3218,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5040,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3218)\nmacro_SetTaskKillParam(5040,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 683,
+      lineStart = 145392,
+      lineEnd = 145397,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3162,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5059,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3162)\nmacro_SetTaskKillParam(5059,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 684,
+      lineStart = 145398,
+      lineEnd = 145402,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3042,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3042)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 685,
+      lineStart = 145403,
+      lineEnd = 145408,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3162,
+      maxAward = 2,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21101,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3162)\nmacro_SetTaskItemParam(21101,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 686,
+      lineStart = 145409,
+      lineEnd = 145414,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3042,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5043,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3042)\nmacro_SetTaskKillParam(5043,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 687,
+      lineStart = 145415,
+      lineEnd = 145420,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3042,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5043,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3042)\nmacro_SetTaskKillParam(5043,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 688,
+      lineStart = 145421,
+      lineEnd = 145426,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3276,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21098,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3276)\nmacro_SetTaskItemParam(21098,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 689,
+      lineStart = 145427,
+      lineEnd = 145432,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3276,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21116,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3276)\nmacro_SetTaskItemParam(21116,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 690,
+      lineStart = 145433,
+      lineEnd = 145438,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3163,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21030,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3163)\nmacro_SetTaskItemParam(21030,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 691,
+      lineStart = 145439,
+      lineEnd = 145444,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3163,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5018,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3163)\nmacro_SetTaskKillParam(5018,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 692,
+      lineStart = 145445,
+      lineEnd = 145450,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3230,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5021,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3230)\nmacro_SetTaskKillParam(5021,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 693,
+      lineStart = 145451,
+      lineEnd = 145456,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5022,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5022,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 694,
+      lineStart = 145457,
+      lineEnd = 145462,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3087,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5105,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3087)\nmacro_SetTaskKillParam(5105,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 695,
+      lineStart = 145463,
+      lineEnd = 145469,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3042,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23002,
+          count = 10,
+          index = 0
+        },
+        {
+          templateId = 23006,
+          count = 10,
+          index = 1
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3042)\nmacro_SetTaskItemParam(23002,10,0)\nmacro_SetTaskItemParam(23006,10,1)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 696,
+      lineStart = 145470,
+      lineEnd = 145475,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5030,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5030,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 697,
+      lineStart = 145476,
+      lineEnd = 145483,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21016,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5107,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 60,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5107,0,0)\nmacro_SetTaskItemParam(21016,1,0)\nmacro_SetTaskDropRate(60)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 698,
+      lineStart = 145484,
+      lineEnd = 145488,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3183,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3183)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 699,
+      lineStart = 145489,
+      lineEnd = 145495,
+      maxStep = 3,
+      taskType = 16,
+      overNpcId = 3183,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5158,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 20,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3183)\nmacro_SetTaskKillParam(5158,1,0)\nmacro_SetTaskDropRate(20)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 700,
+      lineStart = 145496,
+      lineEnd = 145500,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3224)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 701,
+      lineStart = 145501,
+      lineEnd = 145506,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5187,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5187,10,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 702,
+      lineStart = 145507,
+      lineEnd = 145512,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5339,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5339,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 703,
+      lineStart = 145513,
+      lineEnd = 145519,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5340,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 26056,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_AddItem(26056,1,0)\nmacro_SetTaskKillParam(5340,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 704,
+      lineStart = 145520,
+      lineEnd = 145526,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 2,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5001,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5001,2,0)\n\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 705,
+      lineStart = 145527,
+      lineEnd = 145532,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 2,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5015,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5015,2,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 706,
+      lineStart = 145533,
+      lineEnd = 145539,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 2,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5015,
+          count = 5,
+          index = 0
+        },
+        {
+          monsterId = 5016,
+          count = 5,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5015,5,0)\nmacro_SetTaskKillParam(5016,5,1)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 707,
+      lineStart = 145540,
+      lineEnd = 145545,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 2,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5067,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5067,2,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 708,
+      lineStart = 145546,
+      lineEnd = 145551,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5062,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5062,10,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 709,
+      lineStart = 145552,
+      lineEnd = 145557,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 2,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5067,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5067,10,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 710,
+      lineStart = 145558,
+      lineEnd = 145563,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3651,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21315,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3651)\nmacro_SetTaskItemParam(21315,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 711,
+      lineStart = 145564,
+      lineEnd = 145569,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3651,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21316,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3651)\nmacro_SetTaskItemParam(21316,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 712,
+      lineStart = 145570,
+      lineEnd = 145575,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5537,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5537,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 713,
+      lineStart = 145576,
+      lineEnd = 145581,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5339,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5339,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 714,
+      lineStart = 145582,
+      lineEnd = 145589,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3651,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21342,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5340,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5340,0,0)\nmacro_SetTaskItemParam(21342,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 715,
+      lineStart = 145590,
+      lineEnd = 145595,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3651,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21342,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3651)\nmacro_SetTaskItemParam(21342,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 716,
+      lineStart = 145596,
+      lineEnd = 145601,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5298,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5298,2,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 717,
+      lineStart = 145602,
+      lineEnd = 145607,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5298,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5298,10,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 718,
+      lineStart = 145608,
+      lineEnd = 145613,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5097,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5097,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 719,
+      lineStart = 145614,
+      lineEnd = 145619,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5035,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5035,2,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 720,
+      lineStart = 145620,
+      lineEnd = 145627,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3128,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21017,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5030,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3128)\nmacro_SetTaskKillParam(5030,0,0)\nmacro_SetTaskItemParam(21017,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 721,
+      lineStart = 145628,
+      lineEnd = 145634,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21017,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3044)\n\nmacro_SetTaskItemParam(21017,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 722,
+      lineStart = 145635,
+      lineEnd = 145640,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5026,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5026,2,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 723,
+      lineStart = 145641,
+      lineEnd = 145646,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3651,
+      maxAward = 2,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5188,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3651)\nmacro_SetTaskKillParam(5188,2,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 724,
+      lineStart = 145647,
+      lineEnd = 145652,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3051,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5055,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3051)\nmacro_SetTaskKillParam(5055,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 725,
+      lineStart = 145653,
+      lineEnd = 145659,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21018,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3044)\n\nmacro_SetTaskItemParam(21018,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 726,
+      lineStart = 145660,
+      lineEnd = 145665,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3092,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21019,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3092)\nmacro_SetTaskItemParam(21019,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 727,
+      lineStart = 145666,
+      lineEnd = 145671,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3092,
+      maxAward = 2,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21038,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3092)\nmacro_SetTaskItemParam(21038,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 728,
+      lineStart = 145672,
+      lineEnd = 145676,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3044,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3044)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 729,
+      lineStart = 145677,
+      lineEnd = 145682,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3044,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21138,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3044)\nmacro_SetTaskItemParam(21138,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 730,
+      lineStart = 145683,
+      lineEnd = 145688,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3120,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21019,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3120)\nmacro_SetTaskItemParam(21019,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 731,
+      lineStart = 145689,
+      lineEnd = 145694,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3220,
+      maxAward = 2,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21039,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3220)\nmacro_SetTaskItemParam(21039,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 732,
+      lineStart = 145695,
+      lineEnd = 145702,
+      maxStep = 4,
+      taskType = 4,
+      overNpcId = 3220,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21140,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5145,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3220)\nmacro_SetTaskKillParam(5145,0,0)\nmacro_SetTaskItemParam(21140,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 733,
+      lineStart = 145703,
+      lineEnd = 145710,
+      maxStep = 4,
+      taskType = 4,
+      overNpcId = 3220,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21141,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5157,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3220)\nmacro_SetTaskKillParam(5157,0,0)\nmacro_SetTaskItemParam(21141,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 734,
+      lineStart = 145711,
+      lineEnd = 145716,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3053,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21142,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3053)\nmacro_SetTaskItemParam(21142,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 735,
+      lineStart = 145717,
+      lineEnd = 145722,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21143,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3044)\nmacro_SetTaskItemParam(21143,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 736,
+      lineStart = 145723,
+      lineEnd = 145728,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3277,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21099,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3277)\nmacro_SetTaskItemParam(21099,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 737,
+      lineStart = 145729,
+      lineEnd = 145736,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3277,
+      maxAward = 2,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21115,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5001,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 70,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3277)\nmacro_SetTaskKillParam(5001,0,0)\nmacro_SetTaskItemParam(21115,10,0)\nmacro_SetTaskDropRate(70)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 738,
+      lineStart = 145737,
+      lineEnd = 145741,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3042,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3042)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 739,
+      lineStart = 145742,
+      lineEnd = 145747,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3042,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21103,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3042)\nmacro_SetTaskItemParam(21103,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 740,
+      lineStart = 145748,
+      lineEnd = 145755,
+      maxStep = 4,
+      taskType = 4,
+      overNpcId = 3042,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21291,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5339,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3042)\nmacro_SetTaskKillParam(5339,0,0)\nmacro_SetTaskItemParam(21291,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 741,
+      lineStart = 145756,
+      lineEnd = 145762,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3042,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5340,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {
+        {
+          templateId = 26048,
+          quantity = 1
+        }
+      },
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3042)\nmacro_AddItem(26048,1,0)\nmacro_SetTaskKillParam(5340,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 742,
+      lineStart = 145763,
+      lineEnd = 145768,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3327,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5147,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetTaskKillParam(5147,1,0)\nmacro_SetOverNpc(3327)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 743,
+      lineStart = 145769,
+      lineEnd = 145774,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3104,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5292,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3104)\nmacro_SetTaskKillParam(5292,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 744,
+      lineStart = 145775,
+      lineEnd = 145781,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3025,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5025,
+          count = 30,
+          index = 0
+        },
+        {
+          monsterId = 5026,
+          count = 30,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3025)\nmacro_SetTaskKillParam(5025,30,0)\nmacro_SetTaskKillParam(5026,30,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 745,
+      lineStart = 145784,
+      lineEnd = 145789,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3092,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5109,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "\tmacro_SetTaskMaxStep(1)\n\tmacro_SetTaskType(1)\n\tmacro_SetOverNpc(3092)\n\tmacro_SetTaskKillParam(5109,1,0)\n\tmacro_SetMaxAward(1)\n\tmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 746,
+      lineStart = 145793,
+      lineEnd = 145798,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3093,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5110,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "\tmacro_SetTaskMaxStep(1)\n\tmacro_SetTaskType(1)\n\tmacro_SetOverNpc(3093)\n\tmacro_SetTaskKillParam(5110,1,0)\n\tmacro_SetMaxAward(1)\n\tmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 747,
+      lineStart = 145800,
+      lineEnd = 145805,
+      maxStep = 5,
+      taskType = 1,
+      overNpcId = 3074,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5067,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3074)\nmacro_SetTaskKillParam(5067,30,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 748,
+      lineStart = 145806,
+      lineEnd = 145811,
+      maxStep = 5,
+      taskType = 1,
+      overNpcId = 3074,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5078,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3074)\nmacro_SetTaskKillParam(5078,30,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 749,
+      lineStart = 145812,
+      lineEnd = 145817,
+      maxStep = 5,
+      taskType = 1,
+      overNpcId = 3074,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5211,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3074)\nmacro_SetTaskKillParam(5211,30,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 750,
+      lineStart = 145818,
+      lineEnd = 145823,
+      maxStep = 5,
+      taskType = 1,
+      overNpcId = 3074,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5096,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3074)\nmacro_SetTaskKillParam(5096,30,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 751,
+      lineStart = 145824,
+      lineEnd = 145829,
+      maxStep = 5,
+      taskType = 1,
+      overNpcId = 3074,
+      maxAward = 1,
+      taskStep = 5,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5165,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3074)\nmacro_SetTaskKillParam(5165,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(5)"
+    },
+    {
+      clusterIndex = 752,
+      lineStart = 145830,
+      lineEnd = 145835,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21041,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3044)\nmacro_SetTaskItemParam(21041,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 753,
+      lineStart = 145836,
+      lineEnd = 145841,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3228,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21042,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3228)\nmacro_SetTaskItemParam(21042,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 754,
+      lineStart = 145842,
+      lineEnd = 145847,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3311,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21313,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3311)\nmacro_SetTaskItemParam(21313,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 755,
+      lineStart = 145848,
+      lineEnd = 145853,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3033,
+      maxAward = 3,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5013,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3033)\nmacro_SetTaskKillParam(5013,1,0)\nmacro_SetMaxAward(3)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 756,
+      lineStart = 145854,
+      lineEnd = 145859,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3034,
+      maxAward = 3,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5014,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3034)\nmacro_SetTaskKillParam(5014,1,0)\nmacro_SetMaxAward(3)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 757,
+      lineStart = 145860,
+      lineEnd = 145865,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3118,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21007,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3118)\nmacro_SetTaskItemParam(21007,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 758,
+      lineStart = 145866,
+      lineEnd = 145870,
+      maxStep = 2,
+      taskType = 32,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3022)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 759,
+      lineStart = 145871,
+      lineEnd = 145877,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3005,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21001,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3005)\n\nmacro_SetTaskItemParam(21001,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 760,
+      lineStart = 145878,
+      lineEnd = 145884,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3156,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5001,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 1,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3156)\nmacro_SetTaskKillParam(5001,1,0)\nmacro_SetTaskDropRate(1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 761,
+      lineStart = 145885,
+      lineEnd = 145890,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3023,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 20007,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3023)\nmacro_SetTaskItemParam(20007,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 762,
+      lineStart = 145891,
+      lineEnd = 145896,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3023,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5106,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3023)\nmacro_SetTaskKillParam(5106,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 763,
+      lineStart = 145897,
+      lineEnd = 145901,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3004,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3004)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 764,
+      lineStart = 145902,
+      lineEnd = 145906,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3023,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3023)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 765,
+      lineStart = 145907,
+      lineEnd = 145912,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3023,
+      maxAward = 3,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5006,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3023)\nmacro_SetTaskKillParam(5006,1,0)\nmacro_SetMaxAward(3)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 766,
+      lineStart = 145913,
+      lineEnd = 145918,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3028,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21051,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3028)\nmacro_SetTaskItemParam(21051,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 767,
+      lineStart = 145919,
+      lineEnd = 145924,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3030,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21002,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3030)\nmacro_SetTaskItemParam(21002,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 768,
+      lineStart = 145925,
+      lineEnd = 145929,
+      maxStep = 2,
+      taskType = 32,
+      overNpcId = 3003,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3003)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 769,
+      lineStart = 145930,
+      lineEnd = 145935,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3003,
+      maxAward = 3,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5005,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3003)\nmacro_SetTaskKillParam(5005,1,0)\nmacro_SetMaxAward(3)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 770,
+      lineStart = 145936,
+      lineEnd = 145942,
+      maxStep = 1,
+      taskType = 8,
+      overNpcId = 3070,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(8)\nmacro_SetOverNpc(3070)\n\nmacro_SetTaskRole(3055)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 771,
+      lineStart = 145943,
+      lineEnd = 145948,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3183,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21047,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3183)\nmacro_SetTaskItemParam(21047,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 772,
+      lineStart = 145949,
+      lineEnd = 145954,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3059,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5126,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3059)\nmacro_SetTaskKillParam(5126,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 773,
+      lineStart = 145955,
+      lineEnd = 145962,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3174,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21109,
+          count = 3,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5003,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 50,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3174)\nmacro_SetTaskKillParam(5003,0,0)\nmacro_SetTaskItemParam(21109,3,0)\nmacro_SetTaskDropRate(50)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 774,
+      lineStart = 145963,
+      lineEnd = 145968,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3229,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5020,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3229)\nmacro_SetTaskKillParam(5020,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 775,
+      lineStart = 145969,
+      lineEnd = 145974,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3023,
+      maxAward = 2,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5008,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3023)\nmacro_SetTaskKillParam(5008,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 776,
+      lineStart = 145975,
+      lineEnd = 145981,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3010,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21003,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3010)\n\nmacro_SetTaskItemParam(21003,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 777,
+      lineStart = 145982,
+      lineEnd = 145988,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3009,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21004,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3009)\n\nmacro_SetTaskItemParam(21004,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 778,
+      lineStart = 145989,
+      lineEnd = 145995,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3015,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21005,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3015)\n\nmacro_SetTaskItemParam(21005,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 779,
+      lineStart = 145996,
+      lineEnd = 146001,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3022,
+      maxAward = 2,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21181,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3022)\nmacro_SetTaskItemParam(21181,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 780,
+      lineStart = 146002,
+      lineEnd = 146007,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5017,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5017,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 781,
+      lineStart = 146008,
+      lineEnd = 146013,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5026,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5026,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 782,
+      lineStart = 146014,
+      lineEnd = 146019,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5025,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5025,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 783,
+      lineStart = 146020,
+      lineEnd = 146025,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5181,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5181,2,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 784,
+      lineStart = 146026,
+      lineEnd = 146031,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5028,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5028,2,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 785,
+      lineStart = 146032,
+      lineEnd = 146037,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5063,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5063,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 786,
+      lineStart = 146038,
+      lineEnd = 146043,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3222,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21045,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3222)\nmacro_SetTaskItemParam(21045,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 787,
+      lineStart = 146044,
+      lineEnd = 146050,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3222,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 23014,
+          count = 20,
+          index = 0
+        },
+        {
+          templateId = 23029,
+          count = 10,
+          index = 1
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3222)\nmacro_SetTaskItemParam(23014,20,0)\nmacro_SetTaskItemParam(23029,10,1)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 788,
+      lineStart = 146051,
+      lineEnd = 146056,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3009,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21185,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3009)\nmacro_SetTaskItemParam(21185,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 789,
+      lineStart = 146057,
+      lineEnd = 146063,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3181,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5002,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 5,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3181)\nmacro_SetTaskKillParam(5002,1,0)\nmacro_SetTaskDropRate(5)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 790,
+      lineStart = 146064,
+      lineEnd = 146068,
+      maxStep = 2,
+      taskType = 32,
+      overNpcId = 3042,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3042)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 791,
+      lineStart = 146069,
+      lineEnd = 146073,
+      maxStep = 2,
+      taskType = 32,
+      overNpcId = 3162,
+      maxAward = 2,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3162)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 792,
+      lineStart = 146075,
+      lineEnd = 146082,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3009,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21110,
+          count = 5,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5036,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3009)\nmacro_SetTaskKillParam(5036,0,0)\nmacro_SetTaskItemParam(21110,5,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 793,
+      lineStart = 146083,
+      lineEnd = 146089,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3008,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21020,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3008)\n\nmacro_SetTaskItemParam(21020,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 794,
+      lineStart = 146090,
+      lineEnd = 146095,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3223,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21020,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3223)\nmacro_SetTaskItemParam(21020,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 795,
+      lineStart = 146096,
+      lineEnd = 146101,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3102,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21046,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3102)\nmacro_SetTaskItemParam(21046,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 796,
+      lineStart = 146102,
+      lineEnd = 146107,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3223,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21022,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3223)\nmacro_SetTaskItemParam(21022,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 797,
+      lineStart = 146108,
+      lineEnd = 146113,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3070,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21059,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3070)\nmacro_SetTaskItemParam(21059,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 798,
+      lineStart = 146114,
+      lineEnd = 146119,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3073,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21023,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3073)\nmacro_SetTaskItemParam(21023,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 799,
+      lineStart = 146120,
+      lineEnd = 146126,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3078,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5016,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 10,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3078)\nmacro_SetTaskKillParam(5016,2,0)\nmacro_SetTaskDropRate(10)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 800,
+      lineStart = 146127,
+      lineEnd = 146133,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3079,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5015,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 10,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3079)\nmacro_SetTaskKillParam(5015,2,0)\nmacro_SetTaskDropRate(10)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 801,
+      lineStart = 146134,
+      lineEnd = 146139,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3183,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5035,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3183)\nmacro_SetTaskKillParam(5035,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 802,
+      lineStart = 146140,
+      lineEnd = 146145,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3058,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21186,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3058)\nmacro_SetTaskItemParam(21186,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 803,
+      lineStart = 146146,
+      lineEnd = 146152,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3058,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 20009,
+          count = 1,
+          index = 0
+        },
+        {
+          templateId = 20011,
+          count = 1,
+          index = 1
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3058)\nmacro_SetTaskItemParam(20009,1,0)\nmacro_SetTaskItemParam(20011,1,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 804,
+      lineStart = 146153,
+      lineEnd = 146159,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3191,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21047,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3191)\n\nmacro_SetTaskItemParam(21047,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 805,
+      lineStart = 146160,
+      lineEnd = 146165,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3183,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5127,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3183)\nmacro_SetTaskKillParam(5127,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 806,
+      lineStart = 146166,
+      lineEnd = 146171,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3042,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21133,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3042)\nmacro_SetTaskItemParam(21133,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 807,
+      lineStart = 146172,
+      lineEnd = 146176,
+      maxStep = 2,
+      taskType = 32,
+      overNpcId = 3218,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3218)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 808,
+      lineStart = 146177,
+      lineEnd = 146182,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3183,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5035,
+          count = 40,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3183)\nmacro_SetTaskKillParam(5035,40,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 809,
+      lineStart = 146183,
+      lineEnd = 146188,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3189,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5205,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3189)\nmacro_SetTaskKillParam(5205,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 810,
+      lineStart = 146189,
+      lineEnd = 146196,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3185,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21021,
+          count = 20,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5026,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3185)\nmacro_SetTaskItemParam(21021,20,0)\nmacro_SetTaskKillParam(5026,0,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 811,
+      lineStart = 146197,
+      lineEnd = 146203,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3073,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5027,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3073)\n\nmacro_SetTaskKillParam(5027,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 812,
+      lineStart = 146204,
+      lineEnd = 146210,
+      maxStep = 1,
+      taskType = 8,
+      overNpcId = 3188,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(8)\nmacro_SetOverNpc(3188)\n\nmacro_SetTaskRole(3073)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 813,
+      lineStart = 146211,
+      lineEnd = 146216,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3188,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5133,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3188)\nmacro_SetTaskKillParam(5133,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 814,
+      lineStart = 146217,
+      lineEnd = 146224,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3073,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21024,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5130,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3073)\nmacro_SetTaskKillParam(5130,0,0)\nmacro_SetTaskItemParam(21024,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 815,
+      lineStart = 146225,
+      lineEnd = 146232,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3073,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21025,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5131,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3073)\nmacro_SetTaskKillParam(5131,0,0)\nmacro_SetTaskItemParam(21025,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 816,
+      lineStart = 146233,
+      lineEnd = 146238,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3077,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5029,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3077)\nmacro_SetTaskKillParam(5029,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 817,
+      lineStart = 146239,
+      lineEnd = 146245,
+      maxStep = 2,
+      taskType = 8,
+      overNpcId = 3022,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(8)\nmacro_SetOverNpc(3022)\n\nmacro_SetTaskRole(3077)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 818,
+      lineStart = 146246,
+      lineEnd = 146251,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5058,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5058,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 819,
+      lineStart = 146252,
+      lineEnd = 146257,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3073,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5128,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3073)\nmacro_SetTaskKillParam(5128,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 820,
+      lineStart = 146258,
+      lineEnd = 146263,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3226,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5128,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3226)\nmacro_SetTaskKillParam(5128,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 821,
+      lineStart = 146264,
+      lineEnd = 146270,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3022,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21053,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3022)\n\nmacro_SetTaskItemParam(21053,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 822,
+      lineStart = 146271,
+      lineEnd = 146276,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5058,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5058,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 823,
+      lineStart = 146277,
+      lineEnd = 146282,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3044,
+      maxAward = 2,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21152,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3044)\nmacro_SetTaskItemParam(21152,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 824,
+      lineStart = 146283,
+      lineEnd = 146288,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3224,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 9011,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3224)\nmacro_SetTaskItemParam(9011,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 825,
+      lineStart = 146289,
+      lineEnd = 146296,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 23010,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5079,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5079,0,0)\nmacro_SetTaskItemParam(23010,10,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 826,
+      lineStart = 146297,
+      lineEnd = 146304,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3191,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21182,
+          count = 5,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5079,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3191)\nmacro_SetTaskKillParam(5079,0,0)\nmacro_SetTaskItemParam(21182,5,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 827,
+      lineStart = 146305,
+      lineEnd = 146310,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3193,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5132,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3193)\nmacro_SetTaskKillParam(5132,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 828,
+      lineStart = 146311,
+      lineEnd = 146317,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3193,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 23029,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = 70,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3193)\nmacro_SetTaskItemParam(23029,10,0)\nmacro_SetTaskDropRate(70)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 829,
+      lineStart = 146318,
+      lineEnd = 146324,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3193,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21026,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3193)\n\nmacro_SetTaskItemParam(21026,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 830,
+      lineStart = 146325,
+      lineEnd = 146331,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3191,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21027,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3191)\n\nmacro_SetTaskItemParam(21027,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 831,
+      lineStart = 146332,
+      lineEnd = 146337,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3013,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21049,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3013)\nmacro_SetTaskItemParam(21049,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 832,
+      lineStart = 146338,
+      lineEnd = 146344,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3013,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 23032,
+          count = 5,
+          index = 0
+        },
+        {
+          templateId = 23029,
+          count = 5,
+          index = 1
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3013)\nmacro_SetTaskItemParam(23032,5,0)\nmacro_SetTaskItemParam(23029,5,1)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 833,
+      lineStart = 146345,
+      lineEnd = 146350,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3191,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21028,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3191)\nmacro_SetTaskItemParam(21028,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 834,
+      lineStart = 146351,
+      lineEnd = 146357,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3191,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21028,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3191)\n\nmacro_SetTaskItemParam(21028,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 835,
+      lineStart = 146358,
+      lineEnd = 146363,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3195,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21031,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3195)\nmacro_SetTaskItemParam(21031,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 836,
+      lineStart = 146364,
+      lineEnd = 146370,
+      maxStep = 2,
+      taskType = 16,
+      overNpcId = 3195,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5074,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 15,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3195)\nmacro_SetTaskKillParam(5074,1,0)\nmacro_SetTaskDropRate(15)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 837,
+      lineStart = 146371,
+      lineEnd = 146376,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3083,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21050,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3083)\nmacro_SetTaskItemParam(21050,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 838,
+      lineStart = 146377,
+      lineEnd = 146384,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3083,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21032,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5175,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3083)\nmacro_SetTaskKillParam(5175,0,0)\nmacro_SetTaskItemParam(21032,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 839,
+      lineStart = 146385,
+      lineEnd = 146390,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3300,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21033,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3300)\nmacro_SetTaskItemParam(21033,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 840,
+      lineStart = 146391,
+      lineEnd = 146396,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3107,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21031,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3107)\nmacro_SetTaskItemParam(21031,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 841,
+      lineStart = 146397,
+      lineEnd = 146404,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3107,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21113,
+          count = 20,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5066,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 90,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3107)\nmacro_SetTaskKillParam(5066,0,0)\nmacro_SetTaskItemParam(21113,20,0)\nmacro_SetTaskDropRate(90)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 842,
+      lineStart = 146405,
+      lineEnd = 146411,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3195,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5076,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3195)\n\nmacro_SetTaskKillParam(5076,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 843,
+      lineStart = 146412,
+      lineEnd = 146417,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3194,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21054,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3194)\nmacro_SetTaskItemParam(21054,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 844,
+      lineStart = 146418,
+      lineEnd = 146423,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3083,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5081,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3083)\nmacro_SetTaskKillParam(5081,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 845,
+      lineStart = 146424,
+      lineEnd = 146429,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3084,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5217,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3084)\nmacro_SetTaskKillParam(5217,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 846,
+      lineStart = 146430,
+      lineEnd = 146437,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3084,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21055,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5216,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3084)\nmacro_SetTaskKillParam(5216,0,0)\nmacro_SetTaskItemParam(21055,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 847,
+      lineStart = 146438,
+      lineEnd = 146442,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3044,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3044)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 848,
+      lineStart = 146443,
+      lineEnd = 146448,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3295,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21135,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3295)\nmacro_SetTaskItemParam(21135,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 849,
+      lineStart = 146449,
+      lineEnd = 146454,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3295,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21129,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3295)\nmacro_SetTaskItemParam(21129,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 850,
+      lineStart = 146455,
+      lineEnd = 146460,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5056,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5056,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 851,
+      lineStart = 146461,
+      lineEnd = 146466,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3234,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21118,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3234)\nmacro_SetTaskItemParam(21118,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 852,
+      lineStart = 146467,
+      lineEnd = 146473,
+      maxStep = 2,
+      taskType = 16,
+      overNpcId = 3234,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5001,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 1,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3234)\nmacro_SetTaskKillParam(5001,1,0)\nmacro_SetTaskDropRate(1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 853,
+      lineStart = 146474,
+      lineEnd = 146479,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3120,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5113,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3120)\nmacro_SetTaskKillParam(5113,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 854,
+      lineStart = 146480,
+      lineEnd = 146485,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3120,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5114,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3120)\nmacro_SetTaskKillParam(5114,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 855,
+      lineStart = 146486,
+      lineEnd = 146491,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3211,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5129,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3211)\nmacro_SetTaskKillParam(5129,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 856,
+      lineStart = 146492,
+      lineEnd = 146497,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3197,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 19002,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3197)\nmacro_SetTaskItemParam(19002,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 857,
+      lineStart = 146498,
+      lineEnd = 146503,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3198,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5009,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3198)\nmacro_SetTaskKillParam(5009,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 858,
+      lineStart = 146504,
+      lineEnd = 146511,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3199,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21183,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5041,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 70,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3199)\nmacro_SetTaskKillParam(5041,0,0)\nmacro_SetTaskItemParam(21183,10,0)\nmacro_SetTaskDropRate(70)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 859,
+      lineStart = 146512,
+      lineEnd = 146519,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3203,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21114,
+          count = 5,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5093,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 50,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3203)\nmacro_SetTaskKillParam(5093,0,0)\nmacro_SetTaskItemParam(21114,5,0)\nmacro_SetTaskDropRate(50)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 860,
+      lineStart = 146520,
+      lineEnd = 146525,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3204,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5092,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3204)\nmacro_SetTaskKillParam(5092,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 861,
+      lineStart = 146526,
+      lineEnd = 146531,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3018,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5032,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3018)\nmacro_SetTaskKillParam(5032,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 862,
+      lineStart = 146532,
+      lineEnd = 146539,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3093,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21065,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5086,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 70,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3093)\nmacro_SetTaskKillParam(5086,0,0)\nmacro_SetTaskItemParam(21065,1,0)\nmacro_SetTaskDropRate(70)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 863,
+      lineStart = 146540,
+      lineEnd = 146545,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3019,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21066,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3019)\nmacro_SetTaskItemParam(21066,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 864,
+      lineStart = 146546,
+      lineEnd = 146551,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3093,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5064,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3093)\nmacro_SetTaskKillParam(5064,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 865,
+      lineStart = 146552,
+      lineEnd = 146557,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3206,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5088,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3206)\nmacro_SetTaskKillParam(5088,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 866,
+      lineStart = 146558,
+      lineEnd = 146562,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3044,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3044)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 867,
+      lineStart = 146563,
+      lineEnd = 146568,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3044,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21137,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3044)\nmacro_SetTaskItemParam(21137,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 868,
+      lineStart = 146569,
+      lineEnd = 146574,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21139,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3044)\nmacro_SetTaskItemParam(21139,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 869,
+      lineStart = 146575,
+      lineEnd = 146580,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3149,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21067,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3149)\nmacro_SetTaskItemParam(21067,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 870,
+      lineStart = 146581,
+      lineEnd = 146585,
+      maxStep = 2,
+      taskType = 32,
+      overNpcId = 3099,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3099)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 871,
+      lineStart = 146586,
+      lineEnd = 146591,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3099,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23025,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3099)\nmacro_SetTaskItemParam(23025,10,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 872,
+      lineStart = 146592,
+      lineEnd = 146597,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3099,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21070,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3099)\nmacro_SetTaskItemParam(21070,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 873,
+      lineStart = 146598,
+      lineEnd = 146603,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3149,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21106,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3149)\nmacro_SetTaskItemParam(21106,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 874,
+      lineStart = 146604,
+      lineEnd = 146610,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3208,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21036,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3208)\n\nmacro_SetTaskItemParam(21036,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 875,
+      lineStart = 146611,
+      lineEnd = 146616,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3100,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5090,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3100)\nmacro_SetTaskKillParam(5090,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 876,
+      lineStart = 146617,
+      lineEnd = 146622,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3209,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5067,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3209)\nmacro_SetTaskKillParam(5067,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 877,
+      lineStart = 146623,
+      lineEnd = 146629,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3098,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5086,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5087,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3098)\nmacro_SetTaskKillParam(5086,10,0)\nmacro_SetTaskKillParam(5087,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 878,
+      lineStart = 146630,
+      lineEnd = 146637,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3125,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21108,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5093,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3125)\nmacro_SetTaskKillParam(5093,0,0)\nmacro_SetTaskItemParam(21108,10,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 879,
+      lineStart = 146638,
+      lineEnd = 146643,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3052,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5096,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3052)\nmacro_SetTaskKillParam(5096,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 880,
+      lineStart = 146644,
+      lineEnd = 146649,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3256,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21071,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3256)\nmacro_SetTaskItemParam(21071,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 881,
+      lineStart = 146650,
+      lineEnd = 146656,
+      maxStep = 2,
+      taskType = 16,
+      overNpcId = 3256,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5050,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 20,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3256)\nmacro_SetTaskKillParam(5050,1,0)\nmacro_SetTaskDropRate(20)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 882,
+      lineStart = 146657,
+      lineEnd = 146662,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3261,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 20013,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3261)\nmacro_SetTaskItemParam(20013,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 883,
+      lineStart = 146663,
+      lineEnd = 146668,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3031,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21134,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3031)\nmacro_SetTaskItemParam(21134,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 884,
+      lineStart = 146669,
+      lineEnd = 146674,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3033,
+      maxAward = 2,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5007,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3033)\nmacro_SetTaskKillParam(5007,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 885,
+      lineStart = 146675,
+      lineEnd = 146680,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3257,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21072,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3257)\nmacro_SetTaskItemParam(21072,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 886,
+      lineStart = 146681,
+      lineEnd = 146686,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3050,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21073,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3050)\nmacro_SetTaskItemParam(21073,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 887,
+      lineStart = 146687,
+      lineEnd = 146692,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3258,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21072,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3258)\nmacro_SetTaskItemParam(21072,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 888,
+      lineStart = 146693,
+      lineEnd = 146698,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3050,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5108,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3050)\nmacro_SetTaskKillParam(5108,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 889,
+      lineStart = 146699,
+      lineEnd = 146704,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3257,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5168,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3257)\nmacro_SetTaskKillParam(5168,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 890,
+      lineStart = 146705,
+      lineEnd = 146710,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3031,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21134,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3031)\nmacro_SetTaskItemParam(21134,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 891,
+      lineStart = 146711,
+      lineEnd = 146717,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3050,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5172,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 20,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3050)\nmacro_SetTaskKillParam(5172,1,0)\nmacro_SetTaskDropRate(20)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 892,
+      lineStart = 146718,
+      lineEnd = 146723,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3262,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5165,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3262)\nmacro_SetTaskKillParam(5165,10,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 893,
+      lineStart = 146724,
+      lineEnd = 146729,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3124,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21074,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3124)\nmacro_SetTaskItemParam(21074,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 894,
+      lineStart = 146730,
+      lineEnd = 146735,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3263,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21076,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3263)\nmacro_SetTaskItemParam(21076,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 895,
+      lineStart = 146736,
+      lineEnd = 146741,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3120,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21075,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3120)\nmacro_SetTaskItemParam(21075,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 896,
+      lineStart = 146742,
+      lineEnd = 146749,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3263,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21078,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5124,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3263)\nmacro_SetTaskKillParam(5124,0,0)\nmacro_SetTaskItemParam(21078,1,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 897,
+      lineStart = 146750,
+      lineEnd = 146756,
+      maxStep = 2,
+      taskType = 16,
+      overNpcId = 3263,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5188,
+          count = 5,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 25,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3263)\nmacro_SetTaskKillParam(5188,5,0)\nmacro_SetTaskDropRate(25)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 898,
+      lineStart = 146757,
+      lineEnd = 146763,
+      maxStep = 2,
+      taskType = 16,
+      overNpcId = 3263,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5218,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 40,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3263)\nmacro_SetTaskKillParam(5218,1,0)\nmacro_SetTaskDropRate(40)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 899,
+      lineStart = 146764,
+      lineEnd = 146769,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3264,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21077,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3264)\nmacro_SetTaskItemParam(21077,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 900,
+      lineStart = 146770,
+      lineEnd = 146775,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3264,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5168,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3264)\nmacro_SetTaskKillParam(5168,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 901,
+      lineStart = 146776,
+      lineEnd = 146781,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3120,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5157,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3120)\nmacro_SetTaskKillParam(5157,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 902,
+      lineStart = 146782,
+      lineEnd = 146787,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3034,
+      maxAward = 2,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5008,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3034)\nmacro_SetTaskKillParam(5008,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 903,
+      lineStart = 146788,
+      lineEnd = 146793,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3124,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21086,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3124)\nmacro_SetTaskItemParam(21086,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 904,
+      lineStart = 146794,
+      lineEnd = 146799,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3124,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5123,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3124)\nmacro_SetTaskKillParam(5123,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 905,
+      lineStart = 146800,
+      lineEnd = 146805,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3265,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5170,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3265)\nmacro_SetTaskKillParam(5170,3,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 906,
+      lineStart = 146806,
+      lineEnd = 146811,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3265,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5171,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3265)\nmacro_SetTaskKillParam(5171,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 907,
+      lineStart = 146812,
+      lineEnd = 146817,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3083,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21081,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3083)\nmacro_SetTaskItemParam(21081,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 908,
+      lineStart = 146818,
+      lineEnd = 146823,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3265,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21082,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3265)\nmacro_SetTaskItemParam(21082,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 909,
+      lineStart = 146824,
+      lineEnd = 146831,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3014,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21084,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5215,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3014)\nmacro_SetTaskKillParam(5215,0,0)\nmacro_SetTaskItemParam(21084,1,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 910,
+      lineStart = 146832,
+      lineEnd = 146837,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3014,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21083,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3014)\nmacro_SetTaskItemParam(21083,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 911,
+      lineStart = 146838,
+      lineEnd = 146843,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3019,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21085,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3019)\nmacro_SetTaskItemParam(21085,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 912,
+      lineStart = 146844,
+      lineEnd = 146851,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3019,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21088,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5021,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3019)\nmacro_SetTaskKillParam(5021,0,0)\nmacro_SetTaskItemParam(21088,1,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 913,
+      lineStart = 146852,
+      lineEnd = 146857,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3014,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21087,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3014)\nmacro_SetTaskItemParam(21087,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 914,
+      lineStart = 146858,
+      lineEnd = 146863,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3016,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21096,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3016)\nmacro_SetTaskItemParam(21096,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 915,
+      lineStart = 146864,
+      lineEnd = 146869,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3016,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21093,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3016)\nmacro_SetTaskItemParam(21093,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 916,
+      lineStart = 146870,
+      lineEnd = 146875,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5151,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5151,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 917,
+      lineStart = 146876,
+      lineEnd = 146881,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3125,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21106,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3125)\nmacro_SetTaskItemParam(21106,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 918,
+      lineStart = 146882,
+      lineEnd = 146887,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3125,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21107,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3125)\nmacro_SetTaskItemParam(21107,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 919,
+      lineStart = 146888,
+      lineEnd = 146893,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3125,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21108,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3125)\nmacro_SetTaskItemParam(21108,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 920,
+      lineStart = 146894,
+      lineEnd = 146899,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3125,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21105,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3125)\nmacro_SetTaskItemParam(21105,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 921,
+      lineStart = 146900,
+      lineEnd = 146907,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3098,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21100,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5173,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 50,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3098)\nmacro_SetTaskKillParam(5173,0,0)\nmacro_SetTaskItemParam(21100,1,0)\nmacro_SetTaskDropRate(50)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 922,
+      lineStart = 146908,
+      lineEnd = 146913,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3125,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21101,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3125)\nmacro_SetTaskItemParam(21101,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 923,
+      lineStart = 146914,
+      lineEnd = 146919,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3265,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21102,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3265)\nmacro_SetTaskItemParam(21102,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 924,
+      lineStart = 146920,
+      lineEnd = 146927,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3052,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21103,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5094,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 50,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3052)\nmacro_SetTaskKillParam(5094,0,0)\nmacro_SetTaskItemParam(21103,1,0)\nmacro_SetTaskDropRate(50)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 925,
+      lineStart = 146928,
+      lineEnd = 146933,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3102,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21068,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3102)\nmacro_SetTaskItemParam(21068,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 926,
+      lineStart = 146934,
+      lineEnd = 146939,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3102,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5172,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3102)\nmacro_SetTaskKillParam(5172,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 927,
+      lineStart = 146940,
+      lineEnd = 146945,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3138,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21144,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3138)\nmacro_SetTaskItemParam(21144,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 928,
+      lineStart = 146946,
+      lineEnd = 146953,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3353,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21229,
+          count = 5,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5237,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 60,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3353)\nmacro_SetTaskKillParam(5237,0,0)\nmacro_SetTaskItemParam(21229,5,0)\nmacro_SetTaskDropRate(60)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 929,
+      lineStart = 146954,
+      lineEnd = 146961,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3353,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21230,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5293,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3353)\nmacro_SetTaskKillParam(5293,0,0)\nmacro_SetTaskItemParam(21230,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 930,
+      lineStart = 146962,
+      lineEnd = 146967,
+      maxStep = 3,
+      taskType = 8,
+      overNpcId = 3343,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(8)\nmacro_SetOverNpc(3343)\nmacro_SetTaskRole(3353)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 931,
+      lineStart = 146968,
+      lineEnd = 146973,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3278,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23075,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3278)\nmacro_SetTaskItemParam(23075,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 932,
+      lineStart = 146974,
+      lineEnd = 146979,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3353,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21231,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3353)\nmacro_SetTaskItemParam(21231,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 933,
+      lineStart = 146980,
+      lineEnd = 146987,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3278,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21232,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5198,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 70,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3278)\nmacro_SetTaskKillParam(5198,0,0)\nmacro_SetTaskItemParam(21232,10,0)\nmacro_SetTaskDropRate(70)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 934,
+      lineStart = 146988,
+      lineEnd = 146995,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3278,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21233,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5240,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 70,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3278)\nmacro_SetTaskKillParam(5240,0,0)\nmacro_SetTaskItemParam(21233,10,0)\nmacro_SetTaskDropRate(70)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 935,
+      lineStart = 146996,
+      lineEnd = 147003,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3353,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21234,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5281,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3353)\nmacro_SetTaskKillParam(5281,0,0)\nmacro_SetTaskItemParam(21234,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 936,
+      lineStart = 147004,
+      lineEnd = 147009,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3344,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5240,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3344)\nmacro_SetTaskKillParam(5240,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 937,
+      lineStart = 147010,
+      lineEnd = 147015,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3361,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5280,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3361)\nmacro_SetTaskKillParam(5280,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 938,
+      lineStart = 147016,
+      lineEnd = 147021,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3355,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21235,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3355)\nmacro_SetTaskItemParam(21235,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 939,
+      lineStart = 147022,
+      lineEnd = 147027,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3347,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21236,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3347)\nmacro_SetTaskItemParam(21236,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 940,
+      lineStart = 147028,
+      lineEnd = 147033,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3356,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21237,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3356)\nmacro_SetTaskItemParam(21237,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 941,
+      lineStart = 147034,
+      lineEnd = 147039,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3356,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 23079,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3356)\nmacro_SetTaskItemParam(23079,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 942,
+      lineStart = 147040,
+      lineEnd = 147046,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3356,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5199,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 50,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3356)\nmacro_SetTaskKillParam(5199,1,0)\nmacro_SetTaskDropRate(50)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 943,
+      lineStart = 147047,
+      lineEnd = 147054,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3356,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21239,
+          count = 15,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5234,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3356)\nmacro_SetTaskKillParam(5234,0,0)\nmacro_SetTaskItemParam(21239,15,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 944,
+      lineStart = 147055,
+      lineEnd = 147060,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3361,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5279,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3361)\nmacro_SetTaskKillParam(5279,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 945,
+      lineStart = 147061,
+      lineEnd = 147068,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3361,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21241,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5278,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3361)\nmacro_SetTaskKillParam(5278,0,0)\nmacro_SetTaskItemParam(21241,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 946,
+      lineStart = 147069,
+      lineEnd = 147074,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3312,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21145,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3312)\nmacro_SetTaskItemParam(21145,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 947,
+      lineStart = 147075,
+      lineEnd = 147080,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3312,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5065,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3312)\nmacro_SetTaskKillParam(5065,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 948,
+      lineStart = 147081,
+      lineEnd = 147086,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3312,
+      maxAward = 2,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 23044,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3312)\nmacro_SetTaskItemParam(23044,10,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 949,
+      lineStart = 147087,
+      lineEnd = 147092,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3345,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21240,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3345)\nmacro_SetTaskItemParam(21240,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 950,
+      lineStart = 147093,
+      lineEnd = 147098,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3345,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5241,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3345)\nmacro_SetTaskKillParam(5241,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 951,
+      lineStart = 147099,
+      lineEnd = 147104,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3364,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23077,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3364)\nmacro_SetTaskItemParam(23077,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 952,
+      lineStart = 147105,
+      lineEnd = 147110,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3365,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5241,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3365)\nmacro_SetTaskKillParam(5241,15,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 953,
+      lineStart = 147111,
+      lineEnd = 147116,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3365,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 23082,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3365)\nmacro_SetTaskItemParam(23082,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 954,
+      lineStart = 147117,
+      lineEnd = 147123,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3366,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5235,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 55,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3366)\nmacro_SetTaskKillParam(5235,1,0)\nmacro_SetTaskDropRate(55)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 955,
+      lineStart = 147124,
+      lineEnd = 147129,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3363,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5243,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3363)\nmacro_SetTaskKillParam(5243,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 956,
+      lineStart = 147130,
+      lineEnd = 147137,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3132,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23086,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5246,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 70,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3132)\nmacro_SetTaskKillParam(5246,0,0)\nmacro_SetTaskItemParam(23086,10,0)\nmacro_SetTaskDropRate(70)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 957,
+      lineStart = 147138,
+      lineEnd = 147143,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3380,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5246,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3380)\nmacro_SetTaskKillParam(5246,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 958,
+      lineStart = 147144,
+      lineEnd = 147149,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3381,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21242,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3381)\nmacro_SetTaskItemParam(21242,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 959,
+      lineStart = 147150,
+      lineEnd = 147155,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3381,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5282,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3381)\nmacro_SetTaskKillParam(5282,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 960,
+      lineStart = 147156,
+      lineEnd = 147161,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3370,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21382,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3370)\nmacro_SetTaskItemParam(21382,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 961,
+      lineStart = 147162,
+      lineEnd = 147167,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3374,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21247,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3374)\nmacro_SetTaskItemParam(21247,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 962,
+      lineStart = 147168,
+      lineEnd = 147173,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3375,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21247,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3375)\nmacro_SetTaskItemParam(21247,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 963,
+      lineStart = 147174,
+      lineEnd = 147180,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3371,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5244,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5202,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3371)\nmacro_SetTaskKillParam(5244,10,0)\nmacro_SetTaskKillParam(5202,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 964,
+      lineStart = 147181,
+      lineEnd = 147186,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3219,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21146,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3219)\nmacro_SetTaskItemParam(21146,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 965,
+      lineStart = 147187,
+      lineEnd = 147192,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3219,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5134,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3219)\nmacro_SetTaskKillParam(5134,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 966,
+      lineStart = 147193,
+      lineEnd = 147198,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3312,
+      maxAward = 2,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21092,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3312)\nmacro_SetTaskItemParam(21092,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 967,
+      lineStart = 147199,
+      lineEnd = 147204,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3376,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21248,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3376)\nmacro_SetTaskItemParam(21248,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 968,
+      lineStart = 147205,
+      lineEnd = 147210,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3376,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5248,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3376)\nmacro_SetTaskKillParam(5248,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 969,
+      lineStart = 147211,
+      lineEnd = 147217,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3436,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5251,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 67,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3436)\nmacro_SetTaskKillParam(5251,1,0)\nmacro_SetTaskDropRate(67)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 970,
+      lineStart = 147218,
+      lineEnd = 147224,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3391,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5257,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5258,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3391)\nmacro_SetTaskKillParam(5257,10,0)\nmacro_SetTaskKillParam(5258,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 971,
+      lineStart = 147225,
+      lineEnd = 147232,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3392,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23092,
+          count = 5,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5252,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 70,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3392)\nmacro_SetTaskKillParam(5252,0,0)\nmacro_SetTaskItemParam(23092,5,0)\nmacro_SetTaskDropRate(70)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 972,
+      lineStart = 147233,
+      lineEnd = 147238,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3393,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5253,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3393)\nmacro_SetTaskKillParam(5253,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 973,
+      lineStart = 147239,
+      lineEnd = 147244,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3394,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21249,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3394)\nmacro_SetTaskItemParam(21249,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 974,
+      lineStart = 147245,
+      lineEnd = 147250,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3382,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21249,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3382)\nmacro_SetTaskItemParam(21249,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 975,
+      lineStart = 147251,
+      lineEnd = 147256,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3382,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5255,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3382)\nmacro_SetTaskKillParam(5255,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 976,
+      lineStart = 147257,
+      lineEnd = 147262,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3394,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21250,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3394)\nmacro_SetTaskItemParam(21250,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 977,
+      lineStart = 147263,
+      lineEnd = 147268,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3394,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5283,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3394)\nmacro_SetTaskKillParam(5283,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 978,
+      lineStart = 147269,
+      lineEnd = 147274,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3394,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21251,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3394)\nmacro_SetTaskItemParam(21251,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 979,
+      lineStart = 147275,
+      lineEnd = 147280,
+      maxStep = 6,
+      taskType = 1,
+      overNpcId = 3283,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5135,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3283)\nmacro_SetTaskKillParam(5135,2,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 980,
+      lineStart = 147281,
+      lineEnd = 147286,
+      maxStep = 6,
+      taskType = 2,
+      overNpcId = 3135,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21147,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3135)\nmacro_SetTaskItemParam(21147,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 981,
+      lineStart = 147287,
+      lineEnd = 147294,
+      maxStep = 6,
+      taskType = 4,
+      overNpcId = 3135,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21148,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5136,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5136,0,0)\nmacro_SetTaskItemParam(21148,10,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 982,
+      lineStart = 147295,
+      lineEnd = 147300,
+      maxStep = 6,
+      taskType = 2,
+      overNpcId = 3132,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21149,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3132)\nmacro_SetTaskItemParam(21149,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 983,
+      lineStart = 147301,
+      lineEnd = 147306,
+      maxStep = 6,
+      taskType = 2,
+      overNpcId = 3132,
+      maxAward = 0,
+      taskStep = 5,
+      itemParams = {
+        {
+          templateId = 21150,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3132)\nmacro_SetTaskItemParam(21150,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(5)"
+    },
+    {
+      clusterIndex = 984,
+      lineStart = 147307,
+      lineEnd = 147312,
+      maxStep = 6,
+      taskType = 1,
+      overNpcId = 3173,
+      maxAward = 1,
+      taskStep = 6,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5149,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3173)\nmacro_SetTaskKillParam(5149,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(6)"
+    },
+    {
+      clusterIndex = 985,
+      lineStart = 147313,
+      lineEnd = 147318,
+      maxStep = 7,
+      taskType = 8,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 7,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(7)\nmacro_SetTaskType(8)\nmacro_SetOverNpc(3135)\nmacro_SetTaskRole(3173)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(7)"
+    },
+    {
+      clusterIndex = 986,
+      lineStart = 147319,
+      lineEnd = 147324,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3438,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23095,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3438)\nmacro_SetTaskItemParam(23095,10,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 987,
+      lineStart = 147325,
+      lineEnd = 147330,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3383,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21285,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3383)\nmacro_SetTaskItemParam(21285,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 988,
+      lineStart = 147331,
+      lineEnd = 147336,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3439,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21252,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3439)\nmacro_SetTaskItemParam(21252,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 989,
+      lineStart = 147337,
+      lineEnd = 147342,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3383,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5284,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3383)\nmacro_SetTaskKillParam(5284,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 990,
+      lineStart = 147343,
+      lineEnd = 147348,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3383,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21253,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3383)\nmacro_SetTaskItemParam(21253,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 991,
+      lineStart = 147349,
+      lineEnd = 147356,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3383,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21254,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5254,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 70,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3383)\nmacro_SetTaskKillParam(5254,0,0)\nmacro_SetTaskItemParam(21254,10,0)\nmacro_SetTaskDropRate(70)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 992,
+      lineStart = 147357,
+      lineEnd = 147364,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3395,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21255,
+          count = 20,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5258,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3395)\nmacro_SetTaskKillParam(5258,0,0)\nmacro_SetTaskItemParam(21255,20,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 993,
+      lineStart = 147365,
+      lineEnd = 147371,
+      maxStep = 2,
+      taskType = 16,
+      overNpcId = 3395,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5294,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 76,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3395)\nmacro_SetTaskKillParam(5294,1,0)\nmacro_SetTaskDropRate(76)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 994,
+      lineStart = 147372,
+      lineEnd = 147377,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3396,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21256,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3396)\nmacro_SetTaskItemParam(21256,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 995,
+      lineStart = 147378,
+      lineEnd = 147383,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3395,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21257,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3395)\nmacro_SetTaskItemParam(21257,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 996,
+      lineStart = 147384,
+      lineEnd = 147389,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3397,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21258,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3397)\nmacro_SetTaskItemParam(21258,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 997,
+      lineStart = 147390,
+      lineEnd = 147395,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3378,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21258,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3378)\nmacro_SetTaskItemParam(21258,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 998,
+      lineStart = 147396,
+      lineEnd = 147401,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3378,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5276,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3378)\nmacro_SetTaskKillParam(5276,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 999,
+      lineStart = 147402,
+      lineEnd = 147407,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3397,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21259,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3397)\nmacro_SetTaskItemParam(21259,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1000,
+      lineStart = 147408,
+      lineEnd = 147413,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3401,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21260,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3401)\nmacro_SetTaskItemParam(21260,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1001,
+      lineStart = 147414,
+      lineEnd = 147419,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3398,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21261,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3398)\nmacro_SetTaskItemParam(21261,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1002,
+      lineStart = 147420,
+      lineEnd = 147425,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3398,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5286,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3398)\nmacro_SetTaskKillParam(5286,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1003,
+      lineStart = 147426,
+      lineEnd = 147433,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3401,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21262,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5285,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3401)\nmacro_SetTaskKillParam(5285,0,0)\nmacro_SetTaskItemParam(21262,1,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1004,
+      lineStart = 147434,
+      lineEnd = 147439,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3184,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21172,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3184)\nmacro_SetTaskItemParam(21172,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1005,
+      lineStart = 147440,
+      lineEnd = 147445,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3184,
+      maxAward = 2,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5150,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3184)\nmacro_SetTaskKillParam(5150,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1006,
+      lineStart = 147446,
+      lineEnd = 147452,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3402,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5249,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 85,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3402)\nmacro_SetTaskKillParam(5249,1,0)\nmacro_SetTaskDropRate(85)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1007,
+      lineStart = 147453,
+      lineEnd = 147457,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3404,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3404)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1008,
+      lineStart = 147458,
+      lineEnd = 147463,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3404,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5259,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3404)\nmacro_SetTaskKillParam(5259,10,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1009,
+      lineStart = 147464,
+      lineEnd = 147468,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3403,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3403)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1010,
+      lineStart = 147469,
+      lineEnd = 147474,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3403,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21265,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3403)\nmacro_SetTaskItemParam(21265,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 1011,
+      lineStart = 147475,
+      lineEnd = 147482,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3402,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21387,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5262,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3402)\nmacro_SetTaskKillParam(5262,0,0)\nmacro_SetTaskItemParam(21387,10,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1012,
+      lineStart = 147483,
+      lineEnd = 147488,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3404,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21389,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3404)\nmacro_SetTaskItemParam(21389,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1013,
+      lineStart = 147489,
+      lineEnd = 147494,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3402,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5596,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3402)\nmacro_SetTaskKillParam(5596,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1014,
+      lineStart = 147495,
+      lineEnd = 147499,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3404,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3404)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1015,
+      lineStart = 147500,
+      lineEnd = 147505,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3404,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5597,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3404)\nmacro_SetTaskKillParam(5597,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1016,
+      lineStart = 147506,
+      lineEnd = 147510,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3402,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3402)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1017,
+      lineStart = 147511,
+      lineEnd = 147518,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3405,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21390,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5266,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3405)\nmacro_SetTaskKillParam(5266,0,0)\nmacro_SetTaskItemParam(21390,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)macro_SetTaskMaxStep(3)"
+    },
+    {
+      clusterIndex = 1018,
+      lineStart = 147518,
+      lineEnd = 147518,
+      maxStep = 3,
+      taskType = nil,
+      overNpcId = nil,
+      maxAward = nil,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskStep(1)macro_SetTaskMaxStep(3)"
+    },
+    {
+      clusterIndex = 1019,
+      lineStart = 147523,
+      lineEnd = 147528,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3778,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5598,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3778)\nmacro_SetTaskKillParam(5598,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1020,
+      lineStart = 147529,
+      lineEnd = 147534,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3405,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5599,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3405)\nmacro_SetTaskKillParam(5599,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1021,
+      lineStart = 147535,
+      lineEnd = 147540,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5259,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3414)\nmacro_SetTaskKillParam(5259,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1022,
+      lineStart = 147541,
+      lineEnd = 147545,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3418,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3418)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1023,
+      lineStart = 147546,
+      lineEnd = 147553,
+      maxStep = 4,
+      taskType = 4,
+      overNpcId = 3418,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21391,
+          count = 15,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5264,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3418)\nmacro_SetTaskKillParam(5264,0,0)\nmacro_SetTaskItemParam(21391,15,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1024,
+      lineStart = 147554,
+      lineEnd = 147560,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3418,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21269,
+          count = 1,
+          index = 0
+        },
+        {
+          templateId = 21270,
+          count = 1,
+          index = 1
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3418)\nmacro_SetTaskItemParam(21269,1,0)\nmacro_SetTaskItemParam(21270,1,1)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1025,
+      lineStart = 147561,
+      lineEnd = 147566,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3779,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21392,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3779)\nmacro_SetTaskItemParam(21392,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 1026,
+      lineStart = 147567,
+      lineEnd = 147572,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3418,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5601,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3418)\nmacro_SetTaskKillParam(5601,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1027,
+      lineStart = 147573,
+      lineEnd = 147578,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3418,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5600,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3418)\nmacro_SetTaskKillParam(5600,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1028,
+      lineStart = 147579,
+      lineEnd = 147583,
+      maxStep = 5,
+      taskType = 32,
+      overNpcId = 3187,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3187)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1029,
+      lineStart = 147584,
+      lineEnd = 147591,
+      maxStep = 5,
+      taskType = 4,
+      overNpcId = 3187,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21180,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5213,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3187)\nmacro_SetTaskKillParam(5213,0,0)\nmacro_SetTaskItemParam(21180,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1030,
+      lineStart = 147592,
+      lineEnd = 147599,
+      maxStep = 5,
+      taskType = 4,
+      overNpcId = 3187,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21178,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5212,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3187)\nmacro_SetTaskKillParam(5212,0,0)\nmacro_SetTaskItemParam(21178,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1031,
+      lineStart = 147600,
+      lineEnd = 147607,
+      maxStep = 5,
+      taskType = 4,
+      overNpcId = 3187,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21179,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5214,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3187)\nmacro_SetTaskKillParam(5214,0,0)\nmacro_SetTaskItemParam(21179,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 1032,
+      lineStart = 147608,
+      lineEnd = 147613,
+      maxStep = 5,
+      taskType = 2,
+      overNpcId = 3155,
+      maxAward = 1,
+      taskStep = 5,
+      itemParams = {
+        {
+          templateId = 21176,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3155)\nmacro_SetTaskItemParam(21176,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(5)"
+    },
+    {
+      clusterIndex = 1033,
+      lineStart = 147614,
+      lineEnd = 147619,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3175,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21128,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3175)\nmacro_SetTaskItemParam(21128,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1034,
+      lineStart = 147620,
+      lineEnd = 147625,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3004,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21117,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3004)\nmacro_SetTaskItemParam(21117,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1035,
+      lineStart = 147626,
+      lineEnd = 147631,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3054,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21029,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3054)\nmacro_SetTaskItemParam(21029,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1036,
+      lineStart = 147632,
+      lineEnd = 147637,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3006,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5010,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3006)\nmacro_SetTaskKillParam(5010,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 1037,
+      lineStart = 147638,
+      lineEnd = 147643,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3054,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21397,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3054)\nmacro_SetTaskItemParam(21397,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1038,
+      lineStart = 147644,
+      lineEnd = 147649,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3054,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21398,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3054)\nmacro_SetTaskItemParam(21398,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1039,
+      lineStart = 147650,
+      lineEnd = 147655,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21273,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3414)\nmacro_SetTaskItemParam(21273,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1040,
+      lineStart = 147656,
+      lineEnd = 147661,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3406,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5295,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3406)\nmacro_SetTaskKillParam(5295,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1041,
+      lineStart = 147662,
+      lineEnd = 147669,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3407,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23104,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5264,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 70,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3407)\nmacro_SetTaskKillParam(5264,0,0)\nmacro_SetTaskItemParam(23104,10,0)\nmacro_SetTaskDropRate(70)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1042,
+      lineStart = 147670,
+      lineEnd = 147675,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3407,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21274,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3407)\nmacro_SetTaskItemParam(21274,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1043,
+      lineStart = 147676,
+      lineEnd = 147681,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3409,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21275,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3409)\nmacro_SetTaskItemParam(21275,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1044,
+      lineStart = 147682,
+      lineEnd = 147689,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3410,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21276,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5287,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3410)\nmacro_SetTaskKillParam(5287,0,0)\nmacro_SetTaskItemParam(21276,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1045,
+      lineStart = 147690,
+      lineEnd = 147697,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3411,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21277,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5286,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3411)\nmacro_SetTaskKillParam(5286,0,0)\nmacro_SetTaskItemParam(21277,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1046,
+      lineStart = 147698,
+      lineEnd = 147702,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3414,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3414)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1047,
+      lineStart = 147703,
+      lineEnd = 147708,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3409,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5602,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3409)\nmacro_SetTaskKillParam(5602,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1048,
+      lineStart = 147709,
+      lineEnd = 147714,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21275,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3414)\nmacro_SetTaskItemParam(21275,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1049,
+      lineStart = 147715,
+      lineEnd = 147722,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3409,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21278,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5289,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3409)\nmacro_SetTaskKillParam(5289,0,0)\nmacro_SetTaskItemParam(21278,1,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1050,
+      lineStart = 147723,
+      lineEnd = 147728,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21275,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3414)\nmacro_SetTaskItemParam(21275,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1051,
+      lineStart = 147729,
+      lineEnd = 147734,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3412,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21279,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3412)\nmacro_SetTaskItemParam(21279,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1052,
+      lineStart = 147735,
+      lineEnd = 147740,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3421,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21280,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3421)\nmacro_SetTaskItemParam(21280,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1053,
+      lineStart = 147741,
+      lineEnd = 147746,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3142,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21154,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3142)\nmacro_SetTaskItemParam(21154,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1054,
+      lineStart = 147747,
+      lineEnd = 147752,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3142,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21155,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3142)\nmacro_SetTaskItemParam(21155,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1055,
+      lineStart = 147753,
+      lineEnd = 147758,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3421,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21281,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3421)\nmacro_SetTaskItemParam(21281,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1056,
+      lineStart = 147759,
+      lineEnd = 147765,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3412,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 20023,
+          count = 1,
+          index = 0
+        },
+        {
+          templateId = 20020,
+          count = 1,
+          index = 1
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3412)\nmacro_SetTaskItemParam(20023,1,0)\nmacro_SetTaskItemParam(20020,1,1)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1057,
+      lineStart = 147766,
+      lineEnd = 147772,
+      maxStep = 2,
+      taskType = 16,
+      overNpcId = 3421,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5268,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 94,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3421)\nmacro_SetTaskKillParam(5268,1,0)\nmacro_SetTaskDropRate(94)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1058,
+      lineStart = 147773,
+      lineEnd = 147778,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5083,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)--É±¹ÖÁìÈ¡¶«Î÷ÐÍ \nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5083,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1059,
+      lineStart = 147779,
+      lineEnd = 147784,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5082,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)--É±¹ÖÁìÈ¡¶«Î÷ÐÍ \nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5082,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)macro_SetTaskMaxStep(1)"
+    },
+    {
+      clusterIndex = 1060,
+      lineStart = 147784,
+      lineEnd = 147784,
+      maxStep = 1,
+      taskType = nil,
+      overNpcId = nil,
+      maxAward = nil,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskStep(1)macro_SetTaskMaxStep(1)"
+    },
+    {
+      clusterIndex = 1061,
+      lineStart = 147792,
+      lineEnd = 147799,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3182,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21292,
+          count = 18,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5038,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 60,
+      rawSnippet = "\tmacro_SetTaskMaxStep(1)\n\tmacro_SetTaskType(4)\n\tmacro_SetOverNpc(3182)\n\tmacro_SetTaskKillParam(5038,0,0)\n\tmacro_SetTaskItemParam(21292,18,0)\n\tmacro_SetTaskDropRate(60)\n\tmacro_SetMaxAward(1)\n\tmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1062,
+      lineStart = 147801,
+      lineEnd = 147806,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3004,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21123,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3004)\nmacro_SetTaskItemParam(21123,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1063,
+      lineStart = 147807,
+      lineEnd = 147812,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3005,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21001,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3005)\nmacro_SetTaskItemParam(21001,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1064,
+      lineStart = 147813,
+      lineEnd = 147818,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3023,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21124,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3023)\nmacro_SetTaskItemParam(21124,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1065,
+      lineStart = 147819,
+      lineEnd = 147824,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3023,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5106,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3023)\nmacro_SetTaskKillParam(5106,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 1066,
+      lineStart = 147825,
+      lineEnd = 147830,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3155,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21175,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3155)\nmacro_SetTaskItemParam(21175,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1067,
+      lineStart = 147831,
+      lineEnd = 147836,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3138,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21176,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3138)\nmacro_SetTaskItemParam(21176,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1068,
+      lineStart = 147837,
+      lineEnd = 147842,
+      maxStep = 4,
+      taskType = 8,
+      overNpcId = 3155,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(8)\nmacro_SetOverNpc(3155)\nmacro_SetTaskRole(3138)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1069,
+      lineStart = 147843,
+      lineEnd = 147848,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3155,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5115,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3155)\nmacro_SetTaskKillParam(5115,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 1070,
+      lineStart = 147849,
+      lineEnd = 147854,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3133,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5155,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3133)\nmacro_SetTaskKillParam(5155,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1071,
+      lineStart = 147855,
+      lineEnd = 147860,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3133,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5152,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3133)\nmacro_SetTaskKillParam(5152,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1072,
+      lineStart = 147861,
+      lineEnd = 147866,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3133,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5154,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3133)\nmacro_SetTaskKillParam(5154,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1073,
+      lineStart = 147867,
+      lineEnd = 147872,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3133,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5152,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3133)\nmacro_SetTaskKillParam(5152,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1074,
+      lineStart = 147873,
+      lineEnd = 147878,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3133,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5153,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3133)\nmacro_SetTaskKillParam(5153,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1075,
+      lineStart = 147879,
+      lineEnd = 147884,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3133,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5073,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3133)\nmacro_SetTaskKillParam(5073,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1076,
+      lineStart = 147885,
+      lineEnd = 147890,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3133,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5073,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3133)\nmacro_SetTaskKillParam(5073,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1077,
+      lineStart = 147891,
+      lineEnd = 147896,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3133,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5148,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3133)\nmacro_SetTaskKillParam(5148,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1078,
+      lineStart = 147897,
+      lineEnd = 147902,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3133,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5156,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3133)\nmacro_SetTaskKillParam(5156,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1079,
+      lineStart = 147903,
+      lineEnd = 147908,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3120,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21173,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3120)\nmacro_SetTaskItemParam(21173,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1080,
+      lineStart = 147909,
+      lineEnd = 147914,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3120,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5114,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3120)\nmacro_SetTaskKillParam(5114,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1081,
+      lineStart = 147915,
+      lineEnd = 147920,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3187,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21174,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3187)\nmacro_SetTaskItemParam(21174,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1082,
+      lineStart = 147921,
+      lineEnd = 147926,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3120,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21177,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3120)\nmacro_SetTaskItemParam(21177,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1083,
+      lineStart = 147927,
+      lineEnd = 147932,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3187,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21177,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3187)\nmacro_SetTaskItemParam(21177,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1084,
+      lineStart = 147933,
+      lineEnd = 147938,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3120,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5129,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3120)\nmacro_SetTaskKillParam(5129,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1085,
+      lineStart = 147939,
+      lineEnd = 147943,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3135,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3135)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1086,
+      lineStart = 147944,
+      lineEnd = 147948,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3132,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3132)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1087,
+      lineStart = 147949,
+      lineEnd = 147953,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3529,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3529)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1088,
+      lineStart = 147954,
+      lineEnd = 147958,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3426,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3426)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1089,
+      lineStart = 147959,
+      lineEnd = 147964,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3452,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21286,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3452)\nmacro_SetTaskItemParam(21286,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1090,
+      lineStart = 147965,
+      lineEnd = 147970,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3452,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5299,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3452)\nmacro_SetTaskKillParam(5299,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1091,
+      lineStart = 147971,
+      lineEnd = 147976,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3033,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5098,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3033)\nmacro_SetTaskKillParam(5098,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1092,
+      lineStart = 147977,
+      lineEnd = 147982,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5002,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5002,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1093,
+      lineStart = 147983,
+      lineEnd = 147988,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5018,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5018,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1094,
+      lineStart = 147989,
+      lineEnd = 147994,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 29113,
+          count = 50,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3621)\nmacro_SetTaskItemParam(29113,50,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1095,
+      lineStart = 147995,
+      lineEnd = 148000,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 20083,
+          count = 2,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3621)\nmacro_SetTaskItemParam(20083,2,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1096,
+      lineStart = 148001,
+      lineEnd = 148008,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21306,
+          count = 20,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5038,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5038,0,0)\nmacro_SetTaskItemParam(21306,20,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1097,
+      lineStart = 148009,
+      lineEnd = 148014,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5359,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5359,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1098,
+      lineStart = 148015,
+      lineEnd = 148020,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5096,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5096,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1099,
+      lineStart = 148021,
+      lineEnd = 148026,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 20052,
+          count = 5,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3621)\nmacro_SetTaskItemParam(20052,5,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1100,
+      lineStart = 148027,
+      lineEnd = 148032,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5236,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5236,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1101,
+      lineStart = 148033,
+      lineEnd = 148038,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5236,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5236,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1102,
+      lineStart = 148039,
+      lineEnd = 148043,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3453,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3453)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1103,
+      lineStart = 148044,
+      lineEnd = 148049,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3453,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5301,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3453)\nmacro_SetTaskKillParam(5301,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1104,
+      lineStart = 148050,
+      lineEnd = 148055,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3453,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5304,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3453)\nmacro_SetTaskKillParam(5304,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1105,
+      lineStart = 148056,
+      lineEnd = 148061,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 29105,
+          count = 30,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3621)\nmacro_SetTaskItemParam(29105,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1106,
+      lineStart = 148062,
+      lineEnd = 148067,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5244,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5244,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1107,
+      lineStart = 148068,
+      lineEnd = 148073,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 29126,
+          count = 30,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3621)\nmacro_SetTaskItemParam(29126,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1108,
+      lineStart = 148074,
+      lineEnd = 148079,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5246,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5246,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1109,
+      lineStart = 148080,
+      lineEnd = 148086,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21307,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5246,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5246,0,0)\nmacro_SetTaskItemParam(21307,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1110,
+      lineStart = 148087,
+      lineEnd = 148092,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 20054,
+          count = 5,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3621)\nmacro_SetTaskItemParam(20054,5,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1111,
+      lineStart = 148093,
+      lineEnd = 148098,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5252,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5252,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1112,
+      lineStart = 148099,
+      lineEnd = 148104,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5469,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5469,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1113,
+      lineStart = 148105,
+      lineEnd = 148110,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 20076,
+          count = 2,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3621)\nmacro_SetTaskItemParam(20076,2,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1114,
+      lineStart = 148111,
+      lineEnd = 148116,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5552,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5552,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1115,
+      lineStart = 148117,
+      lineEnd = 148121,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3097,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3097)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1116,
+      lineStart = 148122,
+      lineEnd = 148127,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3097,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5471,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3097)\nmacro_SetTaskKillParam(5471,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1117,
+      lineStart = 148128,
+      lineEnd = 148133,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3452,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21289,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3452)\nmacro_SetTaskItemParam(21289,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1118,
+      lineStart = 148134,
+      lineEnd = 148139,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 29117,
+          count = 20,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3621)\nmacro_SetTaskItemParam(29117,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1119,
+      lineStart = 148140,
+      lineEnd = 148144,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3454,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3454)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1120,
+      lineStart = 148145,
+      lineEnd = 148152,
+      maxStep = 4,
+      taskType = 4,
+      overNpcId = 3454,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21380,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5305,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3454)\nmacro_SetTaskKillParam(5305,0,0)\nmacro_SetTaskItemParam(21380,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1121,
+      lineStart = 148153,
+      lineEnd = 148160,
+      maxStep = 4,
+      taskType = 4,
+      overNpcId = 3454,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21381,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5306,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3454)\nmacro_SetTaskKillParam(5306,0,0)\nmacro_SetTaskItemParam(21381,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1122,
+      lineStart = 148161,
+      lineEnd = 148166,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3457,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5307,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3457)\nmacro_SetTaskKillParam(5307,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 1123,
+      lineStart = 148167,
+      lineEnd = 148171,
+      maxStep = 5,
+      taskType = 32,
+      overNpcId = 3457,
+      maxAward = 0,
+      taskStep = 5,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3457)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(5)"
+    },
+    {
+      clusterIndex = 1124,
+      lineStart = 148172,
+      lineEnd = 148177,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3211,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21013,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3211)\nmacro_SetTaskItemParam(21013,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1125,
+      lineStart = 148178,
+      lineEnd = 148182,
+      maxStep = 2,
+      taskType = 32,
+      overNpcId = 3218,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3218)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1126,
+      lineStart = 148183,
+      lineEnd = 148188,
+      maxStep = 1,
+      taskType = 8,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(8)\nmacro_SetOverNpc(3135)\nmacro_SetTaskRole(3173)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1127,
+      lineStart = 148189,
+      lineEnd = 148196,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21195,
+          count = 15,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5267,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 60,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3414)\nmacro_SetTaskKillParam(5267,0,0)\nmacro_SetTaskItemParam(21195,15,0)\nmacro_SetTaskDropRate(60)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1128,
+      lineStart = 148197,
+      lineEnd = 148203,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5268,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 93,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3414)\nmacro_SetTaskKillParam(5268,3,0)\nmacro_SetTaskDropRate(93)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1129,
+      lineStart = 148204,
+      lineEnd = 148210,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5267,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5268,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3414)\nmacro_SetTaskKillParam(5267,10,0)\nmacro_SetTaskKillParam(5268,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1130,
+      lineStart = 148211,
+      lineEnd = 148218,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21194,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5290,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 60,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3414)\nmacro_SetTaskKillParam(5290,0,0)\nmacro_SetTaskItemParam(21194,10,0)\nmacro_SetTaskDropRate(60)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1131,
+      lineStart = 148219,
+      lineEnd = 148226,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21193,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5244,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 50,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3414)\nmacro_SetTaskKillParam(5244,0,0)\nmacro_SetTaskItemParam(21193,10,0)\nmacro_SetTaskDropRate(50)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1132,
+      lineStart = 148227,
+      lineEnd = 148233,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5266,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 78,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3414)\nmacro_SetTaskKillParam(5266,3,0)\nmacro_SetTaskDropRate(78)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1133,
+      lineStart = 148234,
+      lineEnd = 148238,
+      maxStep = 2,
+      taskType = 32,
+      overNpcId = 3492,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3492)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1134,
+      lineStart = 148239,
+      lineEnd = 148244,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3492,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5470,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3492)\nmacro_SetTaskKillParam(5470,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1135,
+      lineStart = 148245,
+      lineEnd = 148250,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3034,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5098,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3034)\nmacro_SetTaskKillParam(5098,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1136,
+      lineStart = 148251,
+      lineEnd = 148257,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3004,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5002,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 3,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3004)\nmacro_SetTaskKillParam(5002,3,0)\nmacro_SetTaskDropRate(3)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1137,
+      lineStart = 148258,
+      lineEnd = 148264,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3004,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5001,
+          count = 5,
+          index = 0
+        },
+        {
+          monsterId = 5002,
+          count = 5,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3004)\nmacro_SetTaskKillParam(5001,5,0)\nmacro_SetTaskKillParam(5002,5,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1138,
+      lineStart = 148265,
+      lineEnd = 148270,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3004,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23003,
+          count = 15,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3004)\nmacro_SetTaskItemParam(23003,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1139,
+      lineStart = 148271,
+      lineEnd = 148278,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3004,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21109,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5003,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 50,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3004)\nmacro_SetTaskKillParam(5003,0,0)\nmacro_SetTaskItemParam(21109,10,0)\nmacro_SetTaskDropRate(50)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1140,
+      lineStart = 148279,
+      lineEnd = 148285,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5023,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 10,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5023,3,0)\nmacro_SetTaskDropRate(10)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1141,
+      lineStart = 148286,
+      lineEnd = 148292,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5037,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5034,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5037,10,0)\nmacro_SetTaskKillParam(5034,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1142,
+      lineStart = 148293,
+      lineEnd = 148299,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5025,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5026,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5025,10,0)\nmacro_SetTaskKillParam(5026,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1143,
+      lineStart = 148300,
+      lineEnd = 148306,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5015,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5016,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5015,10,0)\nmacro_SetTaskKillParam(5016,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1144,
+      lineStart = 148307,
+      lineEnd = 148312,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3209,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23014,
+          count = 20,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3209)\nmacro_SetTaskItemParam(23014,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1145,
+      lineStart = 148313,
+      lineEnd = 148318,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3080,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21034,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3080)\nmacro_SetTaskItemParam(21034,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1146,
+      lineStart = 148319,
+      lineEnd = 148323,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3089,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3089)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1147,
+      lineStart = 148324,
+      lineEnd = 148328,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3110,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3110)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1148,
+      lineStart = 148329,
+      lineEnd = 148334,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3110,
+      maxAward = 3,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5036,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3110)\nmacro_SetTaskKillParam(5036,10,0)\nmacro_SetMaxAward(3)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 1149,
+      lineStart = 148335,
+      lineEnd = 148341,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3209,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5187,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 15,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3209)\nmacro_SetTaskKillParam(5187,3,0)\nmacro_SetTaskDropRate(15)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1150,
+      lineStart = 148342,
+      lineEnd = 148347,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3209,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5019,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3209)\nmacro_SetTaskKillParam(5019,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1151,
+      lineStart = 148348,
+      lineEnd = 148353,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3209,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5038,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3209)\nmacro_SetTaskKillParam(5038,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1152,
+      lineStart = 148354,
+      lineEnd = 148360,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5090,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5091,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5090,10,0)\nmacro_SetTaskKillParam(5091,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1153,
+      lineStart = 148361,
+      lineEnd = 148366,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5066,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5066,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1154,
+      lineStart = 148367,
+      lineEnd = 148373,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5093,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 27,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5093,3,0)\nmacro_SetTaskDropRate(27)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1155,
+      lineStart = 148374,
+      lineEnd = 148381,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23033,
+          count = 20,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5188,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 50,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5188,0,0)\nmacro_SetTaskItemParam(23033,20,0)\nmacro_SetTaskDropRate(50)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1156,
+      lineStart = 148382,
+      lineEnd = 148389,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21190,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5092,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 60,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5092,0,0)\nmacro_SetTaskItemParam(21190,10,0)\nmacro_SetTaskDropRate(60)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1157,
+      lineStart = 148390,
+      lineEnd = 148395,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5201,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5201,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1158,
+      lineStart = 148396,
+      lineEnd = 148402,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5165,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 41,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5165,3,0)\nmacro_SetTaskDropRate(41)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1159,
+      lineStart = 148403,
+      lineEnd = 148408,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3013,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21102,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3013)\nmacro_SetTaskItemParam(21102,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1160,
+      lineStart = 148409,
+      lineEnd = 148413,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3025,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3025)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1161,
+      lineStart = 148414,
+      lineEnd = 148418,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3118,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3118)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1162,
+      lineStart = 148419,
+      lineEnd = 148426,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21191,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5093,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 60,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5093,0,0)\nmacro_SetTaskItemParam(21191,10,0)\nmacro_SetTaskDropRate(60)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1163,
+      lineStart = 148427,
+      lineEnd = 148432,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5198,
+          count = 10,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5198,10,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1164,
+      lineStart = 148433,
+      lineEnd = 148438,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5241,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5241,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1165,
+      lineStart = 148439,
+      lineEnd = 148445,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5242,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 52,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5242,3,0)\nmacro_SetTaskDropRate(52)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1166,
+      lineStart = 148446,
+      lineEnd = 148452,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5234,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5235,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5234,10,0)\nmacro_SetTaskKillParam(5235,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1167,
+      lineStart = 148453,
+      lineEnd = 148458,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3132,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5243,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3132)\nmacro_SetTaskKillParam(5243,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1168,
+      lineStart = 148459,
+      lineEnd = 148464,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3132,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5247,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3132)\nmacro_SetTaskKillParam(5247,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1169,
+      lineStart = 148465,
+      lineEnd = 148471,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3132,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5244,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 65,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3132)\nmacro_SetTaskKillParam(5244,3,0)\nmacro_SetTaskDropRate(65)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1170,
+      lineStart = 148472,
+      lineEnd = 148478,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3132,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5250,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5253,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3132)\nmacro_SetTaskKillParam(5250,10,0)\nmacro_SetTaskKillParam(5253,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1171,
+      lineStart = 148479,
+      lineEnd = 148484,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3426,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5258,
+          count = 20,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3426)\nmacro_SetTaskKillParam(5258,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1172,
+      lineStart = 148485,
+      lineEnd = 148491,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3428,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5001,
+          count = 20,
+          index = 0
+        },
+        {
+          monsterId = 5002,
+          count = 20,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3428)\nmacro_SetTaskKillParam(5001,20,0)\nmacro_SetTaskKillParam(5002,20,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1173,
+      lineStart = 148516,
+      lineEnd = 148522,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5256,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5254,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3621)\nmacro_SetTaskKillParam(5256,10,0)\nmacro_SetTaskKillParam(5254,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1174,
+      lineStart = 148523,
+      lineEnd = 148528,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3112,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5398,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3112)--ÕÅ¹ûÀÐ\nmacro_SetTaskKillParam(5398,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1175,
+      lineStart = 148529,
+      lineEnd = 148534,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3622,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5398,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3622)\nmacro_SetTaskKillParam(5398,1,0)--É±ÇÀÇ×¹Ö\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1176,
+      lineStart = 148536,
+      lineEnd = 148543,
+      maxStep = 1,
+      taskType = 4,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21192,
+          count = 5,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5262,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 50,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3414)\nmacro_SetTaskKillParam(5262,0,0)\nmacro_SetTaskItemParam(21192,5,0)\nmacro_SetTaskDropRate(50)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1177,
+      lineStart = 148544,
+      lineEnd = 148549,
+      maxStep = 6,
+      taskType = 2,
+      overNpcId = 3164,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21196,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3164)\nmacro_SetTaskItemParam(21196,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1178,
+      lineStart = 148550,
+      lineEnd = 148555,
+      maxStep = 6,
+      taskType = 2,
+      overNpcId = 3310,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21197,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3310)\nmacro_SetTaskItemParam(21197,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1179,
+      lineStart = 148556,
+      lineEnd = 148561,
+      maxStep = 6,
+      taskType = 2,
+      overNpcId = 3194,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21197,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3194)\nmacro_SetTaskItemParam(21197,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1180,
+      lineStart = 148562,
+      lineEnd = 148567,
+      maxStep = 6,
+      taskType = 2,
+      overNpcId = 3195,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21197,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3195)\nmacro_SetTaskItemParam(21197,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 1181,
+      lineStart = 148568,
+      lineEnd = 148573,
+      maxStep = 6,
+      taskType = 2,
+      overNpcId = 3306,
+      maxAward = 0,
+      taskStep = 5,
+      itemParams = {
+        {
+          templateId = 21198,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3306)\nmacro_SetTaskItemParam(21198,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(5)"
+    },
+    {
+      clusterIndex = 1182,
+      lineStart = 148574,
+      lineEnd = 148579,
+      maxStep = 6,
+      taskType = 2,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 6,
+      itemParams = {
+        {
+          templateId = 21197,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(6)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3022)\nmacro_SetTaskItemParam(21197,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(6)"
+    },
+    {
+      clusterIndex = 1183,
+      lineStart = 148580,
+      lineEnd = 148585,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3202,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21199,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3202)\nmacro_SetTaskItemParam(21199,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1184,
+      lineStart = 148586,
+      lineEnd = 148591,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3200,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21200,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3200)\nmacro_SetTaskItemParam(21200,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1185,
+      lineStart = 148592,
+      lineEnd = 148598,
+      maxStep = 4,
+      taskType = 16,
+      overNpcId = 3200,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5312,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 25,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3200)\nmacro_SetTaskKillParam(5312,1,0)\nmacro_SetTaskDropRate(25)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1186,
+      lineStart = 148599,
+      lineEnd = 148606,
+      maxStep = 4,
+      taskType = 4,
+      overNpcId = 3202,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21284,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5273,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3202)\nmacro_SetTaskKillParam(5273,0,0)\nmacro_SetTaskItemParam(21284,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 1187,
+      lineStart = 148607,
+      lineEnd = 148612,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3232,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21201,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3232)\nmacro_SetTaskItemParam(21201,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1188,
+      lineStart = 148613,
+      lineEnd = 148618,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3218,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5274,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3218)\nmacro_SetTaskKillParam(5274,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1189,
+      lineStart = 148619,
+      lineEnd = 148624,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3307,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21202,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3307)\nmacro_SetTaskItemParam(21202,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1190,
+      lineStart = 148625,
+      lineEnd = 148635,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3307,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21282,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5269,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3307)\n\nmacro_SetTaskKillParam(5269,0,0)\nmacro_SetTaskItemParam(21282,1,0)\n\nmacro_SetTaskDropRate(100)\n\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1191,
+      lineStart = 148636,
+      lineEnd = 148645,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3307,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21283,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5270,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3307)\n\nmacro_SetTaskKillParam(5270,0,0)\nmacro_SetTaskItemParam(21283,1,0)\nmacro_SetTaskDropRate(100)\n\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1192,
+      lineStart = 148646,
+      lineEnd = 148651,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3120,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21203,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3120)\nmacro_SetTaskItemParam(21203,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1193,
+      lineStart = 148652,
+      lineEnd = 148658,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3339,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21204,
+          count = 1,
+          index = 0
+        },
+        {
+          templateId = 21246,
+          count = 1,
+          index = 1
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3339)\nmacro_SetTaskItemParam(21204,1,0)\nmacro_SetTaskItemParam(21246,1,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1194,
+      lineStart = 148659,
+      lineEnd = 148667,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3099,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21206,
+          count = 1,
+          index = 0
+        },
+        {
+          templateId = 21091,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5275,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3099)\n--macro_SetTaskKillParam(5275,0,0)\n--macro_SetTaskItemParam(21206,1,0)\nmacro_SetTaskItemParam(21091,1,0)\n--macro_SetTaskDropRate(100)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1195,
+      lineStart = 148668,
+      lineEnd = 148676,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3099,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21206,
+          count = 1,
+          index = 0
+        },
+        {
+          templateId = 21091,
+          count = 1,
+          index = 1
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5275,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3099)\nmacro_SetTaskKillParam(5275,0,0)\nmacro_SetTaskItemParam(21206,1,0)\n--macro_SetTaskItemParam(21091,1,1)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1196,
+      lineStart = 148677,
+      lineEnd = 148682,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3352,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21207,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3352)\nmacro_SetTaskItemParam(21207,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1197,
+      lineStart = 148683,
+      lineEnd = 148691,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21210,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5271,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3135)\n\nmacro_SetTaskKillParam(5271,0,0)\nmacro_SetTaskItemParam(21210,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1198,
+      lineStart = 148693,
+      lineEnd = 148698,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3359,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21214,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3359)\nmacro_SetTaskItemParam(21214,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1199,
+      lineStart = 148699,
+      lineEnd = 148707,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3357,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21215,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5272,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 100,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3357)\n\nmacro_SetTaskKillParam(5272,0,0)\nmacro_SetTaskItemParam(21215,1,0)\nmacro_SetTaskDropRate(100)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1200,
+      lineStart = 148708,
+      lineEnd = 148713,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3389,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21211,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3389)\nmacro_SetTaskItemParam(21211,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1201,
+      lineStart = 148714,
+      lineEnd = 148721,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3389,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21212,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5194,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 70,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3389)\nmacro_SetTaskKillParam(5194,0,0)\nmacro_SetTaskItemParam(21212,10,0)\nmacro_SetTaskDropRate(70)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1202,
+      lineStart = 148722,
+      lineEnd = 148727,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3204,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21209,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3204)\nmacro_SetTaskItemParam(21209,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1203,
+      lineStart = 148728,
+      lineEnd = 148733,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3346,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21216,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3346)\nmacro_SetTaskItemParam(21216,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1204,
+      lineStart = 148734,
+      lineEnd = 148739,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3239,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21216,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3239)\nmacro_SetTaskItemParam(21216,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1205,
+      lineStart = 148740,
+      lineEnd = 148745,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3251,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21216,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3251)\nmacro_SetTaskItemParam(21216,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1206,
+      lineStart = 148746,
+      lineEnd = 148751,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3354,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5291,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3354)\nmacro_SetTaskKillParam(5291,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1207,
+      lineStart = 148752,
+      lineEnd = 148759,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3341,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21219,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5241,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 30,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3341)\nmacro_SetTaskKillParam(5241,0,0)\nmacro_SetTaskItemParam(21219,1,0)\nmacro_SetTaskDropRate(30)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1208,
+      lineStart = 148760,
+      lineEnd = 148765,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3341,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21218,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3341)\nmacro_SetTaskItemParam(21218,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1209,
+      lineStart = 148766,
+      lineEnd = 148771,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3358,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21220,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3358)\nmacro_SetTaskItemParam(21220,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1210,
+      lineStart = 148772,
+      lineEnd = 148777,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3349,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5277,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3349)\nmacro_SetTaskKillParam(5277,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1211,
+      lineStart = 148778,
+      lineEnd = 148783,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3358,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21221,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3358)\nmacro_SetTaskItemParam(21221,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1212,
+      lineStart = 148784,
+      lineEnd = 148789,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3386,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21222,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3386)\nmacro_SetTaskItemParam(21222,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1213,
+      lineStart = 148790,
+      lineEnd = 148797,
+      maxStep = 3,
+      taskType = 4,
+      overNpcId = 3386,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21224,
+          count = 5,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5251,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 60,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3386)\nmacro_SetTaskKillParam(5251,0,0)\nmacro_SetTaskItemParam(21224,5,0)\nmacro_SetTaskDropRate(60)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1214,
+      lineStart = 148798,
+      lineEnd = 148803,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3367,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21225,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3367)\nmacro_SetTaskItemParam(21225,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1215,
+      lineStart = 148804,
+      lineEnd = 148809,
+      maxStep = 5,
+      taskType = 8,
+      overNpcId = 3390,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(8)\nmacro_SetOverNpc(3390)\nmacro_SetTaskRole(3390)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1216,
+      lineStart = 148810,
+      lineEnd = 148816,
+      maxStep = 5,
+      taskType = 2,
+      overNpcId = 3390,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 20063,
+          count = 1,
+          index = 0
+        },
+        {
+          templateId = 20064,
+          count = 1,
+          index = 1
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3390)\nmacro_SetTaskItemParam(20063,1,0)\nmacro_SetTaskItemParam(20064,1,1)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1217,
+      lineStart = 148817,
+      lineEnd = 148824,
+      maxStep = 5,
+      taskType = 4,
+      overNpcId = 3388,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21227,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5290,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 60,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3388)\nmacro_SetTaskKillParam(5290,0,0)\nmacro_SetTaskItemParam(21227,10,0)\nmacro_SetTaskDropRate(60)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1218,
+      lineStart = 148825,
+      lineEnd = 148830,
+      maxStep = 5,
+      taskType = 2,
+      overNpcId = 3390,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21226,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3390)\nmacro_SetTaskItemParam(21226,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 1219,
+      lineStart = 148831,
+      lineEnd = 148838,
+      maxStep = 5,
+      taskType = 4,
+      overNpcId = 3388,
+      maxAward = 1,
+      taskStep = 5,
+      itemParams = {
+        {
+          templateId = 21228,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5258,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 30,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3388)\nmacro_SetTaskKillParam(5258,0,0)\nmacro_SetTaskItemParam(21228,1,0)\nmacro_SetTaskDropRate(30)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(5)"
+    },
+    {
+      clusterIndex = 1220,
+      lineStart = 148839,
+      lineEnd = 148844,
+      maxStep = 5,
+      taskType = 2,
+      overNpcId = 3030,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21157,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3030)\nmacro_SetTaskItemParam(21157,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1221,
+      lineStart = 148845,
+      lineEnd = 148850,
+      maxStep = 5,
+      taskType = 2,
+      overNpcId = 3030,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21158,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3030)\nmacro_SetTaskItemParam(21158,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1222,
+      lineStart = 148851,
+      lineEnd = 148856,
+      maxStep = 5,
+      taskType = 2,
+      overNpcId = 3010,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21161,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3010)\nmacro_SetTaskItemParam(21161,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1223,
+      lineStart = 148857,
+      lineEnd = 148862,
+      maxStep = 5,
+      taskType = 2,
+      overNpcId = 3058,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21162,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3058)\nmacro_SetTaskItemParam(21162,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 1224,
+      lineStart = 148863,
+      lineEnd = 148868,
+      maxStep = 5,
+      taskType = 2,
+      overNpcId = 3010,
+      maxAward = 1,
+      taskStep = 5,
+      itemParams = {
+        {
+          templateId = 21160,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3010)\nmacro_SetTaskItemParam(21160,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(5)"
+    },
+    {
+      clusterIndex = 1225,
+      lineStart = 148869,
+      lineEnd = 148875,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3009,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23015,
+          count = 5,
+          index = 0
+        },
+        {
+          templateId = 21187,
+          count = 1,
+          index = 1
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3009)\nmacro_SetTaskItemParam(23015,5,0)\nmacro_SetTaskItemParam(21187,1,1)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1226,
+      lineStart = 148876,
+      lineEnd = 148881,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3009,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21165,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3009)\nmacro_SetTaskItemParam(21165,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1227,
+      lineStart = 148882,
+      lineEnd = 148887,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3009,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21167,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3009)\nmacro_SetTaskItemParam(21167,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1228,
+      lineStart = 148888,
+      lineEnd = 148894,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3015,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21168,
+          count = 1,
+          index = 0
+        },
+        {
+          templateId = 21188,
+          count = 1,
+          index = 1
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3015)\nmacro_SetTaskItemParam(21168,1,0)\nmacro_SetTaskItemParam(21188,1,1)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1229,
+      lineStart = 148895,
+      lineEnd = 148900,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3015,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5207,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3015)\nmacro_SetTaskKillParam(5207,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1230,
+      lineStart = 148901,
+      lineEnd = 148908,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3022,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23032,
+          count = 10,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5062,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 80,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5062,0,0)\nmacro_SetTaskItemParam(23032,10,0)\nmacro_SetTaskDropRate(80)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1231,
+      lineStart = 148909,
+      lineEnd = 148915,
+      maxStep = 2,
+      taskType = 16,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5208,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 25,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5208,1,0)\nmacro_SetTaskDropRate(25)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1232,
+      lineStart = 148916,
+      lineEnd = 148922,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3020,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21189,
+          count = 1,
+          index = 0
+        },
+        {
+          templateId = 23030,
+          count = 10,
+          index = 1
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3020)\nmacro_SetTaskItemParam(21189,1,0)\nmacro_SetTaskItemParam(23030,10,1)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1233,
+      lineStart = 148923,
+      lineEnd = 148928,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3020,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5022,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3020)\nmacro_SetTaskKillParam(5022,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1234,
+      lineStart = 148929,
+      lineEnd = 148934,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3044,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21163,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3044)\nmacro_SetTaskItemParam(21163,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1235,
+      lineStart = 148935,
+      lineEnd = 148941,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3044,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5206,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5062,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5206,10,0)\nmacro_SetTaskKillParam(5062,10,1)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1236,
+      lineStart = 148942,
+      lineEnd = 148947,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3209,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21164,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3209)\nmacro_SetTaskItemParam(21164,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1237,
+      lineStart = 148948,
+      lineEnd = 148953,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3033,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5098,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3033)\nmacro_SetTaskKillParam(5098,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1238,
+      lineStart = 148954,
+      lineEnd = 148960,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5037,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5034,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5037,10,0)\nmacro_SetTaskKillParam(5034,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1239,
+      lineStart = 148961,
+      lineEnd = 148966,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5026,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5026,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1240,
+      lineStart = 148967,
+      lineEnd = 148973,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5215,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 15,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5215,3,0)\nmacro_SetTaskDropRate(15)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1241,
+      lineStart = 148974,
+      lineEnd = 148980,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5015,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5016,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3022)\nmacro_SetTaskKillParam(5015,10,0)\nmacro_SetTaskKillParam(5016,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1242,
+      lineStart = 148981,
+      lineEnd = 148987,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3209,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5018,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5019,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3209)\nmacro_SetTaskKillParam(5018,10,0)\nmacro_SetTaskKillParam(5019,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1243,
+      lineStart = 148988,
+      lineEnd = 148993,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3209,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23014,
+          count = 20,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3209)\nmacro_SetTaskItemParam(23014,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1244,
+      lineStart = 148994,
+      lineEnd = 149000,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3209,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5187,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 25,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3209)\nmacro_SetTaskKillParam(5187,3,0)\nmacro_SetTaskDropRate(25)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1245,
+      lineStart = 149001,
+      lineEnd = 149006,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3209,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5038,
+          count = 25,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3209)\nmacro_SetTaskKillParam(5038,25,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1246,
+      lineStart = 149007,
+      lineEnd = 149013,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5090,
+          count = 10,
+          index = 0
+        },
+        {
+          monsterId = 5091,
+          count = 10,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5090,10,0)\nmacro_SetTaskKillParam(5091,10,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1247,
+      lineStart = 149014,
+      lineEnd = 149019,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 23033,
+          count = 20,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3044)\nmacro_SetTaskItemParam(23033,20,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1248,
+      lineStart = 149020,
+      lineEnd = 149025,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3033,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5013,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3033)\nmacro_SetTaskKillParam(5013,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1249,
+      lineStart = 149026,
+      lineEnd = 149031,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5097,
+          count = 25,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5097,25,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1250,
+      lineStart = 149032,
+      lineEnd = 149038,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5093,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 35,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5093,3,0)\nmacro_SetTaskDropRate(35)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1251,
+      lineStart = 149039,
+      lineEnd = 149044,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5201,
+          count = 25,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5201,25,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1252,
+      lineStart = 149045,
+      lineEnd = 149050,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5298,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5298,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1253,
+      lineStart = 149051,
+      lineEnd = 149057,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3044,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5096,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 45,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3044)\nmacro_SetTaskKillParam(5096,3,0)\nmacro_SetTaskDropRate(45)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1254,
+      lineStart = 149058,
+      lineEnd = 149063,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5198,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5198,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1255,
+      lineStart = 149064,
+      lineEnd = 149069,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5241,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5241,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1256,
+      lineStart = 149070,
+      lineEnd = 149076,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5235,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 55,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5235,3,0)\nmacro_SetTaskDropRate(55)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1257,
+      lineStart = 149077,
+      lineEnd = 149082,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5234,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5234,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1258,
+      lineStart = 149083,
+      lineEnd = 149088,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5243,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5243,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1259,
+      lineStart = 149089,
+      lineEnd = 149094,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3033,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5007,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3033)\nmacro_SetTaskKillParam(5007,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1260,
+      lineStart = 149095,
+      lineEnd = 149100,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5244,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5244,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1261,
+      lineStart = 149101,
+      lineEnd = 149107,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5202,
+          count = 3,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 65,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5202,3,0)\nmacro_SetTaskDropRate(65)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1262,
+      lineStart = 149108,
+      lineEnd = 149113,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5364,
+          count = 15,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5364,15,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1263,
+      lineStart = 149114,
+      lineEnd = 149119,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5246,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5246,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1264,
+      lineStart = 149120,
+      lineEnd = 149125,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3135,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5249,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3135)\nmacro_SetTaskKillParam(5249,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1265,
+      lineStart = 149126,
+      lineEnd = 149132,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3426,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5250,
+          count = 15,
+          index = 0
+        },
+        {
+          monsterId = 5253,
+          count = 15,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3426)\nmacro_SetTaskKillParam(5250,15,0)\nmacro_SetTaskKillParam(5253,15,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1266,
+      lineStart = 149133,
+      lineEnd = 149138,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3426,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5255,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3426)\nmacro_SetTaskKillParam(5255,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1267,
+      lineStart = 149139,
+      lineEnd = 149144,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3426,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5254,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3426)\nmacro_SetTaskKillParam(5254,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1268,
+      lineStart = 149145,
+      lineEnd = 149150,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5259,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3414)\nmacro_SetTaskKillParam(5259,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1269,
+      lineStart = 149151,
+      lineEnd = 149156,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3414,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5264,
+          count = 30,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3414)\nmacro_SetTaskKillParam(5264,30,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1270,
+      lineStart = 149157,
+      lineEnd = 149162,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3034,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5098,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3034)\nmacro_SetTaskKillParam(5098,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1271,
+      lineStart = 149163,
+      lineEnd = 149168,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3034,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5014,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3034)\nmacro_SetTaskKillParam(5014,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1272,
+      lineStart = 149169,
+      lineEnd = 149173,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3118,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3118)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1273,
+      lineStart = 149174,
+      lineEnd = 149178,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3036,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3036)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1274,
+      lineStart = 149179,
+      lineEnd = 149184,
+      maxStep = 3,
+      taskType = 2,
+      overNpcId = 3118,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21006,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3118)\nmacro_SetTaskItemParam(21006,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1275,
+      lineStart = 150952,
+      lineEnd = 150955,
+      maxStep = 2,
+      taskType = nil,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetOverNpc(3022)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1276,
+      lineStart = 150960,
+      lineEnd = 150963,
+      maxStep = 2,
+      taskType = nil,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetOverNpc(3022)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1277,
+      lineStart = 150966,
+      lineEnd = 150969,
+      maxStep = 2,
+      taskType = nil,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetOverNpc(3022)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1278,
+      lineStart = 150974,
+      lineEnd = 150977,
+      maxStep = 2,
+      taskType = nil,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetOverNpc(3022)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1279,
+      lineStart = 150980,
+      lineEnd = 150983,
+      maxStep = 2,
+      taskType = nil,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetOverNpc(3022)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1280,
+      lineStart = 150988,
+      lineEnd = 150991,
+      maxStep = 2,
+      taskType = nil,
+      overNpcId = 3022,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetOverNpc(3022)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1281,
+      lineStart = 150992,
+      lineEnd = 150993,
+      maxStep = 1,
+      taskType = nil,
+      overNpcId = nil,
+      maxAward = nil,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1282,
+      lineStart = 151030,
+      lineEnd = 151034,
+      maxStep = 1,
+      taskType = 2,
+      overNpcId = 3086,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "endmacro_SetTaskMaxStep(1)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3086)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1283,
+      lineStart = 151078,
+      lineEnd = 151082,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3086,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "endmacro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3086)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1284,
+      lineStart = 151102,
+      lineEnd = 151107,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3034,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5008,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3034)\nmacro_SetTaskKillParam(5008,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1285,
+      lineStart = 151134,
+      lineEnd = 151138,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3621)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1286,
+      lineStart = 151142,
+      lineEnd = 151146,
+      maxStep = 1,
+      taskType = 16,
+      overNpcId = 3621,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(16)\nmacro_SetOverNpc(3621)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1287,
+      lineStart = 151148,
+      lineEnd = 151152,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3162,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3162)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1288,
+      lineStart = 151153,
+      lineEnd = 151159,
+      maxStep = 3,
+      taskType = 8,
+      overNpcId = 3042,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(8)\nmacro_SetOverNpc(3042)\n\nmacro_SetTaskRole(3162)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1289,
+      lineStart = 151160,
+      lineEnd = 151165,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3042,
+      maxAward = 2,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5042,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3042)\nmacro_SetTaskKillParam(5042,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1290,
+      lineStart = 151166,
+      lineEnd = 151170,
+      maxStep = 2,
+      taskType = 32,
+      overNpcId = 3160,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3160)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1291,
+      lineStart = 151171,
+      lineEnd = 151176,
+      maxStep = 2,
+      taskType = 2,
+      overNpcId = 3218,
+      maxAward = 2,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21013,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3218)\nmacro_SetTaskItemParam(21013,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1292,
+      lineStart = 151177,
+      lineEnd = 151181,
+      maxStep = 1,
+      taskType = 32,
+      overNpcId = 3283,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3283)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1293,
+      lineStart = 151182,
+      lineEnd = 151186,
+      maxStep = 2,
+      taskType = 32,
+      overNpcId = 3414,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3414)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1294,
+      lineStart = 151187,
+      lineEnd = 151191,
+      maxStep = 2,
+      taskType = 32,
+      overNpcId = 3751,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3751)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1295,
+      lineStart = 151192,
+      lineEnd = 151197,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3751,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5583,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3751)\nmacro_SetTaskKillParam(5583,2,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1296,
+      lineStart = 151198,
+      lineEnd = 151203,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3751,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21385,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3751)\nmacro_SetTaskItemParam(21385,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1297,
+      lineStart = 151204,
+      lineEnd = 151209,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3757,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5584,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3757)\nmacro_SetTaskKillParam(5584,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1298,
+      lineStart = 151210,
+      lineEnd = 151214,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3751,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3751)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 1299,
+      lineStart = 151215,
+      lineEnd = 151219,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3751,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3751)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1300,
+      lineStart = 151220,
+      lineEnd = 151224,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3754,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3754)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1301,
+      lineStart = 151225,
+      lineEnd = 151231,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3754,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5585,
+          count = 1,
+          index = 0
+        },
+        {
+          monsterId = 5586,
+          count = 1,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3754)\nmacro_SetTaskKillParam(5585,1,0)\nmacro_SetTaskKillParam(5586,1,1)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1302,
+      lineStart = 151232,
+      lineEnd = 151236,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3751,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3751)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 1303,
+      lineStart = 151237,
+      lineEnd = 151241,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3754,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3754)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1304,
+      lineStart = 151242,
+      lineEnd = 151247,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3754,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5587,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3754)\nmacro_SetTaskKillParam(5587,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1305,
+      lineStart = 151248,
+      lineEnd = 151252,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3764,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3764)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1306,
+      lineStart = 151253,
+      lineEnd = 151258,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3771,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5588,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3771)\nmacro_SetTaskKillParam(5588,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 1307,
+      lineStart = 151259,
+      lineEnd = 151263,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3773,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3773)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1308,
+      lineStart = 151264,
+      lineEnd = 151268,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3751,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3751)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1309,
+      lineStart = 151269,
+      lineEnd = 151273,
+      maxStep = 4,
+      taskType = 32,
+      overNpcId = 3774,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3774)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1310,
+      lineStart = 151274,
+      lineEnd = 151279,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3775,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5589,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3775)\nmacro_SetTaskKillParam(5589,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 1311,
+      lineStart = 151280,
+      lineEnd = 151284,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3036,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3036)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1312,
+      lineStart = 151285,
+      lineEnd = 151290,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3036,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5100,
+          count = 2,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3036)\nmacro_SetTaskKillParam(5100,2,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1313,
+      lineStart = 151291,
+      lineEnd = 151296,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3036,
+      maxAward = 2,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5099,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3036)\nmacro_SetTaskKillParam(5099,1,0)\nmacro_SetMaxAward(2)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1314,
+      lineStart = 151297,
+      lineEnd = 151304,
+      maxStep = 5,
+      taskType = 4,
+      overNpcId = 3112,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {
+        {
+          templateId = 21060,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5159,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 30,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3112)\nmacro_SetTaskKillParam(5159,0,0)\nmacro_SetTaskItemParam(21060,1,0)\nmacro_SetTaskDropRate(30)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1315,
+      lineStart = 151305,
+      lineEnd = 151310,
+      maxStep = 5,
+      taskType = 1,
+      overNpcId = 3112,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5160,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3112)\nmacro_SetTaskKillParam(5160,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1316,
+      lineStart = 151311,
+      lineEnd = 151316,
+      maxStep = 5,
+      taskType = 2,
+      overNpcId = 3183,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {
+        {
+          templateId = 21061,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3183)\nmacro_SetTaskItemParam(21061,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1317,
+      lineStart = 151317,
+      lineEnd = 151324,
+      maxStep = 5,
+      taskType = 4,
+      overNpcId = 3183,
+      maxAward = 0,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21062,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5161,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 10,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3183)\nmacro_SetTaskKillParam(5161,0,0)\nmacro_SetTaskItemParam(21062,1,0)\nmacro_SetTaskDropRate(10)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(4)"
+    },
+    {
+      clusterIndex = 1318,
+      lineStart = 151325,
+      lineEnd = 151330,
+      maxStep = 5,
+      taskType = 2,
+      overNpcId = 3112,
+      maxAward = 1,
+      taskStep = 5,
+      itemParams = {
+        {
+          templateId = 21063,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(5)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3112)\nmacro_SetTaskItemParam(21063,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(5)"
+    },
+    {
+      clusterIndex = 1319,
+      lineStart = 151331,
+      lineEnd = 151336,
+      maxStep = 2,
+      taskType = 1,
+      overNpcId = 3111,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5162,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3111)\nmacro_SetTaskKillParam(5162,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1320,
+      lineStart = 151337,
+      lineEnd = 151344,
+      maxStep = 2,
+      taskType = 4,
+      overNpcId = 3111,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21064,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {
+        {
+          monsterId = 5163,
+          count = 0,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = 30,
+      rawSnippet = "macro_SetTaskMaxStep(2)\nmacro_SetTaskType(4)\nmacro_SetOverNpc(3111)\nmacro_SetTaskKillParam(5163,0,0)\nmacro_SetTaskItemParam(21064,1,0)\nmacro_SetTaskDropRate(30)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1321,
+      lineStart = 151428,
+      lineEnd = 151432,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1322,
+      lineStart = 151449,
+      lineEnd = 151454,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5347,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5347,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1323,
+      lineStart = 151455,
+      lineEnd = 151461,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3173,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 3525,
+          count = 1,
+          index = 0
+        },
+        {
+          monsterId = 3526,
+          count = 1,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "endmacro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3173)\nmacro_SetTaskKillParam(3525,1,0)\nmacro_SetTaskKillParam(3526,1,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1324,
+      lineStart = 151462,
+      lineEnd = 151466,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3527,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3527)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1325,
+      lineStart = 151467,
+      lineEnd = 151473,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3173,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5378,
+          count = 1,
+          index = 0
+        },
+        {
+          monsterId = 5379,
+          count = 1,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3173)\nmacro_SetTaskKillParam(5378,1,0)\nmacro_SetTaskKillParam(5379,1,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1326,
+      lineStart = 151474,
+      lineEnd = 151480,
+      maxStep = 3,
+      taskType = 1,
+      overNpcId = 3173,
+      maxAward = 1,
+      taskStep = 2,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5380,
+          count = 1,
+          index = 0
+        },
+        {
+          monsterId = 5381,
+          count = 1,
+          index = 1
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3173)\nmacro_SetTaskKillParam(5380,1,0)\nmacro_SetTaskKillParam(5381,1,1)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1327,
+      lineStart = 151481,
+      lineEnd = 151485,
+      maxStep = 3,
+      taskType = 32,
+      overNpcId = 3527,
+      maxAward = 1,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(3)\nmacro_SetTaskType(32)\nmacro_SetOverNpc(3527)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1328,
+      lineStart = 151502,
+      lineEnd = 151507,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5349,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5349,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1329,
+      lineStart = 151520,
+      lineEnd = 151525,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5350,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5350,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1330,
+      lineStart = 151545,
+      lineEnd = 151550,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5351,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5351,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1331,
+      lineStart = 151570,
+      lineEnd = 151575,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5352,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5352,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1332,
+      lineStart = 151589,
+      lineEnd = 151594,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5353,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5353,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1333,
+      lineStart = 151614,
+      lineEnd = 151619,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5354,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5354,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1334,
+      lineStart = 151640,
+      lineEnd = 151645,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5355,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5355,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1335,
+      lineStart = 151660,
+      lineEnd = 151665,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5356,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5356,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1336,
+      lineStart = 151684,
+      lineEnd = 151689,
+      maxStep = 1,
+      taskType = 1,
+      overNpcId = 3224,
+      maxAward = 1,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5357,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(1)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3224)\nmacro_SetTaskKillParam(5357,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1337,
+      lineStart = 151690,
+      lineEnd = 151695,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3035,
+      maxAward = 0,
+      taskStep = 1,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5101,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "endmacro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3035)\nmacro_SetTaskKillParam(5101,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(1)"
+    },
+    {
+      clusterIndex = 1338,
+      lineStart = 151696,
+      lineEnd = 151702,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3216,
+      maxAward = 0,
+      taskStep = 2,
+      itemParams = {
+        {
+          templateId = 21008,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3216)\n\nmacro_SetTaskItemParam(21008,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(2)"
+    },
+    {
+      clusterIndex = 1339,
+      lineStart = 151703,
+      lineEnd = 151708,
+      maxStep = 4,
+      taskType = 1,
+      overNpcId = 3216,
+      maxAward = 0,
+      taskStep = 3,
+      itemParams = {},
+      killParams = {
+        {
+          monsterId = 5102,
+          count = 1,
+          index = 0
+        }
+      },
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(1)\nmacro_SetOverNpc(3216)\nmacro_SetTaskKillParam(5102,1,0)\nmacro_SetMaxAward(0)\nmacro_SetTaskStep(3)"
+    },
+    {
+      clusterIndex = 1340,
+      lineStart = 151709,
+      lineEnd = 151715,
+      maxStep = 4,
+      taskType = 2,
+      overNpcId = 3035,
+      maxAward = 1,
+      taskStep = 4,
+      itemParams = {
+        {
+          templateId = 21009,
+          count = 1,
+          index = 0
+        }
+      },
+      killParams = {},
+      addedItems = {},
+      dropRate = nil,
+      rawSnippet = "macro_SetTaskMaxStep(4)\nmacro_SetTaskType(2)\nmacro_SetOverNpc(3035)\n\nmacro_SetTaskItemParam(21009,1,0)\nmacro_SetMaxAward(1)\nmacro_SetTaskStep(4)"
+    }
+  }
+}

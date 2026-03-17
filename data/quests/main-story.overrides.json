@@ -118,6 +118,30 @@
       ]
     },
     {
+      "id": 51,
+      "name": "Pet",
+      "type": "story",
+      "acceptSubtype": 3,
+      "acceptMessage": "Pet is active.",
+      "completionMessage": "Pet is complete.",
+      "rewards": {
+        "gold": 0,
+        "experience": 600,
+        "coins": 300
+      },
+      "steps": [
+        {},
+        {},
+        {},
+        {
+          "type": "kill",
+          "monsterId": 5003,
+          "count": 1,
+          "description": "Help Grandpa deal with a Little Boar."
+        }
+      ]
+    },
+    {
       "id": 481,
       "name": "Vulture Fight",
       "type": "story",
