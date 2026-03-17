@@ -83,6 +83,7 @@ const {
 } = require('./protocol/gameplay-packets');
 const {
   applyInventoryQuestEvent,
+  sendEquipmentContainerSync,
   syncInventoryStateToClient,
 } = require('./gameplay/inventory-runtime');
 const {
@@ -96,6 +97,7 @@ const {
   restoreAtInn: processInnRest,
 } = require('./gameplay/npc-interactions');
 const {
+  CHARACTER_VITALS_BASELINE,
   buildDefeatRespawnState,
 } = require('./gameplay/session-flows');
 const {
@@ -127,6 +129,7 @@ const {
   applyMonsterDefeat,
   applySceneTransition,
   buildQuestSyncState,
+  getQuestDefinition,
   normalizeQuestState,
   reconcileAutoAccept,
 } = require('./quest-engine');
@@ -166,8 +169,8 @@ class Session {
     this.selectedAptitude = 0;
     this.level = 1;
     this.experience = 0;
-    this.currentHealth = 398;
-    this.currentMana = 600;
+    this.currentHealth = CHARACTER_VITALS_BASELINE.health;
+    this.currentMana = CHARACTER_VITALS_BASELINE.mana;
     this.currentRage = 100;
     this.gold = 0;
     this.bankGold = 0;
@@ -198,6 +201,7 @@ class Session {
     this.syntheticFight = null;
     this.combatReference = COMBAT_REFERENCE;
     this.syntheticCommandRefreshTimer = null;
+    this.equipmentReplayTimer = null;
     this.defeatRespawnPending = false;
     this.hasAnnouncedQuestOverview = false;
 
@@ -209,8 +213,14 @@ class Session {
       this.selectedAptitude = numberOrDefault(sharedState.pendingGameCharacter.selectedAptitude, 0);
       this.level = numberOrDefault(sharedState.pendingGameCharacter.level, 1);
       this.experience = numberOrDefault(sharedState.pendingGameCharacter.experience, 0);
-      this.currentHealth = numberOrDefault(sharedState.pendingGameCharacter.currentHealth, 398);
-      this.currentMana = numberOrDefault(sharedState.pendingGameCharacter.currentMana, 600);
+      this.currentHealth = numberOrDefault(
+        sharedState.pendingGameCharacter.currentHealth,
+        CHARACTER_VITALS_BASELINE.health
+      );
+      this.currentMana = numberOrDefault(
+        sharedState.pendingGameCharacter.currentMana,
+        CHARACTER_VITALS_BASELINE.mana
+      );
       this.currentRage = numberOrDefault(sharedState.pendingGameCharacter.currentRage, 100);
       this.gold = numberOrDefault(sharedState.pendingGameCharacter.gold, 0);
       this.bankGold = numberOrDefault(sharedState.pendingGameCharacter.bankGold, 0);
@@ -342,6 +352,10 @@ class Session {
       return;
     }
 
+    if (cmdWord === GAME_FIGHT_RESULT_CMD && this.tryHandleEquipmentStatePacket(payload)) {
+      return;
+    }
+
     if (cmdWord === GAME_FIGHT_CLIENT_CMD || isCombatCommand(cmdWord)) {
       this.handleCombatPacket(cmdWord, payload);
       return;
@@ -360,6 +374,35 @@ class Session {
     }
 
     this.log(`Unhandled game cmd8=0x${cmdByte.toString(16)} cmd16=0x${cmdWord.toString(16)}`);
+  }
+
+  tryHandleEquipmentStatePacket(payload) {
+    if (payload.length !== 9 || payload[2] !== 0x01) {
+      return false;
+    }
+
+    const instanceId = payload.readUInt32LE(3);
+    const equipFlag = payload[7];
+    const unequipFlag = payload[8];
+    if (!((equipFlag === 1 && unequipFlag === 0) || (equipFlag === 0 && unequipFlag === 1))) {
+      return false;
+    }
+
+    const item = Array.isArray(this.bagItems)
+      ? this.bagItems.find((entry) => (entry.instanceId >>> 0) === (instanceId >>> 0))
+      : null;
+    if (!item) {
+      this.log(`Ignoring equipment state for unknown instanceId=${instanceId}`);
+      return true;
+    }
+
+    item.equipped = equipFlag === 1;
+    this.log(
+      `Equipment state update instanceId=${instanceId} templateId=${item.templateId} equipped=${item.equipped ? 1 : 0}`
+    );
+    this.persistCurrentCharacter();
+    sendEquipmentContainerSync(this);
+    return true;
   }
 
   handleSpecialPacket(cmdWord, payload) {
@@ -433,8 +476,8 @@ class Session {
     this.selectedAptitude = selectedAptitude;
     this.level = 1;
     this.experience = 0;
-    this.currentHealth = 398;
-    this.currentMana = 600;
+    this.currentHealth = CHARACTER_VITALS_BASELINE.health;
+    this.currentMana = CHARACTER_VITALS_BASELINE.mana;
     this.currentRage = 100;
     this.gold = 0;
     this.bankGold = 0;
@@ -554,8 +597,8 @@ class Session {
       selectedAptitude: persisted?.selectedAptitude || this.selectedAptitude || 0,
       level: persisted?.level || this.level || 1,
       experience: persisted?.experience || this.experience || 0,
-      currentHealth: persisted?.currentHealth || this.currentHealth || 398,
-      currentMana: persisted?.currentMana || this.currentMana || 600,
+      currentHealth: persisted?.currentHealth || this.currentHealth || CHARACTER_VITALS_BASELINE.health,
+      currentMana: persisted?.currentMana || this.currentMana || CHARACTER_VITALS_BASELINE.mana,
       currentRage: persisted?.currentRage || this.currentRage || 100,
       gold: persisted?.gold || this.gold || 0,
       bankGold: persisted?.bankGold || this.bankGold || 0,
@@ -610,7 +653,23 @@ class Session {
     this.sendSelfStateAptitudeSync();
     this.sendStaticNpcSpawns();
     syncInventoryStateToClient(this);
+    this.scheduleEquipmentReplay();
     this.syncQuestStateToClient();
+  }
+
+  scheduleEquipmentReplay(delayMs = 300) {
+    if (this.equipmentReplayTimer) {
+      clearTimeout(this.equipmentReplayTimer);
+      this.equipmentReplayTimer = null;
+    }
+
+    this.equipmentReplayTimer = setTimeout(() => {
+      this.equipmentReplayTimer = null;
+      if (this.state !== 'LOGGED_IN') {
+        return;
+      }
+      sendEquipmentContainerSync(this);
+    }, Math.max(0, delayMs | 0));
   }
 
   sendPong(token) {
@@ -813,8 +872,8 @@ class Session {
     this.selectedAptitude = numberOrDefault(character.selectedAptitude, 0);
     this.level = numberOrDefault(character.level, 1);
     this.experience = numberOrDefault(character.experience, 0);
-    this.currentHealth = numberOrDefault(character.currentHealth, 398);
-    this.currentMana = numberOrDefault(character.currentMana, 600);
+    this.currentHealth = numberOrDefault(character.currentHealth, CHARACTER_VITALS_BASELINE.health);
+    this.currentMana = numberOrDefault(character.currentMana, CHARACTER_VITALS_BASELINE.mana);
     this.currentRage = numberOrDefault(character.currentRage, 100);
     this.gold = numberOrDefault(character.gold, 0);
     this.bankGold = numberOrDefault(character.bankGold, 0);
@@ -939,21 +998,41 @@ class Session {
     });
 
     const triggerId = action?.probeId || null;
-    if (triggerId === this.currentEncounterTriggerId) {
-      return;
-    }
-
-    this.currentEncounterTriggerId = triggerId;
     if (!action) {
+      this.currentEncounterTriggerId = null;
       return;
     }
 
     if (action.kind === 'encounterProbe') {
+      if (triggerId === this.currentEncounterTriggerId) {
+        return;
+      }
+
+      const profile = action.encounterProfile || {};
+      const chancePercent = Math.max(
+        0,
+        Math.min(100, Number.isFinite(profile.encounterChancePercent) ? profile.encounterChancePercent : 100)
+      );
+      if (chancePercent < 100) {
+        const roll = Math.random() * 100;
+        if (roll >= chancePercent) {
+          this.log(
+            `Encounter roll miss trigger=${triggerId} map=${mapId} pos=${x},${y} roll=${roll.toFixed(2)} chance=${chancePercent}`
+          );
+          return;
+        }
+        this.log(
+          `Encounter roll hit trigger=${triggerId} map=${mapId} pos=${x},${y} roll=${roll.toFixed(2)} chance=${chancePercent}`
+        );
+      }
+
+      this.currentEncounterTriggerId = triggerId;
       this.sendCombatEncounterProbe(action);
       return;
     }
 
     if (action.kind === 'encounterProbeExit') {
+      this.currentEncounterTriggerId = null;
       this.sendCombatExitProbe(action);
     }
   }
@@ -1073,6 +1152,7 @@ class Session {
         const rewardResult = applyQuestCompletionReward(this, event.reward, {
           suppressPackets,
           suppressDialogues,
+          taskId: event.taskId,
         });
         statsDirty = statsDirty || rewardResult.statsDirty;
         inventoryDirty = inventoryDirty || rewardResult.inventoryDirty;
@@ -1205,6 +1285,52 @@ class Session {
       DEFAULT_FLAGS,
       `Sending quest marker cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x0c taskId=${taskId} npcId=${npcId}`
     );
+  }
+
+  refreshQuestStateForItemTemplates(templateIds) {
+    if (!Array.isArray(templateIds) || templateIds.length === 0) {
+      return;
+    }
+
+    const interestingTemplates = new Set(
+      templateIds.filter(Number.isInteger).map((templateId) => templateId >>> 0)
+    );
+    if (interestingTemplates.size === 0) {
+      return;
+    }
+
+    const syncStateByTaskId = new Map(
+      buildQuestSyncState({
+        activeQuests: this.activeQuests,
+        completedQuests: this.completedQuests,
+      }).map((quest) => [quest.taskId, quest])
+    );
+
+    for (const record of this.activeQuests) {
+      const definition = getQuestDefinition(record?.id);
+      const step = definition?.steps?.[record?.stepIndex];
+      if (!step || !Array.isArray(step.consumeItems) || step.consumeItems.length === 0) {
+        continue;
+      }
+
+      const matchesGrantedItem = step.consumeItems.some((item) => interestingTemplates.has(item.templateId >>> 0));
+      if (!matchesGrantedItem) {
+        continue;
+      }
+
+      const syncState = syncStateByTaskId.get(definition.id);
+      if (!syncState) {
+        continue;
+      }
+
+      this.sendQuestUpdate(definition.id, syncState.status);
+      if (syncState.markerNpcId > 0) {
+        this.sendQuestFindNpc(definition.id, syncState.markerNpcId);
+      }
+      this.log(
+        `Refreshed quest sync for task=${definition.id} after item grant templates=${[...interestingTemplates].join(',')}`
+      );
+    }
   }
 
   getServerRunActionHandlers() {
@@ -1488,6 +1614,11 @@ class Session {
     let dropResult = null;
     if (outcome === 'victory') {
       dropResult = rollSyntheticFightDrops(this, this.syntheticFight);
+      if (dropResult?.granted?.length > 0) {
+        this.refreshQuestStateForItemTemplates(
+          dropResult.granted.map((drop) => drop.item?.templateId || drop.definition?.templateId).filter(Number.isInteger)
+        );
+      }
     }
     const finished = finalizeSyntheticFightState(this.syntheticFight, outcome);
     const player = finished.player;
@@ -2181,8 +2312,8 @@ function normalizeCharacterRecord(character) {
     level: numberOrDefault(character.level, 1),
     selectedAptitude: numberOrDefault(character.selectedAptitude, 0),
     experience: numberOrDefault(character.experience, 0),
-    currentHealth: numberOrDefault(character.currentHealth, 398),
-    currentMana: numberOrDefault(character.currentMana, 600),
+    currentHealth: numberOrDefault(character.currentHealth, CHARACTER_VITALS_BASELINE.health),
+    currentMana: numberOrDefault(character.currentMana, CHARACTER_VITALS_BASELINE.mana),
     currentRage: numberOrDefault(character.currentRage, 100),
     gold: numberOrDefault(character.gold, 0),
     bankGold: numberOrDefault(character.bankGold, 0),

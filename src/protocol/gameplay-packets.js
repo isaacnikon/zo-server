@@ -304,6 +304,16 @@ function buildItemRemovePacket({ containerType, instanceId }) {
   return writer.payload();
 }
 
+function buildEquipmentStatePacket({ instanceId, equipped }) {
+  const writer = new PacketWriter();
+  writer.writeUint16(0x03ee);
+  writer.writeUint8(0x01);
+  writer.writeUint32(instanceId >>> 0);
+  writer.writeUint8(equipped ? 1 : 0);
+  writer.writeUint8(equipped ? 0 : 1);
+  return writer.payload();
+}
+
 function buildServerRunMessagePacket(npcId, msgId) {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_SERVER_RUN_CMD);
@@ -333,6 +343,7 @@ module.exports = {
   buildInventoryContainerQuantityPacket,
   buildInventoryContainerPositionPacket,
   buildGameDialoguePacket,
+  buildEquipmentStatePacket,
   buildItemAddPacket,
   buildItemRemovePacket,
   buildQuestPacket,

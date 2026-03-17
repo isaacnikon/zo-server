@@ -1,10 +1,6 @@
 'use strict';
 
-const {
-  DEFAULT_FLAGS,
-  GAME_ITEM_CMD,
-  GAME_ITEM_CONTAINER_CMD,
-} = require('../config');
+const { DEFAULT_FLAGS, GAME_ITEM_CMD, GAME_ITEM_CONTAINER_CMD } = require('../config');
 const {
   buildInventoryContainerBulkSyncPacket,
   buildInventoryContainerPositionPacket,
@@ -19,6 +15,7 @@ const {
   getItemDefinition,
   grantItemToBag,
 } = require('../inventory');
+const EQUIPMENT_CONTAINER_TYPE = 0;
 
 function sendItemAdd(session, templateId, slot, quantity = 1, instanceId = 0) {
   const definition = getItemDefinition(templateId);
@@ -67,18 +64,9 @@ function sendItemPositionUpdate(session, item) {
 
 function sendInventoryFullSync(session) {
   const bagItems = Array.isArray(session.bagItems)
-    ? session.bagItems.map((item) => ({
-        ...item,
-        quantity:
-          Number.isInteger(getItemDefinition(item.templateId)?.defaultQuantity) &&
-          getItemDefinition(item.templateId).defaultQuantity > 0
-            ? getItemDefinition(item.templateId).defaultQuantity
-            : item.quantity,
-        clientTemplateFamily: getItemDefinition(item.templateId)?.clientTemplateFamily ?? null,
-        attributePairs: Array.isArray(getItemDefinition(item.templateId)?.defaultAttributePairs)
-          ? getItemDefinition(item.templateId).defaultAttributePairs
-          : [],
-      }))
+    ? session.bagItems
+        .filter((item) => item.equipped !== true)
+        .map((item) => buildClientInventoryItem(session, item))
     : [];
   session.writePacket(
     buildInventoryContainerBulkSyncPacket({
@@ -92,6 +80,36 @@ function sendInventoryFullSync(session) {
   for (const item of bagItems) {
     sendItemPositionUpdate(session, item);
   }
+}
+
+function buildClientInventoryItem(session, item) {
+  const definition = getItemDefinition(item.templateId);
+  return {
+    ...item,
+    quantity:
+      Number.isInteger(definition?.defaultQuantity) && definition.defaultQuantity > 0
+        ? definition.defaultQuantity
+        : item.quantity,
+    clientTemplateFamily: definition?.clientTemplateFamily ?? null,
+    attributePairs: Array.isArray(definition?.defaultAttributePairs)
+      ? definition.defaultAttributePairs
+      : [],
+  };
+}
+
+function sendEquipmentContainerSync(session) {
+  const equippedItems = (Array.isArray(session.bagItems) ? session.bagItems : [])
+    .filter((item) => item.equipped === true)
+    .map((item) => buildClientInventoryItem(session, item));
+
+  session.writePacket(
+    buildInventoryContainerBulkSyncPacket({
+      containerType: EQUIPMENT_CONTAINER_TYPE,
+      items: equippedItems,
+    }),
+    DEFAULT_FLAGS,
+    `Sending equipment container sync cmd=0x${GAME_ITEM_CONTAINER_CMD.toString(16)} container=${EQUIPMENT_CONTAINER_TYPE} items=${equippedItems.length}`
+  );
 }
 
 function sendItemQuantityUpdate(session, instanceId, quantity) {
@@ -119,6 +137,7 @@ function sendItemRemove(session, instanceId) {
 
 function syncInventoryStateToClient(session) {
   sendInventoryFullSync(session);
+  sendEquipmentContainerSync(session);
 }
 
 function sendGrantResultPackets(session, grantResult) {
@@ -230,5 +249,6 @@ module.exports = {
   sendItemQuantityUpdate,
   sendItemPositionUpdate,
   sendGrantResultPackets,
+  sendEquipmentContainerSync,
   syncInventoryStateToClient,
 };

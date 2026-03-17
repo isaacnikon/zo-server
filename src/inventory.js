@@ -1,10 +1,16 @@
 'use strict';
 
+const fs = require('fs');
+const path = require('path');
+
 const BAG_CONTAINER_TYPE = 1;
 const DEFAULT_BAG_SIZE = 24;
 const FIRST_BAG_SLOT = 1;
+const ITEM_TABLE_ROOT = '/home/nikon/Downloads/shengxiao/Server/attrres/item';
+const ARMOR_TABLE_FILE = path.join(ITEM_TABLE_ROOT, 'is_armor.txt');
+const WEAPON_TABLE_FILE = path.join(ITEM_TABLE_ROOT, 'is_weapon.txt');
 
-const ITEM_DEFINITIONS = Object.freeze([
+const BASE_ITEM_DEFINITIONS = Object.freeze([
   {
     templateId: 21098,
     name: 'Zodiac Recommendation Token',
@@ -77,72 +83,20 @@ const ITEM_DEFINITIONS = Object.freeze([
     clientEvidence:
       'Installed client is_potion.txt row 20004 uses family 65 (0x41) with stack field 5; script.gcg Back to Earth(II) grants x5.',
   },
-  {
-    templateId: 10001,
-    name: 'Light Hood',
-    containerType: BAG_CONTAINER_TYPE,
-    maxStack: 1,
-    clientTemplateFamily: 0x21,
-    defaultQuantity: 3000,
-    defaultAttributePairs: [{ value: 9 }, { value: 10 }],
-    clientEvidence:
-      'Installed server attrres/item/is_armor.txt row 10001 resolves to starter armor "轻头巾"; script.gcg Spinning(II) rewards it as one of the two starter gear sets.',
-  },
-  {
-    templateId: 11001,
-    name: 'Fabric Garment',
-    containerType: BAG_CONTAINER_TYPE,
-    maxStack: 1,
-    clientTemplateFamily: 0x22,
-    defaultQuantity: 3000,
-    defaultAttributePairs: [{ value: 10 }, { value: 11 }],
-    clientEvidence:
-      'Installed server attrres/item/is_armor.txt row 11001 resolves to starter armor "布衣"; script.gcg Spinning(II) rewards it as one of the two starter gear sets.',
-  },
-  {
-    templateId: 13001,
-    name: 'Shoes',
-    containerType: BAG_CONTAINER_TYPE,
-    maxStack: 1,
-    clientTemplateFamily: 0x24,
-    defaultQuantity: 3000,
-    defaultAttributePairs: [{ value: 6 }, { value: 7 }],
-    clientEvidence:
-      'Live Spinning(II) reward panel shows Shoes x1; installed server attrres/item/is_armor.txt row 13001 resolves to starter armor "粗布鞋".',
-  },
-  {
-    templateId: 15001,
-    name: 'Red String',
-    containerType: BAG_CONTAINER_TYPE,
-    maxStack: 1,
-    clientTemplateFamily: 0x21,
-    defaultQuantity: 3000,
-    defaultAttributePairs: [{ value: 9 }, { value: 10 }],
-    clientEvidence:
-      'Installed server attrres/item/is_armor.txt row 15001 resolves to starter armor "红头绳"; script.gcg Spinning(II) rewards it as one of the two starter gear sets.',
-  },
-  {
-    templateId: 16001,
-    name: 'Gauze Garment',
-    containerType: BAG_CONTAINER_TYPE,
-    maxStack: 1,
-    clientTemplateFamily: 0x22,
-    defaultQuantity: 3000,
-    defaultAttributePairs: [{ value: 10 }, { value: 11 }],
-    clientEvidence:
-      'Installed server attrres/item/is_armor.txt row 16001 resolves to starter armor "纱衣"; script.gcg Spinning(II) rewards it as one of the two starter gear sets.',
-  },
-  {
-    templateId: 18001,
-    name: 'Embroidered Shoes',
-    containerType: BAG_CONTAINER_TYPE,
-    maxStack: 1,
-    clientTemplateFamily: 0x24,
-    defaultQuantity: 3000,
-    defaultAttributePairs: [{ value: 6 }, { value: 7 }],
-    clientEvidence:
-      'Live Spinning(II) reward panel implies the female starter counterpart is Embroidered Shoes; installed server attrres/item/is_armor.txt row 18001 resolves to starter armor "绣花鞋".',
-  },
+]);
+
+const EQUIPMENT_NAME_OVERRIDES = Object.freeze({
+  10001: 'Light Hood',
+  11001: 'Fabric Garment',
+  13001: 'Shoes',
+  15001: 'Red String',
+  16001: 'Gauze Garment',
+  18001: 'Embroidered Shoes',
+});
+
+const ITEM_DEFINITIONS = Object.freeze([
+  ...BASE_ITEM_DEFINITIONS,
+  ...loadEquipmentDefinitions(),
 ]);
 
 const ITEMS_BY_TEMPLATE_ID = new Map(
@@ -151,6 +105,111 @@ const ITEMS_BY_TEMPLATE_ID = new Map(
 
 function getItemDefinition(templateId) {
   return ITEMS_BY_TEMPLATE_ID.get(templateId) || null;
+}
+
+function loadEquipmentDefinitions() {
+  const definitions = [];
+  const seenTemplateIds = new Set();
+
+  for (const parsed of [
+    ...parseEquipmentTable(ARMOR_TABLE_FILE, 'armor'),
+    ...parseEquipmentTable(WEAPON_TABLE_FILE, 'weapon'),
+  ]) {
+    if (seenTemplateIds.has(parsed.templateId)) {
+      continue;
+    }
+    seenTemplateIds.add(parsed.templateId);
+    definitions.push(parsed);
+  }
+
+  return definitions;
+}
+
+function parseEquipmentTable(filePath, kind) {
+  let raw;
+  try {
+    raw = fs.readFileSync(filePath, 'latin1');
+  } catch (err) {
+    return [];
+  }
+
+  const rows = [];
+  for (const line of raw.split(/\r?\n/)) {
+    const trimmed = line.trim();
+    if (!trimmed || !/^\d+,/.test(trimmed)) {
+      continue;
+    }
+    const columns = splitQuotedCsv(trimmed);
+    const templateId = parseInteger(columns[0]);
+    const family = parseInteger(columns[3]);
+    if (!Number.isInteger(templateId) || !Number.isInteger(family)) {
+      continue;
+    }
+
+    const durabilityBase = parseInteger(columns[9]);
+    const defaultQuantity =
+      Number.isInteger(durabilityBase) && durabilityBase > 0 ? durabilityBase * 30 : 0;
+    const statStart = 11;
+    const statCount = kind === 'armor' ? 2 : 6;
+    const defaultAttributePairs = [];
+    for (let index = 0; index < statCount; index += 1) {
+      const value = parseInteger(columns[statStart + index]);
+      defaultAttributePairs.push({ value: Number.isInteger(value) && value > 0 ? value : 0 });
+    }
+
+    rows.push({
+      templateId,
+      name: EQUIPMENT_NAME_OVERRIDES[templateId] || decodeQuotedValue(columns[1]),
+      containerType: BAG_CONTAINER_TYPE,
+      maxStack: 1,
+      clientTemplateFamily: family,
+      defaultQuantity,
+      defaultAttributePairs,
+      clientEvidence: `Installed ${path.basename(filePath)} row ${templateId} derives family ${family} and default equipment instance fields.`,
+    });
+  }
+
+  return rows;
+}
+
+function splitQuotedCsv(line) {
+  const values = [];
+  let current = '';
+  let inQuotes = false;
+
+  for (let index = 0; index < line.length; index += 1) {
+    const char = line[index];
+    if (char === '"') {
+      inQuotes = !inQuotes;
+      current += char;
+      continue;
+    }
+    if (char === ',' && !inQuotes) {
+      values.push(current);
+      current = '';
+      continue;
+    }
+    current += char;
+  }
+
+  values.push(current);
+  return values;
+}
+
+function decodeQuotedValue(value) {
+  return String(value || '').replace(/^"(.*)"$/, '$1');
+}
+
+function parseInteger(value) {
+  if (typeof value !== 'string') {
+    return null;
+  }
+  const trimmed = value.trim();
+  if (!/^-?\d+$/.test(trimmed)) {
+    return null;
+  }
+  const parsed = Number.parseInt(trimmed, 10);
+  return Number.isFinite(parsed) ? parsed : null;
 }
 
 function normalizeInventoryState(character) {
@@ -219,6 +278,7 @@ function normalizeBagItem(item) {
     instanceId: Number.isInteger(item.instanceId) && item.instanceId > 0 ? item.instanceId : 1,
     templateId: item.templateId >>> 0,
     quantity: Number.isInteger(item.quantity) && item.quantity > 0 ? item.quantity : 1,
+    equipped: item.equipped === true,
     // Older local saves used 0-based slots; remap them into the client-visible range.
     slot: Math.max(FIRST_BAG_SLOT, item.slot >>> 0),
   };
@@ -227,10 +287,11 @@ function normalizeBagItem(item) {
 function buildInventorySnapshot(session) {
   const snapshot = {
     bag: Array.isArray(session.bagItems)
-      ? session.bagItems.map((item) => ({
+        ? session.bagItems.map((item) => ({
           instanceId: item.instanceId >>> 0,
           templateId: item.templateId >>> 0,
           quantity: item.quantity >>> 0,
+          equipped: item.equipped === true,
           slot: item.slot >>> 0,
         }))
       : [],
@@ -254,14 +315,16 @@ function bagHasTemplateId(session, templateId) {
 
 function getBagItemByTemplateId(session, templateId) {
   return Array.isArray(session.bagItems)
-    ? session.bagItems.find((item) => item.templateId === (templateId >>> 0)) || null
+    ? session.bagItems.find((item) => item.equipped !== true && item.templateId === (templateId >>> 0)) || null
     : null;
 }
 
 function getBagQuantityByTemplateId(session, templateId) {
   return Array.isArray(session.bagItems)
     ? session.bagItems.reduce(
-        (total, item) => total + (item.templateId === (templateId >>> 0) ? item.quantity >>> 0 : 0),
+        (total, item) =>
+          total +
+          (item.equipped !== true && item.templateId === (templateId >>> 0) ? item.quantity >>> 0 : 0),
         0
       )
     : 0;
@@ -285,13 +348,21 @@ function grantItemToBag(session, templateId, quantity = 1) {
   const bagSize =
     Number.isInteger(session.bagSize) && session.bagSize > 0 ? session.bagSize : DEFAULT_BAG_SIZE;
   const existingStacks = bagItems
-    .filter((item) => item.templateId === definition.templateId && item.quantity < definition.maxStack)
+    .filter(
+      (item) =>
+        item.equipped !== true &&
+        item.templateId === definition.templateId &&
+        item.quantity < definition.maxStack
+    )
     .sort((left, right) => left.slot - right.slot);
   const availableStackSpace = existingStacks.reduce(
     (total, item) => total + Math.max(0, definition.maxStack - item.quantity),
     0
   );
-  const freeSlotCount = Math.max(0, bagSize - new Set(bagItems.map((item) => item.slot)).size);
+  const freeSlotCount = Math.max(
+    0,
+    bagSize - new Set(bagItems.filter((item) => item.equipped !== true).map((item) => item.slot)).size
+  );
   const totalCapacity = availableStackSpace + (freeSlotCount * definition.maxStack);
   if (totalCapacity < normalizedQuantity) {
     return {
@@ -336,6 +407,7 @@ function grantItemToBag(session, templateId, quantity = 1) {
       instanceId: nextInstanceId,
       templateId: definition.templateId,
       quantity: stackQuantity,
+      equipped: false,
       slot,
     };
     bagItems.push(item);
@@ -376,7 +448,7 @@ function consumeItemFromBag(session, templateId, quantity = 1) {
 
   let remainingQuantity = normalizedQuantity;
   const matchingItems = bagItems
-    .filter((item) => item.templateId === (templateId >>> 0))
+    .filter((item) => item.equipped !== true && item.templateId === (templateId >>> 0))
     .sort((left, right) => left.slot - right.slot);
   const changes = [];
   const removedItems = [];
@@ -493,7 +565,9 @@ function computeRequiredBagSlots(items) {
 }
 
 function findNextAvailableSlot(items, bagSize, startSlot = FIRST_BAG_SLOT) {
-  const usedSlots = new Set(Array.isArray(items) ? items.map((item) => item.slot) : []);
+  const usedSlots = new Set(
+    Array.isArray(items) ? items.filter((item) => item?.equipped !== true).map((item) => item.slot) : []
+  );
   const preferredSlot = Math.max(FIRST_BAG_SLOT, startSlot | 0);
   const fromPreferred = findNextOpenSlot(usedSlots, bagSize, preferredSlot);
   if (fromPreferred !== null) {

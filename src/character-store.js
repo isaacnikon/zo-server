@@ -246,6 +246,7 @@ function buildInventoryItemsDocument(characterId, character) {
           instanceId: numberOrDefault(item.instanceId, 0),
           templateId: numberOrDefault(item.templateId, 0),
           quantity: numberOrDefault(item.quantity, 1),
+          equipped: item.equipped === true,
           slot: numberOrDefault(item.slot, 0),
         }))
       : [],

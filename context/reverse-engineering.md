@@ -251,6 +251,21 @@ repeat count:
   - bag item records alone are not sufficient for stable slot presentation
   - the client also expects explicit `0x03f2 / sub=0x17` position updates per item
   - omitting them can lead to slot/icon confusion after full-sync
+- Practical server metadata rule for broad equipment support:
+  - `is_armor.txt` and `is_weapon.txt` rows are sufficient to derive baseline client item-instance defaults for many normal equipment templates
+  - current working derivation:
+    - client template family = table column 4
+    - current durability seed = table column 10 * 30
+    - armor stat pair = table columns 12-13
+    - weapon stat block = table columns 12-17
+  - this is enough to generalize starter and ordinary equipment records without hand-authoring every template id
+- Equipment container restore:
+  - equipped items are not restored by replaying the observed client `0x03ee / 0x01` equip action packet
+  - the client restores worn gear from `0x03f2` inventory container type `0`
+  - bag remains container type `1`
+  - practical implication:
+    - equipped items must be excluded from bag container sync
+    - equipped items must be sent through container `0` on login and on equip/unequip changes
 ```
 
 - `field_a` is the action-definition lookup id.
