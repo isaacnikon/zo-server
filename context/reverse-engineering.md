@@ -103,6 +103,9 @@
       - server-supported `kill` steps stay `kill`
       - client-derived `kill_collect` and `capture` steps are normalized into `talk` hand-ins with the same NPC/item requirements
     - `main-story.overrides.json` is now only for runtime-only corrections, packet details, and cases where the live engine cannot safely infer behavior from the client-derived catalog alone
+    - current override footprint:
+      - `3` quests remain overridden: `1`, `2`, `51`
+      - old guessed overrides for quests like `481`, `408`, `426`, and `467` have been removed in favor of the client-derived workflow
 
 ## Key Verified Findings
 - Client inventory/equipment:

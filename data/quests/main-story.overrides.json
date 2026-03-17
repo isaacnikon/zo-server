@@ -1,19 +1,9 @@
 {
-  "source": "runtime-verified packet details that are not recoverable from help text alone",
+  "source": "runtime-only quest corrections that are still required after switching main-story generation to client-derived runtime candidates",
   "quests": [
     {
       "id": 1,
-      "name": "Back to Earth",
-      "type": "story",
-      "acceptSubtype": 3,
       "acceptMessage": "Back to Earth is active. Apollo gave you a recommendation token for Blacksmith.",
-      "acceptGrantItems": [
-        {
-          "templateId": 21098,
-          "quantity": 1,
-          "name": "Zodiac Recommendation Token"
-        }
-      ],
       "completionMessage": "Back to Earth is complete.",
       "rewards": {
         "gold": 0,
@@ -71,22 +61,8 @@
     },
     {
       "id": 2,
-      "name": "Spinning",
-      "type": "story",
-      "acceptNpcId": 3276,
-      "acceptSubtype": 3,
-      "prerequisiteTaskIds": [
-        1
-      ],
       "acceptMessage": "Spinning is active. Blacksmith asked you to help Candy.",
       "completionMessage": "Spinning is complete.",
-      "acceptGrantItems": [
-        {
-          "templateId": 21099,
-          "quantity": 1,
-          "name": ""
-        }
-      ],
       "rewards": {
         "gold": 0,
         "experience": 300,
@@ -94,34 +70,15 @@
       },
       "steps": [
         {
-          "npcId": 3277,
-          "description": "Bring Blacksmith's quest item to Candy.",
-          "consumeItems": [
-            {
-              "templateId": 21099,
-              "quantity": 1,
-              "name": ""
-            }
-          ]
+          "description": "Bring Blacksmith's quest item to Candy."
         },
         {
-          "npcId": 3277,
-          "description": "Bring 10 Dragonfly quest items back to Candy.",
-          "consumeItems": [
-            {
-              "templateId": 21115,
-              "quantity": 10,
-              "name": ""
-            }
-          ]
+          "description": "Bring 10 Dragonfly quest items back to Candy."
         }
       ]
     },
     {
       "id": 51,
-      "name": "Pet",
-      "type": "story",
-      "acceptSubtype": 3,
       "acceptMessage": "Pet is active.",
       "completionMessage": "Pet is complete.",
       "rewards": {
@@ -138,108 +95,6 @@
           "monsterId": 5003,
           "count": 1,
           "description": "Help Grandpa deal with a Little Boar."
-        }
-      ]
-    },
-    {
-      "id": 481,
-      "name": "Vulture Fight",
-      "type": "story",
-      "acceptNpcId": 3439,
-      "acceptSubtype": 3,
-      "acceptMessage": "Vulture Fight is active. Jeff asked you to help Gamba.",
-      "completionMessage": "Vulture Fight is complete.",
-      "rewards": {
-        "gold": 0,
-        "experience": 0
-      },
-      "steps": [
-        {
-          "type": "kill",
-          "monsterId": 3384,
-          "count": 1,
-          "description": "Defeat the Vulture threatening Gamba."
-        },
-        {
-          "type": "talk",
-          "npcId": 3383,
-          "description": "Report back to Gamba."
-        }
-      ]
-    },
-    {
-      "id": 408,
-      "name": "Achelous's Tortoise",
-      "type": "story",
-      "acceptNpcId": 3093,
-      "acceptSubtype": 3,
-      "acceptMessage": "Achelous's Tortoise is active.",
-      "completionMessage": "Achelous's Tortoise is complete.",
-      "rewards": {
-        "gold": 0,
-        "experience": 0
-      },
-      "steps": [
-        {
-          "type": "kill",
-          "monsterId": 5086,
-          "count": 1,
-          "description": "Defeat the thief who stole the tortoise."
-        },
-        {
-          "type": "talk",
-          "npcId": 3019,
-          "description": "Speak with Miser."
-        }
-      ]
-    },
-    {
-      "id": 426,
-      "name": "Rebel in Hell",
-      "type": "story",
-      "acceptNpcId": 3262,
-      "acceptSubtype": 3,
-      "acceptMessage": "Rebel in Hell is active.",
-      "completionMessage": "Rebel in Hell is complete.",
-      "rewards": {
-        "gold": 0,
-        "experience": 0
-      },
-      "steps": [
-        {
-          "type": "kill",
-          "monsterId": 5165,
-          "count": 10,
-          "description": "Defeat 10 Evil Rogues."
-        },
-        {
-          "type": "talk",
-          "npcId": 3124,
-          "description": "Report the situation to Hell Nowt."
-        }
-      ]
-    },
-    {
-      "id": 467,
-      "name": "Elfin",
-      "type": "story",
-      "acceptNpcId": 3381,
-      "acceptSubtype": 3,
-      "prerequisiteTaskIds": [
-        481
-      ],
-      "acceptMessage": "Elfin is active.",
-      "completionMessage": "Elfin is complete.",
-      "rewards": {
-        "gold": 0,
-        "experience": 0
-      },
-      "steps": [
-        {
-          "type": "kill",
-          "monsterId": 5282,
-          "count": 1,
-          "description": "Teach Trick Sprite a lesson."
         }
       ]
     }

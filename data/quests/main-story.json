@@ -4,7 +4,7 @@
     "tasklist": "/home/nikon/projects/zo-server/data/client-derived/quests.json",
     "overrides": "/home/nikon/projects/zo-server/data/quests/main-story.overrides.json"
   },
-  "generatedAt": "2026-03-17T15:04:59.734Z",
+  "generatedAt": "2026-03-17T16:20:11.826Z",
   "quests": [
     {
       "id": 1,
@@ -19,7 +19,7 @@
         {
           "templateId": 21098,
           "quantity": 1,
-          "name": "Zodiac Recommendation Token"
+          "name": ""
         }
       ],
       "rewards": {
@@ -103,7 +103,7 @@
         {
           "templateId": 21099,
           "quantity": 1,
-          "name": ""
+          "name": "Blacksmith's Letter"
         }
       ],
       "rewards": {
@@ -142,7 +142,7 @@
           "status": 1,
           "description": "Bring Blacksmith's quest item to Candy.",
           "mapId": 101,
-          "consumeItems": [
+          "grantItems": [
             {
               "templateId": 21099,
               "quantity": 1,
@@ -4210,8 +4210,8 @@
         }
       ],
       "rewards": {
-        "gold": 0,
-        "experience": 0,
+        "gold": 2000,
+        "experience": 40000,
         "coins": 2000,
         "renown": 0,
         "pets": [],
@@ -4225,20 +4225,24 @@
       },
       "steps": [
         {
-          "type": "kill",
+          "type": "talk",
           "npcId": 3019,
           "status": 2,
-          "description": "Defeat the thief who stole the tortoise.",
+          "description": "Take \"Info on Miser\" to locate \"Miser\"",
           "mapId": 111,
-          "monsterId": 5086,
-          "count": 1,
-          "originalType": "talk"
+          "grantItems": [
+            {
+              "templateId": 21066,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
         },
         {
           "type": "talk",
-          "npcId": 3019,
+          "npcId": 3093,
           "status": 3,
-          "description": "Speak with Miser.",
+          "description": "Bring \"Gold Tortoise\" back to \"Achelous\"",
           "mapId": 108,
           "consumeItems": [
             {
@@ -4499,7 +4503,7 @@
       ],
       "rewards": {
         "gold": 0,
-        "experience": 0,
+        "experience": 28000,
         "coins": 0,
         "renown": 0,
         "pets": [],
@@ -4507,20 +4511,24 @@
       },
       "steps": [
         {
-          "type": "kill",
+          "type": "talk",
           "npcId": 3263,
           "status": 3,
-          "description": "Defeat 10 Evil Rogues.",
+          "description": "Bring \"Order Letter\" to \"Green Hoe\"",
           "mapId": 158,
-          "monsterId": 5165,
-          "count": 10,
-          "originalType": "talk"
+          "grantItems": [
+            {
+              "templateId": 21076,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
         },
         {
           "type": "talk",
           "npcId": 3124,
           "status": 2,
-          "description": "Report the situation to Hell Nowt.",
+          "description": "Bring \"Info on Blue Hoe\" to \"Soul Judge\"",
           "mapId": 158,
           "grantItems": [
             {
@@ -5428,11 +5436,9 @@
       "type": "story",
       "acceptMessage": "Elfin is active.",
       "completionMessage": "Elfin is complete.",
-      "acceptNpcId": 3381,
+      "acceptNpcId": 3369,
       "acceptSubtype": 3,
-      "prerequisiteTaskIds": [
-        481
-      ],
+      "prerequisiteTaskIds": [],
       "acceptGrantItems": [
         {
           "templateId": 21242,
@@ -5450,14 +5456,18 @@
       },
       "steps": [
         {
-          "type": "kill",
+          "type": "talk",
           "npcId": 3381,
           "status": 1,
-          "description": "Teach Trick Sprite a lesson.",
+          "description": "Bring \"Indictment\" to \"Elfin\" so as to expose his plot",
           "mapId": 211,
-          "monsterId": 5282,
-          "count": 1,
-          "originalType": "talk"
+          "grantItems": [
+            {
+              "templateId": 21242,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
         },
         {
           "type": "kill",
@@ -5994,9 +6004,9 @@
       "id": 481,
       "name": "Vulture Fight",
       "type": "story",
-      "acceptMessage": "Vulture Fight is active. Jeff asked you to help Gamba.",
+      "acceptMessage": "Vulture Fight is active.",
       "completionMessage": "Vulture Fight is complete.",
-      "acceptNpcId": 3439,
+      "acceptNpcId": 3383,
       "acceptSubtype": 3,
       "prerequisiteTaskIds": [],
       "acceptGrantItems": [
@@ -6016,22 +6026,27 @@
       },
       "steps": [
         {
-          "type": "kill",
+          "type": "talk",
           "npcId": 3439,
           "status": 1,
-          "description": "Defeat the Vulture threatening Gamba.",
+          "description": "Quest step 1",
           "mapId": 245,
-          "monsterId": 3384,
-          "count": 1,
-          "originalType": "talk"
+          "grantItems": [
+            {
+              "templateId": 21252,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
         },
         {
-          "type": "talk",
-          "npcId": 3383,
+          "type": "kill",
+          "npcId": 3439,
           "status": 2,
-          "description": "Report back to Gamba.",
+          "description": "Kill \"Vulture\"",
           "mapId": 166,
-          "originalType": "kill"
+          "monsterId": 5103,
+          "count": 1
         }
       ],
       "minLevel": 1
