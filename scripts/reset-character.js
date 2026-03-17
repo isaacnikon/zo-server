@@ -45,8 +45,8 @@ const profileDoc = {
 
 const vitalsDoc = {
   characterId,
-  currentHealth: 398,
-  currentMana: 600,
+  currentHealth: 432,
+  currentMana: 630,
   currentRage: 100,
   updatedAt,
 };

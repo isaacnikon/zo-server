@@ -67,10 +67,10 @@ function handleServerRunRequest(session, payload) {
     y: request.y,
   });
 
-  // Position-aware scene transitions reuse the same server-run family as NPC
-  // callbacks. When a concrete transition matches, it must win over quest
-  // script collisions in that hotspot.
-  if (action?.kind === 'transition') {
+  // Concrete scene/service actions reuse the same server-run family as NPC
+  // callbacks. When a concrete action matches, it must win over quest-script
+  // collisions in that hotspot.
+  if (action?.kind === 'transition' || action?.kind === 'rest') {
     executeServerRunAction(action, session.getServerRunActionHandlers());
     return;
   }
@@ -96,11 +96,6 @@ function handleServerRunRequest(session, payload) {
   );
   if (questEvents.length > 0) {
     session.applyQuestEvents(questEvents, 'server-run');
-    return;
-  }
-
-  if (request.kind === 'direct-rest') {
-    restoreAtInn(session, request.npcId);
     return;
   }
 

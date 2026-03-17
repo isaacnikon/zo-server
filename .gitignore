@@ -1,0 +1,5 @@
+server.log
+combat-probe-state.json
+data/save/
+scripts/__pycache__/
+*.pyc

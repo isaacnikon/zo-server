@@ -1,16 +1,24 @@
 'use strict';
 
-const INN_REST_BASELINE = Object.freeze({
-  health: 398,
-  mana: 600,
+const CHARACTER_VITALS_BASELINE = Object.freeze({
+  // Current validated player baseline for the local early-game flow.
+  // The client may derive higher/lower caps from later level/stat/equipment logic,
+  // so all callers should go through this shared resolver instead of hardcoding.
+  health: 432,
+  mana: 630,
   rage: 100,
 });
 
+function resolveCharacterMaxVitals() {
+  return CHARACTER_VITALS_BASELINE;
+}
+
 function resolveInnRestVitals(currentVitals) {
+  const maxVitals = resolveCharacterMaxVitals();
   return {
-    health: Math.max(currentVitals.health || 0, INN_REST_BASELINE.health),
-    mana: Math.max(currentVitals.mana || 0, INN_REST_BASELINE.mana),
-    rage: Math.max(currentVitals.rage || 0, INN_REST_BASELINE.rage),
+    health: Math.max(currentVitals.health || 0, maxVitals.health),
+    mana: Math.max(currentVitals.mana || 0, maxVitals.mana),
+    rage: Math.max(currentVitals.rage || 0, maxVitals.rage),
   };
 }
 
@@ -42,6 +50,8 @@ function buildDefeatRespawnState({
 }
 
 module.exports = {
+  CHARACTER_VITALS_BASELINE,
   buildDefeatRespawnState,
+  resolveCharacterMaxVitals,
   resolveInnRestVitals,
 };
