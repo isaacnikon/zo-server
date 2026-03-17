@@ -1,5 +1,15 @@
 # Reverse Engineering Notes
 
+## Source Of Truth Rule
+- When extracted script dumps, generated JSON, or hand-maintained tables disagree with the running client, treat the live client as authoritative.
+- Priority order for behavior decisions:
+  - live client UI / observed runtime behavior
+  - client binary handler and tooltip/decode logic in `gc12.exe`
+  - local resource tables such as `is_armor.txt`, `is_weapon.txt`, `is_general.txt`, `tasklist.txt`
+  - extracted string/script dumps
+- Practical implication:
+  - dumps are useful discovery aids, but they are not authoritative when they conflict with what the client actually renders, accepts, or restores.
+
 ## Client Files
 - Game root: `/home/nikon/Data/Zodiac Online/`
 - Main executable: `gc12.exe`
