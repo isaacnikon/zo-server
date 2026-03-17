@@ -250,6 +250,20 @@
   - family `0x41` does not consume the generic six trailing `u16` fields in the server's old serializer
   - overlong item payloads in `0x03f2 / 0x00` shift the next item record, which is why only one starter item appeared in the bag even though both existed server-side
   - serializer must be family-aware for both `0x03f2` bulk sync and `0x03f3` add/update
+- Live March 17 finding for Bling Spring item templates:
+  - direct client table inspection from `attrres.rc` confirmed:
+    - `23003` `Beetle Shell` resolves to family `116` (`0x74`) with client stack cap `500`
+    - `23015` `Dragonfly Wing` resolves to family `116` (`0x74`) with client stack cap `500`
+    - `21115` `Dragonfly's Sting` resolves to family `116` (`0x74`) with client stack cap `10`
+  - live `gc12.exe` debugging confirmed the remaining bag corruption bug:
+    - the server's `0x03f2 / 0x00` serializer for family `0x74` still wrote one trailing embedded-count byte
+    - the client does consume `u16 templateId`, `u32 field`, `u8`, `u8`, `u16 quantity`, `u16 extraValue`
+    - the client does not consume the trailing count byte for family `0x74` in bulk sync
+    - that one extra byte shifted the next item key from `0x00000007` to `0x00000700`, which is why only the first three bag items rendered
+  - resolved server-side rule:
+    - family `0x41`: stop after base fields plus one embedded-entry count byte
+    - family `0x74`: stop after base fields and `extraValue`; do not append the count byte
+    - normalize saved/runtime bag state to client-valid stack caps before replay
 - `0x03f6` subcase `0x0c` is the generic value update path for:
   - gold
   - coins

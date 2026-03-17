@@ -183,11 +183,14 @@ function writeClientItemInstancePayload(writer, {
   writer.writeUint16(quantity & 0xffff);
   writer.writeUint16(extraValue & 0xffff);
 
-  // Family 0x41 and 0x74 stop here and immediately read the embedded-entry
-  // count. Sending the generic six trailing u16s corrupts the next item in
-  // 0x03f2 bulk sync, which is why only the first starter item appeared.
-  if (clientTemplateFamily === 0x41 || clientTemplateFamily === 0x74) {
+  // Family 0x41 stops here and immediately reads the embedded-entry count.
+  // Family 0x74 returns before that count byte is consumed, so writing one
+  // would shift the next record in 0x03f2 / 0x00.
+  if (clientTemplateFamily === 0x41) {
     writer.writeUint8(0);
+    return;
+  }
+  if (clientTemplateFamily === 0x74) {
     return;
   }
 
@@ -232,6 +235,20 @@ function buildInventoryContainerPositionPacket({
   writer.writeUint16(slotIndex & 0xffff);
   writer.writeUint16(column & 0xffff);
   writer.writeUint16(row & 0xffff);
+  return writer.payload();
+}
+
+function buildInventoryContainerQuantityPacket({
+  containerType,
+  instanceId,
+  quantity,
+}) {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_ITEM_CONTAINER_CMD);
+  writer.writeUint8(containerType & 0xff);
+  writer.writeUint8(0x14);
+  writer.writeUint32(instanceId >>> 0);
+  writer.writeUint16(quantity & 0xffff);
   return writer.payload();
 }
 
@@ -297,6 +314,7 @@ function buildGameDialoguePacket({ speaker, message, subtype = GAME_DIALOG_MESSA
 
 module.exports = {
   buildInventoryContainerBulkSyncPacket,
+  buildInventoryContainerQuantityPacket,
   buildInventoryContainerPositionPacket,
   buildGameDialoguePacket,
   buildItemAddPacket,

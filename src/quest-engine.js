@@ -395,10 +395,8 @@ function applyServerRunEvent(state, event) {
       let missingRequiredItem = false;
       for (const item of step.consumeItems) {
         const requiredQuantity = Math.max(1, numberOrDefault(item?.quantity, 1));
-        const matchedItem = Array.isArray(event.inventory)
-          ? event.inventory.find((entry) => entry?.templateId === numberOrDefault(item?.templateId, 0))
-          : null;
-        if (!matchedItem || numberOrDefault(matchedItem.quantity, 0) < requiredQuantity) {
+        const availableQuantity = getInventoryQuantity(event.inventory, numberOrDefault(item?.templateId, 0));
+        if (availableQuantity < requiredQuantity) {
           missingRequiredItem = true;
           events.push({
             type: 'item-missing',
@@ -514,15 +512,13 @@ function buildServerRunQuestTrace(state, event) {
     if (Array.isArray(step.consumeItems)) {
       for (const item of step.consumeItems) {
         const requiredQuantity = Math.max(1, numberOrDefault(item?.quantity, 1));
-        const matchedItem = Array.isArray(event.inventory)
-          ? event.inventory.find((entry) => entry?.templateId === numberOrDefault(item?.templateId, 0))
-          : null;
-        if (!matchedItem) {
+        const availableQuantity = getInventoryQuantity(event.inventory, numberOrDefault(item?.templateId, 0));
+        if (availableQuantity <= 0) {
           mismatchReasons.push(`missing item ${numberOrDefault(item?.templateId, 0)} x${requiredQuantity}`);
           break;
         }
-        if (numberOrDefault(matchedItem.quantity, 0) < requiredQuantity) {
-          mismatchReasons.push(`item ${numberOrDefault(item?.templateId, 0)} short ${numberOrDefault(matchedItem.quantity, 0)}/${requiredQuantity}`);
+        if (availableQuantity < requiredQuantity) {
+          mismatchReasons.push(`item ${numberOrDefault(item?.templateId, 0)} short ${availableQuantity}/${requiredQuantity}`);
           break;
         }
       }
@@ -582,6 +578,16 @@ function buildQuestSyncState(state) {
 
 function numberOrDefault(value, fallback) {
   return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
+}
+
+function getInventoryQuantity(inventory, templateId) {
+  return Array.isArray(inventory)
+    ? inventory.reduce(
+        (total, entry) =>
+          total + (entry?.templateId === (templateId >>> 0) ? numberOrDefault(entry?.quantity, 0) : 0),
+        0
+      )
+    : 0;
 }
 
 module.exports = {

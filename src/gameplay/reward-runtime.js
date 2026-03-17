@@ -3,7 +3,7 @@
 const { DEFAULT_FLAGS, GAME_SELF_STATE_CMD } = require('../config');
 const { buildSelfStateValueUpdatePacket } = require('../protocol/gameplay-packets');
 const { grantItemToBag } = require('../inventory');
-const { sendItemAdd } = require('./inventory-runtime');
+const { sendGrantResultPackets, sendInventoryFullSync } = require('./inventory-runtime');
 const { applyExperienceGain } = require('./progression');
 
 const VALUE_UPDATE_DISCRIMINATORS = Object.freeze({
@@ -94,14 +94,12 @@ function applyQuestCompletionReward(session, reward, options = {}) {
     inventoryDirty = true;
     rewardMessages.push(`${grantResult.definition.name} x${item.quantity}`);
     if (!suppressPackets) {
-      sendItemAdd(
-        session,
-        grantResult.item.templateId,
-        grantResult.item.slot,
-        grantResult.item.quantity,
-        grantResult.item.instanceId
-      );
+      sendGrantResultPackets(session, grantResult);
     }
+  }
+
+  if (inventoryDirty && !suppressPackets) {
+    sendInventoryFullSync(session);
   }
 
   return {

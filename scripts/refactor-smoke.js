@@ -3,7 +3,20 @@
 const assert = require('assert');
 
 const { buildDefeatRespawnState, resolveInnRestVitals } = require('../src/gameplay/session-flows');
+const {
+  bagHasTemplateQuantity,
+  buildInventorySnapshot,
+  consumeItemFromBag,
+  getBagQuantityByTemplateId,
+  grantItemToBag,
+  normalizeInventoryState,
+} = require('../src/inventory');
+const { applyQuestCompletionReward } = require('../src/gameplay/reward-runtime');
 const { parseServerRunRequest } = require('../src/interactions/server-run');
+const {
+  buildInventoryContainerBulkSyncPacket,
+  buildInventoryContainerQuantityPacket,
+} = require('../src/protocol/gameplay-packets');
 const {
   createSyntheticFightState,
   findSyntheticEnemyTarget,
@@ -17,7 +30,7 @@ const {
 
 function testInnRestVitals() {
   const vitals = resolveInnRestVitals({ health: 12, mana: 40, rage: 1 });
-  assert.deepStrictEqual(vitals, { health: 398, mana: 600, rage: 100 });
+  assert.deepStrictEqual(vitals, { health: 432, mana: 630, rage: 100 });
 }
 
 function testDefeatRespawnState() {
@@ -64,8 +77,8 @@ function buildSyntheticFight() {
     action: { probeId: 'smoke' },
     entityType: 0x3e9,
     roleEntityType: 0x3e9,
-    currentHealth: 398,
-    currentMana: 600,
+    currentHealth: 432,
+    currentMana: 630,
     currentRage: 100,
     primaryAttributes: {
       intelligence: 15,
@@ -128,8 +141,192 @@ function testQueuedEnemyTurnResolution() {
   });
 
   assert.strictEqual(resolution.kind, 'enemy-turn-complete');
-  assert.strictEqual(resolution.player.hp, 388);
+  assert.strictEqual(resolution.player.hp, 422);
   assert.strictEqual(syntheticFight.round, 2);
+}
+
+function testInventoryNormalizationRepairsCollisions() {
+  const normalized = normalizeInventoryState({
+    inventory: {
+      bagSize: 2,
+      nextItemInstanceId: 1,
+      nextBagSlot: 1,
+      bag: [
+        { instanceId: 1, templateId: 23003, quantity: 501, slot: 0 },
+        { instanceId: 1, templateId: 21116, quantity: 1, slot: 1 },
+        { instanceId: 2, templateId: 23015, quantity: 1, slot: 7 },
+      ],
+    },
+  });
+
+  assert.deepStrictEqual(normalized.inventory.bag, [
+    { instanceId: 1, templateId: 23003, quantity: 500, slot: 1 },
+    { instanceId: 2, templateId: 23003, quantity: 1, slot: 2 },
+    { instanceId: 3, templateId: 21116, quantity: 1, slot: 3 },
+    { instanceId: 4, templateId: 23015, quantity: 1, slot: 7 },
+  ]);
+  assert.strictEqual(normalized.inventory.bagSize, 7);
+  assert.strictEqual(normalized.inventory.nextItemInstanceId, 5);
+  assert.strictEqual(normalized.inventory.nextBagSlot, 4);
+}
+
+function testInventoryGrantSplitsAcrossStacksAtomically() {
+  const session = {
+    bagItems: [{ instanceId: 10, templateId: 21115, quantity: 8, slot: 1 }],
+    bagSize: 2,
+    nextItemInstanceId: 11,
+    nextBagSlot: 2,
+  };
+
+  const grantResult = grantItemToBag(session, 21115, 5);
+
+  assert.strictEqual(grantResult.ok, true);
+  assert.strictEqual(grantResult.changes.length, 2);
+  assert.deepStrictEqual(session.bagItems, [
+    { instanceId: 10, templateId: 21115, quantity: 10, slot: 1 },
+    { instanceId: 11, templateId: 21115, quantity: 3, slot: 2 },
+  ]);
+  assert.strictEqual(session.nextItemInstanceId, 12);
+  assert.strictEqual(session.nextBagSlot, 3);
+}
+
+function testInventoryGrantRejectsNonAtomicOverflow() {
+  const session = {
+    bagItems: [{ instanceId: 10, templateId: 21115, quantity: 8, slot: 1 }],
+    bagSize: 1,
+    nextItemInstanceId: 11,
+    nextBagSlot: 1,
+  };
+
+  const grantResult = grantItemToBag(session, 21115, 5);
+
+  assert.deepStrictEqual(grantResult, {
+    ok: false,
+    reason: 'Bag is full',
+  });
+  assert.deepStrictEqual(session.bagItems, [
+    { instanceId: 10, templateId: 21115, quantity: 8, slot: 1 },
+  ]);
+}
+
+function testInventoryConsumeAggregatesAcrossStacks() {
+  const session = {
+    bagItems: [
+      { instanceId: 20, templateId: 21115, quantity: 3, slot: 1 },
+      { instanceId: 21, templateId: 21115, quantity: 4, slot: 2 },
+    ],
+    bagSize: 24,
+    nextBagSlot: 3,
+  };
+
+  assert.strictEqual(bagHasTemplateQuantity(session, 21115, 7), true);
+  assert.strictEqual(getBagQuantityByTemplateId(session, 21115), 7);
+
+  const consumeResult = consumeItemFromBag(session, 21115, 5);
+
+  assert.strictEqual(consumeResult.ok, true);
+  assert.strictEqual(consumeResult.changes.length, 2);
+  assert.deepStrictEqual(session.bagItems, [
+    { instanceId: 21, templateId: 21115, quantity: 2, slot: 2 },
+  ]);
+  assert.strictEqual(session.nextBagSlot, 1);
+}
+
+function testInventoryNormalizationSplitsClientCappedStacks() {
+  const normalized = normalizeInventoryState({
+    inventory: {
+      bagSize: 2,
+      nextItemInstanceId: 1,
+      nextBagSlot: 1,
+      bag: [
+        { instanceId: 8, templateId: 21115, quantity: 18, slot: 5 },
+      ],
+    },
+  });
+
+  assert.deepStrictEqual(normalized.inventory.bag, [
+    { instanceId: 8, templateId: 21115, quantity: 10, slot: 5 },
+    { instanceId: 9, templateId: 21115, quantity: 8, slot: 1 },
+  ]);
+  assert.strictEqual(normalized.inventory.bagSize, 5);
+  assert.strictEqual(normalized.inventory.nextItemInstanceId, 10);
+  assert.strictEqual(normalized.inventory.nextBagSlot, 2);
+}
+
+function testInventoryQuantityPacketEncoding() {
+  const packet = buildInventoryContainerQuantityPacket({
+    containerType: 1,
+    instanceId: 0x11223344,
+    quantity: 37,
+  });
+
+  assert.strictEqual(packet.toString('hex'), 'f2030114443322112500');
+}
+
+function testInventoryBulkSyncOmitsTrailingCountFor074Family() {
+  const packet = buildInventoryContainerBulkSyncPacket({
+    containerType: 1,
+    items: [
+      { instanceId: 6, templateId: 23003, quantity: 17, clientTemplateFamily: 0x74 },
+      { instanceId: 7, templateId: 23015, quantity: 25, clientTemplateFamily: 0x74 },
+    ],
+  });
+
+  assert.strictEqual(
+    packet.toString('hex'),
+    'f2030100020006000000db590600000000001100000007000000e75907000000000019000000'
+  );
+}
+
+function testInventorySnapshotCanonicalizesState() {
+  const snapshot = buildInventorySnapshot({
+    bagItems: [
+      { instanceId: 2, templateId: 21116, quantity: 1, slot: 1 },
+      { instanceId: 2, templateId: 21115, quantity: 18, slot: 1 },
+    ],
+    bagSize: 1,
+    nextItemInstanceId: 1,
+    nextBagSlot: 1,
+  });
+
+  assert.deepStrictEqual(snapshot, {
+    bag: [
+      { instanceId: 2, templateId: 21116, quantity: 1, slot: 1 },
+      { instanceId: 3, templateId: 21115, quantity: 10, slot: 2 },
+      { instanceId: 4, templateId: 21115, quantity: 8, slot: 3 },
+    ],
+    bagSize: 3,
+    nextItemInstanceId: 5,
+    nextBagSlot: 4,
+  });
+}
+
+function testQuestRewardInventoryAlwaysEndsWithFullSync() {
+  const packets = [];
+  const session = {
+    bagItems: [],
+    bagSize: 24,
+    nextItemInstanceId: 1,
+    nextBagSlot: 1,
+    level: 1,
+    experience: 0,
+    statusPoints: 0,
+    gold: 0,
+    coins: 0,
+    renown: 0,
+    writePacket(payload, _flags, message) {
+      packets.push({ hex: payload.toString('hex'), message });
+    },
+  };
+
+  const result = applyQuestCompletionReward(session, {
+    items: [{ templateId: 20001, quantity: 5 }],
+  });
+
+  assert.strictEqual(result.inventoryDirty, true);
+  assert.strictEqual(packets.length, 2);
+  assert.match(packets[0].message, /Sending item add/);
+  assert.match(packets[1].message, /Sending inventory full sync/);
 }
 
 function main() {
@@ -138,6 +335,15 @@ function main() {
   testServerRunParsing();
   testPlayerAttackResolution();
   testQueuedEnemyTurnResolution();
+  testInventoryNormalizationRepairsCollisions();
+  testInventoryGrantSplitsAcrossStacksAtomically();
+  testInventoryGrantRejectsNonAtomicOverflow();
+  testInventoryConsumeAggregatesAcrossStacks();
+  testInventoryNormalizationSplitsClientCappedStacks();
+  testInventoryQuantityPacketEncoding();
+  testInventoryBulkSyncOmitsTrailingCountFor074Family();
+  testInventorySnapshotCanonicalizesState();
+  testQuestRewardInventoryAlwaysEndsWithFullSync();
   console.log('refactor smoke ok');
 }
 

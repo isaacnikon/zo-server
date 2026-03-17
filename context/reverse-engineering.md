@@ -424,6 +424,20 @@ damage    = floor((roll * roll) / max(roll + defender_stat8 * 2, 1))
     - family `0x41` stops parsing after the base fields plus the embedded-entry count
     - the old server serializer appended six extra `u16` fields anyway, shifting the next item record in `0x03f2 / 0x00`
     - once the serializer became family-aware, both starter items rendered correctly without any `0x17` packet
+  - later Bling Spring bag debugging resolved the remaining drop-item serializer issue:
+    - direct `attrres.rc` inspection showed `23003`, `23015`, and `21115` all resolve to family `116` (`0x74`)
+    - stack caps from the client tables are:
+      - `23003` `Beetle Shell` -> `500`
+      - `23015` `Dragonfly Wing` -> `500`
+      - `21115` `Dragonfly's Sting` -> `10`
+    - live `gdb` instrumentation on `gc12.exe` during `0x03f2 / 0x00` replay showed:
+      - the client accepted item key `6` (`23003`)
+      - the next parsed key became `0x00000700`, proving the server had emitted one extra byte in the preceding `0x74` record
+      - the extra byte was the trailing embedded-item count
+    - resolved wire rule:
+      - family `0x41` consumes the embedded-count byte after the base fields
+      - family `0x74` stops after `extraValue` and does not consume that count byte in bulk sync
+    - once the server omitted that byte for `0x74`, the full bag rendered correctly in the live client
   - same-bag drag persistence is not a server-protocol problem in the tested client:
     - `HandleItemContainerInteraction` (`0x0048b9a0`) calls `MoveItemBetweenContainerSlots` directly for same-container moves
     - raw server receive logs show no new opcode when dragging an item within the bag

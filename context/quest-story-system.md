@@ -143,6 +143,17 @@ This was verified against the installed client task/help data and live packet lo
   - family `0x41` stops parsing after the base fields plus the embedded-entry count byte
   - sending the generic six trailing `u16` fields shifts the next item in `0x03f2 / 0x00`, so only the first bag item becomes a live client item
   - fixing `0x03f2`/`0x03f3` to serialize by template family restored both visible starter items
+- Live March 17 Spinning / Bling Spring follow-up:
+  - client-verified table data resolves:
+    - `21115` `Dragonfly's Sting` -> family `0x74`, stack cap `10`
+    - `23003` `Beetle Shell` -> family `0x74`, stack cap `500`
+    - `23015` `Dragonfly Wing` -> family `0x74`, stack cap `500`
+  - live `gc12.exe` debugging showed the remaining visibility bug was packet alignment, not quest logic:
+    - the server still appended one extra byte to family `0x74` records in `0x03f2 / 0x00`
+    - the client then misread the next item key as `0x00000700`, truncating the visible bag after the third item
+    - removing that trailing byte restored correct rendering of the full bag contents
+  - result:
+    - `Spinning` step 2 is no longer blocked by the previously unresolved `0x74` bulk-sync serializer bug
 - Result: for item-backed quests, do not trust bag visibility alone; verify the counted quantity field used by `FUN_0053e2a0`.
 
 ### Full quest automation is not complete

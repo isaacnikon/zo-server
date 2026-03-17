@@ -7,12 +7,13 @@ const {
 } = require('../config');
 const {
   buildInventoryContainerBulkSyncPacket,
+  buildInventoryContainerQuantityPacket,
   buildItemAddPacket,
   buildItemRemovePacket,
 } = require('../protocol/gameplay-packets');
 const {
   BAG_CONTAINER_TYPE,
-  bagHasTemplateId,
+  bagHasTemplateQuantity,
   consumeItemFromBag,
   getItemDefinition,
   grantItemToBag,
@@ -55,6 +56,18 @@ function sendInventoryFullSync(session) {
   );
 }
 
+function sendItemQuantityUpdate(session, instanceId, quantity) {
+  session.writePacket(
+    buildInventoryContainerQuantityPacket({
+      containerType: BAG_CONTAINER_TYPE,
+      instanceId,
+      quantity,
+    }),
+    DEFAULT_FLAGS,
+    `Sending item quantity update cmd=0x${GAME_ITEM_CONTAINER_CMD.toString(16)} container=${BAG_CONTAINER_TYPE} instanceId=${instanceId} qty=${quantity}`
+  );
+}
+
 function sendItemRemove(session, instanceId) {
   session.writePacket(
     buildItemRemovePacket({
@@ -70,12 +83,38 @@ function syncInventoryStateToClient(session) {
   sendInventoryFullSync(session);
 }
 
+function sendGrantResultPackets(session, grantResult) {
+  for (const change of grantResult.changes || []) {
+    if (change.merged) {
+      sendItemQuantityUpdate(session, change.item.instanceId, change.item.quantity);
+      continue;
+    }
+    sendItemAdd(
+      session,
+      change.item.templateId,
+      change.item.slot,
+      change.item.quantity,
+      change.item.instanceId
+    );
+  }
+}
+
+function sendConsumeResultPackets(session, consumeResult) {
+  for (const change of consumeResult.changes || []) {
+    if (change.removed) {
+      sendItemRemove(session, change.item.instanceId);
+      continue;
+    }
+    sendItemQuantityUpdate(session, change.item.instanceId, change.item.quantity);
+  }
+}
+
 function applyInventoryQuestEvent(session, event, options = {}) {
   const suppressPackets = options.suppressPackets === true;
   const suppressDialogues = options.suppressDialogues === true;
 
   if (event.type === 'item-granted') {
-    if (bagHasTemplateId(session, event.templateId)) {
+    if (bagHasTemplateQuantity(session, event.templateId, event.quantity)) {
       return { handled: true, dirty: false };
     }
 
@@ -91,13 +130,7 @@ function applyInventoryQuestEvent(session, event, options = {}) {
     }
 
     if (!suppressPackets) {
-      sendItemAdd(
-        session,
-        grantResult.item.templateId,
-        grantResult.item.slot,
-        grantResult.item.quantity,
-        grantResult.item.instanceId
-      );
+      sendGrantResultPackets(session, grantResult);
       sendInventoryFullSync(session);
     }
     if (!suppressDialogues) {
@@ -123,17 +156,7 @@ function applyInventoryQuestEvent(session, event, options = {}) {
     }
 
     if (!suppressPackets) {
-      if (consumeResult.removed) {
-        sendItemRemove(session, consumeResult.item.instanceId);
-      } else {
-        sendItemAdd(
-          session,
-          consumeResult.item.templateId,
-          consumeResult.item.slot,
-          consumeResult.item.quantity,
-          consumeResult.item.instanceId
-        );
-      }
+      sendConsumeResultPackets(session, consumeResult);
       sendInventoryFullSync(session);
     }
     if (!suppressDialogues) {
@@ -161,8 +184,11 @@ function applyInventoryQuestEvent(session, event, options = {}) {
 
 module.exports = {
   applyInventoryQuestEvent,
+  sendConsumeResultPackets,
   sendInventoryFullSync,
   sendItemAdd,
   sendItemRemove,
+  sendItemQuantityUpdate,
+  sendGrantResultPackets,
   syncInventoryStateToClient,
 };
