@@ -203,6 +203,17 @@ damage = max(1, damage)
 - Single-enemy startup: stable
 - Multi-enemy startup: popup fixed
 - Multi-enemy fight loop exists, but remaining turn-flow/UI polish may still need work
+- Synthetic win-close note:
+  - `0x03fa / 0x66` is still needed to make the client leave combat on victory
+  - if the reward/result fields are populated with placeholder data, the client opens Mission Report with bogus loot
+  - the current harness therefore uses `0x03fa / 0x66` as a zero-reward close packet:
+    - hp/mp/rage filled
+    - reward counters zeroed
+    - loot count zero
+  - this closes combat without the old fake-loot Mission Report contents
+- Synthetic target-repeat note:
+  - repeated `0x03ed / 0x03` attacks against a dead board slot can happen when the player uses `Tab`
+  - current server behavior is to auto-retarget that repeat to the next living enemy instead of returning an invalid-target noop
 - On player defeat, the server now:
   - tears combat down
   - respawns to the last persisted safe town anchor

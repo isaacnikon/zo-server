@@ -64,6 +64,23 @@ The client reuses the same `0x03f1` family across multiple exits, so route resol
     - description includes `Location [Bling Spring] and [Bling Alley]`
 - Server synthetic encounters for `103` should therefore use Bling Spring-local `5001/5002` enemies at level `1..3`, not unrelated higher-level placeholder mobs.
 
+## Bling Spring Low-level Drops
+- Client + server reference data line up on the first material drops:
+  - `5001` `Dragonfly` -> `23015` `Dragonfly Wing`
+  - `5002` `Beetle` -> `23003` `Beetle Shell`
+- Source chain:
+  - `roleinfo.txt` monster rows carry the drop item ids in their tail fields
+  - `is_general.txt` resolves those ids to the item names
+  - `gc_server.exe` references `roleinfo.txt` and the item tables directly, which makes this much stronger than a pure client-UI guess
+- Current rate note:
+  - both low-level Bling Spring rows carry a candidate drop rate/weight field of `30` immediately after the item id
+  - that numeric field is not fully proven as a percentage yet, so use it as a candidate server weight, not as a confirmed exact retail rate
+- Current server implementation:
+  - synthetic Bling Spring victories now roll these two client-backed material drops directly:
+    - `Dragonfly` -> `Dragonfly Wing` (`23015`)
+    - `Beetle` -> `Beetle Shell` (`23003`)
+  - the present runtime treats the client `30` field as a simple `30/100` drop chance until the exact `roleinfo.txt` rate unit is fully decoded
+
 ## Arrival Points Currently Used
 - `Rainbow Valley -> Bling Spring`
   - lands near Bling Spring east edge to avoid the middle of the map

@@ -10,6 +10,13 @@
   - next bag slot
 - Quest item grants already use this path through [src/session.js](/home/nikon/projects/zo-server/src/session.js).
 - The server emits an experimental `0x03f3` item-add packet from [src/protocol/gameplay-packets.js](/home/nikon/projects/zo-server/src/protocol/gameplay-packets.js).
+- Synthetic combat victories now have a narrow first-pass drop path for Bling Spring:
+  - `5001` `Dragonfly` can grant `23015` `Dragonfly Wing`
+  - `5002` `Beetle` can grant `23003` `Beetle Shell`
+  - item delivery reuses the normal bag grant path plus `0x03f3` and full container sync
+  - the current rate unit is intentionally conservative:
+    - the client-backed `roleinfo.txt` tail field `30` is presently treated as `30/100`
+    - not as a fully decoded retail drop percentage schema
 
 ### What works
 

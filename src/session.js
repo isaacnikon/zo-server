@@ -79,6 +79,7 @@ const {
   buildSyntheticAttackMirrorUpdatePacket,
   buildSyntheticAttackPlaybackPacket,
   buildSyntheticAttackResultUpdatePacket,
+  buildSyntheticFightVictoryClosePacket,
 } = require('./protocol/gameplay-packets');
 const {
   applyInventoryQuestEvent,
@@ -87,6 +88,9 @@ const {
 const {
   applyQuestCompletionReward,
 } = require('./gameplay/reward-runtime');
+const {
+  rollSyntheticFightDrops,
+} = require('./gameplay/combat-drop-runtime');
 const {
   handleServerRunRequest: processNpcInteractionRequest,
   restoreAtInn: processInnRest,
@@ -1343,7 +1347,7 @@ class Session {
     });
 
     this.log(
-      `Synthetic attack selection mode=${attackMode} targetA=${targetA} targetB=${targetB} targetMatches=${resolution.enemy ? 1 : 0} enemy=${resolution.enemy?.name || 'none'} hp=${resolution.enemy?.hp || 0}`
+      `Synthetic attack selection mode=${attackMode} targetA=${targetA} targetB=${targetB} targetMatches=${resolution.enemy ? 1 : 0} retargeted=${resolution.retargeted ? 1 : 0} enemy=${resolution.enemy?.name || 'none'} hp=${resolution.enemy?.hp || 0}`
     );
 
     if (resolution.kind === 'noop') {
@@ -1367,6 +1371,13 @@ class Session {
     });
 
     if (resolution.enemy.hp === 0) {
+      this.sendCombatCommandHide(
+        {
+          probeId: 'enemy-defeated',
+          entityId: resolution.enemy.entityId,
+        },
+        'enemy-defeated'
+      );
       this.handleQuestMonsterDefeat(resolution.enemy.typeId, 1);
     }
 
@@ -1383,19 +1394,11 @@ class Session {
       return;
     }
 
-    this.sendSyntheticAttackResultUpdate({
-      actionMode: FIGHT_RESULT_VICTORY_SUBCMD,
-      target: resolution.enemy,
-      damage: resolution.damage,
-    });
-    this.sendSyntheticAttackMirrorUpdate({
-      actionMode: FIGHT_RESULT_DEFEAT_SUBCMD,
-    });
-
     this.log(`Synthetic enemy defeated enemy=${resolution.enemy.name} entity=${resolution.enemy.entityId}`);
     this.awaitingCombatTurnHandshake = false;
     this.pendingCombatTurnProbe = null;
-    this.sendGameDialogue('Combat', resolution.message);
+    this.sendSyntheticFightVictoryClose();
+    this.finishSyntheticFight('victory', resolution.message);
   }
 
   getSyntheticPlayerFighter() {
@@ -1482,12 +1485,23 @@ class Session {
       return;
     }
     this.clearSyntheticCommandRefreshTimer();
+    let dropResult = null;
+    if (outcome === 'victory') {
+      dropResult = rollSyntheticFightDrops(this, this.syntheticFight);
+    }
     const finished = finalizeSyntheticFightState(this.syntheticFight, outcome);
     const player = finished.player;
     this.awaitingCombatTurnHandshake = false;
     this.pendingCombatTurnProbe = null;
     this.combatState = createCombatState();
     this.log(`Synthetic fight finished outcome=${outcome}`);
+    if (dropResult?.granted?.length > 0 || dropResult?.skipped?.length > 0) {
+      const dropText = [
+        ...dropResult.granted.map((drop) => `${drop.definition?.name || drop.item.templateId} x${drop.quantity}`),
+        ...dropResult.skipped.map((drop) => `${drop.templateId} skipped (${drop.reason})`),
+      ].join(', ');
+      this.log(`Synthetic fight drops outcome=${outcome} ${dropText}`);
+    }
     if (message && outcome !== 'defeat') {
       this.sendGameDialogue('Combat', message);
     }
@@ -1537,6 +1551,9 @@ class Session {
         this.transitionToScene(respawn.mapId, respawn.x, respawn.y, 'defeat-respawn');
       }, 900);
       return;
+    }
+    if (dropResult?.inventoryDirty) {
+      this.persistCurrentCharacter();
     }
     this.currentEncounterTriggerId = null;
     this.syntheticFight = null;
@@ -1634,6 +1651,22 @@ class Session {
       }),
       DEFAULT_FLAGS,
       `Sending synthetic fight mirror update cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${actionMode.toString(16)} hp=${player?.hp || this.currentHealth} mp=${player?.mp || this.currentMana} rage=${player?.rage || this.currentRage}`
+    );
+  }
+
+  sendSyntheticFightVictoryClose() {
+    const player = this.getSyntheticPlayerFighter();
+
+    this.writePacket(
+      buildSyntheticFightVictoryClosePacket({
+        playerVitals: {
+          health: player?.hp || this.currentHealth,
+          mana: player?.mp || this.currentMana,
+          rage: player?.rage || this.currentRage,
+        },
+      }),
+      DEFAULT_FLAGS,
+      `Sending synthetic fight victory close cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${FIGHT_RESULT_VICTORY_SUBCMD.toString(16)} hp=${player?.hp || this.currentHealth} mp=${player?.mp || this.currentMana} rage=${player?.rage || this.currentRage}`
     );
   }
 
@@ -2032,6 +2065,7 @@ function buildSyntheticEncounterEnemies(action, mapId) {
       levelLike,
       appearanceTypes: Array.isArray(template.appearanceTypes) ? template.appearanceTypes.slice(0, 3) : [0, 0, 0],
       appearanceVariants: Array.isArray(template.appearanceVariants) ? template.appearanceVariants.slice(0, 3) : [0, 0, 0],
+      drops: Array.isArray(template.drops) ? template.drops.map((drop) => ({ ...drop })) : [],
       name: template.name || `Map ${mapId} Enemy ${template.typeId}`,
     });
   }

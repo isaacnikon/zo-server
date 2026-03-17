@@ -4,6 +4,7 @@
 - Game root: `/home/nikon/Data/Zodiac Online/`
 - Main executable: `gc12.exe`
 - Login DLL: `Login.dll`
+- Reference server executable: `/home/nikon/Downloads/shengxiao/Server/gc_server.exe`
 
 ## Ghidra
 - Project: `/home/nikon/ghidra/ZO.gpr`
@@ -21,6 +22,78 @@
 - `LookupEntityTemplate` at `0x00444790`
 - `GetGameObject` at `0x0040f200`
 - `GetActiveEntity` at `0x0040f1f0`
+
+## `roleinfo.txt` / Drop Findings
+- `gc_server.exe` contains direct string refs to:
+  - `attrres\\roleinfo.txt`
+  - `attrres\\item\\is_general.txt`
+  - `attrres\\item\\is_potion.txt`
+- It does not show corresponding refs to the client archive `drop*.txt` resources in the same binary scan.
+- Practical conclusion:
+  - the server-side monster/drop authority is much more likely to be `roleinfo.txt` plus item-template tables, not the tiny `drop*.txt` files extracted from the client archive.
+- Server loader path in `gc_server.exe`:
+  - `FUN_0045f6e0`
+    - top-level `roleinfo.txt` loader
+  - `FUN_0045f9a0`
+    - inserts one parsed role object into the role manager
+  - `FUN_004515e0`
+    - constructs the role record object
+  - `FUN_00451f70`
+    - main `roleinfo` row parser
+- Item table loader path in `gc_server.exe`:
+  - `FUN_004a2ed0`
+    - loads `is_weapon`, `is_armor`, `is_potion`, `is_stuff`, `is_general`, `strinfo`, `mapinfo`
+  - `FUN_004a6060`
+    - `is_general.txt` row loader
+- Concrete Bling Spring drop resolution:
+  - `roleinfo.txt` row `5001` `Dragonfly`
+    - tail contains `23015,30,0,5,0,5005,24`
+    - `is_general.txt` resolves `23015` to `Dragonfly Wing`
+  - `roleinfo.txt` row `5002` `Beetle`
+    - tail contains `23003,30,0,5,0,5004,24`
+    - `is_general.txt` resolves `23003` to `Beetle Shell`
+  - comparison rows:
+    - `5206` `Poisonous Dragonfly` -> `23115,30,0,5,0,5243,24`
+    - `is_general.txt` resolves `23115` to `Poisonous Fang`
+    - `5205` / `5215` / `5312` thief-family rows point at `20044`
+    - `is_potion.txt` resolves `20044` to `Brined Meat Hotpot`
+- Current defensible drop-rate read:
+  - the first tail item id in `roleinfo.txt` is the primary monster drop item id
+  - the next numeric field is a strong candidate for the drop rate or weight
+  - examples:
+    - `Dragonfly` -> `Dragonfly Wing` with candidate rate/weight `30`
+    - `Beetle` -> `Beetle Shell` with candidate rate/weight `30`
+    - `Looter` -> `Brined Meat Hotpot` with candidate rate/weight `40`
+    - `Experienced Thief` -> `Brined Meat Hotpot` with candidate rate/weight `20`
+- Current server implementation boundary:
+  - the local server now uses the primary `roleinfo.txt` drop item id for Bling Spring synthetic fights
+  - it deliberately treats the following candidate rate field as a simple `N/100` chance for now
+  - this keeps the implementation aligned with the binary-backed mapping without overclaiming that the full retail rate schema is solved
+- `roleinfo.txt` binary-backed schema notes from `FUN_00451f70`:
+  - column 1:
+    - role display name string
+  - column 2:
+    - role/template id -> struct `+0x3c`
+  - column 3:
+    - broad role class bucket -> struct `+0x40`
+    - observed values:
+      - `1` player avatars
+      - `2` pets
+      - `3` NPCs
+      - `4` ordinary monsters
+      - `5` elite/guard/boss style rows
+  - the parser then writes a long run of numeric columns into:
+    - generic stat array at `+0x7c + index*4`
+    - 9-element `u16` array at `+0x410`
+    - final `u16`s at `+0x454` and `+0x456`
+  - practical takeaway:
+    - the role row tail is structurally significant to the server parser
+    - the last fields are not freeform comments or client-only hints
+    - but the exact semantic meaning of every intermediate stat column is still only partially decoded
+- Important caution:
+  - `fjitem.txt` exists in the client archive and contains item-id/rate-looking tuples
+  - but its keys overlap crafting/composition ids seen in `combinitem.txt`
+  - until proven otherwise, do not treat `fjitem.txt` as authoritative monster drop data
 
 ## Map / Scene Notes
 - `MapCelLoad` uses 6-byte tile scene records:
@@ -117,6 +190,21 @@ u32 damage
 ```
 
 - This produces visible normal-attack animation.
+
+## Synthetic Loop Notes
+- Synthetic victory-close behavior:
+  - client combat does not end cleanly if synthetic wins omit `0x03fa / 0x66`
+  - but treating `0x66` like a generic hit/result packet pollutes Mission Report with bogus reward data
+  - current practical harness rule:
+    - keep `0x03fa / 0x66` for synthetic victory close
+    - zero all reward/result counters and loot count in that packet
+    - grant real material drops directly to the bag through inventory packets instead
+- Dead-target repeat behavior:
+  - when the player repeats the previous attack with keyboard `Tab`, the client can resend the last target slot even after that enemy died
+  - current server workaround:
+    - if requested `(row,col)` no longer maps to a living enemy
+    - auto-retarget to the next living enemy
+    - only return `invalid-target` when no living enemies remain
 
 ## `0x03f0` Action Table
 - Handler path:

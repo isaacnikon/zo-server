@@ -42,6 +42,24 @@ const ITEM_DEFINITIONS = Object.freeze([
       'Installed script.gcg Spinning(II) block requires 10x macro_GetItemName(21115) from Dragonfly and hand-in to Candy.',
   },
   {
+    templateId: 23003,
+    name: 'Beetle Shell',
+    containerType: BAG_CONTAINER_TYPE,
+    maxStack: 99,
+    clientTemplateFamily: 0x74,
+    clientEvidence:
+      'Client is_general.txt row 23003 names this material "Beetle Shell"; roleinfo.txt row 5002 points to it as Beetle\'s primary drop.',
+  },
+  {
+    templateId: 23015,
+    name: 'Dragonfly Wing',
+    containerType: BAG_CONTAINER_TYPE,
+    maxStack: 99,
+    clientTemplateFamily: 0x74,
+    clientEvidence:
+      'Client is_general.txt row 23015 names this material "Dragonfly Wing"; roleinfo.txt row 5001 points to it as Dragonfly\'s primary drop.',
+  },
+  {
     templateId: 20001,
     name: 'Medicine',
     containerType: BAG_CONTAINER_TYPE,

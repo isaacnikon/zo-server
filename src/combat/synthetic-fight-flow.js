@@ -20,8 +20,11 @@ function resolvePlayerAttackSelection({
     return { kind: 'noop' };
   }
 
-  const enemy = findSyntheticEnemyTarget(syntheticFight, targetA, targetB);
-  const targetMatches = enemy !== null;
+  const requestedEnemy = findSyntheticEnemyTarget(syntheticFight, targetA, targetB);
+  const fallbackEnemy = requestedEnemy || syntheticFight.enemies.find((candidate) => candidate.hp > 0) || null;
+  const enemy = fallbackEnemy;
+  const targetMatches = requestedEnemy !== null;
+  const retargeted = requestedEnemy === null && fallbackEnemy !== null;
 
   syntheticFight.lastAction = {
     actorEntityId: player.entityId,
@@ -29,6 +32,7 @@ function resolvePlayerAttackSelection({
     targetA,
     targetB,
     targetMatches,
+    retargeted,
     targetEntityId: enemy?.entityId || 0,
     timestamp: now,
   };
@@ -37,6 +41,13 @@ function resolvePlayerAttackSelection({
   syntheticFight.suppressNextReadyRepeat = false;
 
   if (!targetMatches) {
+    if (retargeted) {
+      syntheticFight.lastAction.targetA = enemy.row;
+      syntheticFight.lastAction.targetB = enemy.col;
+    }
+  }
+
+  if (!enemy) {
     return {
       kind: 'invalid-target',
       player,
@@ -59,6 +70,7 @@ function resolvePlayerAttackSelection({
       enemy,
       damage,
       livingEnemies,
+      retargeted,
       nextEnemyActor: syntheticFight.turnQueue[0]?.attackerEntityId || enemy.entityId,
     };
   }
@@ -72,6 +84,7 @@ function resolvePlayerAttackSelection({
     enemy,
     damage,
     livingEnemies,
+    retargeted,
     message: `${charName} defeats the enemy group.`,
   };
 }

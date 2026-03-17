@@ -161,6 +161,14 @@ function createSyntheticFightState({
     level: enemy.levelLike & 0xffff,
     appearanceTypes: Array.isArray(enemy.appearanceTypes) ? enemy.appearanceTypes.slice(0, 3) : [0, 0, 0],
     appearanceVariants: Array.isArray(enemy.appearanceVariants) ? enemy.appearanceVariants.slice(0, 3) : [0, 0, 0],
+    drops: Array.isArray(enemy.drops)
+      ? enemy.drops.map((drop) => ({
+          templateId: drop.templateId >>> 0,
+          chance: Number.isFinite(drop.chance) ? drop.chance : 0,
+          quantity: Math.max(1, drop.quantity | 0),
+          source: typeof drop.source === 'string' ? drop.source : '',
+        }))
+      : [],
     alive: true,
     name: enemy.name,
     templateFlags: 0,

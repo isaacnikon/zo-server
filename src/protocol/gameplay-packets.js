@@ -72,6 +72,24 @@ function buildSyntheticAttackMirrorUpdatePacket({ actionMode, playerVitals }) {
   return writer.payload();
 }
 
+function buildSyntheticFightVictoryClosePacket({ playerVitals }) {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_FIGHT_STREAM_CMD);
+  writer.writeUint8(0x66);
+  writer.writeUint32(Math.max(1, playerVitals.health) >>> 0);
+  writer.writeUint32(playerVitals.mana >>> 0);
+  writer.writeUint32(playerVitals.rage >>> 0);
+  writer.writeUint32(ABSENT_COMPANION_SENTINEL);
+  // Keep the result accumulators empty so the client can leave combat without
+  // populating the Mission Report reward window.
+  writer.writeUint32(0);
+  writer.writeUint32(0);
+  writer.writeUint32(0);
+  writer.writeUint32(0);
+  writer.writeUint16(0);
+  return writer.payload();
+}
+
 function buildSelfStateAptitudeSyncPacket({
   selectedAptitude,
   level,
@@ -291,4 +309,5 @@ module.exports = {
   buildSyntheticAttackMirrorUpdatePacket,
   buildSyntheticAttackPlaybackPacket,
   buildSyntheticAttackResultUpdatePacket,
+  buildSyntheticFightVictoryClosePacket,
 };

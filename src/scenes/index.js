@@ -22,8 +22,42 @@ const BLING_SPRING_ENCOUNTER_PROFILE = {
     // `roleinfo.txt` explicitly places both monsters in `[Bling Spring]`.
     // The on-enter popup also advertises `Dragonfly Level [1-3]`; the paired
     // Beetle line is the same area hint shown in the client.
-    { typeId: 5001, logicalId: 1, levelMin: 1, levelMax: 3, hpBase: 38, hpPerLevel: 8, weight: 5, name: 'Dragonfly' },
-    { typeId: 5002, logicalId: 2, levelMin: 1, levelMax: 3, hpBase: 42, hpPerLevel: 8, weight: 5, name: 'Beetle' },
+    {
+      typeId: 5001,
+      logicalId: 1,
+      levelMin: 1,
+      levelMax: 3,
+      hpBase: 38,
+      hpPerLevel: 8,
+      weight: 5,
+      name: 'Dragonfly',
+      drops: [
+        {
+          templateId: 23015,
+          chance: 30,
+          quantity: 1,
+          source: 'roleinfo.txt tail 23015,30,... -> Dragonfly Wing',
+        },
+      ],
+    },
+    {
+      typeId: 5002,
+      logicalId: 2,
+      levelMin: 1,
+      levelMax: 3,
+      hpBase: 42,
+      hpPerLevel: 8,
+      weight: 5,
+      name: 'Beetle',
+      drops: [
+        {
+          templateId: 23003,
+          chance: 30,
+          quantity: 1,
+          source: 'roleinfo.txt tail 23003,30,... -> Beetle Shell',
+        },
+      ],
+    },
   ],
 };
 
