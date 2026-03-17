@@ -83,6 +83,26 @@ function applyQuestCompletionReward(session, reward, options = {}) {
     }
   }
 
+  for (const petTemplateId of normalizedReward.pets) {
+    if (!Number.isInteger(petTemplateId) || petTemplateId <= 0) {
+      continue;
+    }
+    if (!Array.isArray(session.pets)) {
+      session.pets = [];
+    }
+    const alreadyOwned = session.pets.some((pet) => (pet?.templateId >>> 0) === (petTemplateId >>> 0));
+    if (alreadyOwned) {
+      rewardMessages.push(`pet ${petTemplateId}`);
+      continue;
+    }
+    session.pets.push({
+      templateId: petTemplateId >>> 0,
+      awardedAt: Date.now(),
+    });
+    statsDirty = true;
+    rewardMessages.push(resolvePetRewardName(petTemplateId));
+  }
+
   for (const item of normalizedReward.items) {
     const grantResult = grantItemToBag(session, item.templateId, item.quantity);
     if (!grantResult.ok) {
@@ -122,6 +142,7 @@ function resolveQuestRewardForSession(session, reward, taskId) {
         experience: selectedGroup.experience || normalizedReward.experience,
         coins: selectedGroup.coins || normalizedReward.coins,
         renown: selectedGroup.renown || normalizedReward.renown,
+        pets: normalizePetRewardList(session, selectedGroup.pets),
         items: selectedGroup.items.length > 0 ? selectedGroup.items : normalizedReward.items,
       };
     }
@@ -137,6 +158,7 @@ function resolveQuestRewardForSession(session, reward, taskId) {
 
   return {
     ...normalizedReward,
+    pets: normalizePetRewardList(session, normalizedReward.pets),
     items: resolveSpinningStarterSet(session),
   };
 }
@@ -159,6 +181,45 @@ function selectRewardChoiceGroupForSession(session, choiceGroups) {
   }
 
   return choiceGroups[0];
+}
+
+function normalizePetRewardList(session, pets) {
+  if (!Array.isArray(pets) || pets.length === 0) {
+    return [];
+  }
+
+  return pets
+    .map((pet) => resolvePetTemplateId(session, pet))
+    .filter((petTemplateId) => Number.isInteger(petTemplateId) && petTemplateId > 0);
+}
+
+function resolvePetTemplateId(session, pet) {
+  if (Number.isInteger(pet)) {
+    return pet >>> 0;
+  }
+  if (pet === 'i') {
+    const aptitude = Math.max(1, Math.min(12, Number(session?.selectedAptitude) || 1));
+    return 2000 + aptitude;
+  }
+  return 0;
+}
+
+function resolvePetRewardName(petTemplateId) {
+  const zodiacPets = {
+    2001: 'Rat pet',
+    2002: 'Ox pet',
+    2003: 'Tiger pet',
+    2004: 'Rabbit pet',
+    2005: 'Dragon pet',
+    2006: 'Snake pet',
+    2007: 'Horse pet',
+    2008: 'Sheep pet',
+    2009: 'Monkey pet',
+    2010: 'Rooster pet',
+    2011: 'Dog pet',
+    2012: 'Pig pet',
+  };
+  return zodiacPets[petTemplateId] || `pet ${petTemplateId}`;
 }
 
 function resolveSpinningStarterSet(session) {
@@ -192,6 +253,7 @@ function normalizeReward(reward) {
     experience: numberOrDefault(reward?.experience, 0),
     coins: numberOrDefault(reward?.coins, 0),
     renown: numberOrDefault(reward?.renown, 0),
+    pets: Array.isArray(reward?.pets) ? reward.pets.slice() : [],
     choiceGroups: Array.isArray(reward?.choiceGroups)
       ? reward.choiceGroups
           .map((group) => ({

@@ -194,6 +194,7 @@ class Session {
     this.statusPoints = 0;
     this.activeQuests = [];
     this.completedQuests = [];
+    this.pets = [];
     this.bagItems = [];
     this.bagSize = 24;
     this.nextItemInstanceId = 1;
@@ -241,6 +242,9 @@ class Session {
       const questState = normalizeQuestState(sharedState.pendingGameCharacter);
       this.activeQuests = questState.activeQuests;
       this.completedQuests = questState.completedQuests;
+      this.pets = Array.isArray(sharedState.pendingGameCharacter.pets)
+        ? sharedState.pendingGameCharacter.pets
+        : [];
       const inventoryState = normalizeInventoryState(sharedState.pendingGameCharacter);
       this.bagItems = inventoryState.inventory.bag;
       this.bagSize = inventoryState.inventory.bagSize;
@@ -365,6 +369,10 @@ class Session {
       return;
     }
 
+    if (cmdWord === 0x03ef && this.tryHandleAttributeAllocationPacket(payload)) {
+      return;
+    }
+
     if (cmdWord === GAME_FIGHT_CLIENT_CMD || isCombatCommand(cmdWord)) {
       this.handleCombatPacket(cmdWord, payload);
       return;
@@ -411,6 +419,63 @@ class Session {
     );
     this.persistCurrentCharacter();
     sendEquipmentContainerSync(this);
+    return true;
+  }
+
+  tryHandleAttributeAllocationPacket(payload) {
+    if (payload.length < 11 || payload[2] !== 0x1e) {
+      return false;
+    }
+
+    const strengthDelta = payload.readUInt16LE(3);
+    const dexterityDelta = payload.readUInt16LE(5);
+    const vitalityDelta = payload.readUInt16LE(7);
+    const intelligenceDelta = payload.readUInt16LE(9);
+    const requestedTotal = strengthDelta + vitalityDelta + dexterityDelta + intelligenceDelta;
+
+    this.log(
+      `Attribute allocation confirm sub=0x1e str=${strengthDelta} dex=${dexterityDelta} vit=${vitalityDelta} int=${intelligenceDelta} available=${this.statusPoints}`
+    );
+
+    if (requestedTotal <= 0) {
+      this.log('Ignoring empty attribute allocation confirm');
+      return true;
+    }
+
+    const spendableTotal = Math.min(requestedTotal, Math.max(0, this.statusPoints));
+    if (spendableTotal <= 0) {
+      this.log('Ignoring attribute allocation with no spendable status points');
+      this.sendSelfStateAptitudeSync();
+      return true;
+    }
+
+    let remaining = spendableTotal;
+    const applied = {
+      strength: Math.min(strengthDelta, remaining),
+      dexterity: 0,
+      vitality: 0,
+      intelligence: 0,
+    };
+    remaining -= applied.strength;
+    applied.dexterity = Math.min(dexterityDelta, remaining);
+    remaining -= applied.dexterity;
+    applied.vitality = Math.min(vitalityDelta, remaining);
+    remaining -= applied.vitality;
+    applied.intelligence = Math.min(intelligenceDelta, remaining);
+
+    this.primaryAttributes = normalizePrimaryAttributes({
+      intelligence: this.primaryAttributes.intelligence + applied.intelligence,
+      vitality: this.primaryAttributes.vitality + applied.vitality,
+      dexterity: this.primaryAttributes.dexterity + applied.dexterity,
+      strength: this.primaryAttributes.strength + applied.strength,
+    });
+    this.statusPoints = Math.max(0, this.statusPoints - (applied.strength + applied.vitality + applied.dexterity + applied.intelligence));
+
+    this.persistCurrentCharacter({
+      primaryAttributes: this.primaryAttributes,
+      statusPoints: this.statusPoints,
+    });
+    this.sendSelfStateAptitudeSync();
     return true;
   }
 
@@ -618,6 +683,7 @@ class Session {
       statusPoints: persisted?.statusPoints || this.statusPoints || 0,
       activeQuests: normalizeQuestState(persisted || {}).activeQuests,
       completedQuests: normalizeQuestState(persisted || {}).completedQuests,
+      pets: Array.isArray(persisted?.pets) ? persisted.pets : this.pets,
       lastTownMapId: persisted?.lastTownMapId,
       lastTownX: persisted?.lastTownX,
       lastTownY: persisted?.lastTownY,
@@ -786,6 +852,7 @@ class Session {
       const questState = normalizeQuestState(persisted);
       this.activeQuests = questState.activeQuests;
       this.completedQuests = questState.completedQuests;
+      this.pets = Array.isArray(persisted.pets) ? persisted.pets : [];
       const inventoryState = normalizeInventoryState(persisted);
       this.bagItems = inventoryState.inventory.bag;
       this.bagSize = inventoryState.inventory.bagSize;
@@ -844,6 +911,7 @@ class Session {
       statusPoints: this.statusPoints,
       activeQuests: this.activeQuests,
       completedQuests: this.completedQuests,
+      pets: this.pets,
       inventory: buildInventorySnapshot(this),
       mapId: this.currentMapId,
       x: this.currentX,
@@ -894,6 +962,7 @@ class Session {
     const questState = normalizeQuestState(character);
     this.activeQuests = questState.activeQuests;
     this.completedQuests = questState.completedQuests;
+    this.pets = Array.isArray(character.pets) ? character.pets : [];
     const inventoryState = normalizeInventoryState(character);
     this.bagItems = inventoryState.inventory.bag;
     this.bagSize = inventoryState.inventory.bagSize;
@@ -1013,6 +1082,16 @@ class Session {
     }
 
     if (action.kind === 'encounterProbe') {
+      if (this.shouldSuppressEncounterProbe(action, mapId)) {
+        if (triggerId !== this.currentEncounterTriggerId) {
+          this.log(
+            `Encounter probe suppressed trigger=${triggerId} map=${mapId} pos=${x},${y} reason=active quest encounter owns this area`
+          );
+        }
+        this.currentEncounterTriggerId = triggerId;
+        return;
+      }
+
       if (triggerId === this.currentEncounterTriggerId) {
         return;
       }
@@ -1055,6 +1134,25 @@ class Session {
       this.currentEncounterTriggerId = null;
       this.sendCombatExitProbe(action);
     }
+  }
+
+  shouldSuppressEncounterProbe(action, mapId) {
+    if (!action || action.kind !== 'encounterProbe') {
+      return false;
+    }
+
+    if (mapId !== 103 || action.probeId !== 'blingSpringField') {
+      return false;
+    }
+
+    const petQuest = Array.isArray(this.activeQuests)
+      ? this.activeQuests.find((quest) => (quest?.id >>> 0) === 51)
+      : null;
+    if (!petQuest) {
+      return false;
+    }
+
+    return (petQuest.stepIndex >>> 0) === 3;
   }
 
   handleServerRunRequest(payload) {
@@ -1132,13 +1230,7 @@ class Session {
       if (event.type === 'accepted') {
         questStateDirty = true;
         if (!suppressPackets) {
-          const initialStepType = Array.isArray(event.definition?.steps) && event.definition.steps[0]
-            ? event.definition.steps[0].type
-            : '';
           this.sendQuestAccept(event.taskId);
-          if (event.status > 0 && initialStepType === 'kill') {
-            this.sendQuestUpdate(event.taskId, event.status);
-          }
           if (event.markerNpcId > 0) {
             this.sendQuestFindNpc(event.taskId, event.markerNpcId);
           }
@@ -1154,8 +1246,20 @@ class Session {
 
       if (event.type === 'progress' || event.type === 'advanced') {
         questStateDirty = true;
+        const isBootstrapLikeSource =
+          source === 'bootstrap' ||
+          source === 'bootstrap-scene' ||
+          source === 'scene-transition' ||
+          source === 'position-map-change';
         if (!suppressPackets) {
-          this.sendQuestUpdate(event.taskId, event.status);
+          if (!isBootstrapLikeSource && event.type === 'advanced') {
+            this.sendQuestUpdate(event.taskId, event.status);
+          } else if (!isBootstrapLikeSource && event.type === 'progress') {
+            this.sendQuestProgress(
+              numberOrDefault(event.progressObjectiveId, event.taskId),
+              event.status
+            );
+          }
           if (event.markerNpcId > 0) {
             this.sendQuestFindNpc(event.taskId, event.markerNpcId);
           }
@@ -1268,8 +1372,14 @@ class Session {
 
     for (const quest of syncState) {
       this.sendQuestAccept(quest.taskId);
-      if (quest.status > 0 && quest.stepType === 'kill') {
-        this.sendQuestUpdate(quest.taskId, quest.status);
+      for (let index = 0; index < numberOrDefault(quest.stepIndex, 0); index += 1) {
+        this.sendQuestUpdate(quest.taskId, index + 1);
+      }
+      if (quest.stepType === 'kill' && numberOrDefault(quest.status, 0) > 0) {
+        this.sendQuestProgress(
+          numberOrDefault(quest.progressObjectiveId, quest.taskId),
+          quest.status
+        );
       }
       if (quest.markerNpcId > 0) {
         this.sendQuestFindNpc(quest.taskId, quest.markerNpcId);
@@ -1296,9 +1406,17 @@ class Session {
 
   sendQuestUpdate(taskId, status) {
     this.writePacket(
-      buildQuestPacket(0x08, taskId, status & 0xffff, 'u16'),
+      buildQuestPacket(0x08, taskId),
       DEFAULT_FLAGS,
       `Sending quest update cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x08 taskId=${taskId} status=${status}`
+    );
+  }
+
+  sendQuestProgress(objectiveId, status) {
+    this.writePacket(
+      buildQuestPacket(0x0b, objectiveId),
+      DEFAULT_FLAGS,
+      `Sending quest progress cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x0b objectiveId=${objectiveId} status=${status}`
     );
   }
 
@@ -1370,9 +1488,6 @@ class Session {
         continue;
       }
 
-      if (syncState.status > 0 && syncState.stepType === 'kill') {
-        this.sendQuestUpdate(definition.id, syncState.status);
-      }
       if (syncState.markerNpcId > 0) {
         this.sendQuestFindNpc(definition.id, syncState.markerNpcId);
       }

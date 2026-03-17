@@ -44,6 +44,14 @@ function main() {
     ))
     .filter(Boolean);
 
+  for (const quest of quests) {
+    if ((quest?.id >>> 0) === 51 && quest.steps?.[0]?.npcId === 3004) {
+      delete quest.steps[0].consumeItems;
+      delete quest.steps[0].grantItems;
+      quest.steps[0].description = 'Bring "Candy\'s Recommendation" to "Scholar"';
+    }
+  }
+
   fs.writeFileSync(
     OUTPUT_FILE,
     `${JSON.stringify({
@@ -109,6 +117,12 @@ function buildQuest(taskId, candidateQuest, overrideQuest, taskMeta) {
       acceptGrantItems,
     }),
   };
+
+  if ((taskId >>> 0) === 51 && quest.steps[0]?.npcId === 3004) {
+    delete quest.steps[0].consumeItems;
+    delete quest.steps[0].grantItems;
+    quest.steps[0].description = 'Bring "Candy\'s Recommendation" to "Scholar"';
+  }
 
   if (Number.isInteger(taskMeta?.nextTaskId) && taskMeta.nextTaskId > 0) {
     quest.nextQuestId = taskMeta.nextTaskId;
@@ -270,6 +284,19 @@ function buildQuestSteps(taskId, candidateSteps, overrideSteps, questContext) {
       step.mapId = 103;
     }
 
+    if ((taskId >>> 0) === 51 && numberOrDefault(step?.status, 0) === 1 && numberOrDefault(step?.npcId, 0) === 3004) {
+      delete step.consumeItems;
+      delete step.grantItems;
+      step.description = 'Bring "Candy\'s Recommendation" to "Scholar"';
+    }
+
+    if ((taskId >>> 0) === 51 && step.type === 'kill' && numberOrDefault(step?.status, 0) === 4) {
+      step.completionNpcId = 3023;
+      step.completionMapId = 103;
+      step.completionDescription = 'Return to "Grandpa" after defeating "Little Boar"';
+      step.completeOnTalkAfterKill = true;
+    }
+
     steps.push(step);
   }
 
@@ -369,15 +396,35 @@ function deriveAuxiliaryActions(taskId) {
   }
 
   if (taskId === 51) {
-    return [{
-      type: 'combat_on_server_run',
-      stepStatus: 4,
-      subtype: 0x02,
-      mapId: 103,
-      scriptId: 10001,
-      monsterId: 5106,
-      count: 1,
-    }];
+    return [
+      {
+        type: 'grant_on_server_run',
+        stepStatus: 1,
+        subtype: 0x08,
+        npcId: 3004,
+        mapId: 101,
+        scriptId: 51,
+        consumeItems: [{
+          templateId: 21123,
+          quantity: 1,
+          name: "Candy's Recommendation",
+        }],
+        grantItems: [{
+          templateId: 21001,
+          quantity: 1,
+          name: "Scholar's Letter",
+        }],
+      },
+      {
+        type: 'combat_on_server_run',
+        stepStatus: 4,
+        subtype: 0x02,
+        mapId: 103,
+        scriptId: 10001,
+        monsterId: 5106,
+        count: 1,
+      },
+    ];
   }
 
   return [];
@@ -402,6 +449,7 @@ function normalizeAuxiliaryActions(actions) {
             monsterId: Number.isInteger(action.monsterId) ? action.monsterId >>> 0 : undefined,
             count: Number.isInteger(action.count) ? action.count >>> 0 : undefined,
             onlyIfMissingTemplateId: Number.isInteger(action.onlyIfMissingTemplateId) ? action.onlyIfMissingTemplateId >>> 0 : undefined,
+            consumeItems: normalizeItems(action.consumeItems),
             grantItems: normalizeItems(action.grantItems),
           };
         })

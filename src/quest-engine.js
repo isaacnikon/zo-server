@@ -99,6 +99,10 @@ function normalizeQuestStep(step) {
     count: Number.isInteger(step.count) ? step.count >>> 0 : undefined,
     status: Number.isInteger(step.status) ? step.status >>> 0 : undefined,
     description: typeof step.description === 'string' ? step.description : '',
+    completionNpcId: Number.isInteger(step.completionNpcId) ? step.completionNpcId >>> 0 : undefined,
+    completionMapId: Number.isInteger(step.completionMapId) ? step.completionMapId >>> 0 : undefined,
+    completionDescription: typeof step.completionDescription === 'string' ? step.completionDescription : '',
+    completeOnTalkAfterKill: step.completeOnTalkAfterKill === true,
     consumeItems: Array.isArray(step.consumeItems)
       ? step.consumeItems
           .map((item) => normalizeGrantedItem(item))
@@ -161,6 +165,11 @@ function normalizeAuxiliaryAction(action) {
     monsterId: Number.isInteger(action.monsterId) ? action.monsterId >>> 0 : undefined,
     count: Number.isInteger(action.count) ? action.count >>> 0 : undefined,
     onlyIfMissingTemplateId: Number.isInteger(action.onlyIfMissingTemplateId) ? action.onlyIfMissingTemplateId >>> 0 : undefined,
+    consumeItems: Array.isArray(action.consumeItems)
+      ? action.consumeItems
+          .map((item) => normalizeGrantedItem(item))
+          .filter(Boolean)
+      : [],
     grantItems: Array.isArray(action.grantItems)
       ? action.grantItems
           .map((item) => normalizeGrantedItem(item))
@@ -284,9 +293,23 @@ function getQuestStatus(definition, questRecord) {
   return numberOrDefault(step.status, numberOrDefault(questRecord?.stepIndex, 0));
 }
 
+function isKillStepObjectiveComplete(step, questRecord) {
+  if (!step || step.type !== 'kill') {
+    return false;
+  }
+  const killCount = Math.max(0, numberOrDefault(questRecord?.progress?.count, 0));
+  return killCount >= Math.max(1, numberOrDefault(step.count, 1));
+}
+
 function getQuestMarkerNpcId(definition, questRecord) {
   const step = getCurrentStep(definition, questRecord);
   if (!step) {
+    return 0;
+  }
+  if (step.type === 'kill') {
+    if (step.completeOnTalkAfterKill && isKillStepObjectiveComplete(step, questRecord)) {
+      return numberOrDefault(step.completionNpcId, numberOrDefault(step.npcId, 0));
+    }
     return 0;
   }
   return numberOrDefault(step.npcId, 0);
@@ -297,7 +320,23 @@ function getQuestStepDescription(definition, questRecord) {
   if (!step) {
     return '';
   }
+  if (step.type === 'kill' && step.completeOnTalkAfterKill && isKillStepObjectiveComplete(step, questRecord)) {
+    return typeof step.completionDescription === 'string' && step.completionDescription.length > 0
+      ? step.completionDescription
+      : (typeof step.description === 'string' ? step.description : '');
+  }
   return typeof step.description === 'string' ? step.description : '';
+}
+
+function getQuestProgressObjectiveId(definition, questRecord) {
+  const step = getCurrentStep(definition, questRecord);
+  if (!step) {
+    return 0;
+  }
+  if (step.type === 'kill') {
+    return numberOrDefault(step.monsterId, 0);
+  }
+  return 0;
 }
 
 function acceptQuest(state, taskId, events, reason = 'accepted') {
@@ -338,6 +377,7 @@ function acceptQuest(state, taskId, events, reason = 'accepted') {
     status: getQuestStatus(definition, record),
     markerNpcId: getQuestMarkerNpcId(definition, record),
     stepDescription: getQuestStepDescription(definition, record),
+    progressObjectiveId: getQuestProgressObjectiveId(definition, record),
     reason,
   });
   return true;
@@ -366,6 +406,18 @@ function advanceQuest(state, record, definition, events, reason = 'advanced') {
       experience: numberOrDefault(definition.rewards?.experience, 0),
       coins: numberOrDefault(definition.rewards?.coins, 0),
       renown: numberOrDefault(definition.rewards?.renown, 0),
+      pets: Array.isArray(definition.rewards?.pets) ? definition.rewards.pets.slice() : [],
+      choiceGroups: Array.isArray(definition.rewards?.choiceGroups)
+        ? definition.rewards.choiceGroups.map((group) => ({
+            awardId: numberOrDefault(group?.awardId, 0),
+            gold: numberOrDefault(group?.gold, 0),
+            experience: numberOrDefault(group?.experience, 0),
+            coins: numberOrDefault(group?.coins, 0),
+            renown: numberOrDefault(group?.renown, 0),
+            pets: Array.isArray(group?.pets) ? group.pets.slice() : [],
+            items: Array.isArray(group?.items) ? cloneProgress(group.items) : [],
+          }))
+        : [],
       items: Array.isArray(definition.rewards?.items) ? definition.rewards.items : [],
     };
     events.push({
@@ -389,6 +441,7 @@ function advanceQuest(state, record, definition, events, reason = 'advanced') {
     status: record.status,
     markerNpcId: getQuestMarkerNpcId(definition, record),
     stepDescription: getQuestStepDescription(definition, record),
+    progressObjectiveId: getQuestProgressObjectiveId(definition, record),
     reason,
   });
 }
@@ -438,6 +491,12 @@ function applyMonsterDefeat(state, monsterId, count = 1) {
       count: nextCount,
     };
     record.status = nextCount;
+
+    if (nextCount >= numberOrDefault(step.count, 1) && step.completeOnTalkAfterKill !== true) {
+      advanceQuest(state, record, definition, events, 'kill-complete');
+      continue;
+    }
+
     events.push({
       type: 'progress',
       taskId: definition.id,
@@ -445,12 +504,9 @@ function applyMonsterDefeat(state, monsterId, count = 1) {
       status: nextCount,
       markerNpcId: getQuestMarkerNpcId(definition, record),
       stepDescription: getQuestStepDescription(definition, record),
-      reason: 'kill',
+      progressObjectiveId: getQuestProgressObjectiveId(definition, record),
+      reason: nextCount >= numberOrDefault(step.count, 1) ? 'kill-complete' : 'kill',
     });
-
-    if (nextCount >= numberOrDefault(step.count, 1)) {
-      advanceQuest(state, record, definition, events, 'kill-complete');
-    }
   }
 
   return events;
@@ -478,26 +534,42 @@ function applyServerRunEvent(state, event) {
     }
     const definition = getQuestDefinition(record.id);
     const step = getCurrentStep(definition, record);
-    if (!step || step.type !== 'talk') {
+    if (!step) {
       continue;
     }
 
-    if (typeof step.mapId === 'number' && step.mapId !== event.mapId) {
+    const isTalkStep = step.type === 'talk';
+    const isKillTurnIn =
+      step.type === 'kill' &&
+      step.completeOnTalkAfterKill === true &&
+      isKillStepObjectiveComplete(step, record);
+    if (!isTalkStep && !isKillTurnIn) {
+      continue;
+    }
+
+    const expectedMapId = isKillTurnIn
+      ? numberOrDefault(step.completionMapId, numberOrDefault(step.mapId, 0))
+      : numberOrDefault(step.mapId, 0);
+    const expectedNpcId = isKillTurnIn
+      ? numberOrDefault(step.completionNpcId, numberOrDefault(step.npcId, 0))
+      : numberOrDefault(step.npcId, 0);
+
+    if (expectedMapId > 0 && expectedMapId !== event.mapId) {
       continue;
     }
     if (typeof step.subtype === 'number' && step.subtype !== event.subtype) {
       continue;
     }
-    if (typeof step.npcId === 'number') {
-      if (typeof event.npcId !== 'number' || step.npcId !== event.npcId) {
+    if (expectedNpcId > 0) {
+      if (typeof event.npcId !== 'number' || expectedNpcId !== event.npcId) {
         continue;
       }
     }
-    if (typeof step.scriptId === 'number' && step.scriptId !== event.scriptId) {
+    if (!isKillTurnIn && typeof step.scriptId === 'number' && step.scriptId !== event.scriptId) {
       continue;
     }
 
-    if (Array.isArray(step.consumeItems)) {
+    if (isTalkStep && Array.isArray(step.consumeItems)) {
       let missingRequiredItem = false;
       for (const item of step.consumeItems) {
         const requiredQuantity = Math.max(1, numberOrDefault(item?.quantity, 1));
@@ -530,7 +602,7 @@ function applyServerRunEvent(state, event) {
       }
     }
 
-    if (Array.isArray(step.grantItems)) {
+    if (isTalkStep && Array.isArray(step.grantItems)) {
       for (const item of step.grantItems) {
         events.push({
           type: 'item-granted',
@@ -543,7 +615,7 @@ function applyServerRunEvent(state, event) {
       }
     }
 
-    advanceQuest(state, record, definition, events, 'talk');
+    advanceQuest(state, record, definition, events, isKillTurnIn ? 'kill-turn-in' : 'talk');
   }
 
   return events;
@@ -568,6 +640,29 @@ function resolveQuestServerRunAuxiliaryActions(state, event) {
         const requiredMissingTemplateId = numberOrDefault(action.onlyIfMissingTemplateId, 0);
         if (requiredMissingTemplateId > 0 && getInventoryQuantity(event.inventory, requiredMissingTemplateId) > 0) {
           continue;
+        }
+        let missingRequiredItem = false;
+        for (const item of Array.isArray(action.consumeItems) ? action.consumeItems : []) {
+          const requiredQuantity = Math.max(1, numberOrDefault(item?.quantity, 1));
+          const availableQuantity = getInventoryQuantity(event.inventory, numberOrDefault(item?.templateId, 0));
+          if (availableQuantity < requiredQuantity) {
+            missingRequiredItem = true;
+            break;
+          }
+        }
+        if (missingRequiredItem) {
+          continue;
+        }
+        for (const item of Array.isArray(action.consumeItems) ? action.consumeItems : []) {
+          events.push({
+            type: 'item-consumed',
+            taskId: definition.id,
+            definition,
+            templateId: numberOrDefault(item?.templateId, 0),
+            quantity: Math.max(1, numberOrDefault(item?.quantity, 1)),
+            itemName: typeof item?.name === 'string' ? item.name : '',
+            reason: 'auxiliary-server-run',
+          });
         }
         for (const item of Array.isArray(action.grantItems) ? action.grantItems : []) {
           events.push({
@@ -786,9 +881,11 @@ function buildQuestSyncState(state) {
       }
       return {
         taskId: definition.id,
+        stepIndex: numberOrDefault(record.stepIndex, 0),
         status: getQuestStatus(definition, record),
         markerNpcId: getQuestMarkerNpcId(definition, record),
         stepDescription: getQuestStepDescription(definition, record),
+        progressObjectiveId: getQuestProgressObjectiveId(definition, record),
         stepType: typeof definition.steps?.[record.stepIndex]?.type === 'string'
           ? definition.steps[record.stepIndex].type
           : '',
@@ -823,4 +920,5 @@ module.exports = {
   buildServerRunQuestTrace,
   abandonQuest,
   getQuestDefinition,
+  getQuestProgressObjectiveId,
 };

@@ -16,10 +16,11 @@ const { buildEncounterPoolEntry } = require('../roleinfo');
 const { resolveServerRunAction } = require('../scene-runtime');
 
 function restoreAtInn(session, npcId) {
+  const player = session.getSyntheticPlayerFighter();
   const restoredVitals = resolveInnRestVitals({
-    health: session.currentHealth,
-    mana: session.currentMana,
-    rage: session.currentRage,
+    health: player?.maxHp || session.currentHealth,
+    mana: player?.maxMp || session.currentMana,
+    rage: player?.rage || session.currentRage,
   });
 
   session.currentHealth = restoredVitals.health;
@@ -33,6 +34,14 @@ function restoreAtInn(session, npcId) {
   });
 
   session.sendSelfStateAptitudeSync();
+  // The client sometimes lags one state refresh behind after inn callbacks.
+  // A second short delayed sync makes the vitals panel rebind more reliably.
+  setTimeout(() => {
+    if (session.state !== 'LOGGED_IN') {
+      return;
+    }
+    session.sendSelfStateAptitudeSync();
+  }, 150);
   session.sendGameDialogue(
     'Innkeeper',
     'You feel fully rested.',
@@ -113,6 +122,25 @@ function handleServerRunRequest(session, payload) {
     session.log(line);
   }
 
+  const auxiliaryQuestEvents = resolveQuestServerRunAuxiliaryActions(
+    questState,
+    questEventInput
+  );
+
+  const immediateAuxiliaryEvents = [];
+  let deferredQuestCombatTrigger = null;
+  for (const event of auxiliaryQuestEvents) {
+    if (event.type === 'quest-combat-trigger') {
+      deferredQuestCombatTrigger = event;
+      continue;
+    }
+    immediateAuxiliaryEvents.push(event);
+  }
+
+  if (immediateAuxiliaryEvents.length > 0) {
+    session.applyQuestEvents(immediateAuxiliaryEvents, 'server-run-aux');
+  }
+
   const questEvents = applyServerRunEvent(
     questState,
     questEventInput
@@ -122,18 +150,8 @@ function handleServerRunRequest(session, payload) {
     return;
   }
 
-  const auxiliaryQuestEvents = resolveQuestServerRunAuxiliaryActions(
-    questState,
-    questEventInput
-  );
-  if (auxiliaryQuestEvents.length > 0) {
-    for (const event of auxiliaryQuestEvents) {
-      if (event.type === 'quest-combat-trigger') {
-        startQuestCombat(session, event);
-        continue;
-      }
-      session.applyQuestEvents([event], 'server-run-aux');
-    }
+  if (deferredQuestCombatTrigger) {
+    startQuestCombat(session, deferredQuestCombatTrigger);
     return;
   }
 

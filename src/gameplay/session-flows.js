@@ -9,17 +9,25 @@ const CHARACTER_VITALS_BASELINE = Object.freeze({
   rage: 100,
 });
 
-function resolveCharacterMaxVitals() {
-  return CHARACTER_VITALS_BASELINE;
+function resolveCharacterMaxVitals(currentVitals = null) {
+  return {
+    health: Math.max(numberOrDefault(currentVitals?.health, 0), CHARACTER_VITALS_BASELINE.health),
+    mana: Math.max(numberOrDefault(currentVitals?.mana, 0), CHARACTER_VITALS_BASELINE.mana),
+    rage: Math.max(numberOrDefault(currentVitals?.rage, 0), CHARACTER_VITALS_BASELINE.rage),
+  };
 }
 
 function resolveInnRestVitals(currentVitals) {
-  const maxVitals = resolveCharacterMaxVitals();
+  const maxVitals = resolveCharacterMaxVitals(currentVitals);
   return {
-    health: Math.max(currentVitals.health || 0, maxVitals.health),
-    mana: Math.max(currentVitals.mana || 0, maxVitals.mana),
-    rage: Math.max(currentVitals.rage || 0, maxVitals.rage),
+    health: maxVitals.health,
+    mana: maxVitals.mana,
+    rage: maxVitals.rage,
   };
+}
+
+function numberOrDefault(value, fallback) {
+  return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
 }
 
 function buildDefeatRespawnState({
@@ -42,7 +50,7 @@ function buildDefeatRespawnState({
   return {
     respawn,
     vitals: {
-      health: Math.max(1, player?.maxHp ? Math.min(player.maxHp, 1) : 1),
+      health: Math.max(1, player?.maxHp || 1),
       mana: Math.max(0, player?.mp || currentMana || 0),
       rage: Math.max(0, player?.rage || currentRage || 0),
     },

@@ -121,10 +121,10 @@ function buildSelfStateAptitudeSyncPacket({
   writer.writeUint32(renown >>> 0);
   writer.writeUint16(0);
   writer.writeUint16(1);
-  writer.writeUint16(primaryAttributes.intelligence & 0xffff);
-  writer.writeUint16(primaryAttributes.vitality & 0xffff);
-  writer.writeUint16(primaryAttributes.dexterity & 0xffff);
   writer.writeUint16(primaryAttributes.strength & 0xffff);
+  writer.writeUint16(primaryAttributes.dexterity & 0xffff);
+  writer.writeUint16(primaryAttributes.vitality & 0xffff);
+  writer.writeUint16(primaryAttributes.intelligence & 0xffff);
   writer.writeUint16(statusPoints & 0xffff);
   writer.writeUint8(0);
   return writer.payload();

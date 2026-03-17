@@ -4,7 +4,7 @@
     "tasklist": "/home/nikon/projects/zo-server/data/client-derived/quests.json",
     "overrides": "/home/nikon/projects/zo-server/data/quests/main-story.overrides.json"
   },
-  "generatedAt": "2026-03-17T18:03:22.858Z",
+  "generatedAt": "2026-03-17T20:09:12.958Z",
   "quests": [
     {
       "id": 1,
@@ -60,6 +60,7 @@
           "contextId": 11,
           "scriptId": 10000,
           "onlyIfMissingTemplateId": 21116,
+          "consumeItems": [],
           "grantItems": [
             {
               "templateId": 21116,
@@ -1720,6 +1721,28 @@
       },
       "auxiliaryActions": [
         {
+          "type": "grant_on_server_run",
+          "stepStatus": 1,
+          "subtype": 8,
+          "npcId": 3004,
+          "scriptId": 51,
+          "mapId": 101,
+          "consumeItems": [
+            {
+              "templateId": 21123,
+              "quantity": 1,
+              "name": "Candy's Recommendation"
+            }
+          ],
+          "grantItems": [
+            {
+              "templateId": 21001,
+              "quantity": 1,
+              "name": "Scholar's Letter"
+            }
+          ]
+        },
+        {
           "type": "combat_on_server_run",
           "stepStatus": 4,
           "subtype": 2,
@@ -1727,6 +1750,7 @@
           "mapId": 103,
           "monsterId": 5106,
           "count": 1,
+          "consumeItems": [],
           "grantItems": []
         }
       ],
@@ -1735,22 +1759,8 @@
           "type": "talk",
           "npcId": 3004,
           "status": 1,
-          "description": "Speak with\"Scholar\"",
-          "mapId": 101,
-          "consumeItems": [
-            {
-              "templateId": 21123,
-              "quantity": 1,
-              "name": ""
-            }
-          ],
-          "grantItems": [
-            {
-              "templateId": 21001,
-              "quantity": 1,
-              "name": ""
-            }
-          ]
+          "description": "Bring \"Candy's Recommendation\" to \"Scholar\"",
+          "mapId": 101
         },
         {
           "type": "talk",
@@ -1794,7 +1804,11 @@
           "description": "Kill \"Little Boar\" \"Map 103\"£º\" \".\" \"",
           "mapId": 103,
           "monsterId": 5106,
-          "count": 1
+          "count": 1,
+          "completionNpcId": 3023,
+          "completionMapId": 103,
+          "completionDescription": "Return to \"Grandpa\" after defeating \"Little Boar\"",
+          "completeOnTalkAfterKill": true
         }
       ],
       "minLevel": 1

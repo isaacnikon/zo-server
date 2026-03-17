@@ -136,6 +136,17 @@
   - container `0` = equipped items
   - container `1` = bag
   - `0x03f2 / 0x17` is the bag position update
+- Attribute allocation confirm:
+  - the client sends confirm/apply as `0x03ef sub=0x1e`
+  - payload is four `u16` deltas in this order:
+    - strength
+    - dexterity
+    - vitality
+    - intelligence
+  - server handling must:
+    - clamp total spend to available `statusPoints`
+    - persist updated primary attributes
+    - send a fresh `0x03f6 / 0x0a` self-state stat sync
 - Equipment durability:
   - equipment current durability is encoded as a scaled instance field
   - fresh starter gear needed full-scale values, not literal `10`
@@ -394,6 +405,15 @@
 - The live quest engine still only executes `talk` and `kill`
   - `main-story.json` generation adapts unsupported client step types into that runtime shape
   - generated `auxiliaryActions` now cover known mid-step item grants and scripted quest combat triggers
+- Pet ownership is now persisted server-side
+  - quest `51` (`Pet`) now completes end-to-end in backend/runtime terms
+  - the decisive client protocol fix was:
+    - `0x03ff / 0x0b` uses the current objective id, not the task id
+    - for `Pet` Little Boar, that means `objectiveId=5106`, not `taskId=51`
+  - after that fix, the client correctly runs the local phase-4 completion/movie path
+  - the pet reward now persists into `pets.json`
+  - but the Pet Panel still does not populate because the server does not yet implement the client pet-state sync packet family
+  - current evidence points to normal game-server pet protocol, not a separate pet server
 
 ## Next Best Steps
 - Use `src/crafting-data.js` when implementing actual compose/socket/refine handlers

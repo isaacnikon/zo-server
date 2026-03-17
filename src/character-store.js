@@ -74,6 +74,7 @@ class CharacterStore {
     this.writeJsonFile(this.getCharacterFilePath(characterId, 'attributes.json'), buildAttributesDocument(characterId, normalizedCharacter));
     this.writeJsonFile(this.getCharacterFilePath(characterId, 'active-quests.json'), buildActiveQuestsDocument(characterId, normalizedCharacter));
     this.writeJsonFile(this.getCharacterFilePath(characterId, 'completed-quests.json'), buildCompletedQuestsDocument(characterId, normalizedCharacter));
+    this.writeJsonFile(this.getCharacterFilePath(characterId, 'pets.json'), buildPetsDocument(characterId, normalizedCharacter));
     this.writeJsonFile(this.getCharacterFilePath(characterId, 'inventory-items.json'), buildInventoryItemsDocument(characterId, normalizedCharacter));
     this.writeJsonFile(this.getCharacterFilePath(characterId, 'inventory-state.json'), buildInventoryStateDocument(characterId, normalizedCharacter));
 
@@ -90,6 +91,7 @@ class CharacterStore {
     const attributes = this.readJsonFile(this.getCharacterFilePath(characterId, 'attributes.json')) || {};
     const activeQuests = this.readJsonFile(this.getCharacterFilePath(characterId, 'active-quests.json')) || {};
     const completedQuests = this.readJsonFile(this.getCharacterFilePath(characterId, 'completed-quests.json')) || {};
+    const pets = this.readJsonFile(this.getCharacterFilePath(characterId, 'pets.json')) || {};
     const inventoryItems = this.readJsonFile(this.getCharacterFilePath(characterId, 'inventory-items.json')) || {};
     const inventoryState = this.readJsonFile(this.getCharacterFilePath(characterId, 'inventory-state.json')) || {};
 
@@ -125,6 +127,7 @@ class CharacterStore {
       },
       activeQuests: Array.isArray(activeQuests.quests) ? activeQuests.quests : [],
       completedQuests: Array.isArray(completedQuests.taskIds) ? completedQuests.taskIds : [],
+      pets: Array.isArray(pets.pets) ? pets.pets : [],
       inventory: {
         bag: Array.isArray(inventoryItems.items) ? inventoryItems.items : [],
         bagSize: inventoryState.bagSize,
@@ -249,6 +252,21 @@ function buildInventoryItemsDocument(characterId, character) {
           equipped: item.equipped === true,
           slot: numberOrDefault(item.slot, 0),
         }))
+      : [],
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+function buildPetsDocument(characterId, character) {
+  return {
+    characterId,
+    pets: Array.isArray(character.pets)
+      ? character.pets
+          .filter((pet) => pet && typeof pet === 'object')
+          .map((pet) => ({
+            templateId: numberOrDefault(pet.templateId, 0),
+            awardedAt: numberOrDefault(pet.awardedAt, Date.now()),
+          }))
       : [],
     updatedAt: new Date().toISOString(),
   };
