@@ -84,8 +84,15 @@ const {
 const {
   applyInventoryQuestEvent,
   sendEquipmentContainerSync,
+  sendConsumeResultPackets,
+  sendInventoryFullSync,
   syncInventoryStateToClient,
 } = require('./gameplay/inventory-runtime');
+const {
+  consumeItemFromBag,
+  getBagQuantityByTemplateId,
+  getItemDefinition,
+} = require('./inventory');
 const {
   applyQuestCompletionReward,
 } = require('./gameplay/reward-runtime');
@@ -196,6 +203,7 @@ class Session {
     this.currentY = SPAWN_Y;
     this.currentTileSceneId = 0;
     this.currentEncounterTriggerId = null;
+    this.lastEncounterProbeAt = 0;
     this.combatState = createCombatState();
     this.pendingCombatTurnProbe = null;
     this.awaitingCombatTurnHandshake = false;
@@ -1010,6 +1018,16 @@ class Session {
       }
 
       const profile = action.encounterProfile || {};
+      const cooldownMs = Math.max(0, Number.isFinite(profile.cooldownMs) ? profile.cooldownMs : 0);
+      if (cooldownMs > 0) {
+        const elapsedMs = Date.now() - this.lastEncounterProbeAt;
+        if (elapsedMs < cooldownMs) {
+          this.log(
+            `Encounter cooldown active trigger=${triggerId} map=${mapId} pos=${x},${y} elapsed=${elapsedMs} cooldown=${cooldownMs}`
+          );
+          return;
+        }
+      }
       const chancePercent = Math.max(
         0,
         Math.min(100, Number.isFinite(profile.encounterChancePercent) ? profile.encounterChancePercent : 100)
@@ -1028,6 +1046,7 @@ class Session {
       }
 
       this.currentEncounterTriggerId = triggerId;
+      this.lastEncounterProbeAt = Date.now();
       this.sendCombatEncounterProbe(action);
       return;
     }
@@ -1057,13 +1076,13 @@ class Session {
     this.log(`Quest packet sub=0x${subcmd.toString(16)} taskId=${taskId}`);
 
     if (subcmd === 0x05) {
-      const events = abandonQuest(
-        {
-          activeQuests: this.activeQuests,
-          completedQuests: this.completedQuests,
-        },
-        taskId
-      );
+      const questState = {
+        activeQuests: this.activeQuests,
+        completedQuests: this.completedQuests,
+      };
+      const events = abandonQuest(questState, taskId);
+      this.activeQuests = questState.activeQuests;
+      this.completedQuests = questState.completedQuests;
       if (events.length > 0) {
         this.applyQuestEvents(events, 'client-abandon');
       }
@@ -1113,8 +1132,11 @@ class Session {
       if (event.type === 'accepted') {
         questStateDirty = true;
         if (!suppressPackets) {
+          const initialStepType = Array.isArray(event.definition?.steps) && event.definition.steps[0]
+            ? event.definition.steps[0].type
+            : '';
           this.sendQuestAccept(event.taskId);
-          if (event.status > 0) {
+          if (event.status > 0 && initialStepType === 'kill') {
             this.sendQuestUpdate(event.taskId, event.status);
           }
           if (event.markerNpcId > 0) {
@@ -1178,8 +1200,32 @@ class Session {
 
       if (event.type === 'abandoned') {
         questStateDirty = true;
+        for (const templateId of Array.isArray(event.resetItemTemplateIds) ? event.resetItemTemplateIds : []) {
+          const quantity = getBagQuantityByTemplateId(this, templateId);
+          if (quantity <= 0) {
+            continue;
+          }
+          const definition = getItemDefinition(templateId);
+          const consumeResult = consumeItemFromBag(this, templateId, quantity);
+          if (consumeResult.ok) {
+            inventoryDirty = true;
+            if (!suppressPackets) {
+              sendConsumeResultPackets(this, consumeResult);
+              sendInventoryFullSync(this);
+            }
+            if (!suppressDialogues) {
+              this.sendGameDialogue(
+                'Quest',
+                `${definition?.name || 'Quest item'} was cleared after abandoning the quest.`
+              );
+            }
+          }
+        }
         if (!suppressPackets) {
+          this.sendQuestUpdate(event.taskId, 0);
+          this.sendQuestFindNpc(event.taskId, 0);
           this.sendQuestAbandon(event.taskId);
+          this.syncQuestStateToClient();
         }
         if (!suppressDialogues) {
           this.sendGameDialogue('Quest', `${event.definition.name} abandoned.`);
@@ -1222,7 +1268,7 @@ class Session {
 
     for (const quest of syncState) {
       this.sendQuestAccept(quest.taskId);
-      if (quest.status > 0) {
+      if (quest.status > 0 && quest.stepType === 'kill') {
         this.sendQuestUpdate(quest.taskId, quest.status);
       }
       if (quest.markerNpcId > 0) {
@@ -1324,7 +1370,9 @@ class Session {
         continue;
       }
 
-      this.sendQuestUpdate(definition.id, syncState.status);
+      if (syncState.status > 0 && syncState.stepType === 'kill') {
+        this.sendQuestUpdate(definition.id, syncState.status);
+      }
       if (syncState.markerNpcId > 0) {
         this.sendQuestFindNpc(definition.id, syncState.markerNpcId);
       }

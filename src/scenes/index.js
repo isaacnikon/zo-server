@@ -39,7 +39,8 @@ const BLING_SPRING_ENCOUNTER_PROFILE = {
   source: 'client roleinfo + map intro popup',
   minEnemies: 1,
   maxEnemies: 3,
-  encounterChancePercent: 18,
+  encounterChancePercent: 8,
+  cooldownMs: 12000,
   pool: buildEncounterPoolForLocation('Bling Spring', BLING_SPRING_ROLE_OVERRIDES),
 };
 

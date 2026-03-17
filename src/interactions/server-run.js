@@ -112,6 +112,18 @@ function parseServerRunRequest(payload, sessionState) {
     };
   }
 
+  if (subtype === 0x05) {
+    return {
+      kind: 'quest-abandon',
+      subtype,
+      taskId: payload.readUInt16LE(3),
+      mapId: sessionState.currentMapId,
+      x: sessionState.currentX,
+      y: sessionState.currentY,
+      logMessage: `Server-run request sub=0x5 taskId=${payload.readUInt16LE(3)} map=${sessionState.currentMapId} pos=${sessionState.currentX},${sessionState.currentY}`,
+    };
+  }
+
   return {
     kind: 'unhandled',
     subtype,

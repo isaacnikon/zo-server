@@ -102,10 +102,33 @@
     - runtime normalization:
       - server-supported `kill` steps stay `kill`
       - client-derived `kill_collect` and `capture` steps are normalized into `talk` hand-ins with the same NPC/item requirements
-    - `main-story.overrides.json` is now only for runtime-only corrections, packet details, and cases where the live engine cannot safely infer behavior from the client-derived catalog alone
+    - `main-story.overrides.json` is now empty
+    - special runtime behavior that used to require overrides is now emitted as generated quest data:
+      - `auxiliaryActions` for server-run grants or scripted fights
+      - reward `choiceGroups` for client-derived multi-branch reward sets
     - current override footprint:
-      - `3` quests remain overridden: `1`, `2`, `51`
+      - `0` quest overrides remain
       - old guessed overrides for quests like `481`, `408`, `426`, and `467` have been removed in favor of the client-derived workflow
+- Quest abort/reset now works correctly for early client-derived quests:
+  - abort is triggered by `0x03f1 sub=0x05`, not `0x03ff`
+  - active quest record is removed from persisted quest state
+  - quest-related granted items are removed from the bag
+  - client is reset with:
+    - `0x03ff / 0x08` status `0`
+    - `0x03ff / 0x0c` marker `0`
+    - `0x03ff / 0x05` abandon
+  - do not send `0x03ff / 0x0e history=255` on abandon; the client treats that as completed
+- `Pet` (`taskId=51`) is now in a workable state:
+  - accept from Candy gives `21123` and marks `Scholar`
+  - Scholar gives `21001`
+  - Idler gives `21124`
+  - Grandpa hand-in is on `mapId=103`
+  - scripted Little Boar fight is triggered by `0x03f1 sub=0x02 scriptId=10001 map=103`
+  - the fight trigger is not keyed on Grandpa `npcId`; it is a context/script trigger
+- Bling Spring random encounters were reduced:
+  - field encounter chance lowered from `18%` to `8%`
+  - `12s` cooldown added between field encounter probes
+  - quest-scripted fights remain separate from random field encounters
 
 ## Key Verified Findings
 - Client inventory/equipment:
@@ -133,14 +156,27 @@
       - `macro_SetTaskStep`
       - optional `macro_SetTaskItemParam` / `macro_SetTaskKillParam`
   - this is enough to recover many step/reward details without using copied dumps
+- Quest abort packet shape:
+  - the live client sends quest abandon as `0x03f1 sub=0x05 taskId=<id>`
+  - it is not sent through the inbound `0x03ff` quest packet path
+  - server-side abandon handling must therefore live on the server-run path too
 - `gc12.exe` still references a deeper task layer:
   - `script\\task\\doing\\%d_%d.lua`
   - `script\\task\\updo\\%d_%d.lua`
   - `script\\task\\trace\\index.lua`
   - those files are not yet recovered from the client assets in repo
-  - implication: fully eliminating overrides still likely requires either:
+  - implication: full fidelity still likely requires either:
     - recovering those task scripts, or
     - tracing/interpreting the relevant macro execution path
+- Quest sync packet semantics matter as much as quest data:
+  - for active talk steps, sending `0x03ff / 0x08` on accept/login/map-sync can make the client jump to the wrong talk/combat branch
+  - current safe rule:
+    - send `quest accept` + `quest marker` for talk steps
+    - reserve `quest update` for active `kill` steps and progress counts
+- `Pet` Little Boar fight strength:
+  - current scripted fight uses monster `5106` (`Little Boar` boss variant)
+  - in live testing it can one-shot a level-3 character
+  - this is a balance/runtime issue, not a quest-flow mismatch
 - `roleinfo.txt`:
   - `roleClassField=1` player avatars
   - `roleClassField=2` pets
@@ -183,6 +219,30 @@
 - Wrong assumption:
   - equipped items could remain in the bag container
   - corrected so equipped items only appear in equipment container `0`
+- Wrong assumption:
+  - quest abandon came in through inbound `0x03ff`
+  - corrected from live logs: the client sends `0x03f1 sub=0x05 taskId`
+- Wrong assumption:
+  - `0x03ff / 0x0e history=255` would reset a quest to re-accept state
+  - corrected from live client behavior: that marks the quest completed in the UI
+- Wrong assumption:
+  - if the generated quest data looked correct, the client would display the right step automatically
+  - corrected from live testing: packet semantics on quest sync are also part of the quest state machine
+- Wrong assumption:
+  - `Pet` Little Boar combat could be keyed on Grandpa `npcId`
+  - corrected from live logs: the actual trigger is the `sub=0x02 / script=10001` context event
+
+## Why We Went In Circles
+- We were debugging two layers at once:
+  - server quest state
+  - client quest UI/tracker interpretation
+- Several times the backend state was already correct, but the client looked wrong because:
+  - we sent the wrong reset packet (`history=255`)
+  - we sent an extra `quest update` for a talk step
+  - we keyed a scripted branch on `npcId` when the client actually used a context/script trigger
+- The practical lesson:
+  - quest correctness is not only `main-story.json`
+  - it is also the exact packet family, timing, and subtype/script/context shape the client expects
 
 ## Runtime Modules Added
 - `src/roleinfo.js`
@@ -325,12 +385,15 @@
 - `combinitem.json` is parsed and queryable, but not yet enforced in gameplay
 - Scene encounter coverage is only implemented where the server already has encounter triggers
 - Full `roleinfo` stat-field semantics are still only partly decoded
-- Quest reward choice semantics are not yet represented in server runtime
-  - `quest-schema.json` preserves reward choices
-  - `main-story.json` intentionally avoids flattening multi-choice rewards automatically
-  - task-specific runtime fallback is still needed for cases like `Spinning`
+- Quest reward choice semantics are now represented in server runtime
+  - `main-story.json` carries generated `choiceGroups`
+  - reward runtime currently resolves:
+    - 2-way starter gear branches by role gender
+    - pet-bearing groups before generic groups
+    - otherwise first available client-derived group
 - The live quest engine still only executes `talk` and `kill`
-  - `main-story.json` generation now adapts unsupported client step types into that runtime shape
+  - `main-story.json` generation adapts unsupported client step types into that runtime shape
+  - generated `auxiliaryActions` now cover known mid-step item grants and scripted quest combat triggers
 
 ## Next Best Steps
 - Use `src/crafting-data.js` when implementing actual compose/socket/refine handlers

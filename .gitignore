@@ -1,5 +1,6 @@
 server.log
 combat-probe-state.json
 data/save/
+runtime/
 scripts/__pycache__/
 *.pyc

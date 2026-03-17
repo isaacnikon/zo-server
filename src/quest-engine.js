@@ -56,12 +56,22 @@ function normalizeQuestDefinition(quest) {
           .map((item) => normalizeGrantedItem(item))
           .filter(Boolean)
       : undefined,
+    auxiliaryActions: Array.isArray(quest.auxiliaryActions)
+      ? quest.auxiliaryActions
+          .map((action) => normalizeAuxiliaryAction(action))
+          .filter(Boolean)
+      : [],
     nextQuestId: Number.isInteger(quest.nextQuestId) ? quest.nextQuestId >>> 0 : undefined,
     rewards: {
       gold: numberOrDefault(quest?.rewards?.gold, 0),
       experience: numberOrDefault(quest?.rewards?.experience, 0),
       coins: numberOrDefault(quest?.rewards?.coins, 0),
       renown: numberOrDefault(quest?.rewards?.renown, 0),
+      choiceGroups: Array.isArray(quest?.rewards?.choiceGroups)
+        ? quest.rewards.choiceGroups
+            .map((group) => normalizeRewardChoiceGroup(group))
+            .filter(Boolean)
+        : [],
       items: Array.isArray(quest?.rewards?.items)
         ? quest.rewards.items
             .map((item) => normalizeGrantedItem(item))
@@ -111,6 +121,51 @@ function normalizeGrantedItem(item) {
     templateId: item.templateId >>> 0,
     quantity: Math.max(1, numberOrDefault(item.quantity, 1)),
     name: typeof item.name === 'string' ? item.name : '',
+  };
+}
+
+function normalizeRewardChoiceGroup(group) {
+  if (!group || typeof group !== 'object') {
+    return null;
+  }
+
+  return {
+    awardId: Number.isInteger(group.awardId) ? group.awardId >>> 0 : 0,
+    gold: numberOrDefault(group.gold, 0),
+    experience: numberOrDefault(group.experience, 0),
+    coins: numberOrDefault(group.coins, 0),
+    renown: numberOrDefault(group.renown, 0),
+    pets: Array.isArray(group.pets) ? group.pets.slice() : [],
+    items: Array.isArray(group.items)
+      ? group.items
+          .map((item) => normalizeGrantedItem(item))
+          .filter(Boolean)
+      : [],
+  };
+}
+
+function normalizeAuxiliaryAction(action) {
+  if (!action || typeof action.type !== 'string') {
+    return null;
+  }
+
+  return {
+    type: action.type,
+    stepStatus: Number.isInteger(action.stepStatus) ? action.stepStatus >>> 0 : undefined,
+    subtype: Number.isInteger(action.subtype) ? action.subtype & 0xff : undefined,
+    npcId: Number.isInteger(action.npcId) ? action.npcId >>> 0 : undefined,
+    contextId: Number.isInteger(action.contextId) ? action.contextId >>> 0 : undefined,
+    extra: Number.isInteger(action.extra) ? action.extra & 0xff : undefined,
+    scriptId: Number.isInteger(action.scriptId) ? action.scriptId & 0xffff : undefined,
+    mapId: Number.isInteger(action.mapId) ? action.mapId >>> 0 : undefined,
+    monsterId: Number.isInteger(action.monsterId) ? action.monsterId >>> 0 : undefined,
+    count: Number.isInteger(action.count) ? action.count >>> 0 : undefined,
+    onlyIfMissingTemplateId: Number.isInteger(action.onlyIfMissingTemplateId) ? action.onlyIfMissingTemplateId >>> 0 : undefined,
+    grantItems: Array.isArray(action.grantItems)
+      ? action.grantItems
+          .map((item) => normalizeGrantedItem(item))
+          .filter(Boolean)
+      : [],
   };
 }
 
@@ -226,7 +281,7 @@ function getQuestStatus(definition, questRecord) {
     return killCount;
   }
 
-  return numberOrDefault(questRecord?.stepIndex, 0);
+  return numberOrDefault(step.status, numberOrDefault(questRecord?.stepIndex, 0));
 }
 
 function getQuestMarkerNpcId(definition, questRecord) {
@@ -494,6 +549,85 @@ function applyServerRunEvent(state, event) {
   return events;
 }
 
+function resolveQuestServerRunAuxiliaryActions(state, event) {
+  const events = [];
+
+  for (const record of state.activeQuests) {
+    const definition = getQuestDefinition(record.id);
+    const step = getCurrentStep(definition, record);
+    if (!definition || !step) {
+      continue;
+    }
+
+    for (const action of Array.isArray(definition.auxiliaryActions) ? definition.auxiliaryActions : []) {
+      if (!matchesAuxiliaryAction(action, step, event)) {
+        continue;
+      }
+
+      if (action.type === 'grant_on_server_run') {
+        const requiredMissingTemplateId = numberOrDefault(action.onlyIfMissingTemplateId, 0);
+        if (requiredMissingTemplateId > 0 && getInventoryQuantity(event.inventory, requiredMissingTemplateId) > 0) {
+          continue;
+        }
+        for (const item of Array.isArray(action.grantItems) ? action.grantItems : []) {
+          events.push({
+            type: 'item-granted',
+            taskId: definition.id,
+            definition,
+            templateId: numberOrDefault(item?.templateId, 0),
+            quantity: Math.max(1, numberOrDefault(item?.quantity, 1)),
+            itemName: typeof item?.name === 'string' ? item.name : '',
+            reason: 'auxiliary-server-run',
+          });
+        }
+        continue;
+      }
+
+      if (action.type === 'combat_on_server_run') {
+        events.push({
+          type: 'quest-combat-trigger',
+          taskId: definition.id,
+          definition,
+          monsterId: numberOrDefault(action.monsterId, 0),
+          count: Math.max(1, numberOrDefault(action.count, 1)),
+          npcId: numberOrDefault(action.npcId, 0),
+          mapId: numberOrDefault(action.mapId, numberOrDefault(step.mapId, 0)),
+        });
+      }
+    }
+  }
+
+  return events;
+}
+
+function matchesAuxiliaryAction(action, step, event) {
+  if (!action || !step) {
+    return false;
+  }
+  if (Number.isInteger(action.stepStatus) && action.stepStatus !== numberOrDefault(step.status, 0)) {
+    return false;
+  }
+  if (Number.isInteger(action.subtype) && action.subtype !== numberOrDefault(event.subtype, 0)) {
+    return false;
+  }
+  if (Number.isInteger(action.mapId) && action.mapId !== numberOrDefault(event.mapId, 0)) {
+    return false;
+  }
+  if (Number.isInteger(action.npcId) && action.npcId !== numberOrDefault(event.npcId, 0)) {
+    return false;
+  }
+  if (Number.isInteger(action.contextId) && action.contextId !== numberOrDefault(event.contextId, 0)) {
+    return false;
+  }
+  if (Number.isInteger(action.extra) && action.extra !== numberOrDefault(event.extra, 0)) {
+    return false;
+  }
+  if (Number.isInteger(action.scriptId) && action.scriptId !== numberOrDefault(event.scriptId, 0)) {
+    return false;
+  }
+  return true;
+}
+
 function buildServerRunQuestTrace(state, event) {
   const trace = [];
 
@@ -601,15 +735,46 @@ function abandonQuest(state, taskId) {
   if (!definition) {
     return [];
   }
+  const hadCompleted = state.completedQuests.includes(taskId);
+  state.completedQuests = state.completedQuests.filter((completedTaskId) => completedTaskId !== taskId);
   const record = removeActiveQuest(state, taskId);
-  if (!record) {
+  if (!record && !hadCompleted) {
     return [];
   }
   return [{
     type: 'abandoned',
     taskId,
     definition,
+    resetItemTemplateIds: collectQuestResetItemTemplateIds(definition),
   }];
+}
+
+function collectQuestResetItemTemplateIds(definition) {
+  const templateIds = new Set();
+
+  for (const item of Array.isArray(definition?.acceptGrantItems) ? definition.acceptGrantItems : []) {
+    if (Number.isInteger(item?.templateId) && item.templateId > 0) {
+      templateIds.add(item.templateId >>> 0);
+    }
+  }
+
+  for (const step of Array.isArray(definition?.steps) ? definition.steps : []) {
+    for (const item of Array.isArray(step?.grantItems) ? step.grantItems : []) {
+      if (Number.isInteger(item?.templateId) && item.templateId > 0) {
+        templateIds.add(item.templateId >>> 0);
+      }
+    }
+  }
+
+  for (const action of Array.isArray(definition?.auxiliaryActions) ? definition.auxiliaryActions : []) {
+    for (const item of Array.isArray(action?.grantItems) ? action.grantItems : []) {
+      if (Number.isInteger(item?.templateId) && item.templateId > 0) {
+        templateIds.add(item.templateId >>> 0);
+      }
+    }
+  }
+
+  return [...templateIds];
 }
 
 function buildQuestSyncState(state) {
@@ -624,6 +789,9 @@ function buildQuestSyncState(state) {
         status: getQuestStatus(definition, record),
         markerNpcId: getQuestMarkerNpcId(definition, record),
         stepDescription: getQuestStepDescription(definition, record),
+        stepType: typeof definition.steps?.[record.stepIndex]?.type === 'string'
+          ? definition.steps[record.stepIndex].type
+          : '',
       };
     })
     .filter(Boolean);
@@ -651,6 +819,7 @@ module.exports = {
   applyMonsterDefeat,
   applySceneTransition,
   applyServerRunEvent,
+  resolveQuestServerRunAuxiliaryActions,
   buildServerRunQuestTrace,
   abandonQuest,
   getQuestDefinition,

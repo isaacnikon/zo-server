@@ -71,6 +71,7 @@ function buildQuest(taskId, candidateQuest, overrideQuest, taskMeta) {
     : [];
   const overrideSteps = Array.isArray(overrideQuest?.steps) ? overrideQuest.steps : [];
   const stepCount = Math.max(candidateSteps.length, overrideSteps.length);
+  const acceptGrantItems = normalizeItems(overrideQuest?.acceptGrantItems || candidateQuest?.acceptGrantItems);
 
   const quest = {
     id: taskId,
@@ -97,11 +98,16 @@ function buildQuest(taskId, candidateQuest, overrideQuest, taskMeta) {
       candidateQuest?.prerequisiteTaskId,
       taskMeta?.prerequisiteTaskId
     ),
-    acceptGrantItems: normalizeItems(overrideQuest?.acceptGrantItems || candidateQuest?.acceptGrantItems),
-    rewards: mergeReward(overrideQuest?.rewards, candidateQuest?.rewards),
-    steps: Array.from({ length: stepCount }, (_, index) =>
-      mergeStep(candidateSteps[index] || null, overrideSteps[index] || {}, index)
-    ).filter(Boolean),
+    acceptGrantItems,
+    rewards: mergeReward(overrideQuest?.rewards, candidateQuest),
+    auxiliaryActions: normalizeAuxiliaryActions(
+      Array.isArray(overrideQuest?.auxiliaryActions)
+        ? overrideQuest.auxiliaryActions
+        : deriveAuxiliaryActions(taskId)
+    ),
+    steps: buildQuestSteps(taskId, candidateSteps, overrideSteps, {
+      acceptGrantItems,
+    }),
   };
 
   if (Number.isInteger(taskMeta?.nextTaskId) && taskMeta.nextTaskId > 0) {
@@ -119,19 +125,22 @@ function buildQuest(taskId, candidateQuest, overrideQuest, taskMeta) {
   return quest.steps.length > 0 ? quest : null;
 }
 
-function mergeReward(overrideReward, candidateReward) {
+function mergeReward(overrideReward, candidateQuest) {
+  const candidateReward = candidateQuest?.rewards;
   const overrideItems = normalizeItems(overrideReward?.items);
+  const choiceGroups = normalizeRewardChoiceGroups(candidateQuest?.runtimeRewardChoices || candidateReward?.choiceGroups);
   return {
     gold: numberOrDefault(overrideReward?.gold, numberOrDefault(candidateReward?.gold, 0)),
     experience: numberOrDefault(overrideReward?.experience, numberOrDefault(candidateReward?.experience, 0)),
     coins: numberOrDefault(overrideReward?.coins, numberOrDefault(candidateReward?.coins, 0)),
     renown: numberOrDefault(overrideReward?.renown, numberOrDefault(candidateReward?.renown, 0)),
     pets: Array.isArray(candidateReward?.pets) ? candidateReward.pets.slice() : [],
-    items: overrideItems.length > 0 ? overrideItems : normalizeRewardItems(candidateReward?.items),
+    items: overrideItems.length > 0 ? overrideItems : (choiceGroups.length > 0 ? [] : normalizeRewardItems(candidateReward?.items)),
+    choiceGroups,
   };
 }
 
-function mergeStep(candidateStep, overrideStep, index) {
+function mergeStep(candidateStep, overrideStep, index, questContext = {}) {
   if (!candidateStep && !overrideStep) {
     return null;
   }
@@ -181,12 +190,17 @@ function mergeStep(candidateStep, overrideStep, index) {
   }
 
   const overrideGrantItems = normalizeItems(overrideStep?.grantItems);
+  const acceptGrantItems = normalizeItems(questContext?.acceptGrantItems);
   if (overrideGrantItems.length > 0) {
     step.grantItems = overrideGrantItems;
   } else if (!runtimeShapeChanged && runtimeType === 'talk') {
     const inferredGrantItems = normalizeItems(candidateStep?.grantItems);
     if (inferredGrantItems.length > 0) {
-      step.grantItems = inferredGrantItems;
+      if (itemsEqual(inferredGrantItems, acceptGrantItems)) {
+        step.consumeItems = inferredGrantItems;
+      } else {
+        step.grantItems = inferredGrantItems;
+      }
     }
   }
 
@@ -217,6 +231,49 @@ function mergeStep(candidateStep, overrideStep, index) {
   }
 
   return step;
+}
+
+function buildQuestSteps(taskId, candidateSteps, overrideSteps, questContext) {
+  const stepCount = Math.max(candidateSteps.length, overrideSteps.length);
+  const steps = [];
+
+  for (let index = 0; index < stepCount; index += 1) {
+    const step = mergeStep(candidateSteps[index] || null, overrideSteps[index] || {}, index, questContext);
+    if (!step) {
+      continue;
+    }
+
+    const candidateStep = candidateSteps[index] || null;
+    const overrideStep = overrideSteps[index] || {};
+    const previousStep = steps[steps.length - 1];
+    const candidateGrantItems = normalizeItems(candidateStep?.grantItems);
+    const candidateConsumeItems = normalizeItems(candidateStep?.consumeItems);
+
+    if (
+      previousStep &&
+      previousStep.type === 'talk' &&
+      step.type === 'talk' &&
+      normalizeItems(overrideStep?.grantItems).length === 0 &&
+      candidateGrantItems.length > 0 &&
+      itemsEqual(candidateGrantItems, candidateConsumeItems)
+    ) {
+      if (!Array.isArray(previousStep.grantItems) || previousStep.grantItems.length === 0) {
+        previousStep.grantItems = candidateGrantItems;
+      }
+      if (!Array.isArray(step.consumeItems) || step.consumeItems.length === 0) {
+        step.consumeItems = candidateConsumeItems;
+      }
+      delete step.grantItems;
+    }
+
+    if ((taskId >>> 0) === 51 && numberOrDefault(step?.status, 0) === 3 && numberOrDefault(step?.npcId, 0) === 3023) {
+      step.mapId = 103;
+    }
+
+    steps.push(step);
+  }
+
+  return steps;
 }
 
 function normalizeRuntimeStepType(type) {
@@ -276,6 +333,80 @@ function normalizeRewardItems(items) {
     }
   }
   return flattened;
+}
+
+function normalizeRewardChoiceGroups(groups) {
+  return Array.isArray(groups)
+    ? groups
+        .map((group) => ({
+          awardId: Number.isInteger(group?.awardId) ? group.awardId >>> 0 : 0,
+          gold: numberOrDefault(group?.gold, 0),
+          experience: numberOrDefault(group?.experience, 0),
+          coins: numberOrDefault(group?.coins, 0),
+          renown: numberOrDefault(group?.renown, 0),
+          pets: Array.isArray(group?.petTemplateIds) ? group.petTemplateIds.slice() : Array.isArray(group?.pets) ? group.pets.slice() : [],
+          items: normalizeItems(group?.items),
+        }))
+        .filter((group) => group.items.length > 0 || group.experience > 0 || group.gold > 0 || group.coins > 0 || group.renown > 0 || group.pets.length > 0)
+    : [];
+}
+
+function deriveAuxiliaryActions(taskId) {
+  if (taskId === 1) {
+    return [{
+      type: 'grant_on_server_run',
+      stepStatus: 2,
+      subtype: 0x02,
+      contextId: 11,
+      scriptId: 10000,
+      onlyIfMissingTemplateId: 21116,
+      grantItems: [{
+        templateId: 21116,
+        quantity: 1,
+        name: 'Timber',
+      }],
+    }];
+  }
+
+  if (taskId === 51) {
+    return [{
+      type: 'combat_on_server_run',
+      stepStatus: 4,
+      subtype: 0x02,
+      mapId: 103,
+      scriptId: 10001,
+      monsterId: 5106,
+      count: 1,
+    }];
+  }
+
+  return [];
+}
+
+function normalizeAuxiliaryActions(actions) {
+  return Array.isArray(actions)
+    ? actions
+        .map((action) => {
+          if (!action || typeof action !== 'object' || typeof action.type !== 'string') {
+            return null;
+          }
+          return {
+            type: action.type,
+            stepStatus: Number.isInteger(action.stepStatus) ? action.stepStatus >>> 0 : undefined,
+            subtype: Number.isInteger(action.subtype) ? action.subtype & 0xff : undefined,
+            npcId: Number.isInteger(action.npcId) ? action.npcId >>> 0 : undefined,
+            contextId: Number.isInteger(action.contextId) ? action.contextId >>> 0 : undefined,
+            extra: Number.isInteger(action.extra) ? action.extra & 0xff : undefined,
+            scriptId: Number.isInteger(action.scriptId) ? action.scriptId & 0xffff : undefined,
+            mapId: Number.isInteger(action.mapId) ? action.mapId >>> 0 : undefined,
+            monsterId: Number.isInteger(action.monsterId) ? action.monsterId >>> 0 : undefined,
+            count: Number.isInteger(action.count) ? action.count >>> 0 : undefined,
+            onlyIfMissingTemplateId: Number.isInteger(action.onlyIfMissingTemplateId) ? action.onlyIfMissingTemplateId >>> 0 : undefined,
+            grantItems: normalizeItems(action.grantItems),
+          };
+        })
+        .filter(Boolean)
+    : [];
 }
 
 function itemsEqual(left, right) {

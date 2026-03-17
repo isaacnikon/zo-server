@@ -3,11 +3,13 @@
 const fs = require('fs');
 const path = require('path');
 
-const DEFAULT_CLIENT_ROOT = '/home/nikon/Data/Zodiac Online';
+const { MAP_CLIENT_ROOT } = require('./config');
+
+const DEFAULT_CLIENT_ROOT = path.resolve(__dirname, '..', 'data', 'client');
 
 class MapCellStore {
   constructor(options = {}) {
-    this.clientRoot = path.resolve(options.clientRoot || DEFAULT_CLIENT_ROOT);
+    this.clientRoot = path.resolve(options.clientRoot || MAP_CLIENT_ROOT || DEFAULT_CLIENT_ROOT);
     this.cache = new Map();
   }
 

@@ -1,13 +1,16 @@
 'use strict';
 
 const forceStartScene = process.env.FORCE_START_SCENE === '1';
+const port = parseInt(process.env.PORT || '7777', 10);
+const mapClientRoot = process.env.MAP_CLIENT_ROOT || process.env.CLIENT_ROOT;
 
 module.exports = {
-  PORT: 7777,
-  LOG_FILE: 'server.log',
-  CHARACTER_STORE_FILE: 'characters.json',
-  COMBAT_PROBE_STATE_FILE: 'combat-probe-state.json',
+  PORT: Number.isInteger(port) && port > 0 ? port : 7777,
+  LOG_FILE: process.env.LOG_FILE || 'server.log',
+  CHARACTER_STORE_FILE: process.env.CHARACTER_STORE_FILE || 'characters.json',
+  COMBAT_PROBE_STATE_FILE: process.env.COMBAT_PROBE_STATE_FILE || 'combat-probe-state.json',
   COMBAT_REFERENCE_ROOT: process.env.COMBAT_REFERENCE_ROOT || 'third_party/shengxiao-server',
+  MAP_CLIENT_ROOT: mapClientRoot || null,
   MAX_PACKET_SIZE: 0x4000,
   VALID_FLAG_MASK: 0xe0,
   VALID_FLAG_VALUE: 0x40,

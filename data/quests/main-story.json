@@ -4,13 +4,13 @@
     "tasklist": "/home/nikon/projects/zo-server/data/client-derived/quests.json",
     "overrides": "/home/nikon/projects/zo-server/data/quests/main-story.overrides.json"
   },
-  "generatedAt": "2026-03-17T16:20:11.826Z",
+  "generatedAt": "2026-03-17T18:03:22.858Z",
   "quests": [
     {
       "id": 1,
       "name": "Back to Earth",
       "type": "story",
-      "acceptMessage": "Back to Earth is active. Apollo gave you a recommendation token for Blacksmith.",
+      "acceptMessage": "Back to Earth is active.",
       "completionMessage": "Back to Earth is complete.",
       "acceptNpcId": 3054,
       "acceptSubtype": 3,
@@ -28,42 +28,38 @@
         "coins": 100,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 20001,
-            "quantity": 5,
-            "name": "Medicine"
-          },
-          {
-            "templateId": 20004,
-            "quantity": 5,
-            "name": "Heal Grass"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 100,
+            "coins": 100,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 20001,
+                "quantity": 5,
+                "name": "Medicine"
+              },
+              {
+                "templateId": 20004,
+                "quantity": 5,
+                "name": "Heal Grass"
+              }
+            ]
           }
         ]
       },
-      "steps": [
+      "auxiliaryActions": [
         {
-          "type": "talk",
-          "npcId": 3276,
-          "status": 1,
-          "description": "Bring Apollo's recommendation token to Blacksmith.",
-          "mapId": 101,
-          "consumeItems": [
-            {
-              "templateId": 21098,
-              "quantity": 1,
-              "name": "Zodiac Recommendation Token"
-            }
-          ]
-        },
-        {
-          "type": "talk",
-          "npcId": 3029,
-          "status": 2,
-          "description": "Blacksmith sent you to Matt to collect timber.",
+          "type": "grant_on_server_run",
+          "stepStatus": 2,
           "subtype": 2,
+          "contextId": 11,
           "scriptId": 10000,
-          "mapId": 101,
+          "onlyIfMissingTemplateId": 21116,
           "grantItems": [
             {
               "templateId": 21116,
@@ -71,17 +67,34 @@
               "name": "Timber"
             }
           ]
+        }
+      ],
+      "steps": [
+        {
+          "type": "talk",
+          "npcId": 3276,
+          "status": 1,
+          "description": "Bring Zodiac Recommendation Token to BlackSmith at the entrance to the village.",
+          "mapId": 101,
+          "consumeItems": [
+            {
+              "templateId": 21098,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
         },
         {
           "type": "talk",
           "npcId": 3276,
-          "status": 3,
-          "description": "Bring the timber back to Blacksmith.",
+          "status": 2,
+          "description": "Bring some \"Timberto Blacksmith from Woodman \"",
+          "mapId": 101,
           "consumeItems": [
             {
               "templateId": 21116,
               "quantity": 1,
-              "name": "Timber"
+              "name": ""
             }
           ]
         }
@@ -92,7 +105,7 @@
       "id": 2,
       "name": "Spinning",
       "type": "story",
-      "acceptMessage": "Spinning is active. Blacksmith asked you to help Candy.",
+      "acceptMessage": "Spinning is active.",
       "completionMessage": "Spinning is complete.",
       "acceptNpcId": 3276,
       "acceptSubtype": 3,
@@ -112,37 +125,59 @@
         "coins": 200,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 13001,
-            "quantity": 1,
-            "name": "Shoes"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 300,
+            "coins": 200,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 13001,
+                "quantity": 1,
+                "name": "Shoes"
+              },
+              {
+                "templateId": 10001,
+                "quantity": 1,
+                "name": "Light Hood"
+              }
+            ]
           },
           {
-            "templateId": 10001,
-            "quantity": 1,
-            "name": "Light Hood"
-          },
-          {
-            "templateId": 18001,
-            "quantity": 1,
-            "name": "Embordered Shoes"
-          },
-          {
-            "templateId": 15001,
-            "quantity": 1,
-            "name": "Red String"
+            "awardId": 2,
+            "gold": 0,
+            "experience": 300,
+            "coins": 200,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 18001,
+                "quantity": 1,
+                "name": "Embordered Shoes"
+              },
+              {
+                "templateId": 15001,
+                "quantity": 1,
+                "name": "Red String"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
           "npcId": 3277,
           "status": 1,
-          "description": "Bring Blacksmith's quest item to Candy.",
+          "description": "Bring \"Blacksmith's Letter\" to \"Candy\"",
           "mapId": 101,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21099,
               "quantity": 1,
@@ -154,7 +189,7 @@
           "type": "talk",
           "npcId": 3277,
           "status": 2,
-          "description": "Bring 10 Dragonfly quest items back to Candy.",
+          "description": "Kill dragonfly to get 10 \"Dragonfly's Sting\" and bring to\"Candy\"",
           "mapId": 101,
           "consumeItems": [
             {
@@ -192,14 +227,26 @@
         "coins": 400,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 29001,
-            "quantity": 1,
-            "name": "Mob Flask Lv.1"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 1200,
+            "coins": 400,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 29001,
+                "quantity": 1,
+                "name": "Mob Flask Lv.1"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -207,7 +254,7 @@
           "status": 1,
           "description": "Speak with \"Grocer\"",
           "mapId": 102,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21118,
               "quantity": 1,
@@ -262,8 +309,20 @@
         "coins": 500,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 0,
+            "experience": 1500,
+            "coins": 500,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -271,9 +330,16 @@
           "status": 1,
           "description": "Bring \"Brewing Bottle\" to Shopkeeper",
           "mapId": 101,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21128,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "grantItems": [
+            {
+              "templateId": 21117,
               "quantity": 1,
               "name": ""
             }
@@ -285,9 +351,16 @@
           "status": 2,
           "description": "Bring \"Shopkeeper's Letter\" to Scholar",
           "mapId": 101,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21117,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "grantItems": [
+            {
+              "templateId": 21029,
               "quantity": 1,
               "name": ""
             }
@@ -299,7 +372,7 @@
           "status": 3,
           "description": "Speak with \"Apollo\"",
           "mapId": 101,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21029,
               "quantity": 1,
@@ -335,8 +408,20 @@
         "coins": 3000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 500,
+            "experience": 800,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -366,8 +451,20 @@
         "coins": 3000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 500,
+            "experience": 800,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -403,8 +500,20 @@
         "coins": 1000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 0,
+            "experience": 1200,
+            "coins": 1000,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -441,8 +550,10 @@
         "coins": 1200,
         "renown": 40,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -481,8 +592,10 @@
         "coins": 1000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -514,8 +627,10 @@
         "coins": 3000,
         "renown": 80,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -547,8 +662,10 @@
         "coins": 3000,
         "renown": 80,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -580,8 +697,10 @@
         "coins": 2000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -597,7 +716,14 @@
           "npcId": 3042,
           "status": 2,
           "description": "Tell Flap-eared Pig that Geralyn has returned safely.",
-          "mapId": 120
+          "mapId": 120,
+          "grantItems": [
+            {
+              "templateId": 21101,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
         },
         {
           "type": "talk",
@@ -605,7 +731,7 @@
           "status": 3,
           "description": "Bring \"Transformed Cabbage\" to Geralyn",
           "mapId": 131,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21101,
               "quantity": 1,
@@ -634,8 +760,20 @@
         "coins": 2000,
         "renown": 100,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 1600,
+            "experience": 4500,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -671,14 +809,26 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 23045,
-            "quantity": 1,
-            "name": "Jade Fragment"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 23045,
+                "quantity": 1,
+                "name": "Jade Fragment"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -686,7 +836,7 @@
           "status": 1,
           "description": "Bring Commander's Proof to \"General White\"",
           "mapId": 112,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21030,
               "quantity": 1,
@@ -715,14 +865,26 @@
         "coins": 1500,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 26015,
-            "quantity": 3,
-            "name": "Equipment Treasure Map (Primary"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 26015,
+                "quantity": 3,
+                "name": "Equipment Treasure Map (Primary"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -760,8 +922,10 @@
         "coins": 5000,
         "renown": 160,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -791,7 +955,14 @@
               "name": ""
             }
           ],
-          "originalType": "kill_collect"
+          "originalType": "kill_collect",
+          "grantItems": [
+            {
+              "templateId": 21142,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
         },
         {
           "type": "talk",
@@ -799,9 +970,16 @@
           "status": 3,
           "description": "Get \"Complete Tome\" and bring it to Fiend of Plague",
           "mapId": 231,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21142,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "grantItems": [
+            {
+              "templateId": 21019,
               "quantity": 1,
               "name": ""
             }
@@ -813,7 +991,7 @@
           "status": 3,
           "description": "Bring \"Royal Sword\" and \"Elixir by Fiend of Plague\" to General Lee",
           "mapId": 214,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21019,
               "quantity": 1,
@@ -846,24 +1024,36 @@
         "coins": 2000,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 24121,
-            "quantity": 1,
-            "name": "Guild Resource Bag"
-          },
-          {
-            "templateId": 24142,
-            "quantity": 1,
-            "name": "Adv. Position Stone Bag"
-          },
-          {
-            "templateId": 24144,
-            "quantity": 1,
-            "name": "Sapphire Key"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 24121,
+                "quantity": 1,
+                "name": "Guild Resource Bag"
+              },
+              {
+                "templateId": 24142,
+                "quantity": 1,
+                "name": "Adv. Position Stone Bag"
+              },
+              {
+                "templateId": 24144,
+                "quantity": 1,
+                "name": "Sapphire Key"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -871,7 +1061,7 @@
           "status": 1,
           "description": "Bring Jadeware to General Lee",
           "mapId": 164,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21041,
               "quantity": 1,
@@ -898,24 +1088,36 @@
         "coins": 3000,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 5102,
-            "quantity": 1,
-            "name": "Treasures Club"
-          },
-          {
-            "templateId": 5103,
-            "quantity": 1,
-            "name": "Purple Club"
-          },
-          {
-            "templateId": 5104,
-            "quantity": 1,
-            "name": "Emerald Club"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 1200,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 5102,
+                "quantity": 1,
+                "name": "Treasures Club"
+              },
+              {
+                "templateId": 5103,
+                "quantity": 1,
+                "name": "Purple Club"
+              },
+              {
+                "templateId": 5104,
+                "quantity": 1,
+                "name": "Emerald Club"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -945,24 +1147,36 @@
         "coins": 3000,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 5102,
-            "quantity": 1,
-            "name": "Treasures Club"
-          },
-          {
-            "templateId": 5103,
-            "quantity": 1,
-            "name": "Purple Club"
-          },
-          {
-            "templateId": 5104,
-            "quantity": 1,
-            "name": "Emerald Club"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 1200,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 5102,
+                "quantity": 1,
+                "name": "Treasures Club"
+              },
+              {
+                "templateId": 5103,
+                "quantity": 1,
+                "name": "Purple Club"
+              },
+              {
+                "templateId": 5104,
+                "quantity": 1,
+                "name": "Emerald Club"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -1000,8 +1214,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -1052,8 +1268,10 @@
         "coins": 1000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -1103,8 +1321,20 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 500,
+            "experience": 500,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -1154,8 +1384,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -1163,7 +1395,7 @@
           "status": 1,
           "description": "At your 32 level, bring \"Rune\" to \"General Lee\"",
           "mapId": 146,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21152,
               "quantity": 1,
@@ -1192,8 +1424,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -1228,19 +1462,41 @@
         "coins": 3000,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 11102,
-            "quantity": 1,
-            "name": "Universal Armor"
+            "awardId": 1,
+            "gold": 500,
+            "experience": 2400,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 11102,
+                "quantity": 1,
+                "name": "Universal Armor"
+              }
+            ]
           },
           {
-            "templateId": 16102,
-            "quantity": 1,
-            "name": "Mesh Robe"
+            "awardId": 2,
+            "gold": 500,
+            "experience": 2400,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 16102,
+                "quantity": 1,
+                "name": "Mesh Robe"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -1270,19 +1526,41 @@
         "coins": 3000,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 11102,
-            "quantity": 1,
-            "name": "Universal Armor"
+            "awardId": 1,
+            "gold": 500,
+            "experience": 2400,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 11102,
+                "quantity": 1,
+                "name": "Universal Armor"
+              }
+            ]
           },
           {
-            "templateId": 16102,
-            "quantity": 1,
-            "name": "Mesh Robe"
+            "awardId": 2,
+            "gold": 500,
+            "experience": 2400,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 16102,
+                "quantity": 1,
+                "name": "Mesh Robe"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -1318,8 +1596,10 @@
         "coins": 2000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -1327,7 +1607,7 @@
           "status": 1,
           "description": "Bring \"Supreme Taoist's Letter\" to \"Evil Cat\"",
           "mapId": 164,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21144,
               "quantity": 1,
@@ -1358,35 +1638,98 @@
       ],
       "rewards": {
         "gold": 0,
-        "experience": 600,
+        "experience": 1000,
         "coins": 300,
         "renown": 0,
         "pets": [
           "i"
         ],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 26036,
-            "quantity": 1,
-            "name": "Ordinary Treasure Map (Primary)"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 26036,
+                "quantity": 1,
+                "name": "Ordinary Treasure Map (Primary)"
+              }
+            ]
           },
           {
-            "templateId": 26036,
-            "quantity": 1,
-            "name": "Ordinary Treasure Map (Primary)"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 26036,
+                "quantity": 1,
+                "name": "Ordinary Treasure Map (Primary)"
+              },
+              {
+                "templateId": 26036,
+                "quantity": 3,
+                "name": "Ordinary Treasure Map (Primary)"
+              }
+            ]
           },
           {
-            "templateId": 26036,
-            "quantity": 3,
-            "name": "Ordinary Treasure Map (Primary)"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 26036,
+                "quantity": 3,
+                "name": "Ordinary Treasure Map (Primary)"
+              }
+            ]
           },
           {
-            "templateId": 26036,
-            "quantity": 3,
-            "name": "Ordinary Treasure Map (Primary)"
+            "awardId": 1,
+            "gold": 1000,
+            "experience": 1000,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          },
+          {
+            "awardId": 1,
+            "gold": 0,
+            "experience": 1000,
+            "coins": 300,
+            "renown": 0,
+            "pets": [
+              "i"
+            ],
+            "items": []
           }
         ]
       },
+      "auxiliaryActions": [
+        {
+          "type": "combat_on_server_run",
+          "stepStatus": 4,
+          "subtype": 2,
+          "scriptId": 10001,
+          "mapId": 103,
+          "monsterId": 5106,
+          "count": 1,
+          "grantItems": []
+        }
+      ],
       "steps": [
         {
           "type": "talk",
@@ -1394,9 +1737,16 @@
           "status": 1,
           "description": "Speak with\"Scholar\"",
           "mapId": 101,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21123,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "grantItems": [
+            {
+              "templateId": 21001,
               "quantity": 1,
               "name": ""
             }
@@ -1408,9 +1758,16 @@
           "status": 2,
           "description": "Bring \"Scholar's Letter\" to \"Idler\"",
           "mapId": 101,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21001,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "grantItems": [
+            {
+              "templateId": 21124,
               "quantity": 1,
               "name": ""
             }
@@ -1421,8 +1778,8 @@
           "npcId": 3023,
           "status": 3,
           "description": "Bring \"Special Wine\" to \"Grandpa\"",
-          "mapId": 101,
-          "grantItems": [
+          "mapId": 103,
+          "consumeItems": [
             {
               "templateId": 21124,
               "quantity": 1,
@@ -1434,9 +1791,9 @@
           "type": "kill",
           "npcId": 3023,
           "status": 4,
-          "description": "Help Grandpa deal with a Little Boar.",
+          "description": "Kill \"Little Boar\" \"Map 103\"£º\" \".\" \"",
           "mapId": 103,
-          "monsterId": 5003,
+          "monsterId": 5106,
           "count": 1
         }
       ],
@@ -1466,8 +1823,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -1475,7 +1834,7 @@
           "status": 2,
           "description": "Take \"Soul Absorber's Memory\" to find \"Evil Cat\"",
           "mapId": 249,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21176,
               "quantity": 1,
@@ -1510,8 +1869,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -1519,7 +1880,7 @@
           "status": 2,
           "description": "Bring \"Soul of Soul Absorber\" to\"Night Owl\"",
           "mapId": 213,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21177,
               "quantity": 1,
@@ -1548,8 +1909,20 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 0,
+            "experience": 20000,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -1579,8 +1952,20 @@
         "coins": 20000,
         "renown": 300,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 30000,
+            "experience": 400000,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -1617,8 +2002,10 @@
         "coins": 20000,
         "renown": 300,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -1666,8 +2053,10 @@
         "coins": 20000,
         "renown": 400,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -1720,8 +2109,10 @@
         "coins": 40000,
         "renown": 300,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -1784,8 +2175,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -1815,8 +2208,65 @@
         "coins": 10000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 4310,
+            "experience": 75000,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          },
+          {
+            "awardId": 1,
+            "gold": 5035,
+            "experience": 66000,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          },
+          {
+            "awardId": 1,
+            "gold": 4068,
+            "experience": 54000,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          },
+          {
+            "awardId": 1,
+            "gold": 3860,
+            "experience": 42000,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          },
+          {
+            "awardId": 1,
+            "gold": 3420,
+            "experience": 36000,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          },
+          {
+            "awardId": 1,
+            "gold": 4156,
+            "experience": 30000,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -1852,24 +2302,65 @@
         "coins": 1000,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 5102,
-            "quantity": 1,
-            "name": "Treasures Club"
+            "awardId": 1,
+            "gold": 712,
+            "experience": 560,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
           },
           {
-            "templateId": 5103,
-            "quantity": 1,
-            "name": "Purple Club"
+            "awardId": 1,
+            "gold": 500,
+            "experience": 1500,
+            "coins": 1000,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 5102,
+                "quantity": 1,
+                "name": "Treasures Club"
+              }
+            ]
           },
           {
-            "templateId": 5104,
-            "quantity": 1,
-            "name": "Emerald Club"
+            "awardId": 2,
+            "gold": 500,
+            "experience": 1500,
+            "coins": 1000,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 5103,
+                "quantity": 1,
+                "name": "Purple Club"
+              }
+            ]
+          },
+          {
+            "awardId": 3,
+            "gold": 500,
+            "experience": 1500,
+            "coins": 1000,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 5104,
+                "quantity": 1,
+                "name": "Emerald Club"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -1877,7 +2368,7 @@
           "status": 1,
           "description": "Bring \"Commander's Letter\" to \"Freddie\"",
           "mapId": 112,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21034,
               "quantity": 1,
@@ -1933,8 +2424,29 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 800,
+            "experience": 3300,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          },
+          {
+            "awardId": 1,
+            "gold": 500,
+            "experience": 1000,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -1942,7 +2454,7 @@
           "status": 1,
           "description": "Bring \"Letter of M/A Manager\" to \"Pet Curer\"",
           "mapId": 112,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21102,
               "quantity": 1,
@@ -1985,8 +2497,10 @@
         "coins": 2000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -2043,8 +2557,10 @@
         "coins": 2000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -2052,7 +2568,7 @@
           "status": 1,
           "description": "Bring \"Rune of Seal\" to Maple Valley Spirit",
           "mapId": 156,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21013,
               "quantity": 1,
@@ -2081,8 +2597,10 @@
         "coins": 20000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -2119,8 +2637,10 @@
         "coins": 60000,
         "renown": 300,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -2182,8 +2702,10 @@
         "coins": 60000,
         "renown": 300,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -2236,8 +2758,10 @@
         "coins": 60000,
         "renown": 300,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -2290,8 +2814,10 @@
         "coins": 60000,
         "renown": 300,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -2335,8 +2861,20 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 1000,
+            "experience": 5000,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -2366,8 +2904,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -2397,19 +2937,31 @@
         "coins": 1000,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 7003,
-            "quantity": 1,
-            "name": "Herald Hairpin"
-          },
-          {
-            "templateId": 7005,
-            "quantity": 1,
-            "name": "Herald Boots"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 7003,
+                "quantity": 1,
+                "name": "Herald Hairpin"
+              },
+              {
+                "templateId": 7005,
+                "quantity": 1,
+                "name": "Herald Boots"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -2439,19 +2991,31 @@
         "coins": 2000,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 7009,
-            "quantity": 1,
-            "name": "Abject Boots"
-          },
-          {
-            "templateId": 7007,
-            "quantity": 1,
-            "name": "Abject Hood"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 7009,
+                "quantity": 1,
+                "name": "Abject Boots"
+              },
+              {
+                "templateId": 7007,
+                "quantity": 1,
+                "name": "Abject Hood"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -2485,19 +3049,31 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 7011,
-            "quantity": 1,
-            "name": "Demon Crown"
-          },
-          {
-            "templateId": 7013,
-            "quantity": 1,
-            "name": "Demon Boots"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 7011,
+                "quantity": 1,
+                "name": "Demon Crown"
+              },
+              {
+                "templateId": 7013,
+                "quantity": 1,
+                "name": "Demon Boots"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -2533,14 +3109,26 @@
         "coins": 3000,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 5118,
-            "quantity": 1,
-            "name": "Zodiac Rod"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 5118,
+                "quantity": 1,
+                "name": "Zodiac Rod"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -2548,9 +3136,9 @@
           "status": 1,
           "description": "Take \"Zodiac Eudemon's Memory\" with you to find out \"Force of Zodiac\" and bring it to \"Zodiac Eudemon\"",
           "mapId": 146,
-          "grantItems": [
+          "consumeItems": [
             {
-              "templateId": 21314,
+              "templateId": 21315,
               "quantity": 1,
               "name": ""
             }
@@ -2577,14 +3165,26 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 5118,
-            "quantity": 1,
-            "name": "Zodiac Rod"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 5118,
+                "quantity": 1,
+                "name": "Zodiac Rod"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -2619,8 +3219,10 @@
         "coins": 2000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -2650,8 +3252,10 @@
         "coins": 3000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -2681,8 +3285,20 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 0,
+            "experience": 800,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -2713,8 +3329,10 @@
         "coins": 600,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -2766,14 +3384,26 @@
         "coins": 800,
         "renown": 20,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 24051,
-            "quantity": 1,
-            "name": "Angelic Pouch (7 day)"
+            "awardId": 1,
+            "gold": 500,
+            "experience": 1000,
+            "coins": 800,
+            "renown": 20,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 24051,
+                "quantity": 1,
+                "name": "Angelic Pouch (7 day)"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -2795,7 +3425,7 @@
           "status": 2,
           "description": "Bring \"Sachet\" to \"Hubbert\"",
           "mapId": 103,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21002,
               "quantity": 1,
@@ -2833,24 +3463,56 @@
         "coins": 700,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 5002,
-            "quantity": 1,
-            "name": "Petal Fan"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 3000,
+            "coins": 700,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 5002,
+                "quantity": 1,
+                "name": "Petal Fan"
+              }
+            ]
           },
           {
-            "templateId": 5003,
-            "quantity": 1,
-            "name": "Glazed Flask"
+            "awardId": 2,
+            "gold": 0,
+            "experience": 3000,
+            "coins": 700,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 5003,
+                "quantity": 1,
+                "name": "Glazed Flask"
+              }
+            ]
           },
           {
-            "templateId": 5004,
-            "quantity": 1,
-            "name": "Bronze Kettle"
+            "awardId": 3,
+            "gold": 0,
+            "experience": 3000,
+            "coins": 700,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 5004,
+                "quantity": 1,
+                "name": "Bronze Kettle"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -2878,8 +3540,20 @@
         "coins": 300,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 200,
+            "experience": 1000,
+            "coins": 300,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -2915,8 +3589,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -2924,7 +3600,7 @@
           "status": 1,
           "description": "Bring \"Piggy Circle\" to \"Jasmin\"",
           "mapId": 112,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21047,
               "quantity": 1,
@@ -2951,8 +3627,10 @@
         "coins": 800,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -2990,8 +3668,20 @@
         "coins": 1550,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 1550,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -3032,19 +3722,41 @@
         "coins": 500,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 11004,
-            "quantity": 1,
-            "name": "Masterly Robe"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 800,
+            "coins": 500,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 11004,
+                "quantity": 1,
+                "name": "Masterly Robe"
+              }
+            ]
           },
           {
-            "templateId": 16004,
-            "quantity": 1,
-            "name": "Plum Robe"
+            "awardId": 2,
+            "gold": 0,
+            "experience": 800,
+            "coins": 500,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 16004,
+                "quantity": 1,
+                "name": "Plum Robe"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -3052,9 +3764,16 @@
           "status": 1,
           "description": "Bring \"Famous Painting\" back to \"Pub Owner\"",
           "mapId": 112,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21003,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "grantItems": [
+            {
+              "templateId": 21004,
               "quantity": 1,
               "name": ""
             }
@@ -3066,9 +3785,16 @@
           "status": 2,
           "description": "Bring \"Dish\" reserved by \"Diana\" to him",
           "mapId": 226,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21004,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "grantItems": [
+            {
+              "templateId": 21005,
               "quantity": 1,
               "name": ""
             }
@@ -3080,9 +3806,16 @@
           "status": 3,
           "description": "Bring \"Chic Apparel\" to Warehouseman- \"Chelyn\"",
           "mapId": 223,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21005,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "grantItems": [
+            {
+              "templateId": 21181,
               "quantity": 1,
               "name": ""
             }
@@ -3094,7 +3827,7 @@
           "status": 4,
           "description": "Bring \"Chelyn's Invitation\" to \"Commander\"",
           "mapId": 112,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21181,
               "quantity": 1,
@@ -3121,8 +3854,20 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 500,
+            "experience": 1000,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -3152,8 +3897,20 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 500,
+            "experience": 1000,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -3183,8 +3940,20 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 500,
+            "experience": 1500,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -3214,8 +3983,20 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 500,
+            "experience": 1500,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -3243,8 +4024,10 @@
         "coins": 1000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -3274,8 +4057,20 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 300,
+            "experience": 300,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -3310,8 +4105,20 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 600,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -3354,8 +4161,20 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 0,
+            "experience": 2000,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -3363,7 +4182,7 @@
           "status": 1,
           "description": "By the way, bring \"Blacksmith's Dish\" to \"Blacksmith\"",
           "mapId": 112,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21020,
               "quantity": 1,
@@ -3398,8 +4217,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -3448,8 +4269,20 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 2546,
+            "experience": 1240,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -3478,8 +4311,20 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 0,
+            "experience": 1000,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -3515,8 +4360,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -3524,7 +4371,7 @@
           "status": 1,
           "description": "Bring \"Silk Clothes\" to \"Beggar\"",
           "mapId": 112,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21186,
               "quantity": 1,
@@ -3578,8 +4425,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -3587,7 +4436,7 @@
           "status": 1,
           "description": "Bring the enchanted \"Piggy Circle\" to \"Samuel\"",
           "mapId": 112,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21047,
               "quantity": 1,
@@ -3616,14 +4465,26 @@
         "coins": 2000,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 21119,
-            "quantity": 1,
-            "name": "Fairy's Note"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 21119,
+                "quantity": 1,
+                "name": "Fairy's Note"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -3655,14 +4516,26 @@
         "coins": 1200,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 21059,
-            "quantity": 1,
-            "name": "Wine Gourd"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 21059,
+                "quantity": 1,
+                "name": "Wine Gourd"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -3692,8 +4565,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -3730,8 +4605,20 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 3257,
+            "experience": 7570,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -3767,14 +4654,26 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 9011,
-            "quantity": 1,
-            "name": "Cardinal Gourd"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 9011,
+                "quantity": 1,
+                "name": "Cardinal Gourd"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -3782,7 +4681,7 @@
           "status": 1,
           "description": "Bring \"Bloody Gourd\" to \"Commander\"",
           "mapId": 145,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21053,
               "quantity": 1,
@@ -3817,8 +4716,10 @@
         "coins": 1500,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -3855,8 +4756,10 @@
         "coins": 2000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -3893,6 +4796,13 @@
               "quantity": 1,
               "name": ""
             }
+          ],
+          "grantItems": [
+            {
+              "templateId": 21027,
+              "quantity": 1,
+              "name": ""
+            }
           ]
         },
         {
@@ -3901,7 +4811,7 @@
           "status": 4,
           "description": "Bring \"Blessed Sachet\" to \"Samuel\"",
           "mapId": 112,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21027,
               "quantity": 1,
@@ -3936,8 +4846,20 @@
         "coins": 2000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 0,
+            "experience": 1000,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -3945,7 +4867,7 @@
           "status": 1,
           "description": "Bring \"Info On Sow\" to \"Pet Curer\"",
           "mapId": 112,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21049,
               "quantity": 1,
@@ -3970,6 +4892,13 @@
               "quantity": 5,
               "name": ""
             }
+          ],
+          "grantItems": [
+            {
+              "templateId": 21028,
+              "quantity": 1,
+              "name": ""
+            }
           ]
         },
         {
@@ -3978,7 +4907,7 @@
           "status": 3,
           "description": "Bring \"Recovered Sow\" back to \"Samuel\"",
           "mapId": 228,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21028,
               "quantity": 1,
@@ -4009,8 +4938,22 @@
         "pets": [
           "pet"
         ],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 0,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [
+              "pet"
+            ],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -4042,8 +4985,10 @@
         "coins": 1500,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -4094,14 +5039,26 @@
         "coins": 2000,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 9017,
-            "quantity": 1,
-            "name": "Spider Web"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 9017,
+                "quantity": 1,
+                "name": "Spider Web"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -4136,8 +5093,10 @@
         "coins": 2000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -4173,8 +5132,20 @@
         "coins": 1000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 1000,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -4182,7 +5153,7 @@
           "status": 1,
           "description": "Take Fortune Rune with you and speak to Ralph.",
           "mapId": 112,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21056,
               "quantity": 1,
@@ -4215,14 +5186,26 @@
         "coins": 2000,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 9018,
-            "quantity": 1,
-            "name": "Rare Turtle Shell"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 9018,
+                "quantity": 1,
+                "name": "Rare Turtle Shell"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -4271,8 +5254,20 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 2400,
+            "experience": 6000,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -4302,8 +5297,20 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 2400,
+            "experience": 8000,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -4337,14 +5344,26 @@
         "coins": 2000,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 8013,
-            "quantity": 1,
-            "name": "Whelk Necklace"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 8013,
+                "quantity": 1,
+                "name": "Whelk Necklace"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -4379,8 +5398,20 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 2400,
+            "experience": 8000,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -4416,8 +5447,20 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 800,
+            "experience": 2500,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -4425,7 +5468,7 @@
           "status": 1,
           "description": "Bring \"Nowt's Letter\" to \"Copper\"",
           "mapId": 155,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21071,
               "quantity": 1,
@@ -4465,8 +5508,20 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 1200,
+            "experience": 2500,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -4507,8 +5562,20 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 0,
+            "experience": 28000,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -4516,9 +5583,16 @@
           "status": 3,
           "description": "Bring \"Order Letter\" to \"Green Hoe\"",
           "mapId": 158,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21076,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "grantItems": [
+            {
+              "templateId": 21074,
               "quantity": 1,
               "name": ""
             }
@@ -4530,7 +5604,7 @@
           "status": 2,
           "description": "Bring \"Info on Blue Hoe\" to \"Soul Judge\"",
           "mapId": 158,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21074,
               "quantity": 1,
@@ -4557,8 +5631,20 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 2400,
+            "experience": 32000,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -4601,14 +5687,26 @@
         "coins": 1000,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 26004,
-            "quantity": 3,
-            "name": "Treasure Map (S)"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 26004,
+                "quantity": 3,
+                "name": "Treasure Map (S)"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -4640,14 +5738,26 @@
         "coins": 1000,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 26015,
-            "quantity": 3,
-            "name": "Equipment Treasure Map (Primary"
+            "awardId": 1,
+            "gold": 1000,
+            "experience": 6000,
+            "coins": 1000,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 26015,
+                "quantity": 3,
+                "name": "Equipment Treasure Map (Primary"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -4683,8 +5793,10 @@
         "coins": 1000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -4744,8 +5856,10 @@
         "coins": 1000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -4789,8 +5903,10 @@
         "coins": 1000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -4798,7 +5914,7 @@
           "status": 1,
           "description": "Bring \"Rice Porridge\" to \"Laura\"",
           "mapId": 169,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21231,
               "quantity": 1,
@@ -4863,8 +5979,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -4900,8 +6018,10 @@
         "coins": 3000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -4931,8 +6051,10 @@
         "coins": 2000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -4984,8 +6106,10 @@
         "coins": 1000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -4993,9 +6117,16 @@
           "status": 1,
           "description": "Bring \"Lotus Petal\" to \"Vannessa\"",
           "mapId": 114,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21236,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "grantItems": [
+            {
+              "templateId": 21237,
               "quantity": 1,
               "name": ""
             }
@@ -5007,7 +6138,7 @@
           "status": 2,
           "description": "Bring \"Parcel\" to \"White Dragon\"",
           "mapId": 114,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21237,
               "quantity": 1,
@@ -5045,14 +6176,26 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": [
+        "items": [],
+        "choiceGroups": [
           {
-            "templateId": 21238,
-            "quantity": 1,
-            "name": "Dragon Scale"
+            "awardId": 1,
+            "gold": 0,
+            "experience": 0,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 21238,
+                "quantity": 1,
+                "name": "Dragon Scale"
+              }
+            ]
           }
         ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -5089,8 +6232,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -5140,8 +6285,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -5183,8 +6330,20 @@
         "coins": 2000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 2500,
+            "experience": 80000,
+            "coins": 0,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -5192,7 +6351,7 @@
           "status": 1,
           "description": "Bring \"Pet Feeder\"'s \"Letter of Perplexity\" to \"Captor Leo\"",
           "mapId": 169,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21240,
               "quantity": 1,
@@ -5234,8 +6393,10 @@
         "coins": 2000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -5271,8 +6432,10 @@
         "coins": 3500,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -5311,8 +6474,10 @@
         "coins": 3000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -5341,8 +6506,10 @@
         "coins": 3000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -5378,8 +6545,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -5415,8 +6584,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -5452,8 +6623,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -5461,7 +6634,7 @@
           "status": 1,
           "description": "Bring \"Indictment\" to \"Elfin\" so as to expose his plot",
           "mapId": 211,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21242,
               "quantity": 1,
@@ -5503,8 +6676,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -5545,8 +6720,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -5554,7 +6731,7 @@
           "status": 1,
           "description": "Take \"Flaming Leaf\" to speak with \"Beauty\" for answer of Flaming tree's sickness",
           "mapId": 211,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21247,
               "quantity": 1,
@@ -5587,8 +6764,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -5596,7 +6775,7 @@
           "status": 1,
           "description": "Bring \"Tank\" to \"Nicholas\"",
           "mapId": 211,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21248,
               "quantity": 1,
@@ -5638,8 +6817,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -5647,7 +6828,7 @@
           "status": 1,
           "description": "Capture one \"Sandworm\"",
           "mapId": 211,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21010,
               "quantity": 1,
@@ -5675,8 +6856,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -5712,8 +6895,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -5749,8 +6934,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -5786,8 +6973,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -5795,6 +6984,13 @@
           "status": 1,
           "description": "Bring \"Tribute\" to \"Adrian\"",
           "mapId": 182,
+          "consumeItems": [
+            {
+              "templateId": 21249,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
           "grantItems": [
             {
               "templateId": 21249,
@@ -5809,7 +7005,7 @@
           "status": 2,
           "description": "Bring \"Tribute\" to \"Gany\" in \"Map 245\"",
           "mapId": 170,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21249,
               "quantity": 1,
@@ -5836,8 +7032,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "kill",
@@ -5873,8 +7071,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -5924,8 +7124,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -5966,8 +7168,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -5981,6 +7185,13 @@
               "quantity": 10,
               "name": ""
             }
+          ],
+          "grantItems": [
+            {
+              "templateId": 21285,
+              "quantity": 1,
+              "name": ""
+            }
           ]
         },
         {
@@ -5989,7 +7200,7 @@
           "status": 2,
           "description": "Quest step 2",
           "mapId": 165,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21285,
               "quantity": 1,
@@ -6022,8 +7233,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -6031,7 +7244,7 @@
           "status": 1,
           "description": "Quest step 1",
           "mapId": 245,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21252,
               "quantity": 1,
@@ -6073,8 +7286,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -6082,7 +7297,7 @@
           "status": 1,
           "description": "Quest step 1",
           "mapId": 245,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21253,
               "quantity": 1,
@@ -6129,8 +7344,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -6166,15 +7383,24 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
           "npcId": 3395,
           "status": 1,
           "description": "Quest step 1",
-          "mapId": 170
+          "mapId": 170,
+          "grantItems": [
+            {
+              "templateId": 21256,
+              "quantity": 1,
+              "name": ""
+            }
+          ]
         },
         {
           "type": "talk",
@@ -6182,7 +7408,7 @@
           "status": 2,
           "description": "Quest step 2",
           "mapId": 170,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21256,
               "quantity": 1,
@@ -6215,8 +7441,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -6224,9 +7452,16 @@
           "status": 1,
           "description": "Quest step 1",
           "mapId": 170,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21257,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "grantItems": [
+            {
+              "templateId": 21258,
               "quantity": 1,
               "name": ""
             }
@@ -6238,7 +7473,7 @@
           "status": 2,
           "description": "Quest step 2",
           "mapId": 170,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21258,
               "quantity": 1,
@@ -6271,8 +7506,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -6280,7 +7517,7 @@
           "status": 1,
           "description": "Quest step 1",
           "mapId": 170,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21258,
               "quantity": 1,
@@ -6336,8 +7573,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -6378,8 +7617,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -6387,7 +7628,7 @@
           "status": 1,
           "description": "Quest step 1",
           "mapId": 161,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21261,
               "quantity": 1,
@@ -6434,8 +7675,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -6470,8 +7713,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -6508,8 +7753,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -6580,8 +7827,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -6618,8 +7867,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -6654,8 +7905,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -6693,8 +7946,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -6722,8 +7977,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -6757,8 +8014,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -6810,8 +8069,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -6852,8 +8113,20 @@
         "coins": 30000,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": [
+          {
+            "awardId": 1,
+            "gold": 20000,
+            "experience": 2000000,
+            "coins": 30000,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -6872,6 +8145,13 @@
               "quantity": 1,
               "name": ""
             }
+          ],
+          "grantItems": [
+            {
+              "templateId": 21273,
+              "quantity": 1,
+              "name": ""
+            }
           ]
         },
         {
@@ -6880,7 +8160,7 @@
           "status": 2,
           "description": "½« \"Herb Medicine\" ½»¸ø\"Norman\"",
           "mapId": 204,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21273,
               "quantity": 1,
@@ -6907,8 +8187,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -6942,8 +8224,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -6998,8 +8282,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -7007,7 +8293,7 @@
           "status": 1,
           "description": "Bring \"Magical Rope\" to \"Sandy\"",
           "mapId": 204,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21275,
               "quantity": 1,
@@ -7042,8 +8328,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -7087,8 +8375,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -7126,8 +8416,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -7168,8 +8460,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -7183,6 +8477,13 @@
               "quantity": 1,
               "name": ""
             }
+          ],
+          "grantItems": [
+            {
+              "templateId": 21273,
+              "quantity": 1,
+              "name": ""
+            }
           ]
         },
         {
@@ -7191,7 +8492,7 @@
           "status": 2,
           "description": "½« \"Icicle Lock\" ½»¸ø\"Norman\"",
           "mapId": 204,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21273,
               "quantity": 1,
@@ -7224,8 +8525,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -7280,8 +8583,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",
@@ -7322,8 +8627,10 @@
         "coins": 0,
         "renown": 0,
         "pets": [],
-        "items": []
+        "items": [],
+        "choiceGroups": []
       },
+      "auxiliaryActions": [],
       "steps": [
         {
           "type": "talk",

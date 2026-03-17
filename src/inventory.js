@@ -102,7 +102,7 @@ function loadClientEquipmentDefinitions(filePath, kind) {
     }
     const durabilityBase = entry.baseDurabilityField;
     const defaultQuantity =
-      Number.isInteger(durabilityBase) && durabilityBase > 0 ? durabilityBase * 30 : 0;
+      Number.isInteger(durabilityBase) && durabilityBase > 0 ? durabilityBase * 300 : 0;
     const statCount = kind === 'armor' ? 2 : 6;
     const defaultAttributePairs = [];
     for (let index = 0; index < statCount; index += 1) {

@@ -113,11 +113,24 @@ function applyQuestCompletionReward(session, reward, options = {}) {
 }
 
 function resolveQuestRewardForSession(session, reward, taskId) {
-  if ((taskId >>> 0) !== 2) {
-    return reward;
+  const normalizedReward = normalizeReward(reward);
+  if (normalizedReward.choiceGroups.length > 0) {
+    const selectedGroup = selectRewardChoiceGroupForSession(session, normalizedReward.choiceGroups);
+    if (selectedGroup) {
+      return {
+        gold: selectedGroup.gold || normalizedReward.gold,
+        experience: selectedGroup.experience || normalizedReward.experience,
+        coins: selectedGroup.coins || normalizedReward.coins,
+        renown: selectedGroup.renown || normalizedReward.renown,
+        items: selectedGroup.items.length > 0 ? selectedGroup.items : normalizedReward.items,
+      };
+    }
   }
 
-  const normalizedReward = normalizeReward(reward);
+  if ((taskId >>> 0) !== 2) {
+    return normalizedReward;
+  }
+
   if (normalizedReward.items.length > 0) {
     return normalizedReward;
   }
@@ -126,6 +139,26 @@ function resolveQuestRewardForSession(session, reward, taskId) {
     ...normalizedReward,
     items: resolveSpinningStarterSet(session),
   };
+}
+
+function selectRewardChoiceGroupForSession(session, choiceGroups) {
+  if (!Array.isArray(choiceGroups) || choiceGroups.length === 0) {
+    return null;
+  }
+
+  const petBearingGroup = choiceGroups.find((group) => Array.isArray(group?.pets) && group.pets.length > 0);
+  if (petBearingGroup) {
+    return petBearingGroup;
+  }
+
+  if (choiceGroups.length === 2) {
+    const roleEntityType = (session?.roleEntityType || session?.entityType || ENTITY_TYPE) >>> 0;
+    return isFemaleRole(roleEntityType) || isFemaleStarterRoleFallback(roleEntityType)
+      ? choiceGroups[1]
+      : choiceGroups[0];
+  }
+
+  return choiceGroups[0];
 }
 
 function resolveSpinningStarterSet(session) {
@@ -159,6 +192,25 @@ function normalizeReward(reward) {
     experience: numberOrDefault(reward?.experience, 0),
     coins: numberOrDefault(reward?.coins, 0),
     renown: numberOrDefault(reward?.renown, 0),
+    choiceGroups: Array.isArray(reward?.choiceGroups)
+      ? reward.choiceGroups
+          .map((group) => ({
+            gold: numberOrDefault(group?.gold, 0),
+            experience: numberOrDefault(group?.experience, 0),
+            coins: numberOrDefault(group?.coins, 0),
+            renown: numberOrDefault(group?.renown, 0),
+            pets: Array.isArray(group?.pets) ? group.pets.slice() : [],
+            items: Array.isArray(group?.items)
+              ? group.items
+                  .filter((item) => Number.isInteger(item?.templateId))
+                  .map((item) => ({
+                    templateId: item.templateId >>> 0,
+                    quantity: Math.max(1, numberOrDefault(item.quantity, 1)),
+                    name: typeof item.name === 'string' ? item.name : '',
+                  }))
+              : [],
+          }))
+      : [],
     items: Array.isArray(reward?.items)
       ? reward.items
           .filter((item) => Number.isInteger(item?.templateId))
