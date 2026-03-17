@@ -77,6 +77,72 @@ const ITEM_DEFINITIONS = Object.freeze([
     clientEvidence:
       'Installed client is_potion.txt row 20004 uses family 65 (0x41) with stack field 5; script.gcg Back to Earth(II) grants x5.',
   },
+  {
+    templateId: 10001,
+    name: 'Light Hood',
+    containerType: BAG_CONTAINER_TYPE,
+    maxStack: 1,
+    clientTemplateFamily: 0x21,
+    defaultQuantity: 3000,
+    defaultAttributePairs: [{ value: 9 }, { value: 10 }],
+    clientEvidence:
+      'Installed server attrres/item/is_armor.txt row 10001 resolves to starter armor "轻头巾"; script.gcg Spinning(II) rewards it as one of the two starter gear sets.',
+  },
+  {
+    templateId: 11001,
+    name: 'Fabric Garment',
+    containerType: BAG_CONTAINER_TYPE,
+    maxStack: 1,
+    clientTemplateFamily: 0x22,
+    defaultQuantity: 3000,
+    defaultAttributePairs: [{ value: 10 }, { value: 11 }],
+    clientEvidence:
+      'Installed server attrres/item/is_armor.txt row 11001 resolves to starter armor "布衣"; script.gcg Spinning(II) rewards it as one of the two starter gear sets.',
+  },
+  {
+    templateId: 13001,
+    name: 'Shoes',
+    containerType: BAG_CONTAINER_TYPE,
+    maxStack: 1,
+    clientTemplateFamily: 0x24,
+    defaultQuantity: 3000,
+    defaultAttributePairs: [{ value: 6 }, { value: 7 }],
+    clientEvidence:
+      'Live Spinning(II) reward panel shows Shoes x1; installed server attrres/item/is_armor.txt row 13001 resolves to starter armor "粗布鞋".',
+  },
+  {
+    templateId: 15001,
+    name: 'Red String',
+    containerType: BAG_CONTAINER_TYPE,
+    maxStack: 1,
+    clientTemplateFamily: 0x21,
+    defaultQuantity: 3000,
+    defaultAttributePairs: [{ value: 9 }, { value: 10 }],
+    clientEvidence:
+      'Installed server attrres/item/is_armor.txt row 15001 resolves to starter armor "红头绳"; script.gcg Spinning(II) rewards it as one of the two starter gear sets.',
+  },
+  {
+    templateId: 16001,
+    name: 'Gauze Garment',
+    containerType: BAG_CONTAINER_TYPE,
+    maxStack: 1,
+    clientTemplateFamily: 0x22,
+    defaultQuantity: 3000,
+    defaultAttributePairs: [{ value: 10 }, { value: 11 }],
+    clientEvidence:
+      'Installed server attrres/item/is_armor.txt row 16001 resolves to starter armor "纱衣"; script.gcg Spinning(II) rewards it as one of the two starter gear sets.',
+  },
+  {
+    templateId: 18001,
+    name: 'Embroidered Shoes',
+    containerType: BAG_CONTAINER_TYPE,
+    maxStack: 1,
+    clientTemplateFamily: 0x24,
+    defaultQuantity: 3000,
+    defaultAttributePairs: [{ value: 6 }, { value: 7 }],
+    clientEvidence:
+      'Live Spinning(II) reward panel implies the female starter counterpart is Embroidered Shoes; installed server attrres/item/is_armor.txt row 18001 resolves to starter armor "绣花鞋".',
+  },
 ]);
 
 const ITEMS_BY_TEMPLATE_ID = new Map(

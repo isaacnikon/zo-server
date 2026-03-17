@@ -1,6 +1,6 @@
 'use strict';
 
-const { DEFAULT_FLAGS, GAME_SELF_STATE_CMD } = require('../config');
+const { DEFAULT_FLAGS, ENTITY_TYPE, GAME_SELF_STATE_CMD } = require('../config');
 const { buildSelfStateValueUpdatePacket } = require('../protocol/gameplay-packets');
 const { grantItemToBag } = require('../inventory');
 const { sendGrantResultPackets, sendInventoryFullSync } = require('./inventory-runtime');
@@ -32,7 +32,7 @@ function sendSelfStateValueUpdate(session, kind, value) {
 function applyQuestCompletionReward(session, reward, options = {}) {
   const suppressPackets = options.suppressPackets === true;
   const suppressDialogues = options.suppressDialogues === true;
-  const normalizedReward = normalizeReward(reward);
+  const normalizedReward = normalizeReward(resolveQuestRewardForSession(session, reward, options.taskId));
   const rewardMessages = [];
   let statsDirty = false;
   let inventoryDirty = false;
@@ -109,6 +109,49 @@ function applyQuestCompletionReward(session, reward, options = {}) {
     rewardMessages,
     levelSummary,
   };
+}
+
+function resolveQuestRewardForSession(session, reward, taskId) {
+  if ((taskId >>> 0) !== 2) {
+    return reward;
+  }
+
+  const normalizedReward = normalizeReward(reward);
+  if (normalizedReward.items.length > 0) {
+    return normalizedReward;
+  }
+
+  return {
+    ...normalizedReward,
+    items: resolveSpinningStarterSet(session),
+  };
+}
+
+function resolveSpinningStarterSet(session) {
+  const roleEntityType = (session?.roleEntityType || session?.entityType || ENTITY_TYPE) >>> 0;
+
+  // roleinfo.txt rows 1001-1024 alternate male/female by actual role entity
+  // id, for example 1021=Male Dog and 1022=Female Dog.
+  if (isFemaleStarterRole(roleEntityType)) {
+    return [
+      { templateId: 15001, quantity: 1, name: 'Red Headband' },
+      { templateId: 18001, quantity: 1, name: 'Embroidered Shoes' },
+    ];
+  }
+
+  return [
+    { templateId: 10001, quantity: 1, name: 'Light Headscarf' },
+    { templateId: 13001, quantity: 1, name: 'Shoes' },
+  ];
+}
+
+function isFemaleStarterRole(roleEntityType) {
+  if (roleEntityType >= 1001 && roleEntityType <= 1024) {
+    return (roleEntityType & 1) === 0;
+  }
+
+  const templateIndex = Math.max(0, roleEntityType - ENTITY_TYPE);
+  return (templateIndex & 1) === 1;
 }
 
 function normalizeReward(reward) {

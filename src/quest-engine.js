@@ -380,12 +380,10 @@ function applyServerRunEvent(state, event) {
     if (typeof step.subtype === 'number' && step.subtype !== event.subtype) {
       continue;
     }
-    if (
-      typeof step.npcId === 'number' &&
-      typeof event.npcId === 'number' &&
-      step.npcId !== event.npcId
-    ) {
-      continue;
+    if (typeof step.npcId === 'number') {
+      if (typeof event.npcId !== 'number' || step.npcId !== event.npcId) {
+        continue;
+      }
     }
     if (typeof step.scriptId === 'number' && step.scriptId !== event.scriptId) {
       continue;
@@ -498,12 +496,12 @@ function buildServerRunQuestTrace(state, event) {
     if (typeof step.subtype === 'number' && step.subtype !== event.subtype) {
       mismatchReasons.push(`subtype 0x${step.subtype.toString(16)}!=0x${numberOrDefault(event.subtype, 0).toString(16)}`);
     }
-    if (
-      typeof step.npcId === 'number' &&
-      typeof event.npcId === 'number' &&
-      step.npcId !== event.npcId
-    ) {
-      mismatchReasons.push(`npc ${step.npcId}!=${event.npcId}`);
+    if (typeof step.npcId === 'number') {
+      if (typeof event.npcId !== 'number') {
+        mismatchReasons.push(`npc ${step.npcId}!=missing`);
+      } else if (step.npcId !== event.npcId) {
+        mismatchReasons.push(`npc ${step.npcId}!=${event.npcId}`);
+      }
     }
     if (typeof step.scriptId === 'number' && step.scriptId !== event.scriptId) {
       mismatchReasons.push(`script ${step.scriptId}!=${numberOrDefault(event.scriptId, 0)}`);

@@ -218,6 +218,39 @@ repeat count:
   u16 field_a
   u16 field_b
   u16 field_c
+
+## Inventory / Equipment Findings
+- Client item-instance payload path:
+  - `DeserializeItemInstanceFromPacket` at `0x00547740`
+  - `DeserializeItemInstanceFieldsByTemplateType` at `0x00540100`
+- For template families `< 0x40` (equipment / armor-style records):
+  - packet layout after template id is:
+    - `u32 instanceId`
+    - `u8 stateCode`
+    - `u8 bindState`
+    - `u16 field_0x08`
+    - `u16 field_0x0a`
+    - `u16 field_0x0e`
+    - `u16 field_0x10`
+    - `u8 embedded_count`
+- Tooltip renderer:
+  - `FUN_00499d60`
+- Confirmed tooltip field meanings for armor/equipment instances:
+  - current durability is read from item-instance offset `+0x08` and displayed as `value / 300`
+  - max durability comes from item template offset `+0x9c` and is displayed as `value / 300`
+  - for armor (`0x20 <= family < 0x3c`):
+    - `Defense` is read from item-instance offset `+0x16`
+    - `Magic Defense` is read from item-instance offset `+0x18`
+- Practical server implication:
+  - fresh starter equipment with visible `10/10` durability must encode current durability as `3000`, not `10`
+  - starter armor stat pairs from `is_armor.txt` rows:
+    - `10001` / `15001`: `Defense 9`, `Magic Defense 10`
+    - `11001` / `16001`: `Defense 10`, `Magic Defense 11`
+    - `13001` / `18001`: `Defense 6`, `Magic Defense 7`
+- Inventory container sync detail:
+  - bag item records alone are not sufficient for stable slot presentation
+  - the client also expects explicit `0x03f2 / sub=0x17` position updates per item
+  - omitting them can lead to slot/icon confusion after full-sync
 ```
 
 - `field_a` is the action-definition lookup id.

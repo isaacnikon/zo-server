@@ -193,6 +193,22 @@ function writeClientItemInstancePayload(writer, {
   if (clientTemplateFamily === 0x74) {
     return;
   }
+  if (clientTemplateFamily >= 0x20 && clientTemplateFamily < 0x40) {
+    // Armor-style templates (for example is_armor rows 33/34 => 0x21/0x22)
+    // consume two trailing u16 fields and then the embedded-entry count byte.
+    for (let index = 0; index < 2; index += 1) {
+      const pair = attributePairs[index];
+      writer.writeUint16((pair?.value || 0) & 0xffff);
+    }
+    if (clientTemplateFamily === 0x27) {
+      for (let index = 2; index < 6; index += 1) {
+        const pair = attributePairs[index];
+        writer.writeUint16((pair?.value || 0) & 0xffff);
+      }
+    }
+    writer.writeUint8(0);
+    return;
+  }
 
   // Fallback shape for families that do consume the six trailing u16 fields.
   for (let index = 0; index < 6; index += 1) {

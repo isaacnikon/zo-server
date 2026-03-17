@@ -7,6 +7,7 @@ const {
 } = require('../config');
 const {
   buildInventoryContainerBulkSyncPacket,
+  buildInventoryContainerPositionPacket,
   buildInventoryContainerQuantityPacket,
   buildItemAddPacket,
   buildItemRemovePacket,
@@ -21,6 +22,10 @@ const {
 
 function sendItemAdd(session, templateId, slot, quantity = 1, instanceId = 0) {
   const definition = getItemDefinition(templateId);
+  const encodedQuantity =
+    Number.isInteger(definition?.defaultQuantity) && definition.defaultQuantity > 0
+      ? definition.defaultQuantity
+      : quantity;
   session.writePacket(
     buildItemAddPacket({
       containerType: BAG_CONTAINER_TYPE,
@@ -29,13 +34,34 @@ function sendItemAdd(session, templateId, slot, quantity = 1, instanceId = 0) {
       instanceId,
       stateCode: 0,
       bindState: 0,
-      quantity,
+      quantity: encodedQuantity,
       extraValue: 0,
       clientTemplateFamily: definition?.clientTemplateFamily ?? null,
-      attributePairs: [],
+      attributePairs: Array.isArray(definition?.defaultAttributePairs)
+        ? definition.defaultAttributePairs
+        : [],
     }),
     DEFAULT_FLAGS,
     `Sending item add cmd=0x${GAME_ITEM_CMD.toString(16)} templateId=${templateId} slot=${slot} qty=${quantity} instanceId=${instanceId}${definition ? ` name=${definition.name}` : ''}`
+  );
+}
+
+function sendItemPositionUpdate(session, item) {
+  const slotIndex = item.slot >>> 0;
+  const gridIndex = Math.max(0, slotIndex - 1);
+  const column = gridIndex % 5;
+  const row = Math.floor(gridIndex / 5);
+
+  session.writePacket(
+    buildInventoryContainerPositionPacket({
+      containerType: BAG_CONTAINER_TYPE,
+      instanceId: item.instanceId >>> 0,
+      slotIndex,
+      column,
+      row,
+    }),
+    DEFAULT_FLAGS,
+    `Sending item position update cmd=0x${GAME_ITEM_CONTAINER_CMD.toString(16)} container=${BAG_CONTAINER_TYPE} instanceId=${item.instanceId} slot=${slotIndex} col=${column} row=${row}`
   );
 }
 
@@ -43,7 +69,15 @@ function sendInventoryFullSync(session) {
   const bagItems = Array.isArray(session.bagItems)
     ? session.bagItems.map((item) => ({
         ...item,
+        quantity:
+          Number.isInteger(getItemDefinition(item.templateId)?.defaultQuantity) &&
+          getItemDefinition(item.templateId).defaultQuantity > 0
+            ? getItemDefinition(item.templateId).defaultQuantity
+            : item.quantity,
         clientTemplateFamily: getItemDefinition(item.templateId)?.clientTemplateFamily ?? null,
+        attributePairs: Array.isArray(getItemDefinition(item.templateId)?.defaultAttributePairs)
+          ? getItemDefinition(item.templateId).defaultAttributePairs
+          : [],
       }))
     : [];
   session.writePacket(
@@ -54,6 +88,10 @@ function sendInventoryFullSync(session) {
     DEFAULT_FLAGS,
     `Sending inventory full sync cmd=0x${GAME_ITEM_CONTAINER_CMD.toString(16)} container=${BAG_CONTAINER_TYPE} items=${bagItems.length}`
   );
+
+  for (const item of bagItems) {
+    sendItemPositionUpdate(session, item);
+  }
 }
 
 function sendItemQuantityUpdate(session, instanceId, quantity) {
@@ -96,6 +134,7 @@ function sendGrantResultPackets(session, grantResult) {
       change.item.quantity,
       change.item.instanceId
     );
+    sendItemPositionUpdate(session, change.item);
   }
 }
 
@@ -189,6 +228,7 @@ module.exports = {
   sendItemAdd,
   sendItemRemove,
   sendItemQuantityUpdate,
+  sendItemPositionUpdate,
   sendGrantResultPackets,
   syncInventoryStateToClient,
 };
