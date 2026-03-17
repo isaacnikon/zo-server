@@ -1,0 +1,22 @@
+goldcool, 20, 3 
+25095,"Location: Head",0,
+25324,"Location: Head",0,
+25113,"Location: Head",0,
+25277,"Location: Head",0,
+25094,"Location: Head",1,
+25096,"Location: Legs",2,
+25097,"Location: Chest",1,
+25098,"Location: Waist",3,
+25322,"Location: Shoulder",3,
+25323,"Location: Hands",1,
+25325,"Location: legs",2,
+25326,"Location: Chest",1,
+636,"Location: Feet",2,
+25112,"Location: Hands",1,
+25114,"Location: Legs",2,
+25115,"Location: Chest",1,
+25276,"Location: Hands",1,
+25278,"Location: Legs",2,
+25279,"Location: Chest",1,
+25280,"Location: Waist", 3 
+

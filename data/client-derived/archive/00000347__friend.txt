@@ -1,0 +1,7 @@
+goldcool, 5, 3 ,第一行10个阶段意义，第三行，结拜数值，1,2,3技能,第4行，结婚数值，1,2,3技能,师徒
+100,200,300,400,600,800,1000,3000,6000,10000,30000
+"Impression","Recognition ","Favor","Familiarity","Amity","Passion","Trust","Intimacy","Brotherhood","Contribution",
+400,600,800,1000,
+400,600,800,1000,
+100,200,400,600,
+

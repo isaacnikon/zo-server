@@ -1,0 +1,13 @@
+goldcool, 11,9,
+1,1,1,"Guild Warehouse"," ","PicData\Object\cangku_d.gaf","PicData\Object\cangku_c.gaf","Picdata\effect\impact\cangku1.gaf","PicData\Object\cangku_b.gaf",
+2,19,1,"Guild Resident House"," ","PicData\Object\zhuzhai_d.gaf","PicData\Object\zhuzai_c.gaf","Picdata\effect\impact\zhuzhai1.gaf","PicData\Object\zhuzhai_b.gaf",
+3,15,1,"Divine Animal Tower"," ","PicData\Object\shenshou_d.gaf","PicData\Object\shenshou_c.gaf","Picdata\effect\impact\shenshou1.gaf","PicData\Object\shenshou_b.gaf",
+4,11,1,"Fortress"," ","PicData\Object\huayuan_d.gaf","PicData\Object\huayuan_c.gaf","Picdata\effect\impact\cangku1.gaf","PicData\Object\huayuan_b.gaf",
+5,0,1,"Stargate"," ","PicData\Object\shangpu_d.gaf","PicData\Object\shangpu_c.gaf","Picdata\effect\impact\cangku1.gaf","PicData\Object\shangpu_b.gaf",
+6,13,1,"Chamber of Commerce"," ","PicData\Object\shangpu_d.gaf","PicData\Object\shangpu_c.gaf","Picdata\effect\impact\shangpu1.gaf","PicData\Object\shangpu_b.gaf",
+7,7,1,"Alchemy House"," ","PicData\Object\liandan_d.gaf","PicData\Object\liandan_c.gaf","Picdata\effect\impact\liandan1.gaf","PicData\Object\liandan_b.gaf",
+8,17,1,"Kongfu House"," ","PicData\Object\wudao_d.gaf","PicData\Object\wudao_c.gaf","Picdata\effect\impact\wudao1.gaf","PicData\Object\wudao_b.gaf",
+9,9,1,"Food House"," ","PicData\Object\meishi_d.gaf","PicData\Object\meishi_c.gaf","Picdata\effect\impact\meishi1.gaf","PicData\Object\meishi_b.gaf",
+10,5,1,"Plantation"," ","PicData\Object\huayuan_d.gaf","PicData\Object\huayuan_c.gaf","Picdata\effect\impact\huayuan1.gaf","PicData\Object\huayuan_b.gaf",
+11,3,1,"Pet House"," ","PicData\Object\hecheng_d.gaf","PicData\Object\hecheng_c.gaf","Picdata\effect\impact\hecheng1.gaf","PicData\Object\hecheng_b.gaf"
+

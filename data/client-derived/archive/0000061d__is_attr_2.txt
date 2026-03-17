@@ -1,0 +1,8 @@
+goldcool, 6, 26 
+8001,30,301,1,1,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,"Embeddable Dragon",0,"Embeddable Dragon",2,
+8002,30,301,1,1,0,1,1,1,1,1,1,1,0,1,0,0,0,0,0,0,0,"Embeddable Gloom",0,"Embeddable Gloom",3,
+8003,30,301,1,1,0,1,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,"Embeddable Faith",0,"Embeddable Faith",4,
+8004,30,301,1,1,0,1,1,1,1,1,1,1,0,0,0,1,0,0,1,0,0,"Embeddable Death",0,"Embeddable Death",5,
+8005,30,301,1,1,0,1,1,1,1,1,1,1,0,0,0,0,1,0,0,1,0,"Embeddable Eternity",0,"Embeddable Eternity",6,
+8006,30,301,1,1,0,1,1,1,1,1,1,1,0,0,0,0,0,1,0,0,1,"Embeddable Honor",0,"Embeddable Honor", 7 
+

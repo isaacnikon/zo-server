@@ -1,0 +1,218 @@
+{
+  "source": {
+    "manifest": "/home/nikon/projects/zo-server/data/client-derived/archive/attrres-manifest.json",
+    "extractedFile": "/home/nikon/projects/zo-server/data/client-derived/archive/0000046d__weektask.txt"
+  },
+  "archiveEntry": "weektask.txt",
+  "generatedAt": "2026-03-17T11:55:04.269015+00:00",
+  "count": 23,
+  "entries": [
+    {
+      "entryId": 1,
+      "taskId": 600,
+      "periodSeconds": 604800,
+      "levelField": 60,
+      "previousLevelGate": 0,
+      "tailFields": [],
+      "rawColumnCount": 5
+    },
+    {
+      "entryId": 2,
+      "taskId": 601,
+      "periodSeconds": 604800,
+      "levelField": 80,
+      "previousLevelGate": 0,
+      "tailFields": [],
+      "rawColumnCount": 5
+    },
+    {
+      "entryId": 3,
+      "taskId": 602,
+      "periodSeconds": 604800,
+      "levelField": 80,
+      "previousLevelGate": 0,
+      "tailFields": [],
+      "rawColumnCount": 5
+    },
+    {
+      "entryId": 4,
+      "taskId": 603,
+      "periodSeconds": 604800,
+      "levelField": 80,
+      "previousLevelGate": 9,
+      "tailFields": [],
+      "rawColumnCount": 5
+    },
+    {
+      "entryId": 5,
+      "taskId": 604,
+      "periodSeconds": 604800,
+      "levelField": 80,
+      "previousLevelGate": 9,
+      "tailFields": [],
+      "rawColumnCount": 5
+    },
+    {
+      "entryId": 6,
+      "taskId": 605,
+      "periodSeconds": 604800,
+      "levelField": 80,
+      "previousLevelGate": 9,
+      "tailFields": [],
+      "rawColumnCount": 5
+    },
+    {
+      "entryId": 7,
+      "taskId": 606,
+      "periodSeconds": 604800,
+      "levelField": 100,
+      "previousLevelGate": 19,
+      "tailFields": [],
+      "rawColumnCount": 5
+    },
+    {
+      "entryId": 8,
+      "taskId": 607,
+      "periodSeconds": 604800,
+      "levelField": 100,
+      "previousLevelGate": 19,
+      "tailFields": [],
+      "rawColumnCount": 5
+    },
+    {
+      "entryId": 9,
+      "taskId": 814,
+      "periodSeconds": 604800,
+      "levelField": 100,
+      "previousLevelGate": 19,
+      "tailFields": [],
+      "rawColumnCount": 5
+    },
+    {
+      "entryId": 10,
+      "taskId": 608,
+      "periodSeconds": 604800,
+      "levelField": 120,
+      "previousLevelGate": 29,
+      "tailFields": [],
+      "rawColumnCount": 5
+    },
+    {
+      "entryId": 11,
+      "taskId": 609,
+      "periodSeconds": 604800,
+      "levelField": 100,
+      "previousLevelGate": 29,
+      "tailFields": [],
+      "rawColumnCount": 5
+    },
+    {
+      "entryId": 12,
+      "taskId": 610,
+      "periodSeconds": 604800,
+      "levelField": 120,
+      "previousLevelGate": 29,
+      "tailFields": [],
+      "rawColumnCount": 5
+    },
+    {
+      "entryId": 13,
+      "taskId": 611,
+      "periodSeconds": 604800,
+      "levelField": 100,
+      "previousLevelGate": 39,
+      "tailFields": [],
+      "rawColumnCount": 5
+    },
+    {
+      "entryId": 14,
+      "taskId": 612,
+      "periodSeconds": 604800,
+      "levelField": 120,
+      "previousLevelGate": 39,
+      "tailFields": [],
+      "rawColumnCount": 5
+    },
+    {
+      "entryId": 15,
+      "taskId": 817,
+      "periodSeconds": 604800,
+      "levelField": 120,
+      "previousLevelGate": 39,
+      "tailFields": [],
+      "rawColumnCount": 5
+    },
+    {
+      "entryId": 16,
+      "taskId": 613,
+      "periodSeconds": 604800,
+      "levelField": 110,
+      "previousLevelGate": 49,
+      "tailFields": [],
+      "rawColumnCount": 5
+    },
+    {
+      "entryId": 17,
+      "taskId": 614,
+      "periodSeconds": 604800,
+      "levelField": 130,
+      "previousLevelGate": 49,
+      "tailFields": [],
+      "rawColumnCount": 5
+    },
+    {
+      "entryId": 18,
+      "taskId": 615,
+      "periodSeconds": 604800,
+      "levelField": 120,
+      "previousLevelGate": 49,
+      "tailFields": [],
+      "rawColumnCount": 5
+    },
+    {
+      "entryId": 19,
+      "taskId": 616,
+      "periodSeconds": 604800,
+      "levelField": 120,
+      "previousLevelGate": 59,
+      "tailFields": [],
+      "rawColumnCount": 5
+    },
+    {
+      "entryId": 20,
+      "taskId": 617,
+      "periodSeconds": 604800,
+      "levelField": 140,
+      "previousLevelGate": 59,
+      "tailFields": [],
+      "rawColumnCount": 5
+    },
+    {
+      "entryId": 21,
+      "taskId": 618,
+      "periodSeconds": 604800,
+      "levelField": 140,
+      "previousLevelGate": 59,
+      "tailFields": [],
+      "rawColumnCount": 5
+    },
+    {
+      "entryId": 22,
+      "taskId": 619,
+      "periodSeconds": 604800,
+      "levelField": 130,
+      "previousLevelGate": 69,
+      "tailFields": [],
+      "rawColumnCount": 5
+    },
+    {
+      "entryId": 23,
+      "taskId": 620,
+      "periodSeconds": 604800,
+      "levelField": 130,
+      "previousLevelGate": 69,
+      "tailFields": [],
+      "rawColumnCount": 5
+    }
+  ]
+}

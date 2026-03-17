@@ -1,0 +1,15 @@
+goldcool, 13,3,
+0,"нч",0,
+1,"A newbie who is a guild talent reserve without any authority.  No number limit.",-1,
+2,"An Elite of guild who consists backbone of guild with the authority of adding new members. No number limit.",-1,
+3,"A core member of guild.Senior of guild with the authority of adding new members. No number limit.",-1,
+4,"A guild member having prestige with great achievements who has the authority of remove guild members, write guild proclamation and adding new members. 4 at most.",4,
+5,"Vice leader of guild with the authority of removing guild members,writing guild proclamation ,adding new members, building guild construction, appointing guild members, plant guild trees and announce guild quest. Number:1.",1,
+6,"A guild member of high army combat capabilities who will be of great importance in guild war. Number:1.",1,
+7,"A journalist in guild who can report latest news in and outside the guild to have fun with authority of adding new members. Number:5. ",5,
+8,"A guild diplomatist who has the authority of adding new members and declearing wars to other guilds. Number:1.",1,
+9,"A guild recruiter who has the authority of adding new members. Number:3.",3,
+10,"Guild immortal producer with the authority of adding new members, building guild constructions and planting guild trees.Number:1.",1,
+11,"Guild Immortal propagandist with  a clever tongue who can bring high reputation to guild and has the authority of adding new members and writing guild proclamation. Number:3.",3,
+12,"Master of the guild who has the authority of removing members, writing guild proclamation, adding new members, building guild constructions, appointing members, planting trees, posting guild quests and declearing wars to other guilds.", 1 
+

@@ -1,0 +1,15 @@
+goldcool, 13, 3 
+25264,"Location: Feet",2,
+25267,"Location: Legs",2,
+25230,"Location: Feet",2,
+25233,"Location: Legs",2,
+25096,"Location: Legs",2,
+25325,"Location: Legs",2,
+25070,"Location: Feet",2,
+25073,"Location: Legs",2,
+25184,"Location: Feet",2,
+25187,"Location: Legs",2,
+636,"Location: Feet",2,
+25114,"Location: Legs",2,
+25278,"Location: Legs", 2 
+

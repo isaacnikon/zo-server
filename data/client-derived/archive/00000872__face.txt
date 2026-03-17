@@ -1,0 +1,10 @@
+goldcool, 8, 3 
+25266,"Location: Head",0,
+25232,"Location: Head",0,
+25095,"Location: Head",0,
+25324,"Location: Head",0,
+25072,"Location: Head",0,
+25186,"Location: Head",0,
+25113,"Location: Head",0,
+25277,"Location: Head",0 
+

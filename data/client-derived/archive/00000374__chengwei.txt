@@ -1,0 +1,15 @@
+goldcool, 13,3,
+"нч",0,0,
+"Angle Oracle",100,1,
+"Soul Oracle",300,2,
+"Fate Oracle",600,4,
+"Star Oracle",1000,6,
+"Moon Immortal  ",1500,9,
+"Tuckahoe Immortal ",2000,12,
+"Thunder Immortal ",3000,16,
+"Mist Immortal ",4000,20,
+"Peripatetic  Saint",6000,24,
+"Providence Saint",8000,30,
+"Sceptre Saint",12000,40,
+"Crown Saint",16000, 50 
+

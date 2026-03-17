@@ -1,0 +1,10 @@
+goldcool, 9,3, 0-≤ªœ‘ æ 1£≠œ‘ æ
+"attrres\itemshow\newitem.txt","New item",1,
+"attrres\itemshow\persongas.txt","Persongas",1,
+"attrres\itemshow\face.txt","Head",1,
+"attrres\itemshow\body.txt","Body",1,
+"attrres\itemshow\leg.txt","Legs",1,
+"attrres\itemshow\background.txt","Waist",1,
+"attrres\itemshow\male.txt"," ",1,
+"attrres\itemshow\female.txt"," ",1,
+"attrres\itemshow\background.txt","Background",1,

@@ -1,0 +1,2 @@
+goldcool,1,3, id,name,showlevel
+30001,"Glazed bottle which always carried by common people(Unique)",1,

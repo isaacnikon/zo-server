@@ -1,6 +1,7 @@
 'use strict';
 
 const { getItemDefinition, grantItemToBag } = require('../inventory');
+const { getRolePrimaryDrop } = require('../roleinfo');
 const { sendGrantResultPackets, sendInventoryFullSync } = require('./inventory-runtime');
 
 const DROP_RATE_SCALE = 100;
@@ -18,7 +19,7 @@ function rollSyntheticFightDrops(session, syntheticFight, options = {}) {
 
   for (const enemy of syntheticFight.enemies) {
     const drops = [
-      ...(Array.isArray(enemy?.drops) ? enemy.drops : []),
+      ...resolveEnemyDrops(enemy),
       ...resolveQuestConditionalDrops(session, enemy),
     ];
     for (const drop of drops) {
@@ -84,6 +85,16 @@ function rollSyntheticFightDrops(session, syntheticFight, options = {}) {
     granted,
     skipped,
   };
+}
+
+function resolveEnemyDrops(enemy) {
+  const explicitDrops = Array.isArray(enemy?.drops) ? enemy.drops : [];
+  if (explicitDrops.length > 0) {
+    return explicitDrops;
+  }
+
+  const primaryDrop = getRolePrimaryDrop(enemy?.typeId);
+  return primaryDrop ? [primaryDrop] : [];
 }
 
 function emptyResult() {

@@ -1,0 +1,7 @@
+goldcool,6,3,
+1,生肖大乱斗活动,"生肖大乱斗拉开帷幕！","\PicData\TGui\verson1\gaf\anniu007.gaf",--常规战斗比赛活动
+2,生肖斗猪活动,"生肖斗猪活动开始了","\PicData\TGui\verson1\gaf\anniu007.gaf",
+3,生肖蟠桃大会,"生肖蟠桃即召开，各路神仙显神通！","\picdata\TGui\verson1\gaf\anniu007.gaf",
+4,生肖星宿争霸,"星宿争霸，过关斩将。","\picdata\TGui\verson1\gaf\anniu007.gaf",
+5.生肖科举,"生肖科举长知识，三甲突围真见识。","\picdata\TGui\verson1\gaf\anniu008.gaf",--固定游戏赛事
+6.生肖许愿,"生肖许愿，想要就要。","\picdata\TGui\verson1\gaf\anniu008.gaf",

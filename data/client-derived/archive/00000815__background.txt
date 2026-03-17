@@ -1,0 +1,7 @@
+goldcool, 5, 3 
+25269,"Body Part£ºWaist",3,
+25235,"Body Part£ºWaist",3,
+25098,"Body Part£ºWaist",3,
+25322,"Body Part£ºShoulder",3,
+25280,"Body Part£ºWaist", 3 
+

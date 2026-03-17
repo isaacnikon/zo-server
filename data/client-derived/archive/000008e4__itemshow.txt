@@ -1,0 +1,5 @@
+goldcool, 4,4,
+30001,"PicData\ui\icon\zb\I_zhuzi_0011.gaf","Christmas Pearl",0,
+30002,"PicData\ui\icon\zb\I_zhuzi_0011.gaf","Christmas Pearl",0,
+30003,"PicData\ui\icon\zb\I_yifu_0025.gaf","Dragon Suit (Male)",0,
+30004,"PicData\ui\icon\zb\I_yifu_0022.gaf","Phoenix Suit (Female)",0,

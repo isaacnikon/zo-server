@@ -1,0 +1,557 @@
+{
+  "source": {
+    "manifest": "/home/nikon/projects/zo-server/data/client-derived/archive/attrres-manifest.json",
+    "extractedFile": "/home/nikon/projects/zo-server/data/client-derived/archive/000006a3__is_stuff.txt"
+  },
+  "archiveEntry": "is_stuff.txt",
+  "generatedAt": "2026-03-17T11:55:04.269015+00:00",
+  "count": 21,
+  "entries": [
+    {
+      "templateId": 21500,
+      "name": "Spirit Stone",
+      "kind": "stuff",
+      "typeField": 97,
+      "levelField": 1,
+      "groupFields": [
+        0,
+        3,
+        1,
+        0,
+        1,
+        2000,
+        0,
+        0
+      ],
+      "iconPath": "PicData\\ui\\icon\\tp\\cl\\I_cailiao_0133.gaf",
+      "bindField": 0,
+      "sortField": 151,
+      "shopField": 0,
+      "description": "A secret stone necessary for growing weapon crafting.",
+      "tailFields": [
+        -1
+      ],
+      "rawColumnCount": 18
+    },
+    {
+      "templateId": 21501,
+      "name": "Pluto Gem",
+      "kind": "stuff",
+      "typeField": 98,
+      "levelField": 10,
+      "groupFields": [
+        0,
+        2,
+        1,
+        0,
+        1,
+        2000,
+        80,
+        0
+      ],
+      "iconPath": "PicData\\ui\\icon\\hc\\I_hecheng_0019.gaf",
+      "bindField": 0,
+      "sortField": 151,
+      "shopField": 0,
+      "description": "A mystic stone. Press SHIFT and drag it to socketed equipment for embedment.;<n4Gem Machining Lv.1",
+      "tailFields": [
+        -1
+      ],
+      "rawColumnCount": 18
+    },
+    {
+      "templateId": 21502,
+      "name": "Neptune Gem",
+      "kind": "stuff",
+      "typeField": 98,
+      "levelField": 20,
+      "groupFields": [
+        0,
+        2,
+        1,
+        0,
+        1,
+        2000,
+        80,
+        0
+      ],
+      "iconPath": "PicData\\ui\\icon\\hc\\I_hecheng_0020.gaf",
+      "bindField": 0,
+      "sortField": 151,
+      "shopField": 0,
+      "description": "A superior stone. Press SHIFT and drag it to socketed equipment for embedment.;<n4Gem Machining Lv.2",
+      "tailFields": [
+        -1
+      ],
+      "rawColumnCount": 18
+    },
+    {
+      "templateId": 21503,
+      "name": "Uranus Gem",
+      "kind": "stuff",
+      "typeField": 98,
+      "levelField": 30,
+      "groupFields": [
+        0,
+        2,
+        1,
+        0,
+        1,
+        2000,
+        80,
+        0
+      ],
+      "iconPath": "PicData\\ui\\icon\\hc\\I_hecheng_0021.gaf",
+      "bindField": 0,
+      "sortField": 151,
+      "shopField": 0,
+      "description": "A numinous stone. Press SHIFT and drag it to socketed equipment for embedment.;<n4Gem Machining Lv.3",
+      "tailFields": [
+        -1
+      ],
+      "rawColumnCount": 18
+    },
+    {
+      "templateId": 21504,
+      "name": "Saturn Gem",
+      "kind": "stuff",
+      "typeField": 98,
+      "levelField": 40,
+      "groupFields": [
+        0,
+        2,
+        1,
+        0,
+        1,
+        2000,
+        80,
+        0
+      ],
+      "iconPath": "PicData\\ui\\icon\\hc\\I_hecheng_0022.gaf",
+      "bindField": 0,
+      "sortField": 151,
+      "shopField": 0,
+      "description": "A magic stone. Press SHIFT and drag it to socketed equipment for embedment.;<n4Gem Machining Lv.4",
+      "tailFields": [
+        -1
+      ],
+      "rawColumnCount": 18
+    },
+    {
+      "templateId": 21505,
+      "name": "Jupiter Gem",
+      "kind": "stuff",
+      "typeField": 98,
+      "levelField": 50,
+      "groupFields": [
+        0,
+        2,
+        1,
+        0,
+        1,
+        2000,
+        80,
+        0
+      ],
+      "iconPath": "PicData\\ui\\icon\\hc\\I_hecheng_0023.gaf",
+      "bindField": 0,
+      "sortField": 151,
+      "shopField": 0,
+      "description": "An uncanny stone. Press SHIFT and drag it to socketed equipment for embedment.;<n4Gem Machining Lv.5",
+      "tailFields": [
+        -1
+      ],
+      "rawColumnCount": 18
+    },
+    {
+      "templateId": 21506,
+      "name": "Mars Gem",
+      "kind": "stuff",
+      "typeField": 98,
+      "levelField": 60,
+      "groupFields": [
+        0,
+        2,
+        1,
+        0,
+        1,
+        2000,
+        80,
+        0
+      ],
+      "iconPath": "PicData\\ui\\icon\\hc\\I_hecheng_0024.gaf",
+      "bindField": 0,
+      "sortField": 151,
+      "shopField": 0,
+      "description": "A supernatural stone. Press SHIFT and drag it to socketed equipment for embedment.;<n4Gem Machining Lv.6",
+      "tailFields": [
+        -1
+      ],
+      "rawColumnCount": 18
+    },
+    {
+      "templateId": 21514,
+      "name": "Earth Gem",
+      "kind": "stuff",
+      "typeField": 98,
+      "levelField": 70,
+      "groupFields": [
+        0,
+        2,
+        1,
+        0,
+        1,
+        2000,
+        80,
+        0
+      ],
+      "iconPath": "PicData\\ui\\icon\\hc\\I_hecheng_0025.gaf",
+      "bindField": 0,
+      "sortField": 151,
+      "shopField": 0,
+      "description": "An epic stone. Press SHIFT and drag it to socketed equipment for embedment.;<n4Gem Machining Lv.7",
+      "tailFields": [
+        -1
+      ],
+      "rawColumnCount": 18
+    },
+    {
+      "templateId": 21515,
+      "name": "Venus Gem",
+      "kind": "stuff",
+      "typeField": 98,
+      "levelField": 80,
+      "groupFields": [
+        0,
+        2,
+        1,
+        0,
+        1,
+        2000,
+        80,
+        0
+      ],
+      "iconPath": "PicData\\ui\\icon\\hc\\I_hecheng_0026.gaf",
+      "bindField": 0,
+      "sortField": 151,
+      "shopField": 0,
+      "description": "A miraculous stone. Press SHIFT and drag it to socketed equipment for embedment.;<n4Gem Machining Lv.8",
+      "tailFields": [
+        -1
+      ],
+      "rawColumnCount": 18
+    },
+    {
+      "templateId": 21516,
+      "name": "Mercury Gem",
+      "kind": "stuff",
+      "typeField": 98,
+      "levelField": 90,
+      "groupFields": [
+        0,
+        2,
+        1,
+        0,
+        1,
+        2000,
+        80,
+        0
+      ],
+      "iconPath": "PicData\\ui\\icon\\hc\\I_hecheng_0027.gaf",
+      "bindField": 0,
+      "sortField": 151,
+      "shopField": 0,
+      "description": "A legendary stone. Press SHIFT and drag it to socketed equipment for embedment.;<n4Gem Machining Lv.9",
+      "tailFields": [
+        -1
+      ],
+      "rawColumnCount": 18
+    },
+    {
+      "templateId": 21517,
+      "name": "Solar Gem",
+      "kind": "stuff",
+      "typeField": 98,
+      "levelField": 100,
+      "groupFields": [
+        0,
+        2,
+        1,
+        0,
+        1,
+        2000,
+        80,
+        0
+      ],
+      "iconPath": "PicData\\ui\\icon\\hc\\I_hecheng_0028.gaf",
+      "bindField": 0,
+      "sortField": 151,
+      "shopField": 0,
+      "description": "A celestial stone. Press SHIFT and drag it to socketed equipment for embedment.;<n4Gem Machining Lv.10",
+      "tailFields": [
+        -1
+      ],
+      "rawColumnCount": 18
+    },
+    {
+      "templateId": 21507,
+      "name": "Curse Spinel",
+      "kind": "stuff",
+      "typeField": 99,
+      "levelField": 1,
+      "groupFields": [
+        0,
+        3,
+        1,
+        0,
+        1,
+        2000,
+        0,
+        0
+      ],
+      "iconPath": "PicData\\ui\\icon\\hc\\I_hecheng_0047.gaf",
+      "bindField": 0,
+      "sortField": 151,
+      "shopField": 0,
+      "description": "A mysterious stone that can reserve the extra attributes of a weapon. (additional attribute and skill)",
+      "tailFields": [
+        -1
+      ],
+      "rawColumnCount": 18
+    },
+    {
+      "templateId": 21508,
+      "name": "Devine Spinel",
+      "kind": "stuff",
+      "typeField": 100,
+      "levelField": 1,
+      "groupFields": [
+        0,
+        3,
+        1,
+        0,
+        1,
+        2000,
+        0,
+        0
+      ],
+      "iconPath": "PicData\\ui\\icon\\hc\\I_hecheng_0048.gaf",
+      "bindField": 0,
+      "sortField": 151,
+      "shopField": 0,
+      "description": "A mysterious stone that can reserve the basic attributes of a weapon. (Attack, Defense, Durability, Gender and Level)",
+      "tailFields": [
+        -1
+      ],
+      "rawColumnCount": 18
+    },
+    {
+      "templateId": 21509,
+      "name": "Pet Pendant",
+      "kind": "stuff",
+      "typeField": 103,
+      "levelField": 10,
+      "groupFields": [
+        0,
+        3,
+        1,
+        0,
+        1,
+        20000,
+        0,
+        0
+      ],
+      "iconPath": "PicData\\ui\\icon\\tp\\cl\\I_cailiao_0134.gaf",
+      "bindField": 0,
+      "sortField": 151,
+      "shopField": 0,
+      "description": "An ornament for pet. Press SHIFT and drag it to your mount. The embedment cannot be undone.",
+      "tailFields": [
+        -1
+      ],
+      "rawColumnCount": 18
+    },
+    {
+      "templateId": 21510,
+      "name": "Metallic Stone",
+      "kind": "stuff",
+      "typeField": 104,
+      "levelField": 10,
+      "groupFields": [
+        0,
+        5,
+        1,
+        0,
+        1,
+        2000,
+        0,
+        0
+      ],
+      "iconPath": "PicData\\ui\\icon\\tp\\VIP\\I_vip_0022.gaf",
+      "bindField": 0,
+      "sortField": 151,
+      "shopField": 0,
+      "description": "A magic stone that can change the weapon attribute. Right click and drag it to the weapon. Current attribute will be erased if refining fails. Attribute varies inversely as success rate. ;<n2After the embedment,+4 or higher weapon will turn orange.",
+      "tailFields": [
+        8
+      ],
+      "rawColumnCount": 18
+    },
+    {
+      "templateId": 21511,
+      "name": "Aqueous Stone",
+      "kind": "stuff",
+      "typeField": 104,
+      "levelField": 10,
+      "groupFields": [
+        0,
+        5,
+        1,
+        0,
+        1,
+        2000,
+        0,
+        0
+      ],
+      "iconPath": "PicData\\ui\\icon\\tp\\VIP\\I_vip_0023.gaf",
+      "bindField": 0,
+      "sortField": 151,
+      "shopField": 0,
+      "description": "A magic stone that can change the weapon attribute. Right click and drag it to the weapon. Current attribute will be erased if refining fails. Attribute varies inversely as success rate. ;<n2After the embedment, a +4 weapon or higher will turn blue.",
+      "tailFields": [
+        8
+      ],
+      "rawColumnCount": 18
+    },
+    {
+      "templateId": 21512,
+      "name": "Wooden Stone",
+      "kind": "stuff",
+      "typeField": 104,
+      "levelField": 10,
+      "groupFields": [
+        0,
+        5,
+        1,
+        0,
+        1,
+        2000,
+        0,
+        0
+      ],
+      "iconPath": "PicData\\ui\\icon\\tp\\VIP\\I_vip_0024.gaf",
+      "bindField": 0,
+      "sortField": 151,
+      "shopField": 0,
+      "description": "A magic stone that can change the weapon attribute. Right click and drag it to the weapon. Current attribute will be erased if refining fails. Attribute varies inversely as success rate.;<n2After the embedment, a +4 weapon or higher will turn green.",
+      "tailFields": [
+        8
+      ],
+      "rawColumnCount": 18
+    },
+    {
+      "templateId": 21513,
+      "name": "Lgneous Stone",
+      "kind": "stuff",
+      "typeField": 104,
+      "levelField": 10,
+      "groupFields": [
+        0,
+        5,
+        1,
+        0,
+        1,
+        2000,
+        0,
+        0
+      ],
+      "iconPath": "PicData\\ui\\icon\\tp\\VIP\\I_vip_0025.gaf",
+      "bindField": 0,
+      "sortField": 151,
+      "shopField": 0,
+      "description": "A magic stone that can change the weapon attribute. Right click and drag it to the weapon. Current attribute will be erased if refining fails. Attribute varies inversely as success rate. ;<n2After the embedment, a +4 weapon or higher will turn pink.",
+      "tailFields": [
+        8
+      ],
+      "rawColumnCount": 18
+    },
+    {
+      "templateId": 21518,
+      "name": "Lgneous Stone",
+      "kind": "stuff",
+      "typeField": 104,
+      "levelField": 10,
+      "groupFields": [
+        0,
+        5,
+        0,
+        0,
+        1,
+        2000,
+        0,
+        0
+      ],
+      "iconPath": "PicData\\ui\\icon\\tp\\VIP\\I_vip_0025.gaf",
+      "bindField": 0,
+      "sortField": 151,
+      "shopField": 0,
+      "description": "A magic stone that can change the weapon attribute. Right click and drag it to the weapon. Current attribute will be erased if refining fails. Attribute varies inversely as success rate. ;<n2After the embedment, a +4 weapon or higher will turn pink.",
+      "tailFields": [
+        8
+      ],
+      "rawColumnCount": 18
+    },
+    {
+      "templateId": 21519,
+      "name": "Aqueous Stone",
+      "kind": "stuff",
+      "typeField": 104,
+      "levelField": 10,
+      "groupFields": [
+        0,
+        5,
+        0,
+        0,
+        1,
+        2000,
+        0,
+        0
+      ],
+      "iconPath": "PicData\\ui\\icon\\tp\\VIP\\I_vip_0023.gaf",
+      "bindField": 0,
+      "sortField": 151,
+      "shopField": 0,
+      "description": "A magic stone that can change the weapon attribute. Right click and drag it to the weapon. Current attribute will be erased if refining fails. Attribute varies inversely as success rate. ;<n2After the embedment, a +4 weapon or higher will turn blue.",
+      "tailFields": [
+        8
+      ],
+      "rawColumnCount": 18
+    },
+    {
+      "templateId": 21520,
+      "name": "Metallic Stone",
+      "kind": "stuff",
+      "typeField": 104,
+      "levelField": 10,
+      "groupFields": [
+        0,
+        5,
+        0,
+        0,
+        1,
+        2000,
+        0,
+        0
+      ],
+      "iconPath": "PicData\\ui\\icon\\tp\\VIP\\I_vip_0022.gaf",
+      "bindField": 0,
+      "sortField": 151,
+      "shopField": 0,
+      "description": "A magic stone that can change the weapon attribute. Right click and drag it to the weapon. Current attribute will be erased if refining fails. Attribute varies inversely as success rate. ;<n2After the embedment,+4 or higher weapon will turn orange.",
+      "tailFields": [
+        8
+      ],
+      "rawColumnCount": 18
+    }
+  ]
+}

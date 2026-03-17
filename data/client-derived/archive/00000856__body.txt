@@ -1,0 +1,18 @@
+goldcool, 16, 3 
+25265,"Location: Hands",1,
+25268,"Location: Chest",1,
+25231,"Location: Hands",1,
+25234,"Location: Chest",1,
+25094,"Location: Hands",1,
+25097,"Location: Chest",1,
+25323,"Location: Hands",1,
+25326,"Location: Chest",1,
+25071,"Location: Hands",1,
+25074,"Location: Chest",1,
+25185,"Location: Hands",1,
+25188,"Location: Chest",1,
+25112,"Location: Hands",1,
+25115,"Location: Chest",1,
+25276,"Location: Hands",1,
+25279,"Location: Chest", 1 
+

@@ -1,0 +1,65 @@
+'use strict';
+
+const fs = require('fs');
+const path = require('path');
+
+const CLIENT_DERIVED_ROOT = path.resolve(__dirname, '..', 'data', 'client-derived');
+const COMBINITEM_FILE = path.join(CLIENT_DERIVED_ROOT, 'combinitem.json');
+const ITEMINFO_FILE = path.join(CLIENT_DERIVED_ROOT, 'iteminfo.json');
+const STUFF_FILE = path.join(CLIENT_DERIVED_ROOT, 'stuff.json');
+
+const COMBINITEM_ENTRIES = loadEntries(COMBINITEM_FILE);
+const ITEMINFO_BY_TEMPLATE_ID = new Map(
+  loadEntries(ITEMINFO_FILE)
+    .filter((entry) => Number.isInteger(entry?.templateId))
+    .map((entry) => [entry.templateId, entry])
+);
+const STUFF_BY_TEMPLATE_ID = new Map(
+  loadEntries(STUFF_FILE)
+    .filter((entry) => Number.isInteger(entry?.templateId))
+    .map((entry) => [entry.templateId, entry])
+);
+
+function getComposeRecipesByMaterial(templateId) {
+  if (!Number.isInteger(templateId)) {
+    return [];
+  }
+  return COMBINITEM_ENTRIES.filter((entry) => entry.materialTemplateId === templateId);
+}
+
+function getComposeRecipesByTarget(templateId) {
+  if (!Number.isInteger(templateId)) {
+    return [];
+  }
+  return COMBINITEM_ENTRIES.filter((entry) => entry.targetTemplateId === templateId);
+}
+
+function getItemInfo(templateId) {
+  if (!Number.isInteger(templateId)) {
+    return null;
+  }
+  return ITEMINFO_BY_TEMPLATE_ID.get(templateId) || null;
+}
+
+function getStuffDefinition(templateId) {
+  if (!Number.isInteger(templateId)) {
+    return null;
+  }
+  return STUFF_BY_TEMPLATE_ID.get(templateId) || null;
+}
+
+function loadEntries(filePath) {
+  try {
+    const parsed = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    return Array.isArray(parsed?.entries) ? parsed.entries : [];
+  } catch (err) {
+    return [];
+  }
+}
+
+module.exports = {
+  getComposeRecipesByMaterial,
+  getComposeRecipesByTarget,
+  getItemInfo,
+  getStuffDefinition,
+};

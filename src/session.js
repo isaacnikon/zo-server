@@ -124,6 +124,7 @@ const {
   buildFightRingOpenProbePacket,
   buildFightStateModeProbe64Packet,
 } = require('./combat/synthetic-fight-packets');
+const { getRoleName, getRolePrimaryDrop } = require('./roleinfo');
 const {
   abandonQuest,
   applyMonsterDefeat,
@@ -2138,6 +2139,8 @@ function pickWeightedEncounterTemplate(pool) {
 function buildSyntheticEncounterEnemies(action, mapId) {
   const profile = action?.encounterProfile;
   if (!profile || !Array.isArray(profile.pool) || profile.pool.length === 0) {
+    const fallbackDrop = getRolePrimaryDrop(5001);
+    const fallbackName = getRoleName(5001) || `Map ${mapId} Enemy 5001`;
     return [
       {
         side: 1,
@@ -2152,7 +2155,8 @@ function buildSyntheticEncounterEnemies(action, mapId) {
         levelLike: 15,
         appearanceTypes: [0, 0, 0],
         appearanceVariants: [0, 0, 0],
-        name: `Map ${mapId} Enemy 5001`,
+        drops: fallbackDrop ? [fallbackDrop] : [],
+        name: fallbackName,
       },
       {
         side: 1,
@@ -2167,7 +2171,8 @@ function buildSyntheticEncounterEnemies(action, mapId) {
         levelLike: 15,
         appearanceTypes: [0, 0, 0],
         appearanceVariants: [0, 0, 0],
-        name: `Map ${mapId} Enemy 5001`,
+        drops: fallbackDrop ? [fallbackDrop] : [],
+        name: fallbackName,
       },
     ];
   }

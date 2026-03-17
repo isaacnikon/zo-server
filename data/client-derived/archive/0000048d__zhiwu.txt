@@ -1,0 +1,15 @@
+goldcool, 13,12,
+20105,"≤‚ ‘ ˜",300,400,20,900,30,3,60,"PicData\Object\gonghuishu1.gaf","PicData\Object\gonghuishu2.gaf","PicData\Object\gonghuishu3.gaf",
+20002,"Seed of Holly",400,500,20,300,10,2,10800,"PicData\Object\gonghuishu1.gaf","PicData\Object\gonghuishu2.gaf","PicData\Object\gonghuishu3.gaf",
+20003,"Seed of Laurel",350,500,20,300,10,3,14400,"PicData\Object\gonghuishu1.gaf","PicData\Object\gonghuishu2.gaf","PicData\Object\gonghuishu3.gaf",
+20004,"Seed of Lark Tree",300,400,10,300,10,3,14400,"PicData\Object\gonghuishu1.gaf","PicData\Object\gonghuishu2.gaf","PicData\Object\gonghuishu3.gaf",
+20005,"Seed of Bell Tree",250,300,10,300,10,3,18000,"PicData\Object\gonghuishu1.gaf","PicData\Object\gonghuishu2.gaf","PicData\Object\gonghuishu3.gaf",
+20006,"Seed of Crane Tree",200,200,10,300,10,2,21600,"PicData\Object\gonghuishu1.gaf","PicData\Object\gonghuishu2.gaf","PicData\Object\gonghuishu3.gaf",
+20007,"Seed of Maple",250,300,20,300,10,1,21600,"PicData\Object\gonghuishu1.gaf","PicData\Object\gonghuishu2.gaf","PicData\Object\gonghuishu3.gaf",
+20008,"Seed of Wind Tree",250,300,20,300,10,1,21600,"PicData\Object\gonghuishu1.gaf","PicData\Object\gonghuishu2.gaf","PicData\Object\gonghuishu3.gaf",
+20009,"Seed of Dew Tree",250,300,20,300,10,2,21600,"PicData\Object\gonghuishu1.gaf","PicData\Object\gonghuishu2.gaf","PicData\Object\gonghuishu3.gaf",
+20010,"Seed of Butterfly Tree",250,300,20,300,10,2,21600,"PicData\Object\gonghuishu1.gaf","PicData\Object\gonghuishu2.gaf","PicData\Object\gonghuishu3.gaf",
+20011,"Seed of Melody Tree",250,300,20,300,10,1,21600,"PicData\Object\gonghuishu1.gaf","PicData\Object\gonghuishu2.gaf","PicData\Object\gonghuishu3.gaf",
+20012,"Seed of Gold Tree",250,300,20,300,10,1,21600,"PicData\Object\gonghuishu1.gaf","PicData\Object\gonghuishu2.gaf","PicData\Object\gonghuishu3.gaf",
+20013,"Seed of Stone Tree",250,300,20,300,10,1,21600,"PicData\Object\gonghuishu1.gaf","PicData\Object\gonghuishu2.gaf","PicData\Object\gonghuishu3.gaf"
+

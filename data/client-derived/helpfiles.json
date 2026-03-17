@@ -1,0 +1,1086 @@
+{
+  "source": {
+    "manifest": "/home/nikon/projects/zo-server/data/client-derived/archive/attrres-manifest.json",
+    "extractedFile": "/home/nikon/projects/zo-server/data/client-derived/archive/000004d6__helpfiles.txt"
+  },
+  "archiveEntry": "helpfiles.txt",
+  "generatedAt": "2026-03-17T11:55:04.269015+00:00",
+  "count": 215,
+  "entries": [
+    {
+      "helpId": 201001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 201002,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 201003,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 201004,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 201005,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 201006,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 201500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 202001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 202002,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 202500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 202501,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 203500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 203501,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 203502,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204002,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204003,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204004,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204005,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204006,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204007,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204008,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204009,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204010,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204011,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204501,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204502,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204503,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204504,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204505,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204506,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204507,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204508,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204510,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204511,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204512,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204513,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204514,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204515,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204516,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204517,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204518,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204519,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204520,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204521,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204522,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204523,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204524,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204525,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204526,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204527,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204528,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204529,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204530,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204531,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204533,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204534,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204538,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 204539,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 222001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 222002,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 222003,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 205001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 205002,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 205003,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 205004,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 205005,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 226001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 226500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 206500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 206501,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 206502,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 206503,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 207001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 207002,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 208500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 208501,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 208502,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 208503,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 209500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 210001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 210002,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 210003,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 210004,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 210005,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 227001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 227002,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 227500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 227501,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 227502,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 227503,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 228001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 228002,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 228003,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 228500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 228501,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 228502,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 228503,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 228504,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 211001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 211002,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 211003,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 211004,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 211005,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 211006,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 211501,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 211502,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 211503,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 211504,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 211505,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 211506,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 211507,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 212500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 212501,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 212502,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 212503,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 212504,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 213001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 213002,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 213003,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 213500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 214500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 215001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 216001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 216500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 216501,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 217001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 218001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 218002,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 218500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 219001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 219002,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 219003,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 219004,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 219005,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 219006,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 219007,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 219008,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 219500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 219501,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 219502,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 219503,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 219504,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 220500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 221000,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 221001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 229001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 229002,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 230001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 230002,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 230003,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 230004,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 230005,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 230006,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 230007,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 230008,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 230009,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 230010,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 230011,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 230012,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 230013,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 230014,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 230500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 230501,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 230502,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 230503,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 230504,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 230505,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 230506,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 230507,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 231001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 231002,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 232001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 232002,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 232003,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 233001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 233002,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 233003,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 233004,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 233005,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 233006,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 233007,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 233008,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 233009,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 233010,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 233011,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 233012,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 233013,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 233502,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 233501,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 234001,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 234002,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 234003,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 234004,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 234005,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 234500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 234501,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 235500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 235501,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 235502,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 236500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 236501,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 236502,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 236503,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 224500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 238500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 238501,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 238502,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 238503,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 238504,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 239500,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 239501,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 239502,
+      "tailFields": [],
+      "rawColumnCount": 1
+    },
+    {
+      "helpId": 239503,
+      "tailFields": [],
+      "rawColumnCount": 1
+    }
+  ]
+}

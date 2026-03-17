@@ -6,84 +6,12 @@ const path = require('path');
 const BAG_CONTAINER_TYPE = 1;
 const DEFAULT_BAG_SIZE = 24;
 const FIRST_BAG_SLOT = 1;
-const ITEM_TABLE_ROOT = '/home/nikon/Downloads/shengxiao/Server/attrres/item';
-const ARMOR_TABLE_FILE = path.join(ITEM_TABLE_ROOT, 'is_armor.txt');
-const WEAPON_TABLE_FILE = path.join(ITEM_TABLE_ROOT, 'is_weapon.txt');
-
-const BASE_ITEM_DEFINITIONS = Object.freeze([
-  {
-    templateId: 21098,
-    name: 'Zodiac Recommendation Token',
-    containerType: BAG_CONTAINER_TYPE,
-    maxStack: 1,
-    clientTemplateFamily: 0x74,
-    clientEvidence:
-      'Installed script.gcg task 1 info block uses macro_GetItemName(21098) and GetItem={21098,1} for Apollo\'s recommendation token.',
-  },
-  {
-    templateId: 21116,
-    name: 'Timber',
-    containerType: BAG_CONTAINER_TYPE,
-    maxStack: 1,
-    clientTemplateFamily: 0x74,
-    clientEvidence:
-      'Installed script.gcg checks macro_GetItemCount(21116)==0 before showing "The wood is in your pack".',
-  },
-  {
-    templateId: 21099,
-    name: 'Spinning Token',
-    containerType: BAG_CONTAINER_TYPE,
-    maxStack: 1,
-    clientTemplateFamily: 0x74,
-    clientEvidence:
-      'Installed script.gcg Spinning(I) block uses macro_GetItemName(21099) and tells the player to bring it from Blacksmith to Candy.',
-  },
-  {
-    templateId: 21115,
-    name: "Dragonfly's Sting",
-    containerType: BAG_CONTAINER_TYPE,
-    maxStack: 10,
-    clientTemplateFamily: 0x74,
-    clientEvidence:
-      'Installed client is_general.txt row 21115 uses family 116 (0x74) with stack field 10; script.gcg Spinning(II) requires 10x macro_GetItemName(21115).',
-  },
-  {
-    templateId: 23003,
-    name: 'Beetle Shell',
-    containerType: BAG_CONTAINER_TYPE,
-    maxStack: 500,
-    clientTemplateFamily: 0x74,
-    clientEvidence:
-      'Installed client is_general.txt row 23003 uses family 116 (0x74) with stack field 500; roleinfo.txt row 5002 points to it as Beetle\'s primary drop.',
-  },
-  {
-    templateId: 23015,
-    name: 'Dragonfly Wing',
-    containerType: BAG_CONTAINER_TYPE,
-    maxStack: 500,
-    clientTemplateFamily: 0x74,
-    clientEvidence:
-      'Installed client is_general.txt row 23015 uses family 116 (0x74) with stack field 500; roleinfo.txt row 5001 points to it as Dragonfly\'s primary drop.',
-  },
-  {
-    templateId: 20001,
-    name: 'Medicine',
-    containerType: BAG_CONTAINER_TYPE,
-    maxStack: 5,
-    clientTemplateFamily: 0x41,
-    clientEvidence:
-      'Installed client is_potion.txt row 20001 uses family 65 (0x41) with stack field 5; script.gcg Back to Earth(II) grants x5.',
-  },
-  {
-    templateId: 20004,
-    name: 'Heal Grass',
-    containerType: BAG_CONTAINER_TYPE,
-    maxStack: 5,
-    clientTemplateFamily: 0x41,
-    clientEvidence:
-      'Installed client is_potion.txt row 20004 uses family 65 (0x41) with stack field 5; script.gcg Back to Earth(II) grants x5.',
-  },
-]);
+const CLIENT_DERIVED_ROOT = path.resolve(__dirname, '..', 'data', 'client-derived');
+const EQUIPMENT_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'equipment.json');
+const WEAPON_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'weapons.json');
+const GENERAL_ITEM_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'items.json');
+const POTION_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'potions.json');
+const STUFF_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'stuff.json');
 
 const EQUIPMENT_NAME_OVERRIDES = Object.freeze({
   10001: 'Light Hood',
@@ -95,7 +23,9 @@ const EQUIPMENT_NAME_OVERRIDES = Object.freeze({
 });
 
 const ITEM_DEFINITIONS = Object.freeze([
-  ...BASE_ITEM_DEFINITIONS,
+  ...loadClientGeneralItemDefinitions(),
+  ...loadClientPotionDefinitions(),
+  ...loadClientStuffDefinitions(),
   ...loadEquipmentDefinitions(),
 ]);
 
@@ -108,108 +38,103 @@ function getItemDefinition(templateId) {
 }
 
 function loadEquipmentDefinitions() {
-  const definitions = [];
-  const seenTemplateIds = new Set();
-
-  for (const parsed of [
-    ...parseEquipmentTable(ARMOR_TABLE_FILE, 'armor'),
-    ...parseEquipmentTable(WEAPON_TABLE_FILE, 'weapon'),
-  ]) {
-    if (seenTemplateIds.has(parsed.templateId)) {
-      continue;
-    }
-    seenTemplateIds.add(parsed.templateId);
-    definitions.push(parsed);
-  }
-
-  return definitions;
+  return [
+    ...loadClientEquipmentDefinitions(EQUIPMENT_TABLE_FILE, 'armor'),
+    ...loadClientEquipmentDefinitions(WEAPON_TABLE_FILE, 'weapon'),
+  ];
 }
 
-function parseEquipmentTable(filePath, kind) {
-  let raw;
-  try {
-    raw = fs.readFileSync(filePath, 'latin1');
-  } catch (err) {
-    return [];
-  }
+function loadClientGeneralItemDefinitions() {
+  return loadClientStackableDefinitions(GENERAL_ITEM_TABLE_FILE, 'is_general.txt');
+}
 
+function loadClientPotionDefinitions() {
+  return loadClientStackableDefinitions(POTION_TABLE_FILE, 'is_potion.txt');
+}
+
+function loadClientStuffDefinitions() {
+  const entries = loadClientDerivedEntries(STUFF_TABLE_FILE);
+  return entries
+    .filter((entry) => Number.isInteger(entry?.templateId))
+    .map((entry) => ({
+      templateId: entry.templateId,
+      name:
+        typeof entry.name === 'string' && entry.name.length > 0
+          ? entry.name
+          : `Item ${entry.templateId}`,
+      containerType: BAG_CONTAINER_TYPE,
+      maxStack: 1,
+      clientTemplateFamily: null,
+      iconPath: typeof entry.iconPath === 'string' ? entry.iconPath : '',
+      clientEvidence:
+        `Client-derived is_stuff.txt row ${entry.templateId} from ${path.basename(STUFF_TABLE_FILE)}.`,
+    }));
+}
+
+function loadClientStackableDefinitions(filePath, sourceLabel) {
+  const entries = loadClientDerivedEntries(filePath);
+  return entries
+    .filter((entry) => Number.isInteger(entry?.templateId) && Number.isInteger(entry?.clientTemplateFamily))
+    .map((entry) => ({
+      templateId: entry.templateId,
+      name:
+        typeof entry.name === 'string' && entry.name.length > 0
+          ? entry.name
+          : `Item ${entry.templateId}`,
+      containerType: BAG_CONTAINER_TYPE,
+      maxStack:
+        Number.isInteger(entry.stackLimitField) && entry.stackLimitField > 0
+          ? entry.stackLimitField
+          : 1,
+      clientTemplateFamily: entry.clientTemplateFamily,
+      iconPath: typeof entry.iconPath === 'string' ? entry.iconPath : '',
+      clientEvidence:
+        `Client-derived ${sourceLabel} row ${entry.templateId} from ${path.basename(filePath)}.`,
+    }));
+}
+
+function loadClientEquipmentDefinitions(filePath, kind) {
+  const entries = loadClientDerivedEntries(filePath);
   const rows = [];
-  for (const line of raw.split(/\r?\n/)) {
-    const trimmed = line.trim();
-    if (!trimmed || !/^\d+,/.test(trimmed)) {
+  for (const entry of entries) {
+    if (!Number.isInteger(entry?.templateId) || !Number.isInteger(entry?.clientTemplateFamily)) {
       continue;
     }
-    const columns = splitQuotedCsv(trimmed);
-    const templateId = parseInteger(columns[0]);
-    const family = parseInteger(columns[3]);
-    if (!Number.isInteger(templateId) || !Number.isInteger(family)) {
-      continue;
-    }
-
-    const durabilityBase = parseInteger(columns[9]);
+    const durabilityBase = entry.baseDurabilityField;
     const defaultQuantity =
       Number.isInteger(durabilityBase) && durabilityBase > 0 ? durabilityBase * 30 : 0;
-    const statStart = 11;
     const statCount = kind === 'armor' ? 2 : 6;
     const defaultAttributePairs = [];
     for (let index = 0; index < statCount; index += 1) {
-      const value = parseInteger(columns[statStart + index]);
+      const value = Array.isArray(entry.combatFields) ? entry.combatFields[index] : null;
       defaultAttributePairs.push({ value: Number.isInteger(value) && value > 0 ? value : 0 });
     }
 
     rows.push({
-      templateId,
-      name: EQUIPMENT_NAME_OVERRIDES[templateId] || decodeQuotedValue(columns[1]),
+      templateId: entry.templateId,
+      name: EQUIPMENT_NAME_OVERRIDES[entry.templateId] || entry.name || `Item ${entry.templateId}`,
       containerType: BAG_CONTAINER_TYPE,
       maxStack: 1,
-      clientTemplateFamily: family,
+      clientTemplateFamily: entry.clientTemplateFamily,
       defaultQuantity,
       defaultAttributePairs,
-      clientEvidence: `Installed ${path.basename(filePath)} row ${templateId} derives family ${family} and default equipment instance fields.`,
+      iconPath: typeof entry.iconPath === 'string' ? entry.iconPath : '',
+      clientEvidence:
+        `Client-derived ${path.basename(filePath)} row ${entry.templateId} derives family and equipment instance defaults.`,
     });
   }
 
   return rows;
 }
 
-function splitQuotedCsv(line) {
-  const values = [];
-  let current = '';
-  let inQuotes = false;
-
-  for (let index = 0; index < line.length; index += 1) {
-    const char = line[index];
-    if (char === '"') {
-      inQuotes = !inQuotes;
-      current += char;
-      continue;
-    }
-    if (char === ',' && !inQuotes) {
-      values.push(current);
-      current = '';
-      continue;
-    }
-    current += char;
+function loadClientDerivedEntries(filePath) {
+  let parsed;
+  try {
+    parsed = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  } catch (err) {
+    return [];
   }
-
-  values.push(current);
-  return values;
-}
-
-function decodeQuotedValue(value) {
-  return String(value || '').replace(/^"(.*)"$/, '$1');
-}
-
-function parseInteger(value) {
-  if (typeof value !== 'string') {
-    return null;
-  }
-  const trimmed = value.trim();
-  if (!/^-?\d+$/.test(trimmed)) {
-    return null;
-  }
-  const parsed = Number.parseInt(trimmed, 10);
-  return Number.isFinite(parsed) ? parsed : null;
+  return Array.isArray(parsed?.entries) ? parsed.entries : [];
 }
 
 function normalizeInventoryState(character) {

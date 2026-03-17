@@ -1,0 +1,10 @@
+goldcool, 8,3, 0-»Òµô 1£­²»»Òµô
+"attrres\vipshop\newitem.txt","Hot Cake",1,
+"attrres\vipshop\perassist.txt","Char Support",1,
+"attrres\vipshop\petassist.txt","Pet Support",1,
+"attrres\vipshop\grow.txt","Growing Equip",1,
+"attrres\vipshop\sociality.txt","Teleportation",1,
+"attrres\vipshop\specialitem.txt","Special Items",1,
+"attrres\vipshop\guild.txt","Guild",1,
+"attrres\vipshop\festival.txt","Fun",1,
+

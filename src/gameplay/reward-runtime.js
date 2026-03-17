@@ -1,6 +1,7 @@
 'use strict';
 
 const { DEFAULT_FLAGS, ENTITY_TYPE, GAME_SELF_STATE_CMD } = require('../config');
+const { isFemaleRole } = require('../roleinfo');
 const { buildSelfStateValueUpdatePacket } = require('../protocol/gameplay-packets');
 const { grantItemToBag } = require('../inventory');
 const { sendGrantResultPackets, sendInventoryFullSync } = require('./inventory-runtime');
@@ -130,9 +131,7 @@ function resolveQuestRewardForSession(session, reward, taskId) {
 function resolveSpinningStarterSet(session) {
   const roleEntityType = (session?.roleEntityType || session?.entityType || ENTITY_TYPE) >>> 0;
 
-  // roleinfo.txt rows 1001-1024 alternate male/female by actual role entity
-  // id, for example 1021=Male Dog and 1022=Female Dog.
-  if (isFemaleStarterRole(roleEntityType)) {
+  if (isFemaleRole(roleEntityType) || isFemaleStarterRoleFallback(roleEntityType)) {
     return [
       { templateId: 15001, quantity: 1, name: 'Red Headband' },
       { templateId: 18001, quantity: 1, name: 'Embroidered Shoes' },
@@ -145,7 +144,7 @@ function resolveSpinningStarterSet(session) {
   ];
 }
 
-function isFemaleStarterRole(roleEntityType) {
+function isFemaleStarterRoleFallback(roleEntityType) {
   if (roleEntityType >= 1001 && roleEntityType <= 1024) {
     return (roleEntityType & 1) === 0;
   }

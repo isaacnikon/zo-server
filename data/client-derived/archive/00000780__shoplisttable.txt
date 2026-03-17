@@ -1,0 +1,17 @@
+goldcool,8,2,  id， 商品种类
+0,"Hot Cake"
+1,"Char. Support"
+2,"Pet Support"
+3,"Growing Equip."
+4,"Teleportation"
+5,"Special Items"
+6,"Guild"
+7,"Fun"
+
+
+
+
+
+
+
+

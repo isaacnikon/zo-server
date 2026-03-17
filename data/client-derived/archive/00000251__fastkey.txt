@@ -1,0 +1,24 @@
+--游戏状态位,键,1=alt,控件名称
+goldcool, 19,5,
+16,9,0,OpenCurrentMap,0
+16,69,1,MAINWIN.xitong1,0
+16,81,1,MAINWIN.xitong9,0
+16,87,1,pethead,0
+16,67,1,MAINWIN.xitong0,0
+16,101,1,MAINWIN.xitong06,0
+16,77,1,showworld,0
+16,27,0,escapbutton,0
+16,83,1,MAINWIN.xitong5,0
+16,72,1,findnpc,0
+16,9,0,fightauto1,1
+16,70,1,MAINWIN.xitong6,0
+16,123,0,HideBody,0
+16,49,1,FIGHTCONTROL.attack,1
+16,50,1,FIGHTCONTROL.skill,1
+16,51,1,FIGHTCONTROL.item,1
+16,52,1,FIGHTCONTROL.protect,1
+16,120,0,openfirstchat,0
+16,120,0,openfirstchat,1
+
+
+

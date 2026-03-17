@@ -1,0 +1,14 @@
+goldcool, 0, 2,
+0,PicData\Effect\Impact\addhp.gaf
+1,PicData\Effect\Impact\Lvlup_Back.gaf
+2,PicData\Effect\Impact\Lvlup_Front.gaf
+3,PicData\Effect\Impact\wuli.gaf
+4,PicData\Effect\Impact\pk.gaf
+5,PicData\Effect\Impact\wuli.gaf
+6,PicData\Effect\Impact\zt.gaf
+7,PicData\Effect\Impact\cuss.gaf
+8,PicData\testzip\3.gaf
+9,PicData\testzip\¸´¼þ 3.gaf
+10,PicData\Effect\scene\yu.gaf
+11,PicData\new_gui\ext_pic1\mailshow.gaf
+12,PicData\Effect\Impact\addhp.gaf

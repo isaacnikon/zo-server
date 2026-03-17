@@ -1,5 +1,7 @@
 'use strict';
 
+const { buildEncounterPoolForLocation, getOrdinaryMonsterRoleIdsForLocation } = require('../roleinfo');
+
 const SCENE_IDS = {
   RAINBOW_VALLEY: 101,
   BLING_ALLEY: 102,
@@ -14,51 +16,31 @@ const SCENE_IDS = {
   WEST_COUNTY_PASS: 210,
 };
 
+const BLING_SPRING_ROLE_OVERRIDES = Object.freeze({
+  5001: {
+    logicalId: 1,
+    levelMin: 1,
+    levelMax: 3,
+    hpBase: 38,
+    hpPerLevel: 8,
+    weight: 5,
+  },
+  5002: {
+    logicalId: 2,
+    levelMin: 1,
+    levelMax: 3,
+    hpBase: 42,
+    hpPerLevel: 8,
+    weight: 5,
+  },
+});
+
 const BLING_SPRING_ENCOUNTER_PROFILE = {
   source: 'client roleinfo + map intro popup',
   minEnemies: 1,
   maxEnemies: 3,
-  pool: [
-    // `roleinfo.txt` explicitly places both monsters in `[Bling Spring]`.
-    // The on-enter popup also advertises `Dragonfly Level [1-3]`; the paired
-    // Beetle line is the same area hint shown in the client.
-    {
-      typeId: 5001,
-      logicalId: 1,
-      levelMin: 1,
-      levelMax: 3,
-      hpBase: 38,
-      hpPerLevel: 8,
-      weight: 5,
-      name: 'Dragonfly',
-      drops: [
-        {
-          templateId: 23015,
-          chance: 30,
-          quantity: 1,
-          source: 'roleinfo.txt tail 23015,30,... -> Dragonfly Wing',
-        },
-      ],
-    },
-    {
-      typeId: 5002,
-      logicalId: 2,
-      levelMin: 1,
-      levelMax: 3,
-      hpBase: 42,
-      hpPerLevel: 8,
-      weight: 5,
-      name: 'Beetle',
-      drops: [
-        {
-          templateId: 23003,
-          chance: 30,
-          quantity: 1,
-          source: 'roleinfo.txt tail 23003,30,... -> Beetle Shell',
-        },
-      ],
-    },
-  ],
+  encounterChancePercent: 18,
+  pool: buildEncounterPoolForLocation('Bling Spring', BLING_SPRING_ROLE_OVERRIDES),
 };
 
 const SCENES = {
@@ -409,6 +391,14 @@ function getSceneWorldSpawns(sceneId) {
   return getScene(sceneId)?.worldSpawns || [];
 }
 
+function getSceneOrdinaryMonsterRoleIds(sceneId) {
+  const scene = getScene(sceneId);
+  if (!scene) {
+    return [];
+  }
+  return getOrdinaryMonsterRoleIdsForLocation(scene.name);
+}
+
 function positionMatches(trigger, x, y) {
   if (x === null || y === null || x === undefined || y === undefined) {
     return trigger.minX === undefined &&
@@ -500,6 +490,7 @@ module.exports = {
   SCENES,
   getScene,
   getSceneName,
+  getSceneOrdinaryMonsterRoleIds,
   getSceneWorldSpawns,
   getTriggerAction,
   resolveEncounterTrigger,
