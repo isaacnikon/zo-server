@@ -2,10 +2,11 @@
 
 const fs = require('fs');
 const path = require('path');
+const { resolveRepoPath } = require('./runtime-paths');
 
 const { MAP_CLIENT_ROOT } = require('./config');
 
-const DEFAULT_CLIENT_ROOT = path.resolve(__dirname, '..', 'data', 'client');
+const DEFAULT_CLIENT_ROOT = resolveRepoPath('data', 'client');
 
 class MapCellStore {
   constructor(options = {}) {

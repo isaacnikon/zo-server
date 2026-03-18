@@ -1,19 +1,13 @@
-'use strict';
+import type { GameSession } from '../types';
 
-const {
-  DEFAULT_FLAGS,
-  LOGIN_CMD,
-  LOGIN_SERVER_LIST_RESULT,
-} = require('../config');
+const { DEFAULT_FLAGS, LOGIN_CMD, LOGIN_SERVER_LIST_RESULT } = require('../config');
 const { PacketWriter } = require('../protocol');
-const {
-  syncInventoryStateToClient,
-} = require('../gameplay/inventory-runtime');
-const {
-  describeScene,
-} = require('../scene-runtime');
+const { syncInventoryStateToClient } = require('../gameplay/inventory-runtime');
+const { describeScene } = require('../scene-runtime');
 
-function sendEnterGameOk(session) {
+type SessionLike = GameSession & Record<string, any>;
+
+export function sendEnterGameOk(session: SessionLike): void {
   session.ensureQuestStateReady();
 
   const writer = new PacketWriter();
@@ -44,7 +38,3 @@ function sendEnterGameOk(session) {
     session.sendPetStateSync('enter-game');
   }
 }
-
-module.exports = {
-  sendEnterGameOk,
-};

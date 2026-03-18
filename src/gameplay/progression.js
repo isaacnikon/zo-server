@@ -1,17 +1,9 @@
 'use strict';
 
 const fs = require('fs');
-const path = require('path');
+const { resolveRepoPath } = require('../runtime-paths');
 
-const PROGRESSION_DATA_FILE = path.resolve(
-  __dirname,
-  '..',
-  '..',
-  'data',
-  'client-verified',
-  'progression',
-  'playlevelup.json'
-);
+const PROGRESSION_DATA_FILE = resolveRepoPath('data', 'client-verified', 'progression', 'playlevelup.json');
 
 const STATUS_POINTS_PER_LEVEL = 4;
 const DEFAULT_REQUIRED_EXPERIENCE = 327000000;

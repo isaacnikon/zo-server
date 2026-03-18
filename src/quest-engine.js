@@ -1,10 +1,10 @@
 'use strict';
 
 const fs = require('fs');
-const path = require('path');
+const { resolveRepoPath } = require('./runtime-paths');
 
-const QUEST_DATA_FILE = path.resolve(__dirname, '..', 'data', 'quests', 'main-story.json');
-const CLIENT_QUEST_METADATA_FILE = path.resolve(__dirname, '..', 'data', 'client-derived', 'quests.json');
+const QUEST_DATA_FILE = resolveRepoPath('data', 'quests', 'main-story.json');
+const CLIENT_QUEST_METADATA_FILE = resolveRepoPath('data', 'client-derived', 'quests.json');
 const CLIENT_QUEST_METADATA = loadClientQuestMetadata();
 const QUEST_DEFINITIONS = Object.freeze(loadQuestDefinitions());
 

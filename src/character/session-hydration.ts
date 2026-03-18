@@ -1,4 +1,4 @@
-'use strict';
+import type { GameSession } from '../types';
 
 const { normalizePets } = require('../pet-runtime');
 const { CHARACTER_VITALS_BASELINE } = require('../gameplay/session-flows');
@@ -8,15 +8,13 @@ const {
   normalizeCharacterRecord,
 } = require('./normalize');
 const { normalizeQuestState } = require('../quest-engine');
-const {
-  buildInventorySnapshot,
-  normalizeInventoryState,
-} = require('../inventory');
-const {
-  resolveCharacterScene,
-} = require('../scene-runtime');
+const { buildInventorySnapshot, normalizeInventoryState } = require('../inventory');
+const { resolveCharacterScene } = require('../scene-runtime');
 
-function hydratePendingGameCharacter(session, sharedState) {
+type SessionLike = GameSession & Record<string, any>;
+type CharacterOverrides = Record<string, unknown>;
+
+export function hydratePendingGameCharacter(session: SessionLike, sharedState: Record<string, any>): void {
   const pendingCharacter = sharedState?.pendingGameCharacter;
   if (!session.isGame || !pendingCharacter) {
     return;
@@ -52,7 +50,7 @@ function hydratePendingGameCharacter(session, sharedState) {
   session.pets = normalizePets(pendingCharacter.pets);
   session.selectedPetRuntimeId =
     typeof pendingCharacter.selectedPetRuntimeId === 'number'
-      ? (pendingCharacter.selectedPetRuntimeId >>> 0)
+      ? pendingCharacter.selectedPetRuntimeId >>> 0
       : null;
   session.petSummoned = pendingCharacter.petSummoned === true;
 
@@ -69,7 +67,7 @@ function hydratePendingGameCharacter(session, sharedState) {
   sharedState.pendingGameCharacter = null;
 }
 
-function getPersistedCharacter(session) {
+export function getPersistedCharacter(session: SessionLike): Record<string, unknown> | null {
   const character = session.sharedState.characterStore?.get(session.accountName) || null;
   if (!character) {
     return null;
@@ -77,7 +75,7 @@ function getPersistedCharacter(session) {
   return normalizeCharacterRecord(character);
 }
 
-function saveCharacter(session, character) {
+export function saveCharacter(session: SessionLike, character: Record<string, unknown>): void {
   if (!session.accountName || !session.sharedState.characterStore) {
     return;
   }
@@ -88,7 +86,10 @@ function saveCharacter(session, character) {
   );
 }
 
-function buildCharacterSnapshot(session, overrides = {}) {
+export function buildCharacterSnapshot(
+  session: SessionLike,
+  overrides: CharacterOverrides = {}
+): Record<string, unknown> {
   const persisted = getPersistedCharacter(session) || {};
   return {
     ...persisted,
@@ -113,9 +114,7 @@ function buildCharacterSnapshot(session, overrides = {}) {
     completedQuests: session.completedQuests,
     pets: normalizePets(session.pets),
     selectedPetRuntimeId:
-      typeof session.selectedPetRuntimeId === 'number'
-        ? (session.selectedPetRuntimeId >>> 0)
-        : null,
+      typeof session.selectedPetRuntimeId === 'number' ? session.selectedPetRuntimeId >>> 0 : null,
     petSummoned: session.petSummoned === true,
     inventory: buildInventorySnapshot(session),
     mapId: session.currentMapId,
@@ -125,14 +124,9 @@ function buildCharacterSnapshot(session, overrides = {}) {
   };
 }
 
-function persistCurrentCharacter(session, overrides = {}) {
+export function persistCurrentCharacter(
+  session: SessionLike,
+  overrides: CharacterOverrides = {}
+): void {
   saveCharacter(session, buildCharacterSnapshot(session, overrides));
 }
-
-module.exports = {
-  buildCharacterSnapshot,
-  getPersistedCharacter,
-  hydratePendingGameCharacter,
-  persistCurrentCharacter,
-  saveCharacter,
-};

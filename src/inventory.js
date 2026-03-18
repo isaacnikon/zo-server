@@ -2,11 +2,12 @@
 
 const fs = require('fs');
 const path = require('path');
+const { resolveRepoPath } = require('./runtime-paths');
 
 const BAG_CONTAINER_TYPE = 1;
 const DEFAULT_BAG_SIZE = 24;
 const FIRST_BAG_SLOT = 1;
-const CLIENT_DERIVED_ROOT = path.resolve(__dirname, '..', 'data', 'client-derived');
+const CLIENT_DERIVED_ROOT = resolveRepoPath('data', 'client-derived');
 const EQUIPMENT_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'equipment.json');
 const WEAPON_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'weapons.json');
 const GENERAL_ITEM_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'items.json');

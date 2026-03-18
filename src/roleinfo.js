@@ -1,9 +1,9 @@
 'use strict';
 
 const fs = require('fs');
-const path = require('path');
+const { resolveRepoPath } = require('./runtime-paths');
 
-const ROLEINFO_FILE = path.resolve(__dirname, '..', 'data', 'client-derived', 'roleinfo.json');
+const ROLEINFO_FILE = resolveRepoPath('data', 'client-derived', 'roleinfo.json');
 const PRIMARY_DROP_STAT_INDEX = 30;
 const PRIMARY_DROP_CHANCE_INDEX = 0;
 const LOCATION_PATTERN = /\[([^\]]+)\]/g;

@@ -1,4 +1,4 @@
-'use strict';
+import type { GameSession } from '../types';
 
 const {
   FIGHT_ACTIVE_STATE_SUBCMD,
@@ -27,19 +27,10 @@ const {
   parseCombatPacket,
   recordInboundCombatPacket,
 } = require('../combat-runtime');
-const {
-  parseAttackSelection,
-} = require('../protocol/inbound-packets');
-const {
-  rollSyntheticFightDrops,
-} = require('../gameplay/combat-drop-runtime');
-const {
-  buildDefeatRespawnState,
-} = require('../gameplay/session-flows');
-const {
-  dispatchAttackResult,
-  dispatchTurnResult,
-} = require('../combat/combat-dispatch');
+const { parseAttackSelection } = require('../protocol/inbound-packets');
+const { rollSyntheticFightDrops } = require('../gameplay/combat-drop-runtime');
+const { buildDefeatRespawnState } = require('../gameplay/session-flows');
+const { dispatchAttackResult, dispatchTurnResult } = require('../combat/combat-dispatch');
 const {
   computeSyntheticDamage,
   createSyntheticFightState,
@@ -69,17 +60,21 @@ const {
   buildSyntheticAttackPlaybackPacket,
   buildSyntheticFightVictoryClosePacket,
 } = require('../protocol/gameplay-packets');
-const {
-  buildSyntheticEncounterEnemies,
-} = require('../combat/encounter-builder');
-const {
-  selectCombatTurnProbeProfile,
-} = require('../combat/combat-probe');
-const {
-  resolveTownRespawn,
-} = require('../scene-runtime');
+const { buildSyntheticEncounterEnemies } = require('../combat/encounter-builder');
+const { selectCombatTurnProbeProfile } = require('../combat/combat-probe');
+const { resolveTownRespawn } = require('../scene-runtime');
 
-function pushCombatTrace(session, direction, packet, recorded) {
+type SessionLike = GameSession & Record<string, any>;
+type CombatAction = Record<string, any>;
+type CombatPacket = Record<string, any>;
+type RecordedCombatState = { state: unknown; snapshot: { inFight: boolean; stateChanged: boolean } };
+
+function pushCombatTrace(
+  session: SessionLike,
+  direction: 'inbound' | 'outbound',
+  packet: CombatPacket,
+  recorded: RecordedCombatState
+): void {
   if (!Array.isArray(session.sharedState.combatTrace)) {
     return;
   }
@@ -97,11 +92,14 @@ function pushCombatTrace(session, direction, packet, recorded) {
   }
 }
 
-function logCombatPacket(session, prefix, cmdWord, packet, recorded) {
-  const pieces = [
-    `${prefix}=${describeCombatCommand(cmdWord)}`,
-    `cmd=0x${cmdWord.toString(16)}`,
-  ];
+function logCombatPacket(
+  session: SessionLike,
+  prefix: string,
+  cmdWord: number,
+  packet: CombatPacket,
+  recorded: RecordedCombatState
+): void {
+  const pieces = [`${prefix}=${describeCombatCommand(cmdWord)}`, `cmd=0x${cmdWord.toString(16)}`];
   if (packet.subcmd !== null) {
     pieces.push(`sub=0x${packet.subcmd.toString(16)}`);
   }
@@ -119,7 +117,7 @@ function logCombatPacket(session, prefix, cmdWord, packet, recorded) {
   session.log(pieces.join(' '));
 }
 
-function handleCombatPacket(session, cmdWord, payload) {
+export function handleCombatPacket(session: SessionLike, cmdWord: number, payload: Buffer): void {
   const packet = parseCombatPacket(cmdWord, payload);
   const recorded = recordInboundCombatPacket(session.combatState, packet);
   session.combatState = recorded.state;
@@ -139,11 +137,7 @@ function handleCombatPacket(session, cmdWord, payload) {
     if (session.syntheticFight) {
       session.syntheticFight.phase = 'command';
     }
-    sendCombatCommandRefresh(
-      session,
-      action,
-      `client-03ed-${FIGHT_CLIENT_READY_SUBCMD.toString(16)}`
-    );
+    sendCombatCommandRefresh(session, action, `client-03ed-${FIGHT_CLIENT_READY_SUBCMD.toString(16)}`);
     return;
   }
 
@@ -157,9 +151,7 @@ function handleCombatPacket(session, cmdWord, payload) {
       cmdWord === GAME_FIGHT_CLIENT_CMD ||
       cmdWord === GAME_FIGHT_MISC_CMD)
   ) {
-    session.log(
-      `Ignoring lingering combat packet cmd=0x${cmdWord.toString(16)} during defeat respawn`
-    );
+    session.log(`Ignoring lingering combat packet cmd=0x${cmdWord.toString(16)} during defeat respawn`);
     return;
   }
 
@@ -212,7 +204,7 @@ function handleCombatPacket(session, cmdWord, payload) {
   }
 }
 
-function handleSyntheticAttackSelection(session, payload) {
+function handleSyntheticAttackSelection(session: SessionLike, payload: Buffer): void {
   if (!session.syntheticFight || payload.length < 6) {
     return;
   }
@@ -271,7 +263,7 @@ function handleSyntheticAttackSelection(session, payload) {
   });
 }
 
-function resolveSyntheticQueuedTurn(session, action) {
+function resolveSyntheticQueuedTurn(session: SessionLike, action: CombatAction): void {
   const resolution = resolveQueuedEnemyTurn({
     syntheticFight: session.syntheticFight,
     selectSyntheticEnemyAttacker,
@@ -304,7 +296,7 @@ function resolveSyntheticQueuedTurn(session, action) {
   });
 }
 
-function finishSyntheticFight(session, outcome, message) {
+function finishSyntheticFight(session: SessionLike, outcome: 'victory' | 'defeat', message?: string): void {
   if (!session.syntheticFight) {
     return;
   }
@@ -316,7 +308,7 @@ function finishSyntheticFight(session, outcome, message) {
     if (dropResult?.granted?.length > 0) {
       session.refreshQuestStateForItemTemplates(
         dropResult.granted
-          .map((drop) => drop.item?.templateId || drop.definition?.templateId)
+          .map((drop: Record<string, any>) => drop.item?.templateId || drop.definition?.templateId)
           .filter(Number.isInteger)
       );
     }
@@ -330,9 +322,11 @@ function finishSyntheticFight(session, outcome, message) {
   if (dropResult?.granted?.length > 0 || dropResult?.skipped?.length > 0) {
     const dropText = [
       ...dropResult.granted.map(
-        (drop) => `${drop.definition?.name || drop.item.templateId} x${drop.quantity}`
+        (drop: Record<string, any>) => `${drop.definition?.name || drop.item.templateId} x${drop.quantity}`
       ),
-      ...dropResult.skipped.map((drop) => `${drop.templateId} skipped (${drop.reason})`),
+      ...dropResult.skipped.map(
+        (drop: Record<string, any>) => `${drop.templateId} skipped (${drop.reason})`
+      ),
     ].join(', ');
     session.log(`Synthetic fight drops outcome=${outcome} ${dropText}`);
   }
@@ -393,7 +387,7 @@ function finishSyntheticFight(session, outcome, message) {
   session.syntheticFight = null;
 }
 
-function createSyntheticFight(session, action, enemies) {
+function createSyntheticFight(session: SessionLike, action: CombatAction, enemies: unknown[]) {
   clearSyntheticCommandRefreshTimer(session);
   return createSyntheticFightState({
     action,
@@ -410,14 +404,19 @@ function createSyntheticFight(session, action, enemies) {
   });
 }
 
-function clearSyntheticCommandRefreshTimer(session) {
+function clearSyntheticCommandRefreshTimer(session: SessionLike): void {
   if (session.syntheticCommandRefreshTimer) {
     clearTimeout(session.syntheticCommandRefreshTimer);
     session.syntheticCommandRefreshTimer = null;
   }
 }
 
-function scheduleSyntheticCommandRefresh(session, action, reason, delayMs) {
+function scheduleSyntheticCommandRefresh(
+  session: SessionLike,
+  action: CombatAction,
+  reason: string,
+  delayMs: number
+): void {
   clearSyntheticCommandRefreshTimer(session);
   session.syntheticCommandRefreshTimer = setTimeout(() => {
     session.syntheticCommandRefreshTimer = null;
@@ -428,25 +427,31 @@ function scheduleSyntheticCommandRefresh(session, action, reason, delayMs) {
   }, Math.max(0, delayMs | 0));
 }
 
-function sendSyntheticAttackPlayback(session, { attackerEntityId, targetEntityId, resultCode, damage }) {
+function sendSyntheticAttackPlayback(
+  session: SessionLike,
+  details: {
+    attackerEntityId: number;
+    targetEntityId: number;
+    resultCode: number;
+    damage: number;
+  }
+): void {
   session.writePacket(
-    buildSyntheticAttackPlaybackPacket({
-      attackerEntityId,
-      targetEntityId,
-      resultCode,
-      damage,
-    }),
+    buildSyntheticAttackPlaybackPacket(details),
     DEFAULT_FLAGS,
-    `Sending synthetic fight playback cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x03 attacker=${attackerEntityId} target=${targetEntityId} result=${resultCode} damage=${damage}`
+    `Sending synthetic fight playback cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x03 attacker=${details.attackerEntityId} target=${details.targetEntityId} result=${details.resultCode} damage=${details.damage}`
   );
 }
 
-function sendSyntheticAttackMirrorUpdate(session, { actionMode }) {
+function sendSyntheticAttackMirrorUpdate(
+  session: SessionLike,
+  details: { actionMode: number }
+): void {
   const player = getSyntheticPlayerFighter(session.syntheticFight);
 
   session.writePacket(
     buildSyntheticAttackMirrorUpdatePacket({
-      actionMode,
+      actionMode: details.actionMode,
       playerVitals: {
         health: player?.hp || session.currentHealth,
         mana: player?.mp || session.currentMana,
@@ -454,11 +459,11 @@ function sendSyntheticAttackMirrorUpdate(session, { actionMode }) {
       },
     }),
     DEFAULT_FLAGS,
-    `Sending synthetic fight mirror update cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${actionMode.toString(16)} hp=${player?.hp || session.currentHealth} mp=${player?.mp || session.currentMana} rage=${player?.rage || session.currentRage}`
+    `Sending synthetic fight mirror update cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${details.actionMode.toString(16)} hp=${player?.hp || session.currentHealth} mp=${player?.mp || session.currentMana} rage=${player?.rage || session.currentRage}`
   );
 }
 
-function sendSyntheticFightVictoryClose(session) {
+function sendSyntheticFightVictoryClose(session: SessionLike): void {
   const player = getSyntheticPlayerFighter(session.syntheticFight);
 
   session.writePacket(
@@ -474,7 +479,7 @@ function sendSyntheticFightVictoryClose(session) {
   );
 }
 
-function sendCombatEncounterProbe(session, action) {
+export function sendCombatEncounterProbe(session: SessionLike, action: CombatAction): void {
   const enemies = buildSyntheticEncounterEnemies(action, session.currentMapId);
   const syntheticFight = createSyntheticFight(session, action, enemies);
   const player = syntheticFight.fighters[0];
@@ -500,7 +505,7 @@ function sendCombatEncounterProbe(session, action) {
       enemies,
     }),
     DEFAULT_FLAGS,
-    `Sending experimental combat encounter probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${FIGHT_ENCOUNTER_PROBE_SUBCMD.toString(16)} trigger=${action.probeId} active=${session.entityType} enemies=${enemies.map((enemy) => `${enemy.typeId}@${enemy.entityId}`).join('/')} count=${enemies.length} map=${session.currentMapId} pos=${session.currentX},${session.currentY} referenceCommands=${session.combatReference.fightCommands.map((command) => command.id).join('/') || 'none'} referenceSkills=${session.combatReference.skills.slice(0, 6).map((skill) => skill.id).join('/') || 'none'}`
+    `Sending experimental combat encounter probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${FIGHT_ENCOUNTER_PROBE_SUBCMD.toString(16)} trigger=${action.probeId} active=${session.entityType} enemies=${enemies.map((enemy: Record<string, any>) => `${enemy.typeId}@${enemy.entityId}`).join('/')} count=${enemies.length} map=${session.currentMapId} pos=${session.currentX},${session.currentY} referenceCommands=${session.combatReference.fightCommands.map((command: Record<string, any>) => command.id).join('/') || 'none'} referenceSkills=${session.combatReference.skills.slice(0, 6).map((skill: Record<string, any>) => skill.id).join('/') || 'none'}`
   );
   session.syntheticFight = syntheticFight;
   sendReducedFightStartup(session, action);
@@ -511,7 +516,7 @@ function sendCombatEncounterProbe(session, action) {
   );
 }
 
-function sendReducedFightStartup(session, action) {
+function sendReducedFightStartup(session: SessionLike, action: CombatAction): void {
   sendFightRingOpenProbe(session, action);
   sendFightStateModeProbe64(session, action);
   sendFightControlInitProbe(session, action);
@@ -520,7 +525,7 @@ function sendReducedFightStartup(session, action) {
   sendFightControlShowProbe(session, action);
 }
 
-function sendFightControlInitProbe(session, action) {
+function sendFightControlInitProbe(session: SessionLike, action: CombatAction): void {
   session.writePacket(
     buildFightControlInitProbePacket(),
     DEFAULT_FLAGS,
@@ -528,7 +533,7 @@ function sendFightControlInitProbe(session, action) {
   );
 }
 
-function sendFightRingOpenProbe(session, action) {
+function sendFightRingOpenProbe(session: SessionLike, action: CombatAction): void {
   session.writePacket(
     buildFightRingOpenProbePacket(),
     DEFAULT_FLAGS,
@@ -536,7 +541,7 @@ function sendFightRingOpenProbe(session, action) {
   );
 }
 
-function sendFightStateModeProbe64(session, action) {
+function sendFightStateModeProbe64(session: SessionLike, action: CombatAction): void {
   session.writePacket(
     buildFightStateModeProbe64Packet(),
     DEFAULT_FLAGS,
@@ -544,7 +549,7 @@ function sendFightStateModeProbe64(session, action) {
   );
 }
 
-function sendFightActiveStateProbe(session, action) {
+function sendFightActiveStateProbe(session: SessionLike, action: CombatAction): void {
   session.writePacket(
     buildFightActiveStateProbePacket(session.entityType),
     DEFAULT_FLAGS,
@@ -552,7 +557,11 @@ function sendFightActiveStateProbe(session, action) {
   );
 }
 
-function sendFightEntityFlagProbe(session, action, subcommand) {
+function sendFightEntityFlagProbe(
+  session: SessionLike,
+  action: CombatAction,
+  subcommand: number
+): void {
   const activeEntityId =
     typeof action?.entityId === 'number' ? action.entityId >>> 0 : session.entityType >>> 0;
   session.writePacket(
@@ -562,7 +571,7 @@ function sendFightEntityFlagProbe(session, action, subcommand) {
   );
 }
 
-function sendFightControlShowProbe(session, action) {
+function sendFightControlShowProbe(session: SessionLike, action: CombatAction): void {
   const activeEntityId =
     typeof action?.entityId === 'number' ? action.entityId >>> 0 : session.entityType >>> 0;
   session.writePacket(
@@ -572,7 +581,11 @@ function sendFightControlShowProbe(session, action) {
   );
 }
 
-function sendCombatTurnProbe(session, action, reason = 'startup-sequence') {
+function sendCombatTurnProbe(
+  session: SessionLike,
+  action: CombatAction,
+  reason = 'startup-sequence'
+): void {
   const activeTurnProfile = session.syntheticFight?.turnProfile || selectCombatTurnProbeProfile();
   const probeIndex = activeTurnProfile.index;
   const probeProfile = activeTurnProfile.profile;
@@ -583,11 +596,11 @@ function sendCombatTurnProbe(session, action, reason = 'startup-sequence') {
   session.writePacket(
     buildCombatTurnProbePacket(probeProfile),
     DEFAULT_FLAGS,
-    `Sending experimental combat turn probe cmd=0x${GAME_FIGHT_TURN_CMD.toString(16)} trigger=${action.probeId} reason=${reason} count=${probeProfile.rows.length} probeIndex=${probeIndex} profile=${probeProfile.profile} rows=${probeProfile.rows.map((row) => `${row.fieldA}/${row.fieldB}/${row.fieldC}`).join(',')}`
+    `Sending experimental combat turn probe cmd=0x${GAME_FIGHT_TURN_CMD.toString(16)} trigger=${action.probeId} reason=${reason} count=${probeProfile.rows.length} probeIndex=${probeIndex} profile=${probeProfile.profile} rows=${probeProfile.rows.map((row: Record<string, number>) => `${row.fieldA}/${row.fieldB}/${row.fieldC}`).join(',')}`
   );
 }
 
-function sendCombatCommandRefresh(session, action, reason) {
+function sendCombatCommandRefresh(session: SessionLike, action: CombatAction, reason: string): void {
   if (session.syntheticFight) {
     session.syntheticFight.phase = 'command';
     session.syntheticFight.awaitingPlayerAction = true;
@@ -606,7 +619,7 @@ function sendCombatCommandRefresh(session, action, reason) {
   sendCombatTurnProbe(session, action, reason);
 }
 
-function sendCombatCommandHide(session, action, reason) {
+function sendCombatCommandHide(session: SessionLike, action: CombatAction, reason: string): void {
   sendFightEntityFlagProbe(
     session,
     {
@@ -617,19 +630,12 @@ function sendCombatCommandHide(session, action, reason) {
   );
 }
 
-function sendCombatExitProbe(session, action) {
+export function sendCombatExitProbe(session: SessionLike, action: CombatAction): void {
   session.log(
     `Ignoring synthetic combat-exit probe trigger=${action.probeId} map=${session.currentMapId} pos=${session.currentX},${session.currentY}`
   );
 }
 
-function disposeCombatTimers(session) {
+export function disposeCombatTimers(session: SessionLike): void {
   clearSyntheticCommandRefreshTimer(session);
 }
-
-module.exports = {
-  disposeCombatTimers,
-  handleCombatPacket,
-  sendCombatEncounterProbe,
-  sendCombatExitProbe,
-};

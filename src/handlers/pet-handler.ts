@@ -1,4 +1,4 @@
-'use strict';
+import type { GameSession } from '../types';
 
 const {
   DEFAULT_FLAGS,
@@ -18,16 +18,16 @@ const {
   buildPetStatsSyncPacket,
   buildPetTreeRegistrationPacket,
 } = require('../protocol/gameplay-packets');
-const {
-  getPrimaryPet,
-  normalizePets,
-} = require('../pet-runtime');
+const { getPrimaryPet, normalizePets } = require('../pet-runtime');
 
-function getPetOwnerRuntimeId(session) {
+type SessionLike = GameSession & Record<string, any>;
+type PetRecord = Record<string, any>;
+
+function getPetOwnerRuntimeId(session: SessionLike): number {
   return session.entityType >>> 0;
 }
 
-function tryHandlePetActionPacket(session, payload) {
+export function tryHandlePetActionPacket(session: SessionLike, payload: Buffer): boolean {
   if (payload.length !== 7) {
     return false;
   }
@@ -35,7 +35,7 @@ function tryHandlePetActionPacket(session, payload) {
   const subcmd = payload[2];
   const runtimeId = payload.readUInt32LE(3) >>> 0;
   const pet = Array.isArray(session.pets)
-    ? session.pets.find((entry) => (entry?.runtimeId >>> 0) === runtimeId) || null
+    ? session.pets.find((entry: PetRecord) => (entry?.runtimeId >>> 0) === runtimeId) || null
     : null;
 
   session.log(
@@ -50,7 +50,7 @@ function tryHandlePetActionPacket(session, payload) {
     session.petSummoned = true;
     session.pets = normalizePets([
       pet,
-      ...session.pets.filter((entry) => (entry?.runtimeId >>> 0) !== runtimeId),
+      ...session.pets.filter((entry: PetRecord) => (entry?.runtimeId >>> 0) !== runtimeId),
     ]);
     session.persistCurrentCharacter();
     sendPetStateSync(session, 'client-03f5-51');
@@ -85,7 +85,7 @@ function tryHandlePetActionPacket(session, payload) {
   return true;
 }
 
-function schedulePetReplay(session, delayMs = 500) {
+export function schedulePetReplay(session: SessionLike, delayMs = 500): void {
   if (session.petReplayTimer) {
     clearTimeout(session.petReplayTimer);
     session.petReplayTimer = null;
@@ -100,14 +100,17 @@ function schedulePetReplay(session, delayMs = 500) {
   }, Math.max(0, delayMs | 0));
 }
 
-function sendPetStateSync(session, reason = 'runtime') {
+export function sendPetStateSync(session: SessionLike, reason = 'runtime'): void {
   session.pets = normalizePets(session.pets);
   if (session.pets.length === 0) {
     return;
   }
-  const selectedPet = typeof session.selectedPetRuntimeId === 'number'
-    ? session.pets.find((entry) => (entry?.runtimeId >>> 0) === session.selectedPetRuntimeId) || null
-    : null;
+  const selectedPet =
+    typeof session.selectedPetRuntimeId === 'number'
+      ? session.pets.find(
+          (entry: PetRecord) => (entry?.runtimeId >>> 0) === session.selectedPetRuntimeId
+        ) || null
+      : null;
   const pet = selectedPet || getPrimaryPet(session.pets);
   if (!pet) {
     return;
@@ -115,7 +118,9 @@ function sendPetStateSync(session, reason = 'runtime') {
   if (selectedPet) {
     session.pets = normalizePets([
       selectedPet,
-      ...session.pets.filter((entry) => (entry?.runtimeId >>> 0) !== selectedPet.runtimeId),
+      ...session.pets.filter(
+        (entry: PetRecord) => (entry?.runtimeId >>> 0) !== selectedPet.runtimeId
+      ),
     ]);
   }
   session.selectedPetRuntimeId = pet.runtimeId >>> 0;
@@ -135,18 +140,12 @@ function sendPetStateSync(session, reason = 'runtime') {
   const isReplaySync = reason === 'client-03f5-51-replay';
   if (!isPanelSummonSync) {
     session.writePacket(
-      buildPetPanelBindPacket({
-        ownerRuntimeId,
-        pet,
-      }),
+      buildPetPanelBindPacket({ ownerRuntimeId, pet }),
       DEFAULT_FLAGS,
       `Sending pet panel bind cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x51 reason=${reason} ownerRuntimeId=${ownerRuntimeId} templateId=${pet.templateId} name="${pet.name}"`
     );
     session.writePacket(
-      buildPetPanelNamePacket({
-        ownerRuntimeId,
-        pet,
-      }),
+      buildPetPanelNamePacket({ ownerRuntimeId, pet }),
       DEFAULT_FLAGS,
       `Sending pet panel name cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x59 reason=${reason} ownerRuntimeId=${ownerRuntimeId} name="${pet.name}"`
     );
@@ -181,7 +180,12 @@ function sendPetStateSync(session, reason = 'runtime') {
   }
 }
 
-function sendPetPropertySync(session, ownerRuntimeId, pet, reason = 'runtime') {
+function sendPetPropertySync(
+  session: SessionLike,
+  ownerRuntimeId: number,
+  pet: PetRecord,
+  reason = 'runtime'
+): void {
   const properties = [
     pet.level,
     pet.currentHealth,
@@ -207,16 +211,9 @@ function sendPetPropertySync(session, ownerRuntimeId, pet, reason = 'runtime') {
   });
 }
 
-function disposePetTimers(session) {
+export function disposePetTimers(session: SessionLike): void {
   if (session.petReplayTimer) {
     clearTimeout(session.petReplayTimer);
     session.petReplayTimer = null;
   }
 }
-
-module.exports = {
-  disposePetTimers,
-  schedulePetReplay,
-  sendPetStateSync,
-  tryHandlePetActionPacket,
-};

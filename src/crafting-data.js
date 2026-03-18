@@ -2,8 +2,9 @@
 
 const fs = require('fs');
 const path = require('path');
+const { resolveRepoPath } = require('./runtime-paths');
 
-const CLIENT_DERIVED_ROOT = path.resolve(__dirname, '..', 'data', 'client-derived');
+const CLIENT_DERIVED_ROOT = resolveRepoPath('data', 'client-derived');
 const COMBINITEM_FILE = path.join(CLIENT_DERIVED_ROOT, 'combinitem.json');
 const ITEMINFO_FILE = path.join(CLIENT_DERIVED_ROOT, 'iteminfo.json');
 const STUFF_FILE = path.join(CLIENT_DERIVED_ROOT, 'stuff.json');

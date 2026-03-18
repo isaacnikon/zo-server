@@ -1,21 +1,12 @@
-'use strict';
+import type { GameSession } from '../types';
 
-const {
-  DEFAULT_FLAGS,
-  GAME_FIGHT_RESULT_CMD,
-} = require('../config');
-const {
-  parseEquipmentState,
-  parseAttributeAllocation,
-} = require('../protocol/inbound-packets');
-const {
-  sendEquipmentContainerSync,
-} = require('../gameplay/inventory-runtime');
-const {
-  normalizePrimaryAttributes,
-} = require('../character/normalize');
+const { parseEquipmentState, parseAttributeAllocation } = require('../protocol/inbound-packets');
+const { sendEquipmentContainerSync } = require('../gameplay/inventory-runtime');
+const { normalizePrimaryAttributes } = require('../character/normalize');
 
-function tryHandleEquipmentStatePacket(session, payload) {
+type SessionLike = GameSession & Record<string, any>;
+
+export function tryHandleEquipmentStatePacket(session: SessionLike, payload: Buffer): boolean {
   const parsed = parseEquipmentState(payload);
   if (!parsed) {
     return false;
@@ -23,7 +14,7 @@ function tryHandleEquipmentStatePacket(session, payload) {
 
   const { instanceId, equipFlag } = parsed;
   const item = Array.isArray(session.bagItems)
-    ? session.bagItems.find((entry) => (entry.instanceId >>> 0) === (instanceId >>> 0))
+    ? session.bagItems.find((entry: { instanceId: number }) => (entry.instanceId >>> 0) === (instanceId >>> 0))
     : null;
   if (!item) {
     session.log(`Ignoring equipment state for unknown instanceId=${instanceId}`);
@@ -39,7 +30,10 @@ function tryHandleEquipmentStatePacket(session, payload) {
   return true;
 }
 
-function tryHandleAttributeAllocationPacket(session, payload) {
+export function tryHandleAttributeAllocationPacket(
+  session: SessionLike,
+  payload: Buffer
+): boolean {
   const allocation = parseAttributeAllocation(payload);
   if (!allocation) {
     return false;
@@ -97,7 +91,7 @@ function tryHandleAttributeAllocationPacket(session, payload) {
   return true;
 }
 
-function scheduleEquipmentReplay(session, delayMs = 300) {
+export function scheduleEquipmentReplay(session: SessionLike, delayMs = 300): void {
   if (session.equipmentReplayTimer) {
     clearTimeout(session.equipmentReplayTimer);
     session.equipmentReplayTimer = null;
@@ -111,9 +105,3 @@ function scheduleEquipmentReplay(session, delayMs = 300) {
     sendEquipmentContainerSync(session);
   }, Math.max(0, delayMs | 0));
 }
-
-module.exports = {
-  scheduleEquipmentReplay,
-  tryHandleAttributeAllocationPacket,
-  tryHandleEquipmentStatePacket,
-};
