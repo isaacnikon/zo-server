@@ -314,6 +314,13 @@ function buildPetPanelModePacket({ ownerRuntimeId, enabled }) {
   return writer.payload();
 }
 
+function buildPetActiveSelectPacket({ runtimeId }) {
+  const writer = new PacketWriter();
+  writer.writeUint16(0x03f5);
+  writer.writeUint32((runtimeId || 0) >>> 0);
+  return writer.payload();
+}
+
 function buildQuestPacket(subtype, taskId, extraValue = null, extraType = 'u32') {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_QUEST_CMD);
@@ -515,6 +522,7 @@ module.exports = {
   buildItemRemovePacket,
   buildQuestPacket,
   buildPetPanelBindPacket,
+  buildPetActiveSelectPacket,
   buildPetPanelClearPacket,
   buildPetPanelRebindPacket,
   buildPetPanelModePacket,

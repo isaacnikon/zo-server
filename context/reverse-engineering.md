@@ -510,12 +510,25 @@
         - `0x004318c7` -> `0x03f5 / 0x54`
         - `0x0043185c` -> `0x03f5 / 0x5a`
     - server->client `0x03f5` is different:
-      - handler `FUN_00504c50` reads only a `u32 runtimeId`
-      - then selects the active pet locally without emitting another request
+      - `0x00504c50` -> `HandleServerPetActiveSelectPacket`
+      - it reads only a `u32 runtimeId`
+      - then dispatches through the local-player vtable slot `+0x60`
+      - that path does not call `SelectActivePetByRuntimeId`
+      - live `gdb` showed it does not write `GetLocalPlayerEntity()+0xcd0`
     - the top-left roster count is also split-source:
       - numerator = `FUN_00448f20(GetLocalPlayerEntity())` (tree count)
       - denominator = `GetLocalPlayerEntity()+0x504 + +0x27c`
       - current `1/0` means the tree count is fixed but the player pet-capacity field is still zero
+    - decisive local-first summon finding:
+      - `0x00434880` -> `HandlePetPanelSummonClick`
+      - it calls `SelectActivePetByRuntimeId(localPlayer, runtimeId)` first
+      - only if that succeeds and `localPlayer + 0xcd0` becomes non-null does it send `0x03f5 / 0x51`
+      - live `gdb` watchpoint on `GetLocalPlayerEntity()+0xcd0` confirmed the actual write happens inside `SelectActivePetByRuntimeId`
+      - therefore the working manual summon path is client-local first, server second
+    - second active-pet setter found:
+      - `FUN_0044a1c0` / `FUN_0044a050` search the player pet tree by `pet + 0x1dc` (secondary pet id), not by runtime id
+      - this path also writes `GetLocalPlayerEntity()+0xcd0`
+      - current xrefs place it in callback tables, not in any known inbound packet handler
   - stabilized server-side panel behavior after live packet tracing:
     - `0x03fa / 0x0a` is the combat summon path, not the Pet Panel summon reply
     - replying to Pet Panel `0x03f5 / 0x51` with `0x03fa / 0x0f` + `0x03fa / 0x0a` causes the client message `Combat: Summon pet failed!`
@@ -532,10 +545,13 @@
   - persistence added server-side:
     - character profile now stores `selectedPetRuntimeId` and `petSummoned`
     - login-server redirect, game-session bootstrap, replay, and snapshot persistence all carry those fields
-    - the selected pet now survives reconnects even though summon-state packet replay is still intentionally conservative
+    - the selected pet now survives reconnects
+    - however, persisted `petSummoned` does not auto-summon on relog with any known server-only packet sequence tested so far
   - practical implication:
-    - the remaining pet problems are narrower UI/runtime details like talent coefficients and any remaining panel label/state mismatches
-    - the main runtime-pet hydration blocker is solved by `0x03eb` type-`0x02`; the unstable parts were packet ordering and the wrong reuse of combat summon packets
+    - runtime-pet hydration itself is solved by `0x03eb` type-`0x02`
+    - the remaining unresolved login auto-summon issue appears to be a client-local transition, not a missing persisted server field
+    - storing more server-side pet detail is unlikely to help unless a new inbound packet path is found that reaches one of the active-pet setters
+    - the best remaining server-only research target is the full `0x03f5` subtype dispatch table to see whether another inbound subtype reaches the `+0x1dc`-based active selector
 
 ## Next Best Steps
 - Use `src/crafting-data.js` when implementing actual compose/socket/refine handlers

@@ -72,6 +72,7 @@ const {
 const { PacketWriter, buildPacket } = require('./protocol');
 const {
   buildGameDialoguePacket,
+  buildPetActiveSelectPacket,
   buildPetPanelBindPacket,
   buildPetPanelClearPacket,
   buildPetPanelModePacket,
@@ -229,6 +230,7 @@ class Session {
     this.combatReference = COMBAT_REFERENCE;
     this.syntheticCommandRefreshTimer = null;
     this.equipmentReplayTimer = null;
+    this.petReplayTimer = null;
     this.defeatRespawnPending = false;
     this.hasAnnouncedQuestOverview = false;
 
@@ -815,7 +817,11 @@ class Session {
     syncInventoryStateToClient(this);
     this.scheduleEquipmentReplay();
     this.syncQuestStateToClient();
-    this.sendPetStateSync('enter-game');
+    if (this.petSummoned) {
+      this.schedulePetReplay();
+    } else {
+      this.sendPetStateSync('enter-game');
+    }
   }
 
   scheduleEquipmentReplay(delayMs = 300) {
@@ -830,6 +836,21 @@ class Session {
         return;
       }
       sendEquipmentContainerSync(this);
+    }, Math.max(0, delayMs | 0));
+  }
+
+  schedulePetReplay(delayMs = 500) {
+    if (this.petReplayTimer) {
+      clearTimeout(this.petReplayTimer);
+      this.petReplayTimer = null;
+    }
+
+    this.petReplayTimer = setTimeout(() => {
+      this.petReplayTimer = null;
+      if (this.state !== 'LOGGED_IN' || !this.petSummoned) {
+        return;
+      }
+      this.sendPetStateSync('client-03f5-51-replay');
     }, Math.max(0, delayMs | 0));
   }
 
@@ -2112,6 +2133,12 @@ class Session {
     if (!pet) {
       return;
     }
+    if (selectedPet) {
+      this.pets = normalizePets([
+        selectedPet,
+        ...this.pets.filter((entry) => (entry?.runtimeId >>> 0) !== selectedPet.runtimeId),
+      ]);
+    }
     this.selectedPetRuntimeId = pet.runtimeId >>> 0;
     const ownerRuntimeId = this.getPetOwnerRuntimeId();
 
@@ -2129,7 +2156,8 @@ class Session {
       DEFAULT_FLAGS,
       `Sending pet roster sync cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x7f reason=${reason} count=${this.pets.length}`
     );
-    const isPanelSummonSync = reason.startsWith('client-03f5-51');
+    const isPanelSummonSync = reason === 'client-03f5-51';
+    const isReplaySync = reason === 'client-03f5-51-replay';
     if (!isPanelSummonSync) {
       this.writePacket(
         buildPetPanelBindPacket({
@@ -2169,6 +2197,15 @@ class Session {
         }),
         DEFAULT_FLAGS,
         `Sending pet panel rebind cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x53 reason=${reason} ownerRuntimeId=${ownerRuntimeId}`
+      );
+    }
+    if (isReplaySync) {
+      this.writePacket(
+        buildPetActiveSelectPacket({
+          runtimeId: pet.runtimeId,
+        }),
+        DEFAULT_FLAGS,
+        `Sending pet active select cmd=0x03f5 reason=${reason} runtimeId=${pet.runtimeId}`
       );
     }
   }
@@ -2233,7 +2270,12 @@ class Session {
     this.sendEnterGameOk();
   }
 
-  dispose() {}
+  dispose() {
+    if (this.petReplayTimer) {
+      clearTimeout(this.petReplayTimer);
+      this.petReplayTimer = null;
+    }
+  }
 
   sendStaticNpcSpawns() {
     const staticNpcs = getBootstrapWorldSpawns(this.currentMapId);
