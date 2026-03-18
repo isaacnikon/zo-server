@@ -3,6 +3,7 @@
  * Sits between the game client and server, logging all raw bytes.
  * Usage: node capture.js [--forward <real_ip>:<port>]
  */
+export {};
 
 const net = require('net');
 const fs = require('fs');
@@ -17,25 +18,25 @@ const FORWARD_PORT = parseInt(process.env.FORWARD_PORT || '7777');
 let sessionCount = 0;
 const logStream = fs.createWriteStream(LOG_FILE, { flags: 'a' });
 
-function log(msg) {
+function log(msg: string): void {
   const ts = new Date().toISOString();
   const line = `[${ts}] ${msg}`;
   console.log(line);
   logStream.write(line + '\n');
 }
 
-function hexDump(buf, prefix = '') {
-  const lines = [];
+function hexDump(buf: Buffer, prefix = ''): string {
+  const lines: string[] = [];
   for (let i = 0; i < buf.length; i += 16) {
     const chunk = buf.slice(i, i + 16);
-    const hex = Array.from(chunk).map(b => b.toString(16).padStart(2, '0')).join(' ');
-    const ascii = Array.from(chunk).map(b => (b >= 32 && b < 127) ? String.fromCharCode(b) : '.').join('');
+    const hex = Array.from(chunk).map((b: number) => b.toString(16).padStart(2, '0')).join(' ');
+    const ascii = Array.from(chunk).map((b: number) => (b >= 32 && b < 127) ? String.fromCharCode(b) : '.').join('');
     lines.push(`${prefix}${i.toString(16).padStart(4, '0')}: ${hex.padEnd(47)} | ${ascii}`);
   }
   return lines.join('\n');
 }
 
-function parsePacketHeader(buf) {
+function parsePacketHeader(buf: Buffer) {
   if (buf.length < 4) return null;
   // Try common MMO packet formats:
   // Format 1: [size:2][cmd:2][data...]
@@ -53,12 +54,12 @@ function parsePacketHeader(buf) {
   };
 }
 
-const server = net.createServer((clientSocket) => {
+const server = net.createServer((clientSocket: any) => {
   const sessionId = ++sessionCount;
   const clientAddr = `${clientSocket.remoteAddress}:${clientSocket.remotePort}`;
   log(`\n=== SESSION ${sessionId} CONNECTED from ${clientAddr} ===`);
 
-  let serverSocket = null;
+  let serverSocket: any = null;
   let clientBuffer = Buffer.alloc(0);
   let serverBuffer = Buffer.alloc(0);
 
@@ -70,7 +71,7 @@ const server = net.createServer((clientSocket) => {
       log(`[S${sessionId}] Connected to real server`);
     });
 
-    serverSocket.on('data', (data) => {
+    serverSocket.on('data', (data: Buffer) => {
       serverBuffer = Buffer.concat([serverBuffer, data]);
       const hdr = parsePacketHeader(data);
       log(`[S${sessionId}] SERVER->CLIENT (${data.length} bytes) header: ${JSON.stringify(hdr)}`);
@@ -78,14 +79,14 @@ const server = net.createServer((clientSocket) => {
       clientSocket.write(data);
     });
 
-    serverSocket.on('error', (err) => log(`[S${sessionId}] Server socket error: ${err.message}`));
+    serverSocket.on('error', (err: Error) => log(`[S${sessionId}] Server socket error: ${err.message}`));
     serverSocket.on('close', () => {
       log(`[S${sessionId}] Server socket closed`);
       clientSocket.destroy();
     });
   }
 
-  clientSocket.on('data', (data) => {
+  clientSocket.on('data', (data: Buffer) => {
     clientBuffer = Buffer.concat([clientBuffer, data]);
     const hdr = parsePacketHeader(data);
     log(`[S${sessionId}] CLIENT->SERVER (${data.length} bytes) header: ${JSON.stringify(hdr)}`);
@@ -115,7 +116,7 @@ const server = net.createServer((clientSocket) => {
     log(`[S${sessionId}] Full client data saved to ${dumpFile}`);
   });
 
-  clientSocket.on('error', (err) => log(`[S${sessionId}] Client error: ${err.message}`));
+  clientSocket.on('error', (err: Error) => log(`[S${sessionId}] Client error: ${err.message}`));
 });
 
 server.listen(LISTEN_PORT, '0.0.0.0', () => {
@@ -128,7 +129,7 @@ server.listen(LISTEN_PORT, '0.0.0.0', () => {
   log(`Logs written to ${LOG_FILE}`);
 });
 
-server.on('error', (err) => {
+server.on('error', (err: Error) => {
   console.error('Server error:', err.message);
   process.exit(1);
 });

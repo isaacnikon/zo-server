@@ -1,3 +1,4 @@
+export {};
 const fs = require('fs');
 const zlib = require('zlib');
 
@@ -15,7 +16,7 @@ console.log(`Magic: ${magic}, Version: 0x${version.toString(16)}, Entries: ${ent
 
 let offset = 16; // after header
 
-function parseEntry(off) {
+function parseEntry(off: number) {
     // Based on the hex pattern, each directory/file entry seems to have:
     // First, let's check if this looks like a size field or something else
     // Looking at the pattern more carefully:
@@ -136,7 +137,7 @@ console.log(`Data range: 0x${fileOffset.toString(16)} to 0x${(fileOffset + compS
 
 if (fileOffset + compSize <= data.length) {
     const compressedData = data.slice(fileOffset, fileOffset + compSize);
-    console.log(`\nFirst 16 bytes of compressed data: ${Array.from(compressedData.slice(0, 16)).map(b => b.toString(16).padStart(2, '0')).join(' ')}`);
+    console.log(`\nFirst 16 bytes of compressed data: ${Array.from(Buffer.from(compressedData.slice(0, 16))).map((b) => b.toString(16).padStart(2, '0')).join(' ')}`);
 
     // Try zlib decompress
     try {
@@ -146,7 +147,7 @@ if (fileOffset + compSize <= data.length) {
         console.log('Saved to roleinfo.txt');
         console.log('\nFirst 500 chars:');
         console.log(result.toString('utf8', 0, 500));
-    } catch (e) {
+    } catch (e: any) {
         console.log(`Zlib failed: ${e.message}`);
 
         // Try raw deflate
@@ -157,7 +158,7 @@ if (fileOffset + compSize <= data.length) {
             console.log('Saved to roleinfo.txt');
             console.log('\nFirst 500 chars:');
             console.log(result.toString('utf8', 0, 500));
-        } catch (e2) {
+        } catch (e2: any) {
             console.log(`Raw deflate failed: ${e2.message}`);
 
             // Maybe it's not compressed, just stored
@@ -170,7 +171,7 @@ if (fileOffset + compSize <= data.length) {
                     const result = zlib.gunzipSync(compressedData);
                     console.log(`\nGunzip decompressed OK! Size: ${result.length}`);
                     fs.writeFileSync('/home/nikon/projects/zo-server/roleinfo.txt', result);
-                } catch(e3) {
+                } catch(e3: any) {
                     console.log(`Gunzip failed: ${e3.message}`);
                     console.log('\nTrying with offset adjustments...');
 
@@ -183,7 +184,7 @@ if (fileOffset + compSize <= data.length) {
                             console.log('\nFirst 500 chars:');
                             console.log(result.toString('utf8', 0, 500));
                             break;
-                        } catch(e4) {}
+                        } catch(_e4) {}
                         try {
                             const result = zlib.inflateRawSync(compressedData.slice(skip));
                             console.log(`Raw deflate with skip=${skip} worked! Size: ${result.length}`);
@@ -191,7 +192,7 @@ if (fileOffset + compSize <= data.length) {
                             console.log('\nFirst 500 chars:');
                             console.log(result.toString('utf8', 0, 500));
                             break;
-                        } catch(e5) {}
+                        } catch(_e5) {}
                     }
                 }
             }
