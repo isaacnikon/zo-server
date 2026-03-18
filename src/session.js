@@ -1,7 +1,6 @@
 'use strict';
 
 const {
-  parsePositionUpdate,
   parseEquipmentState,
   parseAttributeAllocation,
   parseAttackSelection,
@@ -21,6 +20,12 @@ const {
   ensureQuestStateReady: questHandlerEnsureQuestStateReady,
   refreshQuestStateForItemTemplates: questHandlerRefreshQuestStateForItemTemplates,
 } = require('./handlers/quest-handler');
+const {
+  updateTownRespawnAnchor: sceneHandlerUpdateTownRespawnAnchor,
+  handlePositionUpdate: sceneHandlerHandlePositionUpdate,
+  transitionToScene: sceneHandlerTransitionToScene,
+  sendStaticNpcSpawns: sceneHandlerSendStaticNpcSpawns,
+} = require('./handlers/scene-handler');
 
 const {
   loadCombatReference,
@@ -51,8 +56,6 @@ const {
   GAME_DIALOG_MESSAGE_SUBCMD,
   GAME_ITEM_CONTAINER_CMD,
   GAME_ITEM_CMD,
-  GAME_SPAWN_BATCH_SUBCMD,
-  GAME_POSITION_QUERY_CMD,
   GAME_SERVER_RUN_CMD,
   GAME_SCRIPT_EVENT_CMD,
   GAME_SELF_STATE_CMD,
@@ -160,7 +163,6 @@ const {
   selectCombatTurnProbeProfile,
 } = require('./combat/combat-probe');
 const {
-  applySceneTransition,
   normalizeQuestState,
 } = require('./quest-engine');
 const {
@@ -169,12 +171,8 @@ const {
 } = require('./inventory');
 const {
   describeScene,
-  getBootstrapWorldSpawns,
-  isTownScene,
   resolveCharacterScene,
-  resolveEncounterAction,
   resolveTownRespawn,
-  resolveTileSceneAction,
 } = require('./scene-runtime');
 
 const COMBAT_REFERENCE = loadCombatReference();
@@ -707,185 +705,11 @@ class Session {
   }
 
   updateTownRespawnAnchor(mapId, x, y) {
-    if (!isTownScene(mapId)) {
-      return;
-    }
-
-    this.persistCurrentCharacter({
-      lastTownMapId: mapId,
-      lastTownX: x,
-      lastTownY: y,
-    });
+    sceneHandlerUpdateTownRespawnAnchor(this, mapId, x, y);
   }
 
   handlePositionUpdate(payload) {
-    if (payload.length < 8) {
-      this.log('Short 0x03eb payload');
-      return;
-    }
-
-    if (this.defeatRespawnPending) {
-      this.log('Ignoring position update while defeat respawn is pending');
-      return;
-    }
-
-    const { x, y, mapId } = parsePositionUpdate(payload);
-    const previousMapId = this.currentMapId;
-    this.currentX = x;
-    this.currentY = y;
-    this.currentMapId = mapId;
-    this.log(`Position update map=${mapId} pos=${x},${y}`);
-    this.handleTileSceneTrigger(mapId, x, y);
-    this.handleEncounterTrigger(mapId, x, y);
-
-    this.persistCurrentCharacter({
-      mapId,
-      x,
-      y,
-    });
-    this.updateTownRespawnAnchor(mapId, x, y);
-
-    if (previousMapId !== mapId) {
-      const questEvents = applySceneTransition(
-        {
-          activeQuests: this.activeQuests,
-          completedQuests: this.completedQuests,
-        },
-        mapId
-      );
-      if (questEvents.length > 0) {
-        this.applyQuestEvents(questEvents, 'position-map-change');
-      }
-    }
-  }
-
-  handleTileSceneTrigger(mapId, x, y) {
-    const cell = this.sharedState.mapCellStore?.getCell(mapId, x, y) || null;
-    const tileSceneId = cell?.sceneId || 0;
-
-    if (tileSceneId === this.currentTileSceneId) {
-      return;
-    }
-
-    const previousTileSceneId = this.currentTileSceneId;
-    this.currentTileSceneId = tileSceneId;
-
-    if (tileSceneId === 0) {
-      if (previousTileSceneId !== 0) {
-        this.log(`Left tile scene trigger sceneId=${previousTileSceneId} map=${mapId} pos=${x},${y}`);
-      }
-      return;
-    }
-
-    this.log(
-      `Entered tile scene trigger map=${mapId} (${describeScene(mapId)}) pos=${x},${y} sceneId=${tileSceneId} flags=0x${(cell.flags || 0).toString(16)} aux=${cell.auxValue || 0}`
-    );
-
-    const action = resolveTileSceneAction({
-      mapId,
-      tileSceneId,
-    });
-
-    if (!action) {
-      return;
-    }
-
-    if (action.kind === 'transition') {
-      this.currentTileSceneId = 0;
-      this.transitionToScene(action.targetSceneId, action.targetX, action.targetY, action.reason);
-      return;
-    }
-
-    this.log(
-      `No server-side tile scene action mapped for map=${mapId} (${describeScene(mapId)}) sceneId=${tileSceneId}`
-    );
-  }
-
-  handleEncounterTrigger(mapId, x, y) {
-    const action = resolveEncounterAction({
-      mapId,
-      x,
-      y,
-    });
-
-    const triggerId = action?.probeId || null;
-    if (!action) {
-      this.currentEncounterTriggerId = null;
-      return;
-    }
-
-    if (action.kind === 'encounterProbe') {
-      if (this.shouldSuppressEncounterProbe(action, mapId)) {
-        if (triggerId !== this.currentEncounterTriggerId) {
-          this.log(
-            `Encounter probe suppressed trigger=${triggerId} map=${mapId} pos=${x},${y} reason=active quest encounter owns this area`
-          );
-        }
-        this.currentEncounterTriggerId = triggerId;
-        return;
-      }
-
-      if (triggerId === this.currentEncounterTriggerId) {
-        return;
-      }
-
-      const profile = action.encounterProfile || {};
-      const cooldownMs = Math.max(0, Number.isFinite(profile.cooldownMs) ? profile.cooldownMs : 0);
-      if (cooldownMs > 0) {
-        const elapsedMs = Date.now() - this.lastEncounterProbeAt;
-        if (elapsedMs < cooldownMs) {
-          this.log(
-            `Encounter cooldown active trigger=${triggerId} map=${mapId} pos=${x},${y} elapsed=${elapsedMs} cooldown=${cooldownMs}`
-          );
-          return;
-        }
-      }
-      const chancePercent = Math.max(
-        0,
-        Math.min(100, Number.isFinite(profile.encounterChancePercent) ? profile.encounterChancePercent : 100)
-      );
-      if (chancePercent < 100) {
-        const roll = Math.random() * 100;
-        if (roll >= chancePercent) {
-          this.log(
-            `Encounter roll miss trigger=${triggerId} map=${mapId} pos=${x},${y} roll=${roll.toFixed(2)} chance=${chancePercent}`
-          );
-          return;
-        }
-        this.log(
-          `Encounter roll hit trigger=${triggerId} map=${mapId} pos=${x},${y} roll=${roll.toFixed(2)} chance=${chancePercent}`
-        );
-      }
-
-      this.currentEncounterTriggerId = triggerId;
-      this.lastEncounterProbeAt = Date.now();
-      this.sendCombatEncounterProbe(action);
-      return;
-    }
-
-    if (action.kind === 'encounterProbeExit') {
-      this.currentEncounterTriggerId = null;
-      this.sendCombatExitProbe(action);
-    }
-  }
-
-  shouldSuppressEncounterProbe(action, mapId) {
-    if (!action || action.kind !== 'encounterProbe') {
-      return false;
-    }
-
-    if (mapId !== 103 || action.probeId !== 'blingSpringField') {
-      return false;
-    }
-
-    const petQuest = Array.isArray(this.activeQuests)
-      ? this.activeQuests.find((quest) => (quest?.id >>> 0) === 51)
-      : null;
-    if (!petQuest) {
-      return false;
-    }
-
-    return (petQuest.stepIndex >>> 0) === 3;
+    sceneHandlerHandlePositionUpdate(this, payload);
   }
 
   handleServerRunRequest(payload) {
@@ -1530,33 +1354,7 @@ class Session {
   }
 
   transitionToScene(mapId, x, y, reason) {
-    this.defeatRespawnPending = false;
-    this.currentMapId = mapId;
-    this.currentX = x;
-    this.currentY = y;
-    this.currentTileSceneId = 0;
-    this.currentEncounterTriggerId = null;
-    this.log(`Transitioning scene reason="${reason}" map=${mapId} (${describeScene(mapId)}) pos=${x},${y}`);
-
-    this.persistCurrentCharacter({
-      mapId,
-      x,
-      y,
-    });
-
-    this.updateTownRespawnAnchor(mapId, x, y);
-    const questEvents = applySceneTransition(
-      {
-        activeQuests: this.activeQuests,
-        completedQuests: this.completedQuests,
-      },
-      mapId
-    );
-    if (questEvents.length > 0) {
-      this.applyQuestEvents(questEvents, 'scene-transition');
-    }
-
-    this.sendEnterGameOk();
+    sceneHandlerTransitionToScene(this, mapId, x, y, reason);
   }
 
   dispose() {
@@ -1567,55 +1365,7 @@ class Session {
   }
 
   sendStaticNpcSpawns() {
-    const staticNpcs = getBootstrapWorldSpawns(this.currentMapId);
-    if (!Array.isArray(staticNpcs) || staticNpcs.length === 0) {
-      return;
-    }
-
-    const writer = new PacketWriter();
-    writer.writeUint16(GAME_POSITION_QUERY_CMD);
-    writer.writeUint8(GAME_SPAWN_BATCH_SUBCMD);
-    writer.writeUint16(staticNpcs.length);
-
-    for (const npc of staticNpcs) {
-      this.writeNpcSpawnRecord(writer, npc);
-    }
-
-    this.writePacket(
-      writer.payload(),
-      DEFAULT_FLAGS,
-      `Sending static NPC spawn batch cmd=0x${GAME_POSITION_QUERY_CMD.toString(16)} map=${this.currentMapId} (${describeScene(this.currentMapId)}) count=${staticNpcs.length}`
-    );
-  }
-
-  writeNpcSpawnRecord(writer, npc) {
-    const x = (typeof npc.x === 'number' ? npc.x : this.currentX + (npc.dx || 0)) & 0xffff;
-    const y = (typeof npc.y === 'number' ? npc.y : this.currentY + (npc.dy || 0)) & 0xffff;
-
-    writer.writeUint32(npc.id >>> 0);
-    writer.writeUint16(npc.entityType & 0xffff);
-    writer.writeUint16(x);
-    writer.writeUint16(y);
-    writer.writeUint32((npc.templateFlags || 0) >>> 0);
-
-    if (!npc.richSpawn) {
-      return;
-    }
-
-    // Rich class-1 ParseEntitySpawnFrom03eb form:
-    // u32, u16 level, string name, then 3x (u16 appearanceType + u8 variant), then u16 extraFlags.
-    writer.writeUint32((npc.richValue || 0) >>> 0);
-    writer.writeUint16((npc.level || 0) & 0xffff);
-    writer.writeString(`${npc.name || ''}\0`);
-
-    const triples = Array.isArray(npc.appearanceTriples) ? npc.appearanceTriples : [];
-    for (let i = 0; i < 3; i += 1) {
-      const triple = triples[i] || {};
-      writer.writeUint16((triple.type || 0) & 0xffff);
-      writer.writeUint8((triple.variant || 0) & 0xff);
-    }
-
-    writer.writeUint16((npc.extraFlags || 0) & 0xffff);
+    sceneHandlerSendStaticNpcSpawns(this);
   }
 
   sendServerRunScriptImmediate(scriptId) {
