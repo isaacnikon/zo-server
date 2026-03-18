@@ -6,7 +6,7 @@ const {
   sendConsumeResultPackets,
   sendInventoryFullSync,
 } = require('../gameplay/inventory-runtime');
-const { sendSelfStateValueUpdate } = require('../gameplay/reward-runtime');
+const { sendSelfStateValueUpdate } = require('../gameplay/stat-sync');
 const { applyExperienceGain } = require('../gameplay/progression');
 
 /**
@@ -25,6 +25,7 @@ function applyEffects(session, effects, options = {}) {
   const suppressPackets = options.suppressPackets === true;
   const suppressStatSync = options.suppressStatSync === true;
   const suppressDialogues = options.suppressDialogues === true;
+  const suppressPersist = options.suppressPersist === true;
   let statsDirty = false;
   let inventoryDirty = false;
   const messages = [];
@@ -49,7 +50,7 @@ function applyEffects(session, effects, options = {}) {
   if (statsDirty && !suppressStatSync) {
     session.sendSelfStateAptitudeSync();
   }
-  if (statsDirty || inventoryDirty) {
+  if ((statsDirty || inventoryDirty) && !suppressPersist) {
     session.persistCurrentCharacter();
   }
 

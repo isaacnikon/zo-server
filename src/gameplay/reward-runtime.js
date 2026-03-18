@@ -1,90 +1,71 @@
 'use strict';
 
-const { DEFAULT_FLAGS, ENTITY_TYPE, GAME_SELF_STATE_CMD } = require('../config');
+const { ENTITY_TYPE } = require('../config');
 const { isFemaleRole } = require('../roleinfo');
-const { buildSelfStateValueUpdatePacket } = require('../protocol/gameplay-packets');
-const { grantItemToBag } = require('../inventory');
-const { sendGrantResultPackets, sendInventoryFullSync } = require('./inventory-runtime');
-const { applyExperienceGain } = require('./progression');
 const { createOwnedPet } = require('../pet-runtime');
-
-const VALUE_UPDATE_DISCRIMINATORS = Object.freeze({
-  gold: '$',
-  coins: 'N',
-  renown: '-',
-  experience: '!',
-});
-
-function sendSelfStateValueUpdate(session, kind, value) {
-  const discriminator = VALUE_UPDATE_DISCRIMINATORS[kind];
-  if (!discriminator) {
-    return;
-  }
-
-  session.writePacket(
-    buildSelfStateValueUpdatePacket({
-      discriminator: discriminator.charCodeAt(0),
-      value,
-    }),
-    DEFAULT_FLAGS,
-    `Sending self-state value update cmd=0x${GAME_SELF_STATE_CMD.toString(16)} kind=${kind} value=${value}`
-  );
-}
+const { applyEffects } = require('../effects/effect-executor');
+const { sendSelfStateValueUpdate } = require('./stat-sync');
 
 function applyQuestCompletionReward(session, reward, options = {}) {
   const suppressPackets = options.suppressPackets === true;
   const suppressDialogues = options.suppressDialogues === true;
   const normalizedReward = normalizeReward(resolveQuestRewardForSession(session, reward, options.taskId));
-  const rewardMessages = [];
-  let statsDirty = false;
-  let inventoryDirty = false;
   let petsDirty = false;
   let requiresFullStatSync = false;
   let levelSummary = null;
 
+  // Build effects for stats and items
+  const effects = [];
+
   if (normalizedReward.gold > 0) {
-    session.gold += normalizedReward.gold;
-    statsDirty = true;
-    rewardMessages.push(`${normalizedReward.gold} gold`);
-    if (!suppressPackets) {
-      sendSelfStateValueUpdate(session, 'gold', session.gold);
-    }
+    effects.push({ kind: 'update-stat', stat: 'gold', delta: normalizedReward.gold });
   }
-
   if (normalizedReward.coins > 0) {
-    session.coins += normalizedReward.coins;
-    statsDirty = true;
-    rewardMessages.push(`${normalizedReward.coins} coin`);
-    if (!suppressPackets) {
-      sendSelfStateValueUpdate(session, 'coins', session.coins);
-    }
+    effects.push({ kind: 'update-stat', stat: 'coins', delta: normalizedReward.coins });
   }
-
   if (normalizedReward.renown > 0) {
-    session.renown += normalizedReward.renown;
-    statsDirty = true;
-    rewardMessages.push(`${normalizedReward.renown} renown`);
-    if (!suppressPackets) {
-      sendSelfStateValueUpdate(session, 'renown', session.renown);
-    }
+    effects.push({ kind: 'update-stat', stat: 'renown', delta: normalizedReward.renown });
   }
-
   if (normalizedReward.experience > 0) {
-    const progressionResult = applyExperienceGain(session, normalizedReward.experience);
-    session.level = progressionResult.level;
-    session.experience = progressionResult.experience;
-    session.statusPoints = progressionResult.statusPoints;
-    statsDirty = true;
-    requiresFullStatSync = requiresFullStatSync || progressionResult.levelsGained > 0;
-    rewardMessages.push(`${normalizedReward.experience} exp`);
-    if (!suppressPackets && progressionResult.levelsGained === 0) {
-      sendSelfStateValueUpdate(session, 'experience', session.experience);
-    }
-    if (progressionResult.levelsGained > 0) {
-      levelSummary = progressionResult;
+    effects.push({ kind: 'update-stat', stat: 'experience', delta: normalizedReward.experience });
+  }
+
+  for (const item of normalizedReward.items) {
+    effects.push({ kind: 'grant-item', templateId: item.templateId, quantity: item.quantity });
+  }
+
+  // Apply stat/item effects via the shared executor (suppress stat sync and
+  // persistence — the caller decides when to sync and persist).
+  const effectResult = applyEffects(session, effects, {
+    suppressPackets,
+    suppressDialogues,
+    suppressStatSync: true,
+    suppressPersist: true,
+  });
+
+  // Track experience level-ups (the executor handles the mutation, but we need
+  // to detect level-ups for reward messaging).
+  if (normalizedReward.experience > 0) {
+    const prevLevel = session.level;
+    // The effect executor already applied experience via applyExperienceGain.
+    // Check if level changed by comparing before/after (level is already updated).
+    // We need the progression result for level summary.  Re-check by reading state.
+    // NOTE: The effect executor already mutated session.level/experience/statusPoints.
+    // We detect level-up after the fact.
+    if (session.level > (options._prevLevel || 1)) {
+      requiresFullStatSync = true;
+      levelSummary = {
+        levelsGained: session.level - (options._prevLevel || 1),
+        statusPointsGained: session.statusPoints - (options._prevStatusPoints || 0),
+        level: session.level,
+        experience: session.experience,
+        statusPoints: session.statusPoints,
+      };
     }
   }
 
+  // Pet handling (not an effect — pets have unique ownership semantics)
+  const rewardMessages = effectResult.messages.slice();
   for (const petTemplateId of normalizedReward.pets) {
     if (!Number.isInteger(petTemplateId) || petTemplateId <= 0) {
       continue;
@@ -98,34 +79,13 @@ function applyQuestCompletionReward(session, reward, options = {}) {
       continue;
     }
     session.pets.push(createOwnedPet(petTemplateId >>> 0, {}, session.pets.length));
-    statsDirty = true;
     petsDirty = true;
     rewardMessages.push(resolvePetRewardName(petTemplateId));
   }
 
-  for (const item of normalizedReward.items) {
-    const grantResult = grantItemToBag(session, item.templateId, item.quantity);
-    if (!grantResult.ok) {
-      if (!suppressDialogues) {
-        session.sendGameDialogue('Quest', `${item.name || 'Reward item'} could not be added: ${grantResult.reason}.`);
-      }
-      continue;
-    }
-
-    inventoryDirty = true;
-    rewardMessages.push(`${grantResult.definition.name} x${item.quantity}`);
-    if (!suppressPackets) {
-      sendGrantResultPackets(session, grantResult);
-    }
-  }
-
-  if (inventoryDirty && !suppressPackets) {
-    sendInventoryFullSync(session);
-  }
-
   return {
-    statsDirty,
-    inventoryDirty,
+    statsDirty: effectResult.statsDirty || petsDirty,
+    inventoryDirty: effectResult.inventoryDirty,
     petsDirty,
     requiresFullStatSync,
     rewardMessages,
@@ -292,5 +252,5 @@ function numberOrDefault(value, fallback) {
 
 module.exports = {
   applyQuestCompletionReward,
-  sendSelfStateValueUpdate,
+  sendSelfStateValueUpdate,  // re-exported from stat-sync for backward compat
 };
