@@ -1,7 +1,5 @@
 'use strict';
 
-const fs = require('fs');
-
 const {
   parsePositionUpdate,
   parseCreateRole,
@@ -15,13 +13,11 @@ const {
 const { dispatchGamePacket } = require('./handlers/packet-dispatcher');
 
 const {
-  buildCombatTurnProfiles,
   loadCombatReference,
 } = require('./combat-reference');
 
 const {
   AREA_ID,
-  COMBAT_PROBE_STATE_FILE,
   DEFAULT_FLAGS,
   ENTITY_TYPE,
   FIGHT_ACTIVE_STATE_SUBCMD,
@@ -161,6 +157,25 @@ const {
 } = require('./combat/synthetic-fight-packets');
 const { getRoleName, getRolePrimaryDrop } = require('./roleinfo');
 const {
+  packRoleData,
+  resolveRoleData,
+  resolveRoleLevel,
+  resolveBirthMonth,
+  resolveBirthDay,
+} = require('./character/role-utils');
+const {
+  numberOrDefault,
+  defaultPrimaryAttributes,
+  normalizePrimaryAttributes,
+  normalizeCharacterRecord,
+} = require('./character/normalize');
+const {
+  buildSyntheticEncounterEnemies,
+} = require('./combat/encounter-builder');
+const {
+  selectCombatTurnProbeProfile,
+} = require('./combat/combat-probe');
+const {
   abandonQuest,
   applyMonsterDefeat,
   applySceneTransition,
@@ -184,7 +199,6 @@ const {
 } = require('./scene-runtime');
 
 const COMBAT_REFERENCE = loadCombatReference();
-const COMBAT_TURN_PROBE_PROFILES = buildCombatTurnProfiles();
 
 class Session {
   constructor(socket, id, isGame, sharedState, logger) {
@@ -2460,261 +2474,11 @@ class Session {
   }
 }
 
-function packRoleData(extra1, extra2) {
-  return ((extra2 & 0xffff) << 16) | (extra1 & 0xffff);
-}
-
-const SYNTHETIC_ENCOUNTER_POSITIONS = [
-  { row: 0, col: 2 },
-  { row: 1, col: 1 },
-  { row: 1, col: 3 },
-];
-
-function randomIntInclusive(min, max) {
-  const low = Math.min(min, max);
-  const high = Math.max(min, max);
-  return low + Math.floor(Math.random() * ((high - low) + 1));
-}
-
-function pickWeightedEncounterTemplate(pool) {
-  const weightedPool = Array.isArray(pool)
-    ? pool.filter((entry) => entry && Number.isInteger(entry.typeId) && (entry.weight || 1) > 0)
-    : [];
-  if (weightedPool.length === 0) {
-    return null;
-  }
-
-  const totalWeight = weightedPool.reduce((sum, entry) => sum + Math.max(1, entry.weight || 1), 0);
-  let roll = Math.floor(Math.random() * totalWeight);
-  for (const entry of weightedPool) {
-    roll -= Math.max(1, entry.weight || 1);
-    if (roll < 0) {
-      return entry;
-    }
-  }
-
-  return weightedPool[weightedPool.length - 1];
-}
-
-function buildSyntheticEncounterEnemies(action, mapId) {
-  const profile = action?.encounterProfile;
-  if (!profile || !Array.isArray(profile.pool) || profile.pool.length === 0) {
-    const fallbackDrop = getRolePrimaryDrop(5001);
-    const fallbackName = getRoleName(5001) || `Map ${mapId} Enemy 5001`;
-    return [
-      {
-        side: 1,
-        entityId: 0x700001,
-        logicalId: 1,
-        typeId: 5001,
-        row: 0,
-        col: 2,
-        hpLike: 120,
-        mpLike: 0,
-        aptitude: 0,
-        levelLike: 15,
-        appearanceTypes: [0, 0, 0],
-        appearanceVariants: [0, 0, 0],
-        drops: fallbackDrop ? [fallbackDrop] : [],
-        name: fallbackName,
-      },
-      {
-        side: 1,
-        entityId: 0x700002,
-        logicalId: 2,
-        typeId: 5001,
-        row: 1,
-        col: 1,
-        hpLike: 120,
-        mpLike: 0,
-        aptitude: 0,
-        levelLike: 15,
-        appearanceTypes: [0, 0, 0],
-        appearanceVariants: [0, 0, 0],
-        drops: fallbackDrop ? [fallbackDrop] : [],
-        name: fallbackName,
-      },
-    ];
-  }
-
-  const count = randomIntInclusive(
-    profile.minEnemies || 1,
-    Math.min(profile.maxEnemies || 1, SYNTHETIC_ENCOUNTER_POSITIONS.length)
-  );
-  const enemies = [];
-  for (let index = 0; index < count; index += 1) {
-    const template = pickWeightedEncounterTemplate(profile.pool) || profile.pool[0];
-    const position = SYNTHETIC_ENCOUNTER_POSITIONS[index];
-    const levelLike = randomIntInclusive(template.levelMin || 1, template.levelMax || template.levelMin || 1);
-    const hpLike = (template.hpBase || 80) + ((template.hpPerLevel || 5) * Math.max(0, levelLike - (template.levelMin || 1)));
-
-    enemies.push({
-      side: 1,
-      entityId: 0x700001 + index,
-      logicalId: Number.isInteger(template.logicalId) ? template.logicalId : (template.typeId & 0xffff),
-      typeId: template.typeId & 0xffff,
-      row: position.row,
-      col: position.col,
-      hpLike,
-      mpLike: 0,
-      aptitude: template.aptitude || 0,
-      levelLike,
-      appearanceTypes: Array.isArray(template.appearanceTypes) ? template.appearanceTypes.slice(0, 3) : [0, 0, 0],
-      appearanceVariants: Array.isArray(template.appearanceVariants) ? template.appearanceVariants.slice(0, 3) : [0, 0, 0],
-      drops: Array.isArray(template.drops) ? template.drops.map((drop) => ({ ...drop })) : [],
-      name: template.name || `Map ${mapId} Enemy ${template.typeId}`,
-    });
-  }
-
-  return enemies;
-}
-
-function loadCombatProbeIndex() {
-  try {
-    const raw = fs.readFileSync(COMBAT_PROBE_STATE_FILE, 'utf8');
-    const parsed = JSON.parse(raw);
-    return Number.isInteger(parsed?.nextProbeIndex) && parsed.nextProbeIndex >= 0
-      ? parsed.nextProbeIndex
-      : 0;
-  } catch (err) {
-    return 0;
-  }
-}
-
-function selectCombatTurnProbeProfile() {
-  const persistedProbeIndex = loadCombatProbeIndex();
-  const probeIndex = persistedProbeIndex % COMBAT_TURN_PROBE_PROFILES.length;
-  const probeProfile = COMBAT_TURN_PROBE_PROFILES[probeIndex];
-  saveCombatProbeIndex(persistedProbeIndex + 1);
-  return {
-    index: probeIndex,
-    profile: probeProfile,
-  };
-}
-
-function saveCombatProbeIndex(nextProbeIndex) {
-  const payload = JSON.stringify({ nextProbeIndex }, null, 2);
-  fs.writeFileSync(COMBAT_PROBE_STATE_FILE, `${payload}\n`);
-}
-
-function resolveRoleData(role) {
-  if (typeof role.extra1 === 'number' || typeof role.extra2 === 'number') {
-    return packRoleData(role.extra1 || 0, role.extra2 || 0) >>> 0;
-  }
-  if (typeof role.roleData === 'number' && typeof role.aptitude === 'number') {
-    return role.roleData >>> 0;
-  }
-  return 0;
-}
-
-function resolveRoleLevel(role) {
-  if (typeof role.level === 'number') {
-    return role.level & 0xff;
-  }
-  return 1;
-}
-
-function defaultPrimaryAttributes() {
-  return {
-    intelligence: 15,
-    vitality: 15,
-    dexterity: 15,
-    strength: 15,
-  };
-}
-
-function numberOrDefault(value, fallback) {
-  return typeof value === 'number' ? value : fallback;
-}
-
-function normalizePrimaryAttributes(primaryAttributes) {
-  const defaults = defaultPrimaryAttributes();
-  return {
-    intelligence:
-      typeof primaryAttributes?.intelligence === 'number'
-        ? primaryAttributes.intelligence
-        : (typeof primaryAttributes?.ene === 'number' ? primaryAttributes.ene : defaults.intelligence),
-    vitality:
-      typeof primaryAttributes?.vitality === 'number'
-        ? primaryAttributes.vitality
-        : (typeof primaryAttributes?.con === 'number' ? primaryAttributes.con : defaults.vitality),
-    dexterity:
-      typeof primaryAttributes?.dexterity === 'number'
-        ? primaryAttributes.dexterity
-        : (typeof primaryAttributes?.dex === 'number' ? primaryAttributes.dex : defaults.dexterity),
-    strength:
-      typeof primaryAttributes?.strength === 'number'
-        ? primaryAttributes.strength
-        : (typeof primaryAttributes?.str === 'number' ? primaryAttributes.str : defaults.strength),
-  };
-}
-
-function normalizeCharacterRecord(character) {
-  const mapId = numberOrDefault(character.mapId, MAP_ID);
-  const x = numberOrDefault(character.x, SPAWN_X);
-  const y = numberOrDefault(character.y, SPAWN_Y);
-  const lastTownMapId =
-    typeof character.lastTownMapId === 'number'
-      ? character.lastTownMapId
-      : (isTownScene(mapId) ? mapId : undefined);
-  const lastTownX =
-    typeof character.lastTownX === 'number'
-      ? character.lastTownX
-      : (isTownScene(mapId) ? x : undefined);
-  const lastTownY =
-    typeof character.lastTownY === 'number'
-      ? character.lastTownY
-      : (isTownScene(mapId) ? y : undefined);
-  const questState = normalizeQuestState(character);
-  const inventoryState = normalizeInventoryState(character);
-  return {
-    ...character,
-    charName: character.charName || character.roleName || 'Hero',
-    roleName: character.roleName || character.charName || 'Hero',
-    mapId,
-    x,
-    y,
-    level: numberOrDefault(character.level, 1),
-    selectedAptitude: numberOrDefault(character.selectedAptitude, 0),
-    experience: numberOrDefault(character.experience, 0),
-    currentHealth: numberOrDefault(character.currentHealth, CHARACTER_VITALS_BASELINE.health),
-    currentMana: numberOrDefault(character.currentMana, CHARACTER_VITALS_BASELINE.mana),
-    currentRage: numberOrDefault(character.currentRage, 100),
-    gold: numberOrDefault(character.gold, 0),
-    bankGold: numberOrDefault(character.bankGold, 0),
-    boundGold: numberOrDefault(character.boundGold, 0),
-    coins: numberOrDefault(character.coins, 0),
-    renown: numberOrDefault(character.renown, 0),
-    statusPoints: numberOrDefault(character.statusPoints, 0),
-    lastTownMapId,
-    lastTownX,
-    lastTownY,
-    primaryAttributes: normalizePrimaryAttributes(character.primaryAttributes),
-    activeQuests: questState.activeQuests,
-    completedQuests: questState.completedQuests,
-    pets: normalizePets(character.pets),
-    selectedPetRuntimeId:
-      typeof character.selectedPetRuntimeId === 'number'
-        ? (character.selectedPetRuntimeId >>> 0)
-        : null,
-    petSummoned: character.petSummoned === true,
-    inventory: inventoryState.inventory,
-  };
-}
-
-function resolveBirthMonth(role) {
-  if (typeof role.birthMonth === 'number') {
-    return role.birthMonth & 0xff;
-  }
-  return (role.trait1 || 0) & 0xff;
-}
-
-function resolveBirthDay(role) {
-  if (typeof role.birthDay === 'number') {
-    return role.birthDay & 0xff;
-  }
-  return (role.trait2 || 0) & 0xff;
-}
+// Free functions extracted to:
+//   character/role-utils.js   (packRoleData, resolveRoleData, resolveRoleLevel, resolveBirthMonth, resolveBirthDay)
+//   character/normalize.js    (numberOrDefault, defaultPrimaryAttributes, normalizePrimaryAttributes, normalizeCharacterRecord)
+//   combat/encounter-builder.js (buildSyntheticEncounterEnemies, pickWeightedEncounterTemplate, randomIntInclusive)
+//   combat/combat-probe.js    (loadCombatProbeIndex, saveCombatProbeIndex, selectCombatTurnProbeProfile)
 
 module.exports = {
   Session,
