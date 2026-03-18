@@ -2,22 +2,24 @@
 
 const {
   parsePositionUpdate,
-  parseCreateRole,
   parseQuestPacket,
   parseEquipmentState,
   parseAttributeAllocation,
   parseAttackSelection,
   parsePingToken,
-  parseLoginPacket,
 } = require('./protocol/inbound-packets');
+
 const { dispatchGamePacket } = require('./handlers/packet-dispatcher');
+const {
+  handleLogin: loginHandlerHandleLogin,
+  handleRolePacket: loginHandlerHandleRolePacket,
+} = require('./handlers/login-handler');
 
 const {
   loadCombatReference,
 } = require('./combat-reference');
 
 const {
-  AREA_ID,
   DEFAULT_FLAGS,
   ENTITY_TYPE,
   FIGHT_ACTIVE_STATE_SUBCMD,
@@ -51,14 +53,10 @@ const {
   HANDSHAKE_CMD,
   LOGIN_CMD,
   LOGIN_SERVER_LIST_RESULT,
-  LINE_SELECT_RESULT,
   MAP_ID,
   FORCE_START_SCENE,
   PING_CMD,
   PONG_CMD,
-  PORT,
-  REDIRECT_RESULT,
-  ROLE_CMD,
   SERVER_RUN_MESSAGE_SUBCMD,
   SELF_STATE_APTITUDE_SUBCMD,
   SERVER_SCRIPT_DEFERRED_SUBCMD,
@@ -157,15 +155,7 @@ const {
 } = require('./combat/synthetic-fight-packets');
 const { getRoleName, getRolePrimaryDrop } = require('./roleinfo');
 const {
-  packRoleData,
-  resolveRoleData,
-  resolveRoleLevel,
-  resolveBirthMonth,
-  resolveBirthDay,
-} = require('./character/role-utils');
-const {
   numberOrDefault,
-  defaultPrimaryAttributes,
   normalizePrimaryAttributes,
   normalizeCharacterRecord,
 } = require('./character/normalize');
@@ -354,33 +344,7 @@ class Session {
   }
 
   handleLogin(payload) {
-    const cmdByte = payload[0];
-    this.log(`Login packet cmd=0x${cmdByte.toString(16)} mode=${this.isGame ? 'GAME' : 'LOGIN'}`);
-    this.log(`Full payload hex: ${payload.toString('hex')}`);
-
-    for (let i = 0; i < payload.length - 1; i += 1) {
-      let str = '';
-      while (i < payload.length && payload[i] >= 0x20 && payload[i] < 0x7f) {
-        str += String.fromCharCode(payload[i]);
-        i += 1;
-      }
-      if (str.length > 3) {
-        this.log(`String at ${i}: "${str}"`);
-      }
-    }
-
-    const login = this.parseLoginPayload(payload);
-    if (login) {
-      this.accountName = login.username;
-      this.log(`Parsed account="${login.username}"`);
-    }
-
-    this.state = 'LOGGED_IN';
-    if (this.isGame) {
-      this.sendEnterGameOk();
-    } else {
-      this.sendLoginServerList();
-    }
+    loginHandlerHandleLogin(this, payload);
   }
 
   handleLoggedInPacket(flags, payload) {
@@ -553,109 +517,7 @@ class Session {
   }
 
   handleRolePacket(payload) {
-    if (payload.length < 3) {
-      this.log('Short 0x044c payload');
-      return;
-    }
-
-    const subcmd = payload[2];
-    const ROLE_HANDLERS = {
-      0x04: () => this.handleCreateRole(payload),
-      0x0d: () => {
-        const slotIndex = payload.length >= 4 ? payload[3] : 0;
-        this.log(`Enter game request slot=${slotIndex}`);
-        if (this.isGame) {
-          this.sendEnterGameOk();
-        } else {
-          this.sendGameServerRedirect();
-        }
-      },
-      0x1c: () => {
-        const lineNo = payload.length >= 4 ? payload[3] : 0;
-        this.log(`Line select request for line ${lineNo}`);
-        this.sendLineSelectOk(lineNo);
-      },
-    };
-
-    const handler = ROLE_HANDLERS[subcmd];
-    if (handler) {
-      handler();
-    } else {
-      this.log(`Unhandled 0x044c subcmd=0x${subcmd.toString(16)}`);
-    }
-  }
-
-  handleCreateRole(payload) {
-    if (payload.length < 6) {
-      this.log('Short create-role payload');
-      return;
-    }
-
-    const { templateIndex, roleName, birthMonth, birthDay, selectedAptitude, extra1, extra2 } = parseCreateRole(payload);
-
-    this.log(
-      `Create role request template=0x${templateIndex.toString(16)} name="${roleName}" month=${birthMonth} day=${birthDay} selectedAptitude=${selectedAptitude} extra1=0x${extra1.toString(16)} extra2=0x${extra2.toString(16)}`
-    );
-
-    this.charName = roleName || 'Hero';
-    this.entityType = ENTITY_TYPE;
-    this.roleEntityType = ENTITY_TYPE + templateIndex;
-    this.roleData = packRoleData(extra1, extra2);
-    this.selectedAptitude = selectedAptitude;
-    this.level = 1;
-    this.experience = 0;
-    this.currentHealth = CHARACTER_VITALS_BASELINE.health;
-    this.currentMana = CHARACTER_VITALS_BASELINE.mana;
-    this.currentRage = 100;
-    this.gold = 0;
-    this.bankGold = 0;
-    this.boundGold = 0;
-    this.coins = 0;
-    this.renown = 0;
-    this.primaryAttributes = defaultPrimaryAttributes();
-    this.statusPoints = 0;
-    this.activeQuests = [];
-    this.completedQuests = [];
-    this.saveCharacter({
-      slot: 0,
-      roleName: this.charName,
-      birthMonth,
-      birthDay,
-      selectedAptitude,
-      extra1,
-      extra2,
-      level: 1,
-      requestedTemplateIndex: templateIndex,
-      entityType: this.entityType,
-      roleEntityType: this.roleEntityType,
-      roleData: this.roleData,
-      experience: this.experience,
-      currentHealth: this.currentHealth,
-      currentMana: this.currentMana,
-      currentRage: this.currentRage,
-      gold: this.gold,
-      bankGold: this.bankGold,
-      boundGold: this.boundGold,
-      coins: this.coins,
-      renown: this.renown,
-      primaryAttributes: this.primaryAttributes,
-      statusPoints: this.statusPoints,
-      activeQuests: this.activeQuests,
-      completedQuests: this.completedQuests,
-      mapId: MAP_ID,
-      x: SPAWN_X,
-      y: SPAWN_Y,
-    });
-    this.sendCreateRoleOk({
-      slot: 0,
-      roleName: this.charName,
-      birthMonth,
-      birthDay,
-      level: 1,
-      extra1,
-      extra2,
-      roleData: this.roleData,
-    });
+    loginHandlerHandleRolePacket(this, payload);
   }
 
   sendHandshake() {
@@ -663,105 +525,6 @@ class Session {
     writer.writeUint16(HANDSHAKE_CMD);
     writer.writeUint32(0);
     this.writePacket(writer.payload(), SPECIAL_FLAGS, 'Sending handshake (flags=0x44, seed=0, no encryption)');
-  }
-
-  sendLoginServerList() {
-    const writer = new PacketWriter();
-    writer.writeUint16(LOGIN_CMD);
-    writer.writeUint8(LOGIN_SERVER_LIST_RESULT);
-    writer.writeUint8(0);
-    writer.writeUint8(0);
-    writer.writeUint32(0);
-    writer.writeBytes(Buffer.from([1, 0, 0, 0, 0, 0, 0, 0]));
-    writer.writeUint32(AREA_ID);
-    writer.writeUint16(PORT);
-    writer.writeUint8(1);
-    writer.writeString('127.0.0.1');
-    writer.writeUint8(0);
-    writer.writeUint8(0);
-    writer.writeUint32(0);
-    writer.writeUint32(0);
-    writer.writeString('');
-    writer.writeUint8(0);
-    this.writePacket(writer.payload(), DEFAULT_FLAGS, 'Sending login server-list response');
-  }
-
-  sendLineSelectOk(lineNo) {
-    const writer = new PacketWriter();
-    writer.writeUint16(LOGIN_CMD);
-    writer.writeUint8(LINE_SELECT_RESULT);
-    writer.writeUint8(lineNo & 0xff);
-    this.writePacket(writer.payload(), DEFAULT_FLAGS, `Sending line-select success for line ${lineNo}`);
-    this.replayPersistedCharacter();
-  }
-
-  sendCreateRoleOk(role) {
-    const writer = new PacketWriter();
-    writer.writeUint16(ROLE_CMD);
-    writer.writeUint8(0x05);
-    writer.writeUint8(role.slot & 0xff);
-    writer.writeUint32(resolveRoleData(role));
-    writer.writeUint16(role.entityType || this.roleEntityType || ENTITY_TYPE);
-    writer.writeUint8(resolveRoleLevel(role));
-    writer.writeString(`${role.roleName}\0`);
-    writer.writeUint8(resolveBirthMonth(role));
-    writer.writeUint8(resolveBirthDay(role));
-    this.writePacket(
-      writer.payload(),
-      DEFAULT_FLAGS,
-      `Sending create-role success for "${role.roleName}" entity_type=0x${(role.entityType || this.roleEntityType || ENTITY_TYPE).toString(16)}`
-    );
-  }
-
-  sendGameServerRedirect() {
-    const persisted = this.getPersistedCharacter();
-    const roleData = persisted ? resolveRoleData(persisted) : this.roleData;
-    this.sharedState.pendingGameCharacter = {
-      accountName: this.accountName,
-      charName: persisted?.charName || persisted?.roleName || this.charName,
-      entityType: persisted?.roleEntityType || this.roleEntityType || this.entityType,
-      roleEntityType: persisted?.roleEntityType || this.roleEntityType,
-      roleData,
-      selectedAptitude: persisted?.selectedAptitude || this.selectedAptitude || 0,
-      level: persisted?.level || this.level || 1,
-      experience: persisted?.experience || this.experience || 0,
-      currentHealth: persisted?.currentHealth || this.currentHealth || CHARACTER_VITALS_BASELINE.health,
-      currentMana: persisted?.currentMana || this.currentMana || CHARACTER_VITALS_BASELINE.mana,
-      currentRage: persisted?.currentRage || this.currentRage || 100,
-      gold: persisted?.gold || this.gold || 0,
-      bankGold: persisted?.bankGold || this.bankGold || 0,
-      boundGold: persisted?.boundGold || this.boundGold || 0,
-      coins: persisted?.coins || this.coins || 0,
-      renown: persisted?.renown || this.renown || 0,
-      primaryAttributes: normalizePrimaryAttributes(persisted?.primaryAttributes || this.primaryAttributes),
-      statusPoints: persisted?.statusPoints || this.statusPoints || 0,
-      activeQuests: normalizeQuestState(persisted || {}).activeQuests,
-      completedQuests: normalizeQuestState(persisted || {}).completedQuests,
-      pets: normalizePets(Array.isArray(persisted?.pets) ? persisted.pets : this.pets),
-      selectedPetRuntimeId:
-        typeof persisted?.selectedPetRuntimeId === 'number'
-          ? (persisted.selectedPetRuntimeId >>> 0)
-          : this.selectedPetRuntimeId,
-      petSummoned: persisted?.petSummoned === true || this.petSummoned === true,
-      lastTownMapId: persisted?.lastTownMapId,
-      lastTownX: persisted?.lastTownX,
-      lastTownY: persisted?.lastTownY,
-      ...resolveCharacterScene({
-        mapId: persisted?.mapId || this.currentMapId || MAP_ID,
-        x: persisted?.x || this.currentX || SPAWN_X,
-        y: persisted?.y || this.currentY || SPAWN_Y,
-      }),
-    };
-    this.sharedState.nextSessionIsGame = true;
-
-    const writer = new PacketWriter();
-    writer.writeUint16(LOGIN_CMD);
-    writer.writeUint8(REDIRECT_RESULT);
-    writer.writeString('127.0.0.1\0');
-    writer.writeUint16(PORT);
-    writer.writeUint16(0);
-    writer.writeUint16(0);
-    this.writePacket(writer.payload(), DEFAULT_FLAGS, `Sending 0x0d game-server redirect to 127.0.0.1:${PORT}`);
   }
 
   sendEnterGameOk() {
@@ -890,13 +653,6 @@ class Session {
     this.logger.log(`[S${this.id}] ${message}`);
   }
 
-  parseLoginPayload(payload) {
-    if (payload.length < 6 || payload.readUInt16LE(0) !== LOGIN_CMD) {
-      return null;
-    }
-    return parseLoginPacket(payload);
-  }
-
   getPersistedCharacter() {
     const character = this.sharedState.characterStore?.get(this.accountName) || null;
     if (!character) {
@@ -1014,58 +770,6 @@ class Session {
       lastTownX: x,
       lastTownY: y,
     });
-  }
-
-  replayPersistedCharacter() {
-    const character = this.getPersistedCharacter();
-    if (!character) {
-      return;
-    }
-
-    this.charName = character.charName || character.roleName || 'Hero';
-    this.entityType = ENTITY_TYPE;
-    this.roleEntityType = character.roleEntityType || ENTITY_TYPE;
-    this.roleData = resolveRoleData(character);
-    this.selectedAptitude = numberOrDefault(character.selectedAptitude, 0);
-    this.level = numberOrDefault(character.level, 1);
-    this.experience = numberOrDefault(character.experience, 0);
-    this.currentHealth = numberOrDefault(character.currentHealth, CHARACTER_VITALS_BASELINE.health);
-    this.currentMana = numberOrDefault(character.currentMana, CHARACTER_VITALS_BASELINE.mana);
-    this.currentRage = numberOrDefault(character.currentRage, 100);
-    this.gold = numberOrDefault(character.gold, 0);
-    this.bankGold = numberOrDefault(character.bankGold, 0);
-    this.boundGold = numberOrDefault(character.boundGold, 0);
-    this.coins = numberOrDefault(character.coins, 0);
-    this.renown = numberOrDefault(character.renown, 0);
-    this.primaryAttributes = normalizePrimaryAttributes(character.primaryAttributes);
-    this.statusPoints = numberOrDefault(character.statusPoints, 0);
-    const questState = normalizeQuestState(character);
-    this.activeQuests = questState.activeQuests;
-    this.completedQuests = questState.completedQuests;
-    this.pets = normalizePets(character.pets);
-    this.selectedPetRuntimeId =
-      typeof character.selectedPetRuntimeId === 'number'
-        ? (character.selectedPetRuntimeId >>> 0)
-        : null;
-    this.petSummoned = character.petSummoned === true;
-    const inventoryState = normalizeInventoryState(character);
-    this.bagItems = inventoryState.inventory.bag;
-    this.bagSize = inventoryState.inventory.bagSize;
-    this.nextItemInstanceId = inventoryState.inventory.nextItemInstanceId;
-    this.nextBagSlot = inventoryState.inventory.nextBagSlot;
-    const scene = resolveCharacterScene(character);
-    this.currentMapId = scene.mapId;
-    this.currentX = scene.x;
-    this.currentY = scene.y;
-    this.saveCharacter(character);
-    this.updateTownRespawnAnchor(this.currentMapId, this.currentX, this.currentY);
-    this.sendCreateRoleOk({
-      ...character,
-      entityType: this.roleEntityType,
-    });
-    this.log(
-      `Replayed persisted character "${character.charName || character.roleName || 'Hero'}" for account "${this.accountName}"`
-    );
   }
 
   handlePositionUpdate(payload) {
@@ -2474,11 +2178,6 @@ class Session {
   }
 }
 
-// Free functions extracted to:
-//   character/role-utils.js   (packRoleData, resolveRoleData, resolveRoleLevel, resolveBirthMonth, resolveBirthDay)
-//   character/normalize.js    (numberOrDefault, defaultPrimaryAttributes, normalizePrimaryAttributes, normalizeCharacterRecord)
-//   combat/encounter-builder.js (buildSyntheticEncounterEnemies, pickWeightedEncounterTemplate, randomIntInclusive)
-//   combat/combat-probe.js    (loadCombatProbeIndex, saveCombatProbeIndex, selectCombatTurnProbeProfile)
 
 module.exports = {
   Session,
