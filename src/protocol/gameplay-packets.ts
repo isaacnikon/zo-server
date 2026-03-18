@@ -21,7 +21,120 @@ const { writeClientItemInstancePayload } = require('./item-serializer');
 
 const ABSENT_COMPANION_SENTINEL = 0xfffe7960;
 
-function buildSyntheticAttackPlaybackPacket({ attackerEntityId, targetEntityId, resultCode, damage }) {
+interface AttackPlaybackParams {
+  attackerEntityId: number;
+  targetEntityId: number;
+  resultCode: number;
+  damage: number;
+}
+
+interface AttackTarget {
+  hp: number;
+  row: number;
+  col: number;
+  entityId: number;
+}
+
+interface PlayerVitals {
+  health: number;
+  mana: number;
+  rage: number;
+}
+
+interface AttackResultUpdateParams {
+  actionMode: number;
+  playerVitals: PlayerVitals;
+  target: AttackTarget;
+  damage: number;
+  targetStateOverride?: number | null;
+  includeEntityId?: boolean | null;
+}
+
+interface AttackMirrorUpdateParams {
+  actionMode: number;
+  playerVitals: PlayerVitals;
+}
+
+interface VictoryCloseParams {
+  playerVitals: PlayerVitals;
+}
+
+interface PrimaryAttributes {
+  strength: number;
+  dexterity: number;
+  vitality: number;
+  intelligence: number;
+}
+
+interface AptitudeSyncParams {
+  selectedAptitude: number;
+  level: number;
+  experience: number;
+  bankGold: number;
+  gold: number;
+  boundGold: number;
+  coins: number;
+  renown: number;
+  primaryAttributes: PrimaryAttributes;
+  statusPoints: number;
+  currentHealth: number;
+  currentMana: number;
+  currentRage: number;
+  petCapacity?: number;
+}
+
+interface ValueUpdateParams {
+  discriminator: number;
+  value: number;
+}
+
+interface PetStateFlags {
+  activeFlag?: number;
+  modeA?: number;
+  modeB?: number;
+}
+
+interface PetStats {
+  strength?: number;
+  dexterity?: number;
+  vitality?: number;
+  intelligence?: number;
+}
+
+interface PetData {
+  runtimeId?: number;
+  templateId?: number;
+  name?: string;
+  level?: number;
+  generation?: number;
+  currentHealth?: number;
+  currentMana?: number;
+  loyalty?: number;
+  statPoints?: number;
+  experience?: number;
+  typeId?: number;
+  rebirth?: number;
+  petSerialId?: number;
+  boothOfflineUntil?: number;
+  boothOfflineExp?: number;
+  stateFlags?: PetStateFlags;
+  stats?: PetStats;
+  baseStats?: PetStats;
+  statCoefficients?: number[];
+}
+
+interface ItemInstance {
+  templateId: number;
+  instanceId: number;
+  stateCode: number;
+  bindState: number;
+  quantity: number;
+  extraValue: number;
+  clientTemplateFamily: number | null;
+  attributePairs: Array<{ key: number; value: number }>;
+}
+
+function buildSyntheticAttackPlaybackPacket({ attackerEntityId, targetEntityId, resultCode, damage }: AttackPlaybackParams): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(FIGHT_ACTIVE_STATE_SUBCMD);
@@ -39,7 +152,7 @@ function buildSyntheticAttackResultUpdatePacket({
   damage,
   targetStateOverride = null,
   includeEntityId = null,
-}) {
+}: AttackResultUpdateParams): Buffer {
   const writer = new PacketWriter();
   const targetState = targetStateOverride === null ? (target.hp > 0 ? 0 : 1) : (targetStateOverride >>> 0);
   const encodedBoardSlot = (((target.row & 0xff) << 8) | (target.col & 0xff)) >>> 0;
@@ -62,7 +175,7 @@ function buildSyntheticAttackResultUpdatePacket({
   return writer.payload();
 }
 
-function buildSyntheticAttackMirrorUpdatePacket({ actionMode, playerVitals }) {
+function buildSyntheticAttackMirrorUpdatePacket({ actionMode, playerVitals }: AttackMirrorUpdateParams): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(actionMode & 0xff);
@@ -73,7 +186,7 @@ function buildSyntheticAttackMirrorUpdatePacket({ actionMode, playerVitals }) {
   return writer.payload();
 }
 
-function buildSyntheticFightVictoryClosePacket({ playerVitals }) {
+function buildSyntheticFightVictoryClosePacket({ playerVitals }: VictoryCloseParams): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(0x66);
@@ -106,7 +219,7 @@ function buildSelfStateAptitudeSyncPacket({
   currentMana,
   currentRage,
   petCapacity = 0,
-}) {
+}: AptitudeSyncParams): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_SELF_STATE_CMD);
   writer.writeUint8(SELF_STATE_APTITUDE_SUBCMD);
@@ -132,7 +245,7 @@ function buildSelfStateAptitudeSyncPacket({
   return writer.payload();
 }
 
-function buildServerRunScriptPacket(scriptId, subtype) {
+function buildServerRunScriptPacket(scriptId: number, subtype: number): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_SCRIPT_EVENT_CMD);
   writer.writeUint8(subtype & 0xff);
@@ -140,7 +253,7 @@ function buildServerRunScriptPacket(scriptId, subtype) {
   return writer.payload();
 }
 
-function buildSelfStateValueUpdatePacket({ discriminator, value }) {
+function buildSelfStateValueUpdatePacket({ discriminator, value }: ValueUpdateParams): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_SELF_STATE_CMD);
   writer.writeUint8(SELF_STATE_VALUE_UPDATE_SUBCMD);
@@ -149,13 +262,10 @@ function buildSelfStateValueUpdatePacket({ discriminator, value }) {
   return writer.payload();
 }
 
-function buildPetSummonSyncPacket({ pet }) {
+function buildPetSummonSyncPacket({ pet }: { pet: PetData }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(0x0a);
-  // 0x03fa/0x0a starts with an action byte, then side/runtime/template/row/col.
-  // The client rejects the bind if side/row/col are shifted, so keep the
-  // leading opcode separate from the placement fields.
   writer.writeUint8(0x01);
   writer.writeUint8((pet.stateFlags?.activeFlag || 0) & 0xff);
   writer.writeUint32((pet.runtimeId || 0) >>> 0);
@@ -170,11 +280,10 @@ function buildPetSummonSyncPacket({ pet }) {
   return writer.payload();
 }
 
-function buildPetCreateSyncPacket({ pet }) {
+function buildPetCreateSyncPacket({ pet }: { pet: PetData }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(0x0f);
-  // 0x03fa/0x0f starts with side, then runtime/template, then row/col.
   writer.writeUint8((pet.stateFlags?.activeFlag || 0) & 0xff);
   writer.writeUint32((pet.runtimeId || 0) >>> 0);
   writer.writeUint16((pet.templateId || 0) & 0xffff);
@@ -188,7 +297,7 @@ function buildPetCreateSyncPacket({ pet }) {
   return writer.payload();
 }
 
-function buildPetRosterSyncPacket({ pets }) {
+function buildPetRosterSyncPacket({ pets }: { pets: PetData[] }): Buffer {
   const writer = new PacketWriter();
   const normalizedPets = Array.isArray(pets) ? pets : [];
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
@@ -202,7 +311,7 @@ function buildPetRosterSyncPacket({ pets }) {
   return writer.payload();
 }
 
-function buildPetStatsSyncPacket({ pet }) {
+function buildPetStatsSyncPacket({ pet }: { pet: PetData }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_SELF_STATE_CMD);
   writer.writeUint8(0x1f);
@@ -215,7 +324,7 @@ function buildPetStatsSyncPacket({ pet }) {
   return writer.payload();
 }
 
-function buildPetTreeRegistrationPacket({ pet }) {
+function buildPetTreeRegistrationPacket({ pet }: { pet: PetData }): Buffer {
   const writer = new PacketWriter();
   const statCoefficients = Array.isArray(pet.statCoefficients) && pet.statCoefficients.length === 9
     ? pet.statCoefficients
@@ -262,7 +371,7 @@ function buildPetTreeRegistrationPacket({ pet }) {
   return writer.payload();
 }
 
-function buildPetPanelBindPacket({ ownerRuntimeId, pet }) {
+function buildPetPanelBindPacket({ ownerRuntimeId, pet }: { ownerRuntimeId: number; pet: PetData }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(0x03ee);
   writer.writeUint8(0x51);
@@ -272,7 +381,7 @@ function buildPetPanelBindPacket({ ownerRuntimeId, pet }) {
   return writer.payload();
 }
 
-function buildPetPanelRebindPacket({ ownerRuntimeId }) {
+function buildPetPanelRebindPacket({ ownerRuntimeId }: { ownerRuntimeId: number }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(0x03ee);
   writer.writeUint8(0x53);
@@ -280,7 +389,7 @@ function buildPetPanelRebindPacket({ ownerRuntimeId }) {
   return writer.payload();
 }
 
-function buildPetPanelClearPacket({ ownerRuntimeId }) {
+function buildPetPanelClearPacket({ ownerRuntimeId }: { ownerRuntimeId: number }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(0x03ee);
   writer.writeUint8(0x58);
@@ -288,7 +397,7 @@ function buildPetPanelClearPacket({ ownerRuntimeId }) {
   return writer.payload();
 }
 
-function buildPetPanelNamePacket({ ownerRuntimeId, pet }) {
+function buildPetPanelNamePacket({ ownerRuntimeId, pet }: { ownerRuntimeId: number; pet: PetData }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(0x03ee);
   writer.writeUint8(0x59);
@@ -297,7 +406,7 @@ function buildPetPanelNamePacket({ ownerRuntimeId, pet }) {
   return writer.payload();
 }
 
-function buildPetPanelPropertyPacket({ ownerRuntimeId, index, value }) {
+function buildPetPanelPropertyPacket({ ownerRuntimeId, index, value }: { ownerRuntimeId: number; index: number; value: number }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(0x03ee);
   writer.writeUint8(0x55);
@@ -307,7 +416,7 @@ function buildPetPanelPropertyPacket({ ownerRuntimeId, index, value }) {
   return writer.payload();
 }
 
-function buildPetPanelModePacket({ ownerRuntimeId, enabled }) {
+function buildPetPanelModePacket({ ownerRuntimeId, enabled }: { ownerRuntimeId: number; enabled: boolean }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(0x03ee);
   writer.writeUint8(enabled ? 0x56 : 0x57);
@@ -315,14 +424,14 @@ function buildPetPanelModePacket({ ownerRuntimeId, enabled }) {
   return writer.payload();
 }
 
-function buildPetActiveSelectPacket({ runtimeId }) {
+function buildPetActiveSelectPacket({ runtimeId }: { runtimeId: number }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(0x03f5);
   writer.writeUint32((runtimeId || 0) >>> 0);
   return writer.payload();
 }
 
-function buildQuestPacket(subtype, taskId, extraValue = null, extraType = 'u32') {
+function buildQuestPacket(subtype: number, taskId: number, extraValue: number | null = null, extraType: 'u8' | 'u16' | 'u32' = 'u32'): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_QUEST_CMD);
   writer.writeUint8(subtype & 0xff);
@@ -342,7 +451,10 @@ function buildQuestPacket(subtype, taskId, extraValue = null, extraType = 'u32')
 function buildInventoryContainerBulkSyncPacket({
   containerType,
   items,
-}) {
+}: {
+  containerType: number;
+  items: ItemInstance[];
+}): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_ITEM_CONTAINER_CMD);
   writer.writeUint8(containerType & 0xff);
@@ -363,7 +475,13 @@ function buildInventoryContainerPositionPacket({
   slotIndex,
   column,
   row,
-}) {
+}: {
+  containerType: number;
+  instanceId: number;
+  slotIndex: number;
+  column: number;
+  row: number;
+}): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_ITEM_CONTAINER_CMD);
   writer.writeUint8(containerType & 0xff);
@@ -379,7 +497,11 @@ function buildInventoryContainerQuantityPacket({
   containerType,
   instanceId,
   quantity,
-}) {
+}: {
+  containerType: number;
+  instanceId: number;
+  quantity: number;
+}): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_ITEM_CONTAINER_CMD);
   writer.writeUint8(containerType & 0xff);
@@ -399,7 +521,17 @@ function buildItemAddPacket({
   extraValue = 0,
   attributePairs = [],
   clientTemplateFamily = null,
-}) {
+}: {
+  containerType: number;
+  templateId: number;
+  instanceId?: number;
+  stateCode?: number;
+  bindState?: number;
+  quantity?: number;
+  extraValue?: number;
+  attributePairs?: Array<{ key: number; value: number }>;
+  clientTemplateFamily?: number | null;
+}): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_ITEM_CMD);
   writer.writeUint8(containerType & 0xff);
@@ -417,7 +549,7 @@ function buildItemAddPacket({
   return writer.payload();
 }
 
-function buildItemRemovePacket({ containerType, instanceId }) {
+function buildItemRemovePacket({ containerType, instanceId }: { containerType: number; instanceId: number }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_ITEM_CMD + 1);
   writer.writeUint8(containerType & 0xff);
@@ -425,7 +557,7 @@ function buildItemRemovePacket({ containerType, instanceId }) {
   return writer.payload();
 }
 
-function buildEquipmentStatePacket({ instanceId, equipped }) {
+function buildEquipmentStatePacket({ instanceId, equipped }: { instanceId: number; equipped: boolean }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(0x03ee);
   writer.writeUint8(0x01);
@@ -435,7 +567,7 @@ function buildEquipmentStatePacket({ instanceId, equipped }) {
   return writer.payload();
 }
 
-function buildServerRunMessagePacket(npcId, msgId) {
+function buildServerRunMessagePacket(npcId: number, msgId: number): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_SERVER_RUN_CMD);
   writer.writeUint8(SERVER_RUN_MESSAGE_SUBCMD);
@@ -444,7 +576,13 @@ function buildServerRunMessagePacket(npcId, msgId) {
   return writer.payload();
 }
 
-function buildGameDialoguePacket({ speaker, message, subtype = GAME_DIALOG_MESSAGE_SUBCMD, flags = 0, extraText = null }) {
+function buildGameDialoguePacket({ speaker, message, subtype = GAME_DIALOG_MESSAGE_SUBCMD, flags = 0, extraText = null }: {
+  speaker: string;
+  message: string;
+  subtype?: number;
+  flags?: number;
+  extraText?: string | null;
+}): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_DIALOG_CMD);
   writer.writeUint8(subtype & 0xff);
