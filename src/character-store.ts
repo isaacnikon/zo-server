@@ -1,10 +1,17 @@
-'use strict';
+import * as fs from 'fs';
+import * as path from 'path';
 
-const fs = require('fs');
-const path = require('path');
+type CharacterRecord = Record<string, unknown>;
 
 class CharacterStore {
-  constructor(filePath) {
+  legacyFilePath: string;
+  storeRoot: string;
+  accountsRoot: string;
+  charactersRoot: string;
+  legacyData: Record<string, CharacterRecord>;
+  cache: Map<string, CharacterRecord>;
+
+  constructor(filePath: string) {
     this.legacyFilePath = path.resolve(filePath);
     this.storeRoot = path.resolve(path.dirname(this.legacyFilePath), 'data', 'save');
     this.accountsRoot = path.join(this.storeRoot, 'accounts');
@@ -13,12 +20,12 @@ class CharacterStore {
     this.cache = new Map();
   }
 
-  loadLegacy() {
+  loadLegacy(): Record<string, CharacterRecord> {
     try {
       const raw = fs.readFileSync(this.legacyFilePath, 'utf8');
       const parsed = JSON.parse(raw);
       return parsed && typeof parsed === 'object' ? parsed : {};
-    } catch (err) {
+    } catch (err: any) {
       if (err.code === 'ENOENT') {
         return {};
       }
@@ -26,16 +33,16 @@ class CharacterStore {
     }
   }
 
-  get(accountId) {
+  get(accountId: string | null): CharacterRecord | null {
     if (!accountId) {
       return null;
     }
 
     if (this.cache.has(accountId)) {
-      return cloneJson(this.cache.get(accountId));
+      return cloneJson(this.cache.get(accountId)!);
     }
 
-    const accountRecord = this.readJsonFile(this.getAccountFilePath(accountId));
+    const accountRecord = this.readJsonFile(this.getAccountFilePath(accountId)) as any;
     if (accountRecord?.characterId) {
       const character = this.loadSplitCharacter(accountId, accountRecord.characterId);
       if (character) {
@@ -53,7 +60,7 @@ class CharacterStore {
     return null;
   }
 
-  set(accountId, character) {
+  set(accountId: string, character: CharacterRecord): void {
     if (!accountId || !character || typeof character !== 'object') {
       return;
     }
@@ -65,7 +72,7 @@ class CharacterStore {
     this.writeJsonFile(this.getAccountFilePath(accountId), {
       accountId,
       characterId,
-      name: normalizedCharacter.charName || normalizedCharacter.name || 'Hero',
+      name: (normalizedCharacter as any).charName || (normalizedCharacter as any).name || 'Hero',
       updatedAt: new Date().toISOString(),
     });
 
@@ -81,19 +88,19 @@ class CharacterStore {
     this.cache.set(accountId, normalizedCharacter);
   }
 
-  loadSplitCharacter(accountId, characterId) {
-    const profile = this.readJsonFile(this.getCharacterFilePath(characterId, 'profile.json'));
+  loadSplitCharacter(accountId: string, characterId: string): CharacterRecord | null {
+    const profile = this.readJsonFile(this.getCharacterFilePath(characterId, 'profile.json')) as any;
     if (!profile) {
       return null;
     }
 
-    const vitals = this.readJsonFile(this.getCharacterFilePath(characterId, 'vitals.json')) || {};
-    const attributes = this.readJsonFile(this.getCharacterFilePath(characterId, 'attributes.json')) || {};
-    const activeQuests = this.readJsonFile(this.getCharacterFilePath(characterId, 'active-quests.json')) || {};
-    const completedQuests = this.readJsonFile(this.getCharacterFilePath(characterId, 'completed-quests.json')) || {};
-    const pets = this.readJsonFile(this.getCharacterFilePath(characterId, 'pets.json')) || {};
-    const inventoryItems = this.readJsonFile(this.getCharacterFilePath(characterId, 'inventory-items.json')) || {};
-    const inventoryState = this.readJsonFile(this.getCharacterFilePath(characterId, 'inventory-state.json')) || {};
+    const vitals = (this.readJsonFile(this.getCharacterFilePath(characterId, 'vitals.json')) || {}) as any;
+    const attributes = (this.readJsonFile(this.getCharacterFilePath(characterId, 'attributes.json')) || {}) as any;
+    const activeQuests = (this.readJsonFile(this.getCharacterFilePath(characterId, 'active-quests.json')) || {}) as any;
+    const completedQuests = (this.readJsonFile(this.getCharacterFilePath(characterId, 'completed-quests.json')) || {}) as any;
+    const pets = (this.readJsonFile(this.getCharacterFilePath(characterId, 'pets.json')) || {}) as any;
+    const inventoryItems = (this.readJsonFile(this.getCharacterFilePath(characterId, 'inventory-items.json')) || {}) as any;
+    const inventoryState = (this.readJsonFile(this.getCharacterFilePath(characterId, 'inventory-state.json')) || {}) as any;
 
     return {
       accountId,
@@ -139,24 +146,24 @@ class CharacterStore {
     };
   }
 
-  ensureDirectories(characterId) {
+  ensureDirectories(characterId: string): void {
     fs.mkdirSync(this.accountsRoot, { recursive: true });
     fs.mkdirSync(path.join(this.charactersRoot, characterId), { recursive: true });
   }
 
-  getAccountFilePath(accountId) {
+  getAccountFilePath(accountId: string): string {
     return path.join(this.accountsRoot, `${sanitizePathSegment(accountId)}.json`);
   }
 
-  getCharacterFilePath(characterId, fileName) {
+  getCharacterFilePath(characterId: string, fileName: string): string {
     return path.join(this.charactersRoot, sanitizePathSegment(characterId), fileName);
   }
 
-  readJsonFile(filePath) {
+  readJsonFile(filePath: string): unknown {
     try {
       const raw = fs.readFileSync(filePath, 'utf8');
       return JSON.parse(raw);
-    } catch (err) {
+    } catch (err: any) {
       if (err.code === 'ENOENT') {
         return null;
       }
@@ -164,12 +171,12 @@ class CharacterStore {
     }
   }
 
-  writeJsonFile(filePath, value) {
+  writeJsonFile(filePath: string, value: unknown): void {
     fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
   }
 }
 
-function buildProfileDocument(accountId, characterId, character) {
+function buildProfileDocument(accountId: string, characterId: string, character: any): Record<string, unknown> {
   return {
     accountId,
     characterId,
@@ -198,7 +205,7 @@ function buildProfileDocument(accountId, characterId, character) {
   };
 }
 
-function buildVitalsDocument(characterId, character) {
+function buildVitalsDocument(characterId: string, character: any): Record<string, unknown> {
   return {
     characterId,
     currentHealth: numberOrDefault(character.currentHealth, 0),
@@ -208,7 +215,7 @@ function buildVitalsDocument(characterId, character) {
   };
 }
 
-function buildAttributesDocument(characterId, character) {
+function buildAttributesDocument(characterId: string, character: any): Record<string, unknown> {
   return {
     characterId,
     intelligence: numberOrDefault(character?.primaryAttributes?.intelligence, 15),
@@ -219,11 +226,11 @@ function buildAttributesDocument(characterId, character) {
   };
 }
 
-function buildActiveQuestsDocument(characterId, character) {
+function buildActiveQuestsDocument(characterId: string, character: any): Record<string, unknown> {
   return {
     characterId,
     quests: Array.isArray(character.activeQuests)
-      ? character.activeQuests.map((quest) => ({
+      ? character.activeQuests.map((quest: any) => ({
           id: numberOrDefault(quest.id, 0),
           stepIndex: numberOrDefault(quest.stepIndex, 0),
           status: numberOrDefault(quest.status, 0),
@@ -235,21 +242,21 @@ function buildActiveQuestsDocument(characterId, character) {
   };
 }
 
-function buildCompletedQuestsDocument(characterId, character) {
+function buildCompletedQuestsDocument(characterId: string, character: any): Record<string, unknown> {
   return {
     characterId,
     taskIds: Array.isArray(character.completedQuests)
-      ? character.completedQuests.filter(Number.isInteger).map((taskId) => taskId >>> 0)
+      ? character.completedQuests.filter(Number.isInteger).map((taskId: number) => taskId >>> 0)
       : [],
     updatedAt: new Date().toISOString(),
   };
 }
 
-function buildInventoryItemsDocument(characterId, character) {
+function buildInventoryItemsDocument(characterId: string, character: any): Record<string, unknown> {
   return {
     characterId,
     items: Array.isArray(character?.inventory?.bag)
-      ? character.inventory.bag.map((item) => ({
+      ? character.inventory.bag.map((item: any) => ({
           instanceId: numberOrDefault(item.instanceId, 0),
           templateId: numberOrDefault(item.templateId, 0),
           quantity: numberOrDefault(item.quantity, 1),
@@ -261,13 +268,13 @@ function buildInventoryItemsDocument(characterId, character) {
   };
 }
 
-function buildPetsDocument(characterId, character) {
+function buildPetsDocument(characterId: string, character: any): Record<string, unknown> {
   return {
     characterId,
     pets: Array.isArray(character.pets)
       ? character.pets
-          .filter((pet) => pet && typeof pet === 'object')
-          .map((pet) => ({
+          .filter((pet: any) => pet && typeof pet === 'object')
+          .map((pet: any) => ({
             templateId: numberOrDefault(pet.templateId, 0),
             awardedAt: numberOrDefault(pet.awardedAt, Date.now()),
             runtimeId: numberOrDefault(pet.runtimeId, 0),
@@ -308,7 +315,7 @@ function buildPetsDocument(characterId, character) {
   };
 }
 
-function buildInventoryStateDocument(characterId, character) {
+function buildInventoryStateDocument(characterId: string, character: any): Record<string, unknown> {
   return {
     characterId,
     bagSize: numberOrDefault(character?.inventory?.bagSize, 24),
@@ -318,26 +325,26 @@ function buildInventoryStateDocument(characterId, character) {
   };
 }
 
-function resolveCharacterId(accountId, character) {
+function resolveCharacterId(accountId: string, character: any): string {
   const baseName = typeof character?.charName === 'string' && character.charName.length > 0
     ? character.charName
     : accountId;
   return sanitizePathSegment(baseName);
 }
 
-function sanitizePathSegment(value) {
+function sanitizePathSegment(value: string): string {
   return String(value).replace(/[^a-zA-Z0-9._-]+/g, '_');
 }
 
-function numberOrDefault(value, fallback) {
+function numberOrDefault(value: unknown, fallback: number): number {
   return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
 }
 
-function numberOrNull(value) {
+function numberOrNull(value: unknown): number | null {
   return typeof value === 'number' && Number.isFinite(value) ? value : null;
 }
 
-function cloneJson(value) {
+function cloneJson<T>(value: T): T {
   return JSON.parse(JSON.stringify(value));
 }
 
