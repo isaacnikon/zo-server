@@ -1,8 +1,6 @@
-'use strict';
+import type { GameSession, PrimaryAttributes } from './types';
 
-const {
-  parsePingToken,
-} = require('./protocol/inbound-packets');
+const { parsePingToken } = require('./protocol/inbound-packets');
 
 const { dispatchGamePacket } = require('./handlers/packet-dispatcher');
 const {
@@ -40,13 +38,9 @@ const {
   tryHandlePetActionPacket: petHandlerTryHandlePetActionPacket,
   disposePetTimers: petHandlerDisposeTimers,
 } = require('./handlers/pet-handler');
-const {
-  sendEnterGameOk: sessionBootstrapHandlerSendEnterGameOk,
-} = require('./handlers/session-bootstrap-handler');
+const { sendEnterGameOk: sessionBootstrapHandlerSendEnterGameOk } = require('./handlers/session-bootstrap-handler');
 
-const {
-  loadCombatReference,
-} = require('./combat-reference');
+const { loadCombatReference } = require('./combat-reference');
 
 const {
   DEFAULT_FLAGS,
@@ -90,9 +84,7 @@ const {
   handleServerRunRequest: processNpcInteractionRequest,
   restoreAtInn: processInnRest,
 } = require('./gameplay/npc-interactions');
-const {
-  CHARACTER_VITALS_BASELINE,
-} = require('./gameplay/session-flows');
+const { CHARACTER_VITALS_BASELINE } = require('./gameplay/session-flows');
 const {
   buildCharacterSnapshot: sessionHydrationBuildCharacterSnapshot,
   getPersistedCharacter: sessionHydrationGetPersistedCharacter,
@@ -100,11 +92,84 @@ const {
   persistCurrentCharacter: sessionHydrationPersistCurrentCharacter,
   saveCharacter: sessionHydrationSaveCharacter,
 } = require('./character/session-hydration');
+const { getSyntheticPlayerFighter } = require('./combat/synthetic-fight');
 
 const COMBAT_REFERENCE = loadCombatReference();
 
-class Session {
-  constructor(socket, id, isGame, sharedState, logger) {
+type SharedState = Record<string, any>;
+type LoggerLike = {
+  log(message: string): void;
+  hexDump(buffer: Buffer, prefix: string): string;
+};
+type SocketLike = {
+  destroyed?: boolean;
+  destroy(): void;
+  write(packet: Buffer): void;
+};
+type CharacterOverrides = Record<string, unknown>;
+
+class Session implements GameSession {
+  socket: SocketLike;
+  id: number;
+  isGame: boolean;
+  sharedState: SharedState;
+  logger: LoggerLike;
+  recvBuf: Buffer;
+  serverSeq: number;
+  clientSeq: number;
+  state: string;
+  accountName: string | null;
+  charName: string;
+  entityType: number;
+  roleEntityType: number;
+  roleData: number;
+  selectedAptitude: number;
+  level: number;
+  experience: number;
+  currentHealth: number;
+  currentMana: number;
+  currentRage: number;
+  gold: number;
+  bankGold: number;
+  boundGold: number;
+  coins: number;
+  renown: number;
+  primaryAttributes: PrimaryAttributes;
+  statusPoints: number;
+  activeQuests: any[];
+  completedQuests: number[];
+  pets: any[];
+  selectedPetRuntimeId: number | null;
+  petSummoned: boolean;
+  bagItems: any[];
+  bagSize: number;
+  nextItemInstanceId: number;
+  nextBagSlot: number;
+  currentMapId: number;
+  currentX: number;
+  currentY: number;
+  currentTileSceneId: number;
+  currentEncounterTriggerId: number | null;
+  lastEncounterProbeAt: number;
+  combatState: any;
+  pendingCombatTurnProbe: any;
+  awaitingCombatTurnHandshake: boolean;
+  syntheticFight: any;
+  combatReference: any;
+  syntheticCommandRefreshTimer: NodeJS.Timeout | null;
+  equipmentReplayTimer: NodeJS.Timeout | null;
+  petReplayTimer: NodeJS.Timeout | null;
+  defeatRespawnPending: boolean;
+  hasAnnouncedQuestOverview: boolean;
+  persistedCharacter: Record<string, unknown> | null;
+
+  constructor(
+    socket: SocketLike,
+    id: number,
+    isGame: boolean,
+    sharedState: SharedState,
+    logger: LoggerLike
+  ) {
     this.socket = socket;
     this.id = id;
     this.isGame = isGame;
@@ -162,11 +227,12 @@ class Session {
     this.petReplayTimer = null;
     this.defeatRespawnPending = false;
     this.hasAnnouncedQuestOverview = false;
+    this.persistedCharacter = null;
 
     hydratePendingGameCharacter(this, sharedState);
   }
 
-  feed(data) {
+  feed(data: Buffer): void {
     this.recvBuf = Buffer.concat([this.recvBuf, data]);
     while (this.recvBuf.length >= 5) {
       const flags = this.recvBuf[0];
@@ -192,14 +258,16 @@ class Session {
     }
   }
 
-  handlePacket(flags, seq, payload) {
+  handlePacket(flags: number, seq: number, payload: Buffer): void {
     if (payload.length === 0) {
       return;
     }
 
     const cmdByte = payload[0];
     const cmdWord = payload.length >= 2 ? payload.readUInt16LE(0) : cmdByte;
-    this.log(`CMD8=0x${cmdByte.toString(16).padStart(2, '0')} CMD16=0x${cmdWord.toString(16).padStart(4, '0')} state=${this.state}`);
+    this.log(
+      `CMD8=0x${cmdByte.toString(16).padStart(2, '0')} CMD16=0x${cmdWord.toString(16).padStart(4, '0')} state=${this.state}`
+    );
     const readable = payload.toString('latin1').replace(/[^\x20-\x7e]/g, '.');
     this.log(`ASCII: ${readable}`);
 
@@ -213,14 +281,16 @@ class Session {
     }
   }
 
-  handleLogin(payload) {
+  handleLogin(payload: Buffer): void {
     loginHandlerHandleLogin(this, payload);
   }
 
-  handleLoggedInPacket(flags, payload) {
+  handleLoggedInPacket(flags: number, payload: Buffer): void {
     const cmdByte = payload[0];
     const cmdWord = payload.length >= 2 ? payload.readUInt16LE(0) : cmdByte;
-    this.log(`Game packet flags=0x${flags.toString(16)} cmd8=0x${cmdByte.toString(16).padStart(2, '0')} cmd16=0x${cmdWord.toString(16).padStart(4, '0')}`);
+    this.log(
+      `Game packet flags=0x${flags.toString(16)} cmd8=0x${cmdByte.toString(16).padStart(2, '0')} cmd16=0x${cmdWord.toString(16).padStart(4, '0')}`
+    );
 
     if (dispatchGamePacket(this, cmdWord, flags, payload)) {
       return;
@@ -229,7 +299,7 @@ class Session {
     if (
       cmdWord === GAME_ITEM_CONTAINER_CMD ||
       cmdWord === GAME_ITEM_CMD ||
-      cmdWord === (GAME_ITEM_CMD + 1) ||
+      cmdWord === GAME_ITEM_CMD + 1 ||
       cmdWord === 0x03f8 ||
       cmdWord === 0x0400
     ) {
@@ -241,19 +311,19 @@ class Session {
     this.log(`Unhandled game cmd8=0x${cmdByte.toString(16)} cmd16=0x${cmdWord.toString(16)}`);
   }
 
-  tryHandleEquipmentStatePacket(payload) {
+  tryHandleEquipmentStatePacket(payload: Buffer): boolean {
     return playerStateHandlerTryHandleEquipmentStatePacket(this, payload);
   }
 
-  tryHandlePetActionPacket(payload) {
+  tryHandlePetActionPacket(payload: Buffer): boolean {
     return petHandlerTryHandlePetActionPacket(this, payload);
   }
 
-  tryHandleAttributeAllocationPacket(payload) {
+  tryHandleAttributeAllocationPacket(payload: Buffer): boolean {
     return playerStateHandlerTryHandleAttributeAllocationPacket(this, payload);
   }
 
-  handleSpecialPacket(cmdWord, payload) {
+  handleSpecialPacket(cmdWord: number, payload: Buffer): void {
     if (cmdWord === PING_CMD) {
       const { token } = parsePingToken(payload);
       this.sendPong(token);
@@ -263,37 +333,41 @@ class Session {
     this.log(`Unhandled special cmd16=0x${cmdWord.toString(16)}`);
   }
 
-  handleRolePacket(payload) {
+  handleRolePacket(payload: Buffer): void {
     loginHandlerHandleRolePacket(this, payload);
   }
 
-  sendHandshake() {
+  sendHandshake(): void {
     const writer = new PacketWriter();
     writer.writeUint16(HANDSHAKE_CMD);
     writer.writeUint32(0);
-    this.writePacket(writer.payload(), SPECIAL_FLAGS, 'Sending handshake (flags=0x44, seed=0, no encryption)');
+    this.writePacket(
+      writer.payload(),
+      SPECIAL_FLAGS,
+      'Sending handshake (flags=0x44, seed=0, no encryption)'
+    );
   }
 
-  sendEnterGameOk() {
+  sendEnterGameOk(): void {
     sessionBootstrapHandlerSendEnterGameOk(this);
   }
 
-  scheduleEquipmentReplay(delayMs = 300) {
+  scheduleEquipmentReplay(delayMs = 300): void {
     playerStateHandlerScheduleEquipmentReplay(this, delayMs);
   }
 
-  schedulePetReplay(delayMs = 500) {
+  schedulePetReplay(delayMs = 500): void {
     petHandlerSchedulePetReplay(this, delayMs);
   }
 
-  sendPong(token) {
+  sendPong(token: number): void {
     const writer = new PacketWriter();
     writer.writeUint16(PONG_CMD);
     writer.writeUint32(token);
     this.writePacket(writer.payload(), SPECIAL_FLAGS, `Sending pong token=0x${token.toString(16)}`);
   }
 
-  writePacket(payload, flags, message) {
+  writePacket(payload: Buffer, flags = DEFAULT_FLAGS, message = ''): void {
     const packet = buildPacket(payload, this.serverSeq, flags);
     if (payload.length >= 2) {
       const cmdWord = payload.readUInt16LE(0);
@@ -316,10 +390,7 @@ class Session {
           }
         }
 
-        const pieces = [
-          `Combat send kind=${combatPacket.kind}`,
-          `cmd=0x${cmdWord.toString(16)}`,
-        ];
+        const pieces = [`Combat send kind=${combatPacket.kind}`, `cmd=0x${cmdWord.toString(16)}`];
         if (combatPacket.subcmd !== null) {
           pieces.push(`sub=0x${combatPacket.subcmd.toString(16)}`);
         }
@@ -346,67 +417,68 @@ class Session {
     this.socket.write(packet);
   }
 
-  log(message) {
+  log(message: string): void {
     this.logger.log(`[S${this.id}] ${message}`);
   }
 
-  getPersistedCharacter() {
-    return sessionHydrationGetPersistedCharacter(this);
+  getPersistedCharacter(): Record<string, unknown> | null {
+    this.persistedCharacter = sessionHydrationGetPersistedCharacter(this);
+    return this.persistedCharacter;
   }
 
-  saveCharacter(character) {
+  saveCharacter(character: Record<string, unknown>): void {
     sessionHydrationSaveCharacter(this, character);
   }
 
-  ensureQuestStateReady() {
+  ensureQuestStateReady(): void {
     questHandlerEnsureQuestStateReady(this);
   }
 
-  buildCharacterSnapshot(overrides = {}) {
+  buildCharacterSnapshot(overrides: CharacterOverrides = {}): Record<string, unknown> {
     return sessionHydrationBuildCharacterSnapshot(this, overrides);
   }
 
-  persistCurrentCharacter(overrides = {}) {
+  persistCurrentCharacter(overrides: CharacterOverrides = {}): void {
     sessionHydrationPersistCurrentCharacter(this, overrides);
   }
 
-  updateTownRespawnAnchor(mapId, x, y) {
+  updateTownRespawnAnchor(mapId: number, x: number, y: number): void {
     sceneHandlerUpdateTownRespawnAnchor(this, mapId, x, y);
   }
 
-  handlePositionUpdate(payload) {
+  handlePositionUpdate(payload: Buffer): void {
     sceneHandlerHandlePositionUpdate(this, payload);
   }
 
-  handleServerRunRequest(payload) {
+  handleServerRunRequest(payload: Buffer): void {
     processNpcInteractionRequest(this, payload);
   }
 
-  restoreAtInn(npcId) {
+  restoreAtInn(npcId: number): void {
     processInnRest(this, npcId);
   }
 
-  handleQuestPacket(payload) {
+  handleQuestPacket(payload: Buffer): void {
     questHandlerHandleQuestPacket(this, payload);
   }
 
-  applyQuestEvents(events, source = 'runtime', options = {}) {
+  applyQuestEvents(events: any[], source = 'runtime', options: Record<string, unknown> = {}): void {
     questHandlerApplyQuestEvents(this, events, source, options);
   }
 
-  handleQuestMonsterDefeat(monsterId, count = 1) {
+  handleQuestMonsterDefeat(monsterId: number, count = 1): void {
     questHandlerHandleQuestMonsterDefeat(this, monsterId, count);
   }
 
-  syncQuestStateToClient() {
+  syncQuestStateToClient(): void {
     questHandlerSyncQuestStateToClient(this);
   }
 
-  refreshQuestStateForItemTemplates(templateIds) {
+  refreshQuestStateForItemTemplates(templateIds: number[]): void {
     questHandlerRefreshQuestStateForItemTemplates(this, templateIds);
   }
 
-  getServerRunActionHandlers() {
+  getServerRunActionHandlers(): Record<string, (...args: any[]) => void> {
     return {
       restoreAtInn: this.restoreAtInn.bind(this),
       sendGameDialogue: this.sendGameDialogue.bind(this),
@@ -417,11 +489,15 @@ class Session {
     };
   }
 
-  handleCombatPacket(cmdWord, payload) {
+  handleCombatPacket(cmdWord: number, payload: Buffer): void {
     combatHandlerHandleCombatPacket(this, cmdWord, payload);
   }
 
-  sendSelfStateAptitudeSync() {
+  getSyntheticPlayerFighter(): any {
+    return getSyntheticPlayerFighter(this.syntheticFight);
+  }
+
+  sendSelfStateAptitudeSync(): void {
     const player = this.getSyntheticPlayerFighter();
     const currentHealth = (player?.hp || this.currentHealth) >>> 0;
     const currentMana = (player?.mp || this.currentMana) >>> 0;
@@ -449,15 +525,15 @@ class Session {
     );
   }
 
-  sendPetStateSync(reason = 'runtime') {
+  sendPetStateSync(reason = 'runtime'): void {
     petHandlerSendPetStateSync(this, reason);
   }
 
-  transitionToScene(mapId, x, y, reason) {
+  transitionToScene(mapId: number, x: number, y: number, reason: string): void {
     sceneHandlerTransitionToScene(this, mapId, x, y, reason);
   }
 
-  dispose() {
+  dispose(): void {
     petHandlerDisposeTimers(this);
     combatHandlerDisposeTimers(this);
     if (this.equipmentReplayTimer) {
@@ -466,11 +542,11 @@ class Session {
     }
   }
 
-  sendStaticNpcSpawns() {
+  sendStaticNpcSpawns(): void {
     sceneHandlerSendStaticNpcSpawns(this);
   }
 
-  sendServerRunScriptImmediate(scriptId) {
+  sendServerRunScriptImmediate(scriptId: number): void {
     this.writePacket(
       buildServerRunScriptPacket(scriptId, SERVER_SCRIPT_IMMEDIATE_SUBCMD),
       DEFAULT_FLAGS,
@@ -478,7 +554,7 @@ class Session {
     );
   }
 
-  sendServerRunScriptDeferred(scriptId) {
+  sendServerRunScriptDeferred(scriptId: number): void {
     this.writePacket(
       buildServerRunScriptPacket(scriptId, SERVER_SCRIPT_DEFERRED_SUBCMD),
       DEFAULT_FLAGS,
@@ -486,7 +562,7 @@ class Session {
     );
   }
 
-  sendServerRunMessage(npcId, msgId) {
+  sendServerRunMessage(npcId: number, msgId: number): void {
     this.writePacket(
       buildServerRunMessagePacket(npcId, msgId),
       DEFAULT_FLAGS,
@@ -494,7 +570,13 @@ class Session {
     );
   }
 
-  sendGameDialogue(speaker, message, subtype = GAME_DIALOG_MESSAGE_SUBCMD, flags = 0, extraText = null) {
+  sendGameDialogue(
+    speaker: string,
+    message: string,
+    subtype = GAME_DIALOG_MESSAGE_SUBCMD,
+    flags = 0,
+    extraText: string | null = null
+  ): void {
     this.writePacket(
       buildGameDialoguePacket({
         speaker,
@@ -508,16 +590,15 @@ class Session {
     );
   }
 
-  sendCombatEncounterProbe(action) {
+  sendCombatEncounterProbe(action: Record<string, unknown>): void {
     combatHandlerSendCombatEncounterProbe(this, action);
   }
 
-  sendCombatExitProbe(action) {
+  sendCombatExitProbe(action: Record<string, unknown>): void {
     combatHandlerSendCombatExitProbe(this, action);
   }
 }
 
-
-module.exports = {
+export {
   Session,
 };
