@@ -29,7 +29,7 @@ const {
 } = require('../combat-runtime');
 const { parseAttackSelection } = require('../protocol/inbound-packets');
 const { rollSyntheticFightDrops } = require('../gameplay/combat-drop-runtime');
-const { buildDefeatRespawnState } = require('../gameplay/session-flows');
+const { buildDefeatRespawnState, resolveCurrentPlayerVitals } = require('../gameplay/session-flows');
 const { dispatchAttackResult, dispatchTurnResult } = require('../combat/combat-dispatch');
 const {
   computeSyntheticDamage,
@@ -448,34 +448,28 @@ function sendSyntheticAttackMirrorUpdate(
   details: { actionMode: number }
 ): void {
   const player = getSyntheticPlayerFighter(session.syntheticFight);
+  const vitals = resolveCurrentPlayerVitals(session, player);
 
   session.writePacket(
     buildSyntheticAttackMirrorUpdatePacket({
       actionMode: details.actionMode,
-      playerVitals: {
-        health: player?.hp || session.currentHealth,
-        mana: player?.mp || session.currentMana,
-        rage: player?.rage || session.currentRage,
-      },
+      playerVitals: vitals,
     }),
     DEFAULT_FLAGS,
-    `Sending synthetic fight mirror update cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${details.actionMode.toString(16)} hp=${player?.hp || session.currentHealth} mp=${player?.mp || session.currentMana} rage=${player?.rage || session.currentRage}`
+    `Sending synthetic fight mirror update cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${details.actionMode.toString(16)} hp=${vitals.health} mp=${vitals.mana} rage=${vitals.rage}`
   );
 }
 
 function sendSyntheticFightVictoryClose(session: SessionLike): void {
   const player = getSyntheticPlayerFighter(session.syntheticFight);
+  const vitals = resolveCurrentPlayerVitals(session, player);
 
   session.writePacket(
     buildSyntheticFightVictoryClosePacket({
-      playerVitals: {
-        health: player?.hp || session.currentHealth,
-        mana: player?.mp || session.currentMana,
-        rage: player?.rage || session.currentRage,
-      },
+      playerVitals: vitals,
     }),
     DEFAULT_FLAGS,
-    `Sending synthetic fight victory close cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${FIGHT_RESULT_VICTORY_SUBCMD.toString(16)} hp=${player?.hp || session.currentHealth} mp=${player?.mp || session.currentMana} rage=${player?.rage || session.currentRage}`
+    `Sending synthetic fight victory close cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${FIGHT_RESULT_VICTORY_SUBCMD.toString(16)} hp=${vitals.health} mp=${vitals.mana} rage=${vitals.rage}`
   );
 }
 

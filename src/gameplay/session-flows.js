@@ -57,9 +57,18 @@ function buildDefeatRespawnState({
   };
 }
 
+function resolveCurrentPlayerVitals(session, player = null) {
+  return {
+    health: ((player?.hp || session.currentHealth) >>> 0) || 0,
+    mana: ((player?.mp || session.currentMana) >>> 0) || 0,
+    rage: ((player?.rage || session.currentRage) >>> 0) || 0,
+  };
+}
+
 module.exports = {
   CHARACTER_VITALS_BASELINE,
   buildDefeatRespawnState,
   resolveCharacterMaxVitals,
+  resolveCurrentPlayerVitals,
   resolveInnRestVitals,
 };

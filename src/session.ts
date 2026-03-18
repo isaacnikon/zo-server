@@ -84,7 +84,7 @@ const {
   handleServerRunRequest: processNpcInteractionRequest,
   restoreAtInn: processInnRest,
 } = require('./gameplay/npc-interactions');
-const { CHARACTER_VITALS_BASELINE } = require('./gameplay/session-flows');
+const { CHARACTER_VITALS_BASELINE, resolveCurrentPlayerVitals } = require('./gameplay/session-flows');
 const {
   buildCharacterSnapshot: sessionHydrationBuildCharacterSnapshot,
   getPersistedCharacter: sessionHydrationGetPersistedCharacter,
@@ -499,9 +499,7 @@ class Session implements GameSession {
 
   sendSelfStateAptitudeSync(): void {
     const player = this.getSyntheticPlayerFighter();
-    const currentHealth = (player?.hp || this.currentHealth) >>> 0;
-    const currentMana = (player?.mp || this.currentMana) >>> 0;
-    const currentRage = (player?.rage || this.currentRage) >>> 0;
+    const vitals = resolveCurrentPlayerVitals(this, player);
 
     this.writePacket(
       buildSelfStateAptitudeSyncPacket({
@@ -515,13 +513,13 @@ class Session implements GameSession {
         renown: this.renown,
         primaryAttributes: this.primaryAttributes,
         statusPoints: this.statusPoints,
-        currentHealth,
-        currentMana,
-        currentRage,
+        currentHealth: vitals.health,
+        currentMana: vitals.mana,
+        currentRage: vitals.rage,
         petCapacity: Array.isArray(this.pets) && this.pets.length > 0 ? Math.max(1, this.pets.length) : 0,
       }),
       DEFAULT_FLAGS,
-      `Sending self-state stat sync cmd=0x${GAME_SELF_STATE_CMD.toString(16)} sub=0x${SELF_STATE_APTITUDE_SUBCMD.toString(16)} aptitude=${this.selectedAptitude} level=${this.level} hp/mp/rage=${currentHealth}/${currentMana}/${currentRage} stats=${this.primaryAttributes.intelligence}/${this.primaryAttributes.vitality}/${this.primaryAttributes.dexterity}/${this.primaryAttributes.strength} statusPoints=${this.statusPoints}`
+      `Sending self-state stat sync cmd=0x${GAME_SELF_STATE_CMD.toString(16)} sub=0x${SELF_STATE_APTITUDE_SUBCMD.toString(16)} aptitude=${this.selectedAptitude} level=${this.level} hp/mp/rage=${vitals.health}/${vitals.mana}/${vitals.rage} stats=${this.primaryAttributes.intelligence}/${this.primaryAttributes.vitality}/${this.primaryAttributes.dexterity}/${this.primaryAttributes.strength} statusPoints=${this.statusPoints}`
     );
   }
 
