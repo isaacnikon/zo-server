@@ -1,7 +1,6 @@
-'use strict';
+import fs from 'fs';
+import path from 'path';
 
-const fs = require('fs');
-const path = require('path');
 const { resolveRepoPath } = require('./runtime-paths');
 
 const BAG_CONTAINER_TYPE = 1;
@@ -14,7 +13,7 @@ const GENERAL_ITEM_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'items.json');
 const POTION_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'potions.json');
 const STUFF_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'stuff.json');
 
-const EQUIPMENT_NAME_OVERRIDES = Object.freeze({
+const EQUIPMENT_NAME_OVERRIDES = Object.freeze<Record<number, string>>({
   10001: 'Light Hood',
   11001: 'Fabric Garment',
   13001: 'Shoes',
@@ -23,80 +22,120 @@ const EQUIPMENT_NAME_OVERRIDES = Object.freeze({
   18001: 'Embroidered Shoes',
 });
 
-const ITEM_DEFINITIONS = Object.freeze([
+type UnknownRecord = Record<string, any>;
+
+interface AttributePair {
+  value: number;
+}
+
+interface ItemDefinition {
+  templateId: number;
+  name: string;
+  containerType: number;
+  maxStack: number;
+  clientTemplateFamily: number | null;
+  defaultQuantity?: number;
+  defaultAttributePairs?: AttributePair[];
+  iconPath: string;
+  clientEvidence: string;
+}
+
+interface BagItem {
+  instanceId: number;
+  templateId: number;
+  quantity: number;
+  equipped: boolean;
+  slot: number;
+}
+
+interface InventoryState {
+  inventory: {
+    bag: BagItem[];
+    bagSize: number;
+    nextItemInstanceId: number;
+    nextBagSlot: number;
+  };
+}
+
+interface InventorySessionLike {
+  bagItems?: BagItem[];
+  bagSize?: number;
+  nextItemInstanceId?: number;
+  nextBagSlot?: number;
+}
+
+interface InventoryChange {
+  item: BagItem;
+  quantityAdded?: number;
+  quantityRemoved?: number;
+  merged?: boolean;
+  removed?: boolean;
+}
+
+const ITEM_DEFINITIONS: readonly ItemDefinition[] = Object.freeze([
   ...loadClientGeneralItemDefinitions(),
   ...loadClientPotionDefinitions(),
   ...loadClientStuffDefinitions(),
   ...loadEquipmentDefinitions(),
 ]);
 
-const ITEMS_BY_TEMPLATE_ID = new Map(
+const ITEMS_BY_TEMPLATE_ID = new Map<number, ItemDefinition>(
   ITEM_DEFINITIONS.map((definition) => [definition.templateId, definition])
 );
 
-function getItemDefinition(templateId) {
+function getItemDefinition(templateId: number): ItemDefinition | null {
   return ITEMS_BY_TEMPLATE_ID.get(templateId) || null;
 }
 
-function loadEquipmentDefinitions() {
+function loadEquipmentDefinitions(): ItemDefinition[] {
   return [
     ...loadClientEquipmentDefinitions(EQUIPMENT_TABLE_FILE, 'armor'),
     ...loadClientEquipmentDefinitions(WEAPON_TABLE_FILE, 'weapon'),
   ];
 }
 
-function loadClientGeneralItemDefinitions() {
+function loadClientGeneralItemDefinitions(): ItemDefinition[] {
   return loadClientStackableDefinitions(GENERAL_ITEM_TABLE_FILE, 'is_general.txt');
 }
 
-function loadClientPotionDefinitions() {
+function loadClientPotionDefinitions(): ItemDefinition[] {
   return loadClientStackableDefinitions(POTION_TABLE_FILE, 'is_potion.txt');
 }
 
-function loadClientStuffDefinitions() {
+function loadClientStuffDefinitions(): ItemDefinition[] {
   const entries = loadClientDerivedEntries(STUFF_TABLE_FILE);
   return entries
     .filter((entry) => Number.isInteger(entry?.templateId))
     .map((entry) => ({
       templateId: entry.templateId,
-      name:
-        typeof entry.name === 'string' && entry.name.length > 0
-          ? entry.name
-          : `Item ${entry.templateId}`,
+      name: typeof entry.name === 'string' && entry.name.length > 0 ? entry.name : `Item ${entry.templateId}`,
       containerType: BAG_CONTAINER_TYPE,
       maxStack: 1,
       clientTemplateFamily: null,
       iconPath: typeof entry.iconPath === 'string' ? entry.iconPath : '',
-      clientEvidence:
-        `Client-derived is_stuff.txt row ${entry.templateId} from ${path.basename(STUFF_TABLE_FILE)}.`,
+      clientEvidence: `Client-derived is_stuff.txt row ${entry.templateId} from ${path.basename(STUFF_TABLE_FILE)}.`,
     }));
 }
 
-function loadClientStackableDefinitions(filePath, sourceLabel) {
+function loadClientStackableDefinitions(filePath: string, sourceLabel: string): ItemDefinition[] {
   const entries = loadClientDerivedEntries(filePath);
   return entries
     .filter((entry) => Number.isInteger(entry?.templateId) && Number.isInteger(entry?.clientTemplateFamily))
     .map((entry) => ({
       templateId: entry.templateId,
-      name:
-        typeof entry.name === 'string' && entry.name.length > 0
-          ? entry.name
-          : `Item ${entry.templateId}`,
+      name: typeof entry.name === 'string' && entry.name.length > 0 ? entry.name : `Item ${entry.templateId}`,
       containerType: BAG_CONTAINER_TYPE,
       maxStack:
-        Number.isInteger(entry.stackLimitField) && entry.stackLimitField > 0
-          ? entry.stackLimitField
-          : 1,
+        Number.isInteger(entry.stackLimitField) && entry.stackLimitField > 0 ? entry.stackLimitField : 1,
       clientTemplateFamily: entry.clientTemplateFamily,
       iconPath: typeof entry.iconPath === 'string' ? entry.iconPath : '',
-      clientEvidence:
-        `Client-derived ${sourceLabel} row ${entry.templateId} from ${path.basename(filePath)}.`,
+      clientEvidence: `Client-derived ${sourceLabel} row ${entry.templateId} from ${path.basename(filePath)}.`,
     }));
 }
 
-function loadClientEquipmentDefinitions(filePath, kind) {
+function loadClientEquipmentDefinitions(filePath: string, kind: 'armor' | 'weapon'): ItemDefinition[] {
   const entries = loadClientDerivedEntries(filePath);
-  const rows = [];
+  const rows: ItemDefinition[] = [];
   for (const entry of entries) {
     if (!Number.isInteger(entry?.templateId) || !Number.isInteger(entry?.clientTemplateFamily)) {
       continue;
@@ -105,7 +144,7 @@ function loadClientEquipmentDefinitions(filePath, kind) {
     const defaultQuantity =
       Number.isInteger(durabilityBase) && durabilityBase > 0 ? durabilityBase * 300 : 0;
     const statCount = kind === 'armor' ? 2 : 6;
-    const defaultAttributePairs = [];
+    const defaultAttributePairs: AttributePair[] = [];
     for (let index = 0; index < statCount; index += 1) {
       const value = Array.isArray(entry.combatFields) ? entry.combatFields[index] : null;
       defaultAttributePairs.push({ value: Number.isInteger(value) && value > 0 ? value : 0 });
@@ -128,22 +167,22 @@ function loadClientEquipmentDefinitions(filePath, kind) {
   return rows;
 }
 
-function loadClientDerivedEntries(filePath) {
-  let parsed;
+function loadClientDerivedEntries(filePath: string): UnknownRecord[] {
+  let parsed: UnknownRecord;
   try {
-    parsed = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-  } catch (err) {
+    parsed = JSON.parse(fs.readFileSync(filePath, 'utf8')) as UnknownRecord;
+  } catch (_err) {
     return [];
   }
   return Array.isArray(parsed?.entries) ? parsed.entries : [];
 }
 
-function normalizeInventoryState(character) {
+function normalizeInventoryState(character: UnknownRecord): InventoryState {
   const rawBag = Array.isArray(character?.inventory?.bag)
     ? character.inventory.bag
-        .map((item) => normalizeBagItem(item))
-        .filter(Boolean)
-        .sort((left, right) => {
+        .map((item: UnknownRecord) => normalizeBagItem(item))
+        .filter((item: BagItem | null): item is BagItem => Boolean(item))
+        .sort((left: BagItem, right: BagItem) => {
           if (left.slot !== right.slot) {
             return left.slot - right.slot;
           }
@@ -157,7 +196,7 @@ function normalizeInventoryState(character) {
   const bagSize = Math.max(
     requestedBagSize,
     computeRequiredBagSlots(rawBag),
-    rawBag.reduce((maxSlot, item) => Math.max(maxSlot, item.slot), FIRST_BAG_SLOT - 1)
+    rawBag.reduce((maxSlot: number, item: BagItem) => Math.max(maxSlot, item.slot), FIRST_BAG_SLOT - 1)
   );
   const bag = normalizeBagLayout(rawBag, bagSize);
 
@@ -165,10 +204,7 @@ function normalizeInventoryState(character) {
     FIRST_BAG_SLOT,
     bag.reduce((maxSlot, item) => Math.max(maxSlot, item.slot), FIRST_BAG_SLOT - 1) + 1
   );
-  const computedNextInstanceId = bag.reduce(
-    (maxId, item) => Math.max(maxId, item.instanceId),
-    0
-  ) + 1;
+  const computedNextInstanceId = bag.reduce((maxId, item) => Math.max(maxId, item.instanceId), 0) + 1;
 
   return {
     inventory: {
@@ -189,7 +225,7 @@ function normalizeInventoryState(character) {
   };
 }
 
-function normalizeBagItem(item) {
+function normalizeBagItem(item: UnknownRecord): BagItem | null {
   if (!item || typeof item !== 'object') {
     return null;
   }
@@ -210,15 +246,24 @@ function normalizeBagItem(item) {
     templateId: item.templateId >>> 0,
     quantity: normalizeStoredItemQuantity(definition, rawQuantity),
     equipped: item.equipped === true,
-    // Older local saves used 0-based slots; remap them into the client-visible range.
     slot: Math.max(FIRST_BAG_SLOT, item.slot >>> 0),
   };
 }
 
-function buildInventorySnapshot(session) {
+function buildInventorySnapshot(session: InventorySessionLike): InventoryState['inventory'] {
+  const bagSize = typeof session.bagSize === 'number' && session.bagSize > 0 ? session.bagSize : DEFAULT_BAG_SIZE;
+  const nextItemInstanceId =
+    typeof session.nextItemInstanceId === 'number' && session.nextItemInstanceId > 0
+      ? session.nextItemInstanceId
+      : 1;
+  const nextBagSlot =
+    typeof session.nextBagSlot === 'number' && session.nextBagSlot >= FIRST_BAG_SLOT
+      ? session.nextBagSlot
+      : FIRST_BAG_SLOT;
+
   const snapshot = {
     bag: Array.isArray(session.bagItems)
-        ? session.bagItems.map((item) => ({
+      ? session.bagItems.map((item) => ({
           instanceId: item.instanceId >>> 0,
           templateId: item.templateId >>> 0,
           quantity: item.quantity >>> 0,
@@ -226,31 +271,26 @@ function buildInventorySnapshot(session) {
           slot: item.slot >>> 0,
         }))
       : [],
-    bagSize:
-      Number.isInteger(session.bagSize) && session.bagSize > 0 ? session.bagSize : DEFAULT_BAG_SIZE,
-    nextItemInstanceId:
-      Number.isInteger(session.nextItemInstanceId) && session.nextItemInstanceId > 0
-        ? session.nextItemInstanceId
-        : 1,
-    nextBagSlot:
-      Number.isInteger(session.nextBagSlot) && session.nextBagSlot >= FIRST_BAG_SLOT
-        ? session.nextBagSlot
-        : FIRST_BAG_SLOT,
+    bagSize,
+    nextItemInstanceId,
+    nextBagSlot,
   };
   return normalizeInventoryState({ inventory: snapshot }).inventory;
 }
 
-function bagHasTemplateId(session, templateId) {
+function bagHasTemplateId(session: InventorySessionLike, templateId: number): boolean {
   return getBagQuantityByTemplateId(session, templateId) > 0;
 }
 
-function getBagItemByTemplateId(session, templateId) {
+function getBagItemByTemplateId(session: InventorySessionLike, templateId: number): BagItem | null {
   return Array.isArray(session.bagItems)
-    ? session.bagItems.find((item) => item.equipped !== true && item.templateId === (templateId >>> 0)) || null
+    ? session.bagItems.find(
+        (item) => item.equipped !== true && item.templateId === (templateId >>> 0)
+      ) || null
     : null;
 }
 
-function getBagQuantityByTemplateId(session, templateId) {
+function getBagQuantityByTemplateId(session: InventorySessionLike, templateId: number): number {
   return Array.isArray(session.bagItems)
     ? session.bagItems.reduce(
         (total, item) =>
@@ -261,11 +301,11 @@ function getBagQuantityByTemplateId(session, templateId) {
     : 0;
 }
 
-function bagHasTemplateQuantity(session, templateId, quantity = 1) {
+function bagHasTemplateQuantity(session: InventorySessionLike, templateId: number, quantity = 1): boolean {
   return getBagQuantityByTemplateId(session, templateId) >= Math.max(1, quantity | 0);
 }
 
-function grantItemToBag(session, templateId, quantity = 1) {
+function grantItemToBag(session: InventorySessionLike, templateId: number, quantity = 1): UnknownRecord {
   const definition = getItemDefinition(templateId);
   if (!definition) {
     return {
@@ -276,8 +316,7 @@ function grantItemToBag(session, templateId, quantity = 1) {
 
   const normalizedQuantity = Math.max(1, quantity | 0);
   const bagItems = Array.isArray(session.bagItems) ? session.bagItems : [];
-  const bagSize =
-    Number.isInteger(session.bagSize) && session.bagSize > 0 ? session.bagSize : DEFAULT_BAG_SIZE;
+  const bagSize = typeof session.bagSize === 'number' && session.bagSize > 0 ? session.bagSize : DEFAULT_BAG_SIZE;
   const existingStacks = bagItems
     .filter(
       (item) =>
@@ -285,7 +324,7 @@ function grantItemToBag(session, templateId, quantity = 1) {
         item.templateId === definition.templateId &&
         item.quantity < definition.maxStack
     )
-    .sort((left, right) => left.slot - right.slot);
+    .sort((left: BagItem, right: BagItem) => left.slot - right.slot);
   const availableStackSpace = existingStacks.reduce(
     (total, item) => total + Math.max(0, definition.maxStack - item.quantity),
     0
@@ -294,7 +333,7 @@ function grantItemToBag(session, templateId, quantity = 1) {
     0,
     bagSize - new Set(bagItems.filter((item) => item.equipped !== true).map((item) => item.slot)).size
   );
-  const totalCapacity = availableStackSpace + (freeSlotCount * definition.maxStack);
+  const totalCapacity = availableStackSpace + freeSlotCount * definition.maxStack;
   if (totalCapacity < normalizedQuantity) {
     return {
       ok: false,
@@ -302,7 +341,7 @@ function grantItemToBag(session, templateId, quantity = 1) {
     };
   }
 
-  const changes = [];
+  const changes: InventoryChange[] = [];
   let remainingQuantity = normalizedQuantity;
 
   for (const item of existingStacks) {
@@ -324,17 +363,17 @@ function grantItemToBag(session, templateId, quantity = 1) {
   }
 
   let nextInstanceId =
-    Number.isInteger(session.nextItemInstanceId) && session.nextItemInstanceId > 0
+    typeof session.nextItemInstanceId === 'number' && session.nextItemInstanceId > 0
       ? session.nextItemInstanceId
       : 1;
   let nextPreferredSlot =
-    Number.isInteger(session.nextBagSlot) && session.nextBagSlot >= FIRST_BAG_SLOT
+    typeof session.nextBagSlot === 'number' && session.nextBagSlot >= FIRST_BAG_SLOT
       ? session.nextBagSlot
       : FIRST_BAG_SLOT;
   while (remainingQuantity > 0) {
     const slot = findNextAvailableSlot(bagItems, bagSize, nextPreferredSlot);
     const stackQuantity = Math.min(definition.maxStack, remainingQuantity);
-    const item = {
+    const item: BagItem = {
       instanceId: nextInstanceId,
       templateId: definition.templateId,
       quantity: initialStoredQuantityForGrant(definition, stackQuantity),
@@ -352,7 +391,7 @@ function grantItemToBag(session, templateId, quantity = 1) {
     remainingQuantity -= stackQuantity;
   }
 
-  bagItems.sort((left, right) => left.slot - right.slot);
+  bagItems.sort((left: BagItem, right: BagItem) => left.slot - right.slot);
   session.bagItems = bagItems;
   session.nextItemInstanceId = nextInstanceId;
   session.nextBagSlot = findNextAvailableSlot(bagItems, bagSize, nextPreferredSlot);
@@ -367,7 +406,7 @@ function grantItemToBag(session, templateId, quantity = 1) {
   };
 }
 
-function consumeItemFromBag(session, templateId, quantity = 1) {
+function consumeItemFromBag(session: InventorySessionLike, templateId: number, quantity = 1): UnknownRecord {
   const bagItems = Array.isArray(session.bagItems) ? session.bagItems : [];
   const normalizedQuantity = Math.max(1, quantity | 0);
   if (!bagHasTemplateQuantity(session, templateId, normalizedQuantity)) {
@@ -380,9 +419,9 @@ function consumeItemFromBag(session, templateId, quantity = 1) {
   let remainingQuantity = normalizedQuantity;
   const matchingItems = bagItems
     .filter((item) => item.equipped !== true && item.templateId === (templateId >>> 0))
-    .sort((left, right) => left.slot - right.slot);
-  const changes = [];
-  const removedItems = [];
+    .sort((left: BagItem, right: BagItem) => left.slot - right.slot);
+  const changes: InventoryChange[] = [];
+  const removedItems: BagItem[] = [];
 
   for (const item of matchingItems) {
     if (remainingQuantity <= 0) {
@@ -411,15 +450,16 @@ function consumeItemFromBag(session, templateId, quantity = 1) {
     }
   }
 
-  session.bagItems = bagItems.sort((left, right) => left.slot - right.slot);
-  const bagSize =
-    Number.isInteger(session.bagSize) && session.bagSize > 0 ? session.bagSize : DEFAULT_BAG_SIZE;
+  session.bagItems = bagItems.sort((left: BagItem, right: BagItem) => left.slot - right.slot);
+  const bagSize = typeof session.bagSize === 'number' && session.bagSize > 0 ? session.bagSize : DEFAULT_BAG_SIZE;
+  const nextBagSlot =
+    typeof session.nextBagSlot === 'number' ? session.nextBagSlot : bagSize + 1;
   session.nextBagSlot = findNextAvailableSlot(
     session.bagItems,
     bagSize,
     removedItems.reduce(
       (lowestSlot, item) => Math.min(lowestSlot, item.slot >>> 0),
-      Number.isInteger(session.nextBagSlot) ? session.nextBagSlot : bagSize + 1
+      nextBagSlot
     )
   );
   return {
@@ -431,16 +471,13 @@ function consumeItemFromBag(session, templateId, quantity = 1) {
   };
 }
 
-function normalizeBagLayout(items, bagSize) {
-  const usedSlots = new Set();
-  const usedInstanceIds = new Set();
+function normalizeBagLayout(items: BagItem[], bagSize: number): BagItem[] {
+  const usedSlots = new Set<number>();
+  const usedInstanceIds = new Set<number>();
   let nextInstanceId = 1;
-  const bag = [];
+  const bag: BagItem[] = [];
 
   for (const originalItem of items) {
-    if (!originalItem) {
-      continue;
-    }
     const definition = getItemDefinition(originalItem.templateId);
     if (!definition) {
       continue;
@@ -466,9 +503,7 @@ function normalizeBagLayout(items, bagSize) {
         break;
       }
       usedSlots.add(slot);
-      const quantity = isEquipment
-        ? remainingQuantity
-        : Math.min(definition.maxStack, remainingQuantity);
+      const quantity = isEquipment ? remainingQuantity : Math.min(definition.maxStack, remainingQuantity);
       bag.push({
         ...originalItem,
         instanceId,
@@ -484,7 +519,7 @@ function normalizeBagLayout(items, bagSize) {
   return bag;
 }
 
-function computeRequiredBagSlots(items) {
+function computeRequiredBagSlots(items: BagItem[]): number {
   if (!Array.isArray(items)) {
     return 0;
   }
@@ -501,8 +536,8 @@ function computeRequiredBagSlots(items) {
   }, 0);
 }
 
-function findNextAvailableSlot(items, bagSize, startSlot = FIRST_BAG_SLOT) {
-  const usedSlots = new Set(
+function findNextAvailableSlot(items: BagItem[], bagSize: number, startSlot = FIRST_BAG_SLOT): number {
+  const usedSlots = new Set<number>(
     Array.isArray(items) ? items.filter((item) => item?.equipped !== true).map((item) => item.slot) : []
   );
   const preferredSlot = Math.max(FIRST_BAG_SLOT, startSlot | 0);
@@ -513,7 +548,11 @@ function findNextAvailableSlot(items, bagSize, startSlot = FIRST_BAG_SLOT) {
   return bagSize + 1;
 }
 
-function findNextOpenSlot(usedSlots, bagSize, startSlot = FIRST_BAG_SLOT) {
+function findNextOpenSlot(
+  usedSlots: Set<number>,
+  bagSize: number,
+  startSlot = FIRST_BAG_SLOT
+): number | null {
   const preferredSlot = Math.max(FIRST_BAG_SLOT, startSlot | 0);
   for (let slot = preferredSlot; slot <= bagSize; slot += 1) {
     if (!usedSlots.has(slot)) {
@@ -528,46 +567,47 @@ function findNextOpenSlot(usedSlots, bagSize, startSlot = FIRST_BAG_SLOT) {
   return null;
 }
 
-function isEquipmentDefinition(definition) {
+function isEquipmentDefinition(definition: ItemDefinition): boolean {
   return (
     Number.isInteger(definition?.clientTemplateFamily) &&
-    definition.clientTemplateFamily >= 0x20 &&
-    definition.clientTemplateFamily < 0x40
+    (definition.clientTemplateFamily as number) >= 0x20 &&
+    (definition.clientTemplateFamily as number) < 0x40
   );
 }
 
-function initialStoredQuantityForGrant(definition, requestedQuantity) {
+function initialStoredQuantityForGrant(definition: ItemDefinition, requestedQuantity: number): number {
   if (isEquipmentDefinition(definition)) {
-    return Number.isInteger(definition.defaultQuantity) && definition.defaultQuantity > 0
-      ? definition.defaultQuantity
+    const defaultQuantity =
+      typeof definition.defaultQuantity === 'number' ? definition.defaultQuantity : 0;
+    return Number.isInteger(defaultQuantity) && defaultQuantity > 0
+      ? defaultQuantity
       : Math.max(1, requestedQuantity | 0);
   }
   return Math.max(1, requestedQuantity | 0);
 }
 
-function normalizeStoredItemQuantity(definition, rawQuantity) {
+function normalizeStoredItemQuantity(definition: ItemDefinition, rawQuantity: number): number {
   if (isEquipmentDefinition(definition)) {
     if (!Number.isInteger(rawQuantity) || rawQuantity < 0) {
-      return Number.isInteger(definition?.defaultQuantity) && definition.defaultQuantity > 0
-        ? definition.defaultQuantity
+      const defaultQuantity =
+        typeof definition.defaultQuantity === 'number' ? definition.defaultQuantity : 0;
+      return Number.isInteger(defaultQuantity) && defaultQuantity > 0
+        ? defaultQuantity
         : 0;
     }
     return rawQuantity;
   }
-  if (
-    !Number.isInteger(rawQuantity) ||
-    rawQuantity <= 0
-  ) {
+  if (!Number.isInteger(rawQuantity) || rawQuantity <= 0) {
     return 1;
   }
   return rawQuantity;
 }
 
-function numberOrDefault(value, fallback) {
-  return Number.isInteger(value) ? value : fallback;
+function numberOrDefault(value: unknown, fallback: number): number {
+  return Number.isInteger(value) ? (value as number) : fallback;
 }
 
-module.exports = {
+export {
   BAG_CONTAINER_TYPE,
   DEFAULT_BAG_SIZE,
   FIRST_BAG_SLOT,
