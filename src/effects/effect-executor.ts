@@ -1,5 +1,3 @@
-'use strict';
-
 const { grantItemToBag, consumeItemFromBag, getItemDefinition } = require('../inventory');
 const {
   sendGrantResultPackets,
@@ -9,26 +7,17 @@ const {
 const { sendSelfStateValueUpdate } = require('../gameplay/stat-sync');
 const { applyExperienceGain } = require('../gameplay/progression');
 
-/**
- * Apply a list of game effects to a session, then batch-sync dirty state.
- *
- * Effects are the shared vocabulary across quest, combat, inventory, and NPC
- * systems. Each effect is a plain object like:
- *   { kind: 'grant-item', templateId: 20001, quantity: 1 }
- *   { kind: 'update-stat', stat: 'gold', delta: 100 }
- *   { kind: 'remove-item', templateId: 21115, quantity: 3 }
- *   { kind: 'dialogue', title: 'Quest', message: 'Done!' }
- *
- * Returns { statsDirty, inventoryDirty, messages }.
- */
-function applyEffects(session, effects, options = {}) {
+type UnknownRecord = Record<string, any>;
+type SessionLike = Record<string, any>;
+
+function applyEffects(session: SessionLike, effects: UnknownRecord[], options: UnknownRecord = {}): UnknownRecord {
   const suppressPackets = options.suppressPackets === true;
   const suppressStatSync = options.suppressStatSync === true;
   const suppressDialogues = options.suppressDialogues === true;
   const suppressPersist = options.suppressPersist === true;
   let statsDirty = false;
   let inventoryDirty = false;
-  const messages = [];
+  const messages: string[] = [];
 
   for (const effect of effects) {
     const handler = EFFECT_HANDLERS[effect.kind];
@@ -43,7 +32,6 @@ function applyEffects(session, effects, options = {}) {
     }
   }
 
-  // Batch sync: send packets ONCE after all effects applied
   if (inventoryDirty && !suppressPackets) {
     sendInventoryFullSync(session);
   }
@@ -57,9 +45,7 @@ function applyEffects(session, effects, options = {}) {
   return { statsDirty, inventoryDirty, messages };
 }
 
-// --- Individual effect handlers ---
-
-function handleGrantItem(session, effect, opts) {
+function handleGrantItem(session: SessionLike, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
   const quantity = Math.max(1, effect.quantity || 1);
   const grantResult = grantItemToBag(session, effect.templateId, quantity);
   if (!grantResult.ok) {
@@ -79,7 +65,7 @@ function handleGrantItem(session, effect, opts) {
   };
 }
 
-function handleRemoveItem(session, effect, opts) {
+function handleRemoveItem(session: SessionLike, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
   const quantity = Math.max(1, effect.quantity || 1);
   const consumeResult = consumeItemFromBag(session, effect.templateId, quantity);
   if (!consumeResult.ok) {
@@ -91,7 +77,7 @@ function handleRemoveItem(session, effect, opts) {
   return { statsDirty: false, inventoryDirty: true };
 }
 
-function handleUpdateStat(session, effect, opts) {
+function handleUpdateStat(session: SessionLike, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
   const stat = effect.stat;
   const delta = effect.delta || 0;
   if (delta === 0) {
@@ -128,21 +114,21 @@ function handleUpdateStat(session, effect, opts) {
   return { statsDirty: false, inventoryDirty: false };
 }
 
-function handleDialogue(session, effect, opts) {
+function handleDialogue(session: SessionLike, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
   if (!opts.suppressDialogues && typeof session.sendGameDialogue === 'function') {
     session.sendGameDialogue(effect.title || 'System', effect.message || '');
   }
   return { statsDirty: false, inventoryDirty: false };
 }
 
-function handleChangeScene(session, effect, _opts) {
+function handleChangeScene(session: SessionLike, effect: UnknownRecord): UnknownRecord {
   if (typeof session.transitionToScene === 'function') {
     session.transitionToScene(effect.mapId, effect.x, effect.y, 'effect');
   }
   return { statsDirty: false, inventoryDirty: false };
 }
 
-function handleSendScript(session, effect, opts) {
+function handleSendScript(session: SessionLike, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
   if (opts.suppressPackets) {
     return { statsDirty: false, inventoryDirty: false };
   }
@@ -154,16 +140,16 @@ function handleSendScript(session, effect, opts) {
   return { statsDirty: false, inventoryDirty: false };
 }
 
-const EFFECT_HANDLERS = {
+const EFFECT_HANDLERS: Record<string, (session: SessionLike, effect: UnknownRecord, opts: UnknownRecord) => UnknownRecord> = {
   'grant-item': handleGrantItem,
   'remove-item': handleRemoveItem,
   'update-stat': handleUpdateStat,
   'change-scene': handleChangeScene,
-  'dialogue': handleDialogue,
+  dialogue: handleDialogue,
   'send-script': handleSendScript,
 };
 
-module.exports = {
+export {
   applyEffects,
   EFFECT_HANDLERS,
 };

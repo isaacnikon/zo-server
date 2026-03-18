@@ -1,7 +1,5 @@
-'use strict';
-
-const path = require('path');
 const fs = require('fs');
+const { resolveRepoPath } = require('../runtime-paths');
 const { getItemDefinition, grantItemToBag } = require('../inventory');
 const { getRolePrimaryDrop } = require('../roleinfo');
 const { sendGrantResultPackets, sendInventoryFullSync } = require('./inventory-runtime');
@@ -9,15 +7,22 @@ const { applyEffects } = require('../effects/effect-executor');
 
 const DROP_RATE_SCALE = 100;
 
-const CONDITIONAL_DROPS_PATH = path.resolve(__dirname, '../../data/quests/conditional-drops.json');
-let QUEST_CONDITIONAL_DROPS = [];
+const CONDITIONAL_DROPS_PATH = resolveRepoPath('data', 'quests', 'conditional-drops.json');
+let QUEST_CONDITIONAL_DROPS: Record<string, any>[] = [];
 try {
   QUEST_CONDITIONAL_DROPS = JSON.parse(fs.readFileSync(CONDITIONAL_DROPS_PATH, 'utf8'));
 } catch (_err) {
-  // fallback: no conditional drops
+  QUEST_CONDITIONAL_DROPS = [];
 }
 
-function rollSyntheticFightDrops(session, syntheticFight, options = {}) {
+type UnknownRecord = Record<string, any>;
+type SessionLike = Record<string, any>;
+
+function rollSyntheticFightDrops(
+  session: SessionLike,
+  syntheticFight: UnknownRecord,
+  options: UnknownRecord = {}
+): UnknownRecord {
   if (!syntheticFight || !Array.isArray(syntheticFight.enemies) || syntheticFight.enemies.length === 0) {
     return emptyResult();
   }
@@ -25,23 +30,19 @@ function rollSyntheticFightDrops(session, syntheticFight, options = {}) {
   const suppressPackets = options.suppressPackets === true;
   const suppressDialogues = options.suppressDialogues === true;
   const roll = typeof options.random === 'function' ? options.random : Math.random;
-  const effects = [];
-  const dialogueEffects = [];
-  const granted = [];
-  const skipped = [];
+  const dialogueEffects: UnknownRecord[] = [];
+  const granted: UnknownRecord[] = [];
+  const skipped: UnknownRecord[] = [];
 
   for (const enemy of syntheticFight.enemies) {
-    const drops = [
-      ...resolveEnemyDrops(enemy),
-      ...resolveQuestConditionalDrops(session, enemy),
-    ];
+    const drops = [...resolveEnemyDrops(enemy), ...resolveQuestConditionalDrops(session, enemy)];
     for (const drop of drops) {
       const chance = Number.isFinite(drop?.chance) ? drop.chance : 0;
       const normalizedChance = Math.max(0, Math.min(DROP_RATE_SCALE, chance));
       if (normalizedChance <= 0) {
         continue;
       }
-      if ((roll() * DROP_RATE_SCALE) >= normalizedChance) {
+      if (roll() * DROP_RATE_SCALE >= normalizedChance) {
         continue;
       }
 
@@ -91,7 +92,6 @@ function rollSyntheticFightDrops(session, syntheticFight, options = {}) {
     sendInventoryFullSync(session);
   }
 
-  // Apply dialogue effects via the shared executor
   if (dialogueEffects.length > 0) {
     applyEffects(session, dialogueEffects, {
       suppressPackets: true,
@@ -107,7 +107,7 @@ function rollSyntheticFightDrops(session, syntheticFight, options = {}) {
   };
 }
 
-function resolveEnemyDrops(enemy) {
+function resolveEnemyDrops(enemy: UnknownRecord): UnknownRecord[] {
   const explicitDrops = Array.isArray(enemy?.drops) ? enemy.drops : [];
   if (explicitDrops.length > 0) {
     return explicitDrops;
@@ -117,7 +117,7 @@ function resolveEnemyDrops(enemy) {
   return primaryDrop ? [primaryDrop] : [];
 }
 
-function emptyResult() {
+function emptyResult(): UnknownRecord {
   return {
     inventoryDirty: false,
     granted: [],
@@ -125,18 +125,18 @@ function emptyResult() {
   };
 }
 
-function resolveQuestConditionalDrops(session, enemy) {
+function resolveQuestConditionalDrops(session: SessionLike, enemy: UnknownRecord): UnknownRecord[] {
   if (!enemy || !session || !Array.isArray(session.activeQuests)) {
     return [];
   }
 
-  const result = [];
+  const result: UnknownRecord[] = [];
   for (const rule of QUEST_CONDITIONAL_DROPS) {
     if (rule.enemyTypeId !== enemy.typeId) {
       continue;
     }
     const matchesQuest = session.activeQuests.some(
-      (quest) => quest?.id === rule.questId && quest?.stepIndex === rule.stepIndex
+      (quest: UnknownRecord) => quest?.id === rule.questId && quest?.stepIndex === rule.stepIndex
     );
     if (!matchesQuest) {
       continue;
@@ -148,7 +148,7 @@ function resolveQuestConditionalDrops(session, enemy) {
   return result;
 }
 
-module.exports = {
+export {
   DROP_RATE_SCALE,
   rollSyntheticFightDrops,
 };

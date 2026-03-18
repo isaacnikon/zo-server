@@ -1,5 +1,3 @@
-'use strict';
-
 const { DEFAULT_FLAGS, GAME_ITEM_CMD, GAME_ITEM_CONTAINER_CMD } = require('../config');
 const {
   buildInventoryContainerBulkSyncPacket,
@@ -15,9 +13,19 @@ const {
   getItemDefinition,
   grantItemToBag,
 } = require('../inventory');
+
 const EQUIPMENT_CONTAINER_TYPE = 0;
 
-function sendItemAdd(session, templateId, slot, quantity = 1, instanceId = 0) {
+type UnknownRecord = Record<string, any>;
+type SessionLike = Record<string, any>;
+
+function sendItemAdd(
+  session: SessionLike,
+  templateId: number,
+  slot: number,
+  quantity = 1,
+  instanceId = 0
+): void {
   const definition = getItemDefinition(templateId);
   const encodedQuantity = resolveClientItemQuantity(definition, quantity);
   session.writePacket(
@@ -31,16 +39,14 @@ function sendItemAdd(session, templateId, slot, quantity = 1, instanceId = 0) {
       quantity: encodedQuantity,
       extraValue: 0,
       clientTemplateFamily: definition?.clientTemplateFamily ?? null,
-      attributePairs: Array.isArray(definition?.defaultAttributePairs)
-        ? definition.defaultAttributePairs
-        : [],
+      attributePairs: Array.isArray(definition?.defaultAttributePairs) ? definition.defaultAttributePairs : [],
     }),
     DEFAULT_FLAGS,
     `Sending item add cmd=0x${GAME_ITEM_CMD.toString(16)} templateId=${templateId} slot=${slot} qty=${quantity} instanceId=${instanceId}${definition ? ` name=${definition.name}` : ''}`
   );
 }
 
-function sendItemPositionUpdate(session, item) {
+function sendItemPositionUpdate(session: SessionLike, item: UnknownRecord): void {
   const slotIndex = item.slot >>> 0;
   const gridIndex = Math.max(0, slotIndex - 1);
   const column = gridIndex % 5;
@@ -59,11 +65,11 @@ function sendItemPositionUpdate(session, item) {
   );
 }
 
-function sendInventoryFullSync(session) {
+function sendInventoryFullSync(session: SessionLike): void {
   const bagItems = Array.isArray(session.bagItems)
     ? session.bagItems
-        .filter((item) => item.equipped !== true)
-        .map((item) => buildClientInventoryItem(session, item))
+        .filter((item: UnknownRecord) => item.equipped !== true)
+        .map((item: UnknownRecord) => buildClientInventoryItem(item))
     : [];
   session.writePacket(
     buildInventoryContainerBulkSyncPacket({
@@ -79,19 +85,17 @@ function sendInventoryFullSync(session) {
   }
 }
 
-function buildClientInventoryItem(session, item) {
+function buildClientInventoryItem(item: UnknownRecord): UnknownRecord {
   const definition = getItemDefinition(item.templateId);
   return {
     ...item,
     quantity: resolveClientItemQuantity(definition, item.quantity),
     clientTemplateFamily: definition?.clientTemplateFamily ?? null,
-    attributePairs: Array.isArray(definition?.defaultAttributePairs)
-      ? definition.defaultAttributePairs
-      : [],
+    attributePairs: Array.isArray(definition?.defaultAttributePairs) ? definition.defaultAttributePairs : [],
   };
 }
 
-function resolveClientItemQuantity(definition, quantity) {
+function resolveClientItemQuantity(definition: UnknownRecord, quantity: number): number {
   const isEquipment =
     Number.isInteger(definition?.clientTemplateFamily) &&
     definition.clientTemplateFamily >= 0x20 &&
@@ -105,10 +109,10 @@ function resolveClientItemQuantity(definition, quantity) {
   return isEquipment ? 0 : 1;
 }
 
-function sendEquipmentContainerSync(session) {
+function sendEquipmentContainerSync(session: SessionLike): void {
   const equippedItems = (Array.isArray(session.bagItems) ? session.bagItems : [])
-    .filter((item) => item.equipped === true)
-    .map((item) => buildClientInventoryItem(session, item));
+    .filter((item: UnknownRecord) => item.equipped === true)
+    .map((item: UnknownRecord) => buildClientInventoryItem(item));
 
   session.writePacket(
     buildInventoryContainerBulkSyncPacket({
@@ -120,7 +124,7 @@ function sendEquipmentContainerSync(session) {
   );
 }
 
-function sendItemQuantityUpdate(session, instanceId, quantity) {
+function sendItemQuantityUpdate(session: SessionLike, instanceId: number, quantity: number): void {
   session.writePacket(
     buildInventoryContainerQuantityPacket({
       containerType: BAG_CONTAINER_TYPE,
@@ -132,7 +136,7 @@ function sendItemQuantityUpdate(session, instanceId, quantity) {
   );
 }
 
-function sendItemRemove(session, instanceId) {
+function sendItemRemove(session: SessionLike, instanceId: number): void {
   session.writePacket(
     buildItemRemovePacket({
       containerType: BAG_CONTAINER_TYPE,
@@ -143,12 +147,12 @@ function sendItemRemove(session, instanceId) {
   );
 }
 
-function syncInventoryStateToClient(session) {
+function syncInventoryStateToClient(session: SessionLike): void {
   sendInventoryFullSync(session);
   sendEquipmentContainerSync(session);
 }
 
-function sendGrantResultPackets(session, grantResult) {
+function sendGrantResultPackets(session: SessionLike, grantResult: UnknownRecord): void {
   for (const change of grantResult.changes || []) {
     if (change.merged) {
       sendItemQuantityUpdate(session, change.item.instanceId, change.item.quantity);
@@ -165,7 +169,7 @@ function sendGrantResultPackets(session, grantResult) {
   }
 }
 
-function sendConsumeResultPackets(session, consumeResult) {
+function sendConsumeResultPackets(session: SessionLike, consumeResult: UnknownRecord): void {
   for (const change of consumeResult.changes || []) {
     if (change.removed) {
       sendItemRemove(session, change.item.instanceId);
@@ -175,7 +179,11 @@ function sendConsumeResultPackets(session, consumeResult) {
   }
 }
 
-function applyInventoryQuestEvent(session, event, options = {}) {
+function applyInventoryQuestEvent(
+  session: SessionLike,
+  event: UnknownRecord,
+  options: UnknownRecord = {}
+): UnknownRecord {
   const suppressPackets = options.suppressPackets === true;
   const suppressDialogues = options.suppressDialogues === true;
 
@@ -187,10 +195,7 @@ function applyInventoryQuestEvent(session, event, options = {}) {
     const grantResult = grantItemToBag(session, event.templateId, event.quantity);
     if (!grantResult.ok) {
       if (!suppressDialogues) {
-        session.sendGameDialogue(
-          'Quest',
-          `${event.itemName || 'Quest item'} could not be added: ${grantResult.reason}.`
-        );
+        session.sendGameDialogue('Quest', `${event.itemName || 'Quest item'} could not be added: ${grantResult.reason}.`);
       }
       return { handled: true, dirty: false };
     }
@@ -200,10 +205,7 @@ function applyInventoryQuestEvent(session, event, options = {}) {
       sendInventoryFullSync(session);
     }
     if (!suppressDialogues) {
-      session.sendGameDialogue(
-        'Quest',
-        `${event.itemName || grantResult.definition.name} was added to your pack.`
-      );
+      session.sendGameDialogue('Quest', `${event.itemName || grantResult.definition.name} was added to your pack.`);
     }
 
     return { handled: true, dirty: true };
@@ -213,10 +215,7 @@ function applyInventoryQuestEvent(session, event, options = {}) {
     const consumeResult = consumeItemFromBag(session, event.templateId, event.quantity);
     if (!consumeResult.ok) {
       if (!suppressDialogues) {
-        session.sendGameDialogue(
-          'Quest',
-          `${event.itemName || 'Quest item'} is required to continue.`
-        );
+        session.sendGameDialogue('Quest', `${event.itemName || 'Quest item'} is required to continue.`);
       }
       return { handled: true, dirty: false };
     }
@@ -226,10 +225,7 @@ function applyInventoryQuestEvent(session, event, options = {}) {
       sendInventoryFullSync(session);
     }
     if (!suppressDialogues) {
-      session.sendGameDialogue(
-        'Quest',
-        `${event.itemName || 'Quest item'} was handed over.`
-      );
+      session.sendGameDialogue('Quest', `${event.itemName || 'Quest item'} was handed over.`);
     }
 
     return { handled: true, dirty: true };
@@ -237,10 +233,7 @@ function applyInventoryQuestEvent(session, event, options = {}) {
 
   if (event.type === 'item-missing') {
     if (!suppressDialogues) {
-      session.sendGameDialogue(
-        'Quest',
-        `${event.itemName || 'Quest item'} is required to continue.`
-      );
+      session.sendGameDialogue('Quest', `${event.itemName || 'Quest item'} is required to continue.`);
     }
     return { handled: true, dirty: false };
   }
@@ -248,7 +241,7 @@ function applyInventoryQuestEvent(session, event, options = {}) {
   return { handled: false, dirty: false };
 }
 
-module.exports = {
+export {
   applyInventoryQuestEvent,
   sendConsumeResultPackets,
   sendInventoryFullSync,
