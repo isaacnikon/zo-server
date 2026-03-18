@@ -6,12 +6,11 @@
     "rootDir": ".",
     "strict": true,
     "esModuleInterop": true,
-    "allowJs": true,
-    "checkJs": false,
+    "allowJs": false,
     "declaration": true,
     "resolveJsonModule": true,
     "skipLibCheck": true
   },
-  "include": ["server.js", "scripts/**/*", "src/**/*"],
+  "include": ["server.ts", "scripts/refactor-smoke.ts", "src/**/*"],
   "exclude": ["node_modules", "dist", "data", "context"]
 }

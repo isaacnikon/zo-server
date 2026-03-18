@@ -1,6 +1,8 @@
 'use strict';
+export {};
 
 const assert = require('assert');
+type UnknownRecord = Record<string, any>;
 
 const { buildDefeatRespawnState, resolveInnRestVitals } = require('../src/gameplay/session-flows');
 const {
@@ -42,7 +44,7 @@ function testDefeatRespawnState() {
     player: { maxHp: 300, mp: 55, rage: 12 },
     currentMana: 0,
     currentRage: 0,
-    resolveTownRespawn: (character) => ({
+    resolveTownRespawn: (character: UnknownRecord) => ({
       mapId: character.lastTownMapId,
       x: character.lastTownX,
       y: character.lastTownY,
@@ -135,7 +137,7 @@ function testQueuedEnemyTurnResolution() {
   const resolution = resolveQueuedEnemyTurn({
     syntheticFight,
     now: 5678,
-    selectSyntheticEnemyAttacker: (fight) => fight.enemies[0],
+    selectSyntheticEnemyAttacker: (fight: UnknownRecord) => fight.enemies[0],
     computeSyntheticDamage: () => 10,
     hasLivingSyntheticAllies: () => false,
   });
@@ -302,7 +304,7 @@ function testInventorySnapshotCanonicalizesState() {
 }
 
 function testQuestRewardInventoryAlwaysEndsWithFullSync() {
-  const packets = [];
+  const packets: Array<{ hex: string; message: string }> = [];
   const session = {
     bagItems: [],
     bagSize: 24,
@@ -314,7 +316,7 @@ function testQuestRewardInventoryAlwaysEndsWithFullSync() {
     gold: 0,
     coins: 0,
     renown: 0,
-    writePacket(payload, _flags, message) {
+    writePacket(payload: Buffer, _flags: number, message: string) {
       packets.push({ hex: payload.toString('hex'), message });
     },
   };
@@ -326,7 +328,7 @@ function testQuestRewardInventoryAlwaysEndsWithFullSync() {
   assert.strictEqual(result.inventoryDirty, true);
   assert.ok(packets.length >= 2, `Expected at least 2 packets, got ${packets.length}`);
   assert.match(packets[0].message, /Sending item add/);
-  const hasSyncPacket = packets.some((p) => /Sending inventory full sync/.test(p.message));
+  const hasSyncPacket = packets.some((packet) => /Sending inventory full sync/.test(packet.message));
   assert.ok(hasSyncPacket, 'Expected at least one inventory full sync packet');
 }
 
