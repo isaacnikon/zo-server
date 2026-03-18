@@ -3,12 +3,18 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
+    "build": "tsc",
     "start": "node server.js",
-    "test": "node scripts/refactor-smoke.js",
+    "dev": "tsc && node server.js",
+    "test": "tsc && node scripts/refactor-smoke.js",
     "reset:character": "node scripts/reset-character.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "typescript": "^5.9.3"
+  }
 }

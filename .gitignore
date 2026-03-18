@@ -1,3 +1,5 @@
+node_modules/
+dist/
 server.log
 combat-probe-state.json
 data/save/
