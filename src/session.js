@@ -12,6 +12,7 @@ const {
   parsePingToken,
   parseLoginPacket,
 } = require('./protocol/inbound-packets');
+const { dispatchGamePacket } = require('./handlers/packet-dispatcher');
 
 const {
   buildCombatTurnProfiles,
@@ -373,45 +374,7 @@ class Session {
     const cmdWord = payload.length >= 2 ? payload.readUInt16LE(0) : cmdByte;
     this.log(`Game packet flags=0x${flags.toString(16)} cmd8=0x${cmdByte.toString(16).padStart(2, '0')} cmd16=0x${cmdWord.toString(16).padStart(4, '0')}`);
 
-    if ((flags & 0x04) !== 0 && payload.length >= 6) {
-      this.handleSpecialPacket(cmdWord, payload);
-      return;
-    }
-
-    if (cmdWord === ROLE_CMD) {
-      this.handleRolePacket(payload);
-      return;
-    }
-
-    if (cmdWord === GAME_POSITION_QUERY_CMD) {
-      this.handlePositionUpdate(payload);
-      return;
-    }
-
-    if (cmdWord === GAME_SERVER_RUN_CMD) {
-      this.handleServerRunRequest(payload);
-      return;
-    }
-
-    if (cmdWord === GAME_QUEST_CMD) {
-      this.handleQuestPacket(payload);
-      return;
-    }
-
-    if (cmdWord === GAME_FIGHT_RESULT_CMD && this.tryHandleEquipmentStatePacket(payload)) {
-      return;
-    }
-
-    if (cmdWord === 0x03f5 && this.tryHandlePetActionPacket(payload)) {
-      return;
-    }
-
-    if (cmdWord === 0x03ef && this.tryHandleAttributeAllocationPacket(payload)) {
-      return;
-    }
-
-    if (cmdWord === GAME_FIGHT_CLIENT_CMD || isCombatCommand(cmdWord)) {
-      this.handleCombatPacket(cmdWord, payload);
+    if (dispatchGamePacket(this, cmdWord, flags, payload)) {
       return;
     }
 
@@ -582,30 +545,30 @@ class Session {
     }
 
     const subcmd = payload[2];
-    if (subcmd === 0x04) {
-      this.handleCreateRole(payload);
-      return;
-    }
+    const ROLE_HANDLERS = {
+      0x04: () => this.handleCreateRole(payload),
+      0x0d: () => {
+        const slotIndex = payload.length >= 4 ? payload[3] : 0;
+        this.log(`Enter game request slot=${slotIndex}`);
+        if (this.isGame) {
+          this.sendEnterGameOk();
+        } else {
+          this.sendGameServerRedirect();
+        }
+      },
+      0x1c: () => {
+        const lineNo = payload.length >= 4 ? payload[3] : 0;
+        this.log(`Line select request for line ${lineNo}`);
+        this.sendLineSelectOk(lineNo);
+      },
+    };
 
-    if (subcmd === 0x0d) {
-      const slotIndex = payload.length >= 4 ? payload[3] : 0;
-      this.log(`Enter game request slot=${slotIndex}`);
-      if (this.isGame) {
-        this.sendEnterGameOk();
-      } else {
-        this.sendGameServerRedirect();
-      }
-      return;
+    const handler = ROLE_HANDLERS[subcmd];
+    if (handler) {
+      handler();
+    } else {
+      this.log(`Unhandled 0x044c subcmd=0x${subcmd.toString(16)}`);
     }
-
-    if (subcmd === 0x1c) {
-      const lineNo = payload.length >= 4 ? payload[3] : 0;
-      this.log(`Line select request for line ${lineNo}`);
-      this.sendLineSelectOk(lineNo);
-      return;
-    }
-
-    this.log(`Unhandled 0x044c subcmd=0x${subcmd.toString(16)}`);
   }
 
   handleCreateRole(payload) {
