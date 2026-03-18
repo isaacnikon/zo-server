@@ -1,6 +1,32 @@
 'use strict';
+export {};
 
 const { getRoleName } = require('./roleinfo');
+type UnknownRecord = Record<string, any>;
+type PetStats = {
+  strength: number;
+  dexterity: number;
+  vitality: number;
+  intelligence: number;
+};
+type PetRecord = {
+  templateId: number;
+  awardedAt: number;
+  runtimeId: number;
+  name: string;
+  level: number;
+  generation: number;
+  currentHealth: number;
+  currentMana: number;
+  loyalty: number;
+  stateFlags: {
+    modeA: number;
+    modeB: number;
+    activeFlag: number;
+  };
+  stats: PetStats;
+  statPoints: number;
+};
 
 const DEFAULT_PET_STATS = Object.freeze({
   strength: 10,
@@ -9,17 +35,17 @@ const DEFAULT_PET_STATS = Object.freeze({
   intelligence: 10,
 });
 
-function normalizePets(pets) {
+function normalizePets(pets: unknown): PetRecord[] {
   if (!Array.isArray(pets)) {
     return [];
   }
 
   return pets
     .map((pet, index) => normalizePetRecord(pet, index))
-    .filter(Boolean);
+    .filter((pet): pet is PetRecord => pet !== null);
 }
 
-function normalizePetRecord(pet, index = 0) {
+function normalizePetRecord(pet: UnknownRecord | null | undefined, index = 0): PetRecord | null {
   if (!pet || typeof pet !== 'object') {
     return null;
   }
@@ -64,7 +90,7 @@ function normalizePetRecord(pet, index = 0) {
   };
 }
 
-function createOwnedPet(templateId, overrides = {}, index = 0) {
+function createOwnedPet(templateId: number, overrides: UnknownRecord = {}, index = 0): PetRecord | null {
   return normalizePetRecord(
     {
       templateId,
@@ -75,17 +101,17 @@ function createOwnedPet(templateId, overrides = {}, index = 0) {
   );
 }
 
-function getPrimaryPet(pets) {
+function getPrimaryPet(pets: unknown): PetRecord | null {
   const normalizedPets = normalizePets(pets);
   return normalizedPets.length > 0 ? normalizedPets[0] : null;
 }
 
-function buildDefaultPetRuntimeId(templateId, awardedAt, index) {
+function buildDefaultPetRuntimeId(templateId: number, awardedAt: number, index: number): number {
   const suffix = ((awardedAt >>> 0) + (index & 0xff)) & 0xffff;
   return (((templateId & 0xffff) << 16) | suffix) >>> 0;
 }
 
-function normalizePetStats(stats) {
+function normalizePetStats(stats: UnknownRecord | null | undefined): PetStats {
   return {
     strength: Math.max(0, numberOrDefault(stats?.strength, DEFAULT_PET_STATS.strength)),
     dexterity: Math.max(0, numberOrDefault(stats?.dexterity, DEFAULT_PET_STATS.dexterity)),
@@ -94,17 +120,17 @@ function normalizePetStats(stats) {
   };
 }
 
-function normalizePetRow(value) {
+function normalizePetRow(value: unknown): number {
   const row = numberOrDefault(value, 0) | 0;
   return Math.min(2, Math.max(0, row)) & 0xff;
 }
 
-function normalizePetCol(value) {
+function normalizePetCol(value: unknown): number {
   const col = numberOrDefault(value, 0) | 0;
   return Math.min(4, Math.max(0, col)) & 0xff;
 }
 
-function normalizePetSide(value) {
+function normalizePetSide(value: unknown): number {
   const side = numberOrDefault(value, 1) | 0;
   if (side === 1 || side === -1 || side === 0xff) {
     return side & 0xff;
@@ -112,7 +138,7 @@ function normalizePetSide(value) {
   return 1;
 }
 
-function numberOrDefault(value, fallback) {
+function numberOrDefault(value: unknown, fallback: number): number {
   return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
 }
 

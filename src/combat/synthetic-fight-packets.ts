@@ -1,4 +1,5 @@
 'use strict';
+export {};
 
 const {
   FIGHT_ACTIVE_STATE_SUBCMD,
@@ -11,8 +12,9 @@ const {
   GAME_FIGHT_TURN_CMD,
 } = require('../config');
 const { PacketWriter } = require('../protocol');
+type UnknownRecord = Record<string, any>;
 
-function writeFightProbeEntry(writer, entry) {
+function writeFightProbeEntry(writer: InstanceType<typeof PacketWriter>, entry: UnknownRecord): void {
   writer.writeUint8(entry.side & 0xff);
   writer.writeUint32(entry.entityId >>> 0);
   writer.writeUint16(entry.typeId & 0xffff);
@@ -40,7 +42,7 @@ function writeFightProbeEntry(writer, entry) {
   writer.writeString(`${entry.name || 'Unknown'}\0`);
 }
 
-function buildCombatEncounterProbePacket({ activeEntityId, playerEntry, enemies }) {
+function buildCombatEncounterProbePacket({ activeEntityId, playerEntry, enemies }: UnknownRecord): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(FIGHT_ENCOUNTER_PROBE_SUBCMD);
@@ -52,21 +54,21 @@ function buildCombatEncounterProbePacket({ activeEntityId, playerEntry, enemies 
   return writer.payload();
 }
 
-function buildFightControlInitProbePacket() {
+function buildFightControlInitProbePacket(): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(FIGHT_CONTROL_INIT_SUBCMD);
   return writer.payload();
 }
 
-function buildFightRingOpenProbePacket() {
+function buildFightRingOpenProbePacket(): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(FIGHT_CONTROL_RING_OPEN_SUBCMD);
   return writer.payload();
 }
 
-function buildFightStateModeProbe64Packet() {
+function buildFightStateModeProbe64Packet(): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(FIGHT_STATE_MODE_SUBCMD);
@@ -76,7 +78,7 @@ function buildFightStateModeProbe64Packet() {
   return writer.payload();
 }
 
-function buildFightActiveStateProbePacket(activeEntityId) {
+function buildFightActiveStateProbePacket(activeEntityId: number): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(FIGHT_ACTIVE_STATE_SUBCMD);
@@ -89,7 +91,7 @@ function buildFightActiveStateProbePacket(activeEntityId) {
   return writer.payload();
 }
 
-function buildFightEntityFlagProbePacket(activeEntityId, subcommand) {
+function buildFightEntityFlagProbePacket(activeEntityId: number, subcommand: number): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(subcommand & 0xff);
@@ -97,7 +99,7 @@ function buildFightEntityFlagProbePacket(activeEntityId, subcommand) {
   return writer.payload();
 }
 
-function buildFightControlShowProbePacket(activeEntityId) {
+function buildFightControlShowProbePacket(activeEntityId: number): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(FIGHT_CONTROL_SHOW_SUBCMD);
@@ -105,7 +107,7 @@ function buildFightControlShowProbePacket(activeEntityId) {
   return writer.payload();
 }
 
-function buildCombatTurnProbePacket(probeProfile) {
+function buildCombatTurnProbePacket(probeProfile: UnknownRecord): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_TURN_CMD);
   writer.writeUint8(0);

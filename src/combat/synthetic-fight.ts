@@ -1,13 +1,70 @@
 'use strict';
+export {};
+type UnknownRecord = Record<string, any>;
+type SyntheticDrop = {
+  templateId: number;
+  chance: number;
+  quantity: number;
+  source: string;
+};
+type SyntheticFighter = {
+  side: number;
+  entityId: number;
+  logicalId: number;
+  typeId: number;
+  row: number;
+  col: number;
+  hp: number;
+  maxHp: number;
+  mp: number;
+  maxMp: number;
+  rage: number;
+  intelligence: number;
+  vitality: number;
+  dexterity: number;
+  strength: number;
+  accuracyStat: number;
+  dodgeStat: number;
+  armorStat: number;
+  damageMin: number;
+  damageMax: number;
+  attackPower: number;
+  defensePower: number;
+  aptitude: number;
+  level: number;
+  appearanceTypes: number[];
+  appearanceVariants: number[];
+  drops?: SyntheticDrop[];
+  alive: boolean;
+  name: string;
+  templateFlags: number;
+  lastActionAt: number;
+  downed: boolean;
+};
+type SyntheticFightState = {
+  fighters: SyntheticFighter[];
+  enemies: SyntheticFighter[];
+  turnQueue: Array<{ attackerEntityId: number; targetEntityId: number; initiative: number }>;
+  phase: string;
+  round: number;
+  activeEntityId: number;
+  activeName: string;
+  trigger: string;
+  startedAt: number;
+  turnProfile: UnknownRecord;
+  lastAction: UnknownRecord | null;
+  awaitingPlayerAction: boolean;
+  suppressNextReadyRepeat: boolean;
+};
 
-function getSyntheticPlayerFighter(syntheticFight) {
+function getSyntheticPlayerFighter(syntheticFight: SyntheticFightState | null | undefined): SyntheticFighter | null {
   if (!syntheticFight || !Array.isArray(syntheticFight.fighters)) {
     return null;
   }
   return syntheticFight.fighters.find((fighter) => fighter.side === 0xff) || null;
 }
 
-function findSyntheticEnemyTarget(syntheticFight, targetA, targetB) {
+function findSyntheticEnemyTarget(syntheticFight: SyntheticFightState | null | undefined, targetA: number, targetB: number): SyntheticFighter | null {
   if (!syntheticFight || !Array.isArray(syntheticFight.enemies)) {
     return null;
   }
@@ -20,7 +77,10 @@ function findSyntheticEnemyTarget(syntheticFight, targetA, targetB) {
   }) || null;
 }
 
-function selectSyntheticEnemyAttacker(syntheticFight, preferredEnemy = null) {
+function selectSyntheticEnemyAttacker(
+  syntheticFight: SyntheticFightState | null | undefined,
+  preferredEnemy: SyntheticFighter | null = null
+): SyntheticFighter | null {
   if (!syntheticFight || !Array.isArray(syntheticFight.enemies)) {
     return null;
   }
@@ -30,7 +90,7 @@ function selectSyntheticEnemyAttacker(syntheticFight, preferredEnemy = null) {
   return syntheticFight.enemies.find((enemy) => enemy.hp > 0) || null;
 }
 
-function getSyntheticInitiative(fighter) {
+function getSyntheticInitiative(fighter: SyntheticFighter | null | undefined): number {
   if (!fighter) {
     return 0;
   }
@@ -40,7 +100,7 @@ function getSyntheticInitiative(fighter) {
   return 80 + ((fighter.level || 0) * 2) + ((fighter.dexterity || 0) >> 1) + ((fighter.logicalId || 0) % 3);
 }
 
-function initializeSyntheticEnemyTurnQueue(syntheticFight, targetEntityId) {
+function initializeSyntheticEnemyTurnQueue(syntheticFight: SyntheticFightState | null | undefined, targetEntityId: number): void {
   if (!syntheticFight) {
     return;
   }
@@ -56,7 +116,7 @@ function initializeSyntheticEnemyTurnQueue(syntheticFight, targetEntityId) {
   syntheticFight.phase = ordered.length > 0 ? 'enemy-turn' : 'command';
 }
 
-function computeSyntheticDamage(attacker, defender) {
+function computeSyntheticDamage(attacker: SyntheticFighter | null | undefined, defender: SyntheticFighter | null | undefined): number {
   if (!attacker || !defender) {
     return 1;
   }
@@ -74,7 +134,7 @@ function computeSyntheticDamage(attacker, defender) {
   return Math.max(1, damage);
 }
 
-function hasLivingSyntheticAllies(syntheticFight, fighter) {
+function hasLivingSyntheticAllies(syntheticFight: SyntheticFightState | null | undefined, fighter: SyntheticFighter | null | undefined): boolean {
   if (!syntheticFight || !fighter) {
     return false;
   }
@@ -99,7 +159,19 @@ function createSyntheticFightState({
   charName,
   enemies,
   turnProfile,
-}) {
+}: {
+  action: UnknownRecord;
+  entityType: number;
+  roleEntityType: number;
+  currentHealth: number;
+  currentMana: number;
+  currentRage: number;
+  primaryAttributes: UnknownRecord;
+  level: number;
+  charName: string;
+  enemies: UnknownRecord[];
+  turnProfile: UnknownRecord;
+}): SyntheticFightState {
   const player = {
     side: 0xff,
     entityId: entityType >>> 0,

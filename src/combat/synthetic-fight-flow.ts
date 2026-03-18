@@ -1,4 +1,6 @@
 'use strict';
+export {};
+type UnknownRecord = Record<string, any>;
 
 function resolvePlayerAttackSelection({
   syntheticFight,
@@ -10,18 +12,18 @@ function resolvePlayerAttackSelection({
   findSyntheticEnemyTarget,
   computeSyntheticDamage,
   initializeSyntheticEnemyTurnQueue,
-}) {
+}: UnknownRecord): UnknownRecord {
   if (!syntheticFight) {
     return { kind: 'noop' };
   }
 
-  const player = syntheticFight.fighters.find((fighter) => fighter.side === 0xff) || null;
+  const player = syntheticFight.fighters.find((fighter: UnknownRecord) => fighter.side === 0xff) || null;
   if (!player) {
     return { kind: 'noop' };
   }
 
   const requestedEnemy = findSyntheticEnemyTarget(syntheticFight, targetA, targetB);
-  const fallbackEnemy = requestedEnemy || syntheticFight.enemies.find((candidate) => candidate.hp > 0) || null;
+  const fallbackEnemy = requestedEnemy || syntheticFight.enemies.find((candidate: UnknownRecord) => candidate.hp > 0) || null;
   const enemy = fallbackEnemy;
   const targetMatches = requestedEnemy !== null;
   const retargeted = requestedEnemy === null && fallbackEnemy !== null;
@@ -60,7 +62,7 @@ function resolvePlayerAttackSelection({
   enemy.alive = enemy.hp > 0;
   player.lastActionAt = now;
 
-  const livingEnemies = syntheticFight.enemies.filter((candidate) => candidate.hp > 0);
+  const livingEnemies = syntheticFight.enemies.filter((candidate: UnknownRecord) => candidate.hp > 0);
 
   if (livingEnemies.length > 0) {
     initializeSyntheticEnemyTurnQueue(syntheticFight, player.entityId);
@@ -95,15 +97,15 @@ function resolveQueuedEnemyTurn({
   selectSyntheticEnemyAttacker,
   computeSyntheticDamage,
   hasLivingSyntheticAllies,
-}) {
+}: UnknownRecord): UnknownRecord {
   if (!syntheticFight?.turnQueue?.length) {
     return { kind: 'missing-turn' };
   }
 
-  const player = syntheticFight.fighters.find((fighter) => fighter.side === 0xff) || null;
+  const player = syntheticFight.fighters.find((fighter: UnknownRecord) => fighter.side === 0xff) || null;
   const currentTurn = syntheticFight.turnQueue.shift();
   const attacker = syntheticFight.enemies.find(
-    (enemy) => enemy.entityId === currentTurn.attackerEntityId && enemy.hp > 0
+    (enemy: UnknownRecord) => enemy.entityId === currentTurn.attackerEntityId && enemy.hp > 0
   ) || selectSyntheticEnemyAttacker(syntheticFight);
 
   if (!player || !attacker) {
@@ -178,12 +180,12 @@ function resolveQueuedEnemyTurn({
   };
 }
 
-function finalizeSyntheticFightState(syntheticFight, outcome) {
+function finalizeSyntheticFightState(syntheticFight: UnknownRecord | null | undefined, outcome: string): UnknownRecord {
   if (!syntheticFight) {
     return { player: null };
   }
 
-  const player = syntheticFight.fighters.find((fighter) => fighter.side === 0xff) || null;
+  const player = syntheticFight.fighters.find((fighter: UnknownRecord) => fighter.side === 0xff) || null;
   syntheticFight.phase = 'finished';
   syntheticFight.turnQueue = [];
   syntheticFight.awaitingPlayerAction = false;

@@ -1,4 +1,5 @@
 'use strict';
+export {};
 
 const {
   GAME_FIGHT_ACTION_CMD,
@@ -9,6 +10,22 @@ const {
   GAME_FIGHT_STREAM_CMD,
   GAME_FIGHT_TURN_CMD,
 } = require('./config');
+type CombatPacket = {
+  kind: string;
+  cmdWord: number;
+  subcmd: number | null;
+  detail16: number | null;
+  detail32: number | null;
+  payloadLength: number;
+};
+type CombatState = {
+  lastInbound: CombatPacket | null;
+  lastOutbound: CombatPacket | null;
+  packetCount: number;
+  inboundCount: number;
+  outboundCount: number;
+  inFight: boolean;
+};
 
 const COMBAT_COMMANDS = new Map([
   [GAME_FIGHT_STATE_CMD, 'fightState'],
@@ -20,15 +37,15 @@ const COMBAT_COMMANDS = new Map([
   [GAME_FIGHT_STREAM_CMD, 'fightStream'],
 ]);
 
-function isCombatCommand(cmdWord) {
+function isCombatCommand(cmdWord: number): boolean {
   return COMBAT_COMMANDS.has(cmdWord);
 }
 
-function describeCombatCommand(cmdWord) {
+function describeCombatCommand(cmdWord: number): string {
   return COMBAT_COMMANDS.get(cmdWord) || `combat-0x${cmdWord.toString(16)}`;
 }
 
-function parseCombatPacket(cmdWord, payload) {
+function parseCombatPacket(cmdWord: number, payload: Buffer): CombatPacket {
   const subcmd = payload.length >= 3 ? payload[2] : null;
   const detail16 = payload.length >= 5 ? payload.readUInt16LE(3) : null;
   const detail32 = payload.length >= 7 ? payload.readUInt32LE(3) : null;
@@ -43,7 +60,7 @@ function parseCombatPacket(cmdWord, payload) {
   };
 }
 
-function inferCombatState(state, packet, direction) {
+function inferCombatState(state: CombatState | null | undefined, packet: CombatPacket, direction: string) {
   const nextState = state || createCombatState();
   let stateChanged = false;
 
@@ -64,7 +81,7 @@ function inferCombatState(state, packet, direction) {
   };
 }
 
-function createCombatState() {
+function createCombatState(): CombatState {
   return {
     lastInbound: null,
     lastOutbound: null,
@@ -75,7 +92,7 @@ function createCombatState() {
   };
 }
 
-function recordCombatPacket(state, packet, direction) {
+function recordCombatPacket(state: CombatState | null | undefined, packet: CombatPacket, direction: string) {
   const nextState = state || createCombatState();
   nextState.packetCount += 1;
 
@@ -93,11 +110,11 @@ function recordCombatPacket(state, packet, direction) {
   };
 }
 
-function recordInboundCombatPacket(state, packet) {
+function recordInboundCombatPacket(state: CombatState | null | undefined, packet: CombatPacket) {
   return recordCombatPacket(state, packet, 'inbound');
 }
 
-function recordOutboundCombatPacket(state, packet) {
+function recordOutboundCombatPacket(state: CombatState | null | undefined, packet: CombatPacket) {
   return recordCombatPacket(state, packet, 'outbound');
 }
 

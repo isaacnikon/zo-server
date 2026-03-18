@@ -1,6 +1,35 @@
 'use strict';
+export {};
 
 const { getRoleName, getRolePrimaryDrop } = require('../roleinfo');
+type DropEntry = {
+  templateId: number;
+  chance: number;
+  quantity?: number;
+  source?: string;
+};
+type EncounterTemplate = {
+  typeId: number;
+  weight?: number;
+  logicalId?: number;
+  levelMin?: number;
+  levelMax?: number;
+  hpBase?: number;
+  hpPerLevel?: number;
+  aptitude?: number;
+  appearanceTypes?: number[];
+  appearanceVariants?: number[];
+  drops?: DropEntry[];
+  name?: string;
+};
+type EncounterProfile = {
+  pool: EncounterTemplate[];
+  minEnemies?: number;
+  maxEnemies?: number;
+};
+type EncounterAction = {
+  encounterProfile?: EncounterProfile;
+};
 
 const SYNTHETIC_ENCOUNTER_POSITIONS = [
   { row: 0, col: 2 },
@@ -8,13 +37,13 @@ const SYNTHETIC_ENCOUNTER_POSITIONS = [
   { row: 1, col: 3 },
 ];
 
-function randomIntInclusive(min, max) {
+function randomIntInclusive(min: number, max: number): number {
   const low = Math.min(min, max);
   const high = Math.max(min, max);
   return low + Math.floor(Math.random() * ((high - low) + 1));
 }
 
-function pickWeightedEncounterTemplate(pool) {
+function pickWeightedEncounterTemplate(pool: EncounterTemplate[] | undefined | null): EncounterTemplate | null {
   const weightedPool = Array.isArray(pool)
     ? pool.filter((entry) => entry && Number.isInteger(entry.typeId) && (entry.weight || 1) > 0)
     : [];
@@ -34,7 +63,7 @@ function pickWeightedEncounterTemplate(pool) {
   return weightedPool[weightedPool.length - 1];
 }
 
-function buildSyntheticEncounterEnemies(action, mapId) {
+function buildSyntheticEncounterEnemies(action: EncounterAction | null | undefined, mapId: number) {
   const profile = action?.encounterProfile;
   if (!profile || !Array.isArray(profile.pool) || profile.pool.length === 0) {
     const fallbackDrop = getRolePrimaryDrop(5001);

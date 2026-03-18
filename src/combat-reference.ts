@@ -1,4 +1,5 @@
 'use strict';
+export {};
 
 const fs = require('fs');
 const path = require('path');
@@ -6,10 +7,40 @@ const path = require('path');
 const {
   COMBAT_REFERENCE_ROOT,
 } = require('./config');
+type FightCommand = {
+  id: number;
+  raw: string[];
+};
+type SkillReference = {
+  family: number;
+  id: number;
+  name: string;
+  raw: string[];
+};
+type FightPosition = {
+  side: number;
+  x: number;
+  y: number;
+  index: number;
+};
+type CombatReference = {
+  root: string;
+  available: boolean;
+  fightInfoPath: string;
+  skillMagicPath: string;
+  fightPositionPath: string;
+  fightCommands: FightCommand[];
+  skills: SkillReference[];
+  fightPositions: FightPosition[];
+};
+type CombatTurnProfile = {
+  profile: string;
+  rows: Array<{ fieldA: number; fieldB: number; fieldC: number }>;
+};
 
-let cachedReference = null;
+let cachedReference: CombatReference | null = null;
 
-function loadCombatReference() {
+function loadCombatReference(): CombatReference {
   if (cachedReference) {
     return cachedReference;
   }
@@ -36,7 +67,7 @@ function loadCombatReference() {
   return cachedReference;
 }
 
-function buildCombatTurnProfiles() {
+function buildCombatTurnProfiles(): CombatTurnProfile[] {
   const reference = loadCombatReference();
   const skillIds = reference.skills.slice(0, 6).map((skill) => skill.id);
   const actionIds = skillIds.length > 0 ? skillIds : [1001, 1002, 1003, 1004, 1005, 1006];
@@ -58,7 +89,7 @@ function buildCombatTurnProfiles() {
   ];
 }
 
-function parseFightCommands(filePath) {
+function parseFightCommands(filePath: string): FightCommand[] {
   const rows = parseDelimitedFile(filePath);
   return rows
     .filter((row) => row.length > 0 && isIntegerToken(row[0]))
@@ -68,7 +99,7 @@ function parseFightCommands(filePath) {
     }));
 }
 
-function parseSkills(filePath) {
+function parseSkills(filePath: string): SkillReference[] {
   const rows = parseDelimitedFile(filePath);
   return rows
     .filter((row) => row.length > 1 && isIntegerToken(row[1]))
@@ -80,7 +111,7 @@ function parseSkills(filePath) {
     }));
 }
 
-function parseFightPositions(filePath) {
+function parseFightPositions(filePath: string): FightPosition[] {
   const rows = parseDelimitedFile(filePath);
   return rows
     .filter((row) => row.length >= 3 && isIntegerToken(row[0]))
@@ -92,22 +123,22 @@ function parseFightPositions(filePath) {
     }));
 }
 
-function parseDelimitedFile(filePath) {
+function parseDelimitedFile(filePath: string): string[][] {
   try {
     const raw = fs.readFileSync(filePath, 'utf8');
     return raw
       .split(/\r?\n/)
-      .map((line) => line.trim())
-      .filter((line) => line && !line.startsWith('--'))
+      .map((line: string) => line.trim())
+      .filter((line: string) => line && !line.startsWith('--'))
       .map(parseCsvLikeLine)
-      .filter((row) => row.length > 0);
-  } catch (err) {
+      .filter((row: string[]) => row.length > 0);
+  } catch (_err) {
     return [];
   }
 }
 
-function parseCsvLikeLine(line) {
-  const cells = [];
+function parseCsvLikeLine(line: string): string[] {
+  const cells: string[] = [];
   let current = '';
   let inQuotes = false;
 
@@ -132,7 +163,7 @@ function parseCsvLikeLine(line) {
   return cells.filter((cell, index) => cell !== '' || index < cells.length - 1);
 }
 
-function isIntegerToken(value) {
+function isIntegerToken(value: string): boolean {
   return /^-?\d+$/.test(value);
 }
 
