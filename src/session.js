@@ -2,7 +2,6 @@
 
 const {
   parsePositionUpdate,
-  parseQuestPacket,
   parseEquipmentState,
   parseAttributeAllocation,
   parseAttackSelection,
@@ -14,6 +13,14 @@ const {
   handleLogin: loginHandlerHandleLogin,
   handleRolePacket: loginHandlerHandleRolePacket,
 } = require('./handlers/login-handler');
+const {
+  handleQuestPacket: questHandlerHandleQuestPacket,
+  applyQuestEvents: questHandlerApplyQuestEvents,
+  handleQuestMonsterDefeat: questHandlerHandleQuestMonsterDefeat,
+  syncQuestStateToClient: questHandlerSyncQuestStateToClient,
+  ensureQuestStateReady: questHandlerEnsureQuestStateReady,
+  refreshQuestStateForItemTemplates: questHandlerRefreshQuestStateForItemTemplates,
+} = require('./handlers/quest-handler');
 
 const {
   loadCombatReference,
@@ -46,7 +53,6 @@ const {
   GAME_ITEM_CMD,
   GAME_SPAWN_BATCH_SUBCMD,
   GAME_POSITION_QUERY_CMD,
-  GAME_QUEST_CMD,
   GAME_SERVER_RUN_CMD,
   GAME_SCRIPT_EVENT_CMD,
   GAME_SELF_STATE_CMD,
@@ -90,7 +96,6 @@ const {
   buildPetStatsSyncPacket,
   buildPetSummonSyncPacket,
   buildPetTreeRegistrationPacket,
-  buildQuestPacket,
   buildSelfStateAptitudeSyncPacket,
   buildServerRunMessagePacket,
   buildServerRunScriptPacket,
@@ -100,20 +105,9 @@ const {
   buildSyntheticFightVictoryClosePacket,
 } = require('./protocol/gameplay-packets');
 const {
-  applyInventoryQuestEvent,
   sendEquipmentContainerSync,
-  sendConsumeResultPackets,
-  sendInventoryFullSync,
   syncInventoryStateToClient,
 } = require('./gameplay/inventory-runtime');
-const {
-  consumeItemFromBag,
-  getBagQuantityByTemplateId,
-  getItemDefinition,
-} = require('./inventory');
-const {
-  applyQuestCompletionReward,
-} = require('./gameplay/reward-runtime');
 const {
   getPrimaryPet,
   normalizePets,
@@ -166,13 +160,8 @@ const {
   selectCombatTurnProbeProfile,
 } = require('./combat/combat-probe');
 const {
-  abandonQuest,
-  applyMonsterDefeat,
   applySceneTransition,
-  buildQuestSyncState,
-  getQuestDefinition,
   normalizeQuestState,
-  reconcileAutoAccept,
 } = require('./quest-engine');
 const {
   buildInventorySnapshot,
@@ -673,50 +662,7 @@ class Session {
   }
 
   ensureQuestStateReady() {
-    const persisted = this.getPersistedCharacter();
-    if (persisted) {
-      const questState = normalizeQuestState(persisted);
-      this.activeQuests = questState.activeQuests;
-      this.completedQuests = questState.completedQuests;
-      this.pets = normalizePets(persisted.pets);
-      this.selectedPetRuntimeId =
-        typeof persisted.selectedPetRuntimeId === 'number'
-          ? (persisted.selectedPetRuntimeId >>> 0)
-          : null;
-      this.petSummoned = persisted.petSummoned === true;
-      const inventoryState = normalizeInventoryState(persisted);
-      this.bagItems = inventoryState.inventory.bag;
-      this.bagSize = inventoryState.inventory.bagSize;
-      this.nextItemInstanceId = inventoryState.inventory.nextItemInstanceId;
-      this.nextBagSlot = inventoryState.inventory.nextBagSlot;
-    }
-
-    const events = reconcileAutoAccept({
-      activeQuests: this.activeQuests,
-      completedQuests: this.completedQuests,
-    });
-    if (events.length > 0) {
-      this.applyQuestEvents(events, 'bootstrap', {
-        suppressPackets: true,
-        suppressDialogues: true,
-        suppressStatSync: true,
-      });
-    }
-
-    const transitionEvents = applySceneTransition(
-      {
-        activeQuests: this.activeQuests,
-        completedQuests: this.completedQuests,
-      },
-      this.currentMapId
-    );
-    if (transitionEvents.length > 0) {
-      this.applyQuestEvents(transitionEvents, 'bootstrap-scene', {
-        suppressPackets: true,
-        suppressDialogues: true,
-        suppressStatSync: true,
-      });
-    }
+    questHandlerEnsureQuestStateReady(this);
   }
 
   buildCharacterSnapshot(overrides = {}) {
@@ -951,342 +897,23 @@ class Session {
   }
 
   handleQuestPacket(payload) {
-    if (payload.length < 5) {
-      this.log('Short 0x03ff payload');
-      return;
-    }
-
-    const { subcmd, taskId } = parseQuestPacket(payload);
-    this.log(`Quest packet sub=0x${subcmd.toString(16)} taskId=${taskId}`);
-
-    if (subcmd === 0x05) {
-      const questState = {
-        activeQuests: this.activeQuests,
-        completedQuests: this.completedQuests,
-      };
-      const events = abandonQuest(questState, taskId);
-      this.activeQuests = questState.activeQuests;
-      this.completedQuests = questState.completedQuests;
-      if (events.length > 0) {
-        this.applyQuestEvents(events, 'client-abandon');
-      }
-      return;
-    }
-
-    if (subcmd === 0x0c) {
-      const syncState = buildQuestSyncState({
-        activeQuests: this.activeQuests,
-        completedQuests: this.completedQuests,
-      }).find((quest) => quest.taskId === taskId);
-      if (syncState?.markerNpcId) {
-        this.sendQuestFindNpc(taskId, syncState.markerNpcId);
-      }
-      return;
-    }
-
-    this.log(`Unhandled quest subcmd=0x${subcmd.toString(16)} taskId=${taskId}`);
+    questHandlerHandleQuestPacket(this, payload);
   }
 
   applyQuestEvents(events, source = 'runtime', options = {}) {
-    if (!Array.isArray(events) || events.length === 0) {
-      return;
-    }
-
-    const suppressPackets = options.suppressPackets === true;
-    const suppressDialogues = options.suppressDialogues === true;
-    const suppressStatSync = options.suppressStatSync === true;
-    let statsDirty = false;
-    let questStateDirty = false;
-    let inventoryDirty = false;
-
-    for (const event of events) {
-      this.log(
-        `Quest event source=${source} type=${event.type} taskId=${numberOrDefault(event.taskId, 0)}${typeof event.status === 'number' ? ` status=${event.status}` : ''}${typeof event.markerNpcId === 'number' ? ` markerNpcId=${event.markerNpcId}` : ''}${event.stepDescription ? ` step="${event.stepDescription}"` : ''}`
-      );
-
-      const inventoryEventResult = applyInventoryQuestEvent(this, event, {
-        suppressPackets,
-        suppressDialogues,
-      });
-      if (inventoryEventResult.handled) {
-        inventoryDirty = inventoryDirty || inventoryEventResult.dirty;
-        continue;
-      }
-
-      if (event.type === 'accepted') {
-        questStateDirty = true;
-        if (!suppressPackets) {
-          this.sendQuestAccept(event.taskId);
-          if (event.markerNpcId > 0) {
-            this.sendQuestFindNpc(event.taskId, event.markerNpcId);
-          }
-        }
-        if (!suppressDialogues) {
-          this.sendGameDialogue(
-            'Quest',
-            `${event.definition.acceptMessage || `${event.definition.name} accepted.`}${event.stepDescription ? ` Objective: ${event.stepDescription}` : ''}`
-          );
-        }
-        continue;
-      }
-
-      if (event.type === 'progress' || event.type === 'advanced') {
-        questStateDirty = true;
-        const isBootstrapLikeSource =
-          source === 'bootstrap' ||
-          source === 'bootstrap-scene' ||
-          source === 'scene-transition' ||
-          source === 'position-map-change';
-        if (!suppressPackets) {
-          if (!isBootstrapLikeSource && event.type === 'advanced') {
-            this.sendQuestUpdate(event.taskId, event.status);
-          } else if (!isBootstrapLikeSource && event.type === 'progress') {
-            this.sendQuestProgress(
-              numberOrDefault(event.progressObjectiveId, event.taskId),
-              event.status
-            );
-          }
-          if (event.markerNpcId > 0) {
-            this.sendQuestFindNpc(event.taskId, event.markerNpcId);
-          }
-        }
-        if (!suppressDialogues) {
-          const progressText = event.type === 'progress' ? ` Progress: ${event.status}.` : '';
-          this.sendGameDialogue(
-            'Quest',
-            `Quest updated: ${event.definition.name}.${event.stepDescription ? ` ${event.stepDescription}` : ''}${progressText}`
-          );
-        }
-        continue;
-      }
-
-      if (event.type === 'completed') {
-        questStateDirty = true;
-        const rewardResult = applyQuestCompletionReward(this, event.reward, {
-          suppressPackets,
-          suppressDialogues,
-          taskId: event.taskId,
-        });
-        statsDirty = statsDirty || rewardResult.statsDirty;
-        inventoryDirty = inventoryDirty || rewardResult.inventoryDirty;
-        if (rewardResult.petsDirty) {
-          this.pets = normalizePets(this.pets);
-          if (!suppressPackets) {
-            this.sendPetStateSync(`quest-reward-${event.taskId}`);
-          }
-        }
-        if (!suppressPackets) {
-          this.sendQuestComplete(event.taskId);
-          this.sendQuestHistory(event.taskId, 0);
-        }
-        if (!suppressDialogues) {
-          const rewardText = rewardResult.rewardMessages.length > 0
-            ? rewardResult.rewardMessages.join(', ')
-            : 'no reward';
-          const levelText = rewardResult.levelSummary?.levelsGained > 0
-            ? ` Level up: ${rewardResult.levelSummary.levelsGained} -> level ${this.level}, status points +${rewardResult.levelSummary.statusPointsGained}.`
-            : '';
-          this.sendGameDialogue(
-            'Quest',
-            `${event.definition.completionMessage || `${event.definition.name} completed.`} Reward: ${rewardText}.${levelText}`
-          );
-        }
-        continue;
-      }
-
-      if (event.type === 'abandoned') {
-        questStateDirty = true;
-        for (const templateId of Array.isArray(event.resetItemTemplateIds) ? event.resetItemTemplateIds : []) {
-          const quantity = getBagQuantityByTemplateId(this, templateId);
-          if (quantity <= 0) {
-            continue;
-          }
-          const definition = getItemDefinition(templateId);
-          const consumeResult = consumeItemFromBag(this, templateId, quantity);
-          if (consumeResult.ok) {
-            inventoryDirty = true;
-            if (!suppressPackets) {
-              sendConsumeResultPackets(this, consumeResult);
-              sendInventoryFullSync(this);
-            }
-            if (!suppressDialogues) {
-              this.sendGameDialogue(
-                'Quest',
-                `${definition?.name || 'Quest item'} was cleared after abandoning the quest.`
-              );
-            }
-          }
-        }
-        if (!suppressPackets) {
-          this.sendQuestUpdate(event.taskId, 0);
-          this.sendQuestFindNpc(event.taskId, 0);
-          this.sendQuestAbandon(event.taskId);
-          this.syncQuestStateToClient();
-        }
-        if (!suppressDialogues) {
-          this.sendGameDialogue('Quest', `${event.definition.name} abandoned.`);
-        }
-      }
-    }
-
-    if (statsDirty && !suppressStatSync) {
-      this.sendSelfStateAptitudeSync();
-    }
-
-    if (questStateDirty || statsDirty || inventoryDirty) {
-      this.persistCurrentCharacter();
-    }
+    questHandlerApplyQuestEvents(this, events, source, options);
   }
 
   handleQuestMonsterDefeat(monsterId, count = 1) {
-    const events = applyMonsterDefeat(
-      {
-        activeQuests: this.activeQuests,
-        completedQuests: this.completedQuests,
-      },
-      monsterId,
-      count
-    );
-    if (events.length > 0) {
-      this.applyQuestEvents(events, 'monster-defeat');
-    }
+    questHandlerHandleQuestMonsterDefeat(this, monsterId, count);
   }
 
   syncQuestStateToClient() {
-    for (const taskId of this.completedQuests) {
-      this.sendQuestHistory(taskId, 0);
-    }
-
-    const syncState = buildQuestSyncState({
-      activeQuests: this.activeQuests,
-      completedQuests: this.completedQuests,
-    });
-
-    for (const quest of syncState) {
-      this.sendQuestAccept(quest.taskId);
-      for (let index = 0; index < numberOrDefault(quest.stepIndex, 0); index += 1) {
-        this.sendQuestUpdate(quest.taskId, index + 1);
-      }
-      if (quest.stepType === 'kill' && numberOrDefault(quest.status, 0) > 0) {
-        this.sendQuestProgress(
-          numberOrDefault(quest.progressObjectiveId, quest.taskId),
-          quest.status
-        );
-      }
-      if (quest.markerNpcId > 0) {
-        this.sendQuestFindNpc(quest.taskId, quest.markerNpcId);
-      }
-    }
-
-    if (!this.hasAnnouncedQuestOverview && syncState.length > 0) {
-      const activeQuest = syncState[0];
-      this.sendGameDialogue(
-        'Quest',
-        `Active quest loaded.${activeQuest.stepDescription ? ` ${activeQuest.stepDescription}` : ''}`
-      );
-      this.hasAnnouncedQuestOverview = true;
-    }
-  }
-
-  sendQuestAccept(taskId) {
-    this.writePacket(
-      buildQuestPacket(0x03, taskId),
-      DEFAULT_FLAGS,
-      `Sending quest accept cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x03 taskId=${taskId}`
-    );
-  }
-
-  sendQuestUpdate(taskId, status) {
-    this.writePacket(
-      buildQuestPacket(0x08, taskId),
-      DEFAULT_FLAGS,
-      `Sending quest update cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x08 taskId=${taskId} status=${status}`
-    );
-  }
-
-  sendQuestProgress(objectiveId, status) {
-    this.writePacket(
-      buildQuestPacket(0x0b, objectiveId),
-      DEFAULT_FLAGS,
-      `Sending quest progress cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x0b objectiveId=${objectiveId} status=${status}`
-    );
-  }
-
-  sendQuestComplete(taskId) {
-    this.writePacket(
-      buildQuestPacket(0x04, taskId),
-      DEFAULT_FLAGS,
-      `Sending quest complete cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x04 taskId=${taskId}`
-    );
-  }
-
-  sendQuestAbandon(taskId) {
-    this.writePacket(
-      buildQuestPacket(0x05, taskId),
-      DEFAULT_FLAGS,
-      `Sending quest abandon cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x05 taskId=${taskId}`
-    );
-  }
-
-  sendQuestHistory(taskId, historyLevel = 0) {
-    this.writePacket(
-      buildQuestPacket(0x0e, taskId, historyLevel & 0xff, 'u8'),
-      DEFAULT_FLAGS,
-      `Sending quest history cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x0e taskId=${taskId} history=${historyLevel}`
-    );
-  }
-
-  sendQuestFindNpc(taskId, npcId) {
-    this.writePacket(
-      buildQuestPacket(0x0c, taskId, npcId >>> 0),
-      DEFAULT_FLAGS,
-      `Sending quest marker cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x0c taskId=${taskId} npcId=${npcId}`
-    );
+    questHandlerSyncQuestStateToClient(this);
   }
 
   refreshQuestStateForItemTemplates(templateIds) {
-    if (!Array.isArray(templateIds) || templateIds.length === 0) {
-      return;
-    }
-
-    const interestingTemplates = new Set(
-      templateIds.filter(Number.isInteger).map((templateId) => templateId >>> 0)
-    );
-    if (interestingTemplates.size === 0) {
-      return;
-    }
-
-    const syncStateByTaskId = new Map(
-      buildQuestSyncState({
-        activeQuests: this.activeQuests,
-        completedQuests: this.completedQuests,
-      }).map((quest) => [quest.taskId, quest])
-    );
-
-    for (const record of this.activeQuests) {
-      const definition = getQuestDefinition(record?.id);
-      const step = definition?.steps?.[record?.stepIndex];
-      if (!step || !Array.isArray(step.consumeItems) || step.consumeItems.length === 0) {
-        continue;
-      }
-
-      const matchesGrantedItem = step.consumeItems.some((item) => interestingTemplates.has(item.templateId >>> 0));
-      if (!matchesGrantedItem) {
-        continue;
-      }
-
-      const syncState = syncStateByTaskId.get(definition.id);
-      if (!syncState) {
-        continue;
-      }
-
-      if (syncState.markerNpcId > 0) {
-        this.sendQuestFindNpc(definition.id, syncState.markerNpcId);
-      }
-      this.log(
-        `Refreshed quest sync for task=${definition.id} after item grant templates=${[...interestingTemplates].join(',')}`
-      );
-    }
+    questHandlerRefreshQuestStateForItemTemplates(this, templateIds);
   }
 
   getServerRunActionHandlers() {
