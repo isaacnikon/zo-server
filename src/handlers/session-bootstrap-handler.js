@@ -1,0 +1,50 @@
+'use strict';
+
+const {
+  DEFAULT_FLAGS,
+  LOGIN_CMD,
+  LOGIN_SERVER_LIST_RESULT,
+} = require('../config');
+const { PacketWriter } = require('../protocol');
+const {
+  syncInventoryStateToClient,
+} = require('../gameplay/inventory-runtime');
+const {
+  describeScene,
+} = require('../scene-runtime');
+
+function sendEnterGameOk(session) {
+  session.ensureQuestStateReady();
+
+  const writer = new PacketWriter();
+  writer.writeUint16(LOGIN_CMD);
+  writer.writeUint8(LOGIN_SERVER_LIST_RESULT);
+  writer.writeUint32(session.entityType >>> 0);
+  writer.writeUint16(session.entityType);
+  writer.writeUint32(session.roleData);
+  writer.writeUint16(session.currentX);
+  writer.writeUint16(session.currentY);
+  writer.writeUint16(0);
+  writer.writeString(`${session.charName}\0`);
+  writer.writeUint8(0);
+  writer.writeUint16(session.currentMapId);
+  session.writePacket(
+    writer.payload(),
+    DEFAULT_FLAGS,
+    `Sending enter-game success char="${session.charName}" runtimeId=0x${session.entityType.toString(16)} entity=0x${session.entityType.toString(16)} roleEntity=0x${session.roleEntityType.toString(16)} aptitude=${session.selectedAptitude} map=${session.currentMapId} (${describeScene(session.currentMapId)}) pos=${session.currentX},${session.currentY}`
+  );
+  session.sendSelfStateAptitudeSync();
+  session.sendStaticNpcSpawns();
+  syncInventoryStateToClient(session);
+  session.scheduleEquipmentReplay();
+  session.syncQuestStateToClient();
+  if (session.petSummoned) {
+    session.schedulePetReplay();
+  } else {
+    session.sendPetStateSync('enter-game');
+  }
+}
+
+module.exports = {
+  sendEnterGameOk,
+};

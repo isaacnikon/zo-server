@@ -1,9 +1,6 @@
 'use strict';
 
 const {
-  parseEquipmentState,
-  parseAttributeAllocation,
-  parseAttackSelection,
   parsePingToken,
 } = require('./protocol/inbound-packets');
 
@@ -26,6 +23,26 @@ const {
   transitionToScene: sceneHandlerTransitionToScene,
   sendStaticNpcSpawns: sceneHandlerSendStaticNpcSpawns,
 } = require('./handlers/scene-handler');
+const {
+  handleCombatPacket: combatHandlerHandleCombatPacket,
+  sendCombatEncounterProbe: combatHandlerSendCombatEncounterProbe,
+  sendCombatExitProbe: combatHandlerSendCombatExitProbe,
+  disposeCombatTimers: combatHandlerDisposeTimers,
+} = require('./handlers/combat-handler');
+const {
+  scheduleEquipmentReplay: playerStateHandlerScheduleEquipmentReplay,
+  tryHandleAttributeAllocationPacket: playerStateHandlerTryHandleAttributeAllocationPacket,
+  tryHandleEquipmentStatePacket: playerStateHandlerTryHandleEquipmentStatePacket,
+} = require('./handlers/player-state-handler');
+const {
+  schedulePetReplay: petHandlerSchedulePetReplay,
+  sendPetStateSync: petHandlerSendPetStateSync,
+  tryHandlePetActionPacket: petHandlerTryHandlePetActionPacket,
+  disposePetTimers: petHandlerDisposeTimers,
+} = require('./handlers/pet-handler');
+const {
+  sendEnterGameOk: sessionBootstrapHandlerSendEnterGameOk,
+} = require('./handlers/session-bootstrap-handler');
 
 const {
   loadCombatReference,
@@ -34,24 +51,7 @@ const {
 const {
   DEFAULT_FLAGS,
   ENTITY_TYPE,
-  FIGHT_ACTIVE_STATE_SUBCMD,
-  FIGHT_CLIENT_ATTACK_SELECTION_SUBCMD,
-  FIGHT_CLIENT_READY_SUBCMD,
-  FIGHT_CONTROL_INIT_SUBCMD,
-  FIGHT_CONTROL_RING_OPEN_SUBCMD,
-  FIGHT_CONTROL_SHOW_SUBCMD,
-  FIGHT_ENCOUNTER_PROBE_SUBCMD,
-  FIGHT_ENTITY_FLAG_HIDE_SUBCMD,
-  FIGHT_RESULT_DEFEAT_SUBCMD,
-  FIGHT_RESULT_VICTORY_SUBCMD,
-  FIGHT_STATE_MODE_SUBCMD,
-  GAME_FIGHT_ACTION_CMD,
-  GAME_FIGHT_CLIENT_CMD,
-  GAME_FIGHT_MISC_CMD,
   GAME_FIGHT_RESULT_CMD,
-  GAME_FIGHT_STATE_CMD,
-  GAME_FIGHT_STREAM_CMD,
-  GAME_FIGHT_TURN_CMD,
   GAME_DIALOG_CMD,
   GAME_DIALOG_MESSAGE_SUBCMD,
   GAME_ITEM_CONTAINER_CMD,
@@ -60,10 +60,7 @@ const {
   GAME_SCRIPT_EVENT_CMD,
   GAME_SELF_STATE_CMD,
   HANDSHAKE_CMD,
-  LOGIN_CMD,
-  LOGIN_SERVER_LIST_RESULT,
   MAP_ID,
-  FORCE_START_SCENE,
   PING_CMD,
   PONG_CMD,
   SERVER_RUN_MESSAGE_SUBCMD,
@@ -78,102 +75,31 @@ const {
 } = require('./config');
 const {
   createCombatState,
-  describeCombatCommand,
   isCombatCommand,
   parseCombatPacket,
-  recordInboundCombatPacket,
   recordOutboundCombatPacket,
 } = require('./combat-runtime');
 const { PacketWriter, buildPacket } = require('./protocol');
 const {
   buildGameDialoguePacket,
-  buildPetActiveSelectPacket,
-  buildPetPanelBindPacket,
-  buildPetPanelClearPacket,
-  buildPetPanelModePacket,
-  buildPetPanelNamePacket,
-  buildPetPanelPropertyPacket,
-  buildPetPanelRebindPacket,
-  buildPetCreateSyncPacket,
-  buildPetRosterSyncPacket,
-  buildPetStatsSyncPacket,
-  buildPetSummonSyncPacket,
-  buildPetTreeRegistrationPacket,
   buildSelfStateAptitudeSyncPacket,
   buildServerRunMessagePacket,
   buildServerRunScriptPacket,
-  buildSyntheticAttackMirrorUpdatePacket,
-  buildSyntheticAttackPlaybackPacket,
-  buildSyntheticAttackResultUpdatePacket,
-  buildSyntheticFightVictoryClosePacket,
 } = require('./protocol/gameplay-packets');
-const {
-  sendEquipmentContainerSync,
-  syncInventoryStateToClient,
-} = require('./gameplay/inventory-runtime');
-const {
-  getPrimaryPet,
-  normalizePets,
-} = require('./pet-runtime');
-const {
-  rollSyntheticFightDrops,
-} = require('./gameplay/combat-drop-runtime');
 const {
   handleServerRunRequest: processNpcInteractionRequest,
   restoreAtInn: processInnRest,
 } = require('./gameplay/npc-interactions');
 const {
   CHARACTER_VITALS_BASELINE,
-  buildDefeatRespawnState,
 } = require('./gameplay/session-flows');
 const {
-  computeSyntheticDamage,
-  createSyntheticFightState,
-  findSyntheticEnemyTarget,
-  getSyntheticPlayerFighter,
-  hasLivingSyntheticAllies,
-  initializeSyntheticEnemyTurnQueue,
-  selectSyntheticEnemyAttacker,
-} = require('./combat/synthetic-fight');
-const {
-  finalizeSyntheticFightState,
-  resolvePlayerAttackSelection,
-  resolveQueuedEnemyTurn,
-} = require('./combat/synthetic-fight-flow');
-const {
-  buildCombatEncounterProbePacket,
-  buildCombatTurnProbePacket,
-  buildFightActiveStateProbePacket,
-  buildFightControlInitProbePacket,
-  buildFightControlShowProbePacket,
-  buildFightEntityFlagProbePacket,
-  buildFightRingOpenProbePacket,
-  buildFightStateModeProbe64Packet,
-} = require('./combat/synthetic-fight-packets');
-const { getRoleName, getRolePrimaryDrop } = require('./roleinfo');
-const {
-  numberOrDefault,
-  normalizePrimaryAttributes,
-  normalizeCharacterRecord,
-} = require('./character/normalize');
-const {
-  buildSyntheticEncounterEnemies,
-} = require('./combat/encounter-builder');
-const {
-  selectCombatTurnProbeProfile,
-} = require('./combat/combat-probe');
-const {
-  normalizeQuestState,
-} = require('./quest-engine');
-const {
-  buildInventorySnapshot,
-  normalizeInventoryState,
-} = require('./inventory');
-const {
-  describeScene,
-  resolveCharacterScene,
-  resolveTownRespawn,
-} = require('./scene-runtime');
+  buildCharacterSnapshot: sessionHydrationBuildCharacterSnapshot,
+  getPersistedCharacter: sessionHydrationGetPersistedCharacter,
+  hydratePendingGameCharacter,
+  persistCurrentCharacter: sessionHydrationPersistCurrentCharacter,
+  saveCharacter: sessionHydrationSaveCharacter,
+} = require('./character/session-hydration');
 
 const COMBAT_REFERENCE = loadCombatReference();
 
@@ -237,50 +163,7 @@ class Session {
     this.defeatRespawnPending = false;
     this.hasAnnouncedQuestOverview = false;
 
-    if (isGame && sharedState.pendingGameCharacter) {
-      this.charName = sharedState.pendingGameCharacter.charName;
-      this.entityType = sharedState.pendingGameCharacter.entityType;
-      this.roleEntityType = sharedState.pendingGameCharacter.roleEntityType || this.entityType;
-      this.roleData = sharedState.pendingGameCharacter.roleData || 0;
-      this.selectedAptitude = numberOrDefault(sharedState.pendingGameCharacter.selectedAptitude, 0);
-      this.level = numberOrDefault(sharedState.pendingGameCharacter.level, 1);
-      this.experience = numberOrDefault(sharedState.pendingGameCharacter.experience, 0);
-      this.currentHealth = numberOrDefault(
-        sharedState.pendingGameCharacter.currentHealth,
-        CHARACTER_VITALS_BASELINE.health
-      );
-      this.currentMana = numberOrDefault(
-        sharedState.pendingGameCharacter.currentMana,
-        CHARACTER_VITALS_BASELINE.mana
-      );
-      this.currentRage = numberOrDefault(sharedState.pendingGameCharacter.currentRage, 100);
-      this.gold = numberOrDefault(sharedState.pendingGameCharacter.gold, 0);
-      this.bankGold = numberOrDefault(sharedState.pendingGameCharacter.bankGold, 0);
-      this.boundGold = numberOrDefault(sharedState.pendingGameCharacter.boundGold, 0);
-      this.coins = numberOrDefault(sharedState.pendingGameCharacter.coins, 0);
-      this.renown = numberOrDefault(sharedState.pendingGameCharacter.renown, 0);
-      this.primaryAttributes = normalizePrimaryAttributes(sharedState.pendingGameCharacter.primaryAttributes);
-      this.statusPoints = numberOrDefault(sharedState.pendingGameCharacter.statusPoints, 0);
-      const questState = normalizeQuestState(sharedState.pendingGameCharacter);
-      this.activeQuests = questState.activeQuests;
-      this.completedQuests = questState.completedQuests;
-      this.pets = normalizePets(sharedState.pendingGameCharacter.pets);
-      this.selectedPetRuntimeId =
-        typeof sharedState.pendingGameCharacter.selectedPetRuntimeId === 'number'
-          ? (sharedState.pendingGameCharacter.selectedPetRuntimeId >>> 0)
-          : null;
-      this.petSummoned = sharedState.pendingGameCharacter.petSummoned === true;
-      const inventoryState = normalizeInventoryState(sharedState.pendingGameCharacter);
-      this.bagItems = inventoryState.inventory.bag;
-      this.bagSize = inventoryState.inventory.bagSize;
-      this.nextItemInstanceId = inventoryState.inventory.nextItemInstanceId;
-      this.nextBagSlot = inventoryState.inventory.nextBagSlot;
-      const scene = resolveCharacterScene(sharedState.pendingGameCharacter);
-      this.currentMapId = scene.mapId;
-      this.currentX = scene.x;
-      this.currentY = scene.y;
-      sharedState.pendingGameCharacter = null;
-    }
+    hydratePendingGameCharacter(this, sharedState);
   }
 
   feed(data) {
@@ -359,138 +242,15 @@ class Session {
   }
 
   tryHandleEquipmentStatePacket(payload) {
-    const parsed = parseEquipmentState(payload);
-    if (!parsed) {
-      return false;
-    }
-
-    const { instanceId, equipFlag } = parsed;
-    const item = Array.isArray(this.bagItems)
-      ? this.bagItems.find((entry) => (entry.instanceId >>> 0) === (instanceId >>> 0))
-      : null;
-    if (!item) {
-      this.log(`Ignoring equipment state for unknown instanceId=${instanceId}`);
-      return true;
-    }
-
-    item.equipped = equipFlag === 1;
-    this.log(
-      `Equipment state update instanceId=${instanceId} templateId=${item.templateId} equipped=${item.equipped ? 1 : 0}`
-    );
-    this.persistCurrentCharacter();
-    sendEquipmentContainerSync(this);
-    return true;
+    return playerStateHandlerTryHandleEquipmentStatePacket(this, payload);
   }
 
   tryHandlePetActionPacket(payload) {
-    if (payload.length !== 7) {
-      return false;
-    }
-
-    const subcmd = payload[2];
-    const runtimeId = payload.readUInt32LE(3) >>> 0;
-    const pet = Array.isArray(this.pets)
-      ? this.pets.find((entry) => (entry?.runtimeId >>> 0) === runtimeId) || null
-      : null;
-
-    this.log(`Pet action request sub=0x${subcmd.toString(16)} runtimeId=${runtimeId} known=${pet ? 1 : 0}`);
-
-    if (subcmd === 0x51) {
-      if (!pet) {
-        return true;
-      }
-      this.selectedPetRuntimeId = runtimeId >>> 0;
-      this.petSummoned = true;
-      this.pets = normalizePets([
-        pet,
-        ...this.pets.filter((entry) => (entry?.runtimeId >>> 0) !== runtimeId),
-      ]);
-      this.persistCurrentCharacter();
-      this.sendPetStateSync('client-03f5-51');
-      return true;
-    }
-
-    if (subcmd === 0x58) {
-      if (pet) {
-        this.selectedPetRuntimeId = runtimeId >>> 0;
-      }
-      this.petSummoned = false;
-      this.persistCurrentCharacter();
-      const ownerRuntimeId = this.getPetOwnerRuntimeId();
-      this.writePacket(
-        buildPetPanelModePacket({
-          ownerRuntimeId,
-          enabled: false,
-        }),
-        DEFAULT_FLAGS,
-        `Sending pet panel mode cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x57 reason=client-03f5-58 ownerRuntimeId=${ownerRuntimeId} enabled=0`
-      );
-      this.writePacket(
-        buildPetPanelClearPacket({
-          ownerRuntimeId,
-        }),
-        DEFAULT_FLAGS,
-        `Sending pet panel clear cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x58 reason=client-03f5-58 ownerRuntimeId=${ownerRuntimeId}`
-      );
-      return true;
-    }
-
-    return true;
+    return petHandlerTryHandlePetActionPacket(this, payload);
   }
 
   tryHandleAttributeAllocationPacket(payload) {
-    const allocation = parseAttributeAllocation(payload);
-    if (!allocation) {
-      return false;
-    }
-
-    const { strengthDelta, dexterityDelta, vitalityDelta, intelligenceDelta } = allocation;
-    const requestedTotal = strengthDelta + vitalityDelta + dexterityDelta + intelligenceDelta;
-
-    this.log(
-      `Attribute allocation confirm sub=0x1e str=${strengthDelta} dex=${dexterityDelta} vit=${vitalityDelta} int=${intelligenceDelta} available=${this.statusPoints}`
-    );
-
-    if (requestedTotal <= 0) {
-      this.log('Ignoring empty attribute allocation confirm');
-      return true;
-    }
-
-    const spendableTotal = Math.min(requestedTotal, Math.max(0, this.statusPoints));
-    if (spendableTotal <= 0) {
-      this.log('Ignoring attribute allocation with no spendable status points');
-      this.sendSelfStateAptitudeSync();
-      return true;
-    }
-
-    let remaining = spendableTotal;
-    const applied = {
-      strength: Math.min(strengthDelta, remaining),
-      dexterity: 0,
-      vitality: 0,
-      intelligence: 0,
-    };
-    remaining -= applied.strength;
-    applied.dexterity = Math.min(dexterityDelta, remaining);
-    remaining -= applied.dexterity;
-    applied.vitality = Math.min(vitalityDelta, remaining);
-    remaining -= applied.vitality;
-    applied.intelligence = Math.min(intelligenceDelta, remaining);
-
-    this.primaryAttributes = normalizePrimaryAttributes({
-      intelligence: this.primaryAttributes.intelligence + applied.intelligence,
-      vitality: this.primaryAttributes.vitality + applied.vitality,
-      dexterity: this.primaryAttributes.dexterity + applied.dexterity,
-      strength: this.primaryAttributes.strength + applied.strength,
-    });
-    this.statusPoints = Math.max(0, this.statusPoints - (applied.strength + applied.vitality + applied.dexterity + applied.intelligence));
-
-    this.persistCurrentCharacter({
-      primaryAttributes: this.primaryAttributes,
-      statusPoints: this.statusPoints,
-    });
-    this.sendSelfStateAptitudeSync();
-    return true;
+    return playerStateHandlerTryHandleAttributeAllocationPacket(this, payload);
   }
 
   handleSpecialPacket(cmdWord, payload) {
@@ -515,65 +275,15 @@ class Session {
   }
 
   sendEnterGameOk() {
-    this.ensureQuestStateReady();
-
-    const writer = new PacketWriter();
-    writer.writeUint16(LOGIN_CMD);
-    writer.writeUint8(LOGIN_SERVER_LIST_RESULT);
-    writer.writeUint32(this.entityType >>> 0);
-    writer.writeUint16(this.entityType);
-    writer.writeUint32(this.roleData);
-    writer.writeUint16(this.currentX);
-    writer.writeUint16(this.currentY);
-    writer.writeUint16(0);
-    writer.writeString(`${this.charName}\0`);
-    writer.writeUint8(0);
-    writer.writeUint16(this.currentMapId);
-    this.writePacket(
-      writer.payload(),
-      DEFAULT_FLAGS,
-      `Sending enter-game success char="${this.charName}" runtimeId=0x${this.entityType.toString(16)} entity=0x${this.entityType.toString(16)} roleEntity=0x${this.roleEntityType.toString(16)} aptitude=${this.selectedAptitude} map=${this.currentMapId} (${describeScene(this.currentMapId)}) pos=${this.currentX},${this.currentY}`
-    );
-    this.sendSelfStateAptitudeSync();
-    this.sendStaticNpcSpawns();
-    syncInventoryStateToClient(this);
-    this.scheduleEquipmentReplay();
-    this.syncQuestStateToClient();
-    if (this.petSummoned) {
-      this.schedulePetReplay();
-    } else {
-      this.sendPetStateSync('enter-game');
-    }
+    sessionBootstrapHandlerSendEnterGameOk(this);
   }
 
   scheduleEquipmentReplay(delayMs = 300) {
-    if (this.equipmentReplayTimer) {
-      clearTimeout(this.equipmentReplayTimer);
-      this.equipmentReplayTimer = null;
-    }
-
-    this.equipmentReplayTimer = setTimeout(() => {
-      this.equipmentReplayTimer = null;
-      if (this.state !== 'LOGGED_IN') {
-        return;
-      }
-      sendEquipmentContainerSync(this);
-    }, Math.max(0, delayMs | 0));
+    playerStateHandlerScheduleEquipmentReplay(this, delayMs);
   }
 
   schedulePetReplay(delayMs = 500) {
-    if (this.petReplayTimer) {
-      clearTimeout(this.petReplayTimer);
-      this.petReplayTimer = null;
-    }
-
-    this.petReplayTimer = setTimeout(() => {
-      this.petReplayTimer = null;
-      if (this.state !== 'LOGGED_IN' || !this.petSummoned) {
-        return;
-      }
-      this.sendPetStateSync('client-03f5-51-replay');
-    }, Math.max(0, delayMs | 0));
+    petHandlerSchedulePetReplay(this, delayMs);
   }
 
   sendPong(token) {
@@ -641,22 +351,11 @@ class Session {
   }
 
   getPersistedCharacter() {
-    const character = this.sharedState.characterStore?.get(this.accountName) || null;
-    if (!character) {
-      return null;
-    }
-    return normalizeCharacterRecord(character);
+    return sessionHydrationGetPersistedCharacter(this);
   }
 
   saveCharacter(character) {
-    if (!this.accountName || !this.sharedState.characterStore) {
-      return;
-    }
-    const normalized = normalizeCharacterRecord(character);
-    this.sharedState.characterStore.set(this.accountName, normalized);
-    this.log(
-      `Persisted character "${normalized.charName || normalized.roleName || 'Hero'}" for account "${this.accountName}"`
-    );
+    sessionHydrationSaveCharacter(this, character);
   }
 
   ensureQuestStateReady() {
@@ -664,44 +363,11 @@ class Session {
   }
 
   buildCharacterSnapshot(overrides = {}) {
-    const persisted = this.getPersistedCharacter() || {};
-    return {
-      ...persisted,
-      roleName: this.charName,
-      roleData: this.roleData,
-      entityType: this.entityType,
-      roleEntityType: this.roleEntityType,
-      selectedAptitude: this.selectedAptitude,
-      level: this.level,
-      experience: this.experience,
-      currentHealth: this.currentHealth,
-      currentMana: this.currentMana,
-      currentRage: this.currentRage,
-      gold: this.gold,
-      bankGold: this.bankGold,
-      boundGold: this.boundGold,
-      coins: this.coins,
-      renown: this.renown,
-      primaryAttributes: this.primaryAttributes,
-      statusPoints: this.statusPoints,
-      activeQuests: this.activeQuests,
-      completedQuests: this.completedQuests,
-      pets: normalizePets(this.pets),
-      selectedPetRuntimeId:
-        typeof this.selectedPetRuntimeId === 'number'
-          ? (this.selectedPetRuntimeId >>> 0)
-          : null,
-      petSummoned: this.petSummoned === true,
-      inventory: buildInventorySnapshot(this),
-      mapId: this.currentMapId,
-      x: this.currentX,
-      y: this.currentY,
-      ...overrides,
-    };
+    return sessionHydrationBuildCharacterSnapshot(this, overrides);
   }
 
   persistCurrentCharacter(overrides = {}) {
-    this.saveCharacter(this.buildCharacterSnapshot(overrides));
+    sessionHydrationPersistCurrentCharacter(this, overrides);
   }
 
   updateTownRespawnAnchor(mapId, x, y) {
@@ -752,458 +418,7 @@ class Session {
   }
 
   handleCombatPacket(cmdWord, payload) {
-    const packet = parseCombatPacket(cmdWord, payload);
-    const recorded = recordInboundCombatPacket(this.combatState, packet);
-    this.combatState = recorded.state;
-
-    if (Array.isArray(this.sharedState.combatTrace)) {
-      this.sharedState.combatTrace.push({
-        sessionId: this.id,
-        timestamp: Date.now(),
-        direction: 'inbound',
-        inFight: recorded.snapshot.inFight,
-        stateChanged: recorded.snapshot.stateChanged,
-        ...packet,
-      });
-      if (this.sharedState.combatTrace.length > 200) {
-        this.sharedState.combatTrace.shift();
-      }
-    }
-
-    const pieces = [
-      `Combat packet kind=${describeCombatCommand(cmdWord)}`,
-      `cmd=0x${cmdWord.toString(16)}`,
-    ];
-    if (packet.subcmd !== null) {
-      pieces.push(`sub=0x${packet.subcmd.toString(16)}`);
-    }
-    if (packet.detail16 !== null) {
-      pieces.push(`detail16=${packet.detail16}`);
-    }
-    if (packet.detail32 !== null) {
-      pieces.push(`detail32=${packet.detail32}`);
-    }
-    pieces.push(`len=${packet.payloadLength}`);
-    pieces.push(`inFight=${recorded.snapshot.inFight ? 1 : 0}`);
-    if (recorded.snapshot.stateChanged) {
-      pieces.push('stateChanged=1');
-    }
-    this.log(pieces.join(' '));
-
-    if (
-      cmdWord === GAME_FIGHT_ACTION_CMD &&
-      packet.subcmd === FIGHT_CLIENT_READY_SUBCMD &&
-      this.awaitingCombatTurnHandshake &&
-      this.pendingCombatTurnProbe
-    ) {
-      const action = this.pendingCombatTurnProbe;
-      this.awaitingCombatTurnHandshake = false;
-      this.pendingCombatTurnProbe = null;
-      if (this.syntheticFight) {
-        this.syntheticFight.phase = 'command';
-      }
-      this.sendCombatCommandRefresh(action, `client-03ed-${FIGHT_CLIENT_READY_SUBCMD.toString(16)}`);
-      return;
-    }
-
-    if (
-      this.defeatRespawnPending &&
-      (cmdWord === GAME_FIGHT_ACTION_CMD ||
-        cmdWord === GAME_FIGHT_STREAM_CMD ||
-        cmdWord === GAME_FIGHT_RESULT_CMD ||
-        cmdWord === GAME_FIGHT_STATE_CMD ||
-        cmdWord === GAME_FIGHT_TURN_CMD ||
-        cmdWord === GAME_FIGHT_CLIENT_CMD ||
-        cmdWord === GAME_FIGHT_MISC_CMD)
-    ) {
-      this.log(`Ignoring lingering combat packet cmd=0x${cmdWord.toString(16)} during defeat respawn`);
-      return;
-    }
-
-    if (
-      cmdWord === GAME_FIGHT_ACTION_CMD &&
-      packet.subcmd === FIGHT_CLIENT_READY_SUBCMD &&
-      this.syntheticFight &&
-      !this.awaitingCombatTurnHandshake
-    ) {
-      if (this.syntheticFight.phase === 'finished') {
-        this.log(`Ignoring client 0x03ed/0x${FIGHT_CLIENT_READY_SUBCMD.toString(16)} because synthetic fight is finished`);
-        return;
-      }
-      if (this.syntheticFight.suppressNextReadyRepeat) {
-        this.syntheticFight.suppressNextReadyRepeat = false;
-        this.log(`Ignoring duplicate client 0x03ed/0x${FIGHT_CLIENT_READY_SUBCMD.toString(16)} immediately after command refresh`);
-        return;
-      }
-      if (this.syntheticFight.phase === 'command' && this.syntheticFight.awaitingPlayerAction) {
-        this.log(`Ignoring client 0x03ed/0x${FIGHT_CLIENT_READY_SUBCMD.toString(16)} while waiting for player action`);
-        return;
-      }
-      if (this.syntheticFight.turnQueue.length > 0) {
-        this.resolveSyntheticQueuedTurn({ probeId: 'client-ready-repeat' });
-        return;
-      }
-      this.syntheticFight.phase = 'command';
-      this.sendCombatCommandRefresh(
-        { probeId: 'client-ready-repeat' },
-        `client-03ed-${FIGHT_CLIENT_READY_SUBCMD.toString(16)}-repeat`
-      );
-      return;
-    }
-
-    if (cmdWord === GAME_FIGHT_ACTION_CMD && packet.subcmd === FIGHT_CLIENT_ATTACK_SELECTION_SUBCMD) {
-      if (this.syntheticFight?.phase === 'finished') {
-        this.log(`Ignoring client 0x03ed/0x${FIGHT_CLIENT_ATTACK_SELECTION_SUBCMD.toString(16)} because synthetic fight is finished`);
-        return;
-      }
-      this.handleSyntheticAttackSelection(payload);
-    }
-  }
-
-  handleSyntheticAttackSelection(payload) {
-    if (!this.syntheticFight || payload.length < 6) {
-      return;
-    }
-
-    const { attackMode, targetA, targetB } = parseAttackSelection(payload);
-    const resolution = resolvePlayerAttackSelection({
-      syntheticFight: this.syntheticFight,
-      attackMode,
-      targetA,
-      targetB,
-      charName: this.charName,
-      findSyntheticEnemyTarget,
-      computeSyntheticDamage,
-      initializeSyntheticEnemyTurnQueue,
-    });
-
-    this.log(
-      `Synthetic attack selection mode=${attackMode} targetA=${targetA} targetB=${targetB} targetMatches=${resolution.enemy ? 1 : 0} retargeted=${resolution.retargeted ? 1 : 0} enemy=${resolution.enemy?.name || 'none'} hp=${resolution.enemy?.hp || 0}`
-    );
-
-    if (resolution.kind === 'noop') {
-      return;
-    }
-
-    if (resolution.kind === 'invalid-target') {
-      this.sendCombatTurnProbe({ probeId: 'attack-reprompt' }, 'attack-invalid-target');
-      return;
-    }
-
-    this.log(
-      `Synthetic combat resolved attack damage=${resolution.damage} enemy=${resolution.enemy.name} remainingHp=${resolution.enemy.hp}`
-    );
-
-    this.sendSyntheticAttackPlayback({
-      attackerEntityId: resolution.player.entityId,
-      targetEntityId: resolution.enemy.entityId,
-      resultCode: resolution.enemy.hp === 0 ? FIGHT_ACTIVE_STATE_SUBCMD : FIGHT_CONTROL_RING_OPEN_SUBCMD,
-      damage: resolution.damage,
-    });
-
-    if (resolution.enemy.hp === 0) {
-      this.sendCombatCommandHide(
-        {
-          probeId: 'enemy-defeated',
-          entityId: resolution.enemy.entityId,
-        },
-        'enemy-defeated'
-      );
-      this.handleQuestMonsterDefeat(resolution.enemy.typeId, 1);
-    }
-
-    if (resolution.kind === 'enemy-turn-queue') {
-      this.awaitingCombatTurnHandshake = false;
-      this.pendingCombatTurnProbe = null;
-      this.sendCombatCommandHide(
-        { probeId: 'enemy-turn-queue', entityId: resolution.nextEnemyActor },
-        'player-action-complete'
-      );
-      this.log(
-        `Queued synthetic enemy turns count=${this.syntheticFight.turnQueue.length} after player action livingEnemies=${resolution.livingEnemies.length}`
-      );
-      return;
-    }
-
-    this.log(`Synthetic enemy defeated enemy=${resolution.enemy.name} entity=${resolution.enemy.entityId}`);
-    this.awaitingCombatTurnHandshake = false;
-    this.pendingCombatTurnProbe = null;
-    this.sendSyntheticFightVictoryClose();
-    this.finishSyntheticFight('victory', resolution.message);
-  }
-
-  getSyntheticPlayerFighter() {
-    return getSyntheticPlayerFighter(this.syntheticFight);
-  }
-
-  findSyntheticEnemyTarget(targetA, targetB) {
-    return findSyntheticEnemyTarget(this.syntheticFight, targetA, targetB);
-  }
-
-  computeSyntheticDamage(attacker, defender) {
-    return computeSyntheticDamage(attacker, defender);
-  }
-
-  hasLivingSyntheticAllies(fighter) {
-    return hasLivingSyntheticAllies(this.syntheticFight, fighter);
-  }
-
-  initializeSyntheticEnemyTurnQueue(targetEntityId) {
-    initializeSyntheticEnemyTurnQueue(this.syntheticFight, targetEntityId);
-  }
-
-  selectSyntheticEnemyAttacker(preferredEnemy = null) {
-    return selectSyntheticEnemyAttacker(this.syntheticFight, preferredEnemy);
-  }
-
-  resolveSyntheticQueuedTurn(action) {
-    const resolution = resolveQueuedEnemyTurn({
-      syntheticFight: this.syntheticFight,
-      selectSyntheticEnemyAttacker,
-      computeSyntheticDamage,
-      hasLivingSyntheticAllies,
-    });
-
-    if (resolution.kind === 'missing-turn') {
-      this.sendCombatCommandRefresh(action, 'enemy-turn-missing');
-      return;
-    }
-
-    if (resolution.kind === 'skipped') {
-      if (this.syntheticFight?.turnQueue?.length === 0) {
-        this.sendCombatCommandRefresh(action, 'enemy-turn-skipped');
-      }
-      return;
-    }
-
-    this.currentHealth = resolution.player.hp;
-    this.log(
-      `Synthetic enemy turn attacker=${resolution.attacker.name} damage=${resolution.damage} playerHp=${resolution.player.hp}`
-    );
-
-    this.sendSyntheticAttackPlayback({
-      attackerEntityId: resolution.attacker.entityId,
-      targetEntityId: resolution.player.entityId,
-      resultCode: resolution.player.hp === 0 ? FIGHT_ACTIVE_STATE_SUBCMD : FIGHT_CONTROL_RING_OPEN_SUBCMD,
-      damage: resolution.damage,
-    });
-
-    if (resolution.kind === 'downed-awaiting-allies' || resolution.kind === 'defeat') {
-      this.sendSyntheticAttackMirrorUpdate({
-        actionMode: FIGHT_RESULT_DEFEAT_SUBCMD,
-      });
-      if (resolution.kind === 'downed-awaiting-allies') {
-        this.log(`Synthetic fighter downed entity=${resolution.player.entityId} awaiting ally outcome`);
-        return;
-      }
-      this.finishSyntheticFight('defeat', `${this.charName} was defeated.`);
-      return;
-    }
-
-    if (resolution.kind === 'enemy-turn-continues') {
-      this.sendCombatCommandHide(
-        { ...action, entityId: resolution.nextEnemyActor },
-        'enemy-turn-continues'
-      );
-      return;
-    }
-
-    this.scheduleSyntheticCommandRefresh(action, 'enemy-turn-complete', 1500);
-  }
-
-  finishSyntheticFight(outcome, message) {
-    if (!this.syntheticFight) {
-      return;
-    }
-    this.clearSyntheticCommandRefreshTimer();
-    let dropResult = null;
-    if (outcome === 'victory') {
-      dropResult = rollSyntheticFightDrops(this, this.syntheticFight);
-      if (dropResult?.granted?.length > 0) {
-        this.refreshQuestStateForItemTemplates(
-          dropResult.granted.map((drop) => drop.item?.templateId || drop.definition?.templateId).filter(Number.isInteger)
-        );
-      }
-    }
-    const finished = finalizeSyntheticFightState(this.syntheticFight, outcome);
-    const player = finished.player;
-    this.awaitingCombatTurnHandshake = false;
-    this.pendingCombatTurnProbe = null;
-    this.combatState = createCombatState();
-    this.log(`Synthetic fight finished outcome=${outcome}`);
-    if (dropResult?.granted?.length > 0 || dropResult?.skipped?.length > 0) {
-      const dropText = [
-        ...dropResult.granted.map((drop) => `${drop.definition?.name || drop.item.templateId} x${drop.quantity}`),
-        ...dropResult.skipped.map((drop) => `${drop.templateId} skipped (${drop.reason})`),
-      ].join(', ');
-      this.log(`Synthetic fight drops outcome=${outcome} ${dropText}`);
-    }
-    if (message && outcome !== 'defeat') {
-      this.sendGameDialogue('Combat', message);
-    }
-    if (outcome === 'defeat') {
-      const persisted = this.getPersistedCharacter();
-      const defeatRespawn = buildDefeatRespawnState({
-        persistedCharacter: persisted,
-        currentMapId: this.currentMapId,
-        currentX: this.currentX,
-        currentY: this.currentY,
-        player,
-        currentMana: this.currentMana,
-        currentRage: this.currentRage,
-        resolveTownRespawn,
-      });
-      const { respawn, vitals } = defeatRespawn;
-
-      this.currentHealth = 0;
-      this.currentMana = Math.max(0, player?.mp || this.currentMana || 0);
-      this.currentRage = Math.max(0, player?.rage || this.currentRage || 0);
-      this.currentEncounterTriggerId = null;
-      this.syntheticFight = null;
-      this.defeatRespawnPending = true;
-      setTimeout(() => {
-        if (this.socket.destroyed) {
-          return;
-        }
-        this.currentHealth = vitals.health;
-        this.currentMana = vitals.mana;
-        this.currentRage = vitals.rage;
-        this.persistCurrentCharacter({
-          currentHealth: vitals.health,
-          currentMana: vitals.mana,
-          currentRage: vitals.rage,
-          mapId: respawn.mapId,
-          x: respawn.x,
-          y: respawn.y,
-          lastTownMapId: respawn.mapId,
-          lastTownX: respawn.x,
-          lastTownY: respawn.y,
-        });
-        this.currentMapId = respawn.mapId;
-        this.currentX = respawn.x;
-        this.currentY = respawn.y;
-        this.currentTileSceneId = 0;
-        this.currentEncounterTriggerId = null;
-        this.transitionToScene(respawn.mapId, respawn.x, respawn.y, 'defeat-respawn');
-      }, 900);
-      return;
-    }
-    if (dropResult?.inventoryDirty) {
-      this.persistCurrentCharacter();
-    }
-    this.currentEncounterTriggerId = null;
-    this.syntheticFight = null;
-  }
-
-  ignorePostDefeatCombatPacket() {
-    if (!this.syntheticFight && this.currentHealth <= 0) {
-      this.log('Ignoring lingering combat packet after defeat teardown');
-      return true;
-    }
-    return false;
-  }
-
-  createSyntheticFight(action, enemies) {
-    this.clearSyntheticCommandRefreshTimer();
-    return createSyntheticFightState({
-      action,
-      entityType: this.entityType,
-      roleEntityType: this.roleEntityType,
-      currentHealth: this.currentHealth,
-      currentMana: this.currentMana,
-      currentRage: this.currentRage,
-      primaryAttributes: this.primaryAttributes,
-      level: this.level,
-      charName: this.charName,
-      enemies,
-      turnProfile: selectCombatTurnProbeProfile(),
-    });
-  }
-
-  clearSyntheticCommandRefreshTimer() {
-    if (this.syntheticCommandRefreshTimer) {
-      clearTimeout(this.syntheticCommandRefreshTimer);
-      this.syntheticCommandRefreshTimer = null;
-    }
-  }
-
-  scheduleSyntheticCommandRefresh(action, reason, delayMs) {
-    this.clearSyntheticCommandRefreshTimer();
-    this.syntheticCommandRefreshTimer = setTimeout(() => {
-      this.syntheticCommandRefreshTimer = null;
-      if (!this.syntheticFight || this.syntheticFight.phase === 'finished') {
-        return;
-      }
-      this.sendCombatCommandRefresh(action, reason);
-    }, Math.max(0, delayMs | 0));
-  }
-
-  sendSyntheticAttackPlayback({ attackerEntityId, targetEntityId, resultCode, damage }) {
-    this.writePacket(
-      buildSyntheticAttackPlaybackPacket({
-        attackerEntityId,
-        targetEntityId,
-        resultCode,
-        damage,
-      }),
-      DEFAULT_FLAGS,
-      `Sending synthetic fight playback cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x03 attacker=${attackerEntityId} target=${targetEntityId} result=${resultCode} damage=${damage}`
-    );
-  }
-
-  sendSyntheticAttackResultUpdate({ actionMode, target, damage, targetStateOverride = null, includeEntityId = null }) {
-    const player = this.getSyntheticPlayerFighter();
-    const targetState = targetStateOverride === null ? (target.hp > 0 ? 0 : 1) : (targetStateOverride >>> 0);
-
-    this.writePacket(
-      buildSyntheticAttackResultUpdatePacket({
-        actionMode,
-        playerVitals: {
-          health: player?.hp || this.currentHealth,
-          mana: player?.mp || this.currentMana,
-          rage: player?.rage || this.currentRage,
-        },
-        target,
-        damage,
-        targetStateOverride,
-        includeEntityId,
-      }),
-      DEFAULT_FLAGS,
-      `Sending synthetic fight result update cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${actionMode.toString(16)} target=${target.entityId} row=${target.row} col=${target.col} damage=${damage} remainingHp=${target.hp} targetState=${targetState}`
-    );
-  }
-
-  sendSyntheticAttackMirrorUpdate({ actionMode }) {
-    const player = this.getSyntheticPlayerFighter();
-
-    this.writePacket(
-      buildSyntheticAttackMirrorUpdatePacket({
-        actionMode,
-        playerVitals: {
-          health: player?.hp || this.currentHealth,
-          mana: player?.mp || this.currentMana,
-          rage: player?.rage || this.currentRage,
-        },
-      }),
-      DEFAULT_FLAGS,
-      `Sending synthetic fight mirror update cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${actionMode.toString(16)} hp=${player?.hp || this.currentHealth} mp=${player?.mp || this.currentMana} rage=${player?.rage || this.currentRage}`
-    );
-  }
-
-  sendSyntheticFightVictoryClose() {
-    const player = this.getSyntheticPlayerFighter();
-
-    this.writePacket(
-      buildSyntheticFightVictoryClosePacket({
-        playerVitals: {
-          health: player?.hp || this.currentHealth,
-          mana: player?.mp || this.currentMana,
-          rage: player?.rage || this.currentRage,
-        },
-      }),
-      DEFAULT_FLAGS,
-      `Sending synthetic fight victory close cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${FIGHT_RESULT_VICTORY_SUBCMD.toString(16)} hp=${player?.hp || this.currentHealth} mp=${player?.mp || this.currentMana} rage=${player?.rage || this.currentRage}`
-    );
+    combatHandlerHandleCombatPacket(this, cmdWord, payload);
   }
 
   sendSelfStateAptitudeSync() {
@@ -1235,122 +450,7 @@ class Session {
   }
 
   sendPetStateSync(reason = 'runtime') {
-    this.pets = normalizePets(this.pets);
-    if (this.pets.length === 0) {
-      return;
-    }
-    const selectedPet = typeof this.selectedPetRuntimeId === 'number'
-      ? this.pets.find((entry) => (entry?.runtimeId >>> 0) === this.selectedPetRuntimeId) || null
-      : null;
-    const pet = selectedPet || getPrimaryPet(this.pets);
-    if (!pet) {
-      return;
-    }
-    if (selectedPet) {
-      this.pets = normalizePets([
-        selectedPet,
-        ...this.pets.filter((entry) => (entry?.runtimeId >>> 0) !== selectedPet.runtimeId),
-      ]);
-    }
-    this.selectedPetRuntimeId = pet.runtimeId >>> 0;
-    const ownerRuntimeId = this.getPetOwnerRuntimeId();
-
-    this.writePacket(
-      buildPetTreeRegistrationPacket({
-        pet,
-      }),
-      DEFAULT_FLAGS,
-      `Sending pet tree registration cmd=0x03eb type=0x02 reason=${reason} runtimeId=${pet.runtimeId} templateId=${pet.templateId} name="${pet.name}"`
-    );
-    this.writePacket(
-      buildPetRosterSyncPacket({
-        pets: this.pets,
-      }),
-      DEFAULT_FLAGS,
-      `Sending pet roster sync cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x7f reason=${reason} count=${this.pets.length}`
-    );
-    const isPanelSummonSync = reason === 'client-03f5-51';
-    const isReplaySync = reason === 'client-03f5-51-replay';
-    if (!isPanelSummonSync) {
-      this.writePacket(
-        buildPetPanelBindPacket({
-          ownerRuntimeId,
-          pet,
-        }),
-        DEFAULT_FLAGS,
-        `Sending pet panel bind cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x51 reason=${reason} ownerRuntimeId=${ownerRuntimeId} templateId=${pet.templateId} name="${pet.name}"`
-      );
-      this.writePacket(
-        buildPetPanelNamePacket({
-          ownerRuntimeId,
-          pet,
-        }),
-        DEFAULT_FLAGS,
-        `Sending pet panel name cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x59 reason=${reason} ownerRuntimeId=${ownerRuntimeId} name="${pet.name}"`
-      );
-    }
-    this.writePacket(
-      buildPetPanelModePacket({
-        ownerRuntimeId,
-        enabled: true,
-      }),
-      DEFAULT_FLAGS,
-      `Sending pet panel mode cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x56 reason=${reason} ownerRuntimeId=${ownerRuntimeId} enabled=1`
-    );
-    this.sendPetPropertySync(ownerRuntimeId, pet, reason);
-    this.writePacket(
-      buildPetStatsSyncPacket({ pet }),
-      DEFAULT_FLAGS,
-      `Sending pet stat sync cmd=0x${GAME_SELF_STATE_CMD.toString(16)} sub=0x1f reason=${reason} runtimeId=${pet.runtimeId} stats=${pet.stats.strength}/${pet.stats.dexterity}/${pet.stats.vitality}/${pet.stats.intelligence} points=${pet.statPoints}`
-    );
-    if (!isPanelSummonSync) {
-      this.writePacket(
-        buildPetPanelRebindPacket({
-          ownerRuntimeId,
-        }),
-        DEFAULT_FLAGS,
-        `Sending pet panel rebind cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x53 reason=${reason} ownerRuntimeId=${ownerRuntimeId}`
-      );
-    }
-    if (isReplaySync) {
-      this.writePacket(
-        buildPetActiveSelectPacket({
-          runtimeId: pet.runtimeId,
-        }),
-        DEFAULT_FLAGS,
-        `Sending pet active select cmd=0x03f5 reason=${reason} runtimeId=${pet.runtimeId}`
-      );
-    }
-  }
-
-  getPetOwnerRuntimeId() {
-    return this.entityType >>> 0;
-  }
-
-  sendPetPropertySync(ownerRuntimeId, pet, reason = 'runtime') {
-    const properties = [
-      pet.level,
-      pet.currentHealth,
-      pet.currentMana,
-      pet.loyalty,
-      pet.stats?.strength,
-      pet.stats?.dexterity,
-      pet.stats?.vitality,
-      pet.stats?.intelligence,
-      pet.statPoints,
-    ];
-
-    properties.forEach((value, index) => {
-      this.writePacket(
-        buildPetPanelPropertyPacket({
-          ownerRuntimeId,
-          index,
-          value: value >>> 0,
-        }),
-        DEFAULT_FLAGS,
-        `Sending pet property sync cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x55 reason=${reason} ownerRuntimeId=${ownerRuntimeId} index=${index} value=${value >>> 0}`
-      );
-    });
+    petHandlerSendPetStateSync(this, reason);
   }
 
   transitionToScene(mapId, x, y, reason) {
@@ -1358,9 +458,11 @@ class Session {
   }
 
   dispose() {
-    if (this.petReplayTimer) {
-      clearTimeout(this.petReplayTimer);
-      this.petReplayTimer = null;
+    petHandlerDisposeTimers(this);
+    combatHandlerDisposeTimers(this);
+    if (this.equipmentReplayTimer) {
+      clearTimeout(this.equipmentReplayTimer);
+      this.equipmentReplayTimer = null;
     }
   }
 
@@ -1407,151 +509,11 @@ class Session {
   }
 
   sendCombatEncounterProbe(action) {
-    const enemies = buildSyntheticEncounterEnemies(action, this.currentMapId);
-    const syntheticFight = this.createSyntheticFight(action, enemies);
-    const player = syntheticFight.fighters[0];
-    const playerEntry = {
-      side: player.side,
-      entityId: player.entityId,
-      typeId: player.typeId,
-      row: player.row,
-      col: player.col,
-      hpLike: player.hp,
-      mpLike: player.mp,
-      aptitude: player.aptitude,
-      levelLike: player.level,
-      appearanceTypes: player.appearanceTypes,
-      appearanceVariants: player.appearanceVariants,
-      name: player.name,
-      extended: true,
-    };
-    this.writePacket(
-      buildCombatEncounterProbePacket({
-        activeEntityId: this.entityType,
-        playerEntry,
-        enemies,
-      }),
-      DEFAULT_FLAGS,
-      `Sending experimental combat encounter probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${FIGHT_ENCOUNTER_PROBE_SUBCMD.toString(16)} trigger=${action.probeId} active=${this.entityType} enemies=${enemies.map((enemy) => `${enemy.typeId}@${enemy.entityId}`).join('/')} count=${enemies.length} map=${this.currentMapId} pos=${this.currentX},${this.currentY} referenceCommands=${this.combatReference.fightCommands.map((command) => command.id).join('/') || 'none'} referenceSkills=${this.combatReference.skills.slice(0, 6).map((skill) => skill.id).join('/') || 'none'}`
-    );
-    this.syntheticFight = syntheticFight;
-    this.sendReducedFightStartup(action, enemies.length);
-    this.pendingCombatTurnProbe = action;
-    this.awaitingCombatTurnHandshake = true;
-    this.log(
-      `Deferring combat turn probe until client readiness handshake trigger=${action.probeId} expected=0x${GAME_FIGHT_ACTION_CMD.toString(16)}/0x${FIGHT_CLIENT_READY_SUBCMD.toString(16)}`
-    );
-  }
-
-  sendReducedFightStartup(action, enemyCount) {
-    this.sendFightRingOpenProbe(action);
-    this.sendFightStateModeProbe64(action);
-    this.sendFightControlInitProbe(action);
-    this.sendFightActiveStateProbe(action);
-    this.sendFightEntityFlagProbe(action, FIGHT_ENTITY_FLAG_HIDE_SUBCMD);
-    this.sendFightControlShowProbe(action);
-  }
-
-  sendFightControlInitProbe(action) {
-    this.writePacket(
-      buildFightControlInitProbePacket(),
-      DEFAULT_FLAGS,
-      `Sending experimental fight control init probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${FIGHT_CONTROL_INIT_SUBCMD.toString(16)} trigger=${action.probeId}`
-    );
-  }
-
-  sendFightRingOpenProbe(action) {
-    this.writePacket(
-      buildFightRingOpenProbePacket(),
-      DEFAULT_FLAGS,
-      `Sending experimental fight ring-open probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${FIGHT_CONTROL_RING_OPEN_SUBCMD.toString(16)} trigger=${action.probeId}`
-    );
-  }
-
-  sendFightStateModeProbe64(action) {
-    this.writePacket(
-      buildFightStateModeProbe64Packet(),
-      DEFAULT_FLAGS,
-      `Sending experimental fight mode probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${FIGHT_STATE_MODE_SUBCMD.toString(16)} trigger=${action.probeId} stateA=-1 stateB=0 stateC=0`
-    );
-  }
-
-  sendFightActiveStateProbe(action) {
-    this.writePacket(
-      buildFightActiveStateProbePacket(this.entityType),
-      DEFAULT_FLAGS,
-      `Sending experimental fight active-state probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${FIGHT_ACTIVE_STATE_SUBCMD.toString(16)} trigger=${action.probeId} active=${this.entityType} enabled=1 state=0,0,0 linked=0`
-    );
-  }
-
-  sendFightEntityFlagProbe(action, subcommand) {
-    const activeEntityId =
-      typeof action?.entityId === 'number' ? action.entityId >>> 0 : this.entityType >>> 0;
-    this.writePacket(
-      buildFightEntityFlagProbePacket(activeEntityId, subcommand),
-      DEFAULT_FLAGS,
-      `Sending experimental fight entity flag probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${subcommand.toString(16)} trigger=${action.probeId} active=${activeEntityId}`
-    );
-  }
-
-  sendFightControlShowProbe(action) {
-    const activeEntityId =
-      typeof action?.entityId === 'number' ? action.entityId >>> 0 : this.entityType >>> 0;
-    this.writePacket(
-      buildFightControlShowProbePacket(activeEntityId),
-      DEFAULT_FLAGS,
-      `Sending experimental fight control probe cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x${FIGHT_CONTROL_SHOW_SUBCMD.toString(16)} trigger=${action.probeId} active=${activeEntityId}`
-    );
-  }
-
-  sendCombatTurnProbe(action, reason = 'startup-sequence') {
-    const activeTurnProfile = this.syntheticFight?.turnProfile || selectCombatTurnProbeProfile();
-    const probeIndex = activeTurnProfile.index;
-    const probeProfile = activeTurnProfile.profile;
-    if (this.syntheticFight) {
-      this.syntheticFight.phase = 'command';
-    }
-
-    this.writePacket(
-      buildCombatTurnProbePacket(probeProfile),
-      DEFAULT_FLAGS,
-      `Sending experimental combat turn probe cmd=0x${GAME_FIGHT_TURN_CMD.toString(16)} trigger=${action.probeId} reason=${reason} count=${probeProfile.rows.length} probeIndex=${probeIndex} profile=${probeProfile.profile} rows=${probeProfile.rows.map((row) => `${row.fieldA}/${row.fieldB}/${row.fieldC}`).join(',')}`
-    );
-  }
-
-  sendCombatCommandRefresh(action, reason) {
-    if (this.syntheticFight) {
-      this.syntheticFight.phase = 'command';
-      this.syntheticFight.awaitingPlayerAction = true;
-      this.syntheticFight.suppressNextReadyRepeat = true;
-    }
-    const playerEntityId = this.getSyntheticPlayerFighter()?.entityId || this.entityType;
-    this.sendFightRingOpenProbe({
-      ...action,
-      probeId: `${action.probeId || 'refresh'}:${reason}`,
-    });
-    this.sendFightControlShowProbe({
-      ...action,
-      probeId: `${action.probeId || 'refresh'}:${reason}`,
-      entityId: playerEntityId,
-    });
-    this.sendCombatTurnProbe(action, reason);
-  }
-
-  sendCombatCommandHide(action, reason) {
-    this.sendFightEntityFlagProbe(
-      {
-        ...action,
-        probeId: `${action.probeId || 'hide'}:${reason}`,
-      },
-      FIGHT_ENTITY_FLAG_HIDE_SUBCMD
-    );
+    combatHandlerSendCombatEncounterProbe(this, action);
   }
 
   sendCombatExitProbe(action) {
-    this.log(
-      `Ignoring synthetic combat-exit probe trigger=${action.probeId} map=${this.currentMapId} pos=${this.currentX},${this.currentY}`
-    );
+    combatHandlerSendCombatExitProbe(this, action);
   }
 }
 
