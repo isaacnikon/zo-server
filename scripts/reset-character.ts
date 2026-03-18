@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+export {};
 
 const fs = require('fs');
 const path = require('path');
@@ -99,7 +100,7 @@ const inventoryStateDoc = {
   updatedAt,
 };
 
-function writeJson(filePath, value) {
+function writeJson(filePath: string, value: unknown): void {
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
   fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
 }

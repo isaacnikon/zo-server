@@ -1,13 +1,13 @@
 {
   "name": "zo-server",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "dist/server.js",
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
     "dev": "tsc && node dist/server.js",
     "test": "tsc && node dist/scripts/refactor-smoke.js",
-    "reset:character": "node scripts/reset-character.js"
+    "reset:character": "tsc && node dist/scripts/reset-character.js"
   },
   "keywords": [],
   "author": "",

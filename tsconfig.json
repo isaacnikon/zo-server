@@ -11,6 +11,6 @@
     "resolveJsonModule": true,
     "skipLibCheck": true
   },
-  "include": ["server.ts", "scripts/refactor-smoke.ts", "src/**/*"],
+  "include": ["server.ts", "scripts/*.ts", "src/**/*"],
   "exclude": ["node_modules", "dist", "data", "context"]
 }
