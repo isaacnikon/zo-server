@@ -1,5 +1,3 @@
-'use strict';
-
 const { parseCreateRole, parseLoginPacket } = require('../protocol/inbound-packets');
 const { PacketWriter } = require('../protocol');
 const {
@@ -36,14 +34,17 @@ const { normalizePets } = require('../pet-runtime');
 const { CHARACTER_VITALS_BASELINE } = require('../gameplay/session-flows');
 const { resolveCharacterScene } = require('../scene-runtime');
 
-function parseLoginPayload(session, payload) {
+type SessionLike = Record<string, any>;
+type UnknownRecord = Record<string, any>;
+
+function parseLoginPayload(_session: SessionLike, payload: Buffer): UnknownRecord | null {
   if (payload.length < 6 || payload.readUInt16LE(0) !== LOGIN_CMD) {
     return null;
   }
   return parseLoginPacket(payload);
 }
 
-function handleLogin(session, payload) {
+function handleLogin(session: SessionLike, payload: Buffer): void {
   const cmdByte = payload[0];
   session.log(`Login packet cmd=0x${cmdByte.toString(16)} mode=${session.isGame ? 'GAME' : 'LOGIN'}`);
   session.log(`Full payload hex: ${payload.toString('hex')}`);
@@ -73,14 +74,14 @@ function handleLogin(session, payload) {
   }
 }
 
-function handleRolePacket(session, payload) {
+function handleRolePacket(session: SessionLike, payload: Buffer): void {
   if (payload.length < 3) {
     session.log('Short 0x044c payload');
     return;
   }
 
   const subcmd = payload[2];
-  const ROLE_HANDLERS = {
+  const roleHandlers: Record<number, () => void> = {
     0x04: () => handleCreateRole(session, payload),
     0x0d: () => {
       const slotIndex = payload.length >= 4 ? payload[3] : 0;
@@ -98,7 +99,7 @@ function handleRolePacket(session, payload) {
     },
   };
 
-  const handler = ROLE_HANDLERS[subcmd];
+  const handler = roleHandlers[subcmd];
   if (handler) {
     handler();
   } else {
@@ -106,7 +107,7 @@ function handleRolePacket(session, payload) {
   }
 }
 
-function handleCreateRole(session, payload) {
+function handleCreateRole(session: SessionLike, payload: Buffer): void {
   if (payload.length < 6) {
     session.log('Short create-role payload');
     return;
@@ -179,7 +180,7 @@ function handleCreateRole(session, payload) {
   });
 }
 
-function sendLoginServerList(session) {
+function sendLoginServerList(session: SessionLike): void {
   const writer = new PacketWriter();
   writer.writeUint16(LOGIN_CMD);
   writer.writeUint8(LOGIN_SERVER_LIST_RESULT);
@@ -200,7 +201,7 @@ function sendLoginServerList(session) {
   session.writePacket(writer.payload(), DEFAULT_FLAGS, 'Sending login server-list response');
 }
 
-function sendLineSelectOk(session, lineNo) {
+function sendLineSelectOk(session: SessionLike, lineNo: number): void {
   const writer = new PacketWriter();
   writer.writeUint16(LOGIN_CMD);
   writer.writeUint8(LINE_SELECT_RESULT);
@@ -209,7 +210,7 @@ function sendLineSelectOk(session, lineNo) {
   replayPersistedCharacter(session);
 }
 
-function sendCreateRoleOk(session, role) {
+function sendCreateRoleOk(session: SessionLike, role: UnknownRecord): void {
   const writer = new PacketWriter();
   writer.writeUint16(ROLE_CMD);
   writer.writeUint8(0x05);
@@ -227,7 +228,7 @@ function sendCreateRoleOk(session, role) {
   );
 }
 
-function sendGameServerRedirect(session) {
+function sendGameServerRedirect(session: SessionLike): void {
   const persisted = session.getPersistedCharacter();
   const roleData = persisted ? resolveRoleData(persisted) : session.roleData;
   session.sharedState.pendingGameCharacter = {
@@ -254,89 +255,55 @@ function sendGameServerRedirect(session) {
     pets: normalizePets(Array.isArray(persisted?.pets) ? persisted.pets : session.pets),
     selectedPetRuntimeId:
       typeof persisted?.selectedPetRuntimeId === 'number'
-        ? (persisted.selectedPetRuntimeId >>> 0)
+        ? persisted.selectedPetRuntimeId >>> 0
         : session.selectedPetRuntimeId,
     petSummoned: persisted?.petSummoned === true || session.petSummoned === true,
     lastTownMapId: persisted?.lastTownMapId,
     lastTownX: persisted?.lastTownX,
     lastTownY: persisted?.lastTownY,
-    ...resolveCharacterScene({
-      mapId: persisted?.mapId || session.currentMapId || MAP_ID,
-      x: persisted?.x || session.currentX || SPAWN_X,
-      y: persisted?.y || session.currentY || SPAWN_Y,
-    }),
+    inventory: normalizeInventoryState(persisted || session).inventory,
+    mapId: resolveCharacterScene(persisted || session).mapId,
+    x: resolveCharacterScene(persisted || session).x,
+    y: resolveCharacterScene(persisted || session).y,
   };
-  session.sharedState.nextSessionIsGame = true;
 
   const writer = new PacketWriter();
   writer.writeUint16(LOGIN_CMD);
   writer.writeUint8(REDIRECT_RESULT);
-  writer.writeString('127.0.0.1\0');
+  writer.writeUint8(0);
+  writer.writeString('127.0.0.1');
   writer.writeUint16(PORT);
-  writer.writeUint16(0);
-  writer.writeUint16(0);
-  session.writePacket(writer.payload(), DEFAULT_FLAGS, `Sending 0x0d game-server redirect to 127.0.0.1:${PORT}`);
+  writer.writeUint8(0);
+  session.writePacket(writer.payload(), SPECIAL_FLAGS, 'Sending game-server redirect');
+  session.sharedState.nextSessionIsGame = true;
 }
 
-function replayPersistedCharacter(session) {
+function replayPersistedCharacter(session: SessionLike): void {
   const character = session.getPersistedCharacter();
   if (!character) {
+    session.log('No persisted role to replay');
     return;
   }
 
-  session.charName = character.charName || character.roleName || 'Hero';
-  session.entityType = ENTITY_TYPE;
-  session.roleEntityType = character.roleEntityType || ENTITY_TYPE;
-  session.roleData = resolveRoleData(character);
-  session.selectedAptitude = numberOrDefault(character.selectedAptitude, 0);
-  session.level = numberOrDefault(character.level, 1);
-  session.experience = numberOrDefault(character.experience, 0);
-  session.currentHealth = numberOrDefault(character.currentHealth, CHARACTER_VITALS_BASELINE.health);
-  session.currentMana = numberOrDefault(character.currentMana, CHARACTER_VITALS_BASELINE.mana);
-  session.currentRage = numberOrDefault(character.currentRage, 100);
-  session.gold = numberOrDefault(character.gold, 0);
-  session.bankGold = numberOrDefault(character.bankGold, 0);
-  session.boundGold = numberOrDefault(character.boundGold, 0);
-  session.coins = numberOrDefault(character.coins, 0);
-  session.renown = numberOrDefault(character.renown, 0);
-  session.primaryAttributes = normalizePrimaryAttributes(character.primaryAttributes);
-  session.statusPoints = numberOrDefault(character.statusPoints, 0);
-  const questState = normalizeQuestState(character);
-  session.activeQuests = questState.activeQuests;
-  session.completedQuests = questState.completedQuests;
-  session.pets = normalizePets(character.pets);
-  session.selectedPetRuntimeId =
-    typeof character.selectedPetRuntimeId === 'number'
-      ? (character.selectedPetRuntimeId >>> 0)
-      : null;
-  session.petSummoned = character.petSummoned === true;
-  const inventoryState = normalizeInventoryState(character);
-  session.bagItems = inventoryState.inventory.bag;
-  session.bagSize = inventoryState.inventory.bagSize;
-  session.nextItemInstanceId = inventoryState.inventory.nextItemInstanceId;
-  session.nextBagSlot = inventoryState.inventory.nextBagSlot;
-  const scene = resolveCharacterScene(character);
-  session.currentMapId = scene.mapId;
-  session.currentX = scene.x;
-  session.currentY = scene.y;
-  session.saveCharacter(character);
-  session.updateTownRespawnAnchor(session.currentMapId, session.currentX, session.currentY);
+  const normalized = normalizeCharacterRecord(character);
   sendCreateRoleOk(session, {
-    ...character,
-    entityType: session.roleEntityType,
+    slot: numberOrDefault(normalized.slot, 0),
+    roleName: normalized.charName || normalized.roleName || session.charName,
+    entityType: normalized.roleEntityType || session.roleEntityType || ENTITY_TYPE,
+    roleData: resolveRoleData(normalized),
+    level: resolveRoleLevel(normalized),
+    birthMonth: resolveBirthMonth(normalized),
+    birthDay: resolveBirthDay(normalized),
   });
-  session.log(
-    `Replayed persisted character "${character.charName || character.roleName || 'Hero'}" for account "${session.accountName}"`
-  );
 }
 
-module.exports = {
+export {
   handleLogin,
   handleRolePacket,
   handleCreateRole,
   sendLoginServerList,
   sendLineSelectOk,
-  sendCreateRoleOk,
   sendGameServerRedirect,
+  sendCreateRoleOk,
   replayPersistedCharacter,
 };

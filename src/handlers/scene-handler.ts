@@ -1,15 +1,7 @@
-'use strict';
-
 const { parsePositionUpdate } = require('../protocol/inbound-packets');
 const { PacketWriter } = require('../protocol');
-const {
-  DEFAULT_FLAGS,
-  GAME_POSITION_QUERY_CMD,
-  GAME_SPAWN_BATCH_SUBCMD,
-} = require('../config');
-const {
-  applySceneTransition,
-} = require('../quest-engine');
+const { DEFAULT_FLAGS, GAME_POSITION_QUERY_CMD, GAME_SPAWN_BATCH_SUBCMD } = require('../config');
+const { applySceneTransition } = require('../quest-engine');
 const {
   describeScene,
   getBootstrapWorldSpawns,
@@ -18,7 +10,10 @@ const {
   resolveTileSceneAction,
 } = require('../scene-runtime');
 
-function updateTownRespawnAnchor(session, mapId, x, y) {
+type SessionLike = Record<string, any>;
+type UnknownRecord = Record<string, any>;
+
+function updateTownRespawnAnchor(session: SessionLike, mapId: number, x: number, y: number): void {
   if (!isTownScene(mapId)) {
     return;
   }
@@ -30,7 +25,7 @@ function updateTownRespawnAnchor(session, mapId, x, y) {
   });
 }
 
-function handlePositionUpdate(session, payload) {
+function handlePositionUpdate(session: SessionLike, payload: Buffer): void {
   if (payload.length < 8) {
     session.log('Short 0x03eb payload');
     return;
@@ -50,11 +45,7 @@ function handlePositionUpdate(session, payload) {
   handleTileSceneTrigger(session, mapId, x, y);
   handleEncounterTrigger(session, mapId, x, y);
 
-  session.persistCurrentCharacter({
-    mapId,
-    x,
-    y,
-  });
+  session.persistCurrentCharacter({ mapId, x, y });
   updateTownRespawnAnchor(session, mapId, x, y);
 
   if (previousMapId !== mapId) {
@@ -71,7 +62,7 @@ function handlePositionUpdate(session, payload) {
   }
 }
 
-function handleTileSceneTrigger(session, mapId, x, y) {
+function handleTileSceneTrigger(session: SessionLike, mapId: number, x: number, y: number): void {
   const cell = session.sharedState.mapCellStore?.getCell(mapId, x, y) || null;
   const tileSceneId = cell?.sceneId || 0;
 
@@ -93,10 +84,7 @@ function handleTileSceneTrigger(session, mapId, x, y) {
     `Entered tile scene trigger map=${mapId} (${describeScene(mapId)}) pos=${x},${y} sceneId=${tileSceneId} flags=0x${(cell.flags || 0).toString(16)} aux=${cell.auxValue || 0}`
   );
 
-  const action = resolveTileSceneAction({
-    mapId,
-    tileSceneId,
-  });
+  const action = resolveTileSceneAction({ mapId, tileSceneId });
 
   if (!action) {
     return;
@@ -108,17 +96,11 @@ function handleTileSceneTrigger(session, mapId, x, y) {
     return;
   }
 
-  session.log(
-    `No server-side tile scene action mapped for map=${mapId} (${describeScene(mapId)}) sceneId=${tileSceneId}`
-  );
+  session.log(`No server-side tile scene action mapped for map=${mapId} (${describeScene(mapId)}) sceneId=${tileSceneId}`);
 }
 
-function handleEncounterTrigger(session, mapId, x, y) {
-  const action = resolveEncounterAction({
-    mapId,
-    x,
-    y,
-  });
+function handleEncounterTrigger(session: SessionLike, mapId: number, x: number, y: number): void {
+  const action = resolveEncounterAction({ mapId, x, y });
 
   const triggerId = action?.probeId || null;
   if (!action) {
@@ -152,21 +134,14 @@ function handleEncounterTrigger(session, mapId, x, y) {
         return;
       }
     }
-    const chancePercent = Math.max(
-      0,
-      Math.min(100, Number.isFinite(profile.encounterChancePercent) ? profile.encounterChancePercent : 100)
-    );
+    const chancePercent = Math.max(0, Math.min(100, Number.isFinite(profile.encounterChancePercent) ? profile.encounterChancePercent : 100));
     if (chancePercent < 100) {
       const roll = Math.random() * 100;
       if (roll >= chancePercent) {
-        session.log(
-          `Encounter roll miss trigger=${triggerId} map=${mapId} pos=${x},${y} roll=${roll.toFixed(2)} chance=${chancePercent}`
-        );
+        session.log(`Encounter roll miss trigger=${triggerId} map=${mapId} pos=${x},${y} roll=${roll.toFixed(2)} chance=${chancePercent}`);
         return;
       }
-      session.log(
-        `Encounter roll hit trigger=${triggerId} map=${mapId} pos=${x},${y} roll=${roll.toFixed(2)} chance=${chancePercent}`
-      );
+      session.log(`Encounter roll hit trigger=${triggerId} map=${mapId} pos=${x},${y} roll=${roll.toFixed(2)} chance=${chancePercent}`);
     }
 
     session.currentEncounterTriggerId = triggerId;
@@ -181,7 +156,7 @@ function handleEncounterTrigger(session, mapId, x, y) {
   }
 }
 
-function shouldSuppressEncounterProbe(session, action, mapId) {
+function shouldSuppressEncounterProbe(session: SessionLike, action: UnknownRecord, mapId: number): boolean {
   if (!action || action.kind !== 'encounterProbe') {
     return false;
   }
@@ -191,7 +166,7 @@ function shouldSuppressEncounterProbe(session, action, mapId) {
   }
 
   const petQuest = Array.isArray(session.activeQuests)
-    ? session.activeQuests.find((quest) => (quest?.id >>> 0) === 51)
+    ? session.activeQuests.find((quest: UnknownRecord) => (quest?.id >>> 0) === 51)
     : null;
   if (!petQuest) {
     return false;
@@ -200,7 +175,7 @@ function shouldSuppressEncounterProbe(session, action, mapId) {
   return (petQuest.stepIndex >>> 0) === 3;
 }
 
-function transitionToScene(session, mapId, x, y, reason) {
+function transitionToScene(session: SessionLike, mapId: number, x: number, y: number, reason: string): void {
   session.defeatRespawnPending = false;
   session.currentMapId = mapId;
   session.currentX = x;
@@ -209,11 +184,7 @@ function transitionToScene(session, mapId, x, y, reason) {
   session.currentEncounterTriggerId = null;
   session.log(`Transitioning scene reason="${reason}" map=${mapId} (${describeScene(mapId)}) pos=${x},${y}`);
 
-  session.persistCurrentCharacter({
-    mapId,
-    x,
-    y,
-  });
+  session.persistCurrentCharacter({ mapId, x, y });
 
   updateTownRespawnAnchor(session, mapId, x, y);
   const questEvents = applySceneTransition(
@@ -230,7 +201,7 @@ function transitionToScene(session, mapId, x, y, reason) {
   session.sendEnterGameOk();
 }
 
-function sendStaticNpcSpawns(session) {
+function sendStaticNpcSpawns(session: SessionLike): void {
   const staticNpcs = getBootstrapWorldSpawns(session.currentMapId);
   if (!Array.isArray(staticNpcs) || staticNpcs.length === 0) {
     return;
@@ -252,7 +223,7 @@ function sendStaticNpcSpawns(session) {
   );
 }
 
-function writeNpcSpawnRecord(session, writer, npc) {
+function writeNpcSpawnRecord(session: SessionLike, writer: any, npc: UnknownRecord): void {
   const x = (typeof npc.x === 'number' ? npc.x : session.currentX + (npc.dx || 0)) & 0xffff;
   const y = (typeof npc.y === 'number' ? npc.y : session.currentY + (npc.dy || 0)) & 0xffff;
 
@@ -260,33 +231,14 @@ function writeNpcSpawnRecord(session, writer, npc) {
   writer.writeUint16(npc.entityType & 0xffff);
   writer.writeUint16(x);
   writer.writeUint16(y);
-  writer.writeUint32((npc.templateFlags || 0) >>> 0);
-
-  if (!npc.richSpawn) {
-    return;
-  }
-
-  writer.writeUint32((npc.richValue || 0) >>> 0);
-  writer.writeUint16((npc.level || 0) & 0xffff);
-  writer.writeString(`${npc.name || ''}\0`);
-
-  const triples = Array.isArray(npc.appearanceTriples) ? npc.appearanceTriples : [];
-  for (let i = 0; i < 3; i += 1) {
-    const triple = triples[i] || {};
-    writer.writeUint16((triple.type || 0) & 0xffff);
-    writer.writeUint8((triple.variant || 0) & 0xff);
-  }
-
-  writer.writeUint16((npc.extraFlags || 0) & 0xffff);
+  writer.writeUint16(npc.dir & 0xffff);
+  writer.writeUint8(npc.state & 0xff);
+  writer.writeString(typeof npc.name === 'string' ? npc.name : '');
 }
 
-module.exports = {
+export {
   updateTownRespawnAnchor,
   handlePositionUpdate,
-  handleTileSceneTrigger,
-  handleEncounterTrigger,
-  shouldSuppressEncounterProbe,
   transitionToScene,
   sendStaticNpcSpawns,
-  writeNpcSpawnRecord,
 };

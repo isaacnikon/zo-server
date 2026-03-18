@@ -1,11 +1,6 @@
-'use strict';
-
 const { GAME_DIALOG_MESSAGE_SUBCMD } = require('../config');
 const { resolveInnRestVitals } = require('./session-flows');
-const {
-  executeServerRunAction,
-  parseServerRunRequest,
-} = require('../interactions/server-run');
+const { executeServerRunAction, parseServerRunRequest } = require('../interactions/server-run');
 const {
   applyServerRunEvent,
   abandonQuest,
@@ -15,7 +10,10 @@ const {
 const { buildEncounterPoolEntry } = require('../roleinfo');
 const { resolveServerRunAction } = require('../scene-runtime');
 
-function restoreAtInn(session, npcId) {
+type SessionLike = Record<string, any>;
+type UnknownRecord = Record<string, any>;
+
+function restoreAtInn(session: SessionLike, npcId: number): void {
   const player = session.getSyntheticPlayerFighter();
   const restoredVitals = resolveInnRestVitals({
     health: player?.maxHp || session.currentHealth,
@@ -34,27 +32,19 @@ function restoreAtInn(session, npcId) {
   });
 
   session.sendSelfStateAptitudeSync();
-  // The client sometimes lags one state refresh behind after inn callbacks.
-  // A second short delayed sync makes the vitals panel rebind more reliably.
   setTimeout(() => {
     if (session.state !== 'LOGGED_IN') {
       return;
     }
     session.sendSelfStateAptitudeSync();
   }, 150);
-  session.sendGameDialogue(
-    'Innkeeper',
-    'You feel fully rested.',
-    GAME_DIALOG_MESSAGE_SUBCMD,
-    0,
-    null
-  );
+  session.sendGameDialogue('Innkeeper', 'You feel fully rested.', GAME_DIALOG_MESSAGE_SUBCMD, 0, null);
   session.log(
     `Rested at inn npcId=${npcId} restored hp/mp/rage=${restoredVitals.health}/${restoredVitals.mana}/${restoredVitals.rage}`
   );
 }
 
-function handleServerRunRequest(session, payload) {
+function handleServerRunRequest(session: SessionLike, payload: Buffer): void {
   const request = parseServerRunRequest(payload, {
     currentMapId: session.currentMapId,
     currentX: session.currentX,
@@ -96,9 +86,6 @@ function handleServerRunRequest(session, payload) {
     y: request.y,
   });
 
-  // Concrete scene/service actions reuse the same server-run family as NPC
-  // callbacks. When a concrete action matches, it must win over quest-script
-  // collisions in that hotspot.
   if (action?.kind === 'transition' || action?.kind === 'rest') {
     executeServerRunAction(action, session.getServerRunActionHandlers());
     return;
@@ -122,13 +109,10 @@ function handleServerRunRequest(session, payload) {
     session.log(line);
   }
 
-  const auxiliaryQuestEvents = resolveQuestServerRunAuxiliaryActions(
-    questState,
-    questEventInput
-  );
+  const auxiliaryQuestEvents = resolveQuestServerRunAuxiliaryActions(questState, questEventInput);
 
-  const immediateAuxiliaryEvents = [];
-  let deferredQuestCombatTrigger = null;
+  const immediateAuxiliaryEvents: UnknownRecord[] = [];
+  let deferredQuestCombatTrigger: UnknownRecord | null = null;
   for (const event of auxiliaryQuestEvents) {
     if (event.type === 'quest-combat-trigger') {
       deferredQuestCombatTrigger = event;
@@ -141,10 +125,7 @@ function handleServerRunRequest(session, payload) {
     session.applyQuestEvents(immediateAuxiliaryEvents, 'server-run-aux');
   }
 
-  const questEvents = applyServerRunEvent(
-    questState,
-    questEventInput
-  );
+  const questEvents = applyServerRunEvent(questState, questEventInput);
   if (questEvents.length > 0) {
     session.applyQuestEvents(questEvents, 'server-run');
     return;
@@ -158,7 +139,7 @@ function handleServerRunRequest(session, payload) {
   executeServerRunAction(action, session.getServerRunActionHandlers());
 }
 
-function startQuestCombat(session, event) {
+function startQuestCombat(session: SessionLike, event: UnknownRecord): void {
   const monsterId = event.monsterId >>> 0;
   session.sendCombatEncounterProbe({
     kind: 'encounterProbe',
@@ -183,7 +164,7 @@ function startQuestCombat(session, event) {
   });
 }
 
-module.exports = {
+export {
   handleServerRunRequest,
   restoreAtInn,
 };
