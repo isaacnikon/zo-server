@@ -1,4 +1,6 @@
+// @ts-nocheck
 'use strict';
+export {};
 
 const fs = require('fs');
 const path = require('path');

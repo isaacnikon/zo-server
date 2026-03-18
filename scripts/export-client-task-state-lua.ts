@@ -1,15 +1,17 @@
 #!/usr/bin/env node
+// @ts-nocheck
 'use strict';
+export {};
 
 const fs = require('fs');
 const path = require('path');
 
-const INPUT_FILE = path.resolve(__dirname, '..', 'data', 'client-derived', 'task-runtime.json');
-const OUTPUT_FILE = path.resolve(__dirname, '..', 'data', 'client-derived', 'task-runtime.lua');
+const INPUT_FILE = path.resolve(__dirname, '..', 'data', 'client-derived', 'task-state-clusters.json');
+const OUTPUT_FILE = path.resolve(__dirname, '..', 'data', 'client-derived', 'task-state-clusters.lua');
 
 function main() {
-  const runtime = JSON.parse(fs.readFileSync(INPUT_FILE, 'utf8'));
-  const lua = `return ${toLua(runtime, 0)}\n`;
+  const data = JSON.parse(fs.readFileSync(INPUT_FILE, 'utf8'));
+  const lua = `return ${toLua(data, 0)}\n`;
   fs.writeFileSync(OUTPUT_FILE, lua, 'utf8');
   process.stdout.write(`${OUTPUT_FILE}\n`);
 }

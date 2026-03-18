@@ -1,5 +1,7 @@
 #!/usr/bin/env node
+// @ts-nocheck
 'use strict';
+export {};
 
 process.stderr.write(
   'Deprecated: use scripts/generate-client-derived-tables.py. ' +

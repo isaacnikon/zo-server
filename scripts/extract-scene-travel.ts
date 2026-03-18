@@ -1,5 +1,7 @@
 #!/usr/bin/env node
+// @ts-nocheck
 'use strict';
+export {};
 
 const fs = require('fs');
 
