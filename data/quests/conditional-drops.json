@@ -1,0 +1,16 @@
+[
+  {
+    "comment": "Spinning(II): Candy asks for 10x Dragonfly's Sting (21115) from Dragonfly",
+    "questId": 2,
+    "stepIndex": 1,
+    "enemyTypeId": 5001,
+    "drops": [
+      {
+        "templateId": 21115,
+        "chance": 100,
+        "quantity": 1,
+        "source": "Spinning(II) active quest drop -> Dragonfly's Sting"
+      }
+    ]
+  }
+]

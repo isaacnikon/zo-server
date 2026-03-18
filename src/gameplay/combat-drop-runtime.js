@@ -1,11 +1,21 @@
 'use strict';
 
+const path = require('path');
+const fs = require('fs');
 const { getItemDefinition, grantItemToBag } = require('../inventory');
 const { getRolePrimaryDrop } = require('../roleinfo');
 const { sendGrantResultPackets, sendInventoryFullSync } = require('./inventory-runtime');
 const { applyEffects } = require('../effects/effect-executor');
 
 const DROP_RATE_SCALE = 100;
+
+const CONDITIONAL_DROPS_PATH = path.resolve(__dirname, '../../data/quests/conditional-drops.json');
+let QUEST_CONDITIONAL_DROPS = [];
+try {
+  QUEST_CONDITIONAL_DROPS = JSON.parse(fs.readFileSync(CONDITIONAL_DROPS_PATH, 'utf8'));
+} catch (_err) {
+  // fallback: no conditional drops
+}
 
 function rollSyntheticFightDrops(session, syntheticFight, options = {}) {
   if (!syntheticFight || !Array.isArray(syntheticFight.enemies) || syntheticFight.enemies.length === 0) {
@@ -120,23 +130,22 @@ function resolveQuestConditionalDrops(session, enemy) {
     return [];
   }
 
-  // Spinning(II): Candy asks for 10x Dragonfly's Sting (21115) from Dragonfly.
-  // Keep this separate from the generic roleinfo-backed material drops.
-  const spinningDragonflyStepActive = session.activeQuests.some(
-    (quest) => quest?.id === 2 && quest?.stepIndex === 1
-  );
-  if (!spinningDragonflyStepActive || enemy.typeId !== 5001) {
-    return [];
+  const result = [];
+  for (const rule of QUEST_CONDITIONAL_DROPS) {
+    if (rule.enemyTypeId !== enemy.typeId) {
+      continue;
+    }
+    const matchesQuest = session.activeQuests.some(
+      (quest) => quest?.id === rule.questId && quest?.stepIndex === rule.stepIndex
+    );
+    if (!matchesQuest) {
+      continue;
+    }
+    for (const drop of Array.isArray(rule.drops) ? rule.drops : []) {
+      result.push({ ...drop });
+    }
   }
-
-  return [
-    {
-      templateId: 21115,
-      chance: 100,
-      quantity: 1,
-      source: 'Spinning(II) active quest drop -> Dragonfly\'s Sting',
-    },
-  ];
+  return result;
 }
 
 module.exports = {
