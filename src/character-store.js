@@ -113,6 +113,8 @@ class CharacterStore {
       coins: profile.coins,
       renown: profile.renown,
       statusPoints: profile.statusPoints,
+      selectedPetRuntimeId: profile.selectedPetRuntimeId,
+      petSummoned: profile.petSummoned,
       mapId: profile.mapId,
       x: profile.x,
       y: profile.y,
@@ -184,6 +186,8 @@ function buildProfileDocument(accountId, characterId, character) {
     coins: numberOrDefault(character.coins, 0),
     renown: numberOrDefault(character.renown, 0),
     statusPoints: numberOrDefault(character.statusPoints, 0),
+    selectedPetRuntimeId: numberOrNull(character.selectedPetRuntimeId),
+    petSummoned: character.petSummoned === true,
     mapId: numberOrDefault(character.mapId, 0),
     x: numberOrDefault(character.x, 0),
     y: numberOrDefault(character.y, 0),
@@ -266,6 +270,38 @@ function buildPetsDocument(characterId, character) {
           .map((pet) => ({
             templateId: numberOrDefault(pet.templateId, 0),
             awardedAt: numberOrDefault(pet.awardedAt, Date.now()),
+            runtimeId: numberOrDefault(pet.runtimeId, 0),
+            name: typeof pet.name === 'string' ? pet.name : '',
+            level: numberOrDefault(pet.level, 1),
+            generation: numberOrDefault(pet.generation, 0),
+            currentHealth: numberOrDefault(pet.currentHealth, 100),
+            currentMana: numberOrDefault(pet.currentMana, 60),
+            loyalty: numberOrDefault(pet.loyalty, 100),
+            statPoints: numberOrDefault(pet.statPoints, 0),
+            stateFlags: pet?.stateFlags && typeof pet.stateFlags === 'object'
+              ? {
+                  modeA: numberOrDefault(pet.stateFlags.modeA, 0),
+                  modeB: numberOrDefault(pet.stateFlags.modeB, 0),
+                  activeFlag: numberOrDefault(pet.stateFlags.activeFlag, 1),
+                }
+              : {
+                  modeA: 0,
+                  modeB: 0,
+                  activeFlag: 1,
+                },
+            stats: pet?.stats && typeof pet.stats === 'object'
+              ? {
+                  strength: numberOrDefault(pet.stats.strength, 10),
+                  dexterity: numberOrDefault(pet.stats.dexterity, 10),
+                  vitality: numberOrDefault(pet.stats.vitality, 10),
+                  intelligence: numberOrDefault(pet.stats.intelligence, 10),
+                }
+              : {
+                  strength: 10,
+                  dexterity: 10,
+                  vitality: 10,
+                  intelligence: 10,
+                },
           }))
       : [],
     updatedAt: new Date().toISOString(),

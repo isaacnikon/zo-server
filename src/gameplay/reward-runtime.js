@@ -6,6 +6,7 @@ const { buildSelfStateValueUpdatePacket } = require('../protocol/gameplay-packet
 const { grantItemToBag } = require('../inventory');
 const { sendGrantResultPackets, sendInventoryFullSync } = require('./inventory-runtime');
 const { applyExperienceGain } = require('./progression');
+const { createOwnedPet } = require('../pet-runtime');
 
 const VALUE_UPDATE_DISCRIMINATORS = Object.freeze({
   gold: '$',
@@ -37,6 +38,7 @@ function applyQuestCompletionReward(session, reward, options = {}) {
   const rewardMessages = [];
   let statsDirty = false;
   let inventoryDirty = false;
+  let petsDirty = false;
   let requiresFullStatSync = false;
   let levelSummary = null;
 
@@ -95,11 +97,9 @@ function applyQuestCompletionReward(session, reward, options = {}) {
       rewardMessages.push(`pet ${petTemplateId}`);
       continue;
     }
-    session.pets.push({
-      templateId: petTemplateId >>> 0,
-      awardedAt: Date.now(),
-    });
+    session.pets.push(createOwnedPet(petTemplateId >>> 0, {}, session.pets.length));
     statsDirty = true;
+    petsDirty = true;
     rewardMessages.push(resolvePetRewardName(petTemplateId));
   }
 
@@ -126,6 +126,7 @@ function applyQuestCompletionReward(session, reward, options = {}) {
   return {
     statsDirty,
     inventoryDirty,
+    petsDirty,
     requiresFullStatSync,
     rewardMessages,
     levelSummary,

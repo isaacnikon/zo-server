@@ -1,0 +1,19 @@
+services:
+  zo-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT:-7777}:7777"
+    environment:
+      PORT: 7777
+      FORCE_START_SCENE: "${FORCE_START_SCENE:-0}"
+      LOG_FILE: /app/runtime/server.log
+      CHARACTER_STORE_FILE: /app/runtime/characters.json
+      COMBAT_PROBE_STATE_FILE: /app/runtime/combat-probe-state.json
+      MAP_CLIENT_ROOT: "${MAP_CLIENT_ROOT:-/app/data/client}"
+      COMBAT_REFERENCE_ROOT: "${COMBAT_REFERENCE_ROOT:-/app/third_party/shengxiao-server}"
+    volumes:
+      - ./data/save:/app/data/save
+      - ./runtime:/app/runtime
+    restart: unless-stopped

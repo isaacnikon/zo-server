@@ -72,6 +72,17 @@ const {
 const { PacketWriter, buildPacket } = require('./protocol');
 const {
   buildGameDialoguePacket,
+  buildPetPanelBindPacket,
+  buildPetPanelClearPacket,
+  buildPetPanelModePacket,
+  buildPetPanelNamePacket,
+  buildPetPanelPropertyPacket,
+  buildPetPanelRebindPacket,
+  buildPetCreateSyncPacket,
+  buildPetRosterSyncPacket,
+  buildPetStatsSyncPacket,
+  buildPetSummonSyncPacket,
+  buildPetTreeRegistrationPacket,
   buildQuestPacket,
   buildSelfStateAptitudeSyncPacket,
   buildServerRunMessagePacket,
@@ -96,6 +107,10 @@ const {
 const {
   applyQuestCompletionReward,
 } = require('./gameplay/reward-runtime');
+const {
+  getPrimaryPet,
+  normalizePets,
+} = require('./pet-runtime');
 const {
   rollSyntheticFightDrops,
 } = require('./gameplay/combat-drop-runtime');
@@ -195,6 +210,8 @@ class Session {
     this.activeQuests = [];
     this.completedQuests = [];
     this.pets = [];
+    this.selectedPetRuntimeId = null;
+    this.petSummoned = false;
     this.bagItems = [];
     this.bagSize = 24;
     this.nextItemInstanceId = 1;
@@ -242,9 +259,12 @@ class Session {
       const questState = normalizeQuestState(sharedState.pendingGameCharacter);
       this.activeQuests = questState.activeQuests;
       this.completedQuests = questState.completedQuests;
-      this.pets = Array.isArray(sharedState.pendingGameCharacter.pets)
-        ? sharedState.pendingGameCharacter.pets
-        : [];
+      this.pets = normalizePets(sharedState.pendingGameCharacter.pets);
+      this.selectedPetRuntimeId =
+        typeof sharedState.pendingGameCharacter.selectedPetRuntimeId === 'number'
+          ? (sharedState.pendingGameCharacter.selectedPetRuntimeId >>> 0)
+          : null;
+      this.petSummoned = sharedState.pendingGameCharacter.petSummoned === true;
       const inventoryState = normalizeInventoryState(sharedState.pendingGameCharacter);
       this.bagItems = inventoryState.inventory.bag;
       this.bagSize = inventoryState.inventory.bagSize;
@@ -369,6 +389,10 @@ class Session {
       return;
     }
 
+    if (cmdWord === 0x03f5 && this.tryHandlePetActionPacket(payload)) {
+      return;
+    }
+
     if (cmdWord === 0x03ef && this.tryHandleAttributeAllocationPacket(payload)) {
       return;
     }
@@ -419,6 +443,62 @@ class Session {
     );
     this.persistCurrentCharacter();
     sendEquipmentContainerSync(this);
+    return true;
+  }
+
+  tryHandlePetActionPacket(payload) {
+    if (payload.length !== 7) {
+      return false;
+    }
+
+    const subcmd = payload[2];
+    const runtimeId = payload.readUInt32LE(3) >>> 0;
+    const pet = Array.isArray(this.pets)
+      ? this.pets.find((entry) => (entry?.runtimeId >>> 0) === runtimeId) || null
+      : null;
+
+    this.log(`Pet action request sub=0x${subcmd.toString(16)} runtimeId=${runtimeId} known=${pet ? 1 : 0}`);
+
+    if (subcmd === 0x51) {
+      if (!pet) {
+        return true;
+      }
+      this.selectedPetRuntimeId = runtimeId >>> 0;
+      this.petSummoned = true;
+      this.pets = normalizePets([
+        pet,
+        ...this.pets.filter((entry) => (entry?.runtimeId >>> 0) !== runtimeId),
+      ]);
+      this.persistCurrentCharacter();
+      this.sendPetStateSync('client-03f5-51');
+      return true;
+    }
+
+    if (subcmd === 0x58) {
+      if (pet) {
+        this.selectedPetRuntimeId = runtimeId >>> 0;
+      }
+      this.petSummoned = false;
+      this.persistCurrentCharacter();
+      const ownerRuntimeId = this.getPetOwnerRuntimeId();
+      this.writePacket(
+        buildPetPanelModePacket({
+          ownerRuntimeId,
+          enabled: false,
+        }),
+        DEFAULT_FLAGS,
+        `Sending pet panel mode cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x57 reason=client-03f5-58 ownerRuntimeId=${ownerRuntimeId} enabled=0`
+      );
+      this.writePacket(
+        buildPetPanelClearPacket({
+          ownerRuntimeId,
+        }),
+        DEFAULT_FLAGS,
+        `Sending pet panel clear cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x58 reason=client-03f5-58 ownerRuntimeId=${ownerRuntimeId}`
+      );
+      return true;
+    }
+
     return true;
   }
 
@@ -683,7 +763,12 @@ class Session {
       statusPoints: persisted?.statusPoints || this.statusPoints || 0,
       activeQuests: normalizeQuestState(persisted || {}).activeQuests,
       completedQuests: normalizeQuestState(persisted || {}).completedQuests,
-      pets: Array.isArray(persisted?.pets) ? persisted.pets : this.pets,
+      pets: normalizePets(Array.isArray(persisted?.pets) ? persisted.pets : this.pets),
+      selectedPetRuntimeId:
+        typeof persisted?.selectedPetRuntimeId === 'number'
+          ? (persisted.selectedPetRuntimeId >>> 0)
+          : this.selectedPetRuntimeId,
+      petSummoned: persisted?.petSummoned === true || this.petSummoned === true,
       lastTownMapId: persisted?.lastTownMapId,
       lastTownX: persisted?.lastTownX,
       lastTownY: persisted?.lastTownY,
@@ -730,6 +815,7 @@ class Session {
     syncInventoryStateToClient(this);
     this.scheduleEquipmentReplay();
     this.syncQuestStateToClient();
+    this.sendPetStateSync('enter-game');
   }
 
   scheduleEquipmentReplay(delayMs = 300) {
@@ -852,7 +938,12 @@ class Session {
       const questState = normalizeQuestState(persisted);
       this.activeQuests = questState.activeQuests;
       this.completedQuests = questState.completedQuests;
-      this.pets = Array.isArray(persisted.pets) ? persisted.pets : [];
+      this.pets = normalizePets(persisted.pets);
+      this.selectedPetRuntimeId =
+        typeof persisted.selectedPetRuntimeId === 'number'
+          ? (persisted.selectedPetRuntimeId >>> 0)
+          : null;
+      this.petSummoned = persisted.petSummoned === true;
       const inventoryState = normalizeInventoryState(persisted);
       this.bagItems = inventoryState.inventory.bag;
       this.bagSize = inventoryState.inventory.bagSize;
@@ -911,7 +1002,12 @@ class Session {
       statusPoints: this.statusPoints,
       activeQuests: this.activeQuests,
       completedQuests: this.completedQuests,
-      pets: this.pets,
+      pets: normalizePets(this.pets),
+      selectedPetRuntimeId:
+        typeof this.selectedPetRuntimeId === 'number'
+          ? (this.selectedPetRuntimeId >>> 0)
+          : null,
+      petSummoned: this.petSummoned === true,
       inventory: buildInventorySnapshot(this),
       mapId: this.currentMapId,
       x: this.currentX,
@@ -962,7 +1058,12 @@ class Session {
     const questState = normalizeQuestState(character);
     this.activeQuests = questState.activeQuests;
     this.completedQuests = questState.completedQuests;
-    this.pets = Array.isArray(character.pets) ? character.pets : [];
+    this.pets = normalizePets(character.pets);
+    this.selectedPetRuntimeId =
+      typeof character.selectedPetRuntimeId === 'number'
+        ? (character.selectedPetRuntimeId >>> 0)
+        : null;
+    this.petSummoned = character.petSummoned === true;
     const inventoryState = normalizeInventoryState(character);
     this.bagItems = inventoryState.inventory.bag;
     this.bagSize = inventoryState.inventory.bagSize;
@@ -1283,6 +1384,12 @@ class Session {
         });
         statsDirty = statsDirty || rewardResult.statsDirty;
         inventoryDirty = inventoryDirty || rewardResult.inventoryDirty;
+        if (rewardResult.petsDirty) {
+          this.pets = normalizePets(this.pets);
+          if (!suppressPackets) {
+            this.sendPetStateSync(`quest-reward-${event.taskId}`);
+          }
+        }
         if (!suppressPackets) {
           this.sendQuestComplete(event.taskId);
           this.sendQuestHistory(event.taskId, 0);
@@ -1986,10 +2093,114 @@ class Session {
         currentHealth,
         currentMana,
         currentRage,
+        petCapacity: Array.isArray(this.pets) && this.pets.length > 0 ? Math.max(1, this.pets.length) : 0,
       }),
       DEFAULT_FLAGS,
       `Sending self-state stat sync cmd=0x${GAME_SELF_STATE_CMD.toString(16)} sub=0x${SELF_STATE_APTITUDE_SUBCMD.toString(16)} aptitude=${this.selectedAptitude} level=${this.level} hp/mp/rage=${currentHealth}/${currentMana}/${currentRage} stats=${this.primaryAttributes.intelligence}/${this.primaryAttributes.vitality}/${this.primaryAttributes.dexterity}/${this.primaryAttributes.strength} statusPoints=${this.statusPoints}`
     );
+  }
+
+  sendPetStateSync(reason = 'runtime') {
+    this.pets = normalizePets(this.pets);
+    if (this.pets.length === 0) {
+      return;
+    }
+    const selectedPet = typeof this.selectedPetRuntimeId === 'number'
+      ? this.pets.find((entry) => (entry?.runtimeId >>> 0) === this.selectedPetRuntimeId) || null
+      : null;
+    const pet = selectedPet || getPrimaryPet(this.pets);
+    if (!pet) {
+      return;
+    }
+    this.selectedPetRuntimeId = pet.runtimeId >>> 0;
+    const ownerRuntimeId = this.getPetOwnerRuntimeId();
+
+    this.writePacket(
+      buildPetTreeRegistrationPacket({
+        pet,
+      }),
+      DEFAULT_FLAGS,
+      `Sending pet tree registration cmd=0x03eb type=0x02 reason=${reason} runtimeId=${pet.runtimeId} templateId=${pet.templateId} name="${pet.name}"`
+    );
+    this.writePacket(
+      buildPetRosterSyncPacket({
+        pets: this.pets,
+      }),
+      DEFAULT_FLAGS,
+      `Sending pet roster sync cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x7f reason=${reason} count=${this.pets.length}`
+    );
+    const isPanelSummonSync = reason.startsWith('client-03f5-51');
+    if (!isPanelSummonSync) {
+      this.writePacket(
+        buildPetPanelBindPacket({
+          ownerRuntimeId,
+          pet,
+        }),
+        DEFAULT_FLAGS,
+        `Sending pet panel bind cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x51 reason=${reason} ownerRuntimeId=${ownerRuntimeId} templateId=${pet.templateId} name="${pet.name}"`
+      );
+      this.writePacket(
+        buildPetPanelNamePacket({
+          ownerRuntimeId,
+          pet,
+        }),
+        DEFAULT_FLAGS,
+        `Sending pet panel name cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x59 reason=${reason} ownerRuntimeId=${ownerRuntimeId} name="${pet.name}"`
+      );
+    }
+    this.writePacket(
+      buildPetPanelModePacket({
+        ownerRuntimeId,
+        enabled: true,
+      }),
+      DEFAULT_FLAGS,
+      `Sending pet panel mode cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x56 reason=${reason} ownerRuntimeId=${ownerRuntimeId} enabled=1`
+    );
+    this.sendPetPropertySync(ownerRuntimeId, pet, reason);
+    this.writePacket(
+      buildPetStatsSyncPacket({ pet }),
+      DEFAULT_FLAGS,
+      `Sending pet stat sync cmd=0x${GAME_SELF_STATE_CMD.toString(16)} sub=0x1f reason=${reason} runtimeId=${pet.runtimeId} stats=${pet.stats.strength}/${pet.stats.dexterity}/${pet.stats.vitality}/${pet.stats.intelligence} points=${pet.statPoints}`
+    );
+    if (!isPanelSummonSync) {
+      this.writePacket(
+        buildPetPanelRebindPacket({
+          ownerRuntimeId,
+        }),
+        DEFAULT_FLAGS,
+        `Sending pet panel rebind cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x53 reason=${reason} ownerRuntimeId=${ownerRuntimeId}`
+      );
+    }
+  }
+
+  getPetOwnerRuntimeId() {
+    return this.entityType >>> 0;
+  }
+
+  sendPetPropertySync(ownerRuntimeId, pet, reason = 'runtime') {
+    const properties = [
+      pet.level,
+      pet.currentHealth,
+      pet.currentMana,
+      pet.loyalty,
+      pet.stats?.strength,
+      pet.stats?.dexterity,
+      pet.stats?.vitality,
+      pet.stats?.intelligence,
+      pet.statPoints,
+    ];
+
+    properties.forEach((value, index) => {
+      this.writePacket(
+        buildPetPanelPropertyPacket({
+          ownerRuntimeId,
+          index,
+          value: value >>> 0,
+        }),
+        DEFAULT_FLAGS,
+        `Sending pet property sync cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x55 reason=${reason} ownerRuntimeId=${ownerRuntimeId} index=${index} value=${value >>> 0}`
+      );
+    });
   }
 
   transitionToScene(mapId, x, y, reason) {
@@ -2495,6 +2706,12 @@ function normalizeCharacterRecord(character) {
     primaryAttributes: normalizePrimaryAttributes(character.primaryAttributes),
     activeQuests: questState.activeQuests,
     completedQuests: questState.completedQuests,
+    pets: normalizePets(character.pets),
+    selectedPetRuntimeId:
+      typeof character.selectedPetRuntimeId === 'number'
+        ? (character.selectedPetRuntimeId >>> 0)
+        : null,
+    petSummoned: character.petSummoned === true,
     inventory: inventoryState.inventory,
   };
 }

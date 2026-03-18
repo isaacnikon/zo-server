@@ -104,6 +104,7 @@ function buildSelfStateAptitudeSyncPacket({
   currentHealth,
   currentMana,
   currentRage,
+  petCapacity = 0,
 }) {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_SELF_STATE_CMD);
@@ -126,7 +127,7 @@ function buildSelfStateAptitudeSyncPacket({
   writer.writeUint16(primaryAttributes.vitality & 0xffff);
   writer.writeUint16(primaryAttributes.intelligence & 0xffff);
   writer.writeUint16(statusPoints & 0xffff);
-  writer.writeUint8(0);
+  writer.writeUint8(petCapacity & 0xff);
   return writer.payload();
 }
 
@@ -144,6 +145,172 @@ function buildSelfStateValueUpdatePacket({ discriminator, value }) {
   writer.writeUint8(SELF_STATE_VALUE_UPDATE_SUBCMD);
   writer.writeUint8(discriminator & 0xff);
   writer.writeUint32(value >>> 0);
+  return writer.payload();
+}
+
+function buildPetSummonSyncPacket({ pet }) {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_FIGHT_STREAM_CMD);
+  writer.writeUint8(0x0a);
+  // 0x03fa/0x0a starts with an action byte, then side/runtime/template/row/col.
+  // The client rejects the bind if side/row/col are shifted, so keep the
+  // leading opcode separate from the placement fields.
+  writer.writeUint8(0x01);
+  writer.writeUint8((pet.stateFlags?.activeFlag || 0) & 0xff);
+  writer.writeUint32((pet.runtimeId || 0) >>> 0);
+  writer.writeUint16((pet.templateId || 0) & 0xffff);
+  writer.writeUint8((pet.stateFlags?.modeA || 0) & 0xff);
+  writer.writeUint8((pet.stateFlags?.modeB || 0) & 0xff);
+  writer.writeUint32((pet.currentMana || 0) >>> 0);
+  writer.writeUint32((pet.currentHealth || 0) >>> 0);
+  writer.writeUint8((pet.generation || 0) & 0xff);
+  writer.writeUint16((pet.level || 1) & 0xffff);
+  writer.writeString(`${pet.name || ''}\0`);
+  return writer.payload();
+}
+
+function buildPetCreateSyncPacket({ pet }) {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_FIGHT_STREAM_CMD);
+  writer.writeUint8(0x0f);
+  // 0x03fa/0x0f starts with side, then runtime/template, then row/col.
+  writer.writeUint8((pet.stateFlags?.activeFlag || 0) & 0xff);
+  writer.writeUint32((pet.runtimeId || 0) >>> 0);
+  writer.writeUint16((pet.templateId || 0) & 0xffff);
+  writer.writeUint8((pet.stateFlags?.modeA || 0) & 0xff);
+  writer.writeUint8((pet.stateFlags?.modeB || 0) & 0xff);
+  writer.writeUint32((pet.currentMana || 0) >>> 0);
+  writer.writeUint32((pet.currentHealth || 0) >>> 0);
+  writer.writeUint8((pet.generation || 0) & 0xff);
+  writer.writeUint16((pet.level || 1) & 0xffff);
+  writer.writeString(`${pet.name || ''}\0`);
+  return writer.payload();
+}
+
+function buildPetRosterSyncPacket({ pets }) {
+  const writer = new PacketWriter();
+  const normalizedPets = Array.isArray(pets) ? pets : [];
+  writer.writeUint16(GAME_FIGHT_STREAM_CMD);
+  writer.writeUint8(0x7f);
+  writer.writeUint16(normalizedPets.length & 0xffff);
+  for (const pet of normalizedPets) {
+    writer.writeUint32((pet.runtimeId || 0) >>> 0);
+    writer.writeUint16((pet.templateId || 0) & 0xffff);
+    writer.writeString(`${pet.name || ''}\0`);
+  }
+  return writer.payload();
+}
+
+function buildPetStatsSyncPacket({ pet }) {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_SELF_STATE_CMD);
+  writer.writeUint8(0x1f);
+  writer.writeUint32((pet.runtimeId || 0) >>> 0);
+  writer.writeUint16((pet.stats?.strength || 0) & 0xffff);
+  writer.writeUint16((pet.stats?.dexterity || 0) & 0xffff);
+  writer.writeUint16((pet.stats?.vitality || 0) & 0xffff);
+  writer.writeUint16((pet.stats?.intelligence || 0) & 0xffff);
+  writer.writeUint16((pet.statPoints || 0) & 0xffff);
+  return writer.payload();
+}
+
+function buildPetTreeRegistrationPacket({ pet }) {
+  const writer = new PacketWriter();
+  const statCoefficients = Array.isArray(pet.statCoefficients) && pet.statCoefficients.length === 9
+    ? pet.statCoefficients
+    : [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000];
+  const baseStats = [
+    pet.baseStats?.strength ?? pet.stats?.strength ?? 10,
+    pet.baseStats?.dexterity ?? pet.stats?.dexterity ?? 10,
+    pet.baseStats?.vitality ?? pet.stats?.vitality ?? 10,
+    pet.baseStats?.intelligence ?? pet.stats?.intelligence ?? 10,
+  ];
+
+  writer.writeUint16(0x03eb);
+  writer.writeUint8(0x02);
+  writer.writeUint32((pet.runtimeId || 0) >>> 0);
+  writer.writeUint16((pet.templateId || 0) & 0xffff);
+  writer.writeUint32((pet.petSerialId || pet.runtimeId || 0) >>> 0);
+  writer.writeString(`${pet.name || ''}\0`);
+
+  baseStats.forEach((value) => writer.writeUint16((value || 0) & 0xffff));
+
+  statCoefficients.forEach((value) => {
+    writer.writeUint16((value || 0) & 0xffff);
+    writer.writeUint8(0);
+  });
+
+  writer.writeUint32((pet.boothOfflineUntil || 0) >>> 0);
+  writer.writeUint32((pet.boothOfflineExp || 0) >>> 0);
+  writer.writeUint16((pet.level || 1) & 0xffff);
+
+  baseStats.forEach((value) => writer.writeUint16((value || 0) & 0xffff));
+
+  writer.writeUint32((pet.experience || 0) >>> 0);
+  writer.writeUint16((pet.statPoints || 0) & 0xffff);
+  writer.writeUint16((pet.generation || 0) & 0xffff);
+  writer.writeUint8((pet.typeId || 0) & 0xff);
+  writer.writeUint16((pet.rebirth || 0) & 0xffff);
+  writer.writeUint32((pet.currentHealth || 0) >>> 0);
+  writer.writeUint32((pet.currentMana || 0) >>> 0);
+  writer.writeUint8(0);
+
+  writer.writeUint32(0);
+  writer.writeUint32(0);
+  writer.writeUint32(0);
+  return writer.payload();
+}
+
+function buildPetPanelBindPacket({ ownerRuntimeId, pet }) {
+  const writer = new PacketWriter();
+  writer.writeUint16(0x03ee);
+  writer.writeUint8(0x51);
+  writer.writeUint32((ownerRuntimeId || 0) >>> 0);
+  writer.writeUint16((pet.templateId || 0) & 0xffff);
+  writer.writeString(`${pet.name || ''}\0`);
+  return writer.payload();
+}
+
+function buildPetPanelRebindPacket({ ownerRuntimeId }) {
+  const writer = new PacketWriter();
+  writer.writeUint16(0x03ee);
+  writer.writeUint8(0x53);
+  writer.writeUint32((ownerRuntimeId || 0) >>> 0);
+  return writer.payload();
+}
+
+function buildPetPanelClearPacket({ ownerRuntimeId }) {
+  const writer = new PacketWriter();
+  writer.writeUint16(0x03ee);
+  writer.writeUint8(0x58);
+  writer.writeUint32((ownerRuntimeId || 0) >>> 0);
+  return writer.payload();
+}
+
+function buildPetPanelNamePacket({ ownerRuntimeId, pet }) {
+  const writer = new PacketWriter();
+  writer.writeUint16(0x03ee);
+  writer.writeUint8(0x59);
+  writer.writeUint32((ownerRuntimeId || 0) >>> 0);
+  writer.writeString(`${pet.name || ''}\0`);
+  return writer.payload();
+}
+
+function buildPetPanelPropertyPacket({ ownerRuntimeId, index, value }) {
+  const writer = new PacketWriter();
+  writer.writeUint16(0x03ee);
+  writer.writeUint8(0x55);
+  writer.writeUint32((ownerRuntimeId || 0) >>> 0);
+  writer.writeUint8(index & 0xff);
+  writer.writeUint16((value || 0) & 0xffff);
+  return writer.payload();
+}
+
+function buildPetPanelModePacket({ ownerRuntimeId, enabled }) {
+  const writer = new PacketWriter();
+  writer.writeUint16(0x03ee);
+  writer.writeUint8(enabled ? 0x56 : 0x57);
+  writer.writeUint32((ownerRuntimeId || 0) >>> 0);
   return writer.payload();
 }
 
@@ -347,6 +514,17 @@ module.exports = {
   buildItemAddPacket,
   buildItemRemovePacket,
   buildQuestPacket,
+  buildPetPanelBindPacket,
+  buildPetPanelClearPacket,
+  buildPetPanelRebindPacket,
+  buildPetPanelModePacket,
+  buildPetPanelNamePacket,
+  buildPetPanelPropertyPacket,
+  buildPetStatsSyncPacket,
+  buildPetTreeRegistrationPacket,
+  buildPetCreateSyncPacket,
+  buildPetRosterSyncPacket,
+  buildPetSummonSyncPacket,
   buildSelfStateAptitudeSyncPacket,
   buildSelfStateValueUpdatePacket,
   buildServerRunMessagePacket,

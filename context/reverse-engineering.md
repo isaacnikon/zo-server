@@ -412,13 +412,139 @@
     - for `Pet` Little Boar, that means `objectiveId=5106`, not `taskId=51`
   - after that fix, the client correctly runs the local phase-4 completion/movie path
   - the pet reward now persists into `pets.json`
-  - but the Pet Panel still does not populate because the server does not yet implement the client pet-state sync packet family
+  - current local pet runtime shape is normalized in `src/pet-runtime.js`
+  - current stable server sync sends:
+    - `0x03fa / 0x7f` pet roster
+    - `0x03fa / 0x0f` pet create
+    - `0x03fa / 0x0a` pet summon/update
+    - `0x03f6 / 0x1f` pet stats
+    - `0x03ee / 0x51` pet panel bind
+    - `0x03ee / 0x59` pet panel name
+    - `0x03ee / 0x55` pet property sync
+    - `0x03ee / 0x56` panel mode
+  - `0x03ee / 0x53` is intentionally disabled
+    - live `gdb` showed it immediately clears `GetLocalPlayerEntity()+0xcd0` when the player pet tree is still empty
   - current evidence points to normal game-server pet protocol, not a separate pet server
+  - current stable in-game behavior:
+    - one pet is visible
+    - it follows the player
+    - the Pet Panel partially populates
+      - level / hp / mp / exp / stats render
+      - roster count stays `0/0`
+      - type is blank
+      - `Booth` state remains
+  - client-side pet state is split:
+    - panel/global state under `0x03ee`
+    - scene/combat state under `0x03fa`
+  - important client findings from `gc12.exe`:
+    - renamed in Ghidra:
+      - `FUN_004a4930` -> `RefreshPetPanel`
+      - `FUN_00431db0` -> `IsPetInBooth`
+      - `FUN_0044a0d0` -> `GetFirstPetFromTree`
+      - `FUN_0044a110` -> `GetPreviousPetRuntimeId`
+      - `FUN_0044a170` -> `GetNextPetRuntimeId`
+      - `FUN_0044a480` -> `SelectActivePetByRuntimeId`
+    - `GetFirstPetFromTree(localPlayer)` reads the player pet tree at `+0xcb4/+0xcb8`
+    - `RefreshPetPanel` uses two sources:
+      - selected/bound pet from `GetLocalPlayerEntity()+0xcd0`
+      - action state / booth state / prev-next navigation from the player pet tree
+    - `0x03fa / 0x0a` action byte `1` is the real summon path
+      - client string: `"Start to summon pet! "`
+      - it validates side/row/col through `FUN_00519bf0`
+      - side must be `1` or `-1`
+      - row must be `0..2`
+      - col must be `0..4`
+    - `0x03fa / 0x0f` create uses leading placement bytes in this order:
+      - `side`, `runtimeId`, `templateId`, `row`, `col`, ...
+      - the previous server builder had `row/col/side`, which was wrong
+    - `0x03ee / 0x51` writes the panel/global pet bind:
+      - payload shape is `u32 ownerRuntimeId, u16 templateId, string name`
+      - resolves a pet object from the global template/object table via `FUN_00444790(DAT_00643d50, templateId)`
+      - writes:
+        - global state `+0xf3c = pet name`
+        - local-player `+0xcd0 = pet object`
+    - `0x03ee / 0x59` updates only the displayed pet name
+    - `0x03ee / 0x55` writes pet property slots at `pet + 0x1e0 + idx*4`
+    - `0x03ee / 0x56` does not control the visible `Booth` label
+      - `RefreshPetPanel` derives that from `IsPetInBooth(activePet)`
+    - `0x03ee / 0x58` clears the bound pet/name
+  - live stable-state memory:
+    - `GetLocalPlayerEntity()+0xcd0` is non-null
+    - but it points to a template pet object with:
+      - `pet + 0x1dc == 0`
+      - `pet + 0x5b0 == 0`
+    - the runtime-pet collection at `0x008e9110` is empty
+    - so the client is rendering/binding a template pet, not a registered runtime pet
+  - failed experiment:
+    - `0x03fa / 0x78` looked promising because it writes `pet + 0x1dc` and `pet + 0x5b0`
+    - but it is not a pet-registration path
+    - the surrounding strings show it is combat watcher/spectator state (`"%s is watching combat"`, `"%s quit combat!"`)
+    - sending it as pet data crashes the client
+  - new high-confidence tree hydration path:
+    - `0x03eb` is the missing packet family for the player pet tree
+    - `RegisterGamePacketHandlers` binds:
+      - `0x03eb` -> `HandleEntitySpawnPacket03EB`
+    - `HandleEntitySpawnPacket03EB` reads a leading type byte:
+      - `0x01` / `0x15` -> `FUN_00436e80` scene-entity paths
+      - `0x02` -> `DeserializePetTreeEntryFrom03EB`
+    - `DeserializePetTreeEntryFrom03EB` reads a full runtime pet object:
+      - `runtimeId -> +0x5b0`
+      - `templateId -> +0x40`
+      - secondary id -> `+0x1dc`
+      - name
+      - stats / coefficients / level / exp / rebirth-ish fields / hp / mp / skills / 3 item slots
+    - on success it calls `InsertPetIntoPlayerTree(GetLocalPlayerEntity(), pet)`
+      - inserts by `pet.runtimeId` into `GetLocalPlayerEntity()+0xcb4`
+      - sets owner links on the pet object (`+0x660`, `+0x6b4`)
+    - practical consequence:
+      - `0x03ee / 0x55`, `0x03ee / 0x56`, `0x03f6 / 0x1f`, and `0x03ee / 0x53` only become meaningful after a valid `0x03eb` type-`0x02` pet entry exists
+      - the remaining roster/count/booth issues are explained by not having sent this packet family yet
+  - current follow-up UI findings after `0x03eb` type-`0x02`:
+    - the active pet button sends client->server `0x03f5` actions
+      - `0x03f5 / 0x51 <runtimeId>` when selecting/summoning a non-active pet
+      - `0x03f5 / 0x58 <runtimeId>` when withdrawing the currently active pet
+      - sender sites confirmed in `gc12.exe`:
+        - `0x004348b5` -> `0x03f5 / 0x51`
+        - `0x004a7e1f` -> `0x03f5 / 0x58`
+        - `0x0043481c` -> `0x03f5 / 0x59`
+        - `0x004318c7` -> `0x03f5 / 0x54`
+        - `0x0043185c` -> `0x03f5 / 0x5a`
+    - server->client `0x03f5` is different:
+      - handler `FUN_00504c50` reads only a `u32 runtimeId`
+      - then selects the active pet locally without emitting another request
+    - the top-left roster count is also split-source:
+      - numerator = `FUN_00448f20(GetLocalPlayerEntity())` (tree count)
+      - denominator = `GetLocalPlayerEntity()+0x504 + +0x27c`
+      - current `1/0` means the tree count is fixed but the player pet-capacity field is still zero
+  - stabilized server-side panel behavior after live packet tracing:
+    - `0x03fa / 0x0a` is the combat summon path, not the Pet Panel summon reply
+    - replying to Pet Panel `0x03f5 / 0x51` with `0x03fa / 0x0f` + `0x03fa / 0x0a` causes the client message `Combat: Summon pet failed!`
+    - `RefreshPetPanel` (`0x004a4930`) compares the selected panel runtime id against `GetLocalPlayerEntity()+0xcd0`
+    - if `0x03ee / 0x51` is resent on the summon-click path, it overwrites that bind back to the template pet object (`+0x5b0 == 0`) and breaks panel reopen
+    - current stable server behavior:
+      - normal pet sync still sends `0x03eb` type-`0x02`, `0x03fa / 0x7f`, `0x03ee / 0x51`, `0x03ee / 0x59`, `0x03ee / 0x56`, `0x03ee / 0x55*`, `0x03f6 / 0x1f`, and `0x03ee / 0x53`
+      - Pet Panel `0x03f5 / 0x51` reorders/selects the pet and resends panel/tree state without combat `0x03fa` packets and without `0x03ee / 0x51` / `0x59`
+      - Pet Panel `0x03f5 / 0x58` is panel-only withdraw using `0x03ee / 0x57` + `0x03ee / 0x58`
+    - practical result:
+      - panel summon works
+      - panel back works
+      - this path does not trigger combat summon or flee handling
+  - persistence added server-side:
+    - character profile now stores `selectedPetRuntimeId` and `petSummoned`
+    - login-server redirect, game-session bootstrap, replay, and snapshot persistence all carry those fields
+    - the selected pet now survives reconnects even though summon-state packet replay is still intentionally conservative
+  - practical implication:
+    - the remaining pet problems are narrower UI/runtime details like talent coefficients and any remaining panel label/state mismatches
+    - the main runtime-pet hydration blocker is solved by `0x03eb` type-`0x02`; the unstable parts were packet ordering and the wrong reuse of combat summon packets
 
 ## Next Best Steps
 - Use `src/crafting-data.js` when implementing actual compose/socket/refine handlers
 - Expand client-derived scene monster pools beyond `Bling Spring` as more maps get encounter triggers
 - Continue replacing hand-maintained monster/item behavior with `roleinfo.json`, `iteminfo.json`, and `combinitem.json`
+- Continue tracing the pet object hydration path in `gc12.exe`
+  - determine what populates the player pet tree at `GetLocalPlayerEntity()+0xcb4/+0xcb8`
+  - determine what converts the `+0xcd0` bind from the template pet object to a runtime pet object with valid `+0x1dc/+0x5b0`
+  - avoid reusing `0x03fa / 0x78` because it belongs to spectator/watcher handling, not pets
 - Build the next quest-runtime step as a real quest macro tracer/interpreter:
   - stitch anonymous state clusters into canonical per-task chains
   - resolve duplicated cluster families
