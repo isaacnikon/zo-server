@@ -17,6 +17,7 @@ const {
   SELF_STATE_VALUE_UPDATE_SUBCMD,
 } = require('../config');
 const { PacketWriter } = require('../protocol');
+const { writeClientItemInstancePayload } = require('./item-serializer');
 
 const ABSENT_COMPANION_SENTINEL = 0xfffe7960;
 
@@ -336,60 +337,6 @@ function buildQuestPacket(subtype, taskId, extraValue = null, extraType = 'u32')
     }
   }
   return writer.payload();
-}
-
-function writeClientItemInstancePayload(writer, {
-  templateId,
-  instanceId = 0,
-  stateCode = 0,
-  bindState = 0,
-  quantity = 1,
-  extraValue = 0,
-  clientTemplateFamily = null,
-  attributePairs = [],
-}) {
-  writer.writeUint16(templateId & 0xffff);
-  writer.writeUint32(instanceId >>> 0);
-  // The client's item counter reads the u16 field after these two bytes for
-  // template family 0x74 quest items like 21098, so quantity must land there.
-  writer.writeUint8(stateCode & 0xff);
-  writer.writeUint8(bindState & 0xff);
-  writer.writeUint16(quantity & 0xffff);
-  writer.writeUint16(extraValue & 0xffff);
-
-  // Family 0x41 stops here and immediately reads the embedded-entry count.
-  // Family 0x74 returns before that count byte is consumed, so writing one
-  // would shift the next record in 0x03f2 / 0x00.
-  if (clientTemplateFamily === 0x41) {
-    writer.writeUint8(0);
-    return;
-  }
-  if (clientTemplateFamily === 0x74) {
-    return;
-  }
-  if (clientTemplateFamily >= 0x20 && clientTemplateFamily < 0x40) {
-    // Armor-style templates (for example is_armor rows 33/34 => 0x21/0x22)
-    // consume two trailing u16 fields and then the embedded-entry count byte.
-    for (let index = 0; index < 2; index += 1) {
-      const pair = attributePairs[index];
-      writer.writeUint16((pair?.value || 0) & 0xffff);
-    }
-    if (clientTemplateFamily === 0x27) {
-      for (let index = 2; index < 6; index += 1) {
-        const pair = attributePairs[index];
-        writer.writeUint16((pair?.value || 0) & 0xffff);
-      }
-    }
-    writer.writeUint8(0);
-    return;
-  }
-
-  // Fallback shape for families that do consume the six trailing u16 fields.
-  for (let index = 0; index < 6; index += 1) {
-    const pair = attributePairs[index];
-    writer.writeUint16((pair?.value || 0) & 0xffff);
-  }
-  writer.writeUint8(0);
 }
 
 function buildInventoryContainerBulkSyncPacket({

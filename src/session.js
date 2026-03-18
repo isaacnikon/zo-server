@@ -3,6 +3,17 @@
 const fs = require('fs');
 
 const {
+  parsePositionUpdate,
+  parseCreateRole,
+  parseQuestPacket,
+  parseEquipmentState,
+  parseAttributeAllocation,
+  parseAttackSelection,
+  parsePingToken,
+  parseLoginPacket,
+} = require('./protocol/inbound-packets');
+
+const {
   buildCombatTurnProfiles,
   loadCombatReference,
 } = require('./combat-reference');
@@ -420,17 +431,12 @@ class Session {
   }
 
   tryHandleEquipmentStatePacket(payload) {
-    if (payload.length !== 9 || payload[2] !== 0x01) {
+    const parsed = parseEquipmentState(payload);
+    if (!parsed) {
       return false;
     }
 
-    const instanceId = payload.readUInt32LE(3);
-    const equipFlag = payload[7];
-    const unequipFlag = payload[8];
-    if (!((equipFlag === 1 && unequipFlag === 0) || (equipFlag === 0 && unequipFlag === 1))) {
-      return false;
-    }
-
+    const { instanceId, equipFlag } = parsed;
     const item = Array.isArray(this.bagItems)
       ? this.bagItems.find((entry) => (entry.instanceId >>> 0) === (instanceId >>> 0))
       : null;
@@ -505,14 +511,12 @@ class Session {
   }
 
   tryHandleAttributeAllocationPacket(payload) {
-    if (payload.length < 11 || payload[2] !== 0x1e) {
+    const allocation = parseAttributeAllocation(payload);
+    if (!allocation) {
       return false;
     }
 
-    const strengthDelta = payload.readUInt16LE(3);
-    const dexterityDelta = payload.readUInt16LE(5);
-    const vitalityDelta = payload.readUInt16LE(7);
-    const intelligenceDelta = payload.readUInt16LE(9);
+    const { strengthDelta, dexterityDelta, vitalityDelta, intelligenceDelta } = allocation;
     const requestedTotal = strengthDelta + vitalityDelta + dexterityDelta + intelligenceDelta;
 
     this.log(
@@ -563,7 +567,7 @@ class Session {
 
   handleSpecialPacket(cmdWord, payload) {
     if (cmdWord === PING_CMD) {
-      const token = payload.readUInt32LE(2);
+      const { token } = parsePingToken(payload);
       this.sendPong(token);
       return;
     }
@@ -610,16 +614,7 @@ class Session {
       return;
     }
 
-    const templateIndex = payload[3];
-    const nameLen = payload.readUInt16LE(4);
-    const nameStart = 6;
-    const nameEnd = Math.min(payload.length, nameStart + nameLen);
-    const roleName = payload.slice(nameStart, nameEnd).toString('latin1').replace(/\0.*$/, '');
-    const birthMonth = payload.length > nameEnd ? payload[nameEnd] : 0;
-    const birthDay = payload.length > nameEnd + 1 ? payload[nameEnd + 1] : 0;
-    const selectedAptitude = payload.length > nameEnd + 2 ? payload[nameEnd + 2] : 0;
-    const extra1 = payload.length >= nameEnd + 5 ? payload.readUInt16LE(nameEnd + 3) : 0;
-    const extra2 = payload.length >= nameEnd + 7 ? payload.readUInt16LE(nameEnd + 5) : 0;
+    const { templateIndex, roleName, birthMonth, birthDay, selectedAptitude, extra1, extra2 } = parseCreateRole(payload);
 
     this.log(
       `Create role request template=0x${templateIndex.toString(16)} name="${roleName}" month=${birthMonth} day=${birthDay} selectedAptitude=${selectedAptitude} extra1=0x${extra1.toString(16)} extra2=0x${extra2.toString(16)}`
@@ -922,16 +917,7 @@ class Session {
     if (payload.length < 6 || payload.readUInt16LE(0) !== LOGIN_CMD) {
       return null;
     }
-
-    const usernameLen = payload.readUInt16LE(2);
-    const usernameStart = 4;
-    const usernameEnd = usernameStart + usernameLen;
-    if (usernameEnd > payload.length) {
-      return null;
-    }
-
-    const username = payload.slice(usernameStart, usernameEnd).toString('latin1').replace(/\0.*$/, '');
-    return username ? { username } : null;
+    return parseLoginPacket(payload);
   }
 
   getPersistedCharacter() {
@@ -1116,9 +1102,7 @@ class Session {
       return;
     }
 
-    const x = payload.readUInt16LE(2);
-    const y = payload.readUInt16LE(4);
-    const mapId = payload.readUInt16LE(6);
+    const { x, y, mapId } = parsePositionUpdate(payload);
     const previousMapId = this.currentMapId;
     this.currentX = x;
     this.currentY = y;
@@ -1291,8 +1275,7 @@ class Session {
       return;
     }
 
-    const subcmd = payload[2];
-    const taskId = payload.readUInt16LE(3);
+    const { subcmd, taskId } = parseQuestPacket(payload);
     this.log(`Quest packet sub=0x${subcmd.toString(16)} taskId=${taskId}`);
 
     if (subcmd === 0x05) {
@@ -1750,9 +1733,7 @@ class Session {
       return;
     }
 
-    const attackMode = payload[3] & 0xff;
-    const targetA = payload[4] & 0xff;
-    const targetB = payload[5] & 0xff;
+    const { attackMode, targetA, targetB } = parseAttackSelection(payload);
     const resolution = resolvePlayerAttackSelection({
       syntheticFight: this.syntheticFight,
       attackMode,

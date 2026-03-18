@@ -1,21 +1,8 @@
 'use strict';
 
-import type {
-  PositionUpdate,
-  CreateRoleData,
-  QuestPacketData,
-  EquipmentStateData,
-  AttributeAllocationData,
-  AttackSelectionData,
-} from '../types';
-
 const { PacketReader } = require('./packet-reader');
 
-// --- Inbound packet parsers ---
-// Each function extracts typed fields from a raw payload buffer.
-// Zero game logic — pure parsing only.
-
-export function parsePositionUpdate(payload: Buffer): PositionUpdate {
+function parsePositionUpdate(payload) {
   const reader = new PacketReader(payload, 2);
   return {
     x: reader.readUint16(),
@@ -24,7 +11,7 @@ export function parsePositionUpdate(payload: Buffer): PositionUpdate {
   };
 }
 
-export function parseCreateRole(payload: Buffer): CreateRoleData {
+function parseCreateRole(payload) {
   const templateIndex = payload[3];
   const nameLen = payload.readUInt16LE(4);
   const nameStart = 6;
@@ -39,14 +26,14 @@ export function parseCreateRole(payload: Buffer): CreateRoleData {
   return { templateIndex, roleName, birthMonth, birthDay, selectedAptitude, extra1, extra2 };
 }
 
-export function parseQuestPacket(payload: Buffer): QuestPacketData {
+function parseQuestPacket(payload) {
   return {
     subcmd: payload[2],
     taskId: payload.readUInt16LE(3),
   };
 }
 
-export function parseEquipmentState(payload: Buffer): EquipmentStateData | null {
+function parseEquipmentState(payload) {
   if (payload.length !== 9 || payload[2] !== 0x01) {
     return null;
   }
@@ -59,7 +46,7 @@ export function parseEquipmentState(payload: Buffer): EquipmentStateData | null 
   return { instanceId, equipFlag, unequipFlag };
 }
 
-export function parseAttributeAllocation(payload: Buffer): AttributeAllocationData | null {
+function parseAttributeAllocation(payload) {
   if (payload.length < 11 || payload[2] !== 0x1e) {
     return null;
   }
@@ -71,7 +58,7 @@ export function parseAttributeAllocation(payload: Buffer): AttributeAllocationDa
   };
 }
 
-export function parseAttackSelection(payload: Buffer): AttackSelectionData {
+function parseAttackSelection(payload) {
   return {
     attackMode: payload[3] & 0xff,
     targetA: payload[4] & 0xff,
@@ -79,11 +66,11 @@ export function parseAttackSelection(payload: Buffer): AttackSelectionData {
   };
 }
 
-export function parsePingToken(payload: Buffer): { token: number } {
+function parsePingToken(payload) {
   return { token: payload.readUInt32LE(2) };
 }
 
-export function parseLoginPacket(payload: Buffer): { username: string } | null {
+function parseLoginPacket(payload) {
   if (payload.length < 6) {
     return null;
   }
@@ -97,7 +84,7 @@ export function parseLoginPacket(payload: Buffer): { username: string } | null {
   return username ? { username } : null;
 }
 
-export function parseRoleSubcommand(payload: Buffer): { subcmd: number } {
+function parseRoleSubcommand(payload) {
   return { subcmd: payload[2] };
 }
 
