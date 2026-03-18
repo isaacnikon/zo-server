@@ -1,6 +1,8 @@
 'use strict';
+export {};
+type UnknownRecord = Record<string, any>;
 
-function writeCommonItemFields(writer, item) {
+function writeCommonItemFields(writer: UnknownRecord, item: UnknownRecord): void {
   writer.writeUint16((item.templateId ?? 0) & 0xffff);
   writer.writeUint32((item.instanceId ?? 0) >>> 0);
   writer.writeUint8((item.stateCode ?? 0) & 0xff);
@@ -9,15 +11,15 @@ function writeCommonItemFields(writer, item) {
   writer.writeUint16((item.extraValue ?? 0) & 0xffff);
 }
 
-function serializeConsumableFamily(writer, _item) {
+function serializeConsumableFamily(writer: UnknownRecord, _item: UnknownRecord): void {
   writer.writeUint8(0);
 }
 
-function serializeQuestItemFamily(_writer, _item) {
+function serializeQuestItemFamily(_writer: UnknownRecord, _item: UnknownRecord): void {
   // Family 0x74 returns before the count byte — no trailing bytes.
 }
 
-function serializeArmorFamily(writer, item) {
+function serializeArmorFamily(writer: UnknownRecord, item: UnknownRecord): void {
   const pairs = item.attributePairs || [];
   for (let index = 0; index < 2; index += 1) {
     const pair = pairs[index];
@@ -32,7 +34,7 @@ function serializeArmorFamily(writer, item) {
   writer.writeUint8(0);
 }
 
-function serializeDefaultFamily(writer, item) {
+function serializeDefaultFamily(writer: UnknownRecord, item: UnknownRecord): void {
   const pairs = item.attributePairs || [];
   for (let index = 0; index < 6; index += 1) {
     const pair = pairs[index];
@@ -49,7 +51,7 @@ for (let family = 0x20; family < 0x40; family += 1) {
   FAMILY_SERIALIZERS.set(family, serializeArmorFamily);
 }
 
-function writeClientItemInstancePayload(writer, item) {
+function writeClientItemInstancePayload(writer: UnknownRecord, item: UnknownRecord): void {
   writeCommonItemFields(writer, item);
   const family = item.clientTemplateFamily;
   if (family != null) {

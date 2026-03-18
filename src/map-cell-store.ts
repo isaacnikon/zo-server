@@ -1,4 +1,5 @@
 'use strict';
+export {};
 
 const fs = require('fs');
 const path = require('path');
@@ -7,20 +8,35 @@ const { resolveRepoPath } = require('./runtime-paths');
 const { MAP_CLIENT_ROOT } = require('./config');
 
 const DEFAULT_CLIENT_ROOT = resolveRepoPath('data', 'client');
+type MapCell = {
+  flags: number;
+  blocked: boolean;
+  sceneId: number;
+  auxValue: number;
+};
+type ParsedMap = {
+  mapId: number;
+  width: number;
+  height: number;
+  cells: MapCell[];
+};
 
 class MapCellStore {
-  constructor(options = {}) {
+  clientRoot: string;
+  cache: Map<number, ParsedMap | null>;
+
+  constructor(options: { clientRoot?: string } = {}) {
     this.clientRoot = path.resolve(options.clientRoot || MAP_CLIENT_ROOT || DEFAULT_CLIENT_ROOT);
     this.cache = new Map();
   }
 
-  getMap(mapId) {
+  getMap(mapId: number): ParsedMap | null {
     if (!Number.isInteger(mapId) || mapId <= 0) {
       return null;
     }
 
     if (this.cache.has(mapId)) {
-      return this.cache.get(mapId);
+      return this.cache.get(mapId) ?? null;
     }
 
     const parsed = this.loadMap(mapId);
@@ -28,7 +44,7 @@ class MapCellStore {
     return parsed;
   }
 
-  getCell(mapId, x, y) {
+  getCell(mapId: number, x: number, y: number): MapCell | null {
     const map = this.getMap(mapId);
     if (!map) {
       return null;
@@ -40,12 +56,12 @@ class MapCellStore {
     return map.cells[(y * map.width) + x] || null;
   }
 
-  loadMap(mapId) {
+  loadMap(mapId: number): ParsedMap | null {
     const filePath = path.join(this.clientRoot, 'map', `${mapId}.b`);
     let data;
     try {
       data = fs.readFileSync(filePath);
-    } catch (err) {
+    } catch (err: any) {
       if (err.code === 'ENOENT') {
         return null;
       }
@@ -64,7 +80,7 @@ class MapCellStore {
       return null;
     }
 
-    const cells = new Array(cellCount);
+    const cells = new Array<MapCell>(cellCount);
     let offset = 6;
     for (let i = 0; i < cellCount; i += 1) {
       const flags = data.readUInt16LE(offset);

@@ -1,7 +1,9 @@
 'use strict';
+export {};
 
 const fs = require('fs');
 const { resolveRepoPath } = require('../runtime-paths');
+type UnknownRecord = Record<string, any>;
 
 const PROGRESSION_DATA_FILE = resolveRepoPath('data', 'client-verified', 'progression', 'playlevelup.json');
 
@@ -29,14 +31,14 @@ function loadProgressionTable() {
   });
 }
 
-function getRequiredExperienceForNextLevel(level) {
+function getRequiredExperienceForNextLevel(level: number): number | null {
   if (level >= PROGRESSION.maxLevel) {
     return null;
   }
   return PROGRESSION.requiredExperienceByLevel.get(level) || DEFAULT_REQUIRED_EXPERIENCE;
 }
 
-function applyExperienceGain(character, gainedExperience) {
+function applyExperienceGain(character: UnknownRecord | null | undefined, gainedExperience: number) {
   const currentLevel = Math.max(1, numberOrDefault(character?.level, 1));
   let level = currentLevel;
   let experience = Math.max(0, numberOrDefault(character?.experience, 0)) + Math.max(0, numberOrDefault(gainedExperience, 0));
@@ -69,7 +71,7 @@ function applyExperienceGain(character, gainedExperience) {
   };
 }
 
-function numberOrDefault(value, fallback) {
+function numberOrDefault(value: unknown, fallback: number): number {
   return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
 }
 

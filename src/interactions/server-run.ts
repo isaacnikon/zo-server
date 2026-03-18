@@ -1,14 +1,22 @@
 'use strict';
+export {};
 
 const {
   SERVER_RUN_CONTEXT_SUBCMD,
   SERVER_RUN_MESSAGE_SUBCMD,
   SERVER_RUN_REST_SUBCMD,
 } = require('../config');
+type UnknownRecord = Record<string, any>;
+type SessionStateLike = {
+  currentMapId: number;
+  currentX: number;
+  currentY: number;
+};
+type ServerRunParser = (payload: Buffer, subtype: number, sessionState: SessionStateLike) => UnknownRecord;
 
 // --- Subtype parser dispatch table ---
 
-function parseNpcInteract(payload, subtype, sessionState) {
+function parseNpcInteract(payload: Buffer, subtype: number, sessionState: SessionStateLike) {
   if (payload.length < 9) {
     return { kind: 'invalid', reason: `Short 0x03f1/0x${subtype.toString(16)} payload` };
   }
@@ -26,7 +34,7 @@ function parseNpcInteract(payload, subtype, sessionState) {
   };
 }
 
-function parseNpcInteractWithMode(payload, subtype, sessionState) {
+function parseNpcInteractWithMode(payload: Buffer, subtype: number, sessionState: SessionStateLike) {
   if (payload.length < 10) {
     return { kind: 'invalid', reason: 'Short 0x03f1/0x4 payload' };
   }
@@ -46,7 +54,7 @@ function parseNpcInteractWithMode(payload, subtype, sessionState) {
   };
 }
 
-function parseScriptEvent(payload, subtype, sessionState) {
+function parseScriptEvent(payload: Buffer, subtype: number, sessionState: SessionStateLike) {
   const scriptId = payload.readUInt16LE(3);
   const mapId = payload.length >= 7 ? payload.readUInt16LE(5) : 0;
   return {
@@ -60,7 +68,7 @@ function parseScriptEvent(payload, subtype, sessionState) {
   };
 }
 
-function parseContextEvent(payload, subtype, sessionState) {
+function parseContextEvent(payload: Buffer, subtype: number, sessionState: SessionStateLike) {
   if (payload.length < 9) {
     return { kind: 'invalid', reason: `Short 0x03f1/0x${subtype.toString(16)} payload` };
   }
@@ -82,7 +90,7 @@ function parseContextEvent(payload, subtype, sessionState) {
   };
 }
 
-function parseRestRequest(payload, subtype, sessionState) {
+function parseRestRequest(payload: Buffer, subtype: number, sessionState: SessionStateLike) {
   if (payload.length < 7) {
     return { kind: 'invalid', reason: `Short 0x03f1/0x${subtype.toString(16)} payload` };
   }
@@ -95,7 +103,7 @@ function parseRestRequest(payload, subtype, sessionState) {
   };
 }
 
-function parseQuestAbandon(payload, subtype, sessionState) {
+function parseQuestAbandon(payload: Buffer, subtype: number, sessionState: SessionStateLike) {
   const taskId = payload.readUInt16LE(3);
   return {
     kind: 'quest-abandon',
@@ -108,7 +116,7 @@ function parseQuestAbandon(payload, subtype, sessionState) {
   };
 }
 
-const SUBTYPE_PARSERS = new Map([
+const SUBTYPE_PARSERS = new Map<number, ServerRunParser>([
   [0x03, parseNpcInteract],
   [0x08, parseNpcInteract],
   [0x04, parseNpcInteractWithMode],
@@ -118,7 +126,7 @@ const SUBTYPE_PARSERS = new Map([
   [0x05, parseQuestAbandon],
 ]);
 
-function parseServerRunRequest(payload, sessionState) {
+function parseServerRunRequest(payload: Buffer, sessionState: SessionStateLike) {
   if (payload.length < 5) {
     return { kind: 'invalid', reason: 'Short 0x03f1 payload' };
   }
@@ -134,11 +142,11 @@ function parseServerRunRequest(payload, sessionState) {
 
 // --- Action execution dispatch table ---
 
-function execTransition(action, handlers) {
+function execTransition(action: UnknownRecord, handlers: UnknownRecord): void {
   handlers.transitionToScene(action.targetSceneId, action.targetX, action.targetY, action.reason);
 }
 
-function execScriptEvent(action, handlers) {
+function execScriptEvent(action: UnknownRecord, handlers: UnknownRecord): void {
   if (action.mode === 'deferred') {
     handlers.sendServerRunScriptDeferred(action.scriptId);
   } else {
@@ -146,7 +154,7 @@ function execScriptEvent(action, handlers) {
   }
 }
 
-function execDialogue(action, handlers) {
+function execDialogue(action: UnknownRecord, handlers: UnknownRecord): void {
   handlers.sendGameDialogue(
     action.speaker,
     action.message,
@@ -156,7 +164,7 @@ function execDialogue(action, handlers) {
   );
 }
 
-function execRest(action, handlers) {
+function execRest(action: UnknownRecord, handlers: UnknownRecord): void {
   handlers.restoreAtInn(action.npcId || 0);
 }
 
@@ -167,7 +175,7 @@ const ACTION_EXECUTORS = new Map([
   ['rest', execRest],
 ]);
 
-function executeServerRunAction(action, handlers) {
+function executeServerRunAction(action: UnknownRecord, handlers: UnknownRecord): void {
   const executor = ACTION_EXECUTORS.get(action.kind);
   if (executor) {
     executor(action, handlers);

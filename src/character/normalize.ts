@@ -1,4 +1,5 @@
 'use strict';
+export {};
 
 const { MAP_ID, SPAWN_X, SPAWN_Y } = require('../config');
 const { isTownScene } = require('../scene-runtime');
@@ -6,12 +7,19 @@ const { normalizeQuestState } = require('../quest-engine');
 const { normalizeInventoryState } = require('../inventory');
 const { normalizePets } = require('../pet-runtime');
 const { CHARACTER_VITALS_BASELINE } = require('../gameplay/session-flows');
+type UnknownRecord = Record<string, any>;
+type PrimaryAttributes = {
+  intelligence: number;
+  vitality: number;
+  dexterity: number;
+  strength: number;
+};
 
-function numberOrDefault(value, fallback) {
+function numberOrDefault(value: unknown, fallback: number): number {
   return typeof value === 'number' ? value : fallback;
 }
 
-function defaultPrimaryAttributes() {
+function defaultPrimaryAttributes(): PrimaryAttributes {
   return {
     intelligence: 15,
     vitality: 15,
@@ -20,7 +28,7 @@ function defaultPrimaryAttributes() {
   };
 }
 
-function normalizePrimaryAttributes(primaryAttributes) {
+function normalizePrimaryAttributes(primaryAttributes: UnknownRecord | null | undefined): PrimaryAttributes {
   const defaults = defaultPrimaryAttributes();
   return {
     intelligence:
@@ -42,7 +50,7 @@ function normalizePrimaryAttributes(primaryAttributes) {
   };
 }
 
-function normalizeCharacterRecord(character) {
+function normalizeCharacterRecord(character: UnknownRecord): UnknownRecord {
   const mapId = numberOrDefault(character.mapId, MAP_ID);
   const x = numberOrDefault(character.x, SPAWN_X);
   const y = numberOrDefault(character.y, SPAWN_Y);

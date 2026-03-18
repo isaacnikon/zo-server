@@ -1,4 +1,7 @@
 'use strict';
+export {};
+type UnknownRecord = Record<string, any>;
+type Vitals = { health: number; mana: number; rage: number };
 
 const CHARACTER_VITALS_BASELINE = Object.freeze({
   // Current validated player baseline for the local early-game flow.
@@ -9,7 +12,7 @@ const CHARACTER_VITALS_BASELINE = Object.freeze({
   rage: 100,
 });
 
-function resolveCharacterMaxVitals(currentVitals = null) {
+function resolveCharacterMaxVitals(currentVitals: UnknownRecord | null = null): Vitals {
   return {
     health: Math.max(numberOrDefault(currentVitals?.health, 0), CHARACTER_VITALS_BASELINE.health),
     mana: Math.max(numberOrDefault(currentVitals?.mana, 0), CHARACTER_VITALS_BASELINE.mana),
@@ -17,7 +20,7 @@ function resolveCharacterMaxVitals(currentVitals = null) {
   };
 }
 
-function resolveInnRestVitals(currentVitals) {
+function resolveInnRestVitals(currentVitals: UnknownRecord | null | undefined): Vitals {
   const maxVitals = resolveCharacterMaxVitals(currentVitals);
   return {
     health: maxVitals.health,
@@ -26,7 +29,7 @@ function resolveInnRestVitals(currentVitals) {
   };
 }
 
-function numberOrDefault(value, fallback) {
+function numberOrDefault(value: unknown, fallback: number): number {
   return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
 }
 
@@ -39,7 +42,7 @@ function buildDefeatRespawnState({
   currentMana,
   currentRage,
   resolveTownRespawn,
-}) {
+}: UnknownRecord) {
   const respawn = resolveTownRespawn({
     ...(persistedCharacter || {}),
     mapId: currentMapId,
@@ -57,7 +60,7 @@ function buildDefeatRespawnState({
   };
 }
 
-function resolveCurrentPlayerVitals(session, player = null) {
+function resolveCurrentPlayerVitals(session: UnknownRecord, player: UnknownRecord | null = null): Vitals {
   return {
     health: ((player?.hp || session.currentHealth) >>> 0) || 0,
     mana: ((player?.mp || session.currentMana) >>> 0) || 0,

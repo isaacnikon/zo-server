@@ -1,4 +1,5 @@
 'use strict';
+export {};
 
 const { ENABLE_DIALOG_EXPERIMENT, FORCE_START_SCENE, MAP_ID, SPAWN_X, SPAWN_Y } = require('./config');
 const {
@@ -10,6 +11,9 @@ const {
   resolveServerRunTrigger,
   resolveTileTrigger,
 } = require('./scenes');
+type UnknownRecord = Record<string, any>;
+type ScenePosition = { mapId: number; x: number; y: number };
+type SceneAction = Record<string, any> | null;
 
 const TOWN_SCENE_IDS = new Set([
   SCENE_IDS.RAINBOW_VALLEY,
@@ -34,15 +38,15 @@ const TOWN_RESPAWN_POINTS = {
   [SCENE_IDS.PEACH_GARDEN]: { mapId: SCENE_IDS.PEACH_GARDEN, x: 64, y: 160, anchor: 'frog' },
 };
 
-function isTownScene(mapId) {
+function isTownScene(mapId: number): boolean {
   return TOWN_SCENE_IDS.has(mapId);
 }
 
-function getDefaultTownRespawn(mapId) {
+function getDefaultTownRespawn(mapId: number): ScenePosition {
   return TOWN_RESPAWN_POINTS[mapId] || TOWN_RESPAWN_POINTS[SCENE_IDS.RAINBOW_VALLEY];
 }
 
-function sanitizeTownRespawn(mapId, x, y) {
+function sanitizeTownRespawn(mapId: number, x: number, y: number): ScenePosition {
   const fallback = getDefaultTownRespawn(mapId);
 
   // Death respawn should land on a stable town safe point, not the exact last
@@ -55,7 +59,8 @@ function sanitizeTownRespawn(mapId, x, y) {
   };
 }
 
-function resolveTownRespawn(character) {
+function resolveTownRespawn(character: UnknownRecord | null | undefined): ScenePosition {
+  const source = character || {};
   if (FORCE_START_SCENE) {
     return {
       mapId: MAP_ID,
@@ -64,26 +69,26 @@ function resolveTownRespawn(character) {
     };
   }
 
-  if (isTownScene(character?.lastTownMapId)) {
+  if (isTownScene(source.lastTownMapId)) {
     return sanitizeTownRespawn(
-      character.lastTownMapId,
-      character.lastTownX || getDefaultTownRespawn(character.lastTownMapId).x,
-      character.lastTownY || getDefaultTownRespawn(character.lastTownMapId).y
+      source.lastTownMapId,
+      source.lastTownX || getDefaultTownRespawn(source.lastTownMapId).x,
+      source.lastTownY || getDefaultTownRespawn(source.lastTownMapId).y
     );
   }
 
-  if (isTownScene(character?.mapId)) {
+  if (isTownScene(source.mapId)) {
     return sanitizeTownRespawn(
-      character.mapId,
-      character.x || getDefaultTownRespawn(character.mapId).x,
-      character.y || getDefaultTownRespawn(character.mapId).y
+      source.mapId,
+      source.x || getDefaultTownRespawn(source.mapId).x,
+      source.y || getDefaultTownRespawn(source.mapId).y
     );
   }
 
   return getDefaultTownRespawn(SCENE_IDS.RAINBOW_VALLEY);
 }
 
-function resolveCharacterScene(character) {
+function resolveCharacterScene(character: UnknownRecord | null | undefined): ScenePosition {
   if (FORCE_START_SCENE) {
     return {
       mapId: MAP_ID,
@@ -99,15 +104,19 @@ function resolveCharacterScene(character) {
   };
 }
 
-function getBootstrapWorldSpawns(mapId) {
+function getBootstrapWorldSpawns(mapId: number) {
   return getSceneWorldSpawns(mapId);
 }
 
-function describeScene(mapId) {
+function describeScene(mapId: number): string {
   return getSceneName(mapId);
 }
 
-function expandAction(action, context, enableDialogExperiment) {
+function expandAction(
+  action: UnknownRecord | null | undefined,
+  context: UnknownRecord,
+  enableDialogExperiment: boolean
+): SceneAction {
   if (!action) {
     return null;
   }
@@ -133,9 +142,9 @@ function resolveServerRunAction({
   x = null,
   y = null,
   enableDialogExperiment = ENABLE_DIALOG_EXPERIMENT,
-}) {
+}: UnknownRecord): SceneAction {
   const trigger = resolveServerRunTrigger(mapId, subtype, scriptId, mode, x, y);
-  const action = expandAction(getTriggerAction(trigger), { mapId, subtype, scriptId }, enableDialogExperiment);
+  const action: SceneAction = expandAction(getTriggerAction(trigger), { mapId, subtype, scriptId }, enableDialogExperiment);
   if (action) {
     return action;
   }
@@ -162,13 +171,13 @@ function resolveServerRunAction({
   };
 }
 
-function resolveTileSceneAction({ mapId, tileSceneId, enableDialogExperiment = ENABLE_DIALOG_EXPERIMENT }) {
+function resolveTileSceneAction({ mapId, tileSceneId, enableDialogExperiment = ENABLE_DIALOG_EXPERIMENT }: UnknownRecord): SceneAction {
   const trigger = resolveTileTrigger(mapId, tileSceneId);
   if (!trigger) {
     return null;
   }
 
-  const action = expandAction(getTriggerAction(trigger), { mapId, tileSceneId }, enableDialogExperiment);
+  const action: SceneAction = expandAction(getTriggerAction(trigger), { mapId, tileSceneId }, enableDialogExperiment);
   if (action) {
     return action.kind === 'transition'
       ? {
@@ -181,7 +190,7 @@ function resolveTileSceneAction({ mapId, tileSceneId, enableDialogExperiment = E
   return null;
 }
 
-function resolveEncounterAction({ mapId, x, y, enableDialogExperiment = ENABLE_DIALOG_EXPERIMENT }) {
+function resolveEncounterAction({ mapId, x, y, enableDialogExperiment = ENABLE_DIALOG_EXPERIMENT }: UnknownRecord): SceneAction {
   const trigger = resolveEncounterTrigger(mapId, x, y);
   if (!trigger) {
     return null;

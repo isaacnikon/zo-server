@@ -1,10 +1,12 @@
 'use strict';
+export {};
+type UnknownRecord = Record<string, any>;
 
-function packRoleData(extra1, extra2) {
+function packRoleData(extra1: number, extra2: number): number {
   return ((extra2 & 0xffff) << 16) | (extra1 & 0xffff);
 }
 
-function resolveRoleData(role) {
+function resolveRoleData(role: UnknownRecord): number {
   if (typeof role.extra1 === 'number' || typeof role.extra2 === 'number') {
     return packRoleData(role.extra1 || 0, role.extra2 || 0) >>> 0;
   }
@@ -14,21 +16,21 @@ function resolveRoleData(role) {
   return 0;
 }
 
-function resolveRoleLevel(role) {
+function resolveRoleLevel(role: UnknownRecord): number {
   if (typeof role.level === 'number') {
     return role.level & 0xff;
   }
   return 1;
 }
 
-function resolveBirthMonth(role) {
+function resolveBirthMonth(role: UnknownRecord): number {
   if (typeof role.birthMonth === 'number') {
     return role.birthMonth & 0xff;
   }
   return (role.trait1 || 0) & 0xff;
 }
 
-function resolveBirthDay(role) {
+function resolveBirthDay(role: UnknownRecord): number {
   if (typeof role.birthDay === 'number') {
     return role.birthDay & 0xff;
   }

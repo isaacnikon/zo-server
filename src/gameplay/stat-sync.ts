@@ -1,7 +1,10 @@
 'use strict';
+export {};
 
 const { DEFAULT_FLAGS, GAME_SELF_STATE_CMD } = require('../config');
 const { buildSelfStateValueUpdatePacket } = require('../protocol/gameplay-packets');
+type SessionLike = Record<string, any>;
+type ValueUpdateKind = 'gold' | 'coins' | 'renown' | 'experience';
 
 const VALUE_UPDATE_DISCRIMINATORS = Object.freeze({
   gold: '$',
@@ -10,7 +13,7 @@ const VALUE_UPDATE_DISCRIMINATORS = Object.freeze({
   experience: '!',
 });
 
-function sendSelfStateValueUpdate(session, kind, value) {
+function sendSelfStateValueUpdate(session: SessionLike, kind: ValueUpdateKind, value: number): void {
   const discriminator = VALUE_UPDATE_DISCRIMINATORS[kind];
   if (!discriminator) {
     return;

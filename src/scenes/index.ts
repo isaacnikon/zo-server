@@ -1,6 +1,8 @@
 'use strict';
+export {};
 
 const { buildEncounterPoolForLocation, getOrdinaryMonsterRoleIdsForLocation } = require('../roleinfo');
+type UnknownRecord = Record<string, any>;
 
 const SCENE_IDS = {
   RAINBOW_VALLEY: 101,
@@ -380,19 +382,19 @@ const SCENES = {
   },
 };
 
-function getScene(sceneId) {
+function getScene(sceneId: number): UnknownRecord | null {
   return SCENES[sceneId] || null;
 }
 
-function getSceneName(sceneId) {
+function getSceneName(sceneId: number): string {
   return getScene(sceneId)?.name || `Map ${sceneId}`;
 }
 
-function getSceneWorldSpawns(sceneId) {
+function getSceneWorldSpawns(sceneId: number) {
   return getScene(sceneId)?.worldSpawns || [];
 }
 
-function getSceneOrdinaryMonsterRoleIds(sceneId) {
+function getSceneOrdinaryMonsterRoleIds(sceneId: number): number[] {
   const scene = getScene(sceneId);
   if (!scene) {
     return [];
@@ -400,7 +402,7 @@ function getSceneOrdinaryMonsterRoleIds(sceneId) {
   return getOrdinaryMonsterRoleIdsForLocation(scene.name);
 }
 
-function positionMatches(trigger, x, y) {
+function positionMatches(trigger: UnknownRecord, x: number | null, y: number | null): boolean {
   if (x === null || y === null || x === undefined || y === undefined) {
     return trigger.minX === undefined &&
       trigger.maxX === undefined &&
@@ -422,7 +424,7 @@ function positionMatches(trigger, x, y) {
   }
 
   if (Array.isArray(trigger.excludeRects)) {
-    const excluded = trigger.excludeRects.some((rect) => positionMatches(rect, x, y));
+    const excluded = trigger.excludeRects.some((rect: UnknownRecord) => positionMatches(rect, x, y));
     if (excluded) {
       return false;
     }
@@ -431,13 +433,20 @@ function positionMatches(trigger, x, y) {
   return true;
 }
 
-function resolveServerRunTrigger(sceneId, subtype, scriptId, mode = null, x = null, y = null) {
+function resolveServerRunTrigger(
+  sceneId: number,
+  subtype: number,
+  scriptId: number,
+  mode: number | null = null,
+  x: number | null = null,
+  y: number | null = null
+) {
   const scene = getScene(sceneId);
   if (!scene) {
     return null;
   }
 
-  return scene.triggers.find((trigger) => (
+  return scene.triggers.find((trigger: UnknownRecord) => (
     trigger.type === 'serverRun' &&
     trigger.subtype === subtype &&
     (trigger.mode === undefined || trigger.mode === mode) &&
@@ -446,25 +455,25 @@ function resolveServerRunTrigger(sceneId, subtype, scriptId, mode = null, x = nu
   )) || null;
 }
 
-function resolveTileTrigger(sceneId, tileSceneId) {
+function resolveTileTrigger(sceneId: number, tileSceneId: number) {
   const scene = getScene(sceneId);
   if (!scene) {
     return null;
   }
 
-  return scene.tileTriggers.find((trigger) => trigger.sceneId === tileSceneId) || null;
+  return scene.tileTriggers.find((trigger: UnknownRecord) => trigger.sceneId === tileSceneId) || null;
 }
 
-function resolveEncounterTrigger(sceneId, x, y) {
+function resolveEncounterTrigger(sceneId: number, x: number, y: number) {
   const scene = getScene(sceneId);
   if (!scene) {
     return null;
   }
 
-  return (scene.encounterTriggers || []).find((trigger) => positionMatches(trigger, x, y)) || null;
+  return (scene.encounterTriggers || []).find((trigger: UnknownRecord) => positionMatches(trigger, x, y)) || null;
 }
 
-function getTriggerAction(trigger) {
+function getTriggerAction(trigger: UnknownRecord | null | undefined) {
   if (!trigger) {
     return null;
   }
