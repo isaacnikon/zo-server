@@ -13,7 +13,17 @@ const {
   grantItemToBag,
   normalizeInventoryState,
 } = require('../src/inventory');
+const { applyEffects } = require('../src/effects/effect-executor');
+const { applyInventoryQuestEvent } = require('../src/gameplay/inventory-runtime');
 const { applyQuestCompletionReward } = require('../src/gameplay/reward-runtime');
+const {
+  applyMonsterDefeat,
+  applyServerRunEvent,
+  buildQuestSyncState,
+  getQuestDefinition,
+  resolveQuestServerRunAuxiliaryActions,
+} = require('../src/quest-engine');
+const { applyQuestEvents } = require('../src/handlers/quest-handler');
 const { parseServerRunRequest } = require('../src/interactions/server-run');
 const {
   buildInventoryContainerBulkSyncPacket,
@@ -303,6 +313,94 @@ function testInventorySnapshotCanonicalizesState() {
   });
 }
 
+function createInventoryEffectSession(overrides: UnknownRecord = {}) {
+  return {
+    bagItems: [],
+    bagSize: 24,
+    nextItemInstanceId: 1,
+    nextBagSlot: 1,
+    dialogues: [] as Array<{ title: string; message: string }>,
+    packets: [] as Buffer[],
+    persisted: 0,
+    aptitudeSyncs: 0,
+    sendGameDialogue(title: string, message: string) {
+      this.dialogues.push({ title, message });
+    },
+    writePacket(payload: Buffer) {
+      this.packets.push(payload);
+    },
+    persistCurrentCharacter() {
+      this.persisted += 1;
+    },
+    sendSelfStateAptitudeSync() {
+      this.aptitudeSyncs += 1;
+    },
+    ...overrides,
+  };
+}
+
+function testGrantItemEffectSupportsQuestStyleOptions() {
+  const session = createInventoryEffectSession();
+
+  const first = applyEffects(session, [{
+    kind: 'grant-item',
+    templateId: 21116,
+    quantity: 1,
+    dialoguePrefix: 'Quest',
+    itemName: 'Timber',
+    idempotent: true,
+  }], {
+    suppressPersist: true,
+  });
+
+  const second = applyEffects(session, [{
+    kind: 'grant-item',
+    templateId: 21116,
+    quantity: 1,
+    dialoguePrefix: 'Quest',
+    itemName: 'Timber',
+    idempotent: true,
+  }], {
+    suppressPersist: true,
+  });
+
+  assert.strictEqual(first.inventoryDirty, true);
+  assert.strictEqual(second.inventoryDirty, false);
+  assert.strictEqual(getBagQuantityByTemplateId(session, 21116), 1);
+  assert.deepStrictEqual(session.dialogues, [
+    { title: 'Quest', message: 'Timber was added to your pack.' },
+  ]);
+}
+
+function testApplyInventoryQuestEventUsesEffectExecutorBehavior() {
+  const session = createInventoryEffectSession({
+    bagItems: [{ instanceId: 1, templateId: 21116, quantity: 1, slot: 1 }],
+    nextItemInstanceId: 2,
+    nextBagSlot: 2,
+  });
+
+  const consumed = applyInventoryQuestEvent(session, {
+    type: 'item-consumed',
+    templateId: 21116,
+    quantity: 1,
+    itemName: 'Timber',
+  });
+  const missing = applyInventoryQuestEvent(session, {
+    type: 'item-missing',
+    templateId: 21116,
+    quantity: 1,
+    itemName: 'Timber',
+  });
+
+  assert.deepStrictEqual(consumed, { handled: true, dirty: true });
+  assert.deepStrictEqual(missing, { handled: true, dirty: false });
+  assert.strictEqual(getBagQuantityByTemplateId(session, 21116), 0);
+  assert.deepStrictEqual(session.dialogues, [
+    { title: 'Quest', message: 'Timber was handed over.' },
+    { title: 'Quest', message: 'Timber is required to continue.' },
+  ]);
+}
+
 function testQuestRewardInventoryAlwaysEndsWithFullSync() {
   const packets: Array<{ hex: string; message: string }> = [];
   const session = {
@@ -332,6 +430,225 @@ function testQuestRewardInventoryAlwaysEndsWithFullSync() {
   assert.ok(hasSyncPacket, 'Expected at least one inventory full sync packet');
 }
 
+function createQuestTestSession(overrides: UnknownRecord = {}) {
+  return {
+    activeQuests: [] as UnknownRecord[],
+    completedQuests: [] as number[],
+    bagItems: [] as UnknownRecord[],
+    bagSize: 24,
+    nextItemInstanceId: 1,
+    nextBagSlot: 1,
+    level: 99,
+    experience: 0,
+    statusPoints: 0,
+    gold: 0,
+    coins: 0,
+    renown: 0,
+    pets: [],
+    hasAnnouncedQuestOverview: false,
+    packets: [] as Array<{ message: string }>,
+    dialogues: [] as Array<{ title: string; message: string }>,
+    persisted: 0,
+    aptitudeSyncs: 0,
+    petSyncs: [] as string[],
+    writePacket(_payload: Buffer, _flags?: number, message = '') {
+      this.packets.push({ message });
+    },
+    log(_message: string) {},
+    sendGameDialogue(title: string, message: string) {
+      this.dialogues.push({ title, message });
+    },
+    persistCurrentCharacter() {
+      this.persisted += 1;
+    },
+    sendSelfStateAptitudeSync() {
+      this.aptitudeSyncs += 1;
+    },
+    sendPetStateSync(reason: string) {
+      this.petSyncs.push(reason);
+    },
+    ...overrides,
+  };
+}
+
+function currentQuestState(session: UnknownRecord) {
+  return {
+    activeQuests: session.activeQuests,
+    completedQuests: session.completedQuests,
+    level: session.level,
+  };
+}
+
+function runQuestServerEvent(session: UnknownRecord, event: UnknownRecord, source = 'server-run') {
+  const questEventInput = {
+    ...event,
+    inventory: session.bagItems,
+  };
+  const state = currentQuestState(session);
+  const auxiliaryEvents = resolveQuestServerRunAuxiliaryActions(state, questEventInput);
+  if (auxiliaryEvents.length > 0) {
+    applyQuestEvents(session, auxiliaryEvents, `${source}-aux`);
+  }
+  const questEvents = applyServerRunEvent(state, questEventInput);
+  if (questEvents.length > 0) {
+    applyQuestEvents(session, questEvents, source);
+  }
+  return {
+    auxiliaryEvents,
+    questEvents,
+  };
+}
+
+function runQuestMonsterDefeat(session: UnknownRecord, monsterId: number, count = 1) {
+  const events = applyMonsterDefeat(currentQuestState(session), monsterId, count);
+  if (events.length > 0) {
+    applyQuestEvents(session, events, 'monster-defeat');
+  }
+  return events;
+}
+
+function assertQuestStep(session: UnknownRecord, taskId: number, expectedStepIndex: number, expectedStatus: number) {
+  const quest = buildQuestSyncState(currentQuestState(session)).find((entry: UnknownRecord) => entry.taskId === taskId);
+  assert.ok(quest, `Expected active quest ${taskId}`);
+  assert.strictEqual(quest.stepIndex, expectedStepIndex);
+  assert.strictEqual(quest.status, expectedStatus);
+}
+
+function acceptQuestByNpc(session: UnknownRecord, taskId: number) {
+  const definition = getQuestDefinition(taskId);
+  assert.ok(definition, `Missing quest definition ${taskId}`);
+  runQuestServerEvent(session, {
+    npcId: definition.acceptNpcId,
+    subtype: definition.acceptSubtype,
+    mapId: definition.steps?.[0]?.mapId || 0,
+  }, 'accept');
+}
+
+function testBackToEarthQuestFlow() {
+  const session = createQuestTestSession();
+
+  acceptQuestByNpc(session, 1);
+  assert.strictEqual(getBagQuantityByTemplateId(session, 21098), 1);
+  assertQuestStep(session, 1, 0, 1);
+
+  runQuestServerEvent(session, {
+    npcId: 3276,
+    subtype: 2,
+    mapId: 101,
+  });
+  assert.strictEqual(getBagQuantityByTemplateId(session, 21098), 0);
+  assertQuestStep(session, 1, 1, 2);
+
+  runQuestServerEvent(session, {
+    subtype: 2,
+    contextId: 11,
+    scriptId: 10000,
+    mapId: 101,
+  });
+  assert.strictEqual(getBagQuantityByTemplateId(session, 21116), 1);
+
+  runQuestServerEvent(session, {
+    npcId: 3276,
+    subtype: 2,
+    mapId: 101,
+  });
+  assert.strictEqual(getBagQuantityByTemplateId(session, 21116), 0);
+  assert.ok(session.completedQuests.includes(1));
+  assert.strictEqual(getBagQuantityByTemplateId(session, 20001), 5);
+  assert.strictEqual(getBagQuantityByTemplateId(session, 20004), 5);
+  assert.strictEqual(session.experience, 100);
+  assert.strictEqual(session.coins, 100);
+}
+
+function testAcheloussTortoiseQuestFlow() {
+  const session = createQuestTestSession({ level: 40 });
+
+  acceptQuestByNpc(session, 408);
+  assert.strictEqual(getBagQuantityByTemplateId(session, 21065), 1);
+
+  runQuestServerEvent(session, {
+    npcId: 3019,
+    subtype: 2,
+    mapId: 111,
+  });
+  assert.strictEqual(getBagQuantityByTemplateId(session, 21066), 1);
+  assertQuestStep(session, 408, 1, 3);
+
+  grantItemToBag(session, 21035, 1);
+  runQuestServerEvent(session, {
+    npcId: 3093,
+    subtype: 2,
+    mapId: 108,
+  });
+  assert.strictEqual(getBagQuantityByTemplateId(session, 21035), 0);
+  assert.ok(session.completedQuests.includes(408));
+  assert.strictEqual(session.gold, 2000);
+  assert.strictEqual(session.coins, 2000);
+  assert.strictEqual(session.experience, 40000);
+  assert.strictEqual(getBagQuantityByTemplateId(session, 9018), 1);
+}
+
+function testRebelInHellQuestFlow() {
+  const session = createQuestTestSession({ level: 40 });
+
+  acceptQuestByNpc(session, 426);
+  assert.strictEqual(getBagQuantityByTemplateId(session, 21076), 1);
+
+  runQuestServerEvent(session, {
+    npcId: 3263,
+    subtype: 2,
+    mapId: 158,
+  });
+  assert.strictEqual(getBagQuantityByTemplateId(session, 21076), 0);
+  assert.strictEqual(getBagQuantityByTemplateId(session, 21074), 1);
+  assertQuestStep(session, 426, 1, 2);
+
+  runQuestServerEvent(session, {
+    npcId: 3124,
+    subtype: 2,
+    mapId: 158,
+  });
+  assert.strictEqual(getBagQuantityByTemplateId(session, 21074), 0);
+  assert.ok(session.completedQuests.includes(426));
+  assert.strictEqual(session.experience, 28000);
+}
+
+function testElfinQuestFlow() {
+  const session = createQuestTestSession({ level: 66 });
+
+  acceptQuestByNpc(session, 467);
+  assert.strictEqual(getBagQuantityByTemplateId(session, 21242), 1);
+
+  runQuestServerEvent(session, {
+    npcId: 3381,
+    subtype: 2,
+    mapId: 211,
+  });
+  assert.strictEqual(getBagQuantityByTemplateId(session, 21242), 0);
+  assertQuestStep(session, 467, 1, 0);
+
+  runQuestMonsterDefeat(session, 5282, 1);
+  assert.ok(session.completedQuests.includes(467));
+}
+
+function testVultureFightQuestFlow() {
+  const session = createQuestTestSession({ level: 74 });
+
+  acceptQuestByNpc(session, 481);
+  assert.strictEqual(getBagQuantityByTemplateId(session, 21252), 1);
+
+  runQuestServerEvent(session, {
+    npcId: 3439,
+    subtype: 2,
+    mapId: 245,
+  });
+  assert.strictEqual(getBagQuantityByTemplateId(session, 21252), 0);
+  assertQuestStep(session, 481, 1, 0);
+
+  runQuestMonsterDefeat(session, 5103, 1);
+  assert.ok(session.completedQuests.includes(481));
+}
+
 function main() {
   testInnRestVitals();
   testDefeatRespawnState();
@@ -346,7 +663,14 @@ function main() {
   testInventoryQuantityPacketEncoding();
   testInventoryBulkSyncOmitsTrailingCountFor074Family();
   testInventorySnapshotCanonicalizesState();
+  testGrantItemEffectSupportsQuestStyleOptions();
+  testApplyInventoryQuestEventUsesEffectExecutorBehavior();
   testQuestRewardInventoryAlwaysEndsWithFullSync();
+  testBackToEarthQuestFlow();
+  testAcheloussTortoiseQuestFlow();
+  testRebelInHellQuestFlow();
+  testElfinQuestFlow();
+  testVultureFightQuestFlow();
   console.log('refactor smoke ok');
 }
 

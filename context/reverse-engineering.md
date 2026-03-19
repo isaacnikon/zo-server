@@ -44,6 +44,17 @@
   - `quest-runtime-candidates.json`
 
 ## Working So Far
+- Quest runtime flow is now abstracted without changing client-visible quest semantics:
+  - trigger sites dispatch through an objective registry
+  - the quest adapter combines normal quest events with auxiliary `server-run` item/combat actions
+  - the quest event handler preserves quest-specific packet timing and history semantics
+  - quest item grants/consumes now use the shared effect executor path
+  - current regression coverage includes:
+    - `Back to Earth` (`1`)
+    - `Achelous's Tortoise` (`408`)
+    - `Rebel in Hell` (`426`)
+    - `Elfin` (`467`)
+    - `Vulture Fight` (`481`)
 - `Spinning(II)` completion path is fixed:
   - no premature auto-complete on field triggers
   - completion only happens on the correct NPC hand-in

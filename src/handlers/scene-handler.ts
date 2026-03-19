@@ -1,7 +1,6 @@
 const { parsePositionUpdate } = require('../protocol/inbound-packets');
 const { PacketWriter } = require('../protocol');
 const { DEFAULT_FLAGS, GAME_POSITION_QUERY_CMD, GAME_SPAWN_BATCH_SUBCMD } = require('../config');
-const { applySceneTransition } = require('../quest-engine');
 const {
   describeScene,
   getBootstrapWorldSpawns,
@@ -49,16 +48,7 @@ function handlePositionUpdate(session: SessionLike, payload: Buffer): void {
   updateTownRespawnAnchor(session, mapId, x, y);
 
   if (previousMapId !== mapId) {
-    const questEvents = applySceneTransition(
-      {
-        activeQuests: session.activeQuests,
-        completedQuests: session.completedQuests,
-      },
-      mapId
-    );
-    if (questEvents.length > 0) {
-      session.applyQuestEvents(questEvents, 'position-map-change');
-    }
+    session.dispatchObjectiveSceneTransition(mapId, 'position-map-change');
   }
 }
 
@@ -187,16 +177,7 @@ function transitionToScene(session: SessionLike, mapId: number, x: number, y: nu
   session.persistCurrentCharacter({ mapId, x, y });
 
   updateTownRespawnAnchor(session, mapId, x, y);
-  const questEvents = applySceneTransition(
-    {
-      activeQuests: session.activeQuests,
-      completedQuests: session.completedQuests,
-    },
-    mapId
-  );
-  if (questEvents.length > 0) {
-    session.applyQuestEvents(questEvents, 'scene-transition');
-  }
+  session.dispatchObjectiveSceneTransition(mapId, 'scene-transition');
 
   session.sendEnterGameOk();
 }

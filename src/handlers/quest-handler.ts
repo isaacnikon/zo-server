@@ -2,28 +2,16 @@ const { parseQuestPacket } = require('../protocol/inbound-packets');
 const { DEFAULT_FLAGS, GAME_QUEST_CMD } = require('../config');
 const {
   abandonQuest,
-  applyMonsterDefeat,
-  applySceneTransition,
   buildQuestSyncState,
   getQuestDefinition,
   normalizeQuestState,
-  reconcileAutoAccept,
 } = require('../quest-engine');
-const {
-  applyInventoryQuestEvent,
-  sendConsumeResultPackets,
-  sendInventoryFullSync,
-} = require('../gameplay/inventory-runtime');
-const {
-  consumeItemFromBag,
-  getBagQuantityByTemplateId,
-  getItemDefinition,
-  normalizeInventoryState,
-} = require('../inventory');
-const { applyQuestCompletionReward } = require('../gameplay/reward-runtime');
+const { normalizeInventoryState } = require('../inventory');
 const { normalizePets } = require('../pet-runtime');
 const { buildQuestPacket } = require('../protocol/gameplay-packets');
 const { numberOrDefault } = require('../character/normalize');
+const { applyObjectiveEvents } = require('../objectives/objective-dispatcher');
+const { createQuestEventHandler } = require('../objectives/quest-event-handler');
 
 type SessionLike = Record<string, any>;
 type UnknownRecord = Record<string, any>;
@@ -124,134 +112,7 @@ function applyQuestEvents(
   source = 'runtime',
   options: UnknownRecord = {}
 ): void {
-  if (!Array.isArray(events) || events.length === 0) {
-    return;
-  }
-
-  const suppressPackets = options.suppressPackets === true;
-  const suppressDialogues = options.suppressDialogues === true;
-  const suppressStatSync = options.suppressStatSync === true;
-  let statsDirty = false;
-  let questStateDirty = false;
-  let inventoryDirty = false;
-
-  for (const event of events) {
-    session.log(
-      `Quest event source=${source} type=${event.type} taskId=${numberOrDefault(event.taskId, 0)}${typeof event.status === 'number' ? ` status=${event.status}` : ''}${typeof event.markerNpcId === 'number' ? ` markerNpcId=${event.markerNpcId}` : ''}${event.stepDescription ? ` step="${event.stepDescription}"` : ''}`
-    );
-
-    const inventoryEventResult = applyInventoryQuestEvent(session, event, { suppressPackets, suppressDialogues });
-    if (inventoryEventResult.handled) {
-      inventoryDirty = inventoryDirty || inventoryEventResult.dirty;
-      continue;
-    }
-
-    if (event.type === 'accepted') {
-      questStateDirty = true;
-      if (!suppressPackets) {
-        sendQuestAccept(session, event.taskId);
-        if (event.markerNpcId > 0) {
-          sendQuestFindNpc(session, event.taskId, event.markerNpcId);
-        }
-      }
-      if (!suppressDialogues) {
-        session.sendGameDialogue('Quest', `${event.definition.acceptMessage || `${event.definition.name} accepted.`}${event.stepDescription ? ` Objective: ${event.stepDescription}` : ''}`);
-      }
-      continue;
-    }
-
-    if (event.type === 'progress' || event.type === 'advanced') {
-      questStateDirty = true;
-      const isBootstrapLikeSource =
-        source === 'bootstrap' ||
-        source === 'bootstrap-scene' ||
-        source === 'scene-transition' ||
-        source === 'position-map-change';
-      if (!suppressPackets) {
-        if (!isBootstrapLikeSource && event.type === 'advanced') {
-          sendQuestUpdate(session, event.taskId, event.status);
-        } else if (!isBootstrapLikeSource && event.type === 'progress') {
-          sendQuestProgress(session, numberOrDefault(event.progressObjectiveId, event.taskId), event.status);
-        }
-        if (event.markerNpcId > 0) {
-          sendQuestFindNpc(session, event.taskId, event.markerNpcId);
-        }
-      }
-      if (!suppressDialogues) {
-        const progressText = event.type === 'progress' ? ` Progress: ${event.status}.` : '';
-        session.sendGameDialogue('Quest', `Quest updated: ${event.definition.name}.${event.stepDescription ? ` ${event.stepDescription}` : ''}${progressText}`);
-      }
-      continue;
-    }
-
-    if (event.type === 'completed') {
-      questStateDirty = true;
-      const rewardResult = applyQuestCompletionReward(session, event.reward, {
-        suppressPackets,
-        suppressDialogues,
-        taskId: event.taskId,
-      });
-      statsDirty = statsDirty || rewardResult.statsDirty;
-      inventoryDirty = inventoryDirty || rewardResult.inventoryDirty;
-      if (rewardResult.petsDirty) {
-        session.pets = normalizePets(session.pets);
-        if (!suppressPackets) {
-          session.sendPetStateSync(`quest-reward-${event.taskId}`);
-        }
-      }
-      if (!suppressPackets) {
-        sendQuestComplete(session, event.taskId);
-        sendQuestHistory(session, event.taskId, 0);
-      }
-      if (!suppressDialogues) {
-        const rewardText = rewardResult.rewardMessages.length > 0 ? rewardResult.rewardMessages.join(', ') : 'no reward';
-        const levelText = rewardResult.levelSummary?.levelsGained > 0
-          ? ` Level up: ${rewardResult.levelSummary.levelsGained} -> level ${session.level}, status points +${rewardResult.levelSummary.statusPointsGained}.`
-          : '';
-        session.sendGameDialogue('Quest', `${event.definition.completionMessage || `${event.definition.name} completed.`} Reward: ${rewardText}.${levelText}`);
-      }
-      continue;
-    }
-
-    if (event.type === 'abandoned') {
-      questStateDirty = true;
-      for (const templateId of Array.isArray(event.resetItemTemplateIds) ? event.resetItemTemplateIds : []) {
-        const quantity = getBagQuantityByTemplateId(session, templateId);
-        if (quantity <= 0) {
-          continue;
-        }
-        const definition = getItemDefinition(templateId);
-        const consumeResult = consumeItemFromBag(session, templateId, quantity);
-        if (consumeResult.ok) {
-          inventoryDirty = true;
-          if (!suppressPackets) {
-            sendConsumeResultPackets(session, consumeResult);
-            sendInventoryFullSync(session);
-          }
-          if (!suppressDialogues) {
-            session.sendGameDialogue('Quest', `${definition?.name || 'Quest item'} was cleared after abandoning the quest.`);
-          }
-        }
-      }
-      if (!suppressPackets) {
-        sendQuestUpdate(session, event.taskId, 0);
-        sendQuestFindNpc(session, event.taskId, 0);
-        sendQuestAbandon(session, event.taskId);
-        syncQuestStateToClient(session);
-      }
-      if (!suppressDialogues) {
-        session.sendGameDialogue('Quest', `${event.definition.name} abandoned.`);
-      }
-    }
-  }
-
-  if (statsDirty && !suppressStatSync) {
-    session.sendSelfStateAptitudeSync();
-  }
-
-  if (questStateDirty || statsDirty || inventoryDirty) {
-    session.persistCurrentCharacter();
-  }
+  applyObjectiveEvents(session, events, questEventHandler, source, options);
 }
 
 function handleQuestPacket(session: SessionLike, payload: Buffer): void {
@@ -292,17 +153,7 @@ function handleQuestPacket(session: SessionLike, payload: Buffer): void {
 }
 
 function handleQuestMonsterDefeat(session: SessionLike, monsterId: number, count = 1): void {
-  const events = applyMonsterDefeat(
-    {
-      activeQuests: session.activeQuests,
-      completedQuests: session.completedQuests,
-    },
-    monsterId,
-    count
-  );
-  if (events.length > 0) {
-    applyQuestEvents(session, events, 'monster-defeat');
-  }
+  session.dispatchObjectiveMonsterDefeat(monsterId, count, 'monster-defeat');
 }
 
 function ensureQuestStateReady(session: SessionLike): void {
@@ -324,33 +175,29 @@ function ensureQuestStateReady(session: SessionLike): void {
     session.nextBagSlot = inventoryState.inventory.nextBagSlot;
   }
 
-  const events = reconcileAutoAccept({
-    activeQuests: session.activeQuests,
-    completedQuests: session.completedQuests,
+  session.reconcileObjectives('bootstrap', {
+    suppressPackets: true,
+    suppressDialogues: true,
+    suppressStatSync: true,
   });
-  if (events.length > 0) {
-    applyQuestEvents(session, events, 'bootstrap', {
-      suppressPackets: true,
-      suppressDialogues: true,
-      suppressStatSync: true,
-    });
-  }
 
-  const transitionEvents = applySceneTransition(
-    {
-      activeQuests: session.activeQuests,
-      completedQuests: session.completedQuests,
-    },
-    session.currentMapId
-  );
-  if (transitionEvents.length > 0) {
-    applyQuestEvents(session, transitionEvents, 'bootstrap-scene', {
-      suppressPackets: true,
-      suppressDialogues: true,
-      suppressStatSync: true,
-    });
-  }
+  session.dispatchObjectiveSceneTransition(session.currentMapId, 'bootstrap-scene', {
+    suppressPackets: true,
+    suppressDialogues: true,
+    suppressStatSync: true,
+  });
 }
+
+const questEventHandler = createQuestEventHandler({
+  sendQuestAccept,
+  sendQuestUpdate,
+  sendQuestProgress,
+  sendQuestComplete,
+  sendQuestAbandon,
+  sendQuestHistory,
+  sendQuestFindNpc,
+  syncQuestStateToClient,
+});
 
 function refreshQuestStateForItemTemplates(session: SessionLike, templateIds: number[]): void {
   if (!Array.isArray(templateIds) || templateIds.length === 0) {
@@ -397,6 +244,7 @@ function refreshQuestStateForItemTemplates(session: SessionLike, templateIds: nu
 export {
   handleQuestPacket,
   applyQuestEvents,
+  questEventHandler,
   handleQuestMonsterDefeat,
   syncQuestStateToClient,
   ensureQuestStateReady,

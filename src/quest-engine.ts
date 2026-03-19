@@ -1,6 +1,9 @@
 import fs from 'fs';
+import type { QuestEvent, ServerRunEvent } from './types';
 
 const { resolveRepoPath } = require('./runtime-paths');
+const { matchesTrigger } = require('./triggers/trigger-matcher');
+const { incrementProgress, isProgressComplete } = require('./triggers/progress-tracker');
 
 const QUEST_DATA_FILE = resolveRepoPath('data', 'quests', 'main-story.json');
 const CLIENT_QUEST_METADATA_FILE = resolveRepoPath('data', 'client-derived', 'quests.json');
@@ -72,6 +75,7 @@ interface QuestDefinitionRecord {
   type: string;
   acceptMessage: string;
   completionMessage: string;
+  [key: string]: unknown;
   autoAccept: boolean;
   acceptNpcId?: number;
   acceptSubtype?: number;
@@ -96,16 +100,6 @@ interface QuestState {
   activeQuests: QuestRecord[];
   completedQuests: number[];
   level?: number;
-}
-
-interface ServerRunEvent {
-  subtype?: number;
-  npcId?: number;
-  mapId?: number;
-  scriptId?: number;
-  contextId?: number;
-  extra?: number;
-  inventory?: UnknownRecord[];
 }
 
 interface ClientQuestMetadata {
@@ -426,8 +420,10 @@ function isKillStepObjectiveComplete(step: QuestStep | null, questRecord: QuestR
   if (!step || step.type !== 'kill') {
     return false;
   }
-  const killCount = Math.max(0, numberOrDefault(questRecord?.progress?.count, 0));
-  return killCount >= Math.max(1, numberOrDefault(step.count, 1));
+  return isProgressComplete({
+    current: numberOrDefault(questRecord?.progress?.count, 0),
+    target: numberOrDefault(step.count, 1),
+  });
 }
 
 function getQuestMarkerNpcId(definition: QuestDefinitionRecord | null, questRecord: QuestRecord | null): number {
@@ -479,7 +475,7 @@ function getQuestProgressObjectiveId(
 function acceptQuest(
   state: QuestState,
   taskId: number,
-  events: UnknownRecord[],
+  events: QuestEvent[],
   reason = 'accepted'
 ): boolean {
   const definition = getQuestDefinition(taskId);
@@ -542,7 +538,7 @@ function advanceQuest(
   state: QuestState,
   record: QuestRecord,
   definition: QuestDefinitionRecord,
-  events: UnknownRecord[],
+  events: QuestEvent[],
   reason = 'advanced'
 ): void {
   record.stepIndex += 1;
@@ -600,8 +596,8 @@ function advanceQuest(
   });
 }
 
-function reconcileAutoAccept(state: QuestState): UnknownRecord[] {
-  const events: UnknownRecord[] = [];
+function reconcileAutoAccept(state: QuestState): QuestEvent[] {
+  const events: QuestEvent[] = [];
   for (const definition of QUEST_DEFINITIONS) {
     if (definition.autoAccept) {
       acceptQuest(state, definition.id, events, 'auto');
@@ -610,8 +606,8 @@ function reconcileAutoAccept(state: QuestState): UnknownRecord[] {
   return events;
 }
 
-function applySceneTransition(state: QuestState, mapId: number): UnknownRecord[] {
-  const events: UnknownRecord[] = [];
+function applySceneTransition(state: QuestState, mapId: number): QuestEvent[] {
+  const events: QuestEvent[] = [];
 
   for (const record of [...state.activeQuests]) {
     const definition = getQuestDefinition(record.id);
@@ -628,8 +624,8 @@ function applySceneTransition(state: QuestState, mapId: number): UnknownRecord[]
   return events;
 }
 
-function applyMonsterDefeat(state: QuestState, monsterId: number, count = 1): UnknownRecord[] {
-  const events: UnknownRecord[] = [];
+function applyMonsterDefeat(state: QuestState, monsterId: number, count = 1): QuestEvent[] {
+  const events: QuestEvent[] = [];
 
   for (const record of [...state.activeQuests]) {
     const definition = getQuestDefinition(record.id);
@@ -638,8 +634,11 @@ function applyMonsterDefeat(state: QuestState, monsterId: number, count = 1): Un
       continue;
     }
 
-    const currentCount = Math.max(0, numberOrDefault(record.progress?.count, 0));
-    const nextCount = Math.min(numberOrDefault(step.count, 1), currentCount + Math.max(1, count));
+    const nextProgress = incrementProgress({
+      current: numberOrDefault(record.progress?.count, 0),
+      target: numberOrDefault(step.count, 1),
+    }, count);
+    const nextCount = nextProgress.current;
     record.progress = {
       ...cloneProgress(record.progress),
       count: nextCount,
@@ -654,7 +653,7 @@ function applyMonsterDefeat(state: QuestState, monsterId: number, count = 1): Un
     events.push({
       type: 'progress',
       taskId: definition!.id,
-      definition,
+      definition: definition!,
       status: nextCount,
       markerNpcId: getQuestMarkerNpcId(definition, record),
       stepDescription: getQuestStepDescription(definition, record),
@@ -666,15 +665,15 @@ function applyMonsterDefeat(state: QuestState, monsterId: number, count = 1): Un
   return events;
 }
 
-function applyServerRunEvent(state: QuestState, event: ServerRunEvent): UnknownRecord[] {
-  const events: UnknownRecord[] = [];
+function applyServerRunEvent(state: QuestState, event: ServerRunEvent): QuestEvent[] {
+  const events: QuestEvent[] = [];
   const acceptedQuestIds = new Set<number>();
 
   for (const definition of QUEST_DEFINITIONS) {
-    if (typeof definition.acceptNpcId === 'number' && definition.acceptNpcId !== event.npcId) {
-      continue;
-    }
-    if (typeof definition.acceptSubtype === 'number' && definition.acceptSubtype !== event.subtype) {
+    if (!matchesTrigger({
+      npcId: definition.acceptNpcId,
+      subtype: definition.acceptSubtype,
+    }, event)) {
       continue;
     }
     if (acceptQuest(state, definition.id, events, 'npc-click')) {
@@ -708,18 +707,12 @@ function applyServerRunEvent(state: QuestState, event: ServerRunEvent): UnknownR
       ? numberOrDefault(step.completionNpcId, numberOrDefault(step.npcId, 0))
       : numberOrDefault(step.npcId, 0);
 
-    if (expectedMapId > 0 && expectedMapId !== event.mapId) {
-      continue;
-    }
-    if (typeof step.subtype === 'number' && step.subtype !== event.subtype) {
-      continue;
-    }
-    if (expectedNpcId > 0) {
-      if (typeof event.npcId !== 'number' || expectedNpcId !== event.npcId) {
-        continue;
-      }
-    }
-    if (!isKillTurnIn && typeof step.scriptId === 'number' && step.scriptId !== event.scriptId) {
+    if (!matchesTrigger({
+      mapId: expectedMapId > 0 ? expectedMapId : undefined,
+      subtype: step.subtype,
+      npcId: expectedNpcId > 0 ? expectedNpcId : undefined,
+      scriptId: !isKillTurnIn ? step.scriptId : undefined,
+    }, event)) {
       continue;
     }
 
@@ -778,8 +771,8 @@ function applyServerRunEvent(state: QuestState, event: ServerRunEvent): UnknownR
 function resolveQuestServerRunAuxiliaryActions(
   state: QuestState,
   event: ServerRunEvent
-): UnknownRecord[] {
-  const events: UnknownRecord[] = [];
+): QuestEvent[] {
+  const events: QuestEvent[] = [];
 
   for (const record of state.activeQuests) {
     const definition = getQuestDefinition(record.id);
@@ -863,28 +856,18 @@ function matchesAuxiliaryAction(
   if (!action || !step) {
     return false;
   }
-  if (Number.isInteger(action.stepStatus) && action.stepStatus !== numberOrDefault(step.status, 0)) {
-    return false;
-  }
-  if (Number.isInteger(action.subtype) && action.subtype !== numberOrDefault(event.subtype, 0)) {
-    return false;
-  }
-  if (Number.isInteger(action.mapId) && action.mapId !== numberOrDefault(event.mapId, 0)) {
-    return false;
-  }
-  if (Number.isInteger(action.npcId) && action.npcId !== numberOrDefault(event.npcId, 0)) {
-    return false;
-  }
-  if (Number.isInteger(action.contextId) && action.contextId !== numberOrDefault(event.contextId, 0)) {
-    return false;
-  }
-  if (Number.isInteger(action.extra) && action.extra !== numberOrDefault(event.extra, 0)) {
-    return false;
-  }
-  if (Number.isInteger(action.scriptId) && action.scriptId !== numberOrDefault(event.scriptId, 0)) {
-    return false;
-  }
-  return true;
+  return matchesTrigger({
+    stepStatus: action.stepStatus,
+    subtype: action.subtype,
+    mapId: action.mapId,
+    npcId: action.npcId,
+    contextId: action.contextId,
+    extra: action.extra,
+    scriptId: action.scriptId,
+  }, {
+    ...event,
+    stepStatus: numberOrDefault(step.status, 0),
+  });
 }
 
 function buildServerRunQuestTrace(state: QuestState, event: ServerRunEvent): string[] {
@@ -999,7 +982,7 @@ function buildServerRunQuestTrace(state: QuestState, event: ServerRunEvent): str
   return trace;
 }
 
-function abandonQuest(state: QuestState, taskId: number): UnknownRecord[] {
+function abandonQuest(state: QuestState, taskId: number): QuestEvent[] {
   const definition = getQuestDefinition(taskId);
   if (!definition) {
     return [];

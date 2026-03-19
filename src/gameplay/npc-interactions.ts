@@ -2,12 +2,9 @@ const { GAME_DIALOG_MESSAGE_SUBCMD } = require('../config');
 const { resolveInnRestVitals } = require('./session-flows');
 const { executeServerRunAction, parseServerRunRequest } = require('../interactions/server-run');
 const {
-  applyServerRunEvent,
   abandonQuest,
   buildServerRunQuestTrace,
-  resolveQuestServerRunAuxiliaryActions,
 } = require('../quest-engine');
-const { buildEncounterPoolEntry } = require('../roleinfo');
 const { resolveServerRunAction } = require('../scene-runtime');
 
 type SessionLike = Record<string, any>;
@@ -109,59 +106,12 @@ function handleServerRunRequest(session: SessionLike, payload: Buffer): void {
     session.log(line);
   }
 
-  const auxiliaryQuestEvents = resolveQuestServerRunAuxiliaryActions(questState, questEventInput);
-
-  const immediateAuxiliaryEvents: UnknownRecord[] = [];
-  let deferredQuestCombatTrigger: UnknownRecord | null = null;
-  for (const event of auxiliaryQuestEvents) {
-    if (event.type === 'quest-combat-trigger') {
-      deferredQuestCombatTrigger = event;
-      continue;
-    }
-    immediateAuxiliaryEvents.push(event);
-  }
-
-  if (immediateAuxiliaryEvents.length > 0) {
-    session.applyQuestEvents(immediateAuxiliaryEvents, 'server-run-aux');
-  }
-
-  const questEvents = applyServerRunEvent(questState, questEventInput);
-  if (questEvents.length > 0) {
-    session.applyQuestEvents(questEvents, 'server-run');
-    return;
-  }
-
-  if (deferredQuestCombatTrigger) {
-    startQuestCombat(session, deferredQuestCombatTrigger);
+  const handledObjectiveEvent = session.dispatchObjectiveServerRun(questEventInput, 'server-run');
+  if (handledObjectiveEvent) {
     return;
   }
 
   executeServerRunAction(action, session.getServerRunActionHandlers());
-}
-
-function startQuestCombat(session: SessionLike, event: UnknownRecord): void {
-  const monsterId = event.monsterId >>> 0;
-  session.sendCombatEncounterProbe({
-    kind: 'encounterProbe',
-    probeId: `quest-${event.taskId}-${monsterId}`,
-    reason: `Quest scripted encounter task=${event.taskId}`,
-    encounterProfile: {
-      minEnemies: 1,
-      maxEnemies: 1,
-      encounterChancePercent: 100,
-      pool: [
-        buildEncounterPoolEntry(monsterId, {
-          logicalId: monsterId,
-          levelMin: 10,
-          levelMax: 10,
-          hpBase: 160,
-          hpPerLevel: 8,
-          weight: 1,
-        }),
-      ],
-    },
-    entityId: session.entityType,
-  });
 }
 
 export {

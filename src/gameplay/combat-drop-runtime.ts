@@ -1,8 +1,8 @@
 const fs = require('fs');
 const { resolveRepoPath } = require('../runtime-paths');
-const { getItemDefinition, grantItemToBag } = require('../inventory');
+const { getItemDefinition, getBagItemByTemplateId } = require('../inventory');
 const { getRolePrimaryDrop } = require('../roleinfo');
-const { sendGrantResultPackets, sendInventoryFullSync } = require('./inventory-runtime');
+const { sendInventoryFullSync } = require('./inventory-runtime');
 const { applyEffects } = require('../effects/effect-executor');
 
 const DROP_RATE_SCALE = 100;
@@ -30,7 +30,6 @@ function rollSyntheticFightDrops(
   const suppressPackets = options.suppressPackets === true;
   const suppressDialogues = options.suppressDialogues === true;
   const roll = typeof options.random === 'function' ? options.random : Math.random;
-  const dialogueEffects: UnknownRecord[] = [];
   const granted: UnknownRecord[] = [];
   const skipped: UnknownRecord[] = [];
 
@@ -47,39 +46,43 @@ function rollSyntheticFightDrops(
       }
 
       const quantity = Math.max(1, Number.isInteger(drop?.quantity) ? drop.quantity : 1);
-      const grantResult = grantItemToBag(session, drop.templateId, quantity);
-      if (!grantResult.ok) {
+      const definition = getItemDefinition(drop.templateId);
+      const effectResult = applyEffects(
+        session,
+        [
+          {
+            kind: 'grant-item',
+            templateId: drop.templateId,
+            quantity,
+            dialoguePrefix: 'Combat',
+            itemName: definition?.name || `item ${drop.templateId}`,
+            successMessage: `${enemy?.name || `Enemy ${enemy?.typeId || 0}`} dropped ${definition?.name || `item ${drop.templateId}`} x${quantity}.`,
+            failureMessage: `${enemy?.name || `Enemy ${enemy?.typeId || 0}`} dropped item ${drop.templateId}, but your pack is full.`,
+          },
+        ],
+        {
+          suppressPackets,
+          suppressDialogues,
+          suppressPersist: true,
+          suppressInventorySync: true,
+        }
+      );
+
+      if (!effectResult.inventoryDirty) {
         skipped.push({
           enemyName: enemy?.name || `Enemy ${enemy?.typeId || 0}`,
           templateId: drop.templateId >>> 0,
-          reason: grantResult.reason,
-        });
-        dialogueEffects.push({
-          kind: 'dialogue',
-          title: 'Combat',
-          message: `${enemy?.name || `Enemy ${enemy?.typeId || 0}`} dropped item ${drop.templateId}, but your pack is full.`,
+          reason: 'Bag is full',
         });
         continue;
       }
 
-      const definition = grantResult.definition || getItemDefinition(drop.templateId);
       granted.push({
         enemyName: enemy?.name || `Enemy ${enemy?.typeId || 0}`,
         source: typeof drop?.source === 'string' ? drop.source : '',
         definition,
-        item: grantResult.item,
-        grantResult,
+        item: getBagItemByTemplateId(session, drop.templateId),
         quantity,
-      });
-
-      if (!suppressPackets) {
-        sendGrantResultPackets(session, grantResult);
-      }
-
-      dialogueEffects.push({
-        kind: 'dialogue',
-        title: 'Combat',
-        message: `${enemy?.name || `Enemy ${enemy?.typeId || 0}`} dropped ${definition?.name || `item ${drop.templateId}`} x${quantity}.`,
       });
     }
   }
@@ -90,14 +93,6 @@ function rollSyntheticFightDrops(
 
   if (granted.length > 0 && !suppressPackets) {
     sendInventoryFullSync(session);
-  }
-
-  if (dialogueEffects.length > 0) {
-    applyEffects(session, dialogueEffects, {
-      suppressPackets: true,
-      suppressDialogues,
-      suppressPersist: true,
-    });
   }
 
   return {

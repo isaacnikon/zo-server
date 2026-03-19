@@ -8,11 +8,9 @@ const {
 } = require('../protocol/gameplay-packets');
 const {
   BAG_CONTAINER_TYPE,
-  bagHasTemplateQuantity,
-  consumeItemFromBag,
   getItemDefinition,
-  grantItemToBag,
 } = require('../inventory');
+const { applyEffects } = require('../effects/effect-executor');
 
 const EQUIPMENT_CONTAINER_TYPE = 0;
 
@@ -184,61 +182,57 @@ function applyInventoryQuestEvent(
   event: UnknownRecord,
   options: UnknownRecord = {}
 ): UnknownRecord {
-  const suppressPackets = options.suppressPackets === true;
-  const suppressDialogues = options.suppressDialogues === true;
-
-  if (event.type === 'item-granted') {
-    if (bagHasTemplateQuantity(session, event.templateId, event.quantity)) {
-      return { handled: true, dirty: false };
-    }
-
-    const grantResult = grantItemToBag(session, event.templateId, event.quantity);
-    if (!grantResult.ok) {
-      if (!suppressDialogues) {
-        session.sendGameDialogue('Quest', `${event.itemName || 'Quest item'} could not be added: ${grantResult.reason}.`);
-      }
-      return { handled: true, dirty: false };
-    }
-
-    if (!suppressPackets) {
-      sendGrantResultPackets(session, grantResult);
-      sendInventoryFullSync(session);
-    }
-    if (!suppressDialogues) {
-      session.sendGameDialogue('Quest', `${event.itemName || grantResult.definition.name} was added to your pack.`);
-    }
-
-    return { handled: true, dirty: true };
-  }
-
-  if (event.type === 'item-consumed') {
-    const consumeResult = consumeItemFromBag(session, event.templateId, event.quantity);
-    if (!consumeResult.ok) {
-      if (!suppressDialogues) {
-        session.sendGameDialogue('Quest', `${event.itemName || 'Quest item'} is required to continue.`);
-      }
-      return { handled: true, dirty: false };
-    }
-
-    if (!suppressPackets) {
-      sendConsumeResultPackets(session, consumeResult);
-      sendInventoryFullSync(session);
-    }
-    if (!suppressDialogues) {
-      session.sendGameDialogue('Quest', `${event.itemName || 'Quest item'} was handed over.`);
-    }
-
-    return { handled: true, dirty: true };
-  }
-
-  if (event.type === 'item-missing') {
-    if (!suppressDialogues) {
-      session.sendGameDialogue('Quest', `${event.itemName || 'Quest item'} is required to continue.`);
-    }
-    return { handled: true, dirty: false };
+  const mappedEffect = mapInventoryQuestEventToEffect(event);
+  if (mappedEffect) {
+    const result = applyEffects(session, [mappedEffect], {
+      suppressPackets: options.suppressPackets === true,
+      suppressDialogues: options.suppressDialogues === true,
+      suppressPersist: true,
+      suppressStatSync: true,
+    });
+    return { handled: true, dirty: result.inventoryDirty === true };
   }
 
   return { handled: false, dirty: false };
+}
+
+function mapInventoryQuestEventToEffect(event: UnknownRecord): UnknownRecord | null {
+  if (event.type === 'item-granted') {
+    return {
+      kind: 'grant-item',
+      templateId: event.templateId,
+      quantity: event.quantity,
+      idempotent: true,
+      dialoguePrefix: 'Quest',
+      itemName: event.itemName,
+      successMessage: `${event.itemName || 'Quest item'} was added to your pack.`,
+    };
+  }
+
+  if (event.type === 'item-consumed') {
+    return {
+      kind: 'remove-item',
+      templateId: event.templateId,
+      quantity: event.quantity,
+      dialoguePrefix: 'Quest',
+      itemName: event.itemName,
+      successMessage: `${event.itemName || 'Quest item'} was handed over.`,
+      failureMessage: `${event.itemName || 'Quest item'} is required to continue.`,
+    };
+  }
+
+  if (event.type === 'item-missing') {
+    return {
+      kind: 'item-missing',
+      templateId: event.templateId,
+      quantity: event.quantity,
+      dialoguePrefix: 'Quest',
+      itemName: event.itemName,
+      failureMessage: `${event.itemName || 'Quest item'} is required to continue.`,
+    };
+  }
+
+  return null;
 }
 
 export {

@@ -1,4 +1,4 @@
-import type { GameSession, PrimaryAttributes } from './types';
+import type { GameSession, PrimaryAttributes, ServerRunEvent } from './types';
 
 const { parsePingToken } = require('./protocol/inbound-packets');
 
@@ -10,6 +10,7 @@ const {
 const {
   handleQuestPacket: questHandlerHandleQuestPacket,
   applyQuestEvents: questHandlerApplyQuestEvents,
+  questEventHandler,
   handleQuestMonsterDefeat: questHandlerHandleQuestMonsterDefeat,
   syncQuestStateToClient: questHandlerSyncQuestStateToClient,
   ensureQuestStateReady: questHandlerEnsureQuestStateReady,
@@ -84,6 +85,8 @@ const {
   handleServerRunRequest: processNpcInteractionRequest,
   restoreAtInn: processInnRest,
 } = require('./gameplay/npc-interactions');
+const { ObjectiveRegistry } = require('./objectives/objective-registry');
+const { questObjectiveSystem } = require('./objectives/quest-objective-system');
 const { CHARACTER_VITALS_BASELINE, resolveCurrentPlayerVitals } = require('./gameplay/session-flows');
 const {
   buildCharacterSnapshot: sessionHydrationBuildCharacterSnapshot,
@@ -162,6 +165,7 @@ class Session implements GameSession {
   defeatRespawnPending: boolean;
   hasAnnouncedQuestOverview: boolean;
   persistedCharacter: Record<string, unknown> | null;
+  objectiveRegistry: any;
 
   constructor(
     socket: SocketLike,
@@ -228,6 +232,16 @@ class Session implements GameSession {
     this.defeatRespawnPending = false;
     this.hasAnnouncedQuestOverview = false;
     this.persistedCharacter = null;
+    this.objectiveRegistry = new ObjectiveRegistry();
+    this.objectiveRegistry.register({
+      system: questObjectiveSystem,
+      handler: questEventHandler,
+      getState: (session: Session) => ({
+        activeQuests: session.activeQuests,
+        completedQuests: session.completedQuests,
+        level: session.level,
+      }),
+    });
 
     hydratePendingGameCharacter(this, sharedState);
   }
@@ -464,6 +478,22 @@ class Session implements GameSession {
 
   applyQuestEvents(events: any[], source = 'runtime', options: Record<string, unknown> = {}): void {
     questHandlerApplyQuestEvents(this, events, source, options);
+  }
+
+  dispatchObjectiveServerRun(event: ServerRunEvent, source = 'server-run', options: Record<string, unknown> = {}): boolean {
+    return this.objectiveRegistry.dispatchServerRun(this, event, source, options);
+  }
+
+  dispatchObjectiveMonsterDefeat(monsterId: number, count = 1, source = 'monster-defeat', options: Record<string, unknown> = {}): boolean {
+    return this.objectiveRegistry.dispatchMonsterDefeat(this, monsterId, count, source, options);
+  }
+
+  dispatchObjectiveSceneTransition(mapId: number, source = 'scene-transition', options: Record<string, unknown> = {}): boolean {
+    return this.objectiveRegistry.dispatchSceneTransition(this, mapId, source, options);
+  }
+
+  reconcileObjectives(source = 'bootstrap', options: Record<string, unknown> = {}): boolean {
+    return this.objectiveRegistry.reconcileAll(this, source, options);
   }
 
   handleQuestMonsterDefeat(monsterId: number, count = 1): void {

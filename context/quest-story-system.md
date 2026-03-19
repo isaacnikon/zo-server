@@ -11,6 +11,11 @@
   - `0x03ff / 0x0e` task history update
   - `0x03ff / 0x0c` NPC marker
 - The server also reacts to `GAME_SERVER_RUN_CMD (0x03f1)` NPC/script callbacks and uses those as quest triggers.
+- Runtime quest triggers now enter through the objective registry in [src/session.ts](/home/nikon/projects/zo-server/src/session.ts):
+  - server-run / NPC callbacks
+  - monster defeats
+  - scene transitions
+  - bootstrap reconciliation
 
 ## Implemented Server Architecture
 
@@ -19,6 +24,19 @@
 - Runtime quest logic lives in [src/quest-engine.js](/home/nikon/projects/zo-server/src/quest-engine.js).
 - Live quest definitions are loaded from [data/quests/main-story.json](/home/nikon/projects/zo-server/data/quests/main-story.json).
 - The maintained source of truth for hand-authored runtime details is [data/quests/main-story.overrides.json](/home/nikon/projects/zo-server/data/quests/main-story.overrides.json).
+
+### Reusable objective workflow
+
+- The quest system is now wired through shared objective infrastructure:
+  - [src/objectives/objective-system.ts](/home/nikon/projects/zo-server/src/objectives/objective-system.ts)
+  - [src/objectives/objective-dispatcher.ts](/home/nikon/projects/zo-server/src/objectives/objective-dispatcher.ts)
+  - [src/objectives/objective-registry.ts](/home/nikon/projects/zo-server/src/objectives/objective-registry.ts)
+  - [src/objectives/quest-objective-system.ts](/home/nikon/projects/zo-server/src/objectives/quest-objective-system.ts)
+  - [src/objectives/quest-event-handler.ts](/home/nikon/projects/zo-server/src/objectives/quest-event-handler.ts)
+- Trigger-matching and kill-progress bookkeeping are shared primitives:
+  - [src/triggers/trigger-matcher.ts](/home/nikon/projects/zo-server/src/triggers/trigger-matcher.ts)
+  - [src/triggers/progress-tracker.ts](/home/nikon/projects/zo-server/src/triggers/progress-tracker.ts)
+- The quest engine now emits typed quest events, and the quest event handler owns the client-sensitive packet/dialogue semantics.
 
 Each live quest can define:
 
@@ -41,6 +59,8 @@ Supported quest-side effects today:
 - completion
 - item grant event emission
 - NPC marker sync
+- auxiliary item grant/consume events on `server-run`
+- scripted quest combat triggers on `server-run`
 
 ### Persistence
 
@@ -52,10 +72,13 @@ Supported quest-side effects today:
 ### Inventory linkage
 
 - Minimal bag state exists in [src/inventory.js](/home/nikon/projects/zo-server/src/inventory.js).
-- Quest events can emit `item-granted`, which [src/session.js](/home/nikon/projects/zo-server/src/session.js) turns into:
-  - bag persistence update
-  - authoritative `0x03f2 / 0x00` bag sync
-  - `0x03f3` item-arrival packet when needed
+- Quest item events now flow through the shared effect executor:
+  - [src/gameplay/inventory-runtime.ts](/home/nikon/projects/zo-server/src/gameplay/inventory-runtime.ts)
+  - [src/effects/effect-executor.ts](/home/nikon/projects/zo-server/src/effects/effect-executor.ts)
+- This is the same item mutation path now used by:
+  - quest item grants/consumes/missing checks
+  - quest rewards
+  - synthetic combat drops
 
 ## Client Extraction Pipeline
 
@@ -111,6 +134,9 @@ Verified/implemented patterns:
 - kill objective progression from synthetic combat completion
 - talk hand-in progression
 - prerequisite gate enforcement
+- auxiliary `server-run` item grants
+- typed quest item events routed through the shared effect executor
+- objective-registry-based dispatch from trigger sites
 
 ## Proven Client-verified Example
 
@@ -124,6 +150,13 @@ Verified/implemented patterns:
 6. Blacksmith hand-in completes the quest
 
 This was verified against the installed client task/help data and live packet logs.
+
+In the current runtime this path is not special-cased:
+
+- the accept/talk logic comes from generated quest data
+- Matt's timber handoff is represented as a generated `auxiliaryAction`
+- item mutation goes through the shared effect executor
+- trigger dispatch goes through the objective registry
 
 ## Known Gaps
 

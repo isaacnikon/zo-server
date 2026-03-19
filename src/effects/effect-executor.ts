@@ -1,4 +1,4 @@
-const { grantItemToBag, consumeItemFromBag, getItemDefinition } = require('../inventory');
+const { bagHasTemplateQuantity, grantItemToBag, consumeItemFromBag, getItemDefinition } = require('../inventory');
 const {
   sendGrantResultPackets,
   sendConsumeResultPackets,
@@ -12,6 +12,7 @@ type SessionLike = Record<string, any>;
 
 function applyEffects(session: SessionLike, effects: UnknownRecord[], options: UnknownRecord = {}): UnknownRecord {
   const suppressPackets = options.suppressPackets === true;
+  const suppressInventorySync = options.suppressInventorySync === true;
   const suppressStatSync = options.suppressStatSync === true;
   const suppressDialogues = options.suppressDialogues === true;
   const suppressPersist = options.suppressPersist === true;
@@ -32,7 +33,7 @@ function applyEffects(session: SessionLike, effects: UnknownRecord[], options: U
     }
   }
 
-  if (inventoryDirty && !suppressPackets) {
+  if (inventoryDirty && !suppressPackets && !suppressInventorySync) {
     sendInventoryFullSync(session);
   }
   if (statsDirty && !suppressStatSync) {
@@ -47,10 +48,16 @@ function applyEffects(session: SessionLike, effects: UnknownRecord[], options: U
 
 function handleGrantItem(session: SessionLike, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
   const quantity = Math.max(1, effect.quantity || 1);
+  if (effect.idempotent === true && bagHasTemplateQuantity(session, effect.templateId, quantity)) {
+    return { statsDirty: false, inventoryDirty: false };
+  }
   const grantResult = grantItemToBag(session, effect.templateId, quantity);
   if (!grantResult.ok) {
-    if (!opts.suppressDialogues && typeof session.sendGameDialogue === 'function') {
-      session.sendGameDialogue('System', `Could not add item: ${grantResult.reason}.`);
+    if (!opts.suppressDialogues && typeof session.sendGameDialogue === 'function' && effect.dialoguePrefix) {
+      session.sendGameDialogue(
+        effect.dialoguePrefix,
+        effect.failureMessage || `${effect.itemName || 'Item'} could not be added: ${grantResult.reason}.`
+      );
     }
     return { statsDirty: false, inventoryDirty: false };
   }
@@ -58,6 +65,12 @@ function handleGrantItem(session: SessionLike, effect: UnknownRecord, opts: Unkn
     sendGrantResultPackets(session, grantResult);
   }
   const definition = grantResult.definition || getItemDefinition(effect.templateId);
+  if (!opts.suppressDialogues && typeof session.sendGameDialogue === 'function' && effect.dialoguePrefix) {
+    session.sendGameDialogue(
+      effect.dialoguePrefix,
+      effect.successMessage || `${effect.itemName || definition?.name || `item ${effect.templateId}`} was added to your pack.`
+    );
+  }
   return {
     statsDirty: false,
     inventoryDirty: true,
@@ -69,12 +82,34 @@ function handleRemoveItem(session: SessionLike, effect: UnknownRecord, opts: Unk
   const quantity = Math.max(1, effect.quantity || 1);
   const consumeResult = consumeItemFromBag(session, effect.templateId, quantity);
   if (!consumeResult.ok) {
+    if (!opts.suppressDialogues && typeof session.sendGameDialogue === 'function' && effect.dialoguePrefix) {
+      session.sendGameDialogue(
+        effect.dialoguePrefix,
+        effect.failureMessage || `${effect.itemName || 'Item'} is required to continue.`
+      );
+    }
     return { statsDirty: false, inventoryDirty: false };
   }
   if (!opts.suppressPackets) {
     sendConsumeResultPackets(session, consumeResult);
   }
+  if (!opts.suppressDialogues && typeof session.sendGameDialogue === 'function' && effect.dialoguePrefix) {
+    session.sendGameDialogue(
+      effect.dialoguePrefix,
+      effect.successMessage || `${effect.itemName || 'Item'} was removed.`
+    );
+  }
   return { statsDirty: false, inventoryDirty: true };
+}
+
+function handleItemMissing(session: SessionLike, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
+  if (!opts.suppressDialogues && typeof session.sendGameDialogue === 'function' && effect.dialoguePrefix) {
+    session.sendGameDialogue(
+      effect.dialoguePrefix,
+      effect.failureMessage || `${effect.itemName || 'Item'} is required to continue.`
+    );
+  }
+  return { statsDirty: false, inventoryDirty: false };
 }
 
 function handleUpdateStat(session: SessionLike, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
@@ -143,6 +178,7 @@ function handleSendScript(session: SessionLike, effect: UnknownRecord, opts: Unk
 const EFFECT_HANDLERS: Record<string, (session: SessionLike, effect: UnknownRecord, opts: UnknownRecord) => UnknownRecord> = {
   'grant-item': handleGrantItem,
   'remove-item': handleRemoveItem,
+  'item-missing': handleItemMissing,
   'update-stat': handleUpdateStat,
   'change-scene': handleChangeScene,
   dialogue: handleDialogue,
