@@ -1,6 +1,6 @@
 import net from 'net';
 
-const { CHARACTER_STORE_FILE, LOG_FILE, PORT } = require('./config');
+const { BIND_HOST, CHARACTER_STORE_FILE, LOG_FILE, PORT } = require('./config');
 const { CharacterStore } = require('./character-store');
 const { createLogger } = require('./logger');
 const { MapCellStore } = require('./map-cell-store');
@@ -41,8 +41,8 @@ export function startServer() {
     socket.on('error', (err: Error) => logger.log(`[S${session.id}] Socket error: ${err.message}`));
   });
 
-  server.listen(PORT, '0.0.0.0', () => {
-    logger.log(`Zodiac Online server listening on port ${PORT}`);
+  server.listen(PORT, BIND_HOST, () => {
+    logger.log(`Zodiac Online server listening on ${BIND_HOST}:${PORT}`);
     logger.log(`Logs: ${LOG_FILE}`);
   });
 

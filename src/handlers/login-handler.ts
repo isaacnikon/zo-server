@@ -11,9 +11,9 @@ const {
   PORT,
   REDIRECT_RESULT,
   ROLE_CMD,
+  SERVER_HOST,
   SPAWN_X,
   SPAWN_Y,
-  SPECIAL_FLAGS,
 } = require('../config');
 const {
   packRoleData,
@@ -191,7 +191,7 @@ function sendLoginServerList(session: SessionLike): void {
   writer.writeUint32(AREA_ID);
   writer.writeUint16(PORT);
   writer.writeUint8(1);
-  writer.writeString('127.0.0.1');
+  writer.writeString(SERVER_HOST);
   writer.writeUint8(0);
   writer.writeUint8(0);
   writer.writeUint32(0);
@@ -270,11 +270,10 @@ function sendGameServerRedirect(session: SessionLike): void {
   const writer = new PacketWriter();
   writer.writeUint16(LOGIN_CMD);
   writer.writeUint8(REDIRECT_RESULT);
-  writer.writeUint8(0);
-  writer.writeString('127.0.0.1');
+  writer.writeString(`${SERVER_HOST}\0`);
   writer.writeUint16(PORT);
-  writer.writeUint8(0);
-  session.writePacket(writer.payload(), SPECIAL_FLAGS, 'Sending game-server redirect');
+  writer.writeUint32(0);
+  session.writePacket(writer.payload(), DEFAULT_FLAGS, `Sending 0x0d game-server redirect to ${SERVER_HOST}:${PORT}`);
   session.sharedState.nextSessionIsGame = true;
 }
 

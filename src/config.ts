@@ -1,9 +1,13 @@
 const forceStartScene = process.env.FORCE_START_SCENE === '1';
 const port = parseInt(process.env.PORT || '7777', 10);
 const mapClientRoot = process.env.MAP_CLIENT_ROOT || process.env.CLIENT_ROOT;
+const bindHost = process.env.BIND_HOST || '0.0.0.0';
+const serverHost = process.env.SERVER_HOST || '127.0.0.1';
 
 // --- Environment / paths ---
 export const ENV = {
+  BIND_HOST: bindHost,
+  SERVER_HOST: serverHost,
   PORT: Number.isInteger(port) && port > 0 ? port : 7777,
   LOG_FILE: process.env.LOG_FILE || 'server.log',
   CHARACTER_STORE_FILE: process.env.CHARACTER_STORE_FILE || 'characters.json',
@@ -87,6 +91,8 @@ export const WORLD = {
 // --- Backward-compatible flat exports (consumed by existing JS modules) ---
 module.exports = {
   // Environment
+  BIND_HOST: ENV.BIND_HOST,
+  SERVER_HOST: ENV.SERVER_HOST,
   PORT: ENV.PORT,
   LOG_FILE: ENV.LOG_FILE,
   CHARACTER_STORE_FILE: ENV.CHARACTER_STORE_FILE,
