@@ -152,8 +152,11 @@ function createSyntheticFightState({
   entityType,
   roleEntityType,
   currentHealth,
+  maxHealth,
   currentMana,
+  maxMana,
   currentRage,
+  maxRage,
   primaryAttributes,
   level,
   charName,
@@ -164,8 +167,11 @@ function createSyntheticFightState({
   entityType: number;
   roleEntityType: number;
   currentHealth: number;
+  maxHealth: number;
   currentMana: number;
+  maxMana: number;
   currentRage: number;
+  maxRage: number;
   primaryAttributes: UnknownRecord;
   level: number;
   charName: string;
@@ -180,9 +186,9 @@ function createSyntheticFightState({
     row: 1,
     col: 2,
     hp: currentHealth >>> 0,
-    maxHp: currentHealth >>> 0,
+    maxHp: maxHealth >>> 0,
     mp: currentMana >>> 0,
-    maxMp: currentMana >>> 0,
+    maxMp: maxMana >>> 0,
     rage: currentRage >>> 0,
     intelligence: primaryAttributes.intelligence >>> 0,
     vitality: primaryAttributes.vitality >>> 0,

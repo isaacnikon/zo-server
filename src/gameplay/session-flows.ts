@@ -2,22 +2,12 @@
 export {};
 type UnknownRecord = Record<string, any>;
 type Vitals = { health: number; mana: number; rage: number };
+const { DEFAULT_MAX_VITALS, resolveCharacterMaxVitals: resolveDerivedCharacterMaxVitals } = require('./max-vitals');
 
-const CHARACTER_VITALS_BASELINE = Object.freeze({
-  // Current validated player baseline for the local early-game flow.
-  // The client may derive higher/lower caps from later level/stat/equipment logic,
-  // so all callers should go through this shared resolver instead of hardcoding.
-  health: 432,
-  mana: 630,
-  rage: 100,
-});
+const CHARACTER_VITALS_BASELINE = DEFAULT_MAX_VITALS;
 
 function resolveCharacterMaxVitals(currentVitals: UnknownRecord | null = null): Vitals {
-  return {
-    health: Math.max(numberOrDefault(currentVitals?.health, 0), CHARACTER_VITALS_BASELINE.health),
-    mana: Math.max(numberOrDefault(currentVitals?.mana, 0), CHARACTER_VITALS_BASELINE.mana),
-    rage: Math.max(numberOrDefault(currentVitals?.rage, 0), CHARACTER_VITALS_BASELINE.rage),
-  };
+  return resolveDerivedCharacterMaxVitals(currentVitals);
 }
 
 function resolveInnRestVitals(currentVitals: UnknownRecord | null | undefined): Vitals {
@@ -68,9 +58,40 @@ function resolveCurrentPlayerVitals(session: UnknownRecord, player: UnknownRecor
   };
 }
 
+function defaultBonusAttributes() {
+  return {
+    intelligence: 0,
+    vitality: 0,
+    dexterity: 0,
+    strength: 0,
+  };
+}
+
+function recomputeSessionMaxVitals(session: UnknownRecord, overrides: UnknownRecord | null = null): Vitals {
+  const input = {
+    selectedAptitude: session?.selectedAptitude,
+    level: session?.level,
+    primaryAttributes: session?.primaryAttributes,
+    bonusAttributes: session?.bonusAttributes || defaultBonusAttributes(),
+    currentHealth: session?.currentHealth,
+    currentMana: session?.currentMana,
+    currentRage: session?.currentRage,
+    maxHealth: session?.maxHealth,
+    maxMana: session?.maxMana,
+    maxRage: session?.maxRage,
+    ...(overrides || {}),
+  };
+  const maxVitals = resolveCharacterMaxVitals(input);
+  session.maxHealth = maxVitals.health;
+  session.maxMana = maxVitals.mana;
+  session.maxRage = maxVitals.rage;
+  return maxVitals;
+}
+
 module.exports = {
   CHARACTER_VITALS_BASELINE,
   buildDefeatRespawnState,
+  recomputeSessionMaxVitals,
   resolveCharacterMaxVitals,
   resolveCurrentPlayerVitals,
   resolveInnRestVitals,

@@ -23,15 +23,17 @@ const {
   resolveBirthDay,
 } = require('../character/role-utils');
 const {
+  defaultBonusAttributes,
   numberOrDefault,
   defaultPrimaryAttributes,
+  normalizeBonusAttributes,
   normalizePrimaryAttributes,
   normalizeCharacterRecord,
 } = require('../character/normalize');
 const { normalizeQuestState } = require('../quest-engine');
 const { normalizeInventoryState } = require('../inventory');
 const { normalizePets } = require('../pet-runtime');
-const { CHARACTER_VITALS_BASELINE } = require('../gameplay/session-flows');
+const { CHARACTER_VITALS_BASELINE, recomputeSessionMaxVitals } = require('../gameplay/session-flows');
 const { resolveCharacterScene } = require('../scene-runtime');
 
 type SessionLike = Record<string, any>;
@@ -135,7 +137,16 @@ function handleCreateRole(session: SessionLike, payload: Buffer): void {
   session.coins = 0;
   session.renown = 0;
   session.primaryAttributes = defaultPrimaryAttributes();
+  session.bonusAttributes = defaultBonusAttributes();
   session.statusPoints = 0;
+  recomputeSessionMaxVitals(session, {
+    currentHealth: session.currentHealth,
+    currentMana: session.currentMana,
+    currentRage: session.currentRage,
+    maxHealth: 0,
+    maxMana: 0,
+    maxRage: 0,
+  });
   session.activeQuests = [];
   session.completedQuests = [];
   session.saveCharacter({
@@ -161,6 +172,7 @@ function handleCreateRole(session: SessionLike, payload: Buffer): void {
     coins: session.coins,
     renown: session.renown,
     primaryAttributes: session.primaryAttributes,
+    bonusAttributes: session.bonusAttributes,
     statusPoints: session.statusPoints,
     activeQuests: session.activeQuests,
     completedQuests: session.completedQuests,
@@ -243,12 +255,16 @@ function sendGameServerRedirect(session: SessionLike): void {
     currentHealth: persisted?.currentHealth || session.currentHealth || CHARACTER_VITALS_BASELINE.health,
     currentMana: persisted?.currentMana || session.currentMana || CHARACTER_VITALS_BASELINE.mana,
     currentRage: persisted?.currentRage || session.currentRage || 100,
+    maxHealth: persisted?.maxHealth || session.maxHealth || CHARACTER_VITALS_BASELINE.health,
+    maxMana: persisted?.maxMana || session.maxMana || CHARACTER_VITALS_BASELINE.mana,
+    maxRage: persisted?.maxRage || session.maxRage || 100,
     gold: persisted?.gold || session.gold || 0,
     bankGold: persisted?.bankGold || session.bankGold || 0,
     boundGold: persisted?.boundGold || session.boundGold || 0,
     coins: persisted?.coins || session.coins || 0,
     renown: persisted?.renown || session.renown || 0,
     primaryAttributes: normalizePrimaryAttributes(persisted?.primaryAttributes || session.primaryAttributes),
+    bonusAttributes: normalizeBonusAttributes(persisted?.bonusAttributes || session.bonusAttributes),
     statusPoints: persisted?.statusPoints || session.statusPoints || 0,
     activeQuests: normalizeQuestState(persisted || {}).activeQuests,
     completedQuests: normalizeQuestState(persisted || {}).completedQuests,

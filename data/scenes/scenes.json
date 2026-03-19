@@ -74,6 +74,18 @@
       "triggers": [
         {
           "type": "serverRun",
+          "subtype": 2,
+          "mode": 103,
+          "contextId": 12,
+          "extra": 0,
+          "scriptId": 5001,
+          "action": {
+            "kind": "rest",
+            "npcId": 3175
+          }
+        },
+        {
+          "type": "serverRun",
           "subtype": 1,
           "scriptId": 1,
           "minX": 70,
@@ -331,6 +343,16 @@
             "targetX": 112,
             "targetY": 21,
             "reason": "Peach Garden teleporter"
+          }
+        },
+        {
+          "type": "serverRun",
+          "subtype": 1,
+          "scriptId": 1000,
+          "action": {
+            "kind": "message",
+            "npcId": 3326,
+            "msgId": 1000
           }
         },
         {

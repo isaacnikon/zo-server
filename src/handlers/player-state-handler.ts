@@ -3,6 +3,7 @@ import type { GameSession } from '../types';
 const { parseEquipmentState, parseAttributeAllocation } = require('../protocol/inbound-packets');
 const { sendEquipmentContainerSync } = require('../gameplay/inventory-runtime');
 const { normalizePrimaryAttributes } = require('../character/normalize');
+const { recomputeSessionMaxVitals } = require('../gameplay/session-flows');
 
 type SessionLike = GameSession & Record<string, any>;
 
@@ -85,6 +86,7 @@ export function tryHandleAttributeAllocationPacket(
     dexterity: session.primaryAttributes.dexterity + applied.dexterity,
     strength: session.primaryAttributes.strength + applied.strength,
   });
+  recomputeSessionMaxVitals(session);
   session.statusPoints = Math.max(
     0,
     session.statusPoints - (applied.strength + applied.vitality + applied.dexterity + applied.intelligence)

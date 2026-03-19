@@ -119,6 +119,8 @@ function resolveServerRunTrigger(
   subtype: number,
   scriptId: number,
   mode: number | null = null,
+  contextId: number | null = null,
+  extra: number | null = null,
   x: number | null = null,
   y: number | null = null
 ) {
@@ -131,6 +133,8 @@ function resolveServerRunTrigger(
     trigger.type === 'serverRun' &&
     trigger.subtype === subtype &&
     (trigger.mode === undefined || trigger.mode === mode) &&
+    (trigger.contextId === undefined || trigger.contextId === contextId) &&
+    (trigger.extra === undefined || trigger.extra === extra) &&
     trigger.scriptId === scriptId &&
     positionMatches(trigger, x, y)
   )) || null;

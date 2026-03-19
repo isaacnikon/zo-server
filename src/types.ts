@@ -154,6 +154,7 @@ export interface GameSession {
   coins: number;
   renown: number;
   primaryAttributes: PrimaryAttributes;
+  bonusAttributes?: PrimaryAttributes;
   activeQuests: QuestRecord[];
   completedQuests: number[];
   syntheticFight: SyntheticFightState | null;

@@ -127,6 +127,8 @@ function expandAction(
       subtype: action.subtype,
       scriptId: action.scriptId,
       mode: action.mode,
+      contextId: action.contextId,
+      extra: action.extra,
       enableDialogExperiment,
     });
   }
@@ -139,29 +141,16 @@ function resolveServerRunAction({
   subtype,
   scriptId,
   mode = null,
+  contextId = null,
+  extra = null,
   x = null,
   y = null,
   enableDialogExperiment = ENABLE_DIALOG_EXPERIMENT,
 }: UnknownRecord): SceneAction {
-  const trigger = resolveServerRunTrigger(mapId, subtype, scriptId, mode, x, y);
+  const trigger = resolveServerRunTrigger(mapId, subtype, scriptId, mode, contextId, extra, x, y);
   const action: SceneAction = expandAction(getTriggerAction(trigger), { mapId, subtype, scriptId }, enableDialogExperiment);
   if (action) {
     return action;
-  }
-
-  if (mapId === SCENE_IDS.RAINBOW_VALLEY && subtype === 0x02 && scriptId === 5001) {
-    return {
-      kind: 'rest',
-      npcId: 3175,
-    };
-  }
-
-  if (enableDialogExperiment && mapId === 209 && scriptId === 1000) {
-    return {
-      kind: 'message',
-      npcId: 3326,
-      msgId: 1000,
-    };
   }
 
   return {

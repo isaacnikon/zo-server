@@ -98,6 +98,7 @@ const {
   saveCharacter: sessionHydrationSaveCharacter,
 } = require('./character/session-hydration');
 const { getSyntheticPlayerFighter } = require('./combat/synthetic-fight');
+const { defaultBonusAttributes } = require('./character/normalize');
 
 const COMBAT_REFERENCE = loadCombatReference();
 
@@ -134,12 +135,16 @@ class Session implements GameSession {
   currentHealth: number;
   currentMana: number;
   currentRage: number;
+  maxHealth: number;
+  maxMana: number;
+  maxRage: number;
   gold: number;
   bankGold: number;
   boundGold: number;
   coins: number;
   renown: number;
   primaryAttributes: PrimaryAttributes;
+  bonusAttributes: PrimaryAttributes;
   statusPoints: number;
   activeQuests: any[];
   completedQuests: number[];
@@ -198,6 +203,9 @@ class Session implements GameSession {
     this.currentHealth = CHARACTER_VITALS_BASELINE.health;
     this.currentMana = CHARACTER_VITALS_BASELINE.mana;
     this.currentRage = 100;
+    this.maxHealth = CHARACTER_VITALS_BASELINE.health;
+    this.maxMana = CHARACTER_VITALS_BASELINE.mana;
+    this.maxRage = 100;
     this.gold = 0;
     this.bankGold = 0;
     this.boundGold = 0;
@@ -209,6 +217,7 @@ class Session implements GameSession {
       dexterity: 15,
       strength: 15,
     };
+    this.bonusAttributes = defaultBonusAttributes();
     this.statusPoints = 0;
     this.activeQuests = [];
     this.completedQuests = [];

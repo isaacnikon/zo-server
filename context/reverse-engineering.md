@@ -136,6 +136,22 @@
   - Grandpa hand-in is on `mapId=103`
   - scripted Little Boar fight is triggered by `0x03f1 sub=0x02 scriptId=10001 map=103`
   - the fight trigger is not keyed on Grandpa `npcId`; it is a context/script trigger
+  - server note:
+    - non-shop `0x03f1` `npc-action` packets must still flow through quest/objective matching
+    - short-circuiting unknown `npc-action` requests in the NPC interaction registry breaks the pet quest and similar talk/service flows
+- Shopkeeper inn rest:
+  - the live client sends `0x03f1` context event `sub=0x02 mode=103 contextId=12 extra=0 scriptId=5001`
+  - routing this by `scriptId=5001` alone is wrong; that script id is reused elsewhere
+  - current server trigger is data-driven from scene data, keyed on the full tuple above
+  - the inn path now fires correctly, but restore is still limited by incomplete server max-vitals modeling
+- Client max HP/MP model:
+  - current HP/MP sync comes from `0x03f6 / 0x0a`
+  - final client caps are not just the derived aptitude formula
+  - the client clamps against:
+    - `finalMaxHp = *(player + 0x478) + *(player + 0x1f0)`
+    - `finalMaxMp = *(player + 0x47c) + *(player + 0x1f4)`
+  - `FUN_00441530` computes the derived side (`0x1f0` / `0x1f4`)
+  - the additive side (`0x478` / `0x47c`) comes from other active bonus records and is still not modeled server-side
 - Bling Spring random encounters were reduced:
   - field encounter chance lowered from `18%` to `8%`
   - `12s` cooldown added between field encounter probes

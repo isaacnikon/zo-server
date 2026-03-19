@@ -1,12 +1,12 @@
 const { GAME_DIALOG_MESSAGE_SUBCMD } = require('../config');
 const { resolveInnRestVitals } = require('./session-flows');
 const { executeServerRunAction, parseServerRunRequest } = require('../interactions/server-run');
-const { tryHandleNpcShopRequest } = require('./shop-runtime');
+const { openNpcShop } = require('./shop-runtime');
+const { resolveNpcInteractionAction } = require('./npc-interaction-registry');
 const {
   abandonQuest,
   buildServerRunQuestTrace,
 } = require('../quest-engine');
-const { resolveServerRunAction } = require('../scene-runtime');
 
 type SessionLike = Record<string, any>;
 type UnknownRecord = Record<string, any>;
@@ -14,9 +14,12 @@ type UnknownRecord = Record<string, any>;
 function restoreAtInn(session: SessionLike, npcId: number): void {
   const player = session.getSyntheticPlayerFighter();
   const restoredVitals = resolveInnRestVitals({
-    health: player?.maxHp || session.currentHealth,
-    mana: player?.maxMp || session.currentMana,
-    rage: player?.rage || session.currentRage,
+    currentHealth: session.currentHealth,
+    currentMana: session.currentMana,
+    currentRage: session.currentRage,
+    maxHealth: player?.maxHp || session.maxHealth,
+    maxMana: player?.maxMp || session.maxMana,
+    maxRage: player?.rage || session.maxRage,
   });
 
   session.currentHealth = restoredVitals.health;
@@ -61,24 +64,21 @@ function handleServerRunRequest(session: SessionLike, payload: Buffer): void {
 
   session.log(request.logMessage);
 
-  if (tryHandleNpcShopRequest(session, request)) {
+  const action = resolveNpcInteractionAction(request);
+
+  if (action?.kind === 'openShop') {
+    openNpcShop(session, action.npcId || 0);
     return;
   }
 
-  if (request.kind === 'npc-action') {
-    if (typeof session.armNpcActionProbe === 'function') {
-      session.armNpcActionProbe({
-        subtype: request.subtype,
-        npcId: request.npcId,
-        mapId: request.mapId,
-        x: request.x,
-        y: request.y,
-      });
-    }
-    session.log(
-      `Observed npc-action subtype=0x${request.subtype.toString(16)} npcId=${request.npcId} map=${request.mapId}; shop-open/browse handling is not implemented yet`
-    );
-    return;
+  if (request.kind === 'npc-action' && typeof session.armNpcActionProbe === 'function') {
+    session.armNpcActionProbe({
+      subtype: request.subtype,
+      npcId: request.npcId,
+      mapId: request.mapId,
+      x: request.x,
+      y: request.y,
+    });
   }
 
   if (request.kind === 'quest-abandon') {
@@ -95,16 +95,7 @@ function handleServerRunRequest(session: SessionLike, payload: Buffer): void {
     return;
   }
 
-  const action = resolveServerRunAction({
-    mapId: request.mapId,
-    subtype: request.subtype,
-    mode: request.mode,
-    scriptId: request.scriptId,
-    x: request.x,
-    y: request.y,
-  });
-
-  if (action?.kind === 'transition' || action?.kind === 'rest') {
+  if (action) {
     executeServerRunAction(action, session.getServerRunActionHandlers());
     return;
   }

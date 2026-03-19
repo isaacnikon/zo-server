@@ -2,8 +2,11 @@ import type { GameSession } from '../types';
 
 const { normalizePets } = require('../pet-runtime');
 const { CHARACTER_VITALS_BASELINE } = require('../gameplay/session-flows');
+const { resolveCharacterMaxVitals } = require('../gameplay/max-vitals');
 const {
+  defaultBonusAttributes,
   numberOrDefault,
+  normalizeBonusAttributes,
   normalizePrimaryAttributes,
   normalizeCharacterRecord,
 } = require('./normalize');
@@ -42,7 +45,23 @@ export function hydratePendingGameCharacter(session: SessionLike, sharedState: R
   session.coins = numberOrDefault(pendingCharacter.coins, 0);
   session.renown = numberOrDefault(pendingCharacter.renown, 0);
   session.primaryAttributes = normalizePrimaryAttributes(pendingCharacter.primaryAttributes);
+  session.bonusAttributes = normalizeBonusAttributes(pendingCharacter.bonusAttributes);
   session.statusPoints = numberOrDefault(pendingCharacter.statusPoints, 0);
+  const maxVitals = resolveCharacterMaxVitals({
+    selectedAptitude: session.selectedAptitude,
+    level: session.level,
+    primaryAttributes: session.primaryAttributes,
+    bonusAttributes: session.bonusAttributes,
+    currentHealth: session.currentHealth,
+    currentMana: session.currentMana,
+    currentRage: session.currentRage,
+    maxHealth: pendingCharacter.maxHealth,
+    maxMana: pendingCharacter.maxMana,
+    maxRage: pendingCharacter.maxRage,
+  });
+  session.maxHealth = maxVitals.health;
+  session.maxMana = maxVitals.mana;
+  session.maxRage = maxVitals.rage;
 
   const questState = normalizeQuestState(pendingCharacter);
   session.activeQuests = questState.activeQuests;
@@ -103,12 +122,16 @@ export function buildCharacterSnapshot(
     currentHealth: session.currentHealth,
     currentMana: session.currentMana,
     currentRage: session.currentRage,
+    maxHealth: session.maxHealth,
+    maxMana: session.maxMana,
+    maxRage: session.maxRage,
     gold: session.gold,
     bankGold: session.bankGold,
     boundGold: session.boundGold,
     coins: session.coins,
     renown: session.renown,
     primaryAttributes: session.primaryAttributes,
+    bonusAttributes: session.bonusAttributes || defaultBonusAttributes(),
     statusPoints: session.statusPoints,
     activeQuests: session.activeQuests,
     completedQuests: session.completedQuests,

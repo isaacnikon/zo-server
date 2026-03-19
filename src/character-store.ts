@@ -114,6 +114,9 @@ class CharacterStore {
       currentHealth: vitals.currentHealth,
       currentMana: vitals.currentMana,
       currentRage: vitals.currentRage,
+      maxHealth: vitals.maxHealth,
+      maxMana: vitals.maxMana,
+      maxRage: vitals.maxRage,
       gold: profile.gold,
       bankGold: profile.bankGold,
       boundGold: profile.boundGold,
@@ -133,6 +136,12 @@ class CharacterStore {
         vitality: attributes.vitality,
         dexterity: attributes.dexterity,
         strength: attributes.strength,
+      },
+      bonusAttributes: {
+        intelligence: numberOrDefault(attributes?.bonusAttributes?.intelligence, 0),
+        vitality: numberOrDefault(attributes?.bonusAttributes?.vitality, 0),
+        dexterity: numberOrDefault(attributes?.bonusAttributes?.dexterity, 0),
+        strength: numberOrDefault(attributes?.bonusAttributes?.strength, 0),
       },
       activeQuests: Array.isArray(activeQuests.quests) ? activeQuests.quests : [],
       completedQuests: Array.isArray(completedQuests.taskIds) ? completedQuests.taskIds : [],
@@ -211,6 +220,9 @@ function buildVitalsDocument(characterId: string, character: any): Record<string
     currentHealth: numberOrDefault(character.currentHealth, 0),
     currentMana: numberOrDefault(character.currentMana, 0),
     currentRage: numberOrDefault(character.currentRage, 0),
+    maxHealth: numberOrDefault(character.maxHealth, 0),
+    maxMana: numberOrDefault(character.maxMana, 0),
+    maxRage: numberOrDefault(character.maxRage, 0),
     updatedAt: new Date().toISOString(),
   };
 }
@@ -222,6 +234,12 @@ function buildAttributesDocument(characterId: string, character: any): Record<st
     vitality: numberOrDefault(character?.primaryAttributes?.vitality, 15),
     dexterity: numberOrDefault(character?.primaryAttributes?.dexterity, 15),
     strength: numberOrDefault(character?.primaryAttributes?.strength, 15),
+    bonusAttributes: {
+      intelligence: numberOrDefault(character?.bonusAttributes?.intelligence, 0),
+      vitality: numberOrDefault(character?.bonusAttributes?.vitality, 0),
+      dexterity: numberOrDefault(character?.bonusAttributes?.dexterity, 0),
+      strength: numberOrDefault(character?.bonusAttributes?.strength, 0),
+    },
     updatedAt: new Date().toISOString(),
   };
 }

@@ -43,17 +43,16 @@ interface ShopCatalogDefinition {
 const SHOP_SERVICE_BUY_GOLD = 0x01;
 const SHOP_SERVICE_SELL = 0x02;
 const SHOP_SERVICE_BUY_COINS = 0x0b;
-const SHOP_ACTION_SUBTYPE = 0x0f;
 const SHOPS_FILE = resolveRepoPath('data', 'client-derived', 'shops.json');
 
 const SHOP_CATALOGS_BY_NPC_ID = loadNpcShopCatalogs();
 
-function tryHandleNpcShopRequest(session: SessionLike, request: UnknownRecord): boolean {
-  if (request.kind !== 'npc-action' || (request.subtype >>> 0) !== SHOP_ACTION_SUBTYPE) {
-    return false;
-  }
+function hasNpcShopCatalog(npcId: number): boolean {
+  return SHOP_CATALOGS_BY_NPC_ID.has(npcId >>> 0);
+}
 
-  const catalog = SHOP_CATALOGS_BY_NPC_ID.get(request.npcId >>> 0) || null;
+function openNpcShop(session: SessionLike, npcId: number): boolean {
+  const catalog = SHOP_CATALOGS_BY_NPC_ID.get(npcId >>> 0) || null;
   if (!catalog || catalog.items.length < 1) {
     return false;
   }
@@ -322,5 +321,6 @@ function loadNpcShopCatalogs(): Map<number, ShopCatalogDefinition> {
 
 module.exports = {
   handleNpcShopServiceRequest,
-  tryHandleNpcShopRequest,
+  hasNpcShopCatalog,
+  openNpcShop,
 };

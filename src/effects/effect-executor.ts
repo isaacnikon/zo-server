@@ -6,6 +6,7 @@ const {
 } = require('../gameplay/inventory-runtime');
 const { sendSelfStateValueUpdate } = require('../gameplay/stat-sync');
 const { applyExperienceGain } = require('../gameplay/progression');
+const { recomputeSessionMaxVitals } = require('../gameplay/session-flows');
 
 type UnknownRecord = Record<string, any>;
 type SessionLike = Record<string, any>;
@@ -124,6 +125,7 @@ function handleUpdateStat(session: SessionLike, effect: UnknownRecord, opts: Unk
     session.level = progressionResult.level;
     session.experience = progressionResult.experience;
     session.statusPoints = progressionResult.statusPoints;
+    recomputeSessionMaxVitals(session);
     if (!opts.suppressPackets && progressionResult.levelsGained === 0) {
       sendSelfStateValueUpdate(session, 'experience', session.experience);
     }
