@@ -2,7 +2,7 @@ const { GAME_DIALOG_MESSAGE_SUBCMD } = require('../config');
 const { resolveInnRestVitals } = require('./session-flows');
 const { executeServerRunAction, parseServerRunRequest } = require('../interactions/server-run');
 const { openNpcShop } = require('./shop-runtime');
-const { resolveNpcInteractionAction } = require('./npc-interaction-registry');
+const { resolveNpcInteractionPlan } = require('./npc-interaction-registry');
 const {
   abandonQuest,
   buildServerRunQuestTrace,
@@ -64,14 +64,16 @@ function handleServerRunRequest(session: SessionLike, payload: Buffer): void {
 
   session.log(request.logMessage);
 
-  const action = resolveNpcInteractionAction(request);
+  const plan = resolveNpcInteractionPlan(request);
+  const action = plan.action;
+  const fallbackAction = plan.fallbackAction;
 
   if (action?.kind === 'openShop') {
     openNpcShop(session, action.npcId || 0);
     return;
   }
 
-  if (request.kind === 'npc-action' && typeof session.armNpcActionProbe === 'function') {
+  if (plan.probeNpcAction && typeof session.armNpcActionProbe === 'function') {
     session.armNpcActionProbe({
       subtype: request.subtype,
       npcId: request.npcId,
@@ -79,6 +81,10 @@ function handleServerRunRequest(session: SessionLike, payload: Buffer): void {
       x: request.x,
       y: request.y,
     });
+  }
+
+  if (typeof plan.logMessage === 'string' && plan.logMessage.length > 0) {
+    session.log(plan.logMessage);
   }
 
   if (request.kind === 'quest-abandon') {
@@ -97,6 +103,10 @@ function handleServerRunRequest(session: SessionLike, payload: Buffer): void {
 
   if (action) {
     executeServerRunAction(action, session.getServerRunActionHandlers());
+    return;
+  }
+
+  if (!plan.continueToQuest) {
     return;
   }
 
@@ -123,7 +133,9 @@ function handleServerRunRequest(session: SessionLike, payload: Buffer): void {
     return;
   }
 
-  executeServerRunAction(action, session.getServerRunActionHandlers());
+  if (fallbackAction) {
+    executeServerRunAction(fallbackAction, session.getServerRunActionHandlers());
+  }
 }
 
 export {

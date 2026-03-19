@@ -7,6 +7,7 @@ export interface QuestPacketData { subcmd: number; taskId: number }
 export interface EquipmentStateData { instanceId: number; equipFlag: number; unequipFlag: number }
 export interface AttributeAllocationData { strengthDelta: number; dexterityDelta: number; vitalityDelta: number; intelligenceDelta: number }
 export interface AttackSelectionData { attackMode: number; targetA: number; targetB: number }
+export type QuestSyncMode = 'login' | 'scene-transition' | 'runtime';
 export interface ServerRunEvent {
   subtype?: number;
   npcId?: number;

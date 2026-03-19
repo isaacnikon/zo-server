@@ -179,7 +179,7 @@ function transitionToScene(session: SessionLike, mapId: number, x: number, y: nu
   updateTownRespawnAnchor(session, mapId, x, y);
   session.dispatchObjectiveSceneTransition(mapId, 'scene-transition');
 
-  session.sendEnterGameOk();
+  session.sendEnterGameOk({ syncMode: 'scene-transition' });
 }
 
 function sendStaticNpcSpawns(session: SessionLike): void {

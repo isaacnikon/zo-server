@@ -12,12 +12,17 @@ const { buildQuestPacket } = require('../protocol/gameplay-packets');
 const { numberOrDefault } = require('../character/normalize');
 const { applyObjectiveEvents } = require('../objectives/objective-dispatcher');
 const { createQuestEventHandler } = require('../objectives/quest-event-handler');
+import type { QuestSyncMode } from '../types';
 
 type SessionLike = Record<string, any>;
 type UnknownRecord = Record<string, any>;
 type QuestSyncState = UnknownRecord & {
   taskId: number;
   markerNpcId?: number;
+};
+
+type QuestSyncOptions = {
+  mode?: QuestSyncMode;
 };
 
 function sendQuestAccept(session: SessionLike, taskId: number): void {
@@ -76,7 +81,9 @@ function sendQuestFindNpc(session: SessionLike, taskId: number, npcId: number): 
   );
 }
 
-function syncQuestStateToClient(session: SessionLike): void {
+function syncQuestStateToClient(session: SessionLike, options: QuestSyncOptions = {}): void {
+  const mode: QuestSyncMode = options.mode || 'runtime';
+  const replayTalkStepUpdates = mode === 'login';
   for (const taskId of session.completedQuests) {
     sendQuestHistory(session, taskId, 0);
   }
@@ -88,8 +95,13 @@ function syncQuestStateToClient(session: SessionLike): void {
 
   for (const quest of syncState) {
     sendQuestAccept(session, quest.taskId);
-    for (let index = 0; index < numberOrDefault(quest.stepIndex, 0); index += 1) {
-      sendQuestUpdate(session, quest.taskId, index + 1);
+    // Talk-step replay is mode-dependent: full login needs it so the client
+    // reconstructs the current stage, while scene/runtime refreshes should
+    // stay marker-safe.
+    if (quest.stepType === 'kill' || (replayTalkStepUpdates && quest.stepType === 'talk')) {
+      for (let index = 0; index < numberOrDefault(quest.stepIndex, 0); index += 1) {
+        sendQuestUpdate(session, quest.taskId, index + 1);
+      }
     }
     if (quest.stepType === 'kill' && numberOrDefault(quest.status, 0) > 0) {
       sendQuestProgress(session, numberOrDefault(quest.progressObjectiveId, quest.taskId), quest.status);

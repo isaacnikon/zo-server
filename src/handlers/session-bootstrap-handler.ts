@@ -1,4 +1,4 @@
-import type { GameSession } from '../types';
+import type { GameSession, QuestSyncMode } from '../types';
 
 const { DEFAULT_FLAGS, LOGIN_CMD, LOGIN_SERVER_LIST_RESULT } = require('../config');
 const { PacketWriter } = require('../protocol');
@@ -7,7 +7,8 @@ const { describeScene } = require('../scene-runtime');
 
 type SessionLike = GameSession & Record<string, any>;
 
-export function sendEnterGameOk(session: SessionLike): void {
+export function sendEnterGameOk(session: SessionLike, options: { syncMode?: QuestSyncMode } = {}): void {
+  const syncMode: QuestSyncMode = options.syncMode || 'login';
   session.ensureQuestStateReady();
 
   const writer = new PacketWriter();
@@ -31,7 +32,7 @@ export function sendEnterGameOk(session: SessionLike): void {
   session.sendStaticNpcSpawns();
   syncInventoryStateToClient(session);
   session.scheduleEquipmentReplay();
-  session.syncQuestStateToClient();
+  session.syncQuestStateToClient({ mode: syncMode });
   if (session.petSummoned) {
     session.schedulePetReplay();
   } else {

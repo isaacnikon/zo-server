@@ -1,7 +1,7 @@
 'use strict';
 export {};
 
-const { getRoleName } = require('./roleinfo');
+const { getPetTemplateProfile, getRoleName } = require('./roleinfo');
 type UnknownRecord = Record<string, any>;
 type PetStats = {
   strength: number;
@@ -19,12 +19,17 @@ type PetRecord = {
   currentHealth: number;
   currentMana: number;
   loyalty: number;
+  typeId: number;
+  rebirth: number;
+  experience: number;
   stateFlags: {
     modeA: number;
     modeB: number;
     activeFlag: number;
   };
   stats: PetStats;
+  baseStats: PetStats;
+  statCoefficients: number[];
   statPoints: number;
 };
 
@@ -60,24 +65,39 @@ function normalizePetRecord(pet: UnknownRecord | null | undefined, index = 0): P
     pet.runtimeId,
     buildDefaultPetRuntimeId(templateId, awardedAt, index)
   ) >>> 0;
+  const templateProfile = getPetTemplateProfile(templateId);
   const level = Math.max(1, numberOrDefault(pet.level, 1));
-  const generation = Math.max(0, numberOrDefault(pet.generation, 0));
+  const generation = Math.max(
+    0,
+    numberOrDefault(pet.generation, templateProfile?.generation ?? 0)
+  );
   const currentHealth = Math.max(1, numberOrDefault(pet.currentHealth, 100));
   const currentMana = Math.max(0, numberOrDefault(pet.currentMana, 60));
   const loyalty = Math.max(0, numberOrDefault(pet.loyalty, 100));
   const statPoints = Math.max(0, numberOrDefault(pet.statPoints, 0));
   const stats = normalizePetStats(pet.stats);
+  const baseStats = normalizePetBaseStats(pet.baseStats, templateProfile?.baseStats);
+  const statCoefficients = normalizePetStatCoefficients(
+    pet.statCoefficients,
+    templateProfile?.statCoefficients
+  );
 
   return {
     templateId,
     awardedAt,
     runtimeId,
-    name: typeof pet.name === 'string' && pet.name.length > 0 ? pet.name : getRoleName(templateId) || `Pet ${templateId}`,
+    name:
+      typeof pet.name === 'string' && pet.name.length > 0
+        ? pet.name
+        : getRoleName(templateId) || `Pet ${templateId}`,
     level,
     generation,
     currentHealth,
     currentMana,
     loyalty,
+    typeId: Math.max(0, numberOrDefault(pet.typeId, templateProfile?.typeId ?? 0)),
+    rebirth: Math.max(0, numberOrDefault(pet.rebirth, 0)),
+    experience: Math.max(0, numberOrDefault(pet.experience, 0)),
     stateFlags: {
       // 0x03fa pet create/summon expects a valid battlefield placement:
       // modeA=row (0..2), modeB=col (0..4), activeFlag=side (1 or 0xff/-1).
@@ -86,6 +106,8 @@ function normalizePetRecord(pet: UnknownRecord | null | undefined, index = 0): P
       activeFlag: normalizePetSide(pet?.stateFlags?.activeFlag),
     },
     stats,
+    baseStats,
+    statCoefficients,
     statPoints,
   };
 }
@@ -118,6 +140,26 @@ function normalizePetStats(stats: UnknownRecord | null | undefined): PetStats {
     vitality: Math.max(0, numberOrDefault(stats?.vitality, DEFAULT_PET_STATS.vitality)),
     intelligence: Math.max(0, numberOrDefault(stats?.intelligence, DEFAULT_PET_STATS.intelligence)),
   };
+}
+
+function normalizePetBaseStats(
+  stats: UnknownRecord | null | undefined,
+  fallback: PetStats | null | undefined
+): PetStats {
+  return {
+    strength: Math.max(0, numberOrDefault(stats?.strength, fallback?.strength ?? DEFAULT_PET_STATS.strength)),
+    dexterity: Math.max(0, numberOrDefault(stats?.dexterity, fallback?.dexterity ?? DEFAULT_PET_STATS.dexterity)),
+    vitality: Math.max(0, numberOrDefault(stats?.vitality, fallback?.vitality ?? DEFAULT_PET_STATS.vitality)),
+    intelligence: Math.max(0, numberOrDefault(stats?.intelligence, fallback?.intelligence ?? DEFAULT_PET_STATS.intelligence)),
+  };
+}
+
+function normalizePetStatCoefficients(value: unknown, fallback: number[] | null | undefined): number[] {
+  const source = Array.isArray(value) && value.length === 9 ? value : fallback;
+  if (!Array.isArray(source) || source.length !== 9) {
+    return [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000];
+  }
+  return source.map((entry) => Math.max(0, numberOrDefault(entry, 1000)));
 }
 
 function normalizePetRow(value: unknown): number {

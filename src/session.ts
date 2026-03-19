@@ -1,4 +1,4 @@
-import type { GameSession, PrimaryAttributes, ServerRunEvent } from './types';
+import type { GameSession, PrimaryAttributes, QuestSyncMode, ServerRunEvent } from './types';
 
 const { parsePingToken } = require('./protocol/inbound-packets');
 
@@ -378,8 +378,8 @@ class Session implements GameSession {
     );
   }
 
-  sendEnterGameOk(): void {
-    sessionBootstrapHandlerSendEnterGameOk(this);
+  sendEnterGameOk(options: { syncMode?: QuestSyncMode } = {}): void {
+    sessionBootstrapHandlerSendEnterGameOk(this, options);
   }
 
   scheduleEquipmentReplay(delayMs = 300): void {
@@ -528,8 +528,8 @@ class Session implements GameSession {
     questHandlerHandleQuestMonsterDefeat(this, monsterId, count);
   }
 
-  syncQuestStateToClient(): void {
-    questHandlerSyncQuestStateToClient(this);
+  syncQuestStateToClient(options: { mode?: QuestSyncMode } = {}): void {
+    questHandlerSyncQuestStateToClient(this, options);
   }
 
   refreshQuestStateForItemTemplates(templateIds: number[]): void {

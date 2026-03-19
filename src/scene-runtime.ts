@@ -153,11 +153,44 @@ function resolveServerRunAction({
     return action;
   }
 
+  return null;
+}
+
+function buildFallbackServerRunMessageAction({ scriptId }: UnknownRecord): SceneAction {
   return {
     kind: 'message',
     npcId: 3142,
     msgId: scriptId === 1 ? 1 : scriptId,
   };
+}
+
+function resolveServerRunActionWithFallback({
+  mapId,
+  subtype,
+  scriptId,
+  mode = null,
+  contextId = null,
+  extra = null,
+  x = null,
+  y = null,
+  enableDialogExperiment = ENABLE_DIALOG_EXPERIMENT,
+}: UnknownRecord): SceneAction {
+  const action = resolveServerRunAction({
+    mapId,
+    subtype,
+    scriptId,
+    mode,
+    contextId,
+    extra,
+    x,
+    y,
+    enableDialogExperiment,
+  });
+  if (action) {
+    return action;
+  }
+
+  return buildFallbackServerRunMessageAction({ scriptId });
 }
 
 function resolveTileSceneAction({ mapId, tileSceneId, enableDialogExperiment = ENABLE_DIALOG_EXPERIMENT }: UnknownRecord): SceneAction {
@@ -195,6 +228,7 @@ module.exports = {
   resolveCharacterScene,
   resolveEncounterAction,
   resolveServerRunAction,
+  resolveServerRunActionWithFallback,
   resolveTileSceneAction,
   resolveTownRespawn,
 };

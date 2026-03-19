@@ -14,7 +14,7 @@ const { numberOrDefault } = require('../character/normalize');
 const { buildEncounterPoolEntry } = require('../roleinfo');
 
 import type { DirtyFlags, DispatchOptions, ObjectiveEventHandler } from './objective-dispatcher';
-import type { QuestEvent } from '../types';
+import type { QuestEvent, QuestSyncMode } from '../types';
 
 type SessionLike = Record<string, any>;
 
@@ -26,7 +26,7 @@ type QuestEventHandlerDeps = {
   sendQuestAbandon(session: SessionLike, taskId: number): void;
   sendQuestHistory(session: SessionLike, taskId: number, historyLevel?: number): void;
   sendQuestFindNpc(session: SessionLike, taskId: number, npcId: number): void;
-  syncQuestStateToClient(session: SessionLike): void;
+  syncQuestStateToClient(session: SessionLike, options?: { mode?: QuestSyncMode }): void;
 };
 
 function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHandler<QuestEvent> {
@@ -139,7 +139,7 @@ function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHan
           deps.sendQuestUpdate(session, event.taskId, 0);
           deps.sendQuestFindNpc(session, event.taskId, 0);
           deps.sendQuestAbandon(session, event.taskId);
-          deps.syncQuestStateToClient(session);
+          deps.syncQuestStateToClient(session, { mode: 'runtime' });
         }
         if (!suppressDialogues) {
           session.sendGameDialogue('Quest', `${event.definition.name} abandoned.`);

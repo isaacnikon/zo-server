@@ -10,6 +10,19 @@ type DropEntry = {
   quantity: number;
   source: string;
 };
+type PetTemplateProfile = {
+  templateId: number;
+  name: string | null;
+  typeId: number;
+  generation: number;
+  baseStats: {
+    strength: number;
+    dexterity: number;
+    vitality: number;
+    intelligence: number;
+  };
+  statCoefficients: number[];
+};
 type EncounterOverrides = {
   logicalId?: number;
   levelMin?: number;
@@ -69,6 +82,35 @@ function getRolePrimaryDrop(roleId: number): DropEntry | null {
 function isFemaleRole(roleId: number): boolean {
   const name = getRoleName(roleId);
   return typeof name === 'string' && name.startsWith('Female ');
+}
+
+function getPetTemplateProfile(roleId: number): PetTemplateProfile | null {
+  const role = getRoleInfo(roleId);
+  if (!role || role.roleClassField !== 2) {
+    return null;
+  }
+
+  const coreFields = Array.isArray(role.coreFields) ? role.coreFields : [];
+  const statFields = Array.isArray(role.statFields) ? role.statFields : [];
+  const baseStats = {
+    strength: clampPetField(coreFields[5], 10),
+    dexterity: clampPetField(coreFields[6], 10),
+    vitality: clampPetField(coreFields[7], 10),
+    intelligence: clampPetField(coreFields[8], 10),
+  };
+  const statCoefficients = [];
+  for (let index = 21; index <= 29; index += 1) {
+    statCoefficients.push(clampPetField(statFields[index], 1000));
+  }
+
+  return {
+    templateId: roleId,
+    name: typeof role.name === 'string' && role.name.length > 0 ? role.name : null,
+    typeId: clampPetField(role.roleGroupField, 0),
+    generation: Math.max(0, clampPetField(role.field4, 1) - 1),
+    baseStats,
+    statCoefficients,
+  };
 }
 
 function buildEncounterPoolEntry(roleId: number, overrides: EncounterOverrides = {}) {
@@ -174,9 +216,17 @@ function normalizeLocationName(value: unknown): string {
     : '';
 }
 
+function clampPetField(value: unknown, fallback: number): number {
+  if (typeof value !== 'number' || !Number.isFinite(value)) {
+    return fallback;
+  }
+  return Math.max(0, Math.round(value));
+}
+
 module.exports = {
   buildEncounterPoolEntry,
   buildEncounterPoolForLocation,
+  getPetTemplateProfile,
   getRoleInfo,
   getRoleLocations,
   getRoleName,

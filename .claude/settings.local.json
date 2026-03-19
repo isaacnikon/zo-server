@@ -59,7 +59,15 @@
       "Bash(grep -c \"macro_\\\\|Handle\\\\|Register\\\\|LOG\\\\|DB_\\\\|lua_\\\\|Net_\\\\|Create\" src/*.c)",
       "Bash(grep -c 'fn_[0-9a-fA-F]\\\\{6\\\\}' src/*.c)",
       "Bash(grep:*)",
-      "Bash(head:*)"
+      "Bash(head:*)",
+      "Bash(find:*)",
+      "Bash(for f:*)",
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npm test:*)",
+      "Bash(node:*)",
+      "Bash(git commit:*)",
+      "Bash(ls:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

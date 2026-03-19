@@ -187,15 +187,10 @@ function sendPetPropertySync(
   reason = 'runtime'
 ): void {
   const properties = [
-    pet.level,
-    pet.currentHealth,
-    pet.currentMana,
-    pet.loyalty,
     pet.stats?.strength,
     pet.stats?.dexterity,
     pet.stats?.vitality,
     pet.stats?.intelligence,
-    pet.statPoints,
   ];
 
   properties.forEach((value, index) => {
