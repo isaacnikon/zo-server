@@ -4,7 +4,7 @@
     "extractedFile": "/home/nikon/projects/zo-server/data/client-derived/archive/000006c3__is_weapon.txt"
   },
   "archiveEntry": "is_weapon.txt",
-  "generatedAt": "2026-03-17T11:55:04.269015+00:00",
+  "generatedAt": "2026-03-19T12:26:08.144815+00:00",
   "count": 138,
   "entries": [
     {
@@ -14,8 +14,14 @@
       "templateTierField": 1,
       "clientTemplateFamily": 1,
       "baseDurabilityField": 10,
-      "templateLevelField": 10,
+      "templateLevelField": 1,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 45,
+        "attackMax": 50,
+        "magicAttackMin": 45,
+        "magicAttackMax": 50
+      },
       "combatFields": [
         41,
         45,
@@ -57,9 +63,15 @@
       "kind": "weapon",
       "templateTierField": 10,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 400,
+      "baseDurabilityField": 10,
       "templateLevelField": 10,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 95,
+        "attackMax": 111,
+        "magicAttackMin": 55,
+        "magicAttackMax": 60
+      },
       "combatFields": [
         91,
         95,
@@ -101,9 +113,15 @@
       "kind": "weapon",
       "templateTierField": 10,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 400,
+      "baseDurabilityField": 10,
       "templateLevelField": 10,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 50,
+        "attackMax": 60,
+        "magicAttackMin": 106,
+        "magicAttackMax": 111
+      },
       "combatFields": [
         45,
         50,
@@ -145,9 +163,15 @@
       "kind": "weapon",
       "templateTierField": 10,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 400,
+      "baseDurabilityField": 10,
       "templateLevelField": 10,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 72,
+        "attackMax": 85,
+        "magicAttackMin": 80,
+        "magicAttackMax": 85
+      },
       "combatFields": [
         68,
         72,
@@ -189,9 +213,15 @@
       "kind": "weapon",
       "templateTierField": 10,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 400,
+      "baseDurabilityField": 10,
       "templateLevelField": 10,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 111,
+        "attackMax": 121,
+        "magicAttackMin": 65,
+        "magicAttackMax": 70
+      },
       "combatFields": [
         100,
         111,
@@ -233,9 +263,15 @@
       "kind": "weapon",
       "templateTierField": 10,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 400,
+      "baseDurabilityField": 10,
       "templateLevelField": 10,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 60,
+        "attackMax": 70,
+        "magicAttackMin": 116,
+        "magicAttackMax": 121
+      },
       "combatFields": [
         54,
         60,
@@ -277,9 +313,15 @@
       "kind": "weapon",
       "templateTierField": 10,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 400,
+      "baseDurabilityField": 10,
       "templateLevelField": 10,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 85,
+        "attackMax": 96,
+        "magicAttackMin": 91,
+        "magicAttackMax": 96
+      },
       "combatFields": [
         77,
         85,
@@ -321,9 +363,15 @@
       "kind": "weapon",
       "templateTierField": 10,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 400,
+      "baseDurabilityField": 10,
       "templateLevelField": 10,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 121,
+        "attackMax": 126,
+        "magicAttackMin": 70,
+        "magicAttackMax": 75
+      },
       "combatFields": [
         109,
         121,
@@ -365,9 +413,15 @@
       "kind": "weapon",
       "templateTierField": 10,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 400,
+      "baseDurabilityField": 10,
       "templateLevelField": 10,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 70,
+        "attackMax": 75,
+        "magicAttackMin": 121,
+        "magicAttackMax": 126
+      },
       "combatFields": [
         63,
         70,
@@ -409,9 +463,15 @@
       "kind": "weapon",
       "templateTierField": 10,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 400,
+      "baseDurabilityField": 10,
       "templateLevelField": 10,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 96,
+        "attackMax": 101,
+        "magicAttackMin": 96,
+        "magicAttackMax": 101
+      },
       "combatFields": [
         86,
         96,
@@ -453,9 +513,15 @@
       "kind": "weapon",
       "templateTierField": 20,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 20,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 151,
+        "attackMax": 177,
+        "magicAttackMin": 79,
+        "magicAttackMax": 88
+      },
       "combatFields": [
         143,
         151,
@@ -497,9 +563,15 @@
       "kind": "weapon",
       "templateTierField": 20,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 20,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 71,
+        "attackMax": 88,
+        "magicAttackMin": 168,
+        "magicAttackMax": 177
+      },
       "combatFields": [
         63,
         71,
@@ -541,9 +613,15 @@
       "kind": "weapon",
       "templateTierField": 20,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 20,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 111,
+        "attackMax": 132,
+        "magicAttackMin": 123,
+        "magicAttackMax": 132
+      },
       "combatFields": [
         103,
         111,
@@ -585,9 +663,15 @@
       "kind": "weapon",
       "templateTierField": 20,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 20,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 177,
+        "attackMax": 195,
+        "magicAttackMin": 97,
+        "magicAttackMax": 105
+      },
       "combatFields": [
         159,
         177,
@@ -629,9 +713,15 @@
       "kind": "weapon",
       "templateTierField": 20,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 20,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 88,
+        "attackMax": 105,
+        "magicAttackMin": 186,
+        "magicAttackMax": 195
+      },
       "combatFields": [
         79,
         88,
@@ -673,9 +763,15 @@
       "kind": "weapon",
       "templateTierField": 20,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 20,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 132,
+        "attackMax": 150,
+        "magicAttackMin": 141,
+        "magicAttackMax": 150
+      },
       "combatFields": [
         119,
         132,
@@ -717,9 +813,15 @@
       "kind": "weapon",
       "templateTierField": 20,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 20,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 195,
+        "attackMax": 204,
+        "magicAttackMin": 105,
+        "magicAttackMax": 114
+      },
       "combatFields": [
         176,
         195,
@@ -761,9 +863,15 @@
       "kind": "weapon",
       "templateTierField": 20,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 20,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 105,
+        "attackMax": 114,
+        "magicAttackMin": 195,
+        "magicAttackMax": 204
+      },
       "combatFields": [
         95,
         105,
@@ -805,9 +913,15 @@
       "kind": "weapon",
       "templateTierField": 20,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 20,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 150,
+        "attackMax": 159,
+        "magicAttackMin": 150,
+        "magicAttackMax": 159
+      },
       "combatFields": [
         135,
         150,
@@ -849,9 +963,15 @@
       "kind": "weapon",
       "templateTierField": 30,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 1440,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 30,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 207,
+        "attackMax": 243,
+        "magicAttackMin": 102,
+        "magicAttackMax": 115
+      },
       "combatFields": [
         196,
         207,
@@ -893,9 +1013,15 @@
       "kind": "weapon",
       "templateTierField": 30,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 1440,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 30,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 92,
+        "attackMax": 115,
+        "magicAttackMin": 230,
+        "magicAttackMax": 243
+      },
       "combatFields": [
         80,
         92,
@@ -937,9 +1063,15 @@
       "kind": "weapon",
       "templateTierField": 30,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 1440,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 30,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 149,
+        "attackMax": 179,
+        "magicAttackMin": 166,
+        "magicAttackMax": 179
+      },
       "combatFields": [
         138,
         149,
@@ -981,9 +1113,15 @@
       "kind": "weapon",
       "templateTierField": 30,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 1440,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 30,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 243,
+        "attackMax": 269,
+        "magicAttackMin": 128,
+        "magicAttackMax": 141
+      },
       "combatFields": [
         219,
         243,
@@ -1025,9 +1163,15 @@
       "kind": "weapon",
       "templateTierField": 30,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 1440,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 30,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 115,
+        "attackMax": 141,
+        "magicAttackMin": 256,
+        "magicAttackMax": 269
+      },
       "combatFields": [
         104,
         115,
@@ -1069,9 +1213,15 @@
       "kind": "weapon",
       "templateTierField": 30,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 1440,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 30,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 179,
+        "attackMax": 205,
+        "magicAttackMin": 192,
+        "magicAttackMax": 205
+      },
       "combatFields": [
         161,
         179,
@@ -1113,9 +1263,15 @@
       "kind": "weapon",
       "templateTierField": 30,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 1440,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 30,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 269,
+        "attackMax": 282,
+        "magicAttackMin": 141,
+        "magicAttackMax": 153
+      },
       "combatFields": [
         242,
         269,
@@ -1157,9 +1313,15 @@
       "kind": "weapon",
       "templateTierField": 30,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 1440,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 30,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 141,
+        "attackMax": 153,
+        "magicAttackMin": 269,
+        "magicAttackMax": 282
+      },
       "combatFields": [
         127,
         141,
@@ -1201,9 +1363,15 @@
       "kind": "weapon",
       "templateTierField": 30,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 1440,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 30,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 205,
+        "attackMax": 218,
+        "magicAttackMin": 205,
+        "magicAttackMax": 218
+      },
       "combatFields": [
         185,
         205,
@@ -1245,9 +1413,15 @@
       "kind": "weapon",
       "templateTierField": 40,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 2304,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 40,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 264,
+        "attackMax": 310,
+        "magicAttackMin": 125,
+        "magicAttackMax": 142
+      },
       "combatFields": [
         248,
         264,
@@ -1289,9 +1463,15 @@
       "kind": "weapon",
       "templateTierField": 40,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 2304,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 40,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 113,
+        "attackMax": 142,
+        "magicAttackMin": 293,
+        "magicAttackMax": 310
+      },
       "combatFields": [
         98,
         113,
@@ -1333,9 +1513,15 @@
       "kind": "weapon",
       "templateTierField": 40,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 2304,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 40,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 188,
+        "attackMax": 226,
+        "magicAttackMin": 209,
+        "magicAttackMax": 226
+      },
       "combatFields": [
         173,
         188,
@@ -1377,9 +1563,15 @@
       "kind": "weapon",
       "templateTierField": 40,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 2304,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 40,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 310,
+        "attackMax": 343,
+        "magicAttackMin": 159,
+        "magicAttackMax": 176
+      },
       "combatFields": [
         279,
         310,
@@ -1421,9 +1613,15 @@
       "kind": "weapon",
       "templateTierField": 40,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 2304,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 40,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 142,
+        "attackMax": 176,
+        "magicAttackMin": 326,
+        "magicAttackMax": 343
+      },
       "combatFields": [
         128,
         142,
@@ -1465,9 +1663,15 @@
       "kind": "weapon",
       "templateTierField": 40,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 2304,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 40,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 226,
+        "attackMax": 259,
+        "magicAttackMin": 243,
+        "magicAttackMax": 259
+      },
       "combatFields": [
         203,
         226,
@@ -1509,9 +1713,15 @@
       "kind": "weapon",
       "templateTierField": 40,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 2304,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 40,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 343,
+        "attackMax": 360,
+        "magicAttackMin": 176,
+        "magicAttackMax": 192
+      },
       "combatFields": [
         309,
         343,
@@ -1553,9 +1763,15 @@
       "kind": "weapon",
       "templateTierField": 40,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 2304,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 40,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 176,
+        "attackMax": 192,
+        "magicAttackMin": 343,
+        "magicAttackMax": 360
+      },
       "combatFields": [
         158,
         176,
@@ -1597,9 +1813,15 @@
       "kind": "weapon",
       "templateTierField": 40,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 2304,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 40,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 259,
+        "attackMax": 276,
+        "magicAttackMin": 259,
+        "magicAttackMax": 276
+      },
       "combatFields": [
         233,
         259,
@@ -1641,9 +1863,15 @@
       "kind": "weapon",
       "templateTierField": 50,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3224,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 50,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 320,
+        "attackMax": 376,
+        "magicAttackMin": 149,
+        "magicAttackMax": 169
+      },
       "combatFields": [
         302,
         320,
@@ -1685,9 +1913,15 @@
       "kind": "weapon",
       "templateTierField": 50,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3224,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 50,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 134,
+        "attackMax": 169,
+        "magicAttackMin": 355,
+        "magicAttackMax": 376
+      },
       "combatFields": [
         115,
         134,
@@ -1729,9 +1963,15 @@
       "kind": "weapon",
       "templateTierField": 50,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3224,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 50,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 227,
+        "attackMax": 273,
+        "magicAttackMin": 252,
+        "magicAttackMax": 273
+      },
       "combatFields": [
         208,
         227,
@@ -1773,9 +2013,15 @@
       "kind": "weapon",
       "templateTierField": 50,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3224,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 50,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 376,
+        "attackMax": 417,
+        "magicAttackMin": 190,
+        "magicAttackMax": 211
+      },
       "combatFields": [
         338,
         376,
@@ -1817,9 +2063,15 @@
       "kind": "weapon",
       "templateTierField": 50,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3224,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 50,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 169,
+        "attackMax": 211,
+        "magicAttackMin": 397,
+        "magicAttackMax": 417
+      },
       "combatFields": [
         152,
         169,
@@ -1861,9 +2113,15 @@
       "kind": "weapon",
       "templateTierField": 50,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3224,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 50,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 273,
+        "attackMax": 314,
+        "magicAttackMin": 293,
+        "magicAttackMax": 314
+      },
       "combatFields": [
         246,
         273,
@@ -1905,9 +2163,15 @@
       "kind": "weapon",
       "templateTierField": 50,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3224,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 50,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 417,
+        "attackMax": 438,
+        "magicAttackMin": 211,
+        "magicAttackMax": 231
+      },
       "combatFields": [
         375,
         417,
@@ -1949,9 +2213,15 @@
       "kind": "weapon",
       "templateTierField": 50,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3224,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 50,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 211,
+        "attackMax": 231,
+        "magicAttackMin": 417,
+        "magicAttackMax": 438
+      },
       "combatFields": [
         190,
         211,
@@ -1993,9 +2263,15 @@
       "kind": "weapon",
       "templateTierField": 50,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3224,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 50,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 314,
+        "attackMax": 335,
+        "magicAttackMin": 314,
+        "magicAttackMax": 335
+      },
       "combatFields": [
         283,
         314,
@@ -2037,9 +2313,15 @@
       "kind": "weapon",
       "templateTierField": 60,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3872,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 60,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 376,
+        "attackMax": 442,
+        "magicAttackMin": 172,
+        "magicAttackMax": 197
+      },
       "combatFields": [
         354,
         376,
@@ -2081,9 +2363,15 @@
       "kind": "weapon",
       "templateTierField": 60,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3872,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 60,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 155,
+        "attackMax": 197,
+        "magicAttackMin": 418,
+        "magicAttackMax": 442
+      },
       "combatFields": [
         133,
         155,
@@ -2125,9 +2413,15 @@
       "kind": "weapon",
       "templateTierField": 60,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3872,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 60,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 266,
+        "attackMax": 319,
+        "magicAttackMin": 295,
+        "magicAttackMax": 319
+      },
       "combatFields": [
         243,
         266,
@@ -2169,9 +2463,15 @@
       "kind": "weapon",
       "templateTierField": 60,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3872,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 60,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 442,
+        "attackMax": 491,
+        "magicAttackMin": 221,
+        "magicAttackMax": 246
+      },
       "combatFields": [
         398,
         442,
@@ -2213,9 +2513,15 @@
       "kind": "weapon",
       "templateTierField": 60,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3872,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 60,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 197,
+        "attackMax": 246,
+        "magicAttackMin": 467,
+        "magicAttackMax": 491
+      },
       "combatFields": [
         177,
         197,
@@ -2257,9 +2563,15 @@
       "kind": "weapon",
       "templateTierField": 60,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3872,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 60,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 319,
+        "attackMax": 369,
+        "magicAttackMin": 344,
+        "magicAttackMax": 369
+      },
       "combatFields": [
         287,
         319,
@@ -2301,9 +2613,15 @@
       "kind": "weapon",
       "templateTierField": 60,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3872,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 60,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 491,
+        "attackMax": 516,
+        "magicAttackMin": 246,
+        "magicAttackMax": 270
+      },
       "combatFields": [
         442,
         491,
@@ -2345,9 +2663,15 @@
       "kind": "weapon",
       "templateTierField": 60,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3872,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 60,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 246,
+        "attackMax": 270,
+        "magicAttackMin": 491,
+        "magicAttackMax": 516
+      },
       "combatFields": [
         221,
         246,
@@ -2389,9 +2713,15 @@
       "kind": "weapon",
       "templateTierField": 60,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3872,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 60,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 369,
+        "attackMax": 393,
+        "magicAttackMin": 369,
+        "magicAttackMax": 393
+      },
       "combatFields": [
         332,
         369,
@@ -2433,9 +2763,15 @@
       "kind": "weapon",
       "templateTierField": 70,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 4644,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 70,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 432,
+        "attackMax": 508,
+        "magicAttackMin": 196,
+        "magicAttackMax": 224
+      },
       "combatFields": [
         407,
         432,
@@ -2477,9 +2813,15 @@
       "kind": "weapon",
       "templateTierField": 70,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 4644,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 70,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 176,
+        "attackMax": 224,
+        "magicAttackMin": 480,
+        "magicAttackMax": 508
+      },
       "combatFields": [
         150,
         176,
@@ -2521,9 +2863,15 @@
       "kind": "weapon",
       "templateTierField": 70,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 4644,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 70,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 304,
+        "attackMax": 366,
+        "magicAttackMin": 338,
+        "magicAttackMax": 366
+      },
       "combatFields": [
         278,
         304,
@@ -2565,9 +2913,15 @@
       "kind": "weapon",
       "templateTierField": 70,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 4644,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 70,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 508,
+        "attackMax": 565,
+        "magicAttackMin": 253,
+        "magicAttackMax": 281
+      },
       "combatFields": [
         457,
         508,
@@ -2609,9 +2963,15 @@
       "kind": "weapon",
       "templateTierField": 70,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 4644,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 70,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 224,
+        "attackMax": 281,
+        "magicAttackMin": 537,
+        "magicAttackMax": 565
+      },
       "combatFields": [
         202,
         224,
@@ -2653,9 +3013,15 @@
       "kind": "weapon",
       "templateTierField": 70,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 4644,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 70,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 366,
+        "attackMax": 423,
+        "magicAttackMin": 395,
+        "magicAttackMax": 423
+      },
       "combatFields": [
         329,
         366,
@@ -2697,9 +3063,15 @@
       "kind": "weapon",
       "templateTierField": 70,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 4644,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 70,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 565,
+        "attackMax": 594,
+        "magicAttackMin": 281,
+        "magicAttackMax": 309
+      },
       "combatFields": [
         509,
         565,
@@ -2741,9 +3113,15 @@
       "kind": "weapon",
       "templateTierField": 70,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 4644,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 70,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 281,
+        "attackMax": 309,
+        "magicAttackMin": 565,
+        "magicAttackMax": 594
+      },
       "combatFields": [
         253,
         281,
@@ -2785,9 +3163,15 @@
       "kind": "weapon",
       "templateTierField": 70,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 4644,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 70,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 423,
+        "attackMax": 452,
+        "magicAttackMin": 423,
+        "magicAttackMax": 452
+      },
       "combatFields": [
         381,
         423,
@@ -2829,9 +3213,15 @@
       "kind": "weapon",
       "templateTierField": 80,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 5572,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 80,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 488,
+        "attackMax": 575,
+        "magicAttackMin": 219,
+        "magicAttackMax": 251
+      },
       "combatFields": [
         459,
         488,
@@ -2873,9 +3263,15 @@
       "kind": "weapon",
       "templateTierField": 80,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 5572,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 80,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 197,
+        "attackMax": 251,
+        "magicAttackMin": 542,
+        "magicAttackMax": 575
+      },
       "combatFields": [
         168,
         197,
@@ -2917,9 +3313,15 @@
       "kind": "weapon",
       "templateTierField": 80,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 5572,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 80,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 343,
+        "attackMax": 413,
+        "magicAttackMin": 381,
+        "magicAttackMax": 413
+      },
       "combatFields": [
         313,
         343,
@@ -2961,9 +3363,15 @@
       "kind": "weapon",
       "templateTierField": 80,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 5572,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 80,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 575,
+        "attackMax": 639,
+        "magicAttackMin": 284,
+        "magicAttackMax": 316
+      },
       "combatFields": [
         518,
         575,
@@ -3005,9 +3413,15 @@
       "kind": "weapon",
       "templateTierField": 80,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 5572,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 80,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 251,
+        "attackMax": 316,
+        "magicAttackMin": 607,
+        "magicAttackMax": 639
+      },
       "combatFields": [
         226,
         251,
@@ -3049,9 +3463,15 @@
       "kind": "weapon",
       "templateTierField": 80,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 5572,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 80,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 413,
+        "attackMax": 478,
+        "magicAttackMin": 445,
+        "magicAttackMax": 478
+      },
       "combatFields": [
         372,
         413,
@@ -3093,9 +3513,15 @@
       "kind": "weapon",
       "templateTierField": 80,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 5572,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 80,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 639,
+        "attackMax": 672,
+        "magicAttackMin": 316,
+        "magicAttackMax": 348
+      },
       "combatFields": [
         575,
         639,
@@ -3137,9 +3563,15 @@
       "kind": "weapon",
       "templateTierField": 80,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 5572,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 80,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 316,
+        "attackMax": 348,
+        "magicAttackMin": 639,
+        "magicAttackMax": 672
+      },
       "combatFields": [
         284,
         316,
@@ -3181,9 +3613,15 @@
       "kind": "weapon",
       "templateTierField": 80,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 5572,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 80,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 478,
+        "attackMax": 510,
+        "magicAttackMin": 478,
+        "magicAttackMax": 510
+      },
       "combatFields": [
         430,
         478,
@@ -3225,9 +3663,15 @@
       "kind": "weapon",
       "templateTierField": 90,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 6688,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 90,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 545,
+        "attackMax": 641,
+        "magicAttackMin": 242,
+        "magicAttackMax": 279
+      },
       "combatFields": [
         512,
         545,
@@ -3269,9 +3713,15 @@
       "kind": "weapon",
       "templateTierField": 90,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 6688,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 90,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 218,
+        "attackMax": 279,
+        "magicAttackMin": 605,
+        "magicAttackMax": 641
+      },
       "combatFields": [
         185,
         218,
@@ -3313,9 +3763,15 @@
       "kind": "weapon",
       "templateTierField": 90,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 6688,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 90,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 382,
+        "attackMax": 460,
+        "magicAttackMin": 424,
+        "magicAttackMax": 460
+      },
       "combatFields": [
         348,
         382,
@@ -3357,9 +3813,15 @@
       "kind": "weapon",
       "templateTierField": 90,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 6688,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 90,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 641,
+        "attackMax": 714,
+        "magicAttackMin": 315,
+        "magicAttackMax": 351
+      },
       "combatFields": [
         577,
         641,
@@ -3401,9 +3863,15 @@
       "kind": "weapon",
       "templateTierField": 90,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 6688,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 90,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 279,
+        "attackMax": 351,
+        "magicAttackMin": 677,
+        "magicAttackMax": 714
+      },
       "combatFields": [
         251,
         279,
@@ -3445,9 +3913,15 @@
       "kind": "weapon",
       "templateTierField": 90,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 6688,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 90,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 460,
+        "attackMax": 532,
+        "magicAttackMin": 496,
+        "magicAttackMax": 532
+      },
       "combatFields": [
         414,
         460,
@@ -3489,9 +3963,15 @@
       "kind": "weapon",
       "templateTierField": 90,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 6688,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 90,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 714,
+        "attackMax": 750,
+        "magicAttackMin": 351,
+        "magicAttackMax": 387
+      },
       "combatFields": [
         643,
         714,
@@ -3533,9 +4013,15 @@
       "kind": "weapon",
       "templateTierField": 90,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 6688,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 90,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 351,
+        "attackMax": 387,
+        "magicAttackMin": 714,
+        "magicAttackMax": 750
+      },
       "combatFields": [
         316,
         351,
@@ -3577,9 +4063,15 @@
       "kind": "weapon",
       "templateTierField": 90,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 6688,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 90,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 532,
+        "attackMax": 569,
+        "magicAttackMin": 532,
+        "magicAttackMax": 569
+      },
       "combatFields": [
         479,
         532,
@@ -3621,9 +4113,15 @@
       "kind": "weapon",
       "templateTierField": 100,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 8028,
-      "templateLevelField": 40,
+      "baseDurabilityField": 40,
+      "templateLevelField": 100,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 600,
+        "attackMax": 707,
+        "magicAttackMin": 266,
+        "magicAttackMax": 306
+      },
       "combatFields": [
         564,
         600,
@@ -3665,9 +4163,15 @@
       "kind": "weapon",
       "templateTierField": 100,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 8028,
-      "templateLevelField": 40,
+      "baseDurabilityField": 40,
+      "templateLevelField": 100,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 239,
+        "attackMax": 306,
+        "magicAttackMin": 667,
+        "magicAttackMax": 707
+      },
       "combatFields": [
         203,
         239,
@@ -3709,9 +4213,15 @@
       "kind": "weapon",
       "templateTierField": 100,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 8028,
-      "templateLevelField": 40,
+      "baseDurabilityField": 40,
+      "templateLevelField": 100,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 420,
+        "attackMax": 507,
+        "magicAttackMin": 467,
+        "magicAttackMax": 507
+      },
       "combatFields": [
         383,
         420,
@@ -3753,9 +4263,15 @@
       "kind": "weapon",
       "templateTierField": 100,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 8028,
-      "templateLevelField": 40,
+      "baseDurabilityField": 40,
+      "templateLevelField": 100,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 707,
+        "attackMax": 788,
+        "magicAttackMin": 346,
+        "magicAttackMax": 386
+      },
       "combatFields": [
         636,
         707,
@@ -3797,9 +4313,15 @@
       "kind": "weapon",
       "templateTierField": 100,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 8028,
-      "templateLevelField": 40,
+      "baseDurabilityField": 40,
+      "templateLevelField": 100,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 306,
+        "attackMax": 386,
+        "magicAttackMin": 748,
+        "magicAttackMax": 788
+      },
       "combatFields": [
         275,
         306,
@@ -3841,9 +4363,15 @@
       "kind": "weapon",
       "templateTierField": 100,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 8028,
-      "templateLevelField": 40,
+      "baseDurabilityField": 40,
+      "templateLevelField": 100,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 507,
+        "attackMax": 587,
+        "magicAttackMin": 547,
+        "magicAttackMax": 587
+      },
       "combatFields": [
         456,
         507,
@@ -3885,9 +4413,15 @@
       "kind": "weapon",
       "templateTierField": 100,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 8028,
-      "templateLevelField": 40,
+      "baseDurabilityField": 40,
+      "templateLevelField": 100,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 788,
+        "attackMax": 828,
+        "magicAttackMin": 386,
+        "magicAttackMax": 426
+      },
       "combatFields": [
         709,
         788,
@@ -3929,9 +4463,15 @@
       "kind": "weapon",
       "templateTierField": 100,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 8028,
-      "templateLevelField": 40,
+      "baseDurabilityField": 40,
+      "templateLevelField": 100,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 386,
+        "attackMax": 426,
+        "magicAttackMin": 788,
+        "magicAttackMax": 828
+      },
       "combatFields": [
         347,
         386,
@@ -3973,9 +4513,15 @@
       "kind": "weapon",
       "templateTierField": 100,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 8028,
-      "templateLevelField": 40,
+      "baseDurabilityField": 40,
+      "templateLevelField": 100,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 587,
+        "attackMax": 627,
+        "magicAttackMin": 587,
+        "magicAttackMax": 627
+      },
       "combatFields": [
         528,
         587,
@@ -4017,9 +4563,15 @@
       "kind": "weapon",
       "templateTierField": 5,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 60,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 5,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 84,
+        "attackMax": 84,
+        "magicAttackMin": 84,
+        "magicAttackMax": 84
+      },
       "combatFields": [
         79,
         84,
@@ -4061,9 +4613,15 @@
       "kind": "weapon",
       "templateTierField": 15,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 15,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 135,
+        "attackMax": 140,
+        "magicAttackMin": 70,
+        "magicAttackMax": 80
+      },
       "combatFields": [
         130,
         135,
@@ -4105,9 +4663,15 @@
       "kind": "weapon",
       "templateTierField": 15,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 15,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 70,
+        "attackMax": 80,
+        "magicAttackMin": 135,
+        "magicAttackMax": 140
+      },
       "combatFields": [
         65,
         70,
@@ -4149,9 +4713,15 @@
       "kind": "weapon",
       "templateTierField": 15,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 15,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 99,
+        "attackMax": 109,
+        "magicAttackMin": 99,
+        "magicAttackMax": 109
+      },
       "combatFields": [
         94,
         99,
@@ -4193,9 +4763,15 @@
       "kind": "weapon",
       "templateTierField": 10,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 200,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 10,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 10,
+        "attackMax": 10,
+        "magicAttackMin": 10,
+        "magicAttackMax": 10
+      },
       "combatFields": [
         5,
         10,
@@ -4237,9 +4813,15 @@
       "kind": "weapon",
       "templateTierField": 10,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 200,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 10,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 10,
+        "attackMax": 10,
+        "magicAttackMin": 10,
+        "magicAttackMax": 10
+      },
       "combatFields": [
         5,
         10,
@@ -4281,9 +4863,15 @@
       "kind": "weapon",
       "templateTierField": 10,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 200,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 10,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 10,
+        "attackMax": 10,
+        "magicAttackMin": 10,
+        "magicAttackMax": 10
+      },
       "combatFields": [
         5,
         10,
@@ -4325,9 +4913,15 @@
       "kind": "weapon",
       "templateTierField": 10,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 200,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 10,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 10,
+        "attackMax": 10,
+        "magicAttackMin": 10,
+        "magicAttackMax": 10
+      },
       "combatFields": [
         5,
         10,
@@ -4369,9 +4963,15 @@
       "kind": "weapon",
       "templateTierField": 1,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 40,
+      "baseDurabilityField": 40,
+      "templateLevelField": 1,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 50,
+        "attackMax": 50,
+        "magicAttackMin": 50,
+        "magicAttackMax": 50
+      },
       "combatFields": [
         40,
         50,
@@ -4413,9 +5013,15 @@
       "kind": "weapon",
       "templateTierField": 1,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 40,
+      "baseDurabilityField": 40,
+      "templateLevelField": 1,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 50,
+        "attackMax": 50,
+        "magicAttackMin": 50,
+        "magicAttackMax": 50
+      },
       "combatFields": [
         40,
         50,
@@ -4457,9 +5063,15 @@
       "kind": "weapon",
       "templateTierField": 1,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 40,
+      "baseDurabilityField": 40,
+      "templateLevelField": 1,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 50,
+        "attackMax": 50,
+        "magicAttackMin": 50,
+        "magicAttackMax": 50
+      },
       "combatFields": [
         40,
         50,
@@ -4501,9 +5113,15 @@
       "kind": "weapon",
       "templateTierField": 1,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 40,
+      "baseDurabilityField": 40,
+      "templateLevelField": 1,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 50,
+        "attackMax": 50,
+        "magicAttackMin": 50,
+        "magicAttackMax": 50
+      },
       "combatFields": [
         40,
         50,
@@ -4545,9 +5163,15 @@
       "kind": "weapon",
       "templateTierField": 40,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 2304,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 40,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 180,
+        "attackMax": 180,
+        "magicAttackMin": 180,
+        "magicAttackMax": 180
+      },
       "combatFields": [
         160,
         180,
@@ -4589,9 +5213,15 @@
       "kind": "weapon",
       "templateTierField": 50,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3224,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 50,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 210,
+        "attackMax": 210,
+        "magicAttackMin": 210,
+        "magicAttackMax": 210
+      },
       "combatFields": [
         190,
         210,
@@ -4633,9 +5263,15 @@
       "kind": "weapon",
       "templateTierField": 60,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3872,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 60,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 230,
+        "attackMax": 230,
+        "magicAttackMin": 230,
+        "magicAttackMax": 230
+      },
       "combatFields": [
         210,
         230,
@@ -4677,9 +5313,15 @@
       "kind": "weapon",
       "templateTierField": 70,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 4644,
-      "templateLevelField": 30,
+      "baseDurabilityField": 30,
+      "templateLevelField": 70,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 260,
+        "attackMax": 260,
+        "magicAttackMin": 260,
+        "magicAttackMax": 260
+      },
       "combatFields": [
         240,
         260,
@@ -4721,9 +5363,15 @@
       "kind": "weapon",
       "templateTierField": 24,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 0,
-      "templateLevelField": 2,
+      "baseDurabilityField": 2,
+      "templateLevelField": 24,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 160,
+        "attackMax": 180,
+        "magicAttackMin": 160,
+        "magicAttackMax": 180
+      },
       "combatFields": [
         160,
         160,
@@ -4765,9 +5413,15 @@
       "kind": "weapon",
       "templateTierField": 24,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 0,
-      "templateLevelField": 2,
+      "baseDurabilityField": 2,
+      "templateLevelField": 24,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 200,
+        "attackMax": 220,
+        "magicAttackMin": 200,
+        "magicAttackMax": 220
+      },
       "combatFields": [
         200,
         200,
@@ -4809,9 +5463,15 @@
       "kind": "weapon",
       "templateTierField": 60,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3872,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 60,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 491,
+        "attackMax": 516,
+        "magicAttackMin": 246,
+        "magicAttackMax": 270
+      },
       "combatFields": [
         442,
         491,
@@ -4853,9 +5513,15 @@
       "kind": "weapon",
       "templateTierField": 60,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3872,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 60,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 246,
+        "attackMax": 270,
+        "magicAttackMin": 491,
+        "magicAttackMax": 516
+      },
       "combatFields": [
         221,
         246,
@@ -4897,9 +5563,15 @@
       "kind": "weapon",
       "templateTierField": 60,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3872,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 60,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 369,
+        "attackMax": 393,
+        "magicAttackMin": 369,
+        "magicAttackMax": 393
+      },
       "combatFields": [
         332,
         369,
@@ -4941,9 +5613,15 @@
       "kind": "weapon",
       "templateTierField": 60,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3872,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 60,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 369,
+        "attackMax": 393,
+        "magicAttackMin": 369,
+        "magicAttackMax": 393
+      },
       "combatFields": [
         332,
         369,
@@ -4985,9 +5663,15 @@
       "kind": "weapon",
       "templateTierField": 75,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3872,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 75,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 565,
+        "attackMax": 594,
+        "magicAttackMin": 256,
+        "magicAttackMax": 320
+      },
       "combatFields": [
         509,
         565,
@@ -5029,9 +5713,15 @@
       "kind": "weapon",
       "templateTierField": 75,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3872,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 75,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 256,
+        "attackMax": 320,
+        "magicAttackMin": 565,
+        "magicAttackMax": 594
+      },
       "combatFields": [
         251,
         256,
@@ -5073,9 +5763,15 @@
       "kind": "weapon",
       "templateTierField": 75,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3872,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 75,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 419,
+        "attackMax": 463,
+        "magicAttackMin": 419,
+        "magicAttackMax": 463
+      },
       "combatFields": [
         382,
         419,
@@ -5117,9 +5813,15 @@
       "kind": "weapon",
       "templateTierField": 75,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 3872,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 75,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 419,
+        "attackMax": 463,
+        "magicAttackMin": 419,
+        "magicAttackMax": 463
+      },
       "combatFields": [
         382,
         419,
@@ -5161,9 +5863,15 @@
       "kind": "weapon",
       "templateTierField": 101,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 1200,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 101,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 0,
+        "attackMax": 0,
+        "magicAttackMin": 0,
+        "magicAttackMax": 0
+      },
       "combatFields": [
         0,
         0,
@@ -5205,9 +5913,15 @@
       "kind": "weapon",
       "templateTierField": 101,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 1200,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 101,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 0,
+        "attackMax": 0,
+        "magicAttackMin": 0,
+        "magicAttackMax": 0
+      },
       "combatFields": [
         0,
         0,
@@ -5249,9 +5963,15 @@
       "kind": "weapon",
       "templateTierField": 101,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 0,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 101,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 0,
+        "attackMax": 0,
+        "magicAttackMin": 0,
+        "magicAttackMax": 0
+      },
       "combatFields": [
         0,
         0,
@@ -5293,9 +6013,15 @@
       "kind": "weapon",
       "templateTierField": 101,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 0,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 101,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 0,
+        "attackMax": 0,
+        "magicAttackMin": 0,
+        "magicAttackMax": 0
+      },
       "combatFields": [
         0,
         0,
@@ -5337,9 +6063,15 @@
       "kind": "weapon",
       "templateTierField": 10,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 400,
+      "baseDurabilityField": 10,
       "templateLevelField": 10,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 116,
+        "attackMax": 121,
+        "magicAttackMin": 65,
+        "magicAttackMax": 70
+      },
       "combatFields": [
         111,
         116,
@@ -5381,9 +6113,15 @@
       "kind": "weapon",
       "templateTierField": 10,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 400,
+      "baseDurabilityField": 10,
       "templateLevelField": 10,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 65,
+        "attackMax": 70,
+        "magicAttackMin": 116,
+        "magicAttackMax": 121
+      },
       "combatFields": [
         60,
         65,
@@ -5425,9 +6163,15 @@
       "kind": "weapon",
       "templateTierField": 10,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 400,
+      "baseDurabilityField": 10,
       "templateLevelField": 10,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 91,
+        "attackMax": 96,
+        "magicAttackMin": 91,
+        "magicAttackMax": 96
+      },
       "combatFields": [
         85,
         91,
@@ -5469,9 +6213,15 @@
       "kind": "weapon",
       "templateTierField": 40,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 2304,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 40,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 326,
+        "attackMax": 343,
+        "magicAttackMin": 159,
+        "magicAttackMax": 176
+      },
       "combatFields": [
         310,
         326,
@@ -5513,9 +6263,15 @@
       "kind": "weapon",
       "templateTierField": 40,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 2304,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 40,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 159,
+        "attackMax": 176,
+        "magicAttackMin": 326,
+        "magicAttackMax": 343
+      },
       "combatFields": [
         142,
         159,
@@ -5557,9 +6313,15 @@
       "kind": "weapon",
       "templateTierField": 40,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 2304,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 40,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 243,
+        "attackMax": 259,
+        "magicAttackMin": 243,
+        "magicAttackMax": 259
+      },
       "combatFields": [
         226,
         243,
@@ -5601,9 +6363,15 @@
       "kind": "weapon",
       "templateTierField": 40,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 2304,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 40,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 343,
+        "attackMax": 360,
+        "magicAttackMin": 176,
+        "magicAttackMax": 192
+      },
       "combatFields": [
         343,
         343,
@@ -5645,9 +6413,15 @@
       "kind": "weapon",
       "templateTierField": 40,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 2304,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 40,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 176,
+        "attackMax": 192,
+        "magicAttackMin": 343,
+        "magicAttackMax": 360
+      },
       "combatFields": [
         176,
         176,
@@ -5689,9 +6463,15 @@
       "kind": "weapon",
       "templateTierField": 40,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 2304,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 40,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 259,
+        "attackMax": 276,
+        "magicAttackMin": 259,
+        "magicAttackMax": 276
+      },
       "combatFields": [
         259,
         259,
@@ -5733,9 +6513,15 @@
       "kind": "weapon",
       "templateTierField": 20,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 20,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 186,
+        "attackMax": 195,
+        "magicAttackMin": 97,
+        "magicAttackMax": 105
+      },
       "combatFields": [
         177,
         186,
@@ -5777,9 +6563,15 @@
       "kind": "weapon",
       "templateTierField": 20,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 20,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 97,
+        "attackMax": 105,
+        "magicAttackMin": 186,
+        "magicAttackMax": 195
+      },
       "combatFields": [
         88,
         97,
@@ -5821,9 +6613,15 @@
       "kind": "weapon",
       "templateTierField": 20,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 20,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 141,
+        "attackMax": 150,
+        "magicAttackMin": 141,
+        "magicAttackMax": 150
+      },
       "combatFields": [
         132,
         141,
@@ -5865,9 +6663,15 @@
       "kind": "weapon",
       "templateTierField": 20,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 20,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 195,
+        "attackMax": 204,
+        "magicAttackMin": 105,
+        "magicAttackMax": 114
+      },
       "combatFields": [
         195,
         195,
@@ -5909,9 +6713,15 @@
       "kind": "weapon",
       "templateTierField": 20,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 20,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 105,
+        "attackMax": 114,
+        "magicAttackMin": 195,
+        "magicAttackMax": 204
+      },
       "combatFields": [
         105,
         105,
@@ -5953,9 +6763,15 @@
       "kind": "weapon",
       "templateTierField": 20,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 20,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 150,
+        "attackMax": 159,
+        "magicAttackMin": 150,
+        "magicAttackMax": 159
+      },
       "combatFields": [
         150,
         150,
@@ -5997,9 +6813,15 @@
       "kind": "weapon",
       "templateTierField": 20,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 800,
-      "templateLevelField": 10,
+      "baseDurabilityField": 10,
+      "templateLevelField": 20,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 195,
+        "attackMax": 204,
+        "magicAttackMin": null,
+        "magicAttackMax": null
+      },
       "combatFields": [
         195,
         195,
@@ -6041,9 +6863,15 @@
       "kind": "weapon",
       "templateTierField": 30,
       "clientTemplateFamily": 1,
-      "baseDurabilityField": 1440,
-      "templateLevelField": 20,
+      "baseDurabilityField": 20,
+      "templateLevelField": 30,
       "equipSlotField": 3,
+      "defaultInstanceFields": {
+        "attackMin": 205,
+        "attackMax": 218,
+        "magicAttackMin": 205,
+        "magicAttackMax": 218
+      },
       "combatFields": [
         185,
         205,

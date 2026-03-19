@@ -21,12 +21,19 @@ export function tryHandleEquipmentStatePacket(session: SessionLike, payload: Buf
     return true;
   }
 
-  item.equipped = equipFlag === 1;
+  const nextEquipped = equipFlag === 1;
+  if (item.equipped === nextEquipped) {
+    session.log(
+      `Ignoring duplicate equipment state instanceId=${instanceId} templateId=${item.templateId} equipped=${nextEquipped ? 1 : 0}`
+    );
+    return true;
+  }
+
+  item.equipped = nextEquipped;
   session.log(
     `Equipment state update instanceId=${instanceId} templateId=${item.templateId} equipped=${item.equipped ? 1 : 0}`
   );
   session.persistCurrentCharacter();
-  sendEquipmentContainerSync(session);
   return true;
 }
 

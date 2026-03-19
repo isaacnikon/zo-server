@@ -90,15 +90,18 @@ function parseContextEvent(payload: Buffer, subtype: number, sessionState: Sessi
   };
 }
 
-function parseRestRequest(payload: Buffer, subtype: number, sessionState: SessionStateLike) {
+function parseNpcActionRequest(payload: Buffer, subtype: number, sessionState: SessionStateLike) {
   if (payload.length < 7) {
     return { kind: 'invalid', reason: `Short 0x03f1/0x${subtype.toString(16)} payload` };
   }
   const npcId = payload.readUInt32LE(3);
   return {
-    kind: 'direct-rest',
+    kind: 'npc-action',
     subtype,
     npcId,
+    mapId: sessionState.currentMapId,
+    x: sessionState.currentX,
+    y: sessionState.currentY,
     logMessage: `Server-run request sub=0x${subtype.toString(16)} npcId=${npcId} map=${sessionState.currentMapId} pos=${sessionState.currentX},${sessionState.currentY}`,
   };
 }
@@ -122,7 +125,7 @@ const SUBTYPE_PARSERS = new Map<number, ServerRunParser>([
   [0x04, parseNpcInteractWithMode],
   [SERVER_RUN_MESSAGE_SUBCMD, parseScriptEvent],
   [SERVER_RUN_CONTEXT_SUBCMD, parseContextEvent],
-  [SERVER_RUN_REST_SUBCMD, parseRestRequest],
+  [SERVER_RUN_REST_SUBCMD, parseNpcActionRequest],
   [0x05, parseQuestAbandon],
 ]);
 

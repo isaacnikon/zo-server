@@ -9,6 +9,7 @@ const {
   GAME_ITEM_CONTAINER_CMD,
   ITEM_CONTAINER_POSITION_SUBCMD,
   GAME_ITEM_CMD,
+  GAME_NPC_SHOP_CMD,
   GAME_QUEST_CMD,
   GAME_SCRIPT_EVENT_CMD,
   GAME_SELF_STATE_CMD,
@@ -132,6 +133,11 @@ interface ItemInstance {
   extraValue: number;
   clientTemplateFamily: number | null;
   attributePairs: Array<{ key: number; value: number }>;
+}
+
+interface NpcShopCatalogItem {
+  templateId: number;
+  price: number;
 }
 
 function buildSyntheticAttackPlaybackPacket({ attackerEntityId, targetEntityId, resultCode, damage }: AttackPlaybackParams): Buffer {
@@ -515,6 +521,7 @@ function buildItemAddPacket({
   containerType,
   templateId,
   instanceId = 0,
+  tradeState = 0,
   stateCode = 0,
   bindState = 0,
   quantity = 1,
@@ -525,6 +532,7 @@ function buildItemAddPacket({
   containerType: number;
   templateId: number;
   instanceId?: number;
+  tradeState?: number;
   stateCode?: number;
   bindState?: number;
   quantity?: number;
@@ -538,7 +546,7 @@ function buildItemAddPacket({
   writer.writeUint32(instanceId >>> 0);
   writeClientItemInstancePayload(writer, {
     templateId,
-    instanceId,
+    tradeState,
     stateCode,
     bindState,
     quantity,
@@ -576,6 +584,18 @@ function buildServerRunMessagePacket(npcId: number, msgId: number): Buffer {
   return writer.payload();
 }
 
+function buildNpcShopOpenPacket(items: NpcShopCatalogItem[]): Buffer {
+  const writer = new PacketWriter();
+  const normalizedItems = Array.isArray(items) ? items : [];
+  writer.writeUint16(GAME_NPC_SHOP_CMD);
+  writer.writeUint8(0x07);
+  for (const item of normalizedItems) {
+    writer.writeUint16((item.templateId || 0) & 0xffff);
+    writer.writeUint32((item.price || 0) >>> 0);
+  }
+  return writer.payload();
+}
+
 function buildGameDialoguePacket({ speaker, message, subtype = GAME_DIALOG_MESSAGE_SUBCMD, flags = 0, extraText = null }: {
   speaker: string;
   message: string;
@@ -602,6 +622,7 @@ module.exports = {
   buildInventoryContainerQuantityPacket,
   buildInventoryContainerPositionPacket,
   buildGameDialoguePacket,
+  buildNpcShopOpenPacket,
   buildEquipmentStatePacket,
   buildItemAddPacket,
   buildItemRemovePacket,

@@ -155,6 +155,21 @@ def main() -> None:
             "entries": parse_roleinfo_rows(extracted["roleinfo"]["text"]),
         },
     )
+    roleinfo_entries = parse_roleinfo_rows(extracted["roleinfo"]["text"])
+    write_json(
+        OUTPUT_ROOT / "shops.json",
+        {
+            "source": {
+                "manifest": str(ARCHIVE_MANIFEST_FILE),
+                "archiveRoot": str(ARCHIVE_ROOT),
+                "roleinfo": str((OUTPUT_ROOT / "roleinfo.json").resolve()),
+            },
+            "archiveEntryPattern": "*.shop",
+            "generatedAt": generated_at,
+            "count": 0,
+            "entries": parse_shop_rows(archive_manifest, roleinfo_entries),
+        },
+    )
 
     for output_name in (
         "equipment.json",
@@ -167,6 +182,7 @@ def main() -> None:
         "weektask.json",
         "helpfiles.json",
         "roleinfo.json",
+        "shops.json",
         "quests.json",
     ):
         print((OUTPUT_ROOT / output_name).resolve())
@@ -220,9 +236,13 @@ def parse_equipment_rows(text: str) -> list[dict]:
                 "kind": "armor",
                 "templateTierField": parse_int(row[2]),
                 "clientTemplateFamily": parse_int(row[3]),
-                "baseDurabilityField": parse_int(row[9]),
-                "templateLevelField": parse_int(row[10]),
+                "baseDurabilityField": parse_int(row[10]),
+                "templateLevelField": parse_int(row[2]),
                 "equipSlotField": parse_int(row[11]),
+                "defaultInstanceFields": {
+                    "defense": parse_int(row[13]),
+                    "magicDefense": parse_int(row[19]),
+                },
                 "combatFields": parse_ints(row[12:23]),
                 "iconPath": row[23],
                 "restrictionFields": parse_ints(row[24:-1]),
@@ -245,9 +265,15 @@ def parse_weapon_rows(text: str) -> list[dict]:
                 "kind": "weapon",
                 "templateTierField": parse_int(row[2]),
                 "clientTemplateFamily": parse_int(row[3]),
-                "baseDurabilityField": parse_int(row[9]),
-                "templateLevelField": parse_int(row[10]),
+                "baseDurabilityField": parse_int(row[10]),
+                "templateLevelField": parse_int(row[2]),
                 "equipSlotField": parse_int(row[11]),
+                "defaultInstanceFields": {
+                    "attackMin": parse_int(row[13]),
+                    "attackMax": parse_int(row[15]),
+                    "magicAttackMin": parse_int(row[17]),
+                    "magicAttackMax": parse_int(row[19]),
+                },
                 "combatFields": parse_ints(row[12:28]),
                 "iconPath": row[28],
                 "restrictionFields": parse_ints(row[29:-1]),
@@ -461,6 +487,68 @@ def parse_roleinfo_rows(text: str) -> list[dict]:
                 "tailFields": parse_numbers(row[45:-1]),
                 "description": row[-1],
                 "rawColumnCount": len(row),
+            }
+        )
+    return entries
+
+
+def parse_shop_rows(archive_manifest: dict, roleinfo_entries: list[dict]) -> list[dict]:
+    role_names_by_id = {
+        entry["roleId"]: entry["name"]
+        for entry in roleinfo_entries
+        if isinstance(entry.get("roleId"), int) and isinstance(entry.get("name"), str) and entry["name"]
+    }
+    latest_by_npc_id: dict[int, dict] = {}
+
+    for entry in archive_manifest.get("entries", []):
+        archive_name = entry.get("name")
+        output_path = entry.get("outputPath")
+        if not isinstance(archive_name, str) or not archive_name.endswith(".shop"):
+            continue
+        if not isinstance(output_path, str):
+            continue
+        match = __import__("re").match(r"^([0-9a-fA-F]+)__(\d+)\.shop$", output_path)
+        if not match:
+            continue
+        archive_order = int(match.group(1), 16)
+        npc_id = int(match.group(2), 10)
+        existing = latest_by_npc_id.get(npc_id)
+        if existing and existing["archiveOrderHex"] is not None and int(existing["archiveOrderHex"], 16) > archive_order:
+            continue
+
+        extracted_path = ARCHIVE_ROOT / output_path
+        text = decode_client_text(extracted_path.read_bytes())
+        items = parse_single_shop_file(text)
+        if not items:
+            continue
+        latest_by_npc_id[npc_id] = {
+            "npcId": npc_id,
+            "speaker": role_names_by_id.get(npc_id, f"NPC {npc_id}"),
+            "archiveEntry": archive_name,
+            "extractedFile": str(extracted_path),
+            "archiveOrderHex": match.group(1).lower(),
+            "items": items,
+        }
+
+    return [latest_by_npc_id[npc_id] for npc_id in sorted(latest_by_npc_id)]
+
+
+def parse_single_shop_file(text: str) -> list[dict]:
+    entries = []
+    for row in iter_all_csv_rows(text):
+        if len(row) < 3:
+            continue
+        template_id = parse_int(row[0])
+        gold_price = parse_int(row[1])
+        coin_price = parse_int(row[2])
+        if not isinstance(template_id, int) or template_id <= 0:
+            continue
+        entries.append(
+            {
+                "templateId": template_id,
+                "goldPrice": gold_price if isinstance(gold_price, int) and gold_price > 0 else None,
+                "coinPrice": coin_price if isinstance(coin_price, int) and coin_price > 0 else None,
+                "quantity": 1,
             }
         )
     return entries

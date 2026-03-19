@@ -2,7 +2,12 @@
 export {};
 
 const assert = require('assert');
+const fs = require('fs');
+const path = require('path');
 type UnknownRecord = Record<string, any>;
+const REPO_ROOT = path.basename(path.resolve(__dirname, '..')) === 'dist'
+  ? path.resolve(__dirname, '..', '..')
+  : path.resolve(__dirname, '..');
 
 const { buildDefeatRespawnState, resolveInnRestVitals } = require('../src/gameplay/session-flows');
 const {
@@ -517,10 +522,31 @@ function assertQuestStep(session: UnknownRecord, taskId: number, expectedStepInd
 function acceptQuestByNpc(session: UnknownRecord, taskId: number) {
   const definition = getQuestDefinition(taskId);
   assert.ok(definition, `Missing quest definition ${taskId}`);
+  const questData = JSON.parse(fs.readFileSync(path.resolve(REPO_ROOT, 'data', 'quests', 'main-story.json'), 'utf8'));
+  const sceneData = JSON.parse(fs.readFileSync(path.resolve(REPO_ROOT, 'data', 'scenes', 'scenes.json'), 'utf8'));
+  const quests = Array.isArray(questData?.quests) ? questData.quests : [];
+  const liveQuest = quests.find((quest: UnknownRecord) => quest?.id === taskId) || null;
+  let acceptMapId = 0;
+
+  for (const [mapIdString, scene] of Object.entries(sceneData?.scenes || {})) {
+    const mapId = Number.parseInt(mapIdString, 10);
+    if (!Number.isInteger(mapId)) {
+      continue;
+    }
+    const hasNpc = Array.isArray((scene as UnknownRecord)?.worldSpawns)
+      && (scene as UnknownRecord).worldSpawns.some((spawn: UnknownRecord) => (
+        Number.isInteger(spawn?.id) && spawn.id === definition.acceptNpcId
+      ));
+    if (hasNpc) {
+      acceptMapId = mapId;
+      break;
+    }
+  }
+
   runQuestServerEvent(session, {
     npcId: definition.acceptNpcId,
     subtype: definition.acceptSubtype,
-    mapId: definition.steps?.[0]?.mapId || 0,
+    mapId: acceptMapId || liveQuest?.steps?.[0]?.mapId || definition.steps?.[0]?.mapId || 0,
   }, 'accept');
 }
 
@@ -649,6 +675,68 @@ function testVultureFightQuestFlow() {
   assert.ok(session.completedQuests.includes(481));
 }
 
+function testMagicFlaskGrocerTurnInFlow() {
+  const session = createQuestTestSession({ completedQuests: [51] });
+
+  acceptQuestByNpc(session, 3);
+  assert.strictEqual(getBagQuantityByTemplateId(session, 21118), 1);
+  assertQuestStep(session, 3, 0, 1);
+
+  runQuestServerEvent(session, {
+    npcId: 3234,
+    subtype: 0x08,
+    scriptId: 3,
+    mapId: 101,
+  });
+
+  assert.strictEqual(getBagQuantityByTemplateId(session, 21118), 0);
+  assertQuestStep(session, 3, 1, 2);
+}
+
+function testTalkQuestNpcMapsMatchUniqueScenePlacements() {
+  const questData = JSON.parse(fs.readFileSync(path.resolve(REPO_ROOT, 'data', 'quests', 'main-story.json'), 'utf8'));
+  const sceneData = JSON.parse(fs.readFileSync(path.resolve(REPO_ROOT, 'data', 'scenes', 'scenes.json'), 'utf8'));
+  const quests = Array.isArray(questData?.quests) ? questData.quests : [];
+  const npcMaps = new Map<number, Set<number>>();
+
+  for (const [mapIdString, scene] of Object.entries(sceneData?.scenes || {})) {
+    const mapId = Number.parseInt(mapIdString, 10);
+    if (!Number.isInteger(mapId)) {
+      continue;
+    }
+    for (const spawn of Array.isArray((scene as UnknownRecord)?.worldSpawns) ? (scene as UnknownRecord).worldSpawns : []) {
+      const npcId = Number.isInteger((spawn as UnknownRecord)?.id)
+        ? (spawn as UnknownRecord).id
+        : Number.isInteger((spawn as UnknownRecord)?.entityType)
+          ? (spawn as UnknownRecord).entityType
+          : null;
+      if (!Number.isInteger(npcId)) {
+        continue;
+      }
+      if (!npcMaps.has(npcId)) {
+        npcMaps.set(npcId, new Set());
+      }
+      npcMaps.get(npcId)?.add(mapId);
+    }
+  }
+
+  const mismatches = [];
+  for (const quest of quests) {
+    for (let stepIndex = 0; stepIndex < (quest.steps || []).length; stepIndex += 1) {
+      const step = quest.steps[stepIndex];
+      if (step?.type !== 'talk' || !Number.isInteger(step?.npcId) || !Number.isInteger(step?.mapId)) {
+        continue;
+      }
+      const maps = [...(npcMaps.get(step.npcId) || [])];
+      if (maps.length === 1 && maps[0] !== step.mapId) {
+        mismatches.push(`${quest.id}:${stepIndex + 1} npc=${step.npcId} map=${step.mapId} expected=${maps[0]}`);
+      }
+    }
+  }
+
+  assert.deepStrictEqual(mismatches, []);
+}
+
 function main() {
   testInnRestVitals();
   testDefeatRespawnState();
@@ -671,6 +759,8 @@ function main() {
   testRebelInHellQuestFlow();
   testElfinQuestFlow();
   testVultureFightQuestFlow();
+  testMagicFlaskGrocerTurnInFlow();
+  testTalkQuestNpcMapsMatchUniqueScenePlacements();
   console.log('refactor smoke ok');
 }
 

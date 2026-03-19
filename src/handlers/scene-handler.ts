@@ -213,8 +213,8 @@ function writeNpcSpawnRecord(session: SessionLike, writer: any, npc: UnknownReco
   writer.writeUint16(x);
   writer.writeUint16(y);
   writer.writeUint16(npc.dir & 0xffff);
-  writer.writeUint8(npc.state & 0xff);
-  writer.writeString(typeof npc.name === 'string' ? npc.name : '');
+  // Static world NPC spawns use a fixed 14-byte record on the wire.
+  writer.writeUint16(npc.state & 0xffff);
 }
 
 export {

@@ -256,10 +256,13 @@ function buildInventoryItemsDocument(characterId: string, character: any): Recor
   return {
     characterId,
     items: Array.isArray(character?.inventory?.bag)
-      ? character.inventory.bag.map((item: any) => ({
+        ? character.inventory.bag.map((item: any) => ({
           instanceId: numberOrDefault(item.instanceId, 0),
           templateId: numberOrDefault(item.templateId, 0),
           quantity: numberOrDefault(item.quantity, 1),
+          ...(Number.isInteger(item?.durability) ? { durability: item.durability } : {}),
+          ...(Number.isInteger(item?.tradeState) ? { tradeState: item.tradeState | 0 } : {}),
+          ...(Number.isInteger(item?.bindState) ? { bindState: item.bindState & 0xff } : {}),
           equipped: item.equipped === true,
           slot: numberOrDefault(item.slot, 0),
         }))

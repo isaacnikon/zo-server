@@ -5,7 +5,7 @@
     "taskContext": "/home/nikon/projects/zo-server/data/client-derived/task-context.json",
     "roleinfo": "/home/nikon/projects/zo-server/data/client-derived/roleinfo.json"
   },
-  "generatedAt": "2026-03-17T14:59:53.667Z",
+  "generatedAt": "2026-03-19T08:24:25.050Z",
   "summary": {
     "questCount": 160,
     "readyCount": 160,
@@ -104,6 +104,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "scene_npc",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -149,6 +150,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "scene_npc",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -305,6 +307,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "scene_npc",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -353,6 +356,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "scene_npc",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "state_chain"
@@ -442,7 +446,7 @@
             "type": "talk",
             "description": "Speak with \"Grocer\"",
             "npcId": 3234,
-            "mapId": 102,
+            "mapId": 101,
             "status": 1,
             "taskType": 2,
             "monsterId": null,
@@ -465,6 +469,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "scene_npc",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -515,6 +520,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "schema",
+              "mapId": "scene_npc",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -619,6 +625,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "scene_npc",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -673,6 +680,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "scene_npc",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -727,6 +735,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "scene_npc",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -755,7 +764,7 @@
             "type": "kill",
             "description": "Kill \"Evilelf\"",
             "npcId": 3006,
-            "mapId": 101,
+            "mapId": 102,
             "status": 4,
             "taskType": 1,
             "monsterId": 5010,
@@ -766,6 +775,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "scene_npc",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -868,6 +878,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -951,6 +962,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -1046,6 +1058,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -1164,6 +1177,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -1215,6 +1229,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -1337,6 +1352,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -1424,6 +1440,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -1511,6 +1528,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -1598,6 +1616,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -1651,6 +1670,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -1703,6 +1723,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -1795,6 +1816,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -1912,6 +1934,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -2001,6 +2024,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -2104,6 +2128,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "state_chain"
@@ -2159,6 +2184,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "state_chain"
@@ -2214,6 +2240,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -2268,6 +2295,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "schema",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -2422,6 +2450,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -2535,6 +2564,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -2648,6 +2678,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -2732,6 +2763,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -2790,6 +2822,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -2882,6 +2915,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -2957,6 +2991,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "schema",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -3078,6 +3113,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -3119,6 +3155,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -3228,6 +3265,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -3315,6 +3353,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -3431,6 +3470,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -3549,6 +3589,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -3625,7 +3666,7 @@
             "type": "talk",
             "description": "Bring \"Supreme Taoist's Letter\" to \"Evil Cat\"",
             "npcId": 3138,
-            "mapId": 164,
+            "mapId": 210,
             "status": 1,
             "taskType": 2,
             "monsterId": 5148,
@@ -3648,6 +3689,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "scene_npc",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -3849,6 +3891,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "scene_npc",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -3900,6 +3943,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "scene_npc",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -3931,7 +3975,7 @@
             "type": "talk",
             "description": "Bring \"Special Wine\" to \"Grandpa\"",
             "npcId": 3023,
-            "mapId": 101,
+            "mapId": 103,
             "status": 3,
             "taskType": 2,
             "monsterId": null,
@@ -3954,6 +3998,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "scene_npc",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -4002,6 +4047,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "scene_npc",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -4114,7 +4160,7 @@
             "type": "talk",
             "description": "Take \"Soul Absorber's Memory\" to find \"Evil Cat\"",
             "npcId": 3138,
-            "mapId": 249,
+            "mapId": 210,
             "status": 2,
             "taskType": 2,
             "monsterId": 5148,
@@ -4137,6 +4183,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "scene_npc",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -4241,6 +4288,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -4321,6 +4369,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -4405,6 +4454,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -4512,6 +4562,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -4552,6 +4603,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -4600,6 +4652,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -4687,6 +4740,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -4727,6 +4781,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -4787,6 +4842,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -4868,6 +4924,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -4914,6 +4971,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -4966,6 +5024,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -5012,6 +5071,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -5107,6 +5167,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -5263,6 +5324,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -5454,6 +5516,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -5496,6 +5559,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -5536,6 +5600,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -5576,6 +5641,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -5693,6 +5759,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -5735,6 +5802,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -5775,6 +5843,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -5867,6 +5936,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -5907,6 +5977,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -5953,6 +6024,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -6069,6 +6141,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -6167,6 +6240,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -6207,6 +6281,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -6286,6 +6361,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -6349,6 +6425,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -6388,6 +6465,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -6481,6 +6559,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -6566,6 +6645,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -6606,6 +6686,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -6646,6 +6727,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -6705,6 +6787,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -6786,6 +6869,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -6826,6 +6910,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -6882,6 +6967,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -6928,6 +7014,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "schema",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -7014,6 +7101,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -7072,6 +7160,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -7112,6 +7201,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -7204,6 +7294,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -7326,6 +7417,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -7465,6 +7557,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -7568,6 +7661,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -7694,6 +7788,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -7823,6 +7918,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -7940,6 +8036,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -8004,6 +8101,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -8070,6 +8168,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -8151,6 +8250,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "scene_npc",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -8215,6 +8315,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "schema",
+              "mapId": "scene_npc",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -8269,7 +8370,7 @@
             "type": "talk",
             "description": "Speak with \"Grandpa\"",
             "npcId": 3023,
-            "mapId": 101,
+            "mapId": 103,
             "status": 2,
             "taskType": 1,
             "monsterId": 5106,
@@ -8280,6 +8381,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "scene_npc",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -8319,6 +8421,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "scene_npc",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -8406,7 +8509,7 @@
             "type": "talk",
             "description": "Bring \"Fennel\" to \"Maria\"",
             "npcId": 3028,
-            "mapId": 102,
+            "mapId": 103,
             "status": 1,
             "taskType": 2,
             "monsterId": null,
@@ -8429,6 +8532,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "scene_npc",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -8500,6 +8604,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -8541,6 +8646,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "schema",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -8678,7 +8784,7 @@
             "type": "talk",
             "description": "Travel to \"Map 102\" to locate \"Farmer\"",
             "npcId": 3003,
-            "mapId": 103,
+            "mapId": 102,
             "status": 2,
             "taskType": 1,
             "monsterId": 5005,
@@ -8689,6 +8795,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "scene_npc",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -8781,6 +8888,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -8877,6 +8985,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -8958,6 +9067,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -9057,6 +9167,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "scene_npc",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -9203,6 +9314,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -9257,6 +9369,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -9311,6 +9424,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -9365,6 +9479,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -9446,6 +9561,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -9532,6 +9648,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -9618,6 +9735,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -9699,6 +9817,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema_or_state_chain_description",
               "count": "schema",
               "consumeItems": "schema"
@@ -9784,6 +9903,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -9865,6 +9985,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -9956,6 +10077,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -10054,6 +10176,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -10147,6 +10270,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -10195,6 +10319,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -10275,6 +10400,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -10360,6 +10486,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -10458,6 +10585,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -10511,6 +10639,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -10611,6 +10740,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -10704,6 +10834,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -10803,6 +10934,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -10887,6 +11019,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -10926,6 +11059,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -11016,6 +11150,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -11144,6 +11279,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -11236,6 +11372,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -11316,6 +11453,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -11370,6 +11508,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -11417,6 +11556,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -11471,6 +11611,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -11570,6 +11711,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -11623,6 +11765,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -11675,6 +11818,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -11760,6 +11904,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -11852,6 +11997,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -11906,6 +12052,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "state_chain"
@@ -12018,6 +12165,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -12098,6 +12246,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -12191,6 +12340,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -12305,6 +12455,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -12370,6 +12521,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema_or_state_chain_description",
               "count": "schema",
               "consumeItems": "schema"
@@ -12461,6 +12613,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -12542,6 +12695,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -12651,6 +12805,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -12730,6 +12885,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -12829,6 +12985,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -12871,6 +13028,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -12968,6 +13126,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -13084,6 +13243,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -13155,6 +13315,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -13236,6 +13397,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -13288,6 +13450,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema_or_state_chain_description",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -13385,6 +13548,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -13478,6 +13642,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -13565,6 +13730,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "state_chain"
@@ -13618,6 +13784,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "state_chain"
@@ -13661,6 +13828,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -13751,6 +13919,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "state_chain",
               "consumeItems": "state_chain"
@@ -13850,6 +14019,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -13898,6 +14068,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "state_chain"
@@ -13946,6 +14117,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "state_chain"
@@ -14039,6 +14211,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "state_chain"
@@ -14127,6 +14300,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -14213,6 +14387,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -14288,6 +14463,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -14387,6 +14563,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -14441,6 +14618,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -14488,6 +14666,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -14579,6 +14758,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -14670,6 +14850,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -14711,6 +14892,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -14808,6 +14990,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "state_chain"
@@ -14924,6 +15107,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -14966,6 +15150,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -15059,6 +15244,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "state_chain",
               "consumeItems": "state_chain"
@@ -15141,6 +15327,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -15183,6 +15370,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -15268,6 +15456,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -15347,6 +15536,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -15408,7 +15598,7 @@
             "type": "kill_collect",
             "description": "Kill \"One-eyed Beast\" to get 10 \"Yellow Clay\" and submit to \"Longicorn King\"",
             "npcId": 3132,
-            "mapId": 166,
+            "mapId": 210,
             "status": 1,
             "taskType": 4,
             "monsterId": 5246,
@@ -15425,6 +15615,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "scene_npc",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "state_chain"
@@ -15492,6 +15683,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema_or_state_chain_description",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -15581,6 +15773,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -15623,6 +15816,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -15707,6 +15901,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -15791,6 +15986,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -15874,6 +16070,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -15916,6 +16113,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -16000,6 +16198,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "schema",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -16086,6 +16285,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -16165,6 +16365,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "state_chain"
@@ -16232,6 +16433,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -16316,6 +16518,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -16370,6 +16573,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -16436,6 +16640,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -16514,6 +16719,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -16556,6 +16762,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -16634,6 +16841,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -16717,6 +16925,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -16770,6 +16979,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -16854,6 +17064,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -16896,6 +17107,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "schema",
+              "mapId": "state_chain",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -16984,6 +17196,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -17029,6 +17242,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -17106,6 +17320,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "state_chain"
@@ -17173,6 +17388,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -17225,6 +17441,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -17309,6 +17526,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -17363,6 +17581,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -17447,6 +17666,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "schema",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -17500,6 +17720,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -17552,6 +17773,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -17630,6 +17852,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -17714,6 +17937,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -17762,6 +17986,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -17837,6 +18062,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -17923,6 +18149,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema_or_state_chain_description",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -18020,6 +18247,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "schema",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -18099,6 +18327,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "schema",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -18146,6 +18375,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "schema"
@@ -18237,6 +18467,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "schema",
+              "mapId": "state_chain",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -18375,6 +18606,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -18489,6 +18721,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "state_chain"
@@ -18580,6 +18813,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -18670,6 +18904,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -18761,6 +18996,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -18836,6 +19072,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "state_chain",
               "consumeItems": "state_chain"
@@ -18927,6 +19164,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "schema"
@@ -19043,6 +19281,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "schema",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -19102,6 +19341,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -19168,6 +19408,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "schema"
@@ -19244,6 +19485,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -19291,6 +19533,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -19390,6 +19633,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -19494,6 +19738,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema_or_state_chain_description",
               "count": "state_chain",
               "consumeItems": "state_chain"
@@ -19594,6 +19839,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema_or_state_chain_description",
               "count": "state_chain",
               "consumeItems": "state_chain"
@@ -19688,6 +19934,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -19788,6 +20035,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "state_chain",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -19842,6 +20090,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -19924,6 +20173,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -19971,6 +20221,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -20049,6 +20300,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "flow",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -20132,6 +20384,7 @@
             "confidence": "high",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"
@@ -20181,6 +20434,7 @@
             "confidence": "medium",
             "sourcePreference": {
               "npcId": "state_chain",
+              "mapId": "state_chain",
               "monsterId": "schema",
               "count": "schema",
               "consumeItems": "state_chain"

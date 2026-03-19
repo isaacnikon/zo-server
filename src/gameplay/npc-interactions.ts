@@ -1,6 +1,7 @@
 const { GAME_DIALOG_MESSAGE_SUBCMD } = require('../config');
 const { resolveInnRestVitals } = require('./session-flows');
 const { executeServerRunAction, parseServerRunRequest } = require('../interactions/server-run');
+const { tryHandleNpcShopRequest } = require('./shop-runtime');
 const {
   abandonQuest,
   buildServerRunQuestTrace,
@@ -59,6 +60,26 @@ function handleServerRunRequest(session: SessionLike, payload: Buffer): void {
   }
 
   session.log(request.logMessage);
+
+  if (tryHandleNpcShopRequest(session, request)) {
+    return;
+  }
+
+  if (request.kind === 'npc-action') {
+    if (typeof session.armNpcActionProbe === 'function') {
+      session.armNpcActionProbe({
+        subtype: request.subtype,
+        npcId: request.npcId,
+        mapId: request.mapId,
+        x: request.x,
+        y: request.y,
+      });
+    }
+    session.log(
+      `Observed npc-action subtype=0x${request.subtype.toString(16)} npcId=${request.npcId} map=${request.mapId}; shop-open/browse handling is not implemented yet`
+    );
+    return;
+  }
 
   if (request.kind === 'quest-abandon') {
     const questState = {

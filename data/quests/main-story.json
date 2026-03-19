@@ -4,7 +4,7 @@
     "tasklist": "/home/nikon/projects/zo-server/data/client-derived/quests.json",
     "overrides": "/home/nikon/projects/zo-server/data/quests/main-story.overrides.json"
   },
-  "generatedAt": "2026-03-17T20:09:12.958Z",
+  "generatedAt": "2026-03-19T08:24:25.112Z",
   "quests": [
     {
       "id": 1,
@@ -254,7 +254,7 @@
           "npcId": 3234,
           "status": 1,
           "description": "Speak with \"Grocer\"",
-          "mapId": 102,
+          "mapId": 101,
           "consumeItems": [
             {
               "templateId": 21118,
@@ -386,7 +386,7 @@
           "npcId": 3006,
           "status": 4,
           "description": "Kill \"Evilelf\"",
-          "mapId": 101,
+          "mapId": 102,
           "monsterId": 5010,
           "count": 1
         }
@@ -1607,7 +1607,7 @@
           "npcId": 3138,
           "status": 1,
           "description": "Bring \"Supreme Taoist's Letter\" to \"Evil Cat\"",
-          "mapId": 164,
+          "mapId": 210,
           "consumeItems": [
             {
               "templateId": 21144,
@@ -1847,7 +1847,7 @@
           "npcId": 3138,
           "status": 2,
           "description": "Take \"Soul Absorber's Memory\" to find \"Evil Cat\"",
-          "mapId": 249,
+          "mapId": 210,
           "consumeItems": [
             {
               "templateId": 21176,
@@ -3360,7 +3360,7 @@
           "npcId": 3023,
           "status": 2,
           "description": "Speak with \"Grandpa\"",
-          "mapId": 101
+          "mapId": 103
         },
         {
           "type": "kill",
@@ -3424,7 +3424,7 @@
           "npcId": 3028,
           "status": 1,
           "description": "Bring \"Fennel\" to \"Maria\"",
-          "mapId": 102,
+          "mapId": 103,
           "grantItems": [
             {
               "templateId": 21051,
@@ -3533,7 +3533,7 @@
           "npcId": 3003,
           "status": 2,
           "description": "Travel to \"Map 102\" to locate \"Farmer\"",
-          "mapId": 103
+          "mapId": 102
         }
       ],
       "minLevel": 1
@@ -6569,7 +6569,7 @@
           "npcId": 3132,
           "status": 1,
           "description": "Kill \"One-eyed Beast\" to get 10 \"Yellow Clay\" and submit to \"Longicorn King\"",
-          "mapId": 166,
+          "mapId": 210,
           "consumeItems": [
             {
               "templateId": 23086,

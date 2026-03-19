@@ -24,6 +24,11 @@ class PacketWriter {
     this._pos += 4;
   }
 
+  writeInt32(v: number): void {
+    this._buf.writeInt32LE(v, this._pos);
+    this._pos += 4;
+  }
+
   writeBytes(buf: Buffer): void {
     buf.copy(this._buf, this._pos);
     this._pos += buf.length;

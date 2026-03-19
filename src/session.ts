@@ -51,6 +51,7 @@ const {
   GAME_DIALOG_MESSAGE_SUBCMD,
   GAME_ITEM_CONTAINER_CMD,
   GAME_ITEM_CMD,
+  GAME_ITEM_SERVICE_CMD,
   GAME_SERVER_RUN_CMD,
   GAME_SCRIPT_EVENT_CMD,
   GAME_SELF_STATE_CMD,
@@ -85,6 +86,7 @@ const {
   handleServerRunRequest: processNpcInteractionRequest,
   restoreAtInn: processInnRest,
 } = require('./gameplay/npc-interactions');
+const { handleNpcShopServiceRequest: processNpcShopServiceRequest } = require('./gameplay/shop-runtime');
 const { ObjectiveRegistry } = require('./objectives/objective-registry');
 const { questObjectiveSystem } = require('./objectives/quest-objective-system');
 const { CHARACTER_VITALS_BASELINE, resolveCurrentPlayerVitals } = require('./gameplay/session-flows');
@@ -166,6 +168,8 @@ class Session implements GameSession {
   hasAnnouncedQuestOverview: boolean;
   persistedCharacter: Record<string, unknown> | null;
   objectiveRegistry: any;
+  pendingNpcActionProbe: Record<string, unknown> | null;
+  activeNpcShop: Record<string, unknown> | null;
 
   constructor(
     socket: SocketLike,
@@ -233,6 +237,8 @@ class Session implements GameSession {
     this.hasAnnouncedQuestOverview = false;
     this.persistedCharacter = null;
     this.objectiveRegistry = new ObjectiveRegistry();
+    this.pendingNpcActionProbe = null;
+    this.activeNpcShop = null;
     this.objectiveRegistry.register({
       system: questObjectiveSystem,
       handler: questEventHandler,
@@ -305,6 +311,7 @@ class Session implements GameSession {
     this.log(
       `Game packet flags=0x${flags.toString(16)} cmd8=0x${cmdByte.toString(16).padStart(2, '0')} cmd16=0x${cmdWord.toString(16).padStart(4, '0')}`
     );
+    this.logNpcActionProbeFollowUp(cmdWord, payload);
 
     if (dispatchGamePacket(this, cmdWord, flags, payload)) {
       return;
@@ -314,7 +321,7 @@ class Session implements GameSession {
       cmdWord === GAME_ITEM_CONTAINER_CMD ||
       cmdWord === GAME_ITEM_CMD ||
       cmdWord === GAME_ITEM_CMD + 1 ||
-      cmdWord === 0x03f8 ||
+      cmdWord === GAME_ITEM_SERVICE_CMD ||
       cmdWord === 0x0400
     ) {
       this.log(
@@ -385,6 +392,14 @@ class Session implements GameSession {
     const packet = buildPacket(payload, this.serverSeq, flags);
     if (payload.length >= 2) {
       const cmdWord = payload.readUInt16LE(0);
+      if (
+        (cmdWord === GAME_ITEM_CMD || cmdWord === GAME_ITEM_CONTAINER_CMD) &&
+        payload.includes(Buffer.from([0xed, 0x13]))
+      ) {
+        this.log(
+          `Debug item packet cmd=0x${cmdWord.toString(16)} payload=${payload.toString('hex')}`
+        );
+      }
       if (isCombatCommand(cmdWord)) {
         const combatPacket = parseCombatPacket(cmdWord, payload);
         const recorded = recordOutboundCombatPacket(this.combatState, combatPacket);
@@ -468,6 +483,10 @@ class Session implements GameSession {
     processNpcInteractionRequest(this, payload);
   }
 
+  handleNpcShopServiceRequest(payload: Buffer): void {
+    processNpcShopServiceRequest(this, payload);
+  }
+
   restoreAtInn(npcId: number): void {
     processInnRest(this, npcId);
   }
@@ -506,6 +525,46 @@ class Session implements GameSession {
 
   refreshQuestStateForItemTemplates(templateIds: number[]): void {
     questHandlerRefreshQuestStateForItemTemplates(this, templateIds);
+  }
+
+  armNpcActionProbe(context: Record<string, unknown>): void {
+    this.pendingNpcActionProbe = {
+      ...context,
+      armedAt: Date.now(),
+      packetsSeen: 0,
+    };
+  }
+
+  logNpcActionProbeFollowUp(cmdWord: number, payload: Buffer): void {
+    const probe = this.pendingNpcActionProbe;
+    if (!probe) {
+      return;
+    }
+
+    const armedAt = typeof probe.armedAt === 'number' ? probe.armedAt : 0;
+    const ageMs = Date.now() - armedAt;
+    const packetsSeen = typeof probe.packetsSeen === 'number' ? probe.packetsSeen : 0;
+    if (ageMs > 5000 || packetsSeen >= 6) {
+      this.log(
+        `NPC action probe expired subtype=0x${Number(probe.subtype || 0).toString(16)} npcId=${probe.npcId || 0} packetsSeen=${packetsSeen} ageMs=${ageMs}`
+      );
+      this.pendingNpcActionProbe = null;
+      return;
+    }
+
+    if (cmdWord === GAME_SERVER_RUN_CMD) {
+      return;
+    }
+
+    const nextCount = packetsSeen + 1;
+    probe.packetsSeen = nextCount;
+    this.log(
+      `NPC action follow-up #${nextCount} after subtype=0x${Number(probe.subtype || 0).toString(16)} npcId=${probe.npcId || 0}: cmd=0x${cmdWord.toString(16)} len=${payload.length} hex=${payload.toString('hex')}`
+    );
+
+    if (nextCount >= 6) {
+      this.pendingNpcActionProbe = null;
+    }
   }
 
   getServerRunActionHandlers(): Record<string, (...args: any[]) => void> {

@@ -1,7 +1,6 @@
 const { DEFAULT_FLAGS, GAME_ITEM_CMD, GAME_ITEM_CONTAINER_CMD } = require('../config');
 const {
   buildInventoryContainerBulkSyncPacket,
-  buildInventoryContainerPositionPacket,
   buildInventoryContainerQuantityPacket,
   buildItemAddPacket,
   buildItemRemovePacket,
@@ -22,16 +21,19 @@ function sendItemAdd(
   templateId: number,
   slot: number,
   quantity = 1,
+  durability: number | undefined = undefined,
+  tradeState = 0,
   instanceId = 0
 ): void {
   const definition = getItemDefinition(templateId);
-  const encodedQuantity = resolveClientItemQuantity(definition, quantity);
+  const encodedQuantity = resolveClientItemQuantity(definition, quantity, durability);
   session.writePacket(
     buildItemAddPacket({
       containerType: BAG_CONTAINER_TYPE,
       slot,
       templateId,
       instanceId,
+      tradeState,
       stateCode: 0,
       bindState: 0,
       quantity: encodedQuantity,
@@ -41,25 +43,6 @@ function sendItemAdd(
     }),
     DEFAULT_FLAGS,
     `Sending item add cmd=0x${GAME_ITEM_CMD.toString(16)} templateId=${templateId} slot=${slot} qty=${quantity} instanceId=${instanceId}${definition ? ` name=${definition.name}` : ''}`
-  );
-}
-
-function sendItemPositionUpdate(session: SessionLike, item: UnknownRecord): void {
-  const slotIndex = item.slot >>> 0;
-  const gridIndex = Math.max(0, slotIndex - 1);
-  const column = gridIndex % 5;
-  const row = Math.floor(gridIndex / 5);
-
-  session.writePacket(
-    buildInventoryContainerPositionPacket({
-      containerType: BAG_CONTAINER_TYPE,
-      instanceId: item.instanceId >>> 0,
-      slotIndex,
-      column,
-      row,
-    }),
-    DEFAULT_FLAGS,
-    `Sending item position update cmd=0x${GAME_ITEM_CONTAINER_CMD.toString(16)} container=${BAG_CONTAINER_TYPE} instanceId=${item.instanceId} slot=${slotIndex} col=${column} row=${row}`
   );
 }
 
@@ -77,34 +60,34 @@ function sendInventoryFullSync(session: SessionLike): void {
     DEFAULT_FLAGS,
     `Sending inventory full sync cmd=0x${GAME_ITEM_CONTAINER_CMD.toString(16)} container=${BAG_CONTAINER_TYPE} items=${bagItems.length}`
   );
-
-  for (const item of bagItems) {
-    sendItemPositionUpdate(session, item);
-  }
 }
 
 function buildClientInventoryItem(item: UnknownRecord): UnknownRecord {
   const definition = getItemDefinition(item.templateId);
   return {
     ...item,
-    quantity: resolveClientItemQuantity(definition, item.quantity),
+    tradeState: Number.isInteger(item.tradeState) ? (item.tradeState | 0) : 0,
+    quantity: resolveClientItemQuantity(definition, item.quantity, item.durability),
+    bindState: 0,
     clientTemplateFamily: definition?.clientTemplateFamily ?? null,
     attributePairs: Array.isArray(definition?.defaultAttributePairs) ? definition.defaultAttributePairs : [],
   };
 }
 
-function resolveClientItemQuantity(definition: UnknownRecord, quantity: number): number {
-  const isEquipment =
-    Number.isInteger(definition?.clientTemplateFamily) &&
-    definition.clientTemplateFamily >= 0x20 &&
-    definition.clientTemplateFamily < 0x40;
-  if (Number.isInteger(quantity) && (isEquipment ? quantity >= 0 : quantity > 0)) {
+function resolveClientItemQuantity(definition: UnknownRecord, quantity: number, durability?: number): number {
+  const usesDurability = definition?.hasDurability === true;
+  const normalizedDurability =
+    typeof durability === 'number' && Number.isInteger(durability) ? durability : null;
+  if (usesDurability && normalizedDurability !== null && normalizedDurability >= 0) {
+    return normalizedDurability;
+  }
+  if (Number.isInteger(quantity) && (usesDurability ? quantity >= 0 : quantity > 0)) {
     return quantity;
   }
   if (Number.isInteger(definition?.defaultQuantity) && definition.defaultQuantity > 0) {
     return definition.defaultQuantity;
   }
-  return isEquipment ? 0 : 1;
+  return usesDurability ? 0 : 1;
 }
 
 function sendEquipmentContainerSync(session: SessionLike): void {
@@ -161,9 +144,10 @@ function sendGrantResultPackets(session: SessionLike, grantResult: UnknownRecord
       change.item.templateId,
       change.item.slot,
       change.item.quantity,
+      change.item.durability,
+      Number.isInteger(change.item.tradeState) ? change.item.tradeState : 0,
       change.item.instanceId
     );
-    sendItemPositionUpdate(session, change.item);
   }
 }
 
@@ -242,7 +226,6 @@ export {
   sendItemAdd,
   sendItemRemove,
   sendItemQuantityUpdate,
-  sendItemPositionUpdate,
   sendGrantResultPackets,
   sendEquipmentContainerSync,
   syncInventoryStateToClient,

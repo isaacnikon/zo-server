@@ -9,6 +9,7 @@ const {
   GAME_FIGHT_CLIENT_CMD,
   GAME_ITEM_CONTAINER_CMD,
   GAME_ITEM_CMD,
+  GAME_ITEM_SERVICE_CMD,
 } = require('../config');
 const { isCombatCommand } = require('../combat-runtime');
 
@@ -19,6 +20,7 @@ function buildPacketDispatch(): Map<number, string> {
     [ROLE_CMD, 'handleRolePacket'],
     [GAME_POSITION_QUERY_CMD, 'handlePositionUpdate'],
     [GAME_SERVER_RUN_CMD, 'handleServerRunRequest'],
+    [GAME_ITEM_SERVICE_CMD, 'handleNpcShopServiceRequest'],
     [GAME_QUEST_CMD, 'handleQuestPacket'],
   ]);
 }

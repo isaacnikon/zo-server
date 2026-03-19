@@ -6,17 +6,22 @@ export {};
 const fs = require('fs');
 const path = require('path');
 
-const FULL_WORKFLOW_FILE = path.resolve(__dirname, '..', 'data', 'client-derived', 'quest-full-workflow.json');
-const QUEST_FLOW_FILE = path.resolve(__dirname, '..', 'data', 'client-derived', 'quest-flow.json');
-const TASK_CONTEXT_FILE = path.resolve(__dirname, '..', 'data', 'client-derived', 'task-context.json');
-const ROLEINFO_FILE = path.resolve(__dirname, '..', 'data', 'client-derived', 'roleinfo.json');
-const OUTPUT_FILE = path.resolve(__dirname, '..', 'data', 'client-derived', 'quest-runtime-candidates.json');
+const REPO_ROOT = path.basename(path.resolve(__dirname, '..')) === 'dist'
+  ? path.resolve(__dirname, '..', '..')
+  : path.resolve(__dirname, '..');
+const FULL_WORKFLOW_FILE = path.resolve(REPO_ROOT, 'data', 'client-derived', 'quest-full-workflow.json');
+const QUEST_FLOW_FILE = path.resolve(REPO_ROOT, 'data', 'client-derived', 'quest-flow.json');
+const TASK_CONTEXT_FILE = path.resolve(REPO_ROOT, 'data', 'client-derived', 'task-context.json');
+const ROLEINFO_FILE = path.resolve(REPO_ROOT, 'data', 'client-derived', 'roleinfo.json');
+const SCENE_DATA_FILE = path.resolve(REPO_ROOT, 'data', 'scenes', 'scenes.json');
+const OUTPUT_FILE = path.resolve(REPO_ROOT, 'data', 'client-derived', 'quest-runtime-candidates.json');
 
 function main() {
   const fullWorkflow = JSON.parse(fs.readFileSync(FULL_WORKFLOW_FILE, 'utf8'));
   const questFlow = JSON.parse(fs.readFileSync(QUEST_FLOW_FILE, 'utf8'));
   const taskContext = JSON.parse(fs.readFileSync(TASK_CONTEXT_FILE, 'utf8'));
   const roleinfo = JSON.parse(fs.readFileSync(ROLEINFO_FILE, 'utf8'));
+  const sceneData = JSON.parse(fs.readFileSync(SCENE_DATA_FILE, 'utf8'));
   const flowByTaskId = new Map(
     (Array.isArray(questFlow?.quests) ? questFlow.quests : Array.isArray(questFlow) ? questFlow : [])
       .filter((quest) => Number.isInteger(quest?.taskId))
@@ -32,13 +37,15 @@ function main() {
       .filter((role) => Number.isInteger(role?.roleId))
       .map((role) => [role.roleId, role])
   );
+  const uniqueSceneMapByNpcId = buildUniqueSceneMapByNpcId(sceneData);
   const quests = (Array.isArray(fullWorkflow?.quests) ? fullWorkflow.quests : [])
     .filter((quest) => Number.isInteger(quest?.taskId))
     .map((quest) => buildRuntimeCandidate(
       quest,
       flowByTaskId.get(quest.taskId) || null,
       contextByTaskId.get(quest.taskId) || null,
-      rolesById
+      rolesById,
+      uniqueSceneMapByNpcId
     ));
 
   fs.writeFileSync(
@@ -60,7 +67,7 @@ function main() {
   process.stdout.write(`${OUTPUT_FILE}\n`);
 }
 
-function buildRuntimeCandidate(quest, flowQuest, taskContext, rolesById) {
+function buildRuntimeCandidate(quest, flowQuest, taskContext, rolesById, uniqueSceneMapByNpcId) {
   const workflow = quest?.workflow || {};
   const flowStepsByIndex = buildFlowStepsByIndex(flowQuest);
   const rawSteps = Array.isArray(workflow?.steps)
@@ -69,7 +76,8 @@ function buildRuntimeCandidate(quest, flowQuest, taskContext, rolesById) {
       step,
       flowStepsByIndex.get(firstNumber(step?.stepIndex)) || [],
       taskContext,
-      rolesById
+      rolesById,
+      uniqueSceneMapByNpcId
     ))
     : [];
   const steps = collapseDuplicateSteps(rawSteps);
@@ -95,7 +103,7 @@ function buildRuntimeCandidate(quest, flowQuest, taskContext, rolesById) {
   };
 }
 
-function buildRuntimeStep(quest, step, flowStepVariants, taskContext, rolesById) {
+function buildRuntimeStep(quest, step, flowStepVariants, taskContext, rolesById, uniqueSceneMapByNpcId) {
   const taskId = firstNumber(quest?.taskId);
   const schemaNpcId = schemaSideNpcId(step);
   const stateNpcId = firstNumber(step?.npcId);
@@ -134,7 +142,7 @@ function buildRuntimeStep(quest, step, flowStepVariants, taskContext, rolesById)
     type: step?.type || 'unknown',
     description: typeof step?.description === 'string' ? step.description : '',
     npcId: bestNpcId,
-    mapId: firstNumber(step?.mapId),
+    mapId: resolveStepMapId(step, flowStepVariants, bestNpcId, uniqueSceneMapByNpcId),
     status: firstNumber(step?.status),
     taskType: firstNumber(step?.taskType),
     monsterId: bestMonsterId,
@@ -145,6 +153,7 @@ function buildRuntimeStep(quest, step, flowStepVariants, taskContext, rolesById)
     confidence,
     sourcePreference: {
       npcId: sourceForNpc(step, bestNpcId, schemaNpcId, stateNpcId),
+      mapId: sourceForMapId(step, flowStepVariants, bestNpcId, uniqueSceneMapByNpcId),
       monsterId: sourceForMonster(step, bestMonsterId, descriptionPreferredMonsterId),
       count: sourceForCount(step),
       consumeItems: sourceForConsumeItems(step),
@@ -252,6 +261,20 @@ function sourceForNpc(step, bestNpcId, schemaNpcId, stateNpcId) {
     : 'schema_or_state_chain';
 }
 
+function sourceForMapId(step, flowStepVariants, bestNpcId, uniqueSceneMapByNpcId) {
+  const npcMapId = Number.isInteger(bestNpcId) ? uniqueSceneMapByNpcId.get(bestNpcId) : undefined;
+  if (Number.isInteger(npcMapId)) {
+    return 'scene_npc';
+  }
+
+  const flowMapIds = uniqueNumbers(flatMap(flowStepVariants, (flowStep) => flowStep?.mapIds));
+  if (flowMapIds.length === 1) {
+    return 'flow';
+  }
+
+  return Number.isInteger(step?.mapId) ? 'state_chain' : 'unknown';
+}
+
 function sourceForMonster(step, bestMonsterId, descriptionPreferredMonsterId) {
   if (Number.isInteger(descriptionPreferredMonsterId) && bestMonsterId === descriptionPreferredMonsterId) {
     return 'schema_or_state_chain_description';
@@ -310,6 +333,52 @@ function buildFlowStepsByIndex(flowQuest) {
     byIndex.get(stepIndex).push(step);
   }
   return byIndex;
+}
+
+function resolveStepMapId(step, flowStepVariants, bestNpcId, uniqueSceneMapByNpcId) {
+  const npcMapId = Number.isInteger(bestNpcId) ? uniqueSceneMapByNpcId.get(bestNpcId) : undefined;
+  if (Number.isInteger(npcMapId)) {
+    return npcMapId >>> 0;
+  }
+
+  const flowMapIds = uniqueNumbers(flatMap(flowStepVariants, (flowStep) => flowStep?.mapIds));
+  if (flowMapIds.length === 1) {
+    return flowMapIds[0] >>> 0;
+  }
+
+  return firstNumber(step?.mapId);
+}
+
+function buildUniqueSceneMapByNpcId(sceneData) {
+  const mapIdsByNpcId = new Map();
+  for (const [mapIdString, scene] of Object.entries(sceneData?.scenes || {})) {
+    const mapId = Number.parseInt(mapIdString, 10);
+    if (!Number.isInteger(mapId)) {
+      continue;
+    }
+    for (const spawn of Array.isArray(scene?.worldSpawns) ? scene.worldSpawns : []) {
+      const npcId = Number.isInteger(spawn?.id)
+        ? spawn.id
+        : Number.isInteger(spawn?.entityType)
+          ? spawn.entityType
+          : null;
+      if (!Number.isInteger(npcId)) {
+        continue;
+      }
+      if (!mapIdsByNpcId.has(npcId)) {
+        mapIdsByNpcId.set(npcId, new Set());
+      }
+      mapIdsByNpcId.get(npcId).add(mapId);
+    }
+  }
+
+  const uniqueMapByNpcId = new Map();
+  for (const [npcId, mapIds] of mapIdsByNpcId.entries()) {
+    if (mapIds.size === 1) {
+      uniqueMapByNpcId.set(npcId, [...mapIds][0]);
+    }
+  }
+  return uniqueMapByNpcId;
 }
 
 function selectNpcIdByFlow(quest, step, flowStepVariants, schemaNpcId, stateNpcId) {

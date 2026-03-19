@@ -6,10 +6,13 @@ export {};
 const fs = require('fs');
 const path = require('path');
 
-const CANDIDATES_FILE = path.resolve(__dirname, '..', 'data', 'client-derived', 'quest-runtime-candidates.json');
-const TASKLIST_FILE = path.resolve(__dirname, '..', 'data', 'client-derived', 'quests.json');
-const OVERRIDES_FILE = path.resolve(__dirname, '..', 'data', 'quests', 'main-story.overrides.json');
-const OUTPUT_FILE = path.resolve(__dirname, '..', 'data', 'quests', 'main-story.json');
+const REPO_ROOT = path.basename(path.resolve(__dirname, '..')) === 'dist'
+  ? path.resolve(__dirname, '..', '..')
+  : path.resolve(__dirname, '..');
+const CANDIDATES_FILE = path.resolve(REPO_ROOT, 'data', 'client-derived', 'quest-runtime-candidates.json');
+const TASKLIST_FILE = path.resolve(REPO_ROOT, 'data', 'client-derived', 'quests.json');
+const OVERRIDES_FILE = path.resolve(REPO_ROOT, 'data', 'quests', 'main-story.overrides.json');
+const OUTPUT_FILE = path.resolve(REPO_ROOT, 'data', 'quests', 'main-story.json');
 
 function main() {
   const candidates = JSON.parse(fs.readFileSync(CANDIDATES_FILE, 'utf8'));

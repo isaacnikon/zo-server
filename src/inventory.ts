@@ -12,6 +12,7 @@ const WEAPON_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'weapons.json');
 const GENERAL_ITEM_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'items.json');
 const POTION_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'potions.json');
 const STUFF_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'stuff.json');
+const ITEMINFO_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'iteminfo.json');
 
 const EQUIPMENT_NAME_OVERRIDES = Object.freeze<Record<number, string>>({
   10001: 'Light Hood',
@@ -34,16 +35,28 @@ interface ItemDefinition {
   containerType: number;
   maxStack: number;
   clientTemplateFamily: number | null;
+  hasDurability?: boolean;
+  sellPrice?: number;
   defaultQuantity?: number;
   defaultAttributePairs?: AttributePair[];
   iconPath: string;
   clientEvidence: string;
 }
 
+interface ItemInfoEntry {
+  field1?: number | null;
+  field2?: number | null;
+  field3?: number | null;
+  field4?: number | null;
+}
+
 interface BagItem {
   instanceId: number;
   templateId: number;
   quantity: number;
+  durability?: number;
+  tradeState?: number;
+  bindState?: number;
   equipped: boolean;
   slot: number;
 }
@@ -72,6 +85,7 @@ interface InventoryChange {
   removed?: boolean;
 }
 
+const ITEMINFO_BY_TEMPLATE_ID = loadItemInfoMap();
 const ITEM_DEFINITIONS: readonly ItemDefinition[] = Object.freeze([
   ...loadClientGeneralItemDefinitions(),
   ...loadClientPotionDefinitions(),
@@ -112,6 +126,7 @@ function loadClientStuffDefinitions(): ItemDefinition[] {
       containerType: BAG_CONTAINER_TYPE,
       maxStack: 1,
       clientTemplateFamily: null,
+      sellPrice: resolveClientSellPrice(entry, 'stuff'),
       iconPath: typeof entry.iconPath === 'string' ? entry.iconPath : '',
       clientEvidence: `Client-derived is_stuff.txt row ${entry.templateId} from ${path.basename(STUFF_TABLE_FILE)}.`,
     }));
@@ -128,6 +143,7 @@ function loadClientStackableDefinitions(filePath: string, sourceLabel: string): 
       maxStack:
         Number.isInteger(entry.stackLimitField) && entry.stackLimitField > 0 ? entry.stackLimitField : 1,
       clientTemplateFamily: entry.clientTemplateFamily,
+      sellPrice: resolveClientSellPrice(entry, sourceLabel === 'is_potion.txt' ? 'potion' : 'general'),
       iconPath: typeof entry.iconPath === 'string' ? entry.iconPath : '',
       clientEvidence: `Client-derived ${sourceLabel} row ${entry.templateId} from ${path.basename(filePath)}.`,
     }));
@@ -143,12 +159,7 @@ function loadClientEquipmentDefinitions(filePath: string, kind: 'armor' | 'weapo
     const durabilityBase = entry.baseDurabilityField;
     const defaultQuantity =
       Number.isInteger(durabilityBase) && durabilityBase > 0 ? durabilityBase * 300 : 0;
-    const statCount = kind === 'armor' ? 2 : 6;
-    const defaultAttributePairs: AttributePair[] = [];
-    for (let index = 0; index < statCount; index += 1) {
-      const value = Array.isArray(entry.combatFields) ? entry.combatFields[index] : null;
-      defaultAttributePairs.push({ value: Number.isInteger(value) && value > 0 ? value : 0 });
-    }
+    const defaultAttributePairs = resolveEquipmentDefaultAttributePairs(entry, kind);
 
     rows.push({
       templateId: entry.templateId,
@@ -156,6 +167,8 @@ function loadClientEquipmentDefinitions(filePath: string, kind: 'armor' | 'weapo
       containerType: BAG_CONTAINER_TYPE,
       maxStack: 1,
       clientTemplateFamily: entry.clientTemplateFamily,
+      hasDurability: true,
+      sellPrice: resolveClientSellPrice(entry, kind),
       defaultQuantity,
       defaultAttributePairs,
       iconPath: typeof entry.iconPath === 'string' ? entry.iconPath : '',
@@ -167,6 +180,27 @@ function loadClientEquipmentDefinitions(filePath: string, kind: 'armor' | 'weapo
   return rows;
 }
 
+function resolveEquipmentDefaultAttributePairs(entry: UnknownRecord, kind: 'armor' | 'weapon'): AttributePair[] {
+  const instanceDefaults =
+    entry?.defaultInstanceFields && typeof entry.defaultInstanceFields === 'object'
+      ? entry.defaultInstanceFields
+      : {};
+  if (kind === 'armor') {
+    return [
+      { value: positiveIntOrZero(instanceDefaults.defense) },
+      { value: positiveIntOrZero(instanceDefaults.magicDefense) },
+    ];
+  }
+  return [
+    { value: positiveIntOrZero(instanceDefaults.attackMin) },
+    { value: positiveIntOrZero(instanceDefaults.attackMax) },
+    { value: positiveIntOrZero(instanceDefaults.magicAttackMin) },
+    { value: positiveIntOrZero(instanceDefaults.magicAttackMax) },
+    { value: 0 },
+    { value: 0 },
+  ];
+}
+
 function loadClientDerivedEntries(filePath: string): UnknownRecord[] {
   let parsed: UnknownRecord;
   try {
@@ -175,6 +209,23 @@ function loadClientDerivedEntries(filePath: string): UnknownRecord[] {
     return [];
   }
   return Array.isArray(parsed?.entries) ? parsed.entries : [];
+}
+
+function loadItemInfoMap(): Map<number, ItemInfoEntry> {
+  const entries = loadClientDerivedEntries(ITEMINFO_TABLE_FILE);
+  return new Map(
+    entries
+      .filter((entry) => Number.isInteger(entry?.templateId))
+      .map((entry) => [
+        entry.templateId,
+        {
+          field1: Number.isInteger(entry?.field1) ? entry.field1 : null,
+          field2: Number.isInteger(entry?.field2) ? entry.field2 : null,
+          field3: Number.isInteger(entry?.field3) ? entry.field3 : null,
+          field4: Number.isInteger(entry?.field4) ? entry.field4 : null,
+        },
+      ])
+  );
 }
 
 function normalizeInventoryState(character: UnknownRecord): InventoryState {
@@ -244,7 +295,10 @@ function normalizeBagItem(item: UnknownRecord): BagItem | null {
   return {
     instanceId: Number.isInteger(item.instanceId) && item.instanceId > 0 ? item.instanceId : 1,
     templateId: item.templateId >>> 0,
-    quantity: normalizeStoredItemQuantity(definition, rawQuantity),
+    quantity: isEquipmentDefinition(definition) ? 1 : normalizeStoredItemQuantity(definition, rawQuantity),
+    durability: normalizeStoredItemDurability(definition, item.durability, rawQuantity),
+    tradeState: normalizeStoredTradeState(item.tradeState, item.bindState),
+    bindState: Number.isInteger(item.bindState) ? (item.bindState & 0xff) : 0,
     equipped: item.equipped === true,
     slot: Math.max(FIRST_BAG_SLOT, item.slot >>> 0),
   };
@@ -267,6 +321,18 @@ function buildInventorySnapshot(session: InventorySessionLike): InventoryState['
           instanceId: item.instanceId >>> 0,
           templateId: item.templateId >>> 0,
           quantity: item.quantity >>> 0,
+          durability:
+            Number.isInteger(item.durability) && typeof item.durability === 'number'
+              ? item.durability >>> 0
+              : undefined,
+          tradeState:
+            Number.isInteger(item.tradeState) && typeof item.tradeState === 'number'
+              ? (item.tradeState | 0)
+              : normalizeStoredTradeState(undefined, item.bindState),
+          bindState:
+            Number.isInteger(item.bindState) && typeof item.bindState === 'number'
+              ? (item.bindState & 0xff)
+              : 0,
           equipped: item.equipped === true,
           slot: item.slot >>> 0,
         }))
@@ -290,12 +356,23 @@ function getBagItemByTemplateId(session: InventorySessionLike, templateId: numbe
     : null;
 }
 
+function getBagItemByInstanceId(session: InventorySessionLike, instanceId: number): BagItem | null {
+  return Array.isArray(session.bagItems)
+    ? session.bagItems.find(
+        (item) => item.equipped !== true && (item.instanceId >>> 0) === (instanceId >>> 0)
+      ) || null
+    : null;
+}
+
 function getBagQuantityByTemplateId(session: InventorySessionLike, templateId: number): number {
   return Array.isArray(session.bagItems)
     ? session.bagItems.reduce(
-        (total, item) =>
-          total +
-          (item.equipped !== true && item.templateId === (templateId >>> 0) ? item.quantity >>> 0 : 0),
+        (total, item) => {
+          if (item.equipped === true || item.templateId !== (templateId >>> 0)) {
+            return total;
+          }
+          return total + logicalItemQuantity(item);
+        },
         0
       )
     : 0;
@@ -305,7 +382,12 @@ function bagHasTemplateQuantity(session: InventorySessionLike, templateId: numbe
   return getBagQuantityByTemplateId(session, templateId) >= Math.max(1, quantity | 0);
 }
 
-function grantItemToBag(session: InventorySessionLike, templateId: number, quantity = 1): UnknownRecord {
+function grantItemToBag(
+  session: InventorySessionLike,
+  templateId: number,
+  quantity = 1,
+  options: { bindState?: number; tradeState?: number } = {}
+): UnknownRecord {
   const definition = getItemDefinition(templateId);
   if (!definition) {
     return {
@@ -315,6 +397,11 @@ function grantItemToBag(session: InventorySessionLike, templateId: number, quant
   }
 
   const normalizedQuantity = Math.max(1, quantity | 0);
+  const normalizedBindState =
+    Number.isInteger(options.bindState) && typeof options.bindState === 'number'
+      ? (options.bindState & 0xff)
+      : 0;
+  const normalizedTradeState = normalizeStoredTradeState(options.tradeState, normalizedBindState);
   const bagItems = Array.isArray(session.bagItems) ? session.bagItems : [];
   const bagSize = typeof session.bagSize === 'number' && session.bagSize > 0 ? session.bagSize : DEFAULT_BAG_SIZE;
   const existingStacks = bagItems
@@ -322,6 +409,8 @@ function grantItemToBag(session: InventorySessionLike, templateId: number, quant
       (item) =>
         item.equipped !== true &&
         item.templateId === definition.templateId &&
+        normalizeStoredTradeState(item.tradeState, item.bindState) === normalizedTradeState &&
+        (item.bindState ?? 0) === normalizedBindState &&
         item.quantity < definition.maxStack
     )
     .sort((left: BagItem, right: BagItem) => left.slot - right.slot);
@@ -376,7 +465,10 @@ function grantItemToBag(session: InventorySessionLike, templateId: number, quant
     const item: BagItem = {
       instanceId: nextInstanceId,
       templateId: definition.templateId,
-      quantity: initialStoredQuantityForGrant(definition, stackQuantity),
+      quantity: isEquipmentDefinition(definition) ? 1 : initialStoredQuantityForGrant(definition, stackQuantity),
+      durability: initialStoredItemDurabilityForGrant(definition),
+      tradeState: normalizedTradeState,
+      bindState: normalizedBindState,
       equipped: false,
       slot,
     };
@@ -471,6 +563,101 @@ function consumeItemFromBag(session: InventorySessionLike, templateId: number, q
   };
 }
 
+function removeBagItemByInstanceId(session: InventorySessionLike, instanceId: number): UnknownRecord {
+  const bagItems = Array.isArray(session.bagItems) ? session.bagItems : [];
+  const targetIndex = bagItems.findIndex(
+    (item) => item.equipped !== true && (item.instanceId >>> 0) === (instanceId >>> 0)
+  );
+  if (targetIndex < 0) {
+    return {
+      ok: false,
+      reason: `Unknown instanceId=${instanceId}`,
+    };
+  }
+
+  const removedItem = bagItems[targetIndex];
+  bagItems.splice(targetIndex, 1);
+  session.bagItems = bagItems.sort((left: BagItem, right: BagItem) => left.slot - right.slot);
+  const bagSize = typeof session.bagSize === 'number' && session.bagSize > 0 ? session.bagSize : DEFAULT_BAG_SIZE;
+  const nextBagSlot = typeof session.nextBagSlot === 'number' ? session.nextBagSlot : bagSize + 1;
+  session.nextBagSlot = findNextAvailableSlot(
+    session.bagItems,
+    bagSize,
+    Math.min(nextBagSlot, removedItem.slot >>> 0)
+  );
+  return {
+    ok: true,
+    item: removedItem,
+    removed: true,
+    changes: [
+      {
+        item: removedItem,
+        quantityRemoved: logicalItemQuantity(removedItem),
+        removed: true,
+      },
+    ],
+    removedItems: [removedItem],
+  };
+}
+
+function consumeBagItemByInstanceId(session: InventorySessionLike, instanceId: number, quantity = 1): UnknownRecord {
+  const bagItems = Array.isArray(session.bagItems) ? session.bagItems : [];
+  const normalizedQuantity = Math.max(1, quantity | 0);
+  const targetItem =
+    bagItems.find((item) => item.equipped !== true && (item.instanceId >>> 0) === (instanceId >>> 0)) || null;
+  if (!targetItem) {
+    return {
+      ok: false,
+      reason: `Unknown instanceId=${instanceId}`,
+    };
+  }
+
+  const definition = getItemDefinition(targetItem.templateId);
+  const logicalQuantity = logicalItemQuantity(targetItem);
+  if (!definition || logicalQuantity < normalizedQuantity) {
+    return {
+      ok: false,
+      reason: `Insufficient quantity for instanceId=${instanceId}`,
+    };
+  }
+
+  if (isEquipmentDefinition(definition) || definition.maxStack <= 1) {
+    return removeBagItemByInstanceId(session, instanceId);
+  }
+
+  targetItem.quantity -= normalizedQuantity;
+  const removed = targetItem.quantity <= 0;
+  if (removed) {
+    const targetIndex = bagItems.indexOf(targetItem);
+    if (targetIndex >= 0) {
+      bagItems.splice(targetIndex, 1);
+    }
+  }
+
+  session.bagItems = bagItems.sort((left: BagItem, right: BagItem) => left.slot - right.slot);
+  const bagSize = typeof session.bagSize === 'number' && session.bagSize > 0 ? session.bagSize : DEFAULT_BAG_SIZE;
+  const nextBagSlot = typeof session.nextBagSlot === 'number' ? session.nextBagSlot : bagSize + 1;
+  session.nextBagSlot = findNextAvailableSlot(
+    session.bagItems,
+    bagSize,
+    removed ? Math.min(nextBagSlot, targetItem.slot >>> 0) : nextBagSlot
+  );
+
+  return {
+    ok: true,
+    item: targetItem,
+    removed,
+    changes: [
+      {
+        item: targetItem,
+        quantityRemoved: normalizedQuantity,
+        removed,
+      },
+    ],
+    removedItems: removed ? [targetItem] : [],
+  };
+}
+
 function normalizeBagLayout(items: BagItem[], bagSize: number): BagItem[] {
   const usedSlots = new Set<number>();
   const usedInstanceIds = new Set<number>();
@@ -483,7 +670,7 @@ function normalizeBagLayout(items: BagItem[], bagSize: number): BagItem[] {
       continue;
     }
 
-    let remainingQuantity = Math.max(1, originalItem.quantity | 0);
+    let remainingQuantity = logicalItemQuantity(originalItem);
     const isEquipment = isEquipmentDefinition(definition);
     let preferredSlot = originalItem.slot;
     let firstSplit = true;
@@ -508,6 +695,7 @@ function normalizeBagLayout(items: BagItem[], bagSize: number): BagItem[] {
         ...originalItem,
         instanceId,
         quantity,
+        durability: normalizeStoredItemDurability(definition, originalItem.durability, originalItem.quantity),
         slot,
       });
       remainingQuantity = isEquipment ? 0 : remainingQuantity - quantity;
@@ -568,6 +756,9 @@ function findNextOpenSlot(
 }
 
 function isEquipmentDefinition(definition: ItemDefinition): boolean {
+  if (definition?.hasDurability === true) {
+    return true;
+  }
   return (
     Number.isInteger(definition?.clientTemplateFamily) &&
     (definition.clientTemplateFamily as number) >= 0x20 &&
@@ -576,35 +767,140 @@ function isEquipmentDefinition(definition: ItemDefinition): boolean {
 }
 
 function initialStoredQuantityForGrant(definition: ItemDefinition, requestedQuantity: number): number {
-  if (isEquipmentDefinition(definition)) {
-    const defaultQuantity =
-      typeof definition.defaultQuantity === 'number' ? definition.defaultQuantity : 0;
-    return Number.isInteger(defaultQuantity) && defaultQuantity > 0
-      ? defaultQuantity
-      : Math.max(1, requestedQuantity | 0);
-  }
   return Math.max(1, requestedQuantity | 0);
 }
 
 function normalizeStoredItemQuantity(definition: ItemDefinition, rawQuantity: number): number {
-  if (isEquipmentDefinition(definition)) {
-    if (!Number.isInteger(rawQuantity) || rawQuantity < 0) {
-      const defaultQuantity =
-        typeof definition.defaultQuantity === 'number' ? definition.defaultQuantity : 0;
-      return Number.isInteger(defaultQuantity) && defaultQuantity > 0
-        ? defaultQuantity
-        : 0;
-    }
-    return rawQuantity;
-  }
   if (!Number.isInteger(rawQuantity) || rawQuantity <= 0) {
     return 1;
   }
   return rawQuantity;
 }
 
+function initialStoredItemDurabilityForGrant(definition: ItemDefinition): number | undefined {
+  if (!isEquipmentDefinition(definition)) {
+    return undefined;
+  }
+  const defaultQuantity =
+    typeof definition.defaultQuantity === 'number' ? definition.defaultQuantity : 0;
+  return Number.isInteger(defaultQuantity) && defaultQuantity > 0 ? defaultQuantity : 0;
+}
+
+function normalizeStoredItemDurability(
+  definition: ItemDefinition,
+  rawDurability: unknown,
+  legacyQuantity: number
+): number | undefined {
+  if (!isEquipmentDefinition(definition)) {
+    return undefined;
+  }
+  const defaultDurability = initialStoredItemDurabilityForGrant(definition);
+  if (Number.isInteger(rawDurability) && (rawDurability as number) >= 0) {
+    if (typeof defaultDurability === 'number' && defaultDurability > 0 && (rawDurability as number) > defaultDurability) {
+      return defaultDurability;
+    }
+    return rawDurability as number;
+  }
+  if (Number.isInteger(legacyQuantity) && legacyQuantity >= 0 && legacyQuantity > 1) {
+    if (typeof defaultDurability === 'number' && defaultDurability > 0 && legacyQuantity > defaultDurability) {
+      return defaultDurability;
+    }
+    return legacyQuantity;
+  }
+  if (typeof defaultDurability === 'number') {
+    return defaultDurability;
+  }
+  if (Number.isInteger(legacyQuantity) && legacyQuantity >= 0) {
+    return legacyQuantity;
+  }
+  return defaultDurability;
+}
+
+function normalizeStoredTradeState(rawTradeState: unknown, rawBindState: unknown): number {
+  if (Number.isInteger(rawTradeState) && typeof rawTradeState === 'number') {
+    return rawTradeState | 0;
+  }
+  return Number.isInteger(rawBindState) && typeof rawBindState === 'number' && ((rawBindState as number) & 0xff) > 0
+    ? -2
+    : 0;
+}
+
+function logicalItemQuantity(item: BagItem): number {
+  const definition = getItemDefinition(item.templateId);
+  if (definition && isEquipmentDefinition(definition)) {
+    return 1;
+  }
+  return Number.isInteger(item.quantity) && item.quantity > 0 ? item.quantity : 1;
+}
+
+function positiveIntOrZero(value: unknown): number {
+  return Number.isInteger(value) && (value as number) > 0 ? (value as number) : 0;
+}
+
 function numberOrDefault(value: unknown, fallback: number): number {
   return Number.isInteger(value) ? (value as number) : fallback;
+}
+
+function resolveClientSellPrice(
+  entry: UnknownRecord,
+  category: 'general' | 'potion' | 'stuff' | 'armor' | 'weapon'
+): number {
+  const templateId = Number.isInteger(entry?.templateId) ? entry.templateId : 0;
+  const itemInfo = ITEMINFO_BY_TEMPLATE_ID.get(templateId) || null;
+  if (category === 'potion') {
+    if (Array.isArray(entry?.effectFields) && Number.isInteger(entry.effectFields[4]) && entry.effectFields[4] > 0) {
+      const divisor =
+        Number.isInteger(entry?.stackLimitField) && entry.stackLimitField > 0 ? entry.stackLimitField : 1;
+      return computeClientDisplayedSellPrice(entry.effectFields[4], divisor);
+    }
+  } else if (category === 'general') {
+    if (itemInfo) {
+      const infoPrice = computeClientDisplayedSellPrice(itemInfo.field1 || 0, itemInfo.field2 || 1);
+      if (infoPrice > 0) {
+        return infoPrice;
+      }
+    }
+    if (Array.isArray(entry?.valueFields)) {
+      const valueFields = entry.valueFields.filter(
+        (value: unknown): value is number => Number.isInteger(value) && (value as number) > 0
+      );
+      if (valueFields.length > 0) {
+        return computeClientDisplayedSellPrice(Math.max(...valueFields), 1);
+      }
+    }
+  } else if (category === 'stuff') {
+    if (itemInfo) {
+      const infoPrice = computeClientDisplayedSellPrice(itemInfo.field1 || 0, itemInfo.field2 || 1);
+      if (infoPrice > 0) {
+        return infoPrice;
+      }
+    }
+    if (Array.isArray(entry?.groupFields)) {
+      const groupFields = entry.groupFields.filter(
+        (value: unknown): value is number => Number.isInteger(value) && (value as number) > 0
+      );
+      if (groupFields.length > 0) {
+        return computeClientDisplayedSellPrice(Math.max(...groupFields), 1);
+      }
+    }
+  } else if (category === 'armor' || category === 'weapon') {
+    const templateLevel = Number.isInteger(entry?.templateLevelField) ? entry.templateLevelField : 0;
+    if (templateLevel > 0) {
+      return Math.max(1, templateLevel * 10);
+    }
+  }
+
+  return 1;
+}
+
+function computeClientDisplayedSellPrice(baseValue: number, divisorValue: number): number {
+  const normalizedBase = Number.isInteger(baseValue) ? Math.max(0, baseValue) : 0;
+  const normalizedDivisor =
+    Number.isInteger(divisorValue) && divisorValue > 0 ? divisorValue : 1;
+  if (normalizedBase <= 0) {
+    return 0;
+  }
+  return Math.max(1, Math.floor(normalizedBase / (normalizedDivisor * 4)));
 }
 
 export {
@@ -615,9 +911,12 @@ export {
   bagHasTemplateId,
   bagHasTemplateQuantity,
   consumeItemFromBag,
+  getBagItemByInstanceId,
   getBagQuantityByTemplateId,
   getBagItemByTemplateId,
   getItemDefinition,
   grantItemToBag,
   normalizeInventoryState,
+  consumeBagItemByInstanceId,
+  removeBagItemByInstanceId,
 };
