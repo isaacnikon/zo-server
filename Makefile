@@ -6,6 +6,7 @@ DEPLOY_DIR ?= /home/ubuntu/zo-server
 SSH := ssh -i $(DEPLOY_KEY)
 RSYNC := rsync -az --delete -e "ssh -i $(DEPLOY_KEY)" \
 	--exclude .git \
+	--exclude .env \
 	--exclude .claude \
 	--exclude .mcp.json \
 	--exclude node_modules \
