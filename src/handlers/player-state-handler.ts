@@ -1,7 +1,21 @@
 import type { GameSession } from '../types';
 
-const { parseEquipmentState, parseAttributeAllocation } = require('../protocol/inbound-packets');
-const { sendEquipmentContainerSync } = require('../gameplay/inventory-runtime');
+const {
+  parseEquipmentState,
+  parseAttributeAllocation,
+  parseCombatItemUse,
+  parseFightResultItemActionProbe,
+  parseSharedItemUse,
+  parseTargetedItemUse,
+} = require('../protocol/inbound-packets');
+const { FIGHT_CLIENT_ITEM_USE_SUBCMD, GAME_FIGHT_ACTION_CMD } = require('../config');
+const { getItemDefinition, removeBagItemByInstanceId } = require('../inventory');
+const {
+  sendConsumeResultPackets,
+  sendEquipmentContainerSync,
+  sendInventoryFullSync,
+} = require('../gameplay/inventory-runtime');
+const { consumeUsableItemByInstanceId } = require('../gameplay/item-use-runtime');
 const { normalizePrimaryAttributes } = require('../character/normalize');
 const { recomputeSessionMaxVitals } = require('../gameplay/session-flows');
 
@@ -28,6 +42,33 @@ export function tryHandleEquipmentStatePacket(session: SessionLike, payload: Buf
       `Ignoring duplicate equipment state instanceId=${instanceId} templateId=${item.templateId} equipped=${nextEquipped ? 1 : 0}`
     );
     return true;
+  }
+
+  const itemDefinition = getItemDefinition(item.templateId);
+  if (
+    nextEquipped &&
+    itemDefinition?.hasDurability === true &&
+    Number.isInteger(itemDefinition?.clientTemplateFamily)
+  ) {
+    for (const candidate of Array.isArray(session.bagItems) ? session.bagItems : []) {
+      if (
+        candidate === item ||
+        candidate?.equipped !== true ||
+        !Number.isInteger(candidate?.templateId)
+      ) {
+        continue;
+      }
+      const candidateDefinition = getItemDefinition(candidate.templateId);
+      if (
+        candidateDefinition?.hasDurability === true &&
+        candidateDefinition?.clientTemplateFamily === itemDefinition.clientTemplateFamily
+      ) {
+        candidate.equipped = false;
+        session.log(
+          `Auto-unequipped instanceId=${candidate.instanceId >>> 0} templateId=${candidate.templateId >>> 0} replacedBy=${instanceId}`
+        );
+      }
+    }
   }
 
   item.equipped = nextEquipped;
@@ -97,6 +138,121 @@ export function tryHandleAttributeAllocationPacket(
     statusPoints: session.statusPoints,
   });
   session.sendSelfStateAptitudeSync();
+  return true;
+}
+
+export function tryHandleFightResultItemActionProbe(
+  session: SessionLike,
+  payload: Buffer
+): boolean {
+  const parsed = parseFightResultItemActionProbe(payload);
+  if (!parsed) {
+    return false;
+  }
+
+  const rawValue = parsed.rawValue >>> 0;
+  const bagItem = Array.isArray(session.bagItems)
+    ? session.bagItems.find((entry: { instanceId?: number; slot?: number }) => {
+        const instanceIdValue = entry?.instanceId;
+        const slotValue = entry?.slot;
+        const instanceId =
+          typeof instanceIdValue === 'number' && Number.isInteger(instanceIdValue)
+            ? instanceIdValue >>> 0
+            : 0;
+        const slot =
+          typeof slotValue === 'number' && Number.isInteger(slotValue)
+            ? slotValue >>> 0
+            : 0;
+        return instanceId === rawValue || slot === rawValue;
+      }) || null
+    : null;
+
+  if (!bagItem) {
+    session.log(
+      `Ignoring non-combat 0x03ee item action sub=0x${parsed.subcmd.toString(16)} rawValue=${rawValue} reason=unknown-instance`
+    );
+    return true;
+  }
+
+  const removeResult = removeBagItemByInstanceId(session, rawValue);
+  if (!removeResult.ok) {
+    session.log(
+      `Discard rejected instanceId=${rawValue} templateId=${bagItem.templateId >>> 0} reason=${removeResult.reason}`
+    );
+    return true;
+  }
+
+  sendConsumeResultPackets(session, removeResult);
+  sendInventoryFullSync(session);
+  sendEquipmentContainerSync(session);
+  session.persistCurrentCharacter();
+  if (typeof session.refreshQuestStateForItemTemplates === 'function') {
+    session.refreshQuestStateForItemTemplates([bagItem.templateId >>> 0]);
+  }
+
+  session.log(
+    `Discarded item instanceId=${rawValue} templateId=${bagItem.templateId >>> 0} slot=${bagItem.slot >>> 0} name="${getItemDefinition(bagItem.templateId)?.name || `item ${bagItem.templateId}`}" quantityRemoved=${removeResult.changes?.[0]?.quantityRemoved || 1}`
+  );
+  return true;
+}
+
+export function tryHandleItemUsePacket(session: SessionLike, cmdWord: number, payload: Buffer): boolean {
+  const sharedItemUse = parseSharedItemUse(payload);
+  if (cmdWord === 0x03ee && sharedItemUse) {
+    const { instanceId } = sharedItemUse;
+    const useResult = consumeUsableItemByInstanceId(session, instanceId);
+    if (!useResult.ok) {
+      session.log(`Item use rejected instanceId=${instanceId} reason=${useResult.reason}`);
+      return true;
+    }
+
+    session.log(
+      `Item use ok instanceId=${instanceId} templateId=${useResult.item?.templateId || 0} restored=${useResult.gained?.health || 0}/${useResult.gained?.mana || 0}/${useResult.gained?.rage || 0}`
+    );
+    return true;
+  }
+
+  const targetedItemUse = parseTargetedItemUse(payload);
+  if (cmdWord === 0x03ee && targetedItemUse) {
+    const { instanceId, targetEntityId } = targetedItemUse;
+    const useResult = consumeUsableItemByInstanceId(session, instanceId, { targetEntityId });
+    if (!useResult.ok) {
+      session.log(
+        `Targeted item use rejected instanceId=${instanceId} targetEntityId=${targetEntityId} reason=${useResult.reason}`
+      );
+      return true;
+    }
+
+    session.log(
+      `Targeted item use ok instanceId=${instanceId} targetEntityId=${targetEntityId} targetKind=${useResult.targetKind || 'unknown'} templateId=${useResult.item?.templateId || 0} restored=${useResult.gained?.health || 0}/${useResult.gained?.mana || 0}/${useResult.gained?.rage || 0}`
+    );
+    return true;
+  }
+
+  if (
+    cmdWord !== GAME_FIGHT_ACTION_CMD ||
+    payload.length < 11 ||
+    payload[2] !== FIGHT_CLIENT_ITEM_USE_SUBCMD
+  ) {
+    return false;
+  }
+
+  if (session.combatState?.active) {
+    return false;
+  }
+
+  const { instanceId, targetEntityId } = parseCombatItemUse(payload);
+  const useResult = consumeUsableItemByInstanceId(session, instanceId);
+  if (!useResult.ok) {
+    session.log(
+      `Item use rejected instanceId=${instanceId} targetEntityId=${targetEntityId} reason=${useResult.reason}`
+    );
+    return true;
+  }
+
+  session.log(
+    `Item use ok instanceId=${instanceId} targetEntityId=${targetEntityId} templateId=${useResult.item?.templateId || 0} restored=${useResult.gained?.health || 0}/${useResult.gained?.mana || 0}/${useResult.gained?.rage || 0}`
+  );
   return true;
 }
 
