@@ -119,6 +119,16 @@ function buildControlShowPacket(activeEntityId: number): Buffer {
   return writer.payload();
 }
 
+function buildRoundStartPacket(round: number, activeEntityId: number): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_FIGHT_STREAM_CMD);
+  writer.writeUint8(0x06);
+  writer.writeUint16(Math.max(1, round) & 0xffff);
+  writer.writeUint32(activeEntityId >>> 0);
+  writer.writeUint8(0x0c);
+  return writer.payload();
+}
+
 function buildTurnPromptPacket(rows: TurnPromptRow[] = []): Buffer {
   const writer = new PacketWriter();
   const normalizedRows = rows.length > 0
@@ -239,6 +249,7 @@ module.exports = {
   buildProtectPlaybackPacket,
   buildControlInitPacket,
   buildControlShowPacket,
+  buildRoundStartPacket,
   buildDefeatPacket,
   buildEncounterPacket,
   buildEntityHidePacket,

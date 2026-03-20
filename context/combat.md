@@ -3,7 +3,7 @@
 ## Current Working State
 
 - Bling Spring field combat is live again on the current server.
-- Multi-enemy encounters are currently forced on for debugging when the profile supports more than one enemy.
+- Multi-enemy encounters can be forced for debugging with `FORCE_MULTI_ENEMY_ENCOUNTERS=1`.
 - The current working path supports:
   - encounter entry
   - repeated target selection across multiple enemies
@@ -14,7 +14,7 @@
 ## Current Encounter Model
 
 - Encounter profile `blingSpringField` supports `minEnemies=1`, `maxEnemies=3`.
-- The server is currently forcing `maxEnemies` for reproducibility.
+- The server can force `maxEnemies` for reproducibility with `FORCE_MULTI_ENEMY_ENCOUNTERS=1`.
 - Enemy positions are fixed to:
   - `[0,0]`
   - `[0,1]`
@@ -106,9 +106,34 @@ Implication:
 
 - The client's `0x03ed/0x09` acts as a reliable combat playback settle / continue signal, not just initial combat-ready.
 
+## Current Structure
+
+- Combat state is now aligned with the shared `CombatState` type:
+  - `round`
+  - `enemies`
+  - `pendingEnemyTurnQueue`
+  - `pendingPostKillCounterattack`
+  - `enemyTurnReason`
+- The combat handler now reads in domain terms:
+  - client ready detection
+  - transition to command phase
+  - queued enemy turn
+  - finish enemy turn
+- Packet-level details still exist, but the turn loop is no longer organized as ad hoc packet branching.
+
+## Round Number
+
+- The server now maintains an explicit combat `round`.
+- `round` starts at `0` during encounter intro.
+- It increments when the server transitions into a new player command phase.
+- In practice, that means:
+  - first actionable player turn -> `round = 1`
+  - after each completed enemy turn, the next player command phase increments the round again
+- This matches the current client-paced turn model better than incrementing on every packet or every playback event.
+
 ## Known Simplifications
 
-- Enemy count is still forced to multi-enemy for debugging.
+- Forced multi-enemy is now a debug toggle, not the default behavior.
 - Enemy action order is still encounter-order based, not stat / initiative based.
 - Protect / self-protect RE is incomplete and not the focus of the current working loop.
 - The second slot is still only known as a protect-family command; true self-defend semantics are unresolved.

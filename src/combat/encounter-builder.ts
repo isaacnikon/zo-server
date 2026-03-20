@@ -5,7 +5,7 @@ const { getRoleName, getRolePrimaryDrop } = require('../roleinfo');
 
 type UnknownRecord = Record<string, any>;
 
-const FORCE_MULTI_ENEMY_ENCOUNTERS = true;
+const FORCE_MULTI_ENEMY_ENCOUNTERS = process.env.FORCE_MULTI_ENEMY_ENCOUNTERS === '1';
 const ENEMY_POSITIONS = [
   { row: 0, col: 0 },
   { row: 0, col: 1 },

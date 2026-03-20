@@ -215,9 +215,13 @@ export interface CombatEnemyInstance {
 export interface CombatState {
   active: boolean;
   phase: CombatPhase;
+  round: number;
   triggerId: string | null;
   encounterAction: Record<string, unknown> | null;
-  enemy: CombatEnemyInstance | null;
+  enemies: CombatEnemyInstance[];
+  pendingEnemyTurnQueue: number[];
+  pendingPostKillCounterattack: boolean;
+  enemyTurnReason?: 'normal' | 'post-kill' | null;
   awaitingClientReady: boolean;
   awaitingPlayerAction: boolean;
   startedAt: number;
