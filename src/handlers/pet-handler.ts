@@ -125,6 +125,7 @@ export function sendPetStateSync(session: SessionLike, reason = 'runtime'): void
   }
   session.selectedPetRuntimeId = pet.runtimeId >>> 0;
   const ownerRuntimeId = getPetOwnerRuntimeId(session);
+  const isEnterGameSync = reason === 'enter-game';
 
   session.writePacket(
     buildPetTreeRegistrationPacket({ pet }),
@@ -150,14 +151,16 @@ export function sendPetStateSync(session: SessionLike, reason = 'runtime'): void
       `Sending pet panel name cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x59 reason=${reason} ownerRuntimeId=${ownerRuntimeId} name="${pet.name}"`
     );
   }
-  session.writePacket(
-    buildPetPanelModePacket({
-      ownerRuntimeId,
-      enabled: true,
-    }),
-    DEFAULT_FLAGS,
-    `Sending pet panel mode cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x56 reason=${reason} ownerRuntimeId=${ownerRuntimeId} enabled=1`
-  );
+  if (!isEnterGameSync) {
+    session.writePacket(
+      buildPetPanelModePacket({
+        ownerRuntimeId,
+        enabled: true,
+      }),
+      DEFAULT_FLAGS,
+      `Sending pet panel mode cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x56 reason=${reason} ownerRuntimeId=${ownerRuntimeId} enabled=1`
+    );
+  }
   sendPetPropertySync(session, ownerRuntimeId, pet, reason);
   session.writePacket(
     buildPetStatsSyncPacket({ pet }),
@@ -171,7 +174,7 @@ export function sendPetStateSync(session: SessionLike, reason = 'runtime'): void
       `Sending pet panel rebind cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x53 reason=${reason} ownerRuntimeId=${ownerRuntimeId}`
     );
   }
-  if (isReplaySync) {
+  if (isReplaySync && !isEnterGameSync) {
     session.writePacket(
       buildPetActiveSelectPacket({ runtimeId: pet.runtimeId }),
       DEFAULT_FLAGS,

@@ -4,6 +4,13 @@ const { parsePingToken } = require('./protocol/inbound-packets');
 
 const { dispatchGamePacket } = require('./handlers/packet-dispatcher');
 const {
+  createIdleCombatState,
+  disposeCombatTimers: combatHandlerDisposeTimers,
+  handleCombatPacket: combatHandlerHandleCombatPacket,
+  sendCombatEncounterProbe: combatHandlerSendCombatEncounterProbe,
+  sendCombatExitProbe: combatHandlerSendCombatExitProbe,
+} = require('./handlers/combat-handler');
+const {
   handleLogin: loginHandlerHandleLogin,
   handleRolePacket: loginHandlerHandleRolePacket,
 } = require('./handlers/login-handler');
@@ -23,12 +30,6 @@ const {
   sendStaticNpcSpawns: sceneHandlerSendStaticNpcSpawns,
 } = require('./handlers/scene-handler');
 const {
-  handleCombatPacket: combatHandlerHandleCombatPacket,
-  sendCombatEncounterProbe: combatHandlerSendCombatEncounterProbe,
-  sendCombatExitProbe: combatHandlerSendCombatExitProbe,
-  disposeCombatTimers: combatHandlerDisposeTimers,
-} = require('./handlers/combat-handler');
-const {
   scheduleEquipmentReplay: playerStateHandlerScheduleEquipmentReplay,
   tryHandleAttributeAllocationPacket: playerStateHandlerTryHandleAttributeAllocationPacket,
   tryHandleEquipmentStatePacket: playerStateHandlerTryHandleEquipmentStatePacket,
@@ -41,12 +42,9 @@ const {
 } = require('./handlers/pet-handler');
 const { sendEnterGameOk: sessionBootstrapHandlerSendEnterGameOk } = require('./handlers/session-bootstrap-handler');
 
-const { loadCombatReference } = require('./combat-reference');
-
 const {
   DEFAULT_FLAGS,
   ENTITY_TYPE,
-  GAME_FIGHT_RESULT_CMD,
   GAME_DIALOG_CMD,
   GAME_DIALOG_MESSAGE_SUBCMD,
   GAME_ITEM_CONTAINER_CMD,
@@ -69,12 +67,6 @@ const {
   VALID_FLAG_MASK,
   VALID_FLAG_VALUE,
 } = require('./config');
-const {
-  createCombatState,
-  isCombatCommand,
-  parseCombatPacket,
-  recordOutboundCombatPacket,
-} = require('./combat-runtime');
 const { PacketWriter, buildPacket } = require('./protocol');
 const {
   buildGameDialoguePacket,
@@ -97,10 +89,7 @@ const {
   persistCurrentCharacter: sessionHydrationPersistCurrentCharacter,
   saveCharacter: sessionHydrationSaveCharacter,
 } = require('./character/session-hydration');
-const { getSyntheticPlayerFighter } = require('./combat/synthetic-fight');
 const { defaultBonusAttributes } = require('./character/normalize');
-
-const COMBAT_REFERENCE = loadCombatReference();
 
 type SharedState = Record<string, any>;
 type LoggerLike = {
@@ -161,12 +150,6 @@ class Session implements GameSession {
   currentTileSceneId: number;
   currentEncounterTriggerId: number | null;
   lastEncounterProbeAt: number;
-  combatState: any;
-  pendingCombatTurnProbe: any;
-  awaitingCombatTurnHandshake: boolean;
-  syntheticFight: any;
-  combatReference: any;
-  syntheticCommandRefreshTimer: NodeJS.Timeout | null;
   equipmentReplayTimer: NodeJS.Timeout | null;
   petReplayTimer: NodeJS.Timeout | null;
   defeatRespawnPending: boolean;
@@ -175,6 +158,8 @@ class Session implements GameSession {
   objectiveRegistry: any;
   pendingNpcActionProbe: Record<string, unknown> | null;
   activeNpcShop: Record<string, unknown> | null;
+  combatState: Record<string, unknown>;
+  combatDefeatTimer: NodeJS.Timeout | null;
 
   constructor(
     socket: SocketLike,
@@ -234,12 +219,6 @@ class Session implements GameSession {
     this.currentTileSceneId = 0;
     this.currentEncounterTriggerId = null;
     this.lastEncounterProbeAt = 0;
-    this.combatState = createCombatState();
-    this.pendingCombatTurnProbe = null;
-    this.awaitingCombatTurnHandshake = false;
-    this.syntheticFight = null;
-    this.combatReference = COMBAT_REFERENCE;
-    this.syntheticCommandRefreshTimer = null;
     this.equipmentReplayTimer = null;
     this.petReplayTimer = null;
     this.defeatRespawnPending = false;
@@ -248,6 +227,8 @@ class Session implements GameSession {
     this.objectiveRegistry = new ObjectiveRegistry();
     this.pendingNpcActionProbe = null;
     this.activeNpcShop = null;
+    this.combatState = createIdleCombatState();
+    this.combatDefeatTimer = null;
     this.objectiveRegistry.register({
       system: questObjectiveSystem,
       handler: questEventHandler,
@@ -353,6 +334,10 @@ class Session implements GameSession {
     return playerStateHandlerTryHandleAttributeAllocationPacket(this, payload);
   }
 
+  handleCombatPacket(cmdWord: number, payload: Buffer): void {
+    combatHandlerHandleCombatPacket(this, cmdWord, payload);
+  }
+
   handleSpecialPacket(cmdWord: number, payload: Buffer): void {
     if (cmdWord === PING_CMD) {
       const { token } = parsePingToken(payload);
@@ -408,42 +393,6 @@ class Session implements GameSession {
         this.log(
           `Debug item packet cmd=0x${cmdWord.toString(16)} payload=${payload.toString('hex')}`
         );
-      }
-      if (isCombatCommand(cmdWord)) {
-        const combatPacket = parseCombatPacket(cmdWord, payload);
-        const recorded = recordOutboundCombatPacket(this.combatState, combatPacket);
-        this.combatState = recorded.state;
-
-        if (Array.isArray(this.sharedState.combatTrace)) {
-          this.sharedState.combatTrace.push({
-            sessionId: this.id,
-            timestamp: Date.now(),
-            direction: 'outbound',
-            inFight: recorded.snapshot.inFight,
-            stateChanged: recorded.snapshot.stateChanged,
-            ...combatPacket,
-          });
-          if (this.sharedState.combatTrace.length > 200) {
-            this.sharedState.combatTrace.shift();
-          }
-        }
-
-        const pieces = [`Combat send kind=${combatPacket.kind}`, `cmd=0x${cmdWord.toString(16)}`];
-        if (combatPacket.subcmd !== null) {
-          pieces.push(`sub=0x${combatPacket.subcmd.toString(16)}`);
-        }
-        if (combatPacket.detail16 !== null) {
-          pieces.push(`detail16=${combatPacket.detail16}`);
-        }
-        if (combatPacket.detail32 !== null) {
-          pieces.push(`detail32=${combatPacket.detail32}`);
-        }
-        pieces.push(`len=${combatPacket.payloadLength}`);
-        pieces.push(`inFight=${recorded.snapshot.inFight ? 1 : 0}`);
-        if (recorded.snapshot.stateChanged) {
-          pieces.push('stateChanged=1');
-        }
-        this.log(pieces.join(' '));
       }
     }
     this.serverSeq += 1;
@@ -587,17 +536,8 @@ class Session implements GameSession {
     };
   }
 
-  handleCombatPacket(cmdWord: number, payload: Buffer): void {
-    combatHandlerHandleCombatPacket(this, cmdWord, payload);
-  }
-
-  getSyntheticPlayerFighter(): any {
-    return getSyntheticPlayerFighter(this.syntheticFight);
-  }
-
   sendSelfStateAptitudeSync(): void {
-    const player = this.getSyntheticPlayerFighter();
-    const vitals = resolveCurrentPlayerVitals(this, player);
+    const vitals = resolveCurrentPlayerVitals(this);
 
     this.writePacket(
       buildSelfStateAptitudeSyncPacket({
@@ -630,8 +570,8 @@ class Session implements GameSession {
   }
 
   dispose(): void {
-    petHandlerDisposeTimers(this);
     combatHandlerDisposeTimers(this);
+    petHandlerDisposeTimers(this);
     if (this.equipmentReplayTimer) {
       clearTimeout(this.equipmentReplayTimer);
       this.equipmentReplayTimer = null;

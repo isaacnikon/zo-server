@@ -60,7 +60,7 @@ Supported quest-side effects today:
 - item grant event emission
 - NPC marker sync
 - auxiliary item grant/consume events on `server-run`
-- scripted quest combat triggers on `server-run`
+- scripted quest trigger hooks can arrive on `server-run`
 
 ### Persistence
 
@@ -78,7 +78,7 @@ Supported quest-side effects today:
 - This is the same item mutation path now used by:
   - quest item grants/consumes/missing checks
   - quest rewards
-  - synthetic combat drops
+  - synthetic drop rewards
 
 ## Client Extraction Pipeline
 
@@ -131,7 +131,7 @@ Runnable quests currently promoted into `main-story.json`:
 Verified/implemented patterns:
 
 - accept from specific NPC click
-- kill objective progression from synthetic combat completion
+- kill objective progression from runtime encounter completion
 - talk hand-in progression
 - prerequisite gate enforcement
 - auxiliary `server-run` item grants

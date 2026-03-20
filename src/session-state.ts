@@ -7,7 +7,6 @@ interface SessionState {
   pendingGameCharacter: Record<string, unknown> | null;
   characterStore: Record<string, unknown> | null;
   mapCellStore: Record<string, unknown> | null;
-  combatTrace: unknown[];
 }
 
 function createSessionState(): SessionState {
@@ -17,7 +16,6 @@ function createSessionState(): SessionState {
     pendingGameCharacter: null,
     characterStore: null,
     mapCellStore: null,
-    combatTrace: [],
   };
 }
 

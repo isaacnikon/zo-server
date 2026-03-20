@@ -12,14 +12,13 @@ type SessionLike = Record<string, any>;
 type UnknownRecord = Record<string, any>;
 
 function restoreAtInn(session: SessionLike, npcId: number): void {
-  const player = session.getSyntheticPlayerFighter();
   const restoredVitals = resolveInnRestVitals({
     currentHealth: session.currentHealth,
     currentMana: session.currentMana,
     currentRage: session.currentRage,
-    maxHealth: player?.maxHp || session.maxHealth,
-    maxMana: player?.maxMp || session.maxMana,
-    maxRage: player?.rage || session.maxRage,
+    maxHealth: session.maxHealth,
+    maxMana: session.maxMana,
+    maxRage: session.maxRage,
   });
 
   session.currentHealth = restoredVitals.health;

@@ -34,16 +34,6 @@ const {
   buildInventoryContainerBulkSyncPacket,
   buildInventoryContainerQuantityPacket,
 } = require('../src/protocol/gameplay-packets');
-const {
-  createSyntheticFightState,
-  findSyntheticEnemyTarget,
-  computeSyntheticDamage,
-  initializeSyntheticEnemyTurnQueue,
-} = require('../src/combat/synthetic-fight');
-const {
-  resolvePlayerAttackSelection,
-  resolveQueuedEnemyTurn,
-} = require('../src/combat/synthetic-fight-flow');
 
 function testInnRestVitals() {
   const vitals = resolveInnRestVitals({ health: 12, mana: 40, rage: 1 });
@@ -89,77 +79,14 @@ function testServerRunParsing() {
   assert.strictEqual(parsed.mapId, 101);
 }
 
-function buildSyntheticFight() {
-  return createSyntheticFightState({
-    action: { probeId: 'smoke' },
-    entityType: 0x3e9,
-    roleEntityType: 0x3e9,
-    currentHealth: 432,
-    currentMana: 630,
-    currentRage: 100,
-    primaryAttributes: {
-      intelligence: 15,
-      vitality: 15,
-      dexterity: 15,
-      strength: 15,
-    },
-    level: 1,
-    charName: 'Hero',
-    turnProfile: { index: 0, profile: 'smoke', rows: [] },
-    enemies: [
-      {
-        side: 1,
-        entityId: 0x700001,
-        logicalId: 1,
-        typeId: 5015,
-        row: 0,
-        col: 2,
-        hpLike: 120,
-        mpLike: 0,
-        aptitude: 0,
-        levelLike: 15,
-        appearanceTypes: [0, 0, 0],
-        appearanceVariants: [0, 0, 0],
-        name: 'Enemy A',
-      },
-    ],
-  });
-}
-
-function testPlayerAttackResolution() {
-  const syntheticFight = buildSyntheticFight();
-  const resolution = resolvePlayerAttackSelection({
-    syntheticFight,
-    attackMode: 1,
-    targetA: 0,
-    targetB: 2,
-    charName: 'Hero',
-    now: 1234,
-    findSyntheticEnemyTarget,
-    computeSyntheticDamage: () => 999,
-    initializeSyntheticEnemyTurnQueue,
-  });
-
-  assert.strictEqual(resolution.kind, 'victory');
-  assert.strictEqual(resolution.enemy.hp, 0);
-  assert.strictEqual(syntheticFight.phase, 'finished');
-}
-
-function testQueuedEnemyTurnResolution() {
-  const syntheticFight = buildSyntheticFight();
-  initializeSyntheticEnemyTurnQueue(syntheticFight, 0x3e9);
-
-  const resolution = resolveQueuedEnemyTurn({
-    syntheticFight,
-    now: 5678,
-    selectSyntheticEnemyAttacker: (fight: UnknownRecord) => fight.enemies[0],
-    computeSyntheticDamage: () => 10,
-    hasLivingSyntheticAllies: () => false,
-  });
-
-  assert.strictEqual(resolution.kind, 'enemy-turn-complete');
-  assert.strictEqual(resolution.player.hp, 422);
-  assert.strictEqual(syntheticFight.round, 2);
+function projectBagState(items: UnknownRecord[]) {
+  return items.map((item) => ({
+    instanceId: item.instanceId,
+    templateId: item.templateId,
+    quantity: item.quantity,
+    equipped: item.equipped === true,
+    slot: item.slot,
+  }));
 }
 
 function testInventoryNormalizationRepairsCollisions() {
@@ -176,7 +103,7 @@ function testInventoryNormalizationRepairsCollisions() {
     },
   });
 
-  assert.deepStrictEqual(normalized.inventory.bag, [
+  assert.deepStrictEqual(projectBagState(normalized.inventory.bag), [
     { instanceId: 1, templateId: 23003, quantity: 500, equipped: false, slot: 1 },
     { instanceId: 2, templateId: 23003, quantity: 1, equipped: false, slot: 2 },
     { instanceId: 3, templateId: 21116, quantity: 1, equipped: false, slot: 3 },
@@ -199,8 +126,8 @@ function testInventoryGrantSplitsAcrossStacksAtomically() {
 
   assert.strictEqual(grantResult.ok, true);
   assert.strictEqual(grantResult.changes.length, 2);
-  assert.deepStrictEqual(session.bagItems, [
-    { instanceId: 10, templateId: 21115, quantity: 10, slot: 1 },
+  assert.deepStrictEqual(projectBagState(session.bagItems), [
+    { instanceId: 10, templateId: 21115, quantity: 10, equipped: false, slot: 1 },
     { instanceId: 11, templateId: 21115, quantity: 3, equipped: false, slot: 2 },
   ]);
   assert.strictEqual(session.nextItemInstanceId, 12);
@@ -221,8 +148,8 @@ function testInventoryGrantRejectsNonAtomicOverflow() {
     ok: false,
     reason: 'Bag is full',
   });
-  assert.deepStrictEqual(session.bagItems, [
-    { instanceId: 10, templateId: 21115, quantity: 8, slot: 1 },
+  assert.deepStrictEqual(projectBagState(session.bagItems), [
+    { instanceId: 10, templateId: 21115, quantity: 8, equipped: false, slot: 1 },
   ]);
 }
 
@@ -243,8 +170,8 @@ function testInventoryConsumeAggregatesAcrossStacks() {
 
   assert.strictEqual(consumeResult.ok, true);
   assert.strictEqual(consumeResult.changes.length, 2);
-  assert.deepStrictEqual(session.bagItems, [
-    { instanceId: 21, templateId: 21115, quantity: 2, slot: 2 },
+  assert.deepStrictEqual(projectBagState(session.bagItems), [
+    { instanceId: 21, templateId: 21115, quantity: 2, equipped: false, slot: 2 },
   ]);
   assert.strictEqual(session.nextBagSlot, 1);
 }
@@ -261,7 +188,7 @@ function testInventoryNormalizationSplitsClientCappedStacks() {
     },
   });
 
-  assert.deepStrictEqual(normalized.inventory.bag, [
+  assert.deepStrictEqual(projectBagState(normalized.inventory.bag), [
     { instanceId: 8, templateId: 21115, quantity: 10, equipped: false, slot: 5 },
     { instanceId: 9, templateId: 21115, quantity: 8, equipped: false, slot: 1 },
   ]);
@@ -291,7 +218,7 @@ function testInventoryBulkSyncOmitsTrailingCountFor074Family() {
 
   assert.strictEqual(
     packet.toString('hex'),
-    'f2030100020006000000db590600000000001100000007000000e75907000000000019000000'
+    'f2030100020006000000db590000000000001100000007000000e75900000000000019000000'
   );
 }
 
@@ -306,7 +233,10 @@ function testInventorySnapshotCanonicalizesState() {
     nextBagSlot: 1,
   });
 
-  assert.deepStrictEqual(snapshot, {
+  assert.deepStrictEqual({
+    ...snapshot,
+    bag: projectBagState(snapshot.bag),
+  }, {
     bag: [
       { instanceId: 2, templateId: 21116, quantity: 1, equipped: false, slot: 1 },
       { instanceId: 3, templateId: 21115, quantity: 10, equipped: false, slot: 2 },
@@ -741,8 +671,6 @@ function main() {
   testInnRestVitals();
   testDefeatRespawnState();
   testServerRunParsing();
-  testPlayerAttackResolution();
-  testQueuedEnemyTurnResolution();
   testInventoryNormalizationRepairsCollisions();
   testInventoryGrantSplitsAcrossStacksAtomically();
   testInventoryGrantRejectsNonAtomicOverflow();

@@ -89,7 +89,7 @@ export type QuestEvent =
   | QuestItemMissingEvent
   | QuestCombatTriggerEvent;
 
-// --- Game effects (shared across quest/combat/inventory/NPC) ---
+// --- Game effects (shared across quest/inventory/NPC) ---
 export type GameEffect =
   | {
       kind: 'grant-item';
@@ -123,15 +123,6 @@ export type GameEffect =
   | { kind: 'dialogue'; title: string; message: string }
   | { kind: 'send-script'; scriptId: number; mode: 'immediate' | 'deferred' };
 
-// --- Combat states (replaces string phase checks) ---
-export enum CombatPhase {
-  Idle = 'idle',
-  AwaitingHandshake = 'awaiting-handshake',
-  Command = 'command',
-  EnemyTurn = 'enemy-turn',
-  Finished = 'finished',
-}
-
 // --- Session interface (what handlers receive) ---
 export interface GameSession {
   id: number;
@@ -158,8 +149,6 @@ export interface GameSession {
   bonusAttributes?: PrimaryAttributes;
   activeQuests: QuestRecord[];
   completedQuests: number[];
-  syntheticFight: SyntheticFightState | null;
-  combatState: CombatState;
   defeatRespawnPending: boolean;
   persistedCharacter: CharacterRecord | null;
 
@@ -183,7 +172,53 @@ export interface CharacterRecord { [key: string]: unknown }
 export interface QuestRecord { id: number; stepIndex: number; status: number; progress: Record<string, unknown> }
 export interface QuestDefinition { id: number; name: string; acceptMessage: string; completionMessage: string; [key: string]: unknown }
 export interface QuestReward { [key: string]: unknown }
-export interface SyntheticFightState { phase: string; enemies: SyntheticEnemy[]; turnQueue: unknown[]; [key: string]: unknown }
-export interface SyntheticEnemy { side: number; entityId: number; typeId: number; row: number; col: number; hp: number; name: string; drops: DropEntry[] }
 export interface DropEntry { templateId: number; chance: number; quantity?: number; source?: string }
-export interface CombatState { [key: string]: unknown }
+export interface CombatEnemyTemplate {
+  typeId: number;
+  logicalId?: number;
+  levelMin?: number;
+  levelMax?: number;
+  hpBase?: number;
+  hpPerLevel?: number;
+  aptitude?: number;
+  weight?: number;
+  appearanceTypes?: number[];
+  appearanceVariants?: number[];
+  drops?: DropEntry[];
+  name?: string;
+}
+export interface CombatEncounterProfile {
+  source?: string;
+  minEnemies?: number;
+  maxEnemies?: number;
+  encounterChancePercent?: number;
+  cooldownMs?: number;
+  pool: CombatEnemyTemplate[];
+}
+export type CombatPhase = 'idle' | 'intro' | 'command' | 'enemy-turn' | 'resolved';
+export interface CombatEnemyInstance {
+  side: number;
+  entityId: number;
+  logicalId: number;
+  typeId: number;
+  row: number;
+  col: number;
+  hp: number;
+  maxHp: number;
+  level: number;
+  aptitude: number;
+  appearanceTypes: number[];
+  appearanceVariants: number[];
+  drops?: DropEntry[];
+  name: string;
+}
+export interface CombatState {
+  active: boolean;
+  phase: CombatPhase;
+  triggerId: string | null;
+  encounterAction: Record<string, unknown> | null;
+  enemy: CombatEnemyInstance | null;
+  awaitingClientReady: boolean;
+  awaitingPlayerAction: boolean;
+  startedAt: number;
+}

@@ -22,42 +22,11 @@ const { writeClientItemInstancePayload } = require('./item-serializer');
 
 const ABSENT_COMPANION_SENTINEL = 0xfffe7960;
 
-interface AttackPlaybackParams {
-  attackerEntityId: number;
-  targetEntityId: number;
-  resultCode: number;
-  damage: number;
-}
-
-interface AttackTarget {
-  hp: number;
-  row: number;
-  col: number;
-  entityId: number;
-}
-
 interface PlayerVitals {
   health: number;
   mana: number;
   rage: number;
-}
-
-interface AttackResultUpdateParams {
-  actionMode: number;
-  playerVitals: PlayerVitals;
-  target: AttackTarget;
-  damage: number;
-  targetStateOverride?: number | null;
-  includeEntityId?: boolean | null;
-}
-
-interface AttackMirrorUpdateParams {
-  actionMode: number;
-  playerVitals: PlayerVitals;
-}
-
-interface VictoryCloseParams {
-  playerVitals: PlayerVitals;
+  companionHp?: number;
 }
 
 interface PrimaryAttributes {
@@ -140,76 +109,6 @@ interface NpcShopCatalogItem {
   price: number;
 }
 
-function buildSyntheticAttackPlaybackPacket({ attackerEntityId, targetEntityId, resultCode, damage }: AttackPlaybackParams): Buffer {
-  const writer = new PacketWriter();
-  writer.writeUint16(GAME_FIGHT_STREAM_CMD);
-  writer.writeUint8(FIGHT_ACTIVE_STATE_SUBCMD);
-  writer.writeUint32(attackerEntityId >>> 0);
-  writer.writeUint32(targetEntityId >>> 0);
-  writer.writeUint8(resultCode & 0xff);
-  writer.writeUint32(damage >>> 0);
-  return writer.payload();
-}
-
-function buildSyntheticAttackResultUpdatePacket({
-  actionMode,
-  playerVitals,
-  target,
-  damage,
-  targetStateOverride = null,
-  includeEntityId = null,
-}: AttackResultUpdateParams): Buffer {
-  const writer = new PacketWriter();
-  const targetState = targetStateOverride === null ? (target.hp > 0 ? 0 : 1) : (targetStateOverride >>> 0);
-  const encodedBoardSlot = (((target.row & 0xff) << 8) | (target.col & 0xff)) >>> 0;
-  const shouldIncludeEntityId = includeEntityId === null ? targetState > 0 : includeEntityId;
-
-  writer.writeUint16(GAME_FIGHT_STREAM_CMD);
-  writer.writeUint8(actionMode & 0xff);
-  writer.writeUint32(Math.max(1, playerVitals.health) >>> 0);
-  writer.writeUint32(playerVitals.mana >>> 0);
-  writer.writeUint32(playerVitals.rage >>> 0);
-  writer.writeUint32(ABSENT_COMPANION_SENTINEL);
-  writer.writeUint32(encodedBoardSlot);
-  writer.writeUint32(damage >>> 0);
-  writer.writeUint32(targetState >>> 0);
-
-  if (shouldIncludeEntityId) {
-    writer.writeUint32(target.entityId >>> 0);
-  }
-
-  return writer.payload();
-}
-
-function buildSyntheticAttackMirrorUpdatePacket({ actionMode, playerVitals }: AttackMirrorUpdateParams): Buffer {
-  const writer = new PacketWriter();
-  writer.writeUint16(GAME_FIGHT_STREAM_CMD);
-  writer.writeUint8(actionMode & 0xff);
-  writer.writeUint32(Math.max(1, playerVitals.health) >>> 0);
-  writer.writeUint32(playerVitals.mana >>> 0);
-  writer.writeUint32(playerVitals.rage >>> 0);
-  writer.writeUint32(ABSENT_COMPANION_SENTINEL);
-  return writer.payload();
-}
-
-function buildSyntheticFightVictoryClosePacket({ playerVitals }: VictoryCloseParams): Buffer {
-  const writer = new PacketWriter();
-  writer.writeUint16(GAME_FIGHT_STREAM_CMD);
-  writer.writeUint8(0x66);
-  writer.writeUint32(Math.max(1, playerVitals.health) >>> 0);
-  writer.writeUint32(playerVitals.mana >>> 0);
-  writer.writeUint32(playerVitals.rage >>> 0);
-  writer.writeUint32(ABSENT_COMPANION_SENTINEL);
-  // Keep the result accumulators empty so the client can leave combat without
-  // populating the Mission Report reward window.
-  writer.writeUint32(0);
-  writer.writeUint32(0);
-  writer.writeUint32(0);
-  writer.writeUint32(0);
-  writer.writeUint16(0);
-  return writer.payload();
-}
-
 function buildSelfStateAptitudeSyncPacket({
   selectedAptitude,
   level,
@@ -268,11 +167,21 @@ function buildSelfStateValueUpdatePacket({ discriminator, value }: ValueUpdatePa
   return writer.payload();
 }
 
-function buildPetSummonSyncPacket({ pet }: { pet: PetData }): Buffer {
+function buildPetSummonSyncPacket({
+  ownerRuntimeId,
+  pet,
+}: {
+  ownerRuntimeId: number;
+  pet: PetData;
+}): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(0x0a);
+  writer.writeUint32(ownerRuntimeId >>> 0);
   writer.writeUint8(0x01);
+  writer.writeUint32((pet.currentHealth || 0) >>> 0);
+  writer.writeUint32((pet.currentMana || 0) >>> 0);
+  writer.writeUint32((pet.experience || 0) >>> 0);
   writer.writeUint8((pet.stateFlags?.activeFlag || 0) & 0xff);
   writer.writeUint32((pet.runtimeId || 0) >>> 0);
   writer.writeUint16((pet.templateId || 0) & 0xffff);
@@ -638,13 +547,8 @@ module.exports = {
   buildPetTreeRegistrationPacket,
   buildPetCreateSyncPacket,
   buildPetRosterSyncPacket,
-  buildPetSummonSyncPacket,
   buildSelfStateAptitudeSyncPacket,
   buildSelfStateValueUpdatePacket,
   buildServerRunMessagePacket,
   buildServerRunScriptPacket,
-  buildSyntheticAttackMirrorUpdatePacket,
-  buildSyntheticAttackPlaybackPacket,
-  buildSyntheticAttackResultUpdatePacket,
-  buildSyntheticFightVictoryClosePacket,
 };

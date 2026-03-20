@@ -1,41 +1,31 @@
-'use strict';
-export {};
+ 'use strict';
+ export {};
 
 const { getRoleName, getRolePrimaryDrop } = require('../roleinfo');
-type DropEntry = {
-  templateId: number;
-  chance: number;
-  quantity?: number;
-  source?: string;
-};
-type EncounterTemplate = {
-  typeId: number;
-  weight?: number;
-  logicalId?: number;
-  levelMin?: number;
-  levelMax?: number;
-  hpBase?: number;
-  hpPerLevel?: number;
-  aptitude?: number;
-  appearanceTypes?: number[];
-  appearanceVariants?: number[];
-  drops?: DropEntry[];
-  name?: string;
-};
-type EncounterProfile = {
-  pool: EncounterTemplate[];
-  minEnemies?: number;
-  maxEnemies?: number;
-};
-type EncounterAction = {
-  encounterProfile?: EncounterProfile;
-};
 
-const SYNTHETIC_ENCOUNTER_POSITIONS = [
-  { row: 0, col: 2 },
-  { row: 1, col: 1 },
-  { row: 1, col: 3 },
-];
+type UnknownRecord = Record<string, any>;
+
+const ENEMY_POSITION = { row: 0, col: 2 };
+
+function chooseWeightedTemplate(pool: UnknownRecord[]): UnknownRecord | null {
+  const entries = Array.isArray(pool)
+    ? pool.filter((entry) => entry && Number.isInteger(entry.typeId) && Math.max(0, entry.weight || 0) > 0)
+    : [];
+  if (entries.length === 0) {
+    return null;
+  }
+
+  const totalWeight = entries.reduce((sum, entry) => sum + Math.max(1, entry.weight || 1), 0);
+  let roll = Math.floor(Math.random() * totalWeight);
+  for (const entry of entries) {
+    roll -= Math.max(1, entry.weight || 1);
+    if (roll < 0) {
+      return entry;
+    }
+  }
+
+  return entries[entries.length - 1];
+}
 
 function randomIntInclusive(min: number, max: number): number {
   const low = Math.min(min, max);
@@ -43,102 +33,53 @@ function randomIntInclusive(min: number, max: number): number {
   return low + Math.floor(Math.random() * ((high - low) + 1));
 }
 
-function pickWeightedEncounterTemplate(pool: EncounterTemplate[] | undefined | null): EncounterTemplate | null {
-  const weightedPool = Array.isArray(pool)
-    ? pool.filter((entry) => entry && Number.isInteger(entry.typeId) && (entry.weight || 1) > 0)
-    : [];
-  if (weightedPool.length === 0) {
-    return null;
-  }
+function buildEncounterEnemy(action: UnknownRecord | null | undefined, mapId: number): UnknownRecord {
+  const profile = action?.encounterProfile || {};
+  const template = chooseWeightedTemplate(profile.pool) || {
+    typeId: 5001,
+    logicalId: 1,
+    levelMin: 1,
+    levelMax: 1,
+    hpBase: 40,
+    hpPerLevel: 8,
+    aptitude: 0,
+    appearanceTypes: [0, 0, 0],
+    appearanceVariants: [0, 0, 0],
+    drops: [],
+    name: null,
+  };
 
-  const totalWeight = weightedPool.reduce((sum, entry) => sum + Math.max(1, entry.weight || 1), 0);
-  let roll = Math.floor(Math.random() * totalWeight);
-  for (const entry of weightedPool) {
-    roll -= Math.max(1, entry.weight || 1);
-    if (roll < 0) {
-      return entry;
-    }
-  }
+  const level = randomIntInclusive(template.levelMin || 1, template.levelMax || template.levelMin || 1);
+  const baseHp = Math.max(1, Number(template.hpBase) || 40);
+  const hpPerLevel = Math.max(0, Number(template.hpPerLevel) || 0);
+  const hp = baseHp + (Math.max(0, level - (template.levelMin || 1)) * hpPerLevel);
+  const typeId = template.typeId & 0xffff;
+  const drops = Array.isArray(template.drops) && template.drops.length > 0
+    ? template.drops.map((drop: UnknownRecord) => ({ ...drop }))
+    : (() => {
+        const primaryDrop = getRolePrimaryDrop(typeId);
+        return primaryDrop ? [primaryDrop] : [];
+      })();
 
-  return weightedPool[weightedPool.length - 1];
-}
-
-function buildSyntheticEncounterEnemies(action: EncounterAction | null | undefined, mapId: number) {
-  const profile = action?.encounterProfile;
-  if (!profile || !Array.isArray(profile.pool) || profile.pool.length === 0) {
-    const fallbackDrop = getRolePrimaryDrop(5001);
-    const fallbackName = getRoleName(5001) || `Map ${mapId} Enemy 5001`;
-    return [
-      {
-        side: 1,
-        entityId: 0x700001,
-        logicalId: 1,
-        typeId: 5001,
-        row: 0,
-        col: 2,
-        hpLike: 120,
-        mpLike: 0,
-        aptitude: 0,
-        levelLike: 15,
-        appearanceTypes: [0, 0, 0],
-        appearanceVariants: [0, 0, 0],
-        drops: fallbackDrop ? [fallbackDrop] : [],
-        name: fallbackName,
-      },
-      {
-        side: 1,
-        entityId: 0x700002,
-        logicalId: 2,
-        typeId: 5001,
-        row: 1,
-        col: 1,
-        hpLike: 120,
-        mpLike: 0,
-        aptitude: 0,
-        levelLike: 15,
-        appearanceTypes: [0, 0, 0],
-        appearanceVariants: [0, 0, 0],
-        drops: fallbackDrop ? [fallbackDrop] : [],
-        name: fallbackName,
-      },
-    ];
-  }
-
-  const count = randomIntInclusive(
-    profile.minEnemies || 1,
-    Math.min(profile.maxEnemies || 1, SYNTHETIC_ENCOUNTER_POSITIONS.length)
-  );
-  const enemies = [];
-  for (let index = 0; index < count; index += 1) {
-    const template = pickWeightedEncounterTemplate(profile.pool) || profile.pool[0];
-    const position = SYNTHETIC_ENCOUNTER_POSITIONS[index];
-    const levelLike = randomIntInclusive(template.levelMin || 1, template.levelMax || template.levelMin || 1);
-    const hpLike = (template.hpBase || 80) + ((template.hpPerLevel || 5) * Math.max(0, levelLike - (template.levelMin || 1)));
-
-    enemies.push({
-      side: 1,
-      entityId: 0x700001 + index,
-      logicalId: Number.isInteger(template.logicalId) ? template.logicalId : (template.typeId & 0xffff),
-      typeId: template.typeId & 0xffff,
-      row: position.row,
-      col: position.col,
-      hpLike,
-      mpLike: 0,
-      aptitude: template.aptitude || 0,
-      levelLike,
-      appearanceTypes: Array.isArray(template.appearanceTypes) ? template.appearanceTypes.slice(0, 3) : [0, 0, 0],
-      appearanceVariants: Array.isArray(template.appearanceVariants) ? template.appearanceVariants.slice(0, 3) : [0, 0, 0],
-      drops: Array.isArray(template.drops) ? template.drops.map((drop) => ({ ...drop })) : [],
-      name: template.name || `Map ${mapId} Enemy ${template.typeId}`,
-    });
-  }
-
-  return enemies;
+  return {
+    side: 1,
+    entityId: 0x700001,
+    logicalId: Number.isInteger(template.logicalId) ? template.logicalId : typeId,
+    typeId,
+    row: ENEMY_POSITION.row,
+    col: ENEMY_POSITION.col,
+    hp,
+    maxHp: hp,
+    level,
+    aptitude: Math.max(0, template.aptitude || 0),
+    appearanceTypes: Array.isArray(template.appearanceTypes) ? template.appearanceTypes.slice(0, 3) : [0, 0, 0],
+    appearanceVariants: Array.isArray(template.appearanceVariants) ? template.appearanceVariants.slice(0, 3) : [0, 0, 0],
+    drops,
+    name: template.name || getRoleName(typeId) || `Map ${mapId} Enemy ${typeId}`,
+  };
 }
 
 module.exports = {
-  SYNTHETIC_ENCOUNTER_POSITIONS,
-  randomIntInclusive,
-  pickWeightedEncounterTemplate,
-  buildSyntheticEncounterEnemies,
+  ENEMY_POSITION,
+  buildEncounterEnemy,
 };

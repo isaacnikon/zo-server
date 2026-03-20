@@ -1,7 +1,7 @@
 'use strict';
 export {};
 type UnknownRecord = Record<string, any>;
-type Vitals = { health: number; mana: number; rage: number };
+type Vitals = { health: number; mana: number; rage: number; companionHp?: number };
 const { DEFAULT_MAX_VITALS, resolveCharacterMaxVitals: resolveDerivedCharacterMaxVitals } = require('./max-vitals');
 
 const CHARACTER_VITALS_BASELINE = DEFAULT_MAX_VITALS;

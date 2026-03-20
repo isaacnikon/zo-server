@@ -5,13 +5,17 @@ const {
   GAME_POSITION_QUERY_CMD,
   GAME_SERVER_RUN_CMD,
   GAME_QUEST_CMD,
-  GAME_FIGHT_RESULT_CMD,
+  GAME_FIGHT_ACTION_CMD,
   GAME_FIGHT_CLIENT_CMD,
+  GAME_FIGHT_MISC_CMD,
+  GAME_FIGHT_RESULT_CMD,
+  GAME_FIGHT_STATE_CMD,
+  GAME_FIGHT_STREAM_CMD,
+  GAME_FIGHT_TURN_CMD,
   GAME_ITEM_CONTAINER_CMD,
   GAME_ITEM_CMD,
   GAME_ITEM_SERVICE_CMD,
 } = require('../config');
-const { isCombatCommand } = require('../combat-runtime');
 
 type SessionLike = GameSession & Record<string, any>;
 
@@ -47,15 +51,25 @@ function dispatchGamePacket(
     return true;
   }
 
-  if (cmdWord === 0x03f5 && session.tryHandlePetActionPacket(payload)) {
-    return true;
+  if (cmdWord === 0x03f5) {
+    if (session.tryHandlePetActionPacket(payload)) {
+      return true;
+    }
   }
 
   if (cmdWord === 0x03ef && session.tryHandleAttributeAllocationPacket(payload)) {
     return true;
   }
 
-  if (cmdWord === GAME_FIGHT_CLIENT_CMD || isCombatCommand(cmdWord)) {
+  if (
+    cmdWord === GAME_FIGHT_ACTION_CMD ||
+    cmdWord === GAME_FIGHT_CLIENT_CMD ||
+    cmdWord === GAME_FIGHT_STATE_CMD ||
+    cmdWord === GAME_FIGHT_RESULT_CMD ||
+    cmdWord === GAME_FIGHT_TURN_CMD ||
+    cmdWord === GAME_FIGHT_STREAM_CMD ||
+    cmdWord === GAME_FIGHT_MISC_CMD
+  ) {
     session.handleCombatPacket(cmdWord, payload);
     return true;
   }

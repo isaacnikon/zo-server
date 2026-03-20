@@ -33,9 +33,5 @@ export function sendEnterGameOk(session: SessionLike, options: { syncMode?: Ques
   syncInventoryStateToClient(session);
   session.scheduleEquipmentReplay();
   session.syncQuestStateToClient({ mode: syncMode });
-  if (session.petSummoned) {
-    session.schedulePetReplay();
-  } else {
-    session.sendPetStateSync('enter-game');
-  }
+  session.sendPetStateSync('enter-game');
 }
