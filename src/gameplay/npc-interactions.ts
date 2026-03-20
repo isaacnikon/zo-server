@@ -3,6 +3,7 @@ const { resolveInnRestVitals } = require('./session-flows');
 const { executeServerRunAction, parseServerRunRequest } = require('../interactions/server-run');
 const { openNpcShop } = require('./shop-runtime');
 const { resolveNpcInteractionPlan } = require('./npc-interaction-registry');
+const { sendSelfStateVitalsUpdate } = require('./stat-sync');
 const {
   abandonQuest,
   buildServerRunQuestTrace,
@@ -12,18 +13,17 @@ type SessionLike = Record<string, any>;
 type UnknownRecord = Record<string, any>;
 
 function restoreAtInn(session: SessionLike, npcId: number): void {
-  const restoredVitals = resolveInnRestVitals({
-    currentHealth: session.currentHealth,
-    currentMana: session.currentMana,
-    currentRage: session.currentRage,
-    maxHealth: session.maxHealth,
-    maxMana: session.maxMana,
-    maxRage: session.maxRage,
-  });
+  const restoredVitals = {
+    health: Math.max(1, session.maxHealth || 1),
+    mana: Math.max(0, session.maxMana || 0),
+    rage: Math.max(0, session.maxRage || 0),
+  };
 
   session.currentHealth = restoredVitals.health;
   session.currentMana = restoredVitals.mana;
   session.currentRage = restoredVitals.rage;
+
+  sendSelfStateVitalsUpdate(session, restoredVitals);
 
   session.persistCurrentCharacter({
     currentHealth: restoredVitals.health,
@@ -31,13 +31,6 @@ function restoreAtInn(session: SessionLike, npcId: number): void {
     currentRage: restoredVitals.rage,
   });
 
-  session.sendSelfStateAptitudeSync();
-  setTimeout(() => {
-    if (session.state !== 'LOGGED_IN') {
-      return;
-    }
-    session.sendSelfStateAptitudeSync();
-  }, 150);
   session.sendGameDialogue('Innkeeper', 'You feel fully rested.', GAME_DIALOG_MESSAGE_SUBCMD, 0, null);
   session.log(
     `Rested at inn npcId=${npcId} restored hp/mp/rage=${restoredVitals.health}/${restoredVitals.mana}/${restoredVitals.rage}`
