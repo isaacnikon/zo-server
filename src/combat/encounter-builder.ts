@@ -5,7 +5,12 @@ const { getRoleName, getRolePrimaryDrop } = require('../roleinfo');
 
 type UnknownRecord = Record<string, any>;
 
-const ENEMY_POSITION = { row: 0, col: 2 };
+const FORCE_MULTI_ENEMY_ENCOUNTERS = true;
+const ENEMY_POSITIONS = [
+  { row: 0, col: 0 },
+  { row: 0, col: 1 },
+  { row: 0, col: 2 },
+];
 
 function chooseWeightedTemplate(pool: UnknownRecord[]): UnknownRecord | null {
   const entries = Array.isArray(pool)
@@ -33,22 +38,8 @@ function randomIntInclusive(min: number, max: number): number {
   return low + Math.floor(Math.random() * ((high - low) + 1));
 }
 
-function buildEncounterEnemy(action: UnknownRecord | null | undefined, mapId: number): UnknownRecord {
-  const profile = action?.encounterProfile || {};
-  const template = chooseWeightedTemplate(profile.pool) || {
-    typeId: 5001,
-    logicalId: 1,
-    levelMin: 1,
-    levelMax: 1,
-    hpBase: 40,
-    hpPerLevel: 8,
-    aptitude: 0,
-    appearanceTypes: [0, 0, 0],
-    appearanceVariants: [0, 0, 0],
-    drops: [],
-    name: null,
-  };
-
+function buildEnemyFromTemplate(template: UnknownRecord, mapId: number, index: number): UnknownRecord {
+  const position = ENEMY_POSITIONS[index] || ENEMY_POSITIONS[ENEMY_POSITIONS.length - 1];
   const level = randomIntInclusive(template.levelMin || 1, template.levelMax || template.levelMin || 1);
   const baseHp = Math.max(1, Number(template.hpBase) || 40);
   const hpPerLevel = Math.max(0, Number(template.hpPerLevel) || 0);
@@ -63,11 +54,11 @@ function buildEncounterEnemy(action: UnknownRecord | null | undefined, mapId: nu
 
   return {
     side: 1,
-    entityId: 0x700001,
+    entityId: 0x700001 + index,
     logicalId: Number.isInteger(template.logicalId) ? template.logicalId : typeId,
     typeId,
-    row: ENEMY_POSITION.row,
-    col: ENEMY_POSITION.col,
+    row: position.row,
+    col: position.col,
     hp,
     maxHp: hp,
     level,
@@ -79,7 +70,49 @@ function buildEncounterEnemy(action: UnknownRecord | null | undefined, mapId: nu
   };
 }
 
+function chooseFallbackTemplate(pool: UnknownRecord[]): UnknownRecord {
+  return chooseWeightedTemplate(pool) || {
+    typeId: 5001,
+    logicalId: 1,
+    levelMin: 1,
+    levelMax: 1,
+    hpBase: 40,
+    hpPerLevel: 8,
+    aptitude: 0,
+    appearanceTypes: [0, 0, 0],
+    appearanceVariants: [0, 0, 0],
+    drops: [],
+    name: null,
+  };
+}
+
+function buildEncounterEnemies(action: UnknownRecord | null | undefined, mapId: number): UnknownRecord[] {
+  const profile = action?.encounterProfile || {};
+  const minEnemies = Math.max(1, Number(profile.minEnemies) || 1);
+  const maxEnemies = Math.max(minEnemies, Number(profile.maxEnemies) || minEnemies);
+  const requestedCount = FORCE_MULTI_ENEMY_ENCOUNTERS && maxEnemies > 1
+    ? maxEnemies
+    : randomIntInclusive(minEnemies, maxEnemies);
+  const enemyCount = Math.min(ENEMY_POSITIONS.length, Math.max(1, requestedCount));
+  const pool = Array.isArray(profile.pool) ? profile.pool : [];
+  const fallbackTemplate = chooseFallbackTemplate(pool);
+  const enemies = [];
+
+  for (let index = 0; index < enemyCount; index += 1) {
+    const template = chooseWeightedTemplate(pool) || fallbackTemplate;
+    enemies.push(buildEnemyFromTemplate(template, mapId, index));
+  }
+
+  return enemies;
+}
+
+function buildEncounterEnemy(action: UnknownRecord | null | undefined, mapId: number): UnknownRecord {
+  return buildEncounterEnemies(action, mapId)[0];
+}
+
 module.exports = {
-  ENEMY_POSITION,
+  ENEMY_POSITIONS,
+  FORCE_MULTI_ENEMY_ENCOUNTERS,
+  buildEncounterEnemies,
   buildEncounterEnemy,
 };

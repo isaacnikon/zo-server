@@ -73,6 +73,13 @@ function parseAttackSelection(payload: Buffer): AttackSelectionData {
   };
 }
 
+function parseCombatItemUse(payload: Buffer): { instanceId: number; targetEntityId: number } {
+  return {
+    instanceId: payload.readUInt32LE(3),
+    targetEntityId: payload.readUInt32LE(7),
+  };
+}
+
 function parsePingToken(payload: Buffer): { token: number } {
   return { token: payload.readUInt32LE(2) };
 }
@@ -102,6 +109,7 @@ export {
   parseEquipmentState,
   parseAttributeAllocation,
   parseAttackSelection,
+  parseCombatItemUse,
   parsePingToken,
   parseLoginPacket,
   parseRoleSubcommand,

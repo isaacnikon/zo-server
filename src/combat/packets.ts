@@ -19,6 +19,11 @@ const { PacketWriter } = require('../protocol');
 const ABSENT_COMPANION_SENTINEL = 0xfffe7960;
 
 type UnknownRecord = Record<string, any>;
+type TurnPromptRow = {
+  commandId: number;
+  levelIndex?: number;
+  state?: number;
+};
 
 function writeEntry(writer: InstanceType<typeof PacketWriter>, entry: UnknownRecord, extended = false): void {
   writer.writeUint8(entry.side & 0xff);
@@ -48,13 +53,16 @@ function writeEntry(writer: InstanceType<typeof PacketWriter>, entry: UnknownRec
   writer.writeString(`${entry.name || 'Unknown'}\0`);
 }
 
-function buildEncounterPacket(player: UnknownRecord, enemy: UnknownRecord): Buffer {
+function buildEncounterPacket(player: UnknownRecord, enemies: UnknownRecord[] | UnknownRecord): Buffer {
   const writer = new PacketWriter();
+  const normalizedEnemies = Array.isArray(enemies) ? enemies : [enemies];
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(FIGHT_ENCOUNTER_PROBE_SUBCMD);
   writer.writeUint32(player.entityId >>> 0);
   writeEntry(writer, player, true);
-  writeEntry(writer, enemy, false);
+  for (const enemy of normalizedEnemies) {
+    writeEntry(writer, enemy, false);
+  }
   return writer.payload();
 }
 
@@ -111,18 +119,33 @@ function buildControlShowPacket(activeEntityId: number): Buffer {
   return writer.payload();
 }
 
-function buildTurnPromptPacket(): Buffer {
+function buildTurnPromptPacket(rows: TurnPromptRow[] = []): Buffer {
   const writer = new PacketWriter();
+  const normalizedRows = rows.length > 0
+    ? rows
+    : [{ commandId: 2101, levelIndex: 0, state: 0 }];
   writer.writeUint16(GAME_FIGHT_TURN_CMD);
   writer.writeUint8(0);
-  writer.writeUint16(1);
-  writer.writeUint16(0);
-  writer.writeUint16(0);
-  writer.writeUint16(0);
+  writer.writeUint16(normalizedRows.length);
+  for (const row of normalizedRows) {
+    writer.writeUint16(row.commandId & 0xffff);
+    writer.writeUint16((row.levelIndex || 0) & 0xffff);
+    writer.writeUint16((row.state || 0) & 0xffff);
+  }
   return writer.payload();
 }
 
-function buildAttackPlaybackPacket(attackerEntityId: number, targetEntityId: number, resultCode: number, damage: number): Buffer {
+function buildAttackPlaybackPacket(
+  attackerEntityId: number,
+  targetEntityId: number,
+  resultCode: number,
+  damage: number,
+  options: {
+    secondaryEntityId?: number;
+    secondaryHitstate?: number;
+    secondaryValue?: number;
+  } = {}
+): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(FIGHT_ACTIVE_STATE_SUBCMD);
@@ -130,6 +153,31 @@ function buildAttackPlaybackPacket(attackerEntityId: number, targetEntityId: num
   writer.writeUint32(targetEntityId >>> 0);
   writer.writeUint8(resultCode & 0xff);
   writer.writeUint32(damage >>> 0);
+  writer.writeUint32((options.secondaryEntityId ?? 0xffffffff) >>> 0);
+  writer.writeUint8((options.secondaryHitstate || 0) & 0xff);
+  writer.writeUint32((options.secondaryValue || 0) >>> 0);
+  return writer.payload();
+}
+
+function buildProtectPlaybackPacket(
+  attackerEntityId: number,
+  targetEntityId: number,
+  reducedDamage: number,
+  protectorEntityId: number,
+  blockedDamage: number
+): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_FIGHT_STREAM_CMD);
+  writer.writeUint8(FIGHT_ACTIVE_STATE_SUBCMD);
+  writer.writeUint32(attackerEntityId >>> 0);
+  writer.writeUint32(targetEntityId >>> 0);
+  writer.writeUint8(0x0e);
+  writer.writeUint8(0);
+  writer.writeUint8(1);
+  writer.writeUint32(Math.max(0, reducedDamage) >>> 0);
+  writer.writeUint32(protectorEntityId >>> 0);
+  writer.writeUint8(1);
+  writer.writeUint32(Math.max(0, blockedDamage) >>> 0);
   return writer.payload();
 }
 
@@ -188,6 +236,7 @@ function buildDefeatPacket(health: number, mana: number, rage: number): Buffer {
 module.exports = {
   buildActiveStatePacket,
   buildAttackPlaybackPacket,
+  buildProtectPlaybackPacket,
   buildControlInitPacket,
   buildControlShowPacket,
   buildDefeatPacket,

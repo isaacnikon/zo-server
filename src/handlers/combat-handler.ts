@@ -15,7 +15,7 @@ const {
   GAME_FIGHT_TURN_CMD,
 } = require('../config');
 const { parseAttackSelection } = require('../protocol/inbound-packets');
-const { buildEncounterEnemy } = require('../combat/encounter-builder');
+const { buildEncounterEnemies } = require('../combat/encounter-builder');
 const {
   buildActiveStatePacket,
   buildAttackPlaybackPacket,
@@ -37,6 +37,7 @@ const { resolveTownRespawn } = require('../scene-runtime');
 
 type SessionLike = GameSession & Record<string, any>;
 type CombatAction = Record<string, any>;
+const FIGHT_RESULT_NORMAL_HIT = 0;
 
 function createIdleCombatState(): Record<string, any> {
   return {
@@ -44,7 +45,9 @@ function createIdleCombatState(): Record<string, any> {
     phase: 'idle',
     triggerId: null,
     encounterAction: null,
-    enemy: null,
+    enemies: [],
+    pendingEnemyTurnQueue: [],
+    pendingPostKillCounterattack: false,
     awaitingClientReady: false,
     awaitingPlayerAction: false,
     startedAt: 0,
@@ -68,6 +71,31 @@ function handleCombatPacket(session: SessionLike, cmdWord: number, payload: Buff
     session.combatState.awaitingPlayerAction = true;
     session.combatState.phase = 'command';
     sendCommandPrompt(session, 'client-ready');
+    return;
+  }
+
+  if (
+    cmdWord === GAME_FIGHT_ACTION_CMD &&
+    payload.length >= 3 &&
+    payload[2] === FIGHT_CLIENT_READY_SUBCMD &&
+    session.combatState.phase === 'enemy-turn'
+  ) {
+    session.log(`Combat enemy-turn ready trigger=${session.combatState.triggerId} remainingQueue=${(session.combatState.pendingEnemyTurnQueue || []).join(',') || 'none'}`);
+    processNextEnemyTurnAttack(session, session.combatState.enemyTurnReason || 'normal');
+    return;
+  }
+
+  if (
+    cmdWord === GAME_FIGHT_ACTION_CMD &&
+    payload.length >= 3 &&
+    payload[2] === FIGHT_CLIENT_READY_SUBCMD &&
+    session.combatState.pendingPostKillCounterattack
+  ) {
+    session.log(`Combat post-kill ready trigger=${session.combatState.triggerId} remaining=${describeLivingEnemies(session.combatState.enemies)}`);
+    session.combatState.pendingPostKillCounterattack = false;
+    session.combatState.awaitingPlayerAction = false;
+    session.combatState.phase = 'resolved';
+    resolveEnemyCounterattack(session, 'post-kill');
     return;
   }
 
@@ -98,7 +126,7 @@ function sendCombatEncounterProbe(session: SessionLike, action: CombatAction): v
     return;
   }
 
-  const enemy = buildEncounterEnemy(action, session.currentMapId);
+  const enemies = buildEncounterEnemies(action, session.currentMapId);
   const player = buildPlayerEntry(session);
 
   session.combatState = {
@@ -106,16 +134,16 @@ function sendCombatEncounterProbe(session: SessionLike, action: CombatAction): v
     phase: 'intro',
     triggerId: action.probeId || 'field-combat',
     encounterAction: action,
-    enemy,
+    enemies,
     awaitingClientReady: true,
     awaitingPlayerAction: false,
     startedAt: Date.now(),
   };
 
   session.writePacket(
-    buildEncounterPacket(player, enemy),
+    buildEncounterPacket(player, enemies),
     DEFAULT_FLAGS,
-    `Sending combat encounter cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x65 trigger=${session.combatState.triggerId} enemy=${enemy.typeId}@${enemy.entityId} hp=${enemy.hp} level=${enemy.level}`
+    `Sending combat encounter cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x65 trigger=${session.combatState.triggerId} enemies=${enemies.map((enemy: Record<string, any>) => `${enemy.typeId}@${enemy.entityId}[${enemy.row},${enemy.col}]hp=${enemy.hp}lvl=${enemy.level}`).join('|')}`
   );
   sendIntroSequence(session);
 }
@@ -132,6 +160,10 @@ function disposeCombatTimers(session: SessionLike): void {
   if (session.combatDefeatTimer) {
     clearTimeout(session.combatDefeatTimer);
     session.combatDefeatTimer = null;
+  }
+  if (session.combatEnemyTurnTimer) {
+    clearTimeout(session.combatEnemyTurnTimer);
+    session.combatEnemyTurnTimer = null;
   }
 }
 
@@ -159,7 +191,7 @@ function handleAttackSelection(session: SessionLike, payload: Buffer): void {
   }
 
   const selection = parseAttackSelection(payload);
-  const enemy = session.combatState.enemy;
+  const enemy = resolveSelectedEnemy(session.combatState.enemies, selection);
   if (!enemy || enemy.hp <= 0) {
     session.log('Ignoring attack selection because combat enemy is missing');
     return;
@@ -167,12 +199,17 @@ function handleAttackSelection(session: SessionLike, payload: Buffer): void {
 
   session.combatState.awaitingPlayerAction = false;
   session.combatState.phase = 'resolved';
-  session.log(`Combat attack selected mode=${selection.attackMode} target=${selection.targetA},${selection.targetB} enemy=${enemy.typeId}@${enemy.entityId}`);
+  session.log(`Combat attack selected mode=${selection.attackMode} target=${selection.targetA},${selection.targetB} enemy=${enemy.typeId}@${enemy.entityId}[${enemy.row},${enemy.col}] living=${describeLivingEnemies(session.combatState.enemies)}`);
 
   const playerDamage = computePlayerDamage(session, enemy);
   enemy.hp = Math.max(0, enemy.hp - playerDamage);
   session.writePacket(
-    buildAttackPlaybackPacket(session.entityType >>> 0, enemy.entityId >>> 0, FIGHT_CONTROL_RING_OPEN_SUBCMD, playerDamage),
+    buildAttackPlaybackPacket(
+      session.entityType >>> 0,
+      enemy.entityId >>> 0,
+      enemy.hp === 0 ? FIGHT_ACTIVE_STATE_SUBCMD : FIGHT_CONTROL_RING_OPEN_SUBCMD,
+      playerDamage
+    ),
     DEFAULT_FLAGS,
     `Sending combat attack playback attacker=${session.entityType} target=${enemy.entityId} damage=${playerDamage} enemyHp=${enemy.hp}`
   );
@@ -183,22 +220,74 @@ function handleAttackSelection(session: SessionLike, payload: Buffer): void {
       DEFAULT_FLAGS,
       `Sending combat enemy hide entity=${enemy.entityId}`
     );
+    session.log(`Combat enemy defeated entity=${enemy.entityId} remaining=${describeLivingEnemies(session.combatState.enemies)}`);
+    if (findFirstLivingEnemy(session.combatState.enemies)) {
+      session.combatState.pendingPostKillCounterattack = true;
+      session.combatState.phase = 'resolved';
+      session.combatState.awaitingPlayerAction = false;
+      session.log(`Waiting for post-kill ready remaining=${describeLivingEnemies(session.combatState.enemies)}`);
+      return;
+    }
     resolveVictory(session);
+    return;
+  }
+
+  resolveEnemyCounterattack(session, 'normal');
+}
+
+function resolveEnemyCounterattack(session: SessionLike, reason: 'normal' | 'post-kill'): void {
+  const enemies = listLivingEnemies(session.combatState.enemies);
+  if (enemies.length === 0) {
+    resolveVictory(session);
+    return;
+  }
+
+  session.combatState.phase = 'enemy-turn';
+  session.combatState.awaitingPlayerAction = false;
+  session.combatState.enemyTurnReason = reason;
+  session.combatState.pendingEnemyTurnQueue = enemies.map((enemy) => enemy.entityId >>> 0);
+  session.log(`Starting enemy turn queue reason=${reason} queue=${session.combatState.pendingEnemyTurnQueue.join(',')}`);
+  processNextEnemyTurnAttack(session, reason);
+}
+
+function processNextEnemyTurnAttack(session: SessionLike, reason: 'normal' | 'post-kill'): void {
+  const queue = Array.isArray(session.combatState?.pendingEnemyTurnQueue)
+    ? session.combatState.pendingEnemyTurnQueue
+    : [];
+  if (queue.length === 0) {
+    finishEnemyTurn(session, reason);
+    return;
+  }
+
+  const enemyEntityId = queue.shift();
+  const enemy = findEnemyByEntityId(session.combatState.enemies, enemyEntityId);
+  if (!enemy || enemy.hp <= 0) {
+    processNextEnemyTurnAttack(session, reason);
     return;
   }
 
   const enemyDamage = computeEnemyDamage(session, enemy);
   session.currentHealth = Math.max(0, session.currentHealth - enemyDamage);
   session.writePacket(
-    buildAttackPlaybackPacket(enemy.entityId >>> 0, session.entityType >>> 0, FIGHT_ACTIVE_STATE_SUBCMD, enemyDamage),
+    buildAttackPlaybackPacket(
+      enemy.entityId >>> 0,
+      session.entityType >>> 0,
+      FIGHT_RESULT_NORMAL_HIT,
+      enemyDamage
+    ),
     DEFAULT_FLAGS,
-    `Sending combat counterattack playback attacker=${enemy.entityId} target=${session.entityType} damage=${enemyDamage} playerHp=${session.currentHealth}`
+    `Sending combat counterattack playback attacker=${enemy.entityId} target=${session.entityType} damage=${enemyDamage} playerHp=${session.currentHealth} remaining=${describeLivingEnemies(session.combatState.enemies)} reason=${reason}`
   );
 
   if (session.currentHealth <= 0) {
     resolveDefeat(session);
     return;
   }
+}
+
+function finishEnemyTurn(session: SessionLike, reason: 'normal' | 'post-kill'): void {
+  session.combatState.pendingEnemyTurnQueue = [];
+  session.combatState.enemyTurnReason = null;
 
   session.writePacket(
     buildVitalsPacket(FIGHT_CONTROL_RING_OPEN_SUBCMD, session.currentHealth, session.currentMana, session.currentRage),
@@ -207,15 +296,17 @@ function handleAttackSelection(session: SessionLike, payload: Buffer): void {
   );
   session.combatState.phase = 'command';
   session.combatState.awaitingPlayerAction = true;
-  sendCommandPrompt(session, 'enemy-counterattack');
+  sendCommandPrompt(session, `enemy-counterattack-${reason} remaining=${describeLivingEnemies(session.combatState.enemies)}`);
 }
 
 function resolveVictory(session: SessionLike): void {
-  const enemy = session.combatState?.enemy;
-  if (enemy) {
+  const defeatedEnemies = Array.isArray(session.combatState?.enemies)
+    ? session.combatState.enemies.filter((enemy: Record<string, any>) => (enemy.maxHp || 0) > 0)
+    : [];
+  for (const enemy of defeatedEnemies) {
     session.handleQuestMonsterDefeat(enemy.typeId, 1);
   }
-  const combatRewards = buildCombatVictoryRewards(enemy);
+  const combatRewards = buildCombatVictoryRewards(defeatedEnemies);
   applyEffects(
     session,
     [
@@ -228,7 +319,7 @@ function resolveVictory(session: SessionLike): void {
       suppressStatSync: true,
     }
   );
-  const dropResult = grantCombatDrops(session, enemy);
+  const dropResult = grantCombatDropsForEnemies(session, defeatedEnemies);
   if (dropResult.inventoryDirty) {
     session.refreshQuestStateForItemTemplates(
       dropResult.granted.map((drop: Record<string, any>) => drop.templateId).filter(Number.isInteger)
@@ -243,19 +334,23 @@ function resolveVictory(session: SessionLike): void {
       items: dropResult.granted,
     }),
     DEFAULT_FLAGS,
-    `Sending combat victory enemy=${enemy?.typeId || 0} exp=${combatRewards.characterExperience} petExp=0 coins=${combatRewards.coins} drops=${dropResult.granted.length}`
+    `Sending combat victory enemies=${defeatedEnemies.map((enemy: Record<string, any>) => `${enemy.typeId}@${enemy.entityId}`).join('|') || 'none'} exp=${combatRewards.characterExperience} petExp=0 coins=${combatRewards.coins} drops=${dropResult.granted.length}`
   );
-  session.log(`Combat victory trigger=${session.combatState.triggerId} enemy=${enemy?.typeId || 0} exp=${combatRewards.characterExperience} petExp=0 coins=${combatRewards.coins} drops=${dropResult.granted.map((drop: Record<string, any>) => `${drop.templateId}x${drop.quantity}`).join(',') || 'none'}`);
+  session.log(`Combat victory trigger=${session.combatState.triggerId} enemies=${defeatedEnemies.map((enemy: Record<string, any>) => `${enemy.typeId}@${enemy.entityId}`).join('|') || 'none'} exp=${combatRewards.characterExperience} petExp=0 coins=${combatRewards.coins} drops=${dropResult.granted.map((drop: Record<string, any>) => `${drop.templateId}x${drop.quantity}`).join(',') || 'none'}`);
   clearCombatState(session, dropResult.inventoryDirty);
 }
 
-function buildCombatVictoryRewards(enemy: Record<string, any> | null | undefined): { characterExperience: number; coins: number } {
-  const level = Math.max(1, enemy?.level || 1);
-  const aptitude = Math.max(0, enemy?.aptitude || 0);
-  const characterExperience = (level * 12) + 18 + aptitude;
+function buildCombatVictoryRewards(enemies: Record<string, any>[]): { characterExperience: number; coins: number } {
+  const totals = enemies.reduce((acc, enemy) => {
+    const level = Math.max(1, enemy?.level || 1);
+    const aptitude = Math.max(0, enemy?.aptitude || 0);
+    acc.characterExperience += (level * 12) + 18 + aptitude;
+    acc.coins += Math.max(1, level * 3);
+    return acc;
+  }, { characterExperience: 0, coins: 0 });
   return {
-    characterExperience,
-    coins: Math.max(1, level * 3),
+    characterExperience: Math.max(1, totals.characterExperience),
+    coins: Math.max(1, totals.coins),
   };
 }
 
@@ -306,10 +401,61 @@ function resolveDefeat(session: SessionLike): void {
 
 function clearCombatState(session: SessionLike, persist = false): void {
   session.currentEncounterTriggerId = null;
+  disposeCombatTimers(session);
   session.combatState = createIdleCombatState();
   if (persist) {
     session.persistCurrentCharacter();
   }
+}
+
+function findFirstLivingEnemy(enemies: Record<string, any>[] | null | undefined): Record<string, any> | null {
+  if (!Array.isArray(enemies)) {
+    return null;
+  }
+  return enemies.find((enemy) => enemy && (enemy.hp || 0) > 0) || null;
+}
+
+function findEnemyByEntityId(enemies: Record<string, any>[] | null | undefined, entityId: number): Record<string, any> | null {
+  if (!Array.isArray(enemies)) {
+    return null;
+  }
+  return enemies.find((enemy) => enemy && (enemy.entityId >>> 0) === (entityId >>> 0)) || null;
+}
+
+function listLivingEnemies(enemies: Record<string, any>[] | null | undefined): Record<string, any>[] {
+  if (!Array.isArray(enemies)) {
+    return [];
+  }
+  return enemies.filter((enemy) => enemy && (enemy.hp || 0) > 0);
+}
+
+function resolveSelectedEnemy(enemies: Record<string, any>[] | null | undefined, selection: Record<string, any>): Record<string, any> | null {
+  if (!Array.isArray(enemies)) {
+    return null;
+  }
+  const targeted = enemies.find(
+    (enemy) => enemy && (enemy.hp || 0) > 0 && enemy.row === selection.targetA && enemy.col === selection.targetB
+  );
+  return targeted || findFirstLivingEnemy(enemies);
+}
+
+function describeLivingEnemies(enemies: Record<string, any>[] | null | undefined): string {
+  if (!Array.isArray(enemies)) {
+    return 'none';
+  }
+  return enemies
+    .filter((enemy) => enemy && (enemy.hp || 0) > 0)
+    .map((enemy) => `${enemy.entityId}[${enemy.row},${enemy.col}]=${enemy.hp}`)
+    .join('|') || 'none';
+}
+
+function grantCombatDropsForEnemies(session: SessionLike, enemies: Record<string, any>[]): Record<string, any> {
+  return enemies.reduce((acc, enemy) => {
+    const next = grantCombatDrops(session, enemy);
+    acc.granted.push(...(next.granted || []));
+    acc.inventoryDirty = acc.inventoryDirty || !!next.inventoryDirty;
+    return acc;
+  }, { granted: [], inventoryDirty: false });
 }
 
 function buildPlayerEntry(session: SessionLike): Record<string, any> {
