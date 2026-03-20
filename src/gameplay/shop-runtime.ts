@@ -17,6 +17,7 @@ const {
 } = require('../inventory');
 const {
   sendGrantResultPackets,
+  sendEquipmentContainerSync,
   sendInventoryFullSync,
   sendConsumeResultPackets,
 } = require('./inventory-runtime');
@@ -195,6 +196,7 @@ function completeNpcShopPurchase(
   session[requestedCurrency] = balance - price;
   sendGrantResultPackets(session, grantResult);
   sendInventoryFullSync(session);
+  sendEquipmentContainerSync(session);
   sendSelfStateValueUpdate(session, requestedCurrency, session[requestedCurrency]);
   session.persistCurrentCharacter();
   if (typeof session.refreshQuestStateForItemTemplates === 'function') {
@@ -238,6 +240,7 @@ function completeNpcShopSell(session: SessionLike, activeShop: UnknownRecord, in
   session.coins = Math.max(0, Number.isInteger(session.coins) ? session.coins : 0) + sellPrice;
   sendConsumeResultPackets(session, removeResult);
   sendInventoryFullSync(session);
+  sendEquipmentContainerSync(session);
   sendSelfStateValueUpdate(session, 'coins', session.coins);
   session.persistCurrentCharacter();
   session.sendGameDialogue(

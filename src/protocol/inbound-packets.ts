@@ -80,6 +80,35 @@ function parseCombatItemUse(payload: Buffer): { instanceId: number; targetEntity
   };
 }
 
+function parseFightResultItemActionProbe(payload: Buffer): { subcmd: number; rawValue: number } | null {
+  if (payload.length !== 7 || payload[2] !== 0x02) {
+    return null;
+  }
+  return {
+    subcmd: payload[2],
+    rawValue: payload.readUInt32LE(3),
+  };
+}
+
+function parseSharedItemUse(payload: Buffer): { instanceId: number } | null {
+  if (payload.length !== 7 || payload[2] !== 0x03) {
+    return null;
+  }
+  return {
+    instanceId: payload.readUInt32LE(3),
+  };
+}
+
+function parseTargetedItemUse(payload: Buffer): { instanceId: number; targetEntityId: number } | null {
+  if (payload.length !== 11 || payload[2] !== 0x08) {
+    return null;
+  }
+  return {
+    instanceId: payload.readUInt32LE(3),
+    targetEntityId: payload.readUInt32LE(7),
+  };
+}
+
 function parsePingToken(payload: Buffer): { token: number } {
   return { token: payload.readUInt32LE(2) };
 }
@@ -110,6 +139,9 @@ export {
   parseAttributeAllocation,
   parseAttackSelection,
   parseCombatItemUse,
+  parseFightResultItemActionProbe,
+  parseSharedItemUse,
+  parseTargetedItemUse,
   parsePingToken,
   parseLoginPacket,
   parseRoleSubcommand,

@@ -33,6 +33,10 @@
 ## Client Findings
 
 - `gc12.exe` registers `0x03f3` to `FUN_00501f60` via `FUN_00514c00`. This is the generic item-receive/update path.
+- Shared item action packets now confirmed from live captures:
+  - `0x03ee / sub=0x02 / u32 instanceId` discard
+  - `0x03ee / sub=0x03 / u32 instanceId` self/default item use
+  - `0x03ee / sub=0x08 / u32 instanceId / u32 targetEntityId` targeted item use
 - `FUN_00501f60` parses one byte first, then builds an item object with `FUN_00547650` and `FUN_00547740`, prints `Get item #0[%d]%s`, refreshes bag UI, and if the first byte is `0x01` it also checks bag capacity and can show `Pack is full, please sort it`.
 - `FUN_00547740` reads a `u16` item/template id into item offset `+0x40`, resolves template data from `DAT_008ed804`, then parses additional item-instance data with `FUN_00540100`. Purchases and pickups must send a real serialized item instance, not just an item id.
 - `gc12.exe` registers `0x03f6` to `FUN_00432270` -> `FUN_00430300`. This handler updates gold, coins, renown, exp, bag money UI, and system messages.
@@ -49,6 +53,10 @@
   - bag <-> VIP bag moves
   - booth/sell flows
   This suggests the client uses one general item-transaction system for move/buy/sell, not one bespoke packet per action.
+- Player consumable item use currently works server-authoritatively:
+  - item count changes persist correctly
+  - HP/MP/rage changes persist correctly
+  - but immediate HUD refresh is still missing because the current server path relies on `0x03f6 / 0x0a`, which is not safe as a live vitals packet.
 
 ## What This Means
 

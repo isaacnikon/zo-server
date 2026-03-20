@@ -117,14 +117,14 @@ function sendItemQuantityUpdate(session: SessionLike, instanceId: number, quanti
   );
 }
 
-function sendItemRemove(session: SessionLike, instanceId: number): void {
+function sendItemRemove(session: SessionLike, instanceId: number, containerType = BAG_CONTAINER_TYPE): void {
   session.writePacket(
     buildItemRemovePacket({
-      containerType: BAG_CONTAINER_TYPE,
+      containerType,
       instanceId,
     }),
     DEFAULT_FLAGS,
-    `Sending item remove cmd=0x${(GAME_ITEM_CMD + 1).toString(16)} instanceId=${instanceId}`
+    `Sending item remove cmd=0x${(GAME_ITEM_CMD + 1).toString(16)} container=${containerType} instanceId=${instanceId}`
   );
 }
 
@@ -154,7 +154,11 @@ function sendGrantResultPackets(session: SessionLike, grantResult: UnknownRecord
 function sendConsumeResultPackets(session: SessionLike, consumeResult: UnknownRecord): void {
   for (const change of consumeResult.changes || []) {
     if (change.removed) {
-      sendItemRemove(session, change.item.instanceId);
+      sendItemRemove(
+        session,
+        change.item.instanceId,
+        change.item?.equipped === true ? EQUIPMENT_CONTAINER_TYPE : BAG_CONTAINER_TYPE
+      );
       continue;
     }
     sendItemQuantityUpdate(session, change.item.instanceId, change.item.quantity);

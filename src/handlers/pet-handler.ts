@@ -139,6 +139,7 @@ export function sendPetStateSync(session: SessionLike, reason = 'runtime'): void
   );
   const isPanelSummonSync = reason === 'client-03f5-51';
   const isReplaySync = reason === 'client-03f5-51-replay';
+  const isItemUseSync = reason === 'item-use';
   if (!isPanelSummonSync) {
     session.writePacket(
       buildPetPanelBindPacket({ ownerRuntimeId, pet }),
@@ -174,7 +175,7 @@ export function sendPetStateSync(session: SessionLike, reason = 'runtime'): void
       `Sending pet panel rebind cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x53 reason=${reason} ownerRuntimeId=${ownerRuntimeId}`
     );
   }
-  if (isReplaySync && !isEnterGameSync) {
+  if ((isReplaySync || isItemUseSync) && !isEnterGameSync) {
     session.writePacket(
       buildPetActiveSelectPacket({ runtimeId: pet.runtimeId }),
       DEFAULT_FLAGS,

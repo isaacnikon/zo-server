@@ -69,6 +69,8 @@ function defaultBonusAttributes() {
 
 function recomputeSessionMaxVitals(session: UnknownRecord, overrides: UnknownRecord | null = null): Vitals {
   const input = {
+    roleEntityType: session?.roleEntityType,
+    entityType: session?.entityType,
     selectedAptitude: session?.selectedAptitude,
     level: session?.level,
     primaryAttributes: session?.primaryAttributes,

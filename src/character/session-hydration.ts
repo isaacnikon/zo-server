@@ -48,6 +48,8 @@ export function hydratePendingGameCharacter(session: SessionLike, sharedState: R
   session.bonusAttributes = normalizeBonusAttributes(pendingCharacter.bonusAttributes);
   session.statusPoints = numberOrDefault(pendingCharacter.statusPoints, 0);
   const maxVitals = resolveCharacterMaxVitals({
+    roleEntityType: session.roleEntityType,
+    entityType: session.entityType,
     selectedAptitude: session.selectedAptitude,
     level: session.level,
     primaryAttributes: session.primaryAttributes,

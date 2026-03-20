@@ -4,12 +4,13 @@ const {
   DEFAULT_FLAGS,
   FIGHT_ACTIVE_STATE_SUBCMD,
   FIGHT_CLIENT_ATTACK_SELECTION_SUBCMD,
+  FIGHT_CLIENT_ITEM_USE_SUBCMD,
   FIGHT_CLIENT_READY_SUBCMD,
   FIGHT_CONTROL_RING_OPEN_SUBCMD,
   GAME_FIGHT_ACTION_CMD,
   GAME_FIGHT_STREAM_CMD,
 } = require('../config');
-const { parseAttackSelection } = require('../protocol/inbound-packets');
+const { parseAttackSelection, parseCombatItemUse } = require('../protocol/inbound-packets');
 const { buildEncounterEnemies } = require('../combat/encounter-builder');
 const {
   buildActiveStatePacket,
@@ -27,6 +28,7 @@ const {
   buildVitalsPacket,
 } = require('../combat/packets');
 const { grantCombatDrops } = require('../gameplay/combat-drop-runtime');
+const { consumeUsableItemByInstanceId } = require('../gameplay/item-use-runtime');
 const { applyEffects } = require('../effects/effect-executor');
 const { buildDefeatRespawnState } = require('../gameplay/session-flows');
 const { resolveTownRespawn } = require('../scene-runtime');
@@ -34,7 +36,6 @@ const { resolveTownRespawn } = require('../scene-runtime');
 type SessionLike = GameSession & Record<string, any>;
 type CombatAction = Record<string, any>;
 type EnemyTurnReason = 'normal' | 'post-kill';
-const FIGHT_RESULT_NORMAL_HIT = 0;
 
 function createIdleCombatState(): CombatState {
   return {
@@ -71,6 +72,15 @@ function handleCombatPacket(session: SessionLike, cmdWord: number, payload: Buff
     payload[2] === FIGHT_CLIENT_ATTACK_SELECTION_SUBCMD
   ) {
     handleAttackSelection(session, payload);
+    return;
+  }
+
+  if (
+    cmdWord === GAME_FIGHT_ACTION_CMD &&
+    payload.length >= 11 &&
+    payload[2] === FIGHT_CLIENT_ITEM_USE_SUBCMD
+  ) {
+    handleCombatItemUse(session, payload);
     return;
   }
 
@@ -230,6 +240,37 @@ function handleAttackSelection(session: SessionLike, payload: Buffer): void {
   resolveEnemyCounterattack(session, 'normal');
 }
 
+function handleCombatItemUse(session: SessionLike, payload: Buffer): void {
+  if (!session.combatState?.active || !session.combatState.awaitingPlayerAction) {
+    session.log(`Ignoring combat item use without command prompt active=${session.combatState?.active ? 1 : 0}`);
+    return;
+  }
+
+  const { instanceId, targetEntityId } = parseCombatItemUse(payload);
+  const useResult = consumeUsableItemByInstanceId(session, instanceId, {
+    suppressVitalSync: true,
+    suppressPersist: true,
+  });
+  if (!useResult.ok) {
+    session.log(
+      `Combat item use rejected instanceId=${instanceId} targetEntityId=${targetEntityId} reason=${useResult.reason}`
+    );
+    return;
+  }
+
+  session.combatState.awaitingPlayerAction = false;
+  session.combatState.phase = 'resolved';
+  session.writePacket(
+    buildVitalsPacket(FIGHT_CONTROL_RING_OPEN_SUBCMD, session.currentHealth, session.currentMana, session.currentRage),
+    DEFAULT_FLAGS,
+    `Sending combat item-use vitals instanceId=${instanceId} targetEntityId=${targetEntityId} hp/mp/rage=${session.currentHealth}/${session.currentMana}/${session.currentRage}`
+  );
+  session.log(
+    `Combat item use ok instanceId=${instanceId} targetEntityId=${targetEntityId} templateId=${useResult.item?.templateId || 0} restored=${useResult.gained?.health || 0}/${useResult.gained?.mana || 0}/${useResult.gained?.rage || 0}`
+  );
+  resolveEnemyCounterattack(session, 'normal');
+}
+
 function resolveEnemyCounterattack(session: SessionLike, reason: EnemyTurnReason): void {
   const enemies = listLivingEnemies(session.combatState.enemies);
   if (enemies.length === 0) {
@@ -266,7 +307,7 @@ function processNextEnemyTurnAttack(session: SessionLike, reason: EnemyTurnReaso
     buildAttackPlaybackPacket(
       enemy.entityId >>> 0,
       session.entityType >>> 0,
-      FIGHT_RESULT_NORMAL_HIT,
+      FIGHT_CONTROL_RING_OPEN_SUBCMD,
       enemyDamage
     ),
     DEFAULT_FLAGS,

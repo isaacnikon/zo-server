@@ -33,6 +33,8 @@ const {
   scheduleEquipmentReplay: playerStateHandlerScheduleEquipmentReplay,
   tryHandleAttributeAllocationPacket: playerStateHandlerTryHandleAttributeAllocationPacket,
   tryHandleEquipmentStatePacket: playerStateHandlerTryHandleEquipmentStatePacket,
+  tryHandleFightResultItemActionProbe: playerStateHandlerTryHandleFightResultItemActionProbe,
+  tryHandleItemUsePacket: playerStateHandlerTryHandleItemUsePacket,
 } = require('./handlers/player-state-handler');
 const {
   schedulePetReplay: petHandlerSchedulePetReplay,
@@ -102,6 +104,13 @@ type SocketLike = {
   write(packet: Buffer): void;
 };
 type CharacterOverrides = Record<string, unknown>;
+
+const SELF_STATE_PROBE_FIELD_A = Number.isFinite(Number(process.env.SELF_STATE_PROBE_FIELD_A))
+  ? Number(process.env.SELF_STATE_PROBE_FIELD_A)
+  : 0;
+const SELF_STATE_PROBE_FIELD_B = Number.isFinite(Number(process.env.SELF_STATE_PROBE_FIELD_B))
+  ? Number(process.env.SELF_STATE_PROBE_FIELD_B)
+  : 1;
 
 class Session implements GameSession {
   socket: SocketLike;
@@ -334,6 +343,14 @@ class Session implements GameSession {
     return playerStateHandlerTryHandleAttributeAllocationPacket(this, payload);
   }
 
+  tryHandleFightResultItemActionProbe(payload: Buffer): boolean {
+    return playerStateHandlerTryHandleFightResultItemActionProbe(this, payload);
+  }
+
+  tryHandleItemUsePacket(cmdWord: number, payload: Buffer): boolean {
+    return playerStateHandlerTryHandleItemUsePacket(this, cmdWord, payload);
+  }
+
   handleCombatPacket(cmdWord: number, payload: Buffer): void {
     combatHandlerHandleCombatPacket(this, cmdWord, payload);
   }
@@ -538,26 +555,29 @@ class Session implements GameSession {
 
   sendSelfStateAptitudeSync(): void {
     const vitals = resolveCurrentPlayerVitals(this);
+    const packet = buildSelfStateAptitudeSyncPacket({
+      selectedAptitude: this.selectedAptitude,
+      level: this.level,
+      experience: this.experience,
+      bankGold: this.bankGold,
+      gold: this.gold,
+      boundGold: this.boundGold,
+      coins: this.coins,
+      renown: this.renown,
+      primaryAttributes: this.primaryAttributes,
+      statusPoints: this.statusPoints,
+      currentHealth: vitals.health,
+      currentMana: vitals.mana,
+      currentRage: vitals.rage,
+      petCapacity: Array.isArray(this.pets) && this.pets.length > 0 ? Math.max(1, this.pets.length) : 0,
+      probeFieldA: SELF_STATE_PROBE_FIELD_A,
+      probeFieldB: SELF_STATE_PROBE_FIELD_B,
+    });
 
     this.writePacket(
-      buildSelfStateAptitudeSyncPacket({
-        selectedAptitude: this.selectedAptitude,
-        level: this.level,
-        experience: this.experience,
-        bankGold: this.bankGold,
-        gold: this.gold,
-        boundGold: this.boundGold,
-        coins: this.coins,
-        renown: this.renown,
-        primaryAttributes: this.primaryAttributes,
-        statusPoints: this.statusPoints,
-        currentHealth: vitals.health,
-        currentMana: vitals.mana,
-        currentRage: vitals.rage,
-        petCapacity: Array.isArray(this.pets) && this.pets.length > 0 ? Math.max(1, this.pets.length) : 0,
-      }),
+      packet,
       DEFAULT_FLAGS,
-      `Sending self-state stat sync cmd=0x${GAME_SELF_STATE_CMD.toString(16)} sub=0x${SELF_STATE_APTITUDE_SUBCMD.toString(16)} aptitude=${this.selectedAptitude} level=${this.level} hp/mp/rage=${vitals.health}/${vitals.mana}/${vitals.rage} stats=${this.primaryAttributes.intelligence}/${this.primaryAttributes.vitality}/${this.primaryAttributes.dexterity}/${this.primaryAttributes.strength} statusPoints=${this.statusPoints}`
+      `Sending self-state stat sync cmd=0x${GAME_SELF_STATE_CMD.toString(16)} sub=0x${SELF_STATE_APTITUDE_SUBCMD.toString(16)} aptitude=${this.selectedAptitude} level=${this.level} hp/mp/rage=${vitals.health}/${vitals.mana}/${vitals.rage} stats=${this.primaryAttributes.intelligence}/${this.primaryAttributes.vitality}/${this.primaryAttributes.dexterity}/${this.primaryAttributes.strength} statusPoints=${this.statusPoints} probeFields=${SELF_STATE_PROBE_FIELD_A}/${SELF_STATE_PROBE_FIELD_B} packetHex=${packet.toString('hex')}`
     );
   }
 

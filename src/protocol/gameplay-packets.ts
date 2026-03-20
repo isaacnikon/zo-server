@@ -51,6 +51,8 @@ interface AptitudeSyncParams {
   currentMana: number;
   currentRage: number;
   petCapacity?: number;
+  probeFieldA?: number;
+  probeFieldB?: number;
 }
 
 interface ValueUpdateParams {
@@ -124,6 +126,8 @@ function buildSelfStateAptitudeSyncPacket({
   currentMana,
   currentRage,
   petCapacity = 0,
+  probeFieldA = 0,
+  probeFieldB = 1,
 }: AptitudeSyncParams): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_SELF_STATE_CMD);
@@ -139,8 +143,8 @@ function buildSelfStateAptitudeSyncPacket({
   writer.writeUint32(boundGold >>> 0);
   writer.writeUint32(coins >>> 0);
   writer.writeUint32(renown >>> 0);
-  writer.writeUint16(0);
-  writer.writeUint16(1);
+  writer.writeUint16(probeFieldA & 0xffff);
+  writer.writeUint16(probeFieldB & 0xffff);
   writer.writeUint16(primaryAttributes.strength & 0xffff);
   writer.writeUint16(primaryAttributes.dexterity & 0xffff);
   writer.writeUint16(primaryAttributes.vitality & 0xffff);
@@ -544,6 +548,7 @@ module.exports = {
   buildPetPanelNamePacket,
   buildPetPanelPropertyPacket,
   buildPetStatsSyncPacket,
+  buildPetSummonSyncPacket,
   buildPetTreeRegistrationPacket,
   buildPetCreateSyncPacket,
   buildPetRosterSyncPacket,

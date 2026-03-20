@@ -35,6 +35,12 @@ interface ItemDefinition {
   containerType: number;
   maxStack: number;
   clientTemplateFamily: number | null;
+  isQuestItem?: boolean;
+  consumableEffect?: {
+    health: number;
+    mana: number;
+    rage: number;
+  };
   hasDurability?: boolean;
   sellPrice?: number;
   defaultQuantity?: number;
@@ -126,6 +132,7 @@ function loadClientStuffDefinitions(): ItemDefinition[] {
       containerType: BAG_CONTAINER_TYPE,
       maxStack: 1,
       clientTemplateFamily: null,
+      isQuestItem: isQuestItemEntry(entry),
       sellPrice: resolveClientSellPrice(entry, 'stuff'),
       iconPath: typeof entry.iconPath === 'string' ? entry.iconPath : '',
       clientEvidence: `Client-derived is_stuff.txt row ${entry.templateId} from ${path.basename(STUFF_TABLE_FILE)}.`,
@@ -143,6 +150,8 @@ function loadClientStackableDefinitions(filePath: string, sourceLabel: string): 
       maxStack:
         Number.isInteger(entry.stackLimitField) && entry.stackLimitField > 0 ? entry.stackLimitField : 1,
       clientTemplateFamily: entry.clientTemplateFamily,
+      isQuestItem: isQuestItemEntry(entry),
+      consumableEffect: resolveConsumableEffect(entry, sourceLabel),
       sellPrice: resolveClientSellPrice(entry, sourceLabel === 'is_potion.txt' ? 'potion' : 'general'),
       iconPath: typeof entry.iconPath === 'string' ? entry.iconPath : '',
       clientEvidence: `Client-derived ${sourceLabel} row ${entry.templateId} from ${path.basename(filePath)}.`,
@@ -167,6 +176,7 @@ function loadClientEquipmentDefinitions(filePath: string, kind: 'armor' | 'weapo
       containerType: BAG_CONTAINER_TYPE,
       maxStack: 1,
       clientTemplateFamily: entry.clientTemplateFamily,
+      isQuestItem: isQuestItemEntry(entry),
       hasDurability: true,
       sellPrice: resolveClientSellPrice(entry, kind),
       defaultQuantity,
@@ -209,6 +219,30 @@ function loadClientDerivedEntries(filePath: string): UnknownRecord[] {
     return [];
   }
   return Array.isArray(parsed?.entries) ? parsed.entries : [];
+}
+
+function isQuestItemEntry(entry: UnknownRecord): boolean {
+  const tooltipMarkup = typeof entry?.tooltipMarkup === 'string' ? entry.tooltipMarkup : '';
+  const description = typeof entry?.description === 'string' ? entry.description : '';
+  return /quest item/i.test(`${tooltipMarkup} ${description}`);
+}
+
+function resolveConsumableEffect(
+  entry: UnknownRecord,
+  sourceLabel: string
+): ItemDefinition['consumableEffect'] | undefined {
+  if (sourceLabel !== 'is_potion.txt' || !Array.isArray(entry?.usageFields)) {
+    return undefined;
+  }
+
+  const health = positiveIntOrZero(entry.usageFields[3]);
+  const mana = positiveIntOrZero(entry.usageFields[4]);
+  const rage = positiveIntOrZero(entry.usageFields[5]);
+  if (health <= 0 && mana <= 0 && rage <= 0) {
+    return undefined;
+  }
+
+  return { health, mana, rage };
 }
 
 function loadItemInfoMap(): Map<number, ItemInfoEntry> {
@@ -565,9 +599,7 @@ function consumeItemFromBag(session: InventorySessionLike, templateId: number, q
 
 function removeBagItemByInstanceId(session: InventorySessionLike, instanceId: number): UnknownRecord {
   const bagItems = Array.isArray(session.bagItems) ? session.bagItems : [];
-  const targetIndex = bagItems.findIndex(
-    (item) => item.equipped !== true && (item.instanceId >>> 0) === (instanceId >>> 0)
-  );
+  const targetIndex = bagItems.findIndex((item) => (item.instanceId >>> 0) === (instanceId >>> 0));
   if (targetIndex < 0) {
     return {
       ok: false,

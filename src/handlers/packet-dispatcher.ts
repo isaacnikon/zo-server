@@ -51,6 +51,14 @@ function dispatchGamePacket(
     return true;
   }
 
+  if (cmdWord === GAME_FIGHT_RESULT_CMD && session.tryHandleFightResultItemActionProbe(payload)) {
+    return true;
+  }
+
+  if (session.tryHandleItemUsePacket(cmdWord, payload)) {
+    return true;
+  }
+
   if (cmdWord === 0x03f5) {
     if (session.tryHandlePetActionPacket(payload)) {
       return true;
@@ -59,6 +67,13 @@ function dispatchGamePacket(
 
   if (cmdWord === 0x03ef && session.tryHandleAttributeAllocationPacket(payload)) {
     return true;
+  }
+
+  if (cmdWord === 0x03ef) {
+    const subcmd = payload.length >= 3 ? payload[2] : -1;
+    session.log(
+      `Unhandled player-state packet cmd=0x03ef sub=0x${subcmd.toString(16)} len=${payload.length} hex=${payload.toString('hex')}`
+    );
   }
 
   if (

@@ -102,6 +102,11 @@ function normalizeCharacterRecord(character: UnknownRecord): UnknownRecord {
   const inventoryState = normalizeInventoryState(character);
   const bonusAttributes = normalizeBonusAttributes(character.bonusAttributes);
   const maxVitals = resolveCharacterMaxVitals({
+    roleEntityType: numberOrDefault(
+      character.roleEntityType,
+      numberOrDefault(character.entityType, 0)
+    ),
+    entityType: numberOrDefault(character.entityType, 0),
     selectedAptitude: numberOrDefault(character.selectedAptitude, 0),
     level: numberOrDefault(character.level, 1),
     primaryAttributes: normalizePrimaryAttributes(character.primaryAttributes),

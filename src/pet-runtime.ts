@@ -2,6 +2,7 @@
 export {};
 
 const { getPetTemplateProfile, getRoleName } = require('./roleinfo');
+const { resolvePetMaxVitals } = require('./gameplay/max-vitals');
 type UnknownRecord = Record<string, any>;
 type PetStats = {
   strength: number;
@@ -81,6 +82,12 @@ function normalizePetRecord(pet: UnknownRecord | null | undefined, index = 0): P
     pet.statCoefficients,
     templateProfile?.statCoefficients
   );
+  const maxVitals = resolvePetMaxVitals({
+    level,
+    stats,
+    baseStats,
+    statCoefficients,
+  });
 
   return {
     templateId,
@@ -92,8 +99,8 @@ function normalizePetRecord(pet: UnknownRecord | null | undefined, index = 0): P
         : getRoleName(templateId) || `Pet ${templateId}`,
     level,
     generation,
-    currentHealth,
-    currentMana,
+    currentHealth: Math.min(currentHealth, maxVitals.health),
+    currentMana: Math.min(currentMana, maxVitals.mana),
     loyalty,
     typeId: Math.max(0, numberOrDefault(pet.typeId, templateProfile?.typeId ?? 0)),
     rebirth: Math.max(0, numberOrDefault(pet.rebirth, 0)),

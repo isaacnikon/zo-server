@@ -4,6 +4,7 @@ export {};
 const { ENABLE_DIALOG_EXPERIMENT, FORCE_START_SCENE, MAP_ID, SPAWN_X, SPAWN_Y } = require('./config');
 const {
   SCENE_IDS,
+  getSceneOrdinaryMonsterRoleIds,
   getSceneName,
   resolveEncounterTrigger,
   getSceneWorldSpawns,
@@ -11,13 +12,13 @@ const {
   resolveServerRunTrigger,
   resolveTileTrigger,
 } = require('./scenes');
+const { buildEncounterPoolEntry } = require('./roleinfo');
 type UnknownRecord = Record<string, any>;
 type ScenePosition = { mapId: number; x: number; y: number };
 type SceneAction = Record<string, any> | null;
 
 const TOWN_SCENE_IDS = new Set([
   SCENE_IDS.RAINBOW_VALLEY,
-  SCENE_IDS.BLING_ALLEY,
   SCENE_IDS.CELESTIAL_STATE,
   SCENE_IDS.SOUTH_GATE,
   SCENE_IDS.CLOUD_HALL,
@@ -215,10 +216,41 @@ function resolveTileSceneAction({ mapId, tileSceneId, enableDialogExperiment = E
 function resolveEncounterAction({ mapId, x, y, enableDialogExperiment = ENABLE_DIALOG_EXPERIMENT }: UnknownRecord): SceneAction {
   const trigger = resolveEncounterTrigger(mapId, x, y);
   if (!trigger) {
-    return null;
+    if (isTownScene(mapId)) {
+      return null;
+    }
+
+    const fallbackPool = buildFallbackEncounterPool(mapId);
+    if (fallbackPool.length === 0) {
+      return null;
+    }
+
+      return {
+      kind: 'encounterProbe',
+      probeId: `fallbackScene${mapId}`,
+      reason: `Fallback encounter map=${mapId} (${describeScene(mapId)})`,
+      encounterProfile: {
+        source: 'server fallback',
+        minEnemies: 1,
+        maxEnemies: 6,
+        encounterChancePercent: 8,
+        cooldownMs: 12000,
+        locationName: describeScene(mapId),
+        pool: fallbackPool,
+      },
+    };
   }
 
   return expandAction(getTriggerAction(trigger), { mapId, x, y }, enableDialogExperiment);
+}
+
+function buildFallbackEncounterPool(mapId: number): UnknownRecord[] {
+  const roleIds = getSceneOrdinaryMonsterRoleIds(mapId);
+  if (!Array.isArray(roleIds) || roleIds.length === 0) {
+    return [];
+  }
+
+  return roleIds.map((roleId: number) => buildEncounterPoolEntry(roleId));
 }
 
 module.exports = {

@@ -48,6 +48,35 @@ Special/control packets:
 - `0x03eb`: position/map/entity query family
 - `0x03ec`: mixed status/UI family
 - `0x03f1`: server-run/message family
-- `0x03f6`: active entity state update family, subtype `0x0a` applies aptitude/state
+- `0x03f6`: active entity state update family
+  - subtype `0x0a`: full self-state/aptitude packet
+    - contains aptitude, hp/mp/rage, level, exp, currencies, attributes, status points, pet capacity
+    - client parser hardcodes `old_level = 1` before calling the additive stat updater
+    - repeated use as a live refresh packet inflates displayed baseline attributes by `level - 1`
+  - subtype `0x0c`: lightweight self-state updates
+    - confirmed discriminator bytes:
+      - `'$'` gold
+      - `'N'` coins
+      - `'-'` renown
+      - `'!'` experience
+    - HP/MP/rage cases are still unknown
 - `0x0406`: look/inspect-style path
 - `0x0407`: client-side executor for `script\\serverrun\\%d.lua`
+
+## Shared Item Operations
+- `0x03ee / sub=0x02 / u32 instanceId`
+  - discard item
+- `0x03ee / sub=0x03 / u32 instanceId`
+  - use item on self/default target
+- `0x03ee / sub=0x08 / u32 instanceId / u32 targetEntityId`
+  - use item on explicit target
+  - confirmed pet-target use shape
+
+## Client Vitals Refresh Findings
+- Full self-state `0x03f6 / 0x0a` is not a safe live HP/MP refresh packet.
+- The client has direct vitals update helpers:
+  - `0x441320` current HP
+  - `0x441380` current MP
+  - `0x4413d0` third meter
+- Consumable processing around `0x4495c7` reads item effect fields and calls those helpers directly.
+- The correct immediate HUD refresh path is likely tied to that consumable-effect handler, not to `0x03f6 / 0x0a`.

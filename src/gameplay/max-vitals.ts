@@ -14,6 +14,12 @@ type PrimaryAttributes = {
 };
 type Vitals = { health: number; mana: number; rage: number };
 type GrowthRow = { hpGrowth: number; mpGrowth: number };
+type PetStats = {
+  strength: number;
+  dexterity: number;
+  vitality: number;
+  intelligence: number;
+};
 
 const ZIZHI_INFO_FILE = resolveRepoPath('data', 'client-derived', 'archive', '00007383__zizhiinfo.txt');
 const DEFAULT_MAX_VITALS = Object.freeze({
@@ -28,12 +34,13 @@ function resolveCharacterMaxVitals(input: UnknownRecord | null | undefined = {})
   const level = Math.max(1, numberOrDefault(input?.level, 1));
   const stats = normalizePrimaryAttributes(input?.primaryAttributes);
   const bonuses = resolveCharacterBonusAttributes(input);
+  const baseAttributes = resolveCharacterBaseAttributes(input);
   const growth = GROWTH_ROWS.get(selectedAptitude) || GROWTH_ROWS.get(0) || { hpGrowth: 950, mpGrowth: 1040 };
 
-  const strength = stats.strength + bonuses.strength;
-  const dexterity = stats.dexterity + bonuses.dexterity;
-  const vitality = stats.vitality + bonuses.vitality;
-  const intelligence = stats.intelligence + bonuses.intelligence;
+  const strength = stats.strength + bonuses.strength + baseAttributes.strength;
+  const dexterity = stats.dexterity + bonuses.dexterity + baseAttributes.dexterity;
+  const vitality = stats.vitality + bonuses.vitality + baseAttributes.vitality;
+  const intelligence = stats.intelligence + bonuses.intelligence + baseAttributes.intelligence;
 
   const computedHealth = Math.floor(
     (((intelligence + strength) * 40) + (((dexterity * 3) + (level * 5) + vitality) * 30)) * growth.hpGrowth / 10000
@@ -43,25 +50,49 @@ function resolveCharacterMaxVitals(input: UnknownRecord | null | undefined = {})
   );
 
   return {
-    // Preserve any already-higher observed max values because the server does
-    // not model equipment/temporary bonus attributes yet.
-    health: Math.max(
-      DEFAULT_MAX_VITALS.health,
-      computedHealth,
-      numberOrDefault(input?.maxHealth, 0),
-      numberOrDefault(input?.currentHealth, 0)
-    ),
-    mana: Math.max(
-      DEFAULT_MAX_VITALS.mana,
-      computedMana,
-      numberOrDefault(input?.maxMana, 0),
-      numberOrDefault(input?.currentMana, 0)
-    ),
+    health: Math.max(DEFAULT_MAX_VITALS.health, computedHealth),
+    mana: Math.max(DEFAULT_MAX_VITALS.mana, computedMana),
     rage: Math.max(
       DEFAULT_MAX_VITALS.rage,
       numberOrDefault(input?.maxRage, 0),
       numberOrDefault(input?.currentRage, 0)
     ),
+  };
+}
+
+function resolvePetMaxVitals(input: UnknownRecord | null | undefined = {}): Vitals {
+  const level = Math.max(1, numberOrDefault(input?.level, 1));
+  const currentStats = normalizePrimaryAttributes(input?.stats);
+  const baseStats = normalizePrimaryAttributes(input?.baseStats);
+  const statCoefficients = Array.isArray(input?.statCoefficients) ? input.statCoefficients : [];
+
+  const effectiveStats: PetStats = {
+    strength: Math.max(0, currentStats.strength + baseStats.strength),
+    dexterity: Math.max(0, currentStats.dexterity + baseStats.dexterity),
+    vitality: Math.max(0, currentStats.vitality + baseStats.vitality),
+    intelligence: Math.max(0, currentStats.intelligence + baseStats.intelligence),
+  };
+
+  const hpGrowth = Math.max(1, numberOrDefault(statCoefficients[7], 750));
+  const mpGrowth = Math.max(1, numberOrDefault(statCoefficients[8], 750));
+
+  const computedHealth = Math.floor(
+    (((effectiveStats.intelligence + effectiveStats.strength) * 40) +
+      (((effectiveStats.dexterity * 3) + (level * 5) + effectiveStats.vitality) * 30)) *
+      hpGrowth /
+      10000
+  );
+  const computedMana = Math.floor(
+    ((((effectiveStats.strength + (effectiveStats.vitality * 2)) * 40) +
+      ((effectiveStats.dexterity + (effectiveStats.intelligence * 2)) * 60)) *
+      mpGrowth) /
+      10000
+  );
+
+  return {
+    health: Math.max(1, computedHealth),
+    mana: Math.max(0, computedMana),
+    rage: 0,
   };
 }
 
@@ -76,12 +107,20 @@ function normalizePrimaryAttributes(primaryAttributes: UnknownRecord | null | un
 
 function resolveCharacterBonusAttributes(input: UnknownRecord | null | undefined): PrimaryAttributes {
   const explicitBonuses = normalizePrimaryAttributes(input?.bonusAttributes);
-  const levelBonus = Math.max(0, numberOrDefault(input?.level, 1) - 1);
   return {
-    intelligence: explicitBonuses.intelligence + levelBonus,
-    vitality: explicitBonuses.vitality + levelBonus,
-    dexterity: explicitBonuses.dexterity + levelBonus,
-    strength: explicitBonuses.strength + levelBonus,
+    intelligence: explicitBonuses.intelligence,
+    vitality: explicitBonuses.vitality,
+    dexterity: explicitBonuses.dexterity,
+    strength: explicitBonuses.strength,
+  };
+}
+
+function resolveCharacterBaseAttributes(input: UnknownRecord | null | undefined): PrimaryAttributes {
+  return {
+    intelligence: 12,
+    vitality: 12,
+    dexterity: 12,
+    strength: 12,
   };
 }
 
@@ -126,4 +165,5 @@ module.exports = {
   DEFAULT_MAX_VITALS,
   resolveCharacterBonusAttributes,
   resolveCharacterMaxVitals,
+  resolvePetMaxVitals,
 };
