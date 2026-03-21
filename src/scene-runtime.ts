@@ -2,57 +2,47 @@
 export {};
 
 const { ENABLE_DIALOG_EXPERIMENT, FORCE_START_SCENE, MAP_ID, SPAWN_X, SPAWN_Y } = require('./config');
+const { getSceneBootstrapWorldSpawns } = require('./map-npcs');
 const {
   SCENE_IDS,
-  getSceneOrdinaryMonsterRoleIds,
+  SCENES,
   getSceneName,
   resolveEncounterTrigger,
-  getSceneWorldSpawns,
   getTriggerAction,
   resolveServerRunTrigger,
   resolveTileTrigger,
 } = require('./scenes');
-const { buildEncounterPoolEntry } = require('./roleinfo');
 type UnknownRecord = Record<string, any>;
 type ScenePosition = { mapId: number; x: number; y: number };
 type SceneAction = Record<string, any> | null;
 
-const TOWN_SCENE_IDS = new Set([
-  SCENE_IDS.RAINBOW_VALLEY,
-  SCENE_IDS.CELESTIAL_STATE,
-  SCENE_IDS.SOUTH_GATE,
-  SCENE_IDS.CLOUD_HALL,
-  SCENE_IDS.COVERT_PALACE,
-  SCENE_IDS.PEACH_GARDEN,
-]);
+const TOWN_SCENE_IDS = new Set(
+  (Object.values(SCENES) as UnknownRecord[])
+    .filter((scene) => scene?.isTown === true)
+    .map((scene) => scene.id)
+);
 
-const TOWN_RESPAWN_POINTS = {
-  // Safe anchors use a stable nearby landmark, not the player's last exact tile:
-  // - `shopkeeper`: towns with a merchant / service cluster
-  // - `frog`: towns that should fall back near the teleporter frog
-  [SCENE_IDS.RAINBOW_VALLEY]: { mapId: SCENE_IDS.RAINBOW_VALLEY, x: 68, y: 87, anchor: 'shopkeeper' },
-  [SCENE_IDS.BLING_ALLEY]: { mapId: SCENE_IDS.BLING_ALLEY, x: 74, y: 120, anchor: 'shopkeeper' },
-  [SCENE_IDS.CELESTIAL_STATE]: { mapId: SCENE_IDS.CELESTIAL_STATE, x: 64, y: 64, anchor: 'frog' },
-  [SCENE_IDS.SOUTH_GATE]: { mapId: SCENE_IDS.SOUTH_GATE, x: 64, y: 96, anchor: 'frog' },
-  [SCENE_IDS.CLOUD_HALL]: { mapId: SCENE_IDS.CLOUD_HALL, x: 58, y: 88, anchor: 'frog' },
-  [SCENE_IDS.COVERT_PALACE]: { mapId: SCENE_IDS.COVERT_PALACE, x: 64, y: 128, anchor: 'shopkeeper' },
-  [SCENE_IDS.PEACH_GARDEN]: { mapId: SCENE_IDS.PEACH_GARDEN, x: 64, y: 160, anchor: 'frog' },
-};
+const TOWN_RESPAWN_POINTS = Object.fromEntries(
+  (Object.values(SCENES) as UnknownRecord[])
+    .filter((scene) => scene?.isTown === true && scene?.respawnPoint)
+    .map((scene) => [scene.id, scene.respawnPoint])
+);
 
 function isTownScene(mapId: number): boolean {
   return TOWN_SCENE_IDS.has(mapId);
 }
 
 function getDefaultTownRespawn(mapId: number): ScenePosition {
-  return TOWN_RESPAWN_POINTS[mapId] || TOWN_RESPAWN_POINTS[SCENE_IDS.RAINBOW_VALLEY];
+  return TOWN_RESPAWN_POINTS[mapId] || TOWN_RESPAWN_POINTS[SCENE_IDS.RAINBOW_VALLEY] || {
+    mapId: SCENE_IDS.RAINBOW_VALLEY,
+    x: SPAWN_X,
+    y: SPAWN_Y,
+  };
 }
 
-function sanitizeTownRespawn(mapId: number, x: number, y: number): ScenePosition {
+function sanitizeTownRespawn(mapId: number, _x: number, _y: number): ScenePosition {
   const fallback = getDefaultTownRespawn(mapId);
 
-  // Death respawn should land on a stable town safe point, not the exact last
-  // persisted town tile. The anchor is intentionally per-town:
-  // near the shopkeeper where available, otherwise near the teleporter frog.
   return {
     mapId,
     x: fallback.x,
@@ -106,7 +96,7 @@ function resolveCharacterScene(character: UnknownRecord | null | undefined): Sce
 }
 
 function getBootstrapWorldSpawns(mapId: number) {
-  return getSceneWorldSpawns(mapId);
+  return getSceneBootstrapWorldSpawns(mapId);
 }
 
 function describeScene(mapId: number): string {
@@ -216,41 +206,10 @@ function resolveTileSceneAction({ mapId, tileSceneId, enableDialogExperiment = E
 function resolveEncounterAction({ mapId, x, y, enableDialogExperiment = ENABLE_DIALOG_EXPERIMENT }: UnknownRecord): SceneAction {
   const trigger = resolveEncounterTrigger(mapId, x, y);
   if (!trigger) {
-    if (isTownScene(mapId)) {
-      return null;
-    }
-
-    const fallbackPool = buildFallbackEncounterPool(mapId);
-    if (fallbackPool.length === 0) {
-      return null;
-    }
-
-      return {
-      kind: 'encounterProbe',
-      probeId: `fallbackScene${mapId}`,
-      reason: `Fallback encounter map=${mapId} (${describeScene(mapId)})`,
-      encounterProfile: {
-        source: 'server fallback',
-        minEnemies: 1,
-        maxEnemies: 6,
-        encounterChancePercent: 8,
-        cooldownMs: 12000,
-        locationName: describeScene(mapId),
-        pool: fallbackPool,
-      },
-    };
+    return null;
   }
 
   return expandAction(getTriggerAction(trigger), { mapId, x, y }, enableDialogExperiment);
-}
-
-function buildFallbackEncounterPool(mapId: number): UnknownRecord[] {
-  const roleIds = getSceneOrdinaryMonsterRoleIds(mapId);
-  if (!Array.isArray(roleIds) || roleIds.length === 0) {
-    return [];
-  }
-
-  return roleIds.map((roleId: number) => buildEncounterPoolEntry(roleId));
 }
 
 module.exports = {

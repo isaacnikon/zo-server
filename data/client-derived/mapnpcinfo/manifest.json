@@ -1,0 +1,2232 @@
+{
+  "generatedAt": "2026-03-21T08:37:27.878369+00:00",
+  "sources": {
+    "mode": "reference_signature",
+    "referenceManifest": "/home/nikon/projects/zo-server/data/client-derived/mapnpcinfo/manifest.json",
+    "referenceScriptsDir": "/home/nikon/projects/zo-server/data/client-derived/mapnpcinfo/scripts",
+    "scriptBlob": "/home/nikon/Data/Zodiac Online/script.gcg"
+  },
+  "count": 106,
+  "mapCount": 47,
+  "fallbackCount": 1,
+  "maps": {
+    "101": [
+      {
+        "name": "101_3004.lua",
+        "roleId": 3004,
+        "size": 426,
+        "dataOffset": 3151703
+      },
+      {
+        "name": "101_3054.lua",
+        "roleId": 3054,
+        "size": 409,
+        "dataOffset": 3152129
+      },
+      {
+        "name": "101_3156.lua",
+        "roleId": 3156,
+        "size": 424,
+        "dataOffset": 3152538
+      },
+      {
+        "name": "101_3234.lua",
+        "roleId": 3234,
+        "size": 403,
+        "dataOffset": 3152962
+      },
+      {
+        "name": "101_3276.lua",
+        "roleId": 3276,
+        "size": 394,
+        "dataOffset": 3153365
+      },
+      {
+        "name": "101_3277.lua",
+        "roleId": 3277,
+        "size": 421,
+        "dataOffset": 3153759
+      }
+    ],
+    "102": [
+      {
+        "name": "102_3003.lua",
+        "roleId": 3003,
+        "size": 418,
+        "dataOffset": 3154180
+      },
+      {
+        "name": "102_3055.lua",
+        "roleId": 3055,
+        "size": 412,
+        "dataOffset": 3154598
+      },
+      {
+        "name": "102_3174.lua",
+        "roleId": 3174,
+        "size": 430,
+        "dataOffset": 3155010
+      },
+      {
+        "name": "102_3651.lua",
+        "roleId": 3651,
+        "size": 405,
+        "dataOffset": 3155440
+      }
+    ],
+    "103": [
+      {
+        "name": "103_3007.lua",
+        "roleId": 3007,
+        "size": 424,
+        "dataOffset": 3155845
+      },
+      {
+        "name": "103_3023.lua",
+        "roleId": 3023,
+        "size": 747,
+        "dataOffset": 3156269
+      },
+      {
+        "name": "103_3028.lua",
+        "roleId": 3028,
+        "size": 418,
+        "dataOffset": 3157016
+      }
+    ],
+    "105": [
+      {
+        "name": "105_3185.lua",
+        "roleId": 3185,
+        "size": 729,
+        "dataOffset": 3157434
+      },
+      {
+        "name": "105_3189.lua",
+        "roleId": 3189,
+        "size": 401,
+        "dataOffset": 3158163
+      },
+      {
+        "name": "105_3651.lua",
+        "roleId": 3651,
+        "size": 401,
+        "dataOffset": 3158564
+      }
+    ],
+    "107": [
+      {
+        "name": "107_3207.lua",
+        "roleId": 3207,
+        "size": 383,
+        "dataOffset": 3158965
+      }
+    ],
+    "108": [
+      {
+        "name": "108_3163.lua",
+        "roleId": 3163,
+        "size": 780,
+        "dataOffset": 3159348
+      }
+    ],
+    "109": [
+      {
+        "name": "109_3353.lua",
+        "roleId": 3353,
+        "size": 398,
+        "dataOffset": 3160128
+      }
+    ],
+    "111": [
+      {
+        "name": "111_3044.lua",
+        "roleId": 3044,
+        "size": 2152,
+        "dataOffset": 3160526
+      },
+      {
+        "name": "111_3093.lua",
+        "roleId": 3093,
+        "size": 449,
+        "dataOffset": 3162678
+      },
+      {
+        "name": "111_3203.lua",
+        "roleId": 3203,
+        "size": 416,
+        "dataOffset": 3163127
+      },
+      {
+        "name": "111_3204.lua",
+        "roleId": 3204,
+        "size": 416,
+        "dataOffset": 3163543
+      },
+      {
+        "name": "111_3206.lua",
+        "roleId": 3206,
+        "size": 398,
+        "dataOffset": 3163959
+      },
+      {
+        "name": "111_3651.lua",
+        "roleId": 3651,
+        "size": 401,
+        "dataOffset": 3164357
+      }
+    ],
+    "112": [
+      {
+        "name": "112_3013.lua",
+        "roleId": 3013,
+        "size": 403,
+        "dataOffset": 3164758
+      },
+      {
+        "name": "112_3014.lua",
+        "roleId": 3014,
+        "size": 753,
+        "dataOffset": 3165161
+      },
+      {
+        "name": "112_3022.lua",
+        "roleId": 3022,
+        "size": 3226,
+        "dataOffset": 3165914
+      },
+      {
+        "name": "112_3030.lua",
+        "roleId": 3030,
+        "size": 410,
+        "dataOffset": 3169140
+      },
+      {
+        "name": "112_3033.lua",
+        "roleId": 3033,
+        "size": 1155,
+        "dataOffset": 3169550
+      },
+      {
+        "name": "112_3034.lua",
+        "roleId": 3034,
+        "size": 1128,
+        "dataOffset": 3170705
+      },
+      {
+        "name": "112_3036.lua",
+        "roleId": 3036,
+        "size": 1105,
+        "dataOffset": 3171833
+      },
+      {
+        "name": "112_3059.lua",
+        "roleId": 3059,
+        "size": 443,
+        "dataOffset": 3172938
+      },
+      {
+        "name": "112_3060.lua",
+        "roleId": 3060,
+        "size": 398,
+        "dataOffset": 3173381
+      },
+      {
+        "name": "112_3065.lua",
+        "roleId": 3065,
+        "size": 417,
+        "dataOffset": 3173779
+      },
+      {
+        "name": "112_3070.lua",
+        "roleId": 3070,
+        "size": 401,
+        "dataOffset": 3174196
+      },
+      {
+        "name": "112_3110.lua",
+        "roleId": 3110,
+        "size": 403,
+        "dataOffset": 3174597
+      },
+      {
+        "name": "112_3118.lua",
+        "roleId": 3118,
+        "size": 763,
+        "dataOffset": 3175000
+      },
+      {
+        "name": "112_3181.lua",
+        "roleId": 3181,
+        "size": 415,
+        "dataOffset": 3175763
+      },
+      {
+        "name": "112_3182.lua",
+        "roleId": 3182,
+        "size": 424,
+        "dataOffset": 3176178
+      },
+      {
+        "name": "112_3183.lua",
+        "roleId": 3183,
+        "size": 1189,
+        "dataOffset": 3176602
+      },
+      {
+        "name": "112_3188.lua",
+        "roleId": 3188,
+        "size": 431,
+        "dataOffset": 3177791
+      },
+      {
+        "name": "112_3191.lua",
+        "roleId": 3191,
+        "size": 1078,
+        "dataOffset": 3178222
+      },
+      {
+        "name": "112_3193.lua",
+        "roleId": 3193,
+        "size": 413,
+        "dataOffset": 3179300
+      },
+      {
+        "name": "112_3265.lua",
+        "roleId": 3265,
+        "size": 771,
+        "dataOffset": 3179713
+      }
+    ],
+    "113": [
+      {
+        "name": "113_3361.lua",
+        "roleId": 3361,
+        "size": 407,
+        "dataOffset": 3180484
+      }
+    ],
+    "114": [
+      {
+        "name": "114_3355.lua",
+        "roleId": 3355,
+        "size": 428,
+        "dataOffset": 3180891
+      },
+      {
+        "name": "114_3356.lua",
+        "roleId": 3356,
+        "size": 407,
+        "dataOffset": 3181319
+      }
+    ],
+    "117": [
+      {
+        "name": "117_3218.lua",
+        "roleId": 3218,
+        "size": 1750,
+        "dataOffset": 3181726
+      }
+    ],
+    "120": [
+      {
+        "name": "120_3162.lua",
+        "roleId": 3162,
+        "size": 401,
+        "dataOffset": 3183476
+      }
+    ],
+    "127": [
+      {
+        "name": "127_3077.lua",
+        "roleId": 3077,
+        "size": 395,
+        "dataOffset": 3183877
+      },
+      {
+        "name": "127_3651.lua",
+        "roleId": 3651,
+        "size": 401,
+        "dataOffset": 3184272
+      }
+    ],
+    "128": [
+      {
+        "name": "128_3073.lua",
+        "roleId": 3073,
+        "size": 727,
+        "dataOffset": 3184673
+      }
+    ],
+    "129": [
+      {
+        "name": "129_3651.lua",
+        "roleId": 3651,
+        "size": 411,
+        "dataOffset": 3185400
+      }
+    ],
+    "131": [
+      {
+        "name": "131_3042.lua",
+        "roleId": 3042,
+        "size": 722,
+        "dataOffset": 3185811
+      },
+      {
+        "name": "131_3194.lua",
+        "roleId": 3194,
+        "size": 410,
+        "dataOffset": 3186533
+      },
+      {
+        "name": "131_3196.lua",
+        "roleId": 3196,
+        "size": 386,
+        "dataOffset": 3186943
+      },
+      {
+        "name": "131_3198.lua",
+        "roleId": 3198,
+        "size": 428,
+        "dataOffset": 3187329
+      },
+      {
+        "name": "131_3199.lua",
+        "roleId": 3199,
+        "size": 389,
+        "dataOffset": 3187757
+      },
+      {
+        "name": "131_3209.lua",
+        "roleId": 3209,
+        "size": 407,
+        "dataOffset": 3188146
+      }
+    ],
+    "132": [
+      {
+        "name": "132_3083.lua",
+        "roleId": 3083,
+        "size": 418,
+        "dataOffset": 3188553
+      },
+      {
+        "name": "132_3084.lua",
+        "roleId": 3084,
+        "size": 409,
+        "dataOffset": 3188971
+      }
+    ],
+    "135": [
+      {
+        "name": "135_3100.lua",
+        "roleId": 3100,
+        "size": 434,
+        "dataOffset": 3189380
+      }
+    ],
+    "144": [
+      {
+        "name": "144_3092.lua",
+        "roleId": 3092,
+        "size": 404,
+        "dataOffset": 3189814
+      }
+    ],
+    "145": [
+      {
+        "name": "145_3073.lua",
+        "roleId": 3073,
+        "size": 419,
+        "dataOffset": 3190218
+      }
+    ],
+    "146": [
+      {
+        "name": "146_3218.lua",
+        "roleId": 3218,
+        "size": 1394,
+        "dataOffset": 3190637
+      },
+      {
+        "name": "146_3651.lua",
+        "roleId": 3651,
+        "size": 758,
+        "dataOffset": 3192031
+      }
+    ],
+    "149": [
+      {
+        "name": "149_3651.lua",
+        "roleId": 3651,
+        "size": 1403,
+        "dataOffset": 3192789
+      }
+    ],
+    "155": [
+      {
+        "name": "155_3050.lua",
+        "roleId": 3050,
+        "size": 727,
+        "dataOffset": 3194192
+      }
+    ],
+    "156": [
+      {
+        "name": "156_3160.lua",
+        "roleId": 3160,
+        "size": 409,
+        "dataOffset": 3194919
+      }
+    ],
+    "157": [
+      {
+        "name": "157_3262.lua",
+        "roleId": 3262,
+        "size": 403,
+        "dataOffset": 3195328
+      }
+    ],
+    "158": [
+      {
+        "name": "158_3263.lua",
+        "roleId": 3263,
+        "size": 399,
+        "dataOffset": 3195731
+      }
+    ],
+    "160": [
+      {
+        "name": "160_3078.lua",
+        "roleId": 3078,
+        "size": 401,
+        "dataOffset": 3196130
+      },
+      {
+        "name": "160_3079.lua",
+        "roleId": 3079,
+        "size": 434,
+        "dataOffset": 3196531
+      }
+    ],
+    "163": [
+      {
+        "name": "163_3036.lua",
+        "roleId": 3036,
+        "size": 406,
+        "dataOffset": 3196965
+      },
+      {
+        "name": "163_3651.lua",
+        "roleId": 3651,
+        "size": 394,
+        "dataOffset": 3197371
+      }
+    ],
+    "164": [
+      {
+        "name": "164_3098.lua",
+        "roleId": 3098,
+        "size": 753,
+        "dataOffset": 3197765
+      }
+    ],
+    "166": [
+      {
+        "name": "166_3529.lua",
+        "roleId": 3529,
+        "size": 410,
+        "dataOffset": 3198518
+      }
+    ],
+    "169": [
+      {
+        "name": "169_3135.lua",
+        "roleId": 3135,
+        "size": 790,
+        "dataOffset": 3198928
+      },
+      {
+        "name": "169_3155.lua",
+        "roleId": 3155,
+        "size": 1141,
+        "dataOffset": 3199718
+      },
+      {
+        "name": "169_3278.lua",
+        "roleId": 3278,
+        "size": 759,
+        "dataOffset": 3200859
+      },
+      {
+        "name": "169_3311.lua",
+        "roleId": 3311,
+        "size": 419,
+        "dataOffset": 3201618
+      },
+      {
+        "name": "169_3312.lua",
+        "roleId": 3312,
+        "size": 786,
+        "dataOffset": 3202037
+      },
+      {
+        "name": "169_3342.lua",
+        "roleId": 3342,
+        "size": 410,
+        "dataOffset": 3202823
+      },
+      {
+        "name": "169_3343.lua",
+        "roleId": 3343,
+        "size": 413,
+        "dataOffset": 3203233
+      },
+      {
+        "name": "169_3344.lua",
+        "roleId": 3344,
+        "size": 422,
+        "dataOffset": 3203646
+      }
+    ],
+    "174": [
+      {
+        "name": "174_3187.lua",
+        "roleId": 3187,
+        "size": 407,
+        "dataOffset": 3204068
+      }
+    ],
+    "177": [
+      {
+        "name": "177_3187.lua",
+        "roleId": 3187,
+        "size": 407,
+        "dataOffset": 3204475
+      }
+    ],
+    "182": [
+      {
+        "name": "182_3492.lua",
+        "roleId": 3492,
+        "size": 401,
+        "dataOffset": 3204882
+      }
+    ],
+    "207": [
+      {
+        "name": "207_3141.lua",
+        "roleId": 3141,
+        "size": 143,
+        "dataOffset": 3205283
+      }
+    ],
+    "210": [
+      {
+        "name": "210_3751.lua",
+        "roleId": 3751,
+        "size": 1146,
+        "dataOffset": 3205426
+      }
+    ],
+    "211": [
+      {
+        "name": "211_3133.lua",
+        "roleId": 3133,
+        "size": 413,
+        "dataOffset": 3206572
+      },
+      {
+        "name": "211_3173.lua",
+        "roleId": 3173,
+        "size": 419,
+        "dataOffset": 3206985
+      },
+      {
+        "name": "211_3371.lua",
+        "roleId": 3371,
+        "size": 407,
+        "dataOffset": 3207404
+      }
+    ],
+    "213": [
+      {
+        "name": "213_3120.lua",
+        "roleId": 3120,
+        "size": 1150,
+        "dataOffset": 3207811
+      }
+    ],
+    "214": [
+      {
+        "name": "214_3052.lua",
+        "roleId": 3052,
+        "size": 395,
+        "dataOffset": 3208961
+      }
+    ],
+    "229": [
+      {
+        "name": "229_3125.lua",
+        "roleId": 3125,
+        "size": 431,
+        "dataOffset": 3209356
+      }
+    ],
+    "231": [
+      {
+        "name": "231_3220.lua",
+        "roleId": 3220,
+        "size": 421,
+        "dataOffset": 3209787
+      }
+    ],
+    "238": [
+      {
+        "name": "238_3365.lua",
+        "roleId": 3365,
+        "size": 404,
+        "dataOffset": 3210208
+      },
+      {
+        "name": "238_3366.lua",
+        "roleId": 3366,
+        "size": 428,
+        "dataOffset": 3210612
+      }
+    ],
+    "239": [
+      {
+        "name": "239_3364.lua",
+        "roleId": 3364,
+        "size": 407,
+        "dataOffset": 3211040
+      }
+    ],
+    "240": [
+      {
+        "name": "240_3347.lua",
+        "roleId": 3347,
+        "size": 789,
+        "dataOffset": 3211447
+      },
+      {
+        "name": "240_3363.lua",
+        "roleId": 3363,
+        "size": 416,
+        "dataOffset": 3212236
+      }
+    ],
+    "242": [
+      {
+        "name": "242_3283.lua",
+        "roleId": 3283,
+        "size": 455,
+        "dataOffset": 3212652
+      }
+    ],
+    "263": [
+      {
+        "name": "263_3211.lua",
+        "roleId": 3211,
+        "size": 397,
+        "dataOffset": 3213107
+      }
+    ],
+    "fallback": [
+      {
+        "name": "0.lua",
+        "roleId": null,
+        "size": 131,
+        "dataOffset": 3151572
+      }
+    ]
+  },
+  "entries": [
+    {
+      "name": "101_3004.lua",
+      "mapId": 101,
+      "roleId": 3004,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/101_3004.lua",
+      "recordAddress": null,
+      "dataOffset": 3151703,
+      "size": 426,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "1\r\n\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><201007><0>Behind the Curtain\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = "
+    },
+    {
+      "name": "101_3054.lua",
+      "mapId": 101,
+      "roleId": 3054,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/101_3054.lua",
+      "recordAddress": null,
+      "dataOffset": 3152129,
+      "size": 409,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "1\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><201001><0>Back to Earth\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\"
+    },
+    {
+      "name": "101_3156.lua",
+      "mapId": 101,
+      "roleId": 3156,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/101_3156.lua",
+      "recordAddress": null,
+      "dataOffset": 3152538,
+      "size": 424,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "7\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><201500><0>Dragonfly Catching\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#"
+    },
+    {
+      "name": "101_3234.lua",
+      "mapId": 101,
+      "roleId": 3234,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/101_3234.lua",
+      "recordAddress": null,
+      "dataOffset": 3152962,
+      "size": 403,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "1\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><201006><0>First Trial\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\"
+    },
+    {
+      "name": "101_3276.lua",
+      "mapId": 101,
+      "roleId": 3276,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/101_3276.lua",
+      "recordAddress": null,
+      "dataOffset": 3153365,
+      "size": 394,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "1\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><201002><0>Spinning\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ"
+    },
+    {
+      "name": "101_3277.lua",
+      "mapId": 101,
+      "roleId": 3277,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/101_3277.lua",
+      "recordAddress": null,
+      "dataOffset": 3153759,
+      "size": 421,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "1\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><201003><0>Watter Mill House\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0"
+    },
+    {
+      "name": "102_3003.lua",
+      "mapId": 102,
+      "roleId": 3003,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/102_3003.lua",
+      "recordAddress": null,
+      "dataOffset": 3154180,
+      "size": 418,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "8\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><203002><0>Passing the Love\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<"
+    },
+    {
+      "name": "102_3055.lua",
+      "mapId": 102,
+      "roleId": 3055,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/102_3055.lua",
+      "recordAddress": null,
+      "dataOffset": 3154598,
+      "size": 412,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "9\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><203500><0>The Lost Child\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>"
+    },
+    {
+      "name": "102_3174.lua",
+      "mapId": 102,
+      "roleId": 3174,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/102_3174.lua",
+      "recordAddress": null,
+      "dataOffset": 3155010,
+      "size": 430,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "9\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><203502><0>The Hungry Baby Wolf\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = "
+    },
+    {
+      "name": "102_3651.lua",
+      "mapId": 102,
+      "roleId": 3651,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/102_3651.lua",
+      "recordAddress": null,
+      "dataOffset": 3155440,
+      "size": 405,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "5\r\n\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><203003><0>The Eudemon\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\"
+    },
+    {
+      "name": "103_3007.lua",
+      "mapId": 103,
+      "roleId": 3007,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/103_3007.lua",
+      "recordAddress": null,
+      "dataOffset": 3155845,
+      "size": 424,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "8\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><202500><0>Behind the Curtain\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#"
+    },
+    {
+      "name": "103_3023.lua",
+      "mapId": 103,
+      "roleId": 3023,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/103_3023.lua",
+      "recordAddress": null,
+      "dataOffset": 3156269,
+      "size": 747,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "1\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><202002><0>Magic Flask\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\"
+    },
+    {
+      "name": "103_3028.lua",
+      "mapId": 103,
+      "roleId": 3028,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/103_3028.lua",
+      "recordAddress": null,
+      "dataOffset": 3157016,
+      "size": 418,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "8\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><202501><0>Passing the Love\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<"
+    },
+    {
+      "name": "105_3185.lua",
+      "mapId": 105,
+      "roleId": 3185,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/105_3185.lua",
+      "recordAddress": null,
+      "dataOffset": 3157434,
+      "size": 729,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "13\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><208501><0>Lazy Soldier\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\"
+    },
+    {
+      "name": "105_3189.lua",
+      "mapId": 105,
+      "roleId": 3189,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/105_3189.lua",
+      "recordAddress": null,
+      "dataOffset": 3158163,
+      "size": 401,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "12\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><208500><0>Evil Rogue\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\"
+    },
+    {
+      "name": "105_3651.lua",
+      "mapId": 105,
+      "roleId": 3651,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/105_3651.lua",
+      "recordAddress": null,
+      "dataOffset": 3158564,
+      "size": 401,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "30\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><208001><0>The Signal\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\"
+    },
+    {
+      "name": "107_3207.lua",
+      "mapId": 107,
+      "roleId": 3207,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/107_3207.lua",
+      "recordAddress": null,
+      "dataOffset": 3158965,
+      "size": 383,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "30\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><220500><0>Dray\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<"
+    },
+    {
+      "name": "108_3163.lua",
+      "mapId": 108,
+      "roleId": 3163,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/108_3163.lua",
+      "recordAddress": null,
+      "dataOffset": 3159348,
+      "size": 780,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "17\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><213002><0>Crane Pass Victory\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \""
+    },
+    {
+      "name": "109_3353.lua",
+      "mapId": 109,
+      "roleId": 3353,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/109_3353.lua",
+      "recordAddress": null,
+      "dataOffset": 3160128,
+      "size": 398,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "50\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><235500><0>The Rumor\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\n"
+    },
+    {
+      "name": "111_3044.lua",
+      "mapId": 111,
+      "roleId": 3044,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/111_3044.lua",
+      "recordAddress": null,
+      "dataOffset": 3160526,
+      "size": 2152,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "32\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><219001><0>Poisoned Rain\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>"
+    },
+    {
+      "name": "111_3093.lua",
+      "mapId": 111,
+      "roleId": 3093,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/111_3093.lua",
+      "recordAddress": null,
+      "dataOffset": 3162678,
+      "size": 449,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "32\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><219503><0>Achelous's Golden Tortoise\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tcl"
+    },
+    {
+      "name": "111_3203.lua",
+      "mapId": 111,
+      "roleId": 3203,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/111_3203.lua",
+      "recordAddress": null,
+      "dataOffset": 3163127,
+      "size": 416,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "30\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><219500><0>Beautiful Shell\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<"
+    },
+    {
+      "name": "111_3204.lua",
+      "mapId": 111,
+      "roleId": 3204,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/111_3204.lua",
+      "recordAddress": null,
+      "dataOffset": 3163543,
+      "size": 416,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "30\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><219502><0>Fierce Tortoise\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<"
+    },
+    {
+      "name": "111_3206.lua",
+      "mapId": 111,
+      "roleId": 3206,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/111_3206.lua",
+      "recordAddress": null,
+      "dataOffset": 3163959,
+      "size": 398,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "35\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><219501><0>Bad Lucks\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\n"
+    },
+    {
+      "name": "111_3651.lua",
+      "mapId": 111,
+      "roleId": 3651,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/111_3651.lua",
+      "recordAddress": null,
+      "dataOffset": 3164357,
+      "size": 401,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "24\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><219009><0>True Power\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\"
+    },
+    {
+      "name": "112_3013.lua",
+      "mapId": 112,
+      "roleId": 3013,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/112_3013.lua",
+      "recordAddress": null,
+      "dataOffset": 3164758,
+      "size": 403,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "1\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><204016><0>Orientation\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\"
+    },
+    {
+      "name": "112_3014.lua",
+      "mapId": 112,
+      "roleId": 3014,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/112_3014.lua",
+      "recordAddress": null,
+      "dataOffset": 3165161,
+      "size": 753,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "16\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><204535><0>Heirloom Tracing\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0"
+    },
+    {
+      "name": "112_3022.lua",
+      "mapId": 112,
+      "roleId": 3022,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/112_3022.lua",
+      "recordAddress": null,
+      "dataOffset": 3165914,
+      "size": 3226,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "1\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><204012><0>Study\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<"
+    },
+    {
+      "name": "112_3030.lua",
+      "mapId": 112,
+      "roleId": 3030,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/112_3030.lua",
+      "recordAddress": null,
+      "dataOffset": 3169140,
+      "size": 410,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "10\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><204022><0>Disenchanting\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>"
+    },
+    {
+      "name": "112_3033.lua",
+      "mapId": 112,
+      "roleId": 3033,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/112_3033.lua",
+      "recordAddress": null,
+      "dataOffset": 3169550,
+      "size": 1155,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "30\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><204001><0>Jeff the Door God\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#"
+    },
+    {
+      "name": "112_3034.lua",
+      "mapId": 112,
+      "roleId": 3034,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/112_3034.lua",
+      "recordAddress": null,
+      "dataOffset": 3170705,
+      "size": 1128,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "30\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><204004><0>Kavin the Door God\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \""
+    },
+    {
+      "name": "112_3036.lua",
+      "mapId": 112,
+      "roleId": 3036,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/112_3036.lua",
+      "recordAddress": null,
+      "dataOffset": 3171833,
+      "size": 1105,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "15\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><204007><0>Disenchanting\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>"
+    },
+    {
+      "name": "112_3059.lua",
+      "mapId": 112,
+      "roleId": 3059,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/112_3059.lua",
+      "recordAddress": null,
+      "dataOffset": 3172938,
+      "size": 443,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "16\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><204538><0>Fake It Till You Make It\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclav"
+    },
+    {
+      "name": "112_3060.lua",
+      "mapId": 112,
+      "roleId": 3060,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/112_3060.lua",
+      "recordAddress": null,
+      "dataOffset": 3173381,
+      "size": 398,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "12\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><204531><0>Good Luck\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\n"
+    },
+    {
+      "name": "112_3065.lua",
+      "mapId": 112,
+      "roleId": 3065,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/112_3065.lua",
+      "recordAddress": null,
+      "dataOffset": 3173779,
+      "size": 417,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "1\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><204500><0>A Plaguy Errand\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0"
+    },
+    {
+      "name": "112_3070.lua",
+      "mapId": 112,
+      "roleId": 3070,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/112_3070.lua",
+      "recordAddress": null,
+      "dataOffset": 3174196,
+      "size": 401,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "17\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><204518><0>Separation\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\"
+    },
+    {
+      "name": "112_3110.lua",
+      "mapId": 112,
+      "roleId": 3110,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/112_3110.lua",
+      "recordAddress": null,
+      "dataOffset": 3174597,
+      "size": 403,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "1\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><204016><0>Orientation\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\"
+    },
+    {
+      "name": "112_3118.lua",
+      "mapId": 112,
+      "roleId": 3118,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/112_3118.lua",
+      "recordAddress": null,
+      "dataOffset": 3175000,
+      "size": 763,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "1\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><204019><0>Disenchanting\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\"
+    },
+    {
+      "name": "112_3181.lua",
+      "mapId": 112,
+      "roleId": 3181,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/112_3181.lua",
+      "recordAddress": null,
+      "dataOffset": 3175763,
+      "size": 415,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "10\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><204509><0>Beetle's Fight\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0"
+    },
+    {
+      "name": "112_3182.lua",
+      "mapId": 112,
+      "roleId": 3182,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/112_3182.lua",
+      "recordAddress": null,
+      "dataOffset": 3176178,
+      "size": 424,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "13\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><204511><0>Blacksmith's Food\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#"
+    },
+    {
+      "name": "112_3183.lua",
+      "mapId": 112,
+      "roleId": 3183,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/112_3183.lua",
+      "recordAddress": null,
+      "dataOffset": 3176602,
+      "size": 1189,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "10\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = claver..\"#0<0>¡ñ#2<1><204513><0>Beggar's Secret\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = "
+    },
+    {
+      "name": "112_3188.lua",
+      "mapId": 112,
+      "roleId": 3188,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/112_3188.lua",
+      "recordAddress": null,
+      "dataOffset": 3177791,
+      "size": 431,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "17\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><204517><0>Jail Delivery Bandit\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver ="
+    },
+    {
+      "name": "112_3191.lua",
+      "mapId": 112,
+      "roleId": 3191,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/112_3191.lua",
+      "recordAddress": null,
+      "dataOffset": 3178222,
+      "size": 1078,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "13\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><204522><0>Mother's Illness\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0"
+    },
+    {
+      "name": "112_3193.lua",
+      "mapId": 112,
+      "roleId": 3193,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/112_3193.lua",
+      "recordAddress": null,
+      "dataOffset": 3179300,
+      "size": 413,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "14\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><204524><0>Blessing Purse\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0"
+    },
+    {
+      "name": "112_3265.lua",
+      "mapId": 112,
+      "roleId": 3265,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/112_3265.lua",
+      "recordAddress": null,
+      "dataOffset": 3179713,
+      "size": 771,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "11\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><204532><0>The Piggy's Comeback\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver ="
+    },
+    {
+      "name": "113_3361.lua",
+      "mapId": 113,
+      "roleId": 3361,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/113_3361.lua",
+      "recordAddress": null,
+      "dataOffset": 3180484,
+      "size": 407,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "52\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><238504><0>Cruel Choice\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\"
+    },
+    {
+      "name": "114_3355.lua",
+      "mapId": 114,
+      "roleId": 3355,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/114_3355.lua",
+      "recordAddress": null,
+      "dataOffset": 3180891,
+      "size": 428,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "52\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><238500><0>The Dragon's Growth\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = "
+    },
+    {
+      "name": "114_3356.lua",
+      "mapId": 114,
+      "roleId": 3356,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/114_3356.lua",
+      "recordAddress": null,
+      "dataOffset": 3181319,
+      "size": 407,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "52\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><238502><0>Lonely Heart\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\"
+    },
+    {
+      "name": "117_3218.lua",
+      "mapId": 117,
+      "roleId": 3218,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/117_3218.lua",
+      "recordAddress": null,
+      "dataOffset": 3181726,
+      "size": 1750,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "22\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><205001><0>The Hell Gate\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>"
+    },
+    {
+      "name": "120_3162.lua",
+      "mapId": 120,
+      "roleId": 3162,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/120_3162.lua",
+      "recordAddress": null,
+      "dataOffset": 3183476,
+      "size": 401,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "20\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><207001><0>Old Friend\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\"
+    },
+    {
+      "name": "127_3077.lua",
+      "mapId": 127,
+      "roleId": 3077,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/127_3077.lua",
+      "recordAddress": null,
+      "dataOffset": 3183877,
+      "size": 395,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "18\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><209500><0>Leverage\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\n¡"
+    },
+    {
+      "name": "127_3651.lua",
+      "mapId": 127,
+      "roleId": 3651,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/127_3651.lua",
+      "recordAddress": null,
+      "dataOffset": 3184272,
+      "size": 401,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "30\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><209001><0>The Threat\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\"
+    },
+    {
+      "name": "128_3073.lua",
+      "mapId": 128,
+      "roleId": 3073,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/128_3073.lua",
+      "recordAddress": null,
+      "dataOffset": 3184673,
+      "size": 727,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "16\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><208503><0>Escort\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#"
+    },
+    {
+      "name": "129_3651.lua",
+      "mapId": 129,
+      "roleId": 3651,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/129_3651.lua",
+      "recordAddress": null,
+      "dataOffset": 3185400,
+      "size": 411,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "30\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><254001><0>The Right Path\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0"
+    },
+    {
+      "name": "131_3042.lua",
+      "mapId": 131,
+      "roleId": 3042,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/131_3042.lua",
+      "recordAddress": null,
+      "dataOffset": 3185811,
+      "size": 722,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "20\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>¡ñ#2<1><211004><0>Evil Spider\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>¡ñ#2<9"
+    },
+    {
+      "name": "131_3194.lua",
+      "mapId": 131,
+      "roleId": 3194,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/131_3194.lua",
+      "recordAddress": null,
+      "dataOffset": 3186533,
+      "size": 410,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "15\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><211503><0>Farmer's Gift\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>"
+    },
+    {
+      "name": "131_3196.lua",
+      "mapId": 131,
+      "roleId": 3196,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/131_3196.lua",
+      "recordAddress": null,
+      "dataOffset": 3186943,
+      "size": 386,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "17\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><211505><0>Proof\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2"
+    },
+    {
+      "name": "131_3198.lua",
+      "mapId": 131,
+      "roleId": 3198,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/131_3198.lua",
+      "recordAddress": null,
+      "dataOffset": 3187329,
+      "size": 428,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "16\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><211500><0>An Unexpected Guest\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = "
+    },
+    {
+      "name": "131_3199.lua",
+      "mapId": 131,
+      "roleId": 3199,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/131_3199.lua",
+      "recordAddress": null,
+      "dataOffset": 3187757,
+      "size": 389,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "18\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><211501><0>Cobweb\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#"
+    },
+    {
+      "name": "131_3209.lua",
+      "mapId": 131,
+      "roleId": 3209,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/131_3209.lua",
+      "recordAddress": null,
+      "dataOffset": 3188146,
+      "size": 407,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "14\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><211502><0>Íµ×¯¼ÚµÄÄ¾ÊÞ\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\"
+    },
+    {
+      "name": "132_3083.lua",
+      "mapId": 132,
+      "roleId": 3083,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/132_3083.lua",
+      "recordAddress": null,
+      "dataOffset": 3188553,
+      "size": 418,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "20\r\n\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><212500><0>Unexpected Help\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#"
+    },
+    {
+      "name": "132_3084.lua",
+      "mapId": 132,
+      "roleId": 3084,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/132_3084.lua",
+      "recordAddress": null,
+      "dataOffset": 3188971,
+      "size": 409,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "20\r\n\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><212501><0>Zodiac Order\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0"
+    },
+    {
+      "name": "135_3100.lua",
+      "mapId": 135,
+      "roleId": 3100,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/135_3100.lua",
+      "recordAddress": null,
+      "dataOffset": 3189380,
+      "size": 434,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "30\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><217500><0>Weird Herbal Medicine\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver "
+    },
+    {
+      "name": "144_3092.lua",
+      "mapId": 144,
+      "roleId": 3092,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/144_3092.lua",
+      "recordAddress": null,
+      "dataOffset": 3189814,
+      "size": 404,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "32\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><221002><0>Demon Party\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n"
+    },
+    {
+      "name": "145_3073.lua",
+      "mapId": 145,
+      "roleId": 3073,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/145_3073.lua",
+      "recordAddress": null,
+      "dataOffset": 3190218,
+      "size": 419,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "18\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><214500><0>Gourd with Blood\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0"
+    },
+    {
+      "name": "146_3218.lua",
+      "mapId": 146,
+      "roleId": 3218,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/146_3218.lua",
+      "recordAddress": null,
+      "dataOffset": 3190637,
+      "size": 1394,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "22\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>¡ñ#2<1><205002><0>The Fog\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>¡ñ#2<9><20"
+    },
+    {
+      "name": "146_3651.lua",
+      "mapId": 146,
+      "roleId": 3651,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/146_3651.lua",
+      "recordAddress": null,
+      "dataOffset": 3192031,
+      "size": 758,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "16\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>¡ñ#2<1><205007><0>Another Possibility\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<"
+    },
+    {
+      "name": "149_3651.lua",
+      "mapId": 149,
+      "roleId": 3651,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/149_3651.lua",
+      "recordAddress": null,
+      "dataOffset": 3192789,
+      "size": 1403,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "22\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>¡ñ#2<1><205002><0>The Fog\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>¡ñ#2<9><20"
+    },
+    {
+      "name": "155_3050.lua",
+      "mapId": 155,
+      "roleId": 3050,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/155_3050.lua",
+      "recordAddress": null,
+      "dataOffset": 3194192,
+      "size": 727,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "22\r\n\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\t--claver = \"#0<0>\\n\\n¡ñ#2<1><227500><0>Í­¹ø\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\t--claver = \"#0<0>\\n\\"
+    },
+    {
+      "name": "156_3160.lua",
+      "mapId": 156,
+      "roleId": 3160,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/156_3160.lua",
+      "recordAddress": null,
+      "dataOffset": 3194919,
+      "size": 409,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "24\r\n\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><227001><0>Flaming Hell\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0"
+    },
+    {
+      "name": "157_3262.lua",
+      "mapId": 157,
+      "roleId": 3262,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/157_3262.lua",
+      "recordAddress": null,
+      "dataOffset": 3195328,
+      "size": 403,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "40\r\n\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\t--claver = \"#0<0>\\n\\n¡ñ#2<1><228500><0>ÃÜÄ±Ôì·´\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\t--claver = \"#0<0"
+    },
+    {
+      "name": "158_3263.lua",
+      "mapId": 158,
+      "roleId": 3263,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/158_3263.lua",
+      "recordAddress": null,
+      "dataOffset": 3195731,
+      "size": 399,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "- 40\r\n\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><228503><0>×é½¨Ä§¾ü\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\"
+    },
+    {
+      "name": "160_3078.lua",
+      "mapId": 160,
+      "roleId": 3078,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/160_3078.lua",
+      "recordAddress": null,
+      "dataOffset": 3196130,
+      "size": 401,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "22\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\t--claver = \"#0<0>\\n\\n¡ñ#2<1><226001><0>ÎÞ³£×¥¹í\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\t--claver = \"#0<0>\\"
+    },
+    {
+      "name": "160_3079.lua",
+      "mapId": 160,
+      "roleId": 3079,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/160_3079.lua",
+      "recordAddress": null,
+      "dataOffset": 3196531,
+      "size": 434,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "22\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><226500><0>Catching Lonely Ghost\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver "
+    },
+    {
+      "name": "163_3036.lua",
+      "mapId": 163,
+      "roleId": 3036,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/163_3036.lua",
+      "recordAddress": null,
+      "dataOffset": 3196965,
+      "size": 406,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "1\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><222003><0>The Comeback\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n"
+    },
+    {
+      "name": "163_3651.lua",
+      "mapId": 163,
+      "roleId": 3651,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/163_3651.lua",
+      "recordAddress": null,
+      "dataOffset": 3197371,
+      "size": 394,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "5\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><222004><0>The Omen\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ"
+    },
+    {
+      "name": "164_3098.lua",
+      "mapId": 164,
+      "roleId": 3098,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/164_3098.lua",
+      "recordAddress": null,
+      "dataOffset": 3197765,
+      "size": 753,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "45\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><218001><0>Neeza's Birth\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>"
+    },
+    {
+      "name": "166_3529.lua",
+      "mapId": 166,
+      "roleId": 3529,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/166_3529.lua",
+      "recordAddress": null,
+      "dataOffset": 3198518,
+      "size": 410,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "70\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><225001><0>Giant Icicles\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>"
+    },
+    {
+      "name": "169_3135.lua",
+      "mapId": 169,
+      "roleId": 3135,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/169_3135.lua",
+      "recordAddress": null,
+      "dataOffset": 3198928,
+      "size": 790,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "62\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><230007><0>Haunted House\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>"
+    },
+    {
+      "name": "169_3155.lua",
+      "mapId": 169,
+      "roleId": 3155,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/169_3155.lua",
+      "recordAddress": null,
+      "dataOffset": 3199718,
+      "size": 1141,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "64\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><230009><0>Ghost Hunting\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>"
+    },
+    {
+      "name": "169_3278.lua",
+      "mapId": 169,
+      "roleId": 3278,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/169_3278.lua",
+      "recordAddress": null,
+      "dataOffset": 3200859,
+      "size": 759,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "50\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><230500><0>The Giant Petal\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<"
+    },
+    {
+      "name": "169_3311.lua",
+      "mapId": 169,
+      "roleId": 3311,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/169_3311.lua",
+      "recordAddress": null,
+      "dataOffset": 3201618,
+      "size": 419,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "50\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><230001><0>Mysterious Woman\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0"
+    },
+    {
+      "name": "169_3312.lua",
+      "mapId": 169,
+      "roleId": 3312,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/169_3312.lua",
+      "recordAddress": null,
+      "dataOffset": 3202037,
+      "size": 786,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "50\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><230004><0>De-evil Tower\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>"
+    },
+    {
+      "name": "169_3342.lua",
+      "mapId": 169,
+      "roleId": 3342,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/169_3342.lua",
+      "recordAddress": null,
+      "dataOffset": 3202823,
+      "size": 410,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "55\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><230506><0>Sudden Attack\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>"
+    },
+    {
+      "name": "169_3343.lua",
+      "mapId": 169,
+      "roleId": 3343,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/169_3343.lua",
+      "recordAddress": null,
+      "dataOffset": 3203233,
+      "size": 413,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "50\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><230500><0>The Difficulty\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0"
+    },
+    {
+      "name": "169_3344.lua",
+      "mapId": 169,
+      "roleId": 3344,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/169_3344.lua",
+      "recordAddress": null,
+      "dataOffset": 3203646,
+      "size": 422,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "52\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><230505><0>Plague of Locusts\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#"
+    },
+    {
+      "name": "174_3187.lua",
+      "mapId": 174,
+      "roleId": 3187,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/174_3187.lua",
+      "recordAddress": null,
+      "dataOffset": 3204068,
+      "size": 407,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "63\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><234001><0>Silence Hell\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\"
+    },
+    {
+      "name": "177_3187.lua",
+      "mapId": 177,
+      "roleId": 3187,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/177_3187.lua",
+      "recordAddress": null,
+      "dataOffset": 3204475,
+      "size": 407,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "61\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><234006><0>Silence Hell\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\"
+    },
+    {
+      "name": "182_3492.lua",
+      "mapId": 182,
+      "roleId": 3492,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/182_3492.lua",
+      "recordAddress": null,
+      "dataOffset": 3204882,
+      "size": 401,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "74\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><240002><0>Punishment\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\"
+    },
+    {
+      "name": "207_3141.lua",
+      "mapId": 207,
+      "roleId": 3141,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/207_3141.lua",
+      "recordAddress": null,
+      "dataOffset": 3205283,
+      "size": 143,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nmacro_GuiSetText(\"npcmapinfo\",claver)\r\nmacro_GuiSetTextCurrentP(\"npcmapinfo\")level=macro_GetPlayerAttr(32)\r\noffset = level - "
+    },
+    {
+      "name": "210_3751.lua",
+      "mapId": 210,
+      "roleId": 3751,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/210_3751.lua",
+      "recordAddress": null,
+      "dataOffset": 3205426,
+      "size": 1146,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "90\r\n\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><256001><0>West County Pass War\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver"
+    },
+    {
+      "name": "211_3133.lua",
+      "mapId": 211,
+      "roleId": 3133,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/211_3133.lua",
+      "recordAddress": null,
+      "dataOffset": 3206572,
+      "size": 413,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "54\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><233004><0>Fight for Love\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0"
+    },
+    {
+      "name": "211_3173.lua",
+      "mapId": 211,
+      "roleId": 3173,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/211_3173.lua",
+      "recordAddress": null,
+      "dataOffset": 3206985,
+      "size": 419,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "55\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><233003><0>Leave Longicorns\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0"
+    },
+    {
+      "name": "211_3371.lua",
+      "mapId": 211,
+      "roleId": 3371,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/211_3371.lua",
+      "recordAddress": null,
+      "dataOffset": 3207404,
+      "size": 407,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "64\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><233501><0>Flaming Tree\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\"
+    },
+    {
+      "name": "213_3120.lua",
+      "mapId": 213,
+      "roleId": 3120,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/213_3120.lua",
+      "recordAddress": null,
+      "dataOffset": 3207811,
+      "size": 1150,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "22\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><210001><0>The Forbidden Hell\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \""
+    },
+    {
+      "name": "214_3052.lua",
+      "mapId": 214,
+      "roleId": 3052,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/214_3052.lua",
+      "recordAddress": null,
+      "dataOffset": 3208961,
+      "size": 395,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "30\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><216501><0>ÀðÓãÄÖº£\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\n¡"
+    },
+    {
+      "name": "229_3125.lua",
+      "mapId": 229,
+      "roleId": 3125,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/229_3125.lua",
+      "recordAddress": null,
+      "dataOffset": 3209356,
+      "size": 431,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "30\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><216500><0>Pretty Trumpet Shell\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver ="
+    },
+    {
+      "name": "231_3220.lua",
+      "mapId": 231,
+      "roleId": 3220,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/231_3220.lua",
+      "recordAddress": null,
+      "dataOffset": 3209787,
+      "size": 421,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "38\r\n\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><228001><0>Illness Beadroll\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \""
+    },
+    {
+      "name": "238_3365.lua",
+      "mapId": 238,
+      "roleId": 3365,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/238_3365.lua",
+      "recordAddress": null,
+      "dataOffset": 3210208,
+      "size": 404,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "56\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><239501><0>Frustration\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n"
+    },
+    {
+      "name": "238_3366.lua",
+      "mapId": 238,
+      "roleId": 3366,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/238_3366.lua",
+      "recordAddress": null,
+      "dataOffset": 3210612,
+      "size": 428,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "57\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><239503><0>Flying Little Mouse\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = "
+    },
+    {
+      "name": "239_3364.lua",
+      "mapId": 239,
+      "roleId": 3364,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/239_3364.lua",
+      "recordAddress": null,
+      "dataOffset": 3211040,
+      "size": 407,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "55\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><239500><0>Stubbornness\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\"
+    },
+    {
+      "name": "240_3347.lua",
+      "mapId": 240,
+      "roleId": 3347,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/240_3347.lua",
+      "recordAddress": null,
+      "dataOffset": 3211447,
+      "size": 789,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "52\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><236500><0>Evil Dragon\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n"
+    },
+    {
+      "name": "240_3363.lua",
+      "mapId": 240,
+      "roleId": 3363,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/240_3363.lua",
+      "recordAddress": null,
+      "dataOffset": 3212236,
+      "size": 416,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "63\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><236503><0>Saving the Doll\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<"
+    },
+    {
+      "name": "242_3283.lua",
+      "mapId": 242,
+      "roleId": 3283,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/242_3283.lua",
+      "recordAddress": null,
+      "dataOffset": 3212652,
+      "size": 455,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "54\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><232001><0>Adventure in Longicorn State\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\t"
+    },
+    {
+      "name": "263_3211.lua",
+      "mapId": 263,
+      "roleId": 3211,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/263_3211.lua",
+      "recordAddress": null,
+      "dataOffset": 3213107,
+      "size": 397,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "24\r\n\r\nif (offset>3) then\t\t\t\t\t\t--ºÖÉ«\r\n\tclaver = \"#0<0>\\n\\n¡ñ#2<1><227002><0>ÏÁÂ·Ïà·ê\\n\"\r\nelseif ((offset<3) and (offset>-3)) then \t\t\t--»ÆÉ«\r\n\tclaver = \"#0<0>\\n\\"
+    },
+    {
+      "name": "0.lua",
+      "mapId": null,
+      "roleId": null,
+      "outputPath": "data/client-derived/mapnpcinfo/scripts/0.lua",
+      "recordAddress": null,
+      "dataOffset": 3151572,
+      "size": 131,
+      "kind": null,
+      "archiveIndex": null,
+      "flagsA": null,
+      "flagsB": null,
+      "textPreview": "\r\nmacro_GuiSetText(\"npcmapinfo\",claver)\r\nmacro_GuiSetTextCurrentP(\"npcmapinfo\")\r\n\r\nlevel=macro_GetPlayerAttr(32)\r\noffset = level - "
+    }
+  ]
+}

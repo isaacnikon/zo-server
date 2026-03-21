@@ -46,6 +46,20 @@
   - `quest-full-workflow.json`
   - `task-context.json`
   - `quest-runtime-candidates.json`
+- Current map/NPC helper scripts:
+  - `scripts/extract-client-ui-window.py`
+  - `scripts/extract-map-sidebar-npcs.py`
+  - `scripts/generate-client-map-sidebar-data.py`
+  - `scripts/extract-client-mapnpcinfo.py`
+  - `scripts/generate-client-map-npc-info.py`
+  - `scripts/report-map-npcs.py`
+  - `scripts/parse-addmapnpc-log.py`
+- Current map/NPC debug artifacts:
+  - `data/client-derived/cloud-city-runtime-mapnpclist.json`
+  - `data/client-derived/map-sidebar-npcs.json`
+  - `data/client-derived/mapnpcinfo/manifest.json`
+  - `data/client-derived/map-npc-info.json`
+  - `data/client-derived/map-npcs.json`
 
 ## Stable Non-Combat Findings
 - Quest runtime flow is abstracted through the objective registry and preserves client-visible quest semantics.
@@ -122,6 +136,9 @@
   - `roleClassField=3` NPCs
   - `roleClassField=4` ordinary monsters
   - `roleClassField=5` elite/guard/boss style roles
+- Client patches used during debugging must be reverted after use.
+  - `patch-client-mapnpcinfo-reload.py` was applied temporarily during map sidebar debugging and then restored
+  - current guidance: prefer non-patching RE paths unless a patch is explicitly necessary
 
 ## Current Limits
 - No real crafting runtime yet.
@@ -129,6 +146,78 @@
 - `iteminfo.json` semantics are only partially decoded.
 - `combinitem.json` is queryable but not yet enforced in gameplay.
 - Full `roleinfo` stat-field semantics are still only partly decoded.
+- Hidden `mapnpcinfo` Lua scripts are now extractable from the readable root `script.gcg`
+  without requiring a fresh live script-index dump:
+  - extracted by `scripts/extract-client-mapnpcinfo.py`
+  - output under `data/client-derived/mapnpcinfo/`
+  - current extraction result: `106` scripts across `47` maps plus fallback `0.lua`
+  - filenames follow `mapId_roleId.lua`, e.g. `112_3013.lua`, `112_3065.lua`, `112_3193.lua`
+  - current regeneration mode is `reference_signature`
+    - the extractor matches the known script payloads directly inside `/home/nikon/Data/Zodiac Online/script.gcg`
+    - this removes the dependency on `/tmp/script_index_4600000_4700000.bin`
+  - related client-side script resources beyond `mapnpcinfo` are still not fully extracted generically from cold disk alone
+
+## Map Sidebar Findings
+- `MAINMAP` UI wiring is in `gcg/ui.gcg`
+  - `mapnpclist` is the right-hand sidebar NPC list
+  - `worldmapnamelist` is a separate list and not the same data source
+  - `showtasknpc` uses `macro_SetMapNpcBlink(2)`
+  - `showsellnpc` uses `macro_SetMapNpcBlink(4)`
+- Binary/runtime path:
+  - `macro_AddMapNpc(...)` populates `mapnpclist`
+  - `macro_SetMapNpcBlink(mask)` filters/recolors existing rows
+  - `macro_AddMapNpc` takes a category bitmask, not a world entity type
+- Important practical rule:
+  - sidebar NPC rows are not the same thing as world spawns
+  - the same NPC id can appear across multiple related maps / city interiors
+  - sidebar coordinates can exceed the base scene bounds in clustered city maps
+- Static `script.gcg` extraction:
+  - scene-title blocks contain readable `macro_AddMapNpc(...)` calls
+  - for Cloud City, the plain `Cloud City` title block has only `6` unconditional sidebar entries
+  - this is not enough to explain the visible client sidebar for hub maps
+- Live runtime capture:
+  - Cloud City sidebar population captured through runtime `macro_AddMapNpc(...)` produced `74` rows
+  - `39` of those rows are outside the base `256x256` Cloud City map bounds
+  - this capture is stored in `data/client-derived/cloud-city-runtime-mapnpclist.json`
+  - the runtime sidebar coordinate set and the current `scenes.json` world-spawn coordinate set are fully different datasets
+- Hidden `mapnpcinfo` extraction:
+  - the client's hidden map-panel detail scripts are present as `mapId_roleId.lua` records in the loaded script index
+  - examples:
+    - `112_3013.lua` -> `Orientation`
+    - `112_3065.lua` -> `A Plaguy Errand`
+    - `112_3193.lua` -> `Blessing Purse`
+  - the generic fallback script is `0.lua`
+  - extracted outputs live in `data/client-derived/mapnpcinfo/scripts/`
+  - normalized JSON now lives at `data/client-derived/map-npc-info.json`
+    - `199` indexed scenes
+    - `47` scenes with hidden NPC info coverage
+    - `105` NPC scripts
+    - `158` parsed task entries
+    - `1` extra post-text link entry (`Help Map`)
+  - generator:
+    - `scripts/generate-client-map-npc-info.py`
+  - extractor:
+    - `scripts/extract-client-mapnpcinfo.py`
+    - now rebuilds offsets/sizes from `script.gcg` in cold-disk `reference_signature` mode
+    - no fresh live-memory dump is needed for normal regeneration
+  - canonical merged backend dataset:
+    - `data/client-derived/map-npcs.json`
+    - owned by `src/map-npcs.ts`
+    - `src/map-npc-info.ts` delegates to that module for compatibility
+    - `src/scene-runtime.ts` bootstrap NPC spawns now read through that canonical module
+  - semantics preserved in JSON:
+    - `recommendedLevel`
+    - task id/title
+    - the client color-code variants for `offset > 3`, `-3 < offset < 3`, and fallback
+- Conclusion:
+  - keep map-sidebar NPC extraction separate from world-spawn extraction
+  - do not treat sidebar rows as authoritative world spawn coordinates
+  - `data/client-derived/map-sidebar-npcs.json` is now the durable all-scenes sidebar artifact
+    - `199` indexed scenes
+    - `146` scenes with matched static sidebar evidence
+    - `1` scene with runtime sidebar capture evidence
+    - `16` static blocks still unmatched
+    - `10` static blocks still ambiguous due to duplicate-name scenes or title drift
 
 ## Next Best Steps
 - Use `src/crafting-data.js` when implementing compose/socket/refine handlers.
@@ -137,3 +226,6 @@
 - Re-derive combat notes separately from clean captures instead of relying on prior assumptions.
 - For item healing/UI work, trace the inbound client path that reaches `0x4495c7` and then `0x441320` / `0x441380`.
 - Revert temporary `levelOverride: 1` item-use experiments before treating item-use sync as stable.
+- For map-sidebar automation, prefer one of:
+  - extending the current `mapnpcinfo` extractor so it no longer depends on a live index dump, or
+  - automated runtime capture of `macro_AddMapNpc(...)` rows into per-map-cluster datasets
