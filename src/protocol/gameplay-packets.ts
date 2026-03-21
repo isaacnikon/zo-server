@@ -9,7 +9,9 @@ const {
   ITEM_CONTAINER_POSITION_SUBCMD,
   GAME_ITEM_CMD,
   GAME_QUEST_CMD,
+  GAME_SCENE_ENTER_CMD,
   GAME_SCRIPT_EVENT_CMD,
+  SCENE_ENTER_LOAD_SUBCMD,
   GAME_SELF_STATE_CMD,
   SELF_STATE_APTITUDE_SUBCMD,
   SELF_STATE_VALUE_UPDATE_SUBCMD,
@@ -151,6 +153,16 @@ function buildServerRunScriptPacket(scriptId: number, subtype: number): Buffer {
   writer.writeUint16(GAME_SCRIPT_EVENT_CMD);
   writer.writeUint8(subtype & 0xff);
   writer.writeUint16(scriptId & 0xffff);
+  return writer.payload();
+}
+
+function buildSceneEnterPacket(mapId: number, x: number, y: number, subtype = SCENE_ENTER_LOAD_SUBCMD): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_SCENE_ENTER_CMD);
+  writer.writeUint8(subtype & 0xff);
+  writer.writeUint16(mapId & 0xffff);
+  writer.writeUint16(x & 0xffff);
+  writer.writeUint16(y & 0xffff);
   return writer.payload();
 }
 
@@ -522,6 +534,7 @@ module.exports = {
   buildPetTreeRegistrationPacket,
   buildPetCreateSyncPacket,
   buildPetRosterSyncPacket,
+  buildSceneEnterPacket,
   buildSelfStateAptitudeSyncPacket,
   buildSelfStateValueUpdatePacket,
   buildServerRunScriptPacket,

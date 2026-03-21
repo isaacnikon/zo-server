@@ -2,6 +2,12 @@
 
 // --- Packet field types (used by declarative schemas) ---
 export interface PositionUpdate { x: number; y: number; mapId: number }
+export interface ServerRunRequestData {
+  subcmd: number;
+  rawArgs: number[];
+  npcId?: number;
+  scriptId?: number;
+}
 export interface CreateRoleData { templateIndex: number; roleName: string; birthMonth: number; birthDay: number; selectedAptitude: number; extra1: number; extra2: number }
 export interface QuestPacketData { subcmd: number; taskId: number }
 export interface EquipmentStateData { instanceId: number; equipFlag: number; unequipFlag: number }
@@ -130,11 +136,17 @@ export interface GameSession {
   completedQuests: number[];
   defeatRespawnPending: boolean;
   persistedCharacter: CharacterRecord | null;
+  mapRotationTimer?: NodeJS.Timeout | null;
+  mapRotationTargets?: Array<{ mapId: number; mapName: string; x: number; y: number }>;
+  mapRotationIndex?: number;
+  mapRotationAwaitingMapId?: number | null;
+  mapRotationLastSentAt?: number | null;
 
   // I/O methods
   writePacket(payload: Buffer, flags?: number, message?: string): void;
   log(message: string): void;
   persistCurrentCharacter(overrides?: Record<string, unknown>): void;
+  sendSceneEnter?(mapId: number, x: number, y: number, subtype?: number): void;
   dispatchObjectiveMonsterDefeat?(monsterId: number, count?: number, source?: string, options?: Record<string, unknown>): boolean;
   reconcileObjectives?(source?: string, options?: Record<string, unknown>): boolean;
 }

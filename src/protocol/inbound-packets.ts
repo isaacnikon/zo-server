@@ -5,6 +5,7 @@ import type {
   EquipmentStateData,
   PositionUpdate,
   QuestPacketData,
+  ServerRunRequestData,
 } from '../types';
 
 const { PacketReader } = require('./packet-reader');
@@ -16,6 +17,34 @@ function parsePositionUpdate(payload: Buffer): PositionUpdate {
     y: reader.readUint16(),
     mapId: reader.readUint16(),
   };
+}
+
+function parseServerRunRequest(payload: Buffer): ServerRunRequestData | null {
+  if (payload.length < 3) {
+    return null;
+  }
+
+  const subcmd = payload[2] & 0xff;
+
+  if (subcmd === 0x03 && payload.length >= 9) {
+    return {
+      subcmd,
+      npcId: payload.readUInt16LE(3),
+      scriptId: payload.readUInt16LE(7),
+      rawArgs: [
+        payload.readUInt16LE(3),
+        payload.readUInt16LE(5),
+        payload.readUInt16LE(7),
+      ],
+    };
+  }
+
+  const rawArgs: number[] = [];
+  for (let offset = 3; offset + 1 < payload.length; offset += 2) {
+    rawArgs.push(payload.readUInt16LE(offset));
+  }
+
+  return { subcmd, rawArgs };
 }
 
 function parseCreateRole(payload: Buffer): CreateRoleData {
@@ -133,6 +162,7 @@ function parseRoleSubcommand(payload: Buffer): { subcmd: number } {
 
 export {
   parsePositionUpdate,
+  parseServerRunRequest,
   parseCreateRole,
   parseQuestPacket,
   parseEquipmentState,

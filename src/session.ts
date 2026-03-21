@@ -35,7 +35,10 @@ const {
   tryHandlePetActionPacket: petHandlerTryHandlePetActionPacket,
   disposePetTimers: petHandlerDisposeTimers,
 } = require('./handlers/pet-handler');
-const { sendEnterGameOk: sessionBootstrapHandlerSendEnterGameOk } = require('./handlers/session-bootstrap-handler');
+const {
+  sendEnterGameOk: sessionBootstrapHandlerSendEnterGameOk,
+  sendMapNpcSpawns: sessionBootstrapHandlerSendMapNpcSpawns,
+} = require('./handlers/session-bootstrap-handler');
 const {
   DEFAULT_FLAGS,
   ENTITY_TYPE,
@@ -43,11 +46,15 @@ const {
   GAME_DIALOG_MESSAGE_SUBCMD,
   GAME_ITEM_CONTAINER_CMD,
   GAME_ITEM_CMD,
+  GAME_SCENE_ENTER_CMD,
   GAME_SELF_STATE_CMD,
   HANDSHAKE_CMD,
   MAP_ID,
   PING_CMD,
   PONG_CMD,
+  SCENE_ENTER_LOAD_SUBCMD,
+  SERVER_SCRIPT_DEFERRED_SUBCMD,
+  SERVER_SCRIPT_IMMEDIATE_SUBCMD,
   SELF_STATE_APTITUDE_SUBCMD,
   SPAWN_X,
   SPAWN_Y,
@@ -58,11 +65,14 @@ const {
 const { PacketWriter, buildPacket } = require('./protocol');
 const {
   buildGameDialoguePacket,
+  buildSceneEnterPacket,
+  buildServerRunScriptPacket,
   buildSelfStateAptitudeSyncPacket,
 } = require('./protocol/gameplay-packets');
 const { ObjectiveRegistry } = require('./objectives/objective-registry');
 const { questObjectiveSystem } = require('./objectives/quest-objective-system');
 const { CHARACTER_VITALS_BASELINE, resolveCurrentPlayerVitals } = require('./gameplay/session-flows');
+const { stopAutoMapRotation } = require('./scenes/map-rotation');
 const {
   buildCharacterSnapshot: sessionHydrationBuildCharacterSnapshot,
   getPersistedCharacter: sessionHydrationGetPersistedCharacter,
@@ -143,6 +153,11 @@ class Session implements GameSession {
   objectiveRegistry: any;
   combatState: Record<string, unknown>;
   combatDefeatTimer: NodeJS.Timeout | null;
+  mapRotationTimer: NodeJS.Timeout | null;
+  mapRotationTargets: Array<{ mapId: number; mapName: string; x: number; y: number }>;
+  mapRotationIndex: number;
+  mapRotationAwaitingMapId: number | null;
+  mapRotationLastSentAt: number | null;
 
   constructor(
     socket: SocketLike,
@@ -207,6 +222,11 @@ class Session implements GameSession {
     this.objectiveRegistry = new ObjectiveRegistry();
     this.combatState = createIdleCombatState();
     this.combatDefeatTimer = null;
+    this.mapRotationTimer = null;
+    this.mapRotationTargets = [];
+    this.mapRotationIndex = 0;
+    this.mapRotationAwaitingMapId = null;
+    this.mapRotationLastSentAt = null;
     this.objectiveRegistry.register({
       system: questObjectiveSystem,
       handler: questEventHandler,
@@ -469,6 +489,31 @@ class Session implements GameSession {
     );
   }
 
+  sendServerRunScriptImmediate(scriptId: number): void {
+    this.writePacket(
+      buildServerRunScriptPacket(scriptId, SERVER_SCRIPT_IMMEDIATE_SUBCMD),
+      DEFAULT_FLAGS,
+      `Sending script-event immediate cmd=0x0407 sub=0x${SERVER_SCRIPT_IMMEDIATE_SUBCMD.toString(16)} script=${scriptId}`
+    );
+  }
+
+  sendServerRunScriptDeferred(scriptId: number): void {
+    this.writePacket(
+      buildServerRunScriptPacket(scriptId, SERVER_SCRIPT_DEFERRED_SUBCMD),
+      DEFAULT_FLAGS,
+      `Sending script-event deferred cmd=0x0407 sub=0x${SERVER_SCRIPT_DEFERRED_SUBCMD.toString(16)} script=${scriptId}`
+    );
+  }
+
+  sendSceneEnter(mapId: number, x: number, y: number, subtype = SCENE_ENTER_LOAD_SUBCMD): void {
+    this.writePacket(
+      buildSceneEnterPacket(mapId, x, y, subtype),
+      DEFAULT_FLAGS,
+      `Sending scene-enter cmd=0x${GAME_SCENE_ENTER_CMD.toString(16)} sub=0x${subtype.toString(16)} map=${mapId} pos=${x},${y}`
+    );
+    sessionBootstrapHandlerSendMapNpcSpawns(this, mapId);
+  }
+
   sendPetStateSync(reason = 'runtime'): void {
     petHandlerSendPetStateSync(this, reason);
   }
@@ -476,6 +521,7 @@ class Session implements GameSession {
   dispose(): void {
     combatHandlerDisposeTimers(this);
     petHandlerDisposeTimers(this);
+    stopAutoMapRotation(this);
     if (this.equipmentReplayTimer) {
       clearTimeout(this.equipmentReplayTimer);
       this.equipmentReplayTimer = null;
