@@ -1,7 +1,6 @@
-import type { GameSession, PrimaryAttributes, QuestSyncMode, ServerRunEvent } from './types';
+import type { GameSession, PrimaryAttributes, QuestSyncMode } from './types';
 
 const { parsePingToken } = require('./protocol/inbound-packets');
-
 const { dispatchGamePacket } = require('./handlers/packet-dispatcher');
 const {
   createIdleCombatState,
@@ -24,12 +23,6 @@ const {
   refreshQuestStateForItemTemplates: questHandlerRefreshQuestStateForItemTemplates,
 } = require('./handlers/quest-handler');
 const {
-  updateTownRespawnAnchor: sceneHandlerUpdateTownRespawnAnchor,
-  handlePositionUpdate: sceneHandlerHandlePositionUpdate,
-  transitionToScene: sceneHandlerTransitionToScene,
-  sendStaticNpcSpawns: sceneHandlerSendStaticNpcSpawns,
-} = require('./handlers/scene-handler');
-const {
   scheduleEquipmentReplay: playerStateHandlerScheduleEquipmentReplay,
   tryHandleAttributeAllocationPacket: playerStateHandlerTryHandleAttributeAllocationPacket,
   tryHandleEquipmentStatePacket: playerStateHandlerTryHandleEquipmentStatePacket,
@@ -43,7 +36,6 @@ const {
   disposePetTimers: petHandlerDisposeTimers,
 } = require('./handlers/pet-handler');
 const { sendEnterGameOk: sessionBootstrapHandlerSendEnterGameOk } = require('./handlers/session-bootstrap-handler');
-
 const {
   DEFAULT_FLAGS,
   ENTITY_TYPE,
@@ -51,18 +43,12 @@ const {
   GAME_DIALOG_MESSAGE_SUBCMD,
   GAME_ITEM_CONTAINER_CMD,
   GAME_ITEM_CMD,
-  GAME_ITEM_SERVICE_CMD,
-  GAME_SERVER_RUN_CMD,
-  GAME_SCRIPT_EVENT_CMD,
   GAME_SELF_STATE_CMD,
   HANDSHAKE_CMD,
   MAP_ID,
   PING_CMD,
   PONG_CMD,
-  SERVER_RUN_MESSAGE_SUBCMD,
   SELF_STATE_APTITUDE_SUBCMD,
-  SERVER_SCRIPT_DEFERRED_SUBCMD,
-  SERVER_SCRIPT_IMMEDIATE_SUBCMD,
   SPAWN_X,
   SPAWN_Y,
   SPECIAL_FLAGS,
@@ -73,14 +59,7 @@ const { PacketWriter, buildPacket } = require('./protocol');
 const {
   buildGameDialoguePacket,
   buildSelfStateAptitudeSyncPacket,
-  buildServerRunMessagePacket,
-  buildServerRunScriptPacket,
 } = require('./protocol/gameplay-packets');
-const {
-  handleServerRunRequest: processNpcInteractionRequest,
-  restoreAtInn: processInnRest,
-} = require('./gameplay/npc-interactions');
-const { handleNpcShopServiceRequest: processNpcShopServiceRequest } = require('./gameplay/shop-runtime');
 const { ObjectiveRegistry } = require('./objectives/objective-registry');
 const { questObjectiveSystem } = require('./objectives/quest-objective-system');
 const { CHARACTER_VITALS_BASELINE, resolveCurrentPlayerVitals } = require('./gameplay/session-flows');
@@ -156,17 +135,12 @@ class Session implements GameSession {
   currentMapId: number;
   currentX: number;
   currentY: number;
-  currentTileSceneId: number;
-  currentEncounterTriggerId: number | null;
-  lastEncounterProbeAt: number;
   equipmentReplayTimer: NodeJS.Timeout | null;
   petReplayTimer: NodeJS.Timeout | null;
   defeatRespawnPending: boolean;
   hasAnnouncedQuestOverview: boolean;
   persistedCharacter: Record<string, unknown> | null;
   objectiveRegistry: any;
-  pendingNpcActionProbe: Record<string, unknown> | null;
-  activeNpcShop: Record<string, unknown> | null;
   combatState: Record<string, unknown>;
   combatDefeatTimer: NodeJS.Timeout | null;
 
@@ -225,17 +199,12 @@ class Session implements GameSession {
     this.currentMapId = MAP_ID;
     this.currentX = SPAWN_X;
     this.currentY = SPAWN_Y;
-    this.currentTileSceneId = 0;
-    this.currentEncounterTriggerId = null;
-    this.lastEncounterProbeAt = 0;
     this.equipmentReplayTimer = null;
     this.petReplayTimer = null;
     this.defeatRespawnPending = false;
     this.hasAnnouncedQuestOverview = false;
     this.persistedCharacter = null;
     this.objectiveRegistry = new ObjectiveRegistry();
-    this.pendingNpcActionProbe = null;
-    this.activeNpcShop = null;
     this.combatState = createIdleCombatState();
     this.combatDefeatTimer = null;
     this.objectiveRegistry.register({
@@ -310,7 +279,6 @@ class Session implements GameSession {
     this.log(
       `Game packet flags=0x${flags.toString(16)} cmd8=0x${cmdByte.toString(16).padStart(2, '0')} cmd16=0x${cmdWord.toString(16).padStart(4, '0')}`
     );
-    this.logNpcActionProbeFollowUp(cmdWord, payload);
 
     if (dispatchGamePacket(this, cmdWord, flags, payload)) {
       return;
@@ -320,7 +288,6 @@ class Session implements GameSession {
       cmdWord === GAME_ITEM_CONTAINER_CMD ||
       cmdWord === GAME_ITEM_CMD ||
       cmdWord === GAME_ITEM_CMD + 1 ||
-      cmdWord === GAME_ITEM_SERVICE_CMD ||
       cmdWord === 0x0400
     ) {
       this.log(
@@ -446,26 +413,6 @@ class Session implements GameSession {
     sessionHydrationPersistCurrentCharacter(this, overrides);
   }
 
-  updateTownRespawnAnchor(mapId: number, x: number, y: number): void {
-    sceneHandlerUpdateTownRespawnAnchor(this, mapId, x, y);
-  }
-
-  handlePositionUpdate(payload: Buffer): void {
-    sceneHandlerHandlePositionUpdate(this, payload);
-  }
-
-  handleServerRunRequest(payload: Buffer): void {
-    processNpcInteractionRequest(this, payload);
-  }
-
-  handleNpcShopServiceRequest(payload: Buffer): void {
-    processNpcShopServiceRequest(this, payload);
-  }
-
-  restoreAtInn(npcId: number): void {
-    processInnRest(this, npcId);
-  }
-
   handleQuestPacket(payload: Buffer): void {
     questHandlerHandleQuestPacket(this, payload);
   }
@@ -474,16 +421,8 @@ class Session implements GameSession {
     questHandlerApplyQuestEvents(this, events, source, options);
   }
 
-  dispatchObjectiveServerRun(event: ServerRunEvent, source = 'server-run', options: Record<string, unknown> = {}): boolean {
-    return this.objectiveRegistry.dispatchServerRun(this, event, source, options);
-  }
-
   dispatchObjectiveMonsterDefeat(monsterId: number, count = 1, source = 'monster-defeat', options: Record<string, unknown> = {}): boolean {
     return this.objectiveRegistry.dispatchMonsterDefeat(this, monsterId, count, source, options);
-  }
-
-  dispatchObjectiveSceneTransition(mapId: number, source = 'scene-transition', options: Record<string, unknown> = {}): boolean {
-    return this.objectiveRegistry.dispatchSceneTransition(this, mapId, source, options);
   }
 
   reconcileObjectives(source = 'bootstrap', options: Record<string, unknown> = {}): boolean {
@@ -500,57 +439,6 @@ class Session implements GameSession {
 
   refreshQuestStateForItemTemplates(templateIds: number[]): void {
     questHandlerRefreshQuestStateForItemTemplates(this, templateIds);
-  }
-
-  armNpcActionProbe(context: Record<string, unknown>): void {
-    this.pendingNpcActionProbe = {
-      ...context,
-      armedAt: Date.now(),
-      packetsSeen: 0,
-    };
-  }
-
-  logNpcActionProbeFollowUp(cmdWord: number, payload: Buffer): void {
-    const probe = this.pendingNpcActionProbe;
-    if (!probe) {
-      return;
-    }
-
-    const armedAt = typeof probe.armedAt === 'number' ? probe.armedAt : 0;
-    const ageMs = Date.now() - armedAt;
-    const packetsSeen = typeof probe.packetsSeen === 'number' ? probe.packetsSeen : 0;
-    if (ageMs > 5000 || packetsSeen >= 6) {
-      this.log(
-        `NPC action probe expired subtype=0x${Number(probe.subtype || 0).toString(16)} npcId=${probe.npcId || 0} packetsSeen=${packetsSeen} ageMs=${ageMs}`
-      );
-      this.pendingNpcActionProbe = null;
-      return;
-    }
-
-    if (cmdWord === GAME_SERVER_RUN_CMD) {
-      return;
-    }
-
-    const nextCount = packetsSeen + 1;
-    probe.packetsSeen = nextCount;
-    this.log(
-      `NPC action follow-up #${nextCount} after subtype=0x${Number(probe.subtype || 0).toString(16)} npcId=${probe.npcId || 0}: cmd=0x${cmdWord.toString(16)} len=${payload.length} hex=${payload.toString('hex')}`
-    );
-
-    if (nextCount >= 6) {
-      this.pendingNpcActionProbe = null;
-    }
-  }
-
-  getServerRunActionHandlers(): Record<string, (...args: any[]) => void> {
-    return {
-      restoreAtInn: this.restoreAtInn.bind(this),
-      sendGameDialogue: this.sendGameDialogue.bind(this),
-      sendServerRunMessage: this.sendServerRunMessage.bind(this),
-      sendServerRunScriptDeferred: this.sendServerRunScriptDeferred.bind(this),
-      sendServerRunScriptImmediate: this.sendServerRunScriptImmediate.bind(this),
-      transitionToScene: this.transitionToScene.bind(this),
-    };
   }
 
   sendSelfStateAptitudeSync(): void {
@@ -585,10 +473,6 @@ class Session implements GameSession {
     petHandlerSendPetStateSync(this, reason);
   }
 
-  transitionToScene(mapId: number, x: number, y: number, reason: string): void {
-    sceneHandlerTransitionToScene(this, mapId, x, y, reason);
-  }
-
   dispose(): void {
     combatHandlerDisposeTimers(this);
     petHandlerDisposeTimers(this);
@@ -596,34 +480,6 @@ class Session implements GameSession {
       clearTimeout(this.equipmentReplayTimer);
       this.equipmentReplayTimer = null;
     }
-  }
-
-  sendStaticNpcSpawns(): void {
-    sceneHandlerSendStaticNpcSpawns(this);
-  }
-
-  sendServerRunScriptImmediate(scriptId: number): void {
-    this.writePacket(
-      buildServerRunScriptPacket(scriptId, SERVER_SCRIPT_IMMEDIATE_SUBCMD),
-      DEFAULT_FLAGS,
-      `Sending script event cmd=0x${GAME_SCRIPT_EVENT_CMD.toString(16)} sub=0x${SERVER_SCRIPT_IMMEDIATE_SUBCMD.toString(16)} script=${scriptId}`
-    );
-  }
-
-  sendServerRunScriptDeferred(scriptId: number): void {
-    this.writePacket(
-      buildServerRunScriptPacket(scriptId, SERVER_SCRIPT_DEFERRED_SUBCMD),
-      DEFAULT_FLAGS,
-      `Sending deferred script event cmd=0x${GAME_SCRIPT_EVENT_CMD.toString(16)} sub=0x${SERVER_SCRIPT_DEFERRED_SUBCMD.toString(16)} script=${scriptId}`
-    );
-  }
-
-  sendServerRunMessage(npcId: number, msgId: number): void {
-    this.writePacket(
-      buildServerRunMessagePacket(npcId, msgId),
-      DEFAULT_FLAGS,
-      `Sending server-run message cmd=0x${GAME_SERVER_RUN_CMD.toString(16)} sub=0x${SERVER_RUN_MESSAGE_SUBCMD.toString(16)} npcId=${npcId} msg=${msgId}`
-    );
   }
 
   sendGameDialogue(

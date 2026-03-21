@@ -6,7 +6,6 @@ interface SessionState {
   nextSessionIsGame: boolean;
   pendingGameCharacter: Record<string, unknown> | null;
   characterStore: Record<string, unknown> | null;
-  mapCellStore: Record<string, unknown> | null;
 }
 
 function createSessionState(): SessionState {
@@ -15,7 +14,6 @@ function createSessionState(): SessionState {
     nextSessionIsGame: false,
     pendingGameCharacter: null,
     characterStore: null,
-    mapCellStore: null,
   };
 }
 

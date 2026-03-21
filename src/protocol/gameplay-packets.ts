@@ -3,17 +3,14 @@
 const {
   GAME_DIALOG_MESSAGE_SUBCMD,
   FIGHT_ACTIVE_STATE_SUBCMD,
-  SERVER_RUN_MESSAGE_SUBCMD,
   GAME_DIALOG_CMD,
   GAME_FIGHT_STREAM_CMD,
   GAME_ITEM_CONTAINER_CMD,
   ITEM_CONTAINER_POSITION_SUBCMD,
   GAME_ITEM_CMD,
-  GAME_NPC_SHOP_CMD,
   GAME_QUEST_CMD,
   GAME_SCRIPT_EVENT_CMD,
   GAME_SELF_STATE_CMD,
-  GAME_SERVER_RUN_CMD,
   SELF_STATE_APTITUDE_SUBCMD,
   SELF_STATE_VALUE_UPDATE_SUBCMD,
 } = require('../config');
@@ -104,11 +101,6 @@ interface ItemInstance {
   extraValue: number;
   clientTemplateFamily: number | null;
   attributePairs: Array<{ key: number; value: number }>;
-}
-
-interface NpcShopCatalogItem {
-  templateId: number;
-  price: number;
 }
 
 function buildSelfStateAptitudeSyncPacket({
@@ -488,27 +480,6 @@ function buildEquipmentStatePacket({ instanceId, equipped }: { instanceId: numbe
   return writer.payload();
 }
 
-function buildServerRunMessagePacket(npcId: number, msgId: number): Buffer {
-  const writer = new PacketWriter();
-  writer.writeUint16(GAME_SERVER_RUN_CMD);
-  writer.writeUint8(SERVER_RUN_MESSAGE_SUBCMD);
-  writer.writeUint32(npcId >>> 0);
-  writer.writeUint16(msgId & 0xffff);
-  return writer.payload();
-}
-
-function buildNpcShopOpenPacket(items: NpcShopCatalogItem[]): Buffer {
-  const writer = new PacketWriter();
-  const normalizedItems = Array.isArray(items) ? items : [];
-  writer.writeUint16(GAME_NPC_SHOP_CMD);
-  writer.writeUint8(0x07);
-  for (const item of normalizedItems) {
-    writer.writeUint16((item.templateId || 0) & 0xffff);
-    writer.writeUint32((item.price || 0) >>> 0);
-  }
-  return writer.payload();
-}
-
 function buildGameDialoguePacket({ speaker, message, subtype = GAME_DIALOG_MESSAGE_SUBCMD, flags = 0, extraText = null }: {
   speaker: string;
   message: string;
@@ -535,7 +506,6 @@ module.exports = {
   buildInventoryContainerQuantityPacket,
   buildInventoryContainerPositionPacket,
   buildGameDialoguePacket,
-  buildNpcShopOpenPacket,
   buildEquipmentStatePacket,
   buildItemAddPacket,
   buildItemRemovePacket,
@@ -554,6 +524,5 @@ module.exports = {
   buildPetRosterSyncPacket,
   buildSelfStateAptitudeSyncPacket,
   buildSelfStateValueUpdatePacket,
-  buildServerRunMessagePacket,
   buildServerRunScriptPacket,
 };

@@ -2,8 +2,6 @@ import type { GameSession } from '../types';
 
 const {
   ROLE_CMD,
-  GAME_POSITION_QUERY_CMD,
-  GAME_SERVER_RUN_CMD,
   GAME_QUEST_CMD,
   GAME_FIGHT_ACTION_CMD,
   GAME_FIGHT_CLIENT_CMD,
@@ -12,9 +10,6 @@ const {
   GAME_FIGHT_STATE_CMD,
   GAME_FIGHT_STREAM_CMD,
   GAME_FIGHT_TURN_CMD,
-  GAME_ITEM_CONTAINER_CMD,
-  GAME_ITEM_CMD,
-  GAME_ITEM_SERVICE_CMD,
 } = require('../config');
 
 type SessionLike = GameSession & Record<string, any>;
@@ -22,9 +17,6 @@ type SessionLike = GameSession & Record<string, any>;
 function buildPacketDispatch(): Map<number, string> {
   return new Map([
     [ROLE_CMD, 'handleRolePacket'],
-    [GAME_POSITION_QUERY_CMD, 'handlePositionUpdate'],
-    [GAME_SERVER_RUN_CMD, 'handleServerRunRequest'],
-    [GAME_ITEM_SERVICE_CMD, 'handleNpcShopServiceRequest'],
     [GAME_QUEST_CMD, 'handleQuestPacket'],
   ]);
 }

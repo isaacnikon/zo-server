@@ -3,7 +3,6 @@ import type { GameSession, QuestSyncMode } from '../types';
 const { DEFAULT_FLAGS, LOGIN_CMD, LOGIN_SERVER_LIST_RESULT } = require('../config');
 const { PacketWriter } = require('../protocol');
 const { syncInventoryStateToClient } = require('../gameplay/inventory-runtime');
-const { describeScene } = require('../scene-runtime');
 
 type SessionLike = GameSession & Record<string, any>;
 
@@ -26,10 +25,9 @@ export function sendEnterGameOk(session: SessionLike, options: { syncMode?: Ques
   session.writePacket(
     writer.payload(),
     DEFAULT_FLAGS,
-    `Sending enter-game success char="${session.charName}" runtimeId=0x${session.entityType.toString(16)} entity=0x${session.entityType.toString(16)} roleEntity=0x${session.roleEntityType.toString(16)} aptitude=${session.selectedAptitude} map=${session.currentMapId} (${describeScene(session.currentMapId)}) pos=${session.currentX},${session.currentY}`
+    `Sending enter-game success char="${session.charName}" runtimeId=0x${session.entityType.toString(16)} entity=0x${session.entityType.toString(16)} roleEntity=0x${session.roleEntityType.toString(16)} aptitude=${session.selectedAptitude} map=${session.currentMapId} pos=${session.currentX},${session.currentY}`
   );
   session.sendSelfStateAptitudeSync();
-  session.sendStaticNpcSpawns();
   syncInventoryStateToClient(session);
   session.scheduleEquipmentReplay();
   session.syncQuestStateToClient({ mode: syncMode });

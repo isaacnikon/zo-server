@@ -1,4 +1,3 @@
-const forceStartScene = process.env.FORCE_START_SCENE === '1';
 const port = parseInt(process.env.PORT || '7777', 10);
 const mapClientRoot = process.env.MAP_CLIENT_ROOT || process.env.CLIENT_ROOT;
 const bindHost = process.env.BIND_HOST || '0.0.0.0';
@@ -84,12 +83,11 @@ export const SUB = {
 
 // --- World defaults ---
 export const WORLD = {
-  MAP_ID: 207,
+  MAP_ID: 101,
   AREA_ID: 6101,
   ENTITY_TYPE: 0x3e9,
   SPAWN_X: 70,
   SPAWN_Y: 95,
-  FORCE_START_SCENE: forceStartScene,
   ENABLE_DIALOG_EXPERIMENT: false,
 } as const;
 
@@ -167,7 +165,6 @@ module.exports = {
 
   // World
   ENABLE_DIALOG_EXPERIMENT: WORLD.ENABLE_DIALOG_EXPERIMENT,
-  FORCE_START_SCENE: WORLD.FORCE_START_SCENE,
   MAP_ID: WORLD.MAP_ID,
   AREA_ID: WORLD.AREA_ID,
   ENTITY_TYPE: WORLD.ENTITY_TYPE,

@@ -34,7 +34,6 @@ const { normalizeQuestState } = require('../quest-engine');
 const { normalizeInventoryState } = require('../inventory');
 const { normalizePets } = require('../pet-runtime');
 const { CHARACTER_VITALS_BASELINE, recomputeSessionMaxVitals } = require('../gameplay/session-flows');
-const { resolveCharacterScene } = require('../scene-runtime');
 
 type SessionLike = Record<string, any>;
 type UnknownRecord = Record<string, any>;
@@ -274,13 +273,10 @@ function sendGameServerRedirect(session: SessionLike): void {
         ? persisted.selectedPetRuntimeId >>> 0
         : session.selectedPetRuntimeId,
     petSummoned: persisted?.petSummoned === true || session.petSummoned === true,
-    lastTownMapId: persisted?.lastTownMapId,
-    lastTownX: persisted?.lastTownX,
-    lastTownY: persisted?.lastTownY,
     inventory: normalizeInventoryState(persisted || session).inventory,
-    mapId: resolveCharacterScene(persisted || session).mapId,
-    x: resolveCharacterScene(persisted || session).x,
-    y: resolveCharacterScene(persisted || session).y,
+    mapId: typeof persisted?.mapId === 'number' ? persisted.mapId : session.currentMapId,
+    x: typeof persisted?.x === 'number' ? persisted.x : session.currentX,
+    y: typeof persisted?.y === 'number' ? persisted.y : session.currentY,
   };
 
   const writer = new PacketWriter();

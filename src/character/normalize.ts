@@ -2,7 +2,6 @@
 export {};
 
 const { MAP_ID, SPAWN_X, SPAWN_Y } = require('../config');
-const { isTownScene } = require('../scene-runtime');
 const { normalizeQuestState } = require('../quest-engine');
 const { normalizeInventoryState } = require('../inventory');
 const { normalizePets } = require('../pet-runtime');
@@ -86,18 +85,6 @@ function normalizeCharacterRecord(character: UnknownRecord): UnknownRecord {
   const mapId = numberOrDefault(character.mapId, MAP_ID);
   const x = numberOrDefault(character.x, SPAWN_X);
   const y = numberOrDefault(character.y, SPAWN_Y);
-  const lastTownMapId =
-    typeof character.lastTownMapId === 'number'
-      ? character.lastTownMapId
-      : (isTownScene(mapId) ? mapId : undefined);
-  const lastTownX =
-    typeof character.lastTownX === 'number'
-      ? character.lastTownX
-      : (isTownScene(mapId) ? x : undefined);
-  const lastTownY =
-    typeof character.lastTownY === 'number'
-      ? character.lastTownY
-      : (isTownScene(mapId) ? y : undefined);
   const questState = normalizeQuestState(character);
   const inventoryState = normalizeInventoryState(character);
   const bonusAttributes = normalizeBonusAttributes(character.bonusAttributes);
@@ -140,9 +127,6 @@ function normalizeCharacterRecord(character: UnknownRecord): UnknownRecord {
     coins: numberOrDefault(character.coins, 0),
     renown: numberOrDefault(character.renown, 0),
     statusPoints: numberOrDefault(character.statusPoints, 0),
-    lastTownMapId,
-    lastTownX,
-    lastTownY,
     primaryAttributes: normalizePrimaryAttributes(character.primaryAttributes),
     bonusAttributes,
     activeQuests: questState.activeQuests,

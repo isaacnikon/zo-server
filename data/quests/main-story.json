@@ -1,6 +1,5 @@
 {
   "source": {
-    "runtimeCandidates": "/home/nikon/projects/zo-server/data/client-derived/quest-runtime-candidates.json",
     "tasklist": "/home/nikon/projects/zo-server/data/client-derived/quests.json",
     "overrides": "/home/nikon/projects/zo-server/data/quests/main-story.overrides.json"
   },

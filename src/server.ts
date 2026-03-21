@@ -3,7 +3,6 @@ import net from 'net';
 const { BIND_HOST, CHARACTER_STORE_FILE, LOG_FILE, PORT } = require('./config');
 const { CharacterStore } = require('./character-store');
 const { createLogger } = require('./logger');
-const { MapCellStore } = require('./map-cell-store');
 const { Session } = require('./session');
 const { createSessionState } = require('./session-state');
 
@@ -11,7 +10,6 @@ export function startServer() {
   const logger = createLogger(LOG_FILE);
   const sharedState = createSessionState();
   sharedState.characterStore = new CharacterStore(CHARACTER_STORE_FILE);
-  sharedState.mapCellStore = new MapCellStore();
 
   const server = net.createServer((socket) => {
     const isGame = sharedState.nextSessionIsGame;

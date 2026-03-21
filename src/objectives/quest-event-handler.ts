@@ -11,7 +11,6 @@ const {
 const { applyQuestCompletionReward } = require('../gameplay/reward-runtime');
 const { normalizePets } = require('../pet-runtime');
 const { numberOrDefault } = require('../character/normalize');
-const { buildEncounterPoolEntry } = require('../roleinfo');
 
 import type { DirtyFlags, DispatchOptions, ObjectiveEventHandler } from './objective-dispatcher';
 import type { QuestEvent, QuestSyncMode } from '../types';
@@ -25,7 +24,6 @@ type QuestEventHandlerDeps = {
   sendQuestComplete(session: SessionLike, taskId: number): void;
   sendQuestAbandon(session: SessionLike, taskId: number): void;
   sendQuestHistory(session: SessionLike, taskId: number, historyLevel?: number): void;
-  sendQuestFindNpc(session: SessionLike, taskId: number, npcId: number): void;
   syncQuestStateToClient(session: SessionLike, options?: { mode?: QuestSyncMode }): void;
 };
 
@@ -33,11 +31,8 @@ function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHan
   return {
     describeEvent(event: QuestEvent, source: string): string {
       const statusText = 'status' in event && typeof event.status === 'number' ? ` status=${event.status}` : '';
-      const markerText = 'markerNpcId' in event && typeof event.markerNpcId === 'number'
-        ? ` markerNpcId=${event.markerNpcId}`
-        : '';
       const stepText = 'stepDescription' in event && event.stepDescription ? ` step="${event.stepDescription}"` : '';
-      return `Quest event source=${source} type=${event.type} taskId=${numberOrDefault(event.taskId, 0)}${statusText}${markerText}${stepText}`;
+      return `Quest event source=${source} type=${event.type} taskId=${numberOrDefault(event.taskId, 0)}${statusText}${stepText}`;
     },
 
     dispatch(session: SessionLike, event: QuestEvent, source: string, options: DispatchOptions): DirtyFlags {
@@ -52,9 +47,6 @@ function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHan
       if (event.type === 'accepted') {
         if (!suppressPackets) {
           deps.sendQuestAccept(session, event.taskId);
-          if (event.markerNpcId > 0) {
-            deps.sendQuestFindNpc(session, event.taskId, event.markerNpcId);
-          }
         }
         if (!suppressDialogues) {
           session.sendGameDialogue('Quest', `${event.definition.acceptMessage || `${event.definition.name} accepted.`}${event.stepDescription ? ` Objective: ${event.stepDescription}` : ''}`);
@@ -63,19 +55,11 @@ function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHan
       }
 
       if (event.type === 'progress' || event.type === 'advanced') {
-        const isBootstrapLikeSource =
-          source === 'bootstrap' ||
-          source === 'bootstrap-scene' ||
-          source === 'scene-transition' ||
-          source === 'position-map-change';
         if (!suppressPackets) {
-          if (!isBootstrapLikeSource && event.type === 'advanced') {
+          if (event.type === 'advanced') {
             deps.sendQuestUpdate(session, event.taskId, event.status);
-          } else if (!isBootstrapLikeSource && event.type === 'progress') {
+          } else if (event.type === 'progress') {
             deps.sendQuestProgress(session, numberOrDefault(event.progressObjectiveId, event.taskId), event.status);
-          }
-          if (event.markerNpcId > 0) {
-            deps.sendQuestFindNpc(session, event.taskId, event.markerNpcId);
           }
         }
         if (!suppressDialogues) {
@@ -137,7 +121,6 @@ function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHan
         }
         if (!suppressPackets) {
           deps.sendQuestUpdate(session, event.taskId, 0);
-          deps.sendQuestFindNpc(session, event.taskId, 0);
           deps.sendQuestAbandon(session, event.taskId);
           deps.syncQuestStateToClient(session, { mode: 'runtime' });
         }
@@ -148,30 +131,6 @@ function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHan
           stateDirty: true,
           inventoryDirty,
         };
-      }
-
-      if (event.type === 'quest-combat-trigger') {
-        session.sendCombatEncounterProbe({
-          kind: 'encounterProbe',
-          probeId: `quest-${event.taskId}-${event.monsterId >>> 0}`,
-          reason: `Quest scripted encounter task=${event.taskId}`,
-          encounterProfile: {
-            minEnemies: 1,
-            maxEnemies: 1,
-            encounterChancePercent: 100,
-            pool: [
-              buildEncounterPoolEntry(event.monsterId >>> 0, {
-                logicalId: event.monsterId >>> 0,
-                levelMin: 10,
-                levelMax: 10,
-                hpBase: 160,
-                hpPerLevel: 8,
-                weight: 1,
-              }),
-            ],
-          },
-          entityId: session.entityType,
-        });
       }
 
       return {};

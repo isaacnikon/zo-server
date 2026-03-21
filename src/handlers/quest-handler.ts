@@ -16,10 +16,7 @@ import type { QuestSyncMode } from '../types';
 
 type SessionLike = Record<string, any>;
 type UnknownRecord = Record<string, any>;
-type QuestSyncState = UnknownRecord & {
-  taskId: number;
-  markerNpcId?: number;
-};
+type QuestSyncState = UnknownRecord & { taskId: number };
 
 type QuestSyncOptions = {
   mode?: QuestSyncMode;
@@ -73,14 +70,6 @@ function sendQuestHistory(session: SessionLike, taskId: number, historyLevel = 0
   );
 }
 
-function sendQuestFindNpc(session: SessionLike, taskId: number, npcId: number): void {
-  session.writePacket(
-    buildQuestPacket(0x0c, taskId, npcId >>> 0),
-    DEFAULT_FLAGS,
-    `Sending quest marker cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x0c taskId=${taskId} npcId=${npcId}`
-  );
-}
-
 function syncQuestStateToClient(session: SessionLike, options: QuestSyncOptions = {}): void {
   const mode: QuestSyncMode = options.mode || 'runtime';
   const replayTalkStepUpdates = mode === 'login';
@@ -96,8 +85,7 @@ function syncQuestStateToClient(session: SessionLike, options: QuestSyncOptions 
   for (const quest of syncState) {
     sendQuestAccept(session, quest.taskId);
     // Talk-step replay is mode-dependent: full login needs it so the client
-    // reconstructs the current stage, while scene/runtime refreshes should
-    // stay marker-safe.
+    // reconstructs the current stage, while runtime refreshes stay minimal.
     if (quest.stepType === 'kill' || (replayTalkStepUpdates && quest.stepType === 'talk')) {
       for (let index = 0; index < numberOrDefault(quest.stepIndex, 0); index += 1) {
         sendQuestUpdate(session, quest.taskId, index + 1);
@@ -105,9 +93,6 @@ function syncQuestStateToClient(session: SessionLike, options: QuestSyncOptions 
     }
     if (quest.stepType === 'kill' && numberOrDefault(quest.status, 0) > 0) {
       sendQuestProgress(session, numberOrDefault(quest.progressObjectiveId, quest.taskId), quest.status);
-    }
-    if (quest.markerNpcId > 0) {
-      sendQuestFindNpc(session, quest.taskId, quest.markerNpcId);
     }
   }
 
@@ -150,17 +135,6 @@ function handleQuestPacket(session: SessionLike, payload: Buffer): void {
     return;
   }
 
-  if (subcmd === 0x0c) {
-    const syncState = buildQuestSyncState({
-      activeQuests: session.activeQuests,
-      completedQuests: session.completedQuests,
-    }).find((quest: UnknownRecord) => quest.taskId === taskId);
-    if (syncState?.markerNpcId) {
-      sendQuestFindNpc(session, taskId, syncState.markerNpcId);
-    }
-    return;
-  }
-
   session.log(`Unhandled quest subcmd=0x${subcmd.toString(16)} taskId=${taskId}`);
 }
 
@@ -192,12 +166,6 @@ function ensureQuestStateReady(session: SessionLike): void {
     suppressDialogues: true,
     suppressStatSync: true,
   });
-
-  session.dispatchObjectiveSceneTransition(session.currentMapId, 'bootstrap-scene', {
-    suppressPackets: true,
-    suppressDialogues: true,
-    suppressStatSync: true,
-  });
 }
 
 const questEventHandler = createQuestEventHandler({
@@ -207,7 +175,6 @@ const questEventHandler = createQuestEventHandler({
   sendQuestComplete,
   sendQuestAbandon,
   sendQuestHistory,
-  sendQuestFindNpc,
   syncQuestStateToClient,
 });
 
@@ -244,11 +211,6 @@ function refreshQuestStateForItemTemplates(session: SessionLike, templateIds: nu
     if (!syncState) {
       continue;
     }
-
-    const markerNpcId = syncState.markerNpcId ?? 0;
-    if (markerNpcId > 0) {
-      sendQuestFindNpc(session, definition.id, markerNpcId);
-    }
     session.log(`Refreshed quest sync for task=${definition.id} after item grant templates=${[...interestingTemplates].join(',')}`);
   }
 }
@@ -267,5 +229,4 @@ export {
   sendQuestComplete,
   sendQuestAbandon,
   sendQuestHistory,
-  sendQuestFindNpc,
 };

@@ -32,7 +32,6 @@ const { consumeUsableItemByInstanceId } = require('../gameplay/item-use-runtime'
 const { applyEffects } = require('../effects/effect-executor');
 const { buildDefeatRespawnState } = require('../gameplay/session-flows');
 const { getEquipmentCombatBonuses } = require('../inventory');
-const { resolveTownRespawn } = require('../scene-runtime');
 
 type SessionLike = GameSession & Record<string, any>;
 type CombatAction = Record<string, any>;
@@ -402,7 +401,11 @@ function resolveDefeat(session: SessionLike): void {
     player: { maxHp: session.maxHealth, mp: session.currentMana, rage: session.currentRage },
     currentMana: session.currentMana,
     currentRage: session.currentRage,
-    resolveTownRespawn,
+    resolveTownRespawn: (character: Record<string, any>) => ({
+      mapId: typeof character?.mapId === 'number' ? character.mapId : session.currentMapId,
+      x: typeof character?.x === 'number' ? character.x : session.currentX,
+      y: typeof character?.y === 'number' ? character.y : session.currentY,
+    }),
   });
 
   session.writePacket(
@@ -422,7 +425,10 @@ function resolveDefeat(session: SessionLike): void {
     session.currentMana = state.vitals.mana;
     session.currentRage = state.vitals.rage;
     session.defeatRespawnPending = false;
-    session.transitionToScene(state.respawn.mapId, state.respawn.x, state.respawn.y, 'combat-defeat-respawn');
+    session.currentMapId = state.respawn.mapId;
+    session.currentX = state.respawn.x;
+    session.currentY = state.respawn.y;
+    session.sendEnterGameOk({ syncMode: 'runtime' });
     session.persistCurrentCharacter({
       currentHealth: state.vitals.health,
       currentMana: state.vitals.mana,
@@ -430,15 +436,11 @@ function resolveDefeat(session: SessionLike): void {
       mapId: state.respawn.mapId,
       x: state.respawn.x,
       y: state.respawn.y,
-      lastTownMapId: state.respawn.mapId,
-      lastTownX: state.respawn.x,
-      lastTownY: state.respawn.y,
     });
   }, 900);
 }
 
 function clearCombatState(session: SessionLike, persist = false): void {
-  session.currentEncounterTriggerId = null;
   disposeCombatTimers(session);
   session.combatState = createIdleCombatState();
   if (persist) {

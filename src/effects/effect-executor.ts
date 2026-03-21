@@ -158,13 +158,6 @@ function handleDialogue(session: SessionLike, effect: UnknownRecord, opts: Unkno
   return { statsDirty: false, inventoryDirty: false };
 }
 
-function handleChangeScene(session: SessionLike, effect: UnknownRecord): UnknownRecord {
-  if (typeof session.transitionToScene === 'function') {
-    session.transitionToScene(effect.mapId, effect.x, effect.y, 'effect');
-  }
-  return { statsDirty: false, inventoryDirty: false };
-}
-
 function handleSendScript(session: SessionLike, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
   if (opts.suppressPackets) {
     return { statsDirty: false, inventoryDirty: false };
@@ -182,7 +175,6 @@ const EFFECT_HANDLERS: Record<string, (session: SessionLike, effect: UnknownReco
   'remove-item': handleRemoveItem,
   'item-missing': handleItemMissing,
   'update-stat': handleUpdateStat,
-  'change-scene': handleChangeScene,
   dialogue: handleDialogue,
   'send-script': handleSendScript,
 };

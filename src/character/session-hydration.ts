@@ -12,7 +12,6 @@ const {
 } = require('./normalize');
 const { normalizeQuestState } = require('../quest-engine');
 const { buildInventorySnapshot, normalizeInventoryState } = require('../inventory');
-const { resolveCharacterScene } = require('../scene-runtime');
 
 type SessionLike = GameSession & Record<string, any>;
 type CharacterOverrides = Record<string, unknown>;
@@ -81,10 +80,9 @@ export function hydratePendingGameCharacter(session: SessionLike, sharedState: R
   session.nextItemInstanceId = inventoryState.inventory.nextItemInstanceId;
   session.nextBagSlot = inventoryState.inventory.nextBagSlot;
 
-  const scene = resolveCharacterScene(pendingCharacter);
-  session.currentMapId = scene.mapId;
-  session.currentX = scene.x;
-  session.currentY = scene.y;
+  session.currentMapId = numberOrDefault(pendingCharacter.mapId, session.currentMapId);
+  session.currentX = numberOrDefault(pendingCharacter.x, session.currentX);
+  session.currentY = numberOrDefault(pendingCharacter.y, session.currentY);
   sharedState.pendingGameCharacter = null;
 }
 

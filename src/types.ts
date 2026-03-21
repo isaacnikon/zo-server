@@ -7,16 +7,7 @@ export interface QuestPacketData { subcmd: number; taskId: number }
 export interface EquipmentStateData { instanceId: number; equipFlag: number; unequipFlag: number }
 export interface AttributeAllocationData { strengthDelta: number; dexterityDelta: number; vitalityDelta: number; intelligenceDelta: number }
 export interface AttackSelectionData { attackMode: number; targetA: number; targetB: number }
-export type QuestSyncMode = 'login' | 'scene-transition' | 'runtime';
-export interface ServerRunEvent {
-  subtype?: number;
-  npcId?: number;
-  mapId?: number;
-  scriptId?: number;
-  contextId?: number;
-  extra?: number;
-  inventory?: Record<string, any>[];
-}
+export type QuestSyncMode = 'login' | 'runtime';
 
 // --- Quest events (discriminated union — replaces if/else type dispatch) ---
 export interface QuestEventBase {
@@ -27,21 +18,18 @@ export interface QuestEventBase {
 export interface QuestAcceptedEvent extends QuestEventBase {
   type: 'accepted';
   status: number;
-  markerNpcId: number;
   stepDescription?: string;
   progressObjectiveId?: number;
 }
 export interface QuestProgressEvent extends QuestEventBase {
   type: 'progress';
   status: number;
-  markerNpcId: number;
   stepDescription?: string;
   progressObjectiveId?: number;
 }
 export interface QuestAdvancedEvent extends QuestEventBase {
   type: 'advanced';
   status: number;
-  markerNpcId: number;
   stepDescription?: string;
   progressObjectiveId?: number;
 }
@@ -71,13 +59,6 @@ export interface QuestItemMissingEvent extends QuestEventBase {
   quantity: number;
   itemName?: string;
 }
-export interface QuestCombatTriggerEvent extends QuestEventBase {
-  type: 'quest-combat-trigger';
-  monsterId: number;
-  count: number;
-  npcId: number;
-  mapId: number;
-}
 export type QuestEvent =
   | QuestAcceptedEvent
   | QuestProgressEvent
@@ -86,10 +67,9 @@ export type QuestEvent =
   | QuestAbandonedEvent
   | QuestItemGrantedEvent
   | QuestItemConsumedEvent
-  | QuestItemMissingEvent
-  | QuestCombatTriggerEvent;
+  | QuestItemMissingEvent;
 
-// --- Game effects (shared across quest/inventory/NPC) ---
+// --- Game effects (shared across quest/inventory) ---
 export type GameEffect =
   | {
       kind: 'grant-item';
@@ -119,7 +99,6 @@ export type GameEffect =
       failureMessage?: string;
     }
   | { kind: 'update-stat'; stat: 'gold' | 'coins' | 'renown' | 'experience'; delta: number }
-  | { kind: 'change-scene'; mapId: number; x: number; y: number }
   | { kind: 'dialogue'; title: string; message: string }
   | { kind: 'send-script'; scriptId: number; mode: 'immediate' | 'deferred' };
 
@@ -156,9 +135,7 @@ export interface GameSession {
   writePacket(payload: Buffer, flags?: number, message?: string): void;
   log(message: string): void;
   persistCurrentCharacter(overrides?: Record<string, unknown>): void;
-  dispatchObjectiveServerRun?(event: ServerRunEvent, source?: string, options?: Record<string, unknown>): boolean;
   dispatchObjectiveMonsterDefeat?(monsterId: number, count?: number, source?: string, options?: Record<string, unknown>): boolean;
-  dispatchObjectiveSceneTransition?(mapId: number, source?: string, options?: Record<string, unknown>): boolean;
   reconcileObjectives?(source?: string, options?: Record<string, unknown>): boolean;
 }
 

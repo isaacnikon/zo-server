@@ -8,7 +8,6 @@ services:
     environment:
       PORT: 7777
       SERVER_HOST: "${SERVER_HOST:-127.0.0.1}"
-      FORCE_START_SCENE: "${FORCE_START_SCENE:-0}"
       LOG_FILE: /app/runtime/server.log
       CHARACTER_STORE_FILE: /app/runtime/characters.json
       COMBAT_PROBE_STATE_FILE: /app/runtime/combat-probe-state.json
