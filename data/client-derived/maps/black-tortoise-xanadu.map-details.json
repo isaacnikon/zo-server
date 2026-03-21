@@ -1,0 +1,107 @@
+{
+  "mapId": 267,
+  "mapName": "Black Tortoise Xanadu",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "mapGcg": "/home/nikon/Data/Zodiac Online/gcg/map.gcg",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3555681,
+      "end": 3556162
+    },
+    "transitionContextStart": 3555169,
+    "mapConfigChunkOffsets": {
+      "start": 132132,
+      "end": 132551
+    }
+  },
+  "bigTexts": [
+    {
+      "order": 0,
+      "text": "\u00a1\u00efBlack Tortoise Xanadu\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "map-title",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efBlack Tortoise Xanadu\u00a1\u00ef\",3000, 63500)"
+    }
+  ],
+  "homeInfo": null,
+  "temporaryMapPoints": [],
+  "sceneTransitions": [],
+  "mapConfig": {
+    "smallMapAsset": "\\PicData\\smallmap\\267.gaf",
+    "backgroundAsset": "\\map\\mapres\\135-1.mpk",
+    "mapConfigNpcSpawns": [
+      {
+        "order": 1,
+        "npcId": 3579,
+        "x": 55,
+        "y": 116
+      },
+      {
+        "order": 2,
+        "npcId": 3583,
+        "x": 102,
+        "y": 47
+      },
+      {
+        "order": 3,
+        "npcId": 3584,
+        "x": 23,
+        "y": 41
+      },
+      {
+        "order": 4,
+        "npcId": 3585,
+        "x": 26,
+        "y": 218
+      },
+      {
+        "order": 5,
+        "npcId": 3586,
+        "x": 101,
+        "y": 216
+      },
+      {
+        "order": 6,
+        "npcId": 3580,
+        "x": 119,
+        "y": 113
+      },
+      {
+        "order": 1,
+        "npcId": 3579,
+        "x": 55,
+        "y": 116
+      },
+      {
+        "order": 2,
+        "npcId": 3583,
+        "x": 102,
+        "y": 47
+      },
+      {
+        "order": 3,
+        "npcId": 3584,
+        "x": 23,
+        "y": 41
+      },
+      {
+        "order": 4,
+        "npcId": 3585,
+        "x": 26,
+        "y": 218
+      },
+      {
+        "order": 5,
+        "npcId": 3586,
+        "x": 101,
+        "y": 216
+      }
+    ],
+    "sceneEffects": [],
+    "portalEffectCandidates": [],
+    "observedTriggerPoints": []
+  }
+}

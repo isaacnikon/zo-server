@@ -1,0 +1,81 @@
+{
+  "mapId": 268,
+  "mapName": "Blue Dragon Xanadu",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "mapGcg": "/home/nikon/Data/Zodiac Online/gcg/map.gcg",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3556162,
+      "end": 3556640
+    },
+    "transitionContextStart": 3555650,
+    "mapConfigChunkOffsets": {
+      "start": 132551,
+      "end": 132994
+    }
+  },
+  "bigTexts": [
+    {
+      "order": 0,
+      "text": "\u00a1\u00efBlue Dragon Xanadu\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "map-title",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efBlue Dragon Xanadu\u00a1\u00ef\",3000, 63500)"
+    }
+  ],
+  "homeInfo": null,
+  "temporaryMapPoints": [],
+  "sceneTransitions": [],
+  "mapConfig": {
+    "smallMapAsset": "\\PicData\\smallmap\\268.gaf",
+    "backgroundAsset": "\\map\\mapres\\310-1.mpk",
+    "mapConfigNpcSpawns": [],
+    "sceneEffects": [
+      {
+        "assetPath": "PicData\\Effect\\scene\\lazhu.gaf",
+        "assetName": "lazhu.gaf",
+        "x": 7,
+        "y": 17,
+        "arg3": 14,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\lazhu.gaf",
+        "assetName": "lazhu.gaf",
+        "x": 13,
+        "y": 11,
+        "arg3": 6,
+        "arg4": 6,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\denglong2.gaf",
+        "assetName": "denglong2.gaf",
+        "x": 3,
+        "y": 25,
+        "arg3": 12,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\denglong2.gaf",
+        "assetName": "denglong2.gaf",
+        "x": 22,
+        "y": 6,
+        "arg3": 6,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "map-config"
+      }
+    ],
+    "portalEffectCandidates": [],
+    "observedTriggerPoints": []
+  }
+}

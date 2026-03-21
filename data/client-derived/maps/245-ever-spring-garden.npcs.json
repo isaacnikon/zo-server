@@ -1,0 +1,51 @@
+{
+  "mapId": 245,
+  "mapName": "Ever-spring Garden",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3546133,
+      "end": 3546454
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 2,
+    "statusCounts": {
+      "match": 2
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3382,
+      "npcTypeId": 1,
+      "name": "Gany",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 28,
+      "y": 67,
+      "roleinfoNameByNpcId": "Gany",
+      "roleinfoIdByName": 3382,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3382,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3382, 1,\"\"..macro_GetTypeNpcName(3382)..\"\",28,67)"
+    },
+    {
+      "order": 1,
+      "npcId": 3383,
+      "npcTypeId": 1,
+      "name": "Gamba",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 108,
+      "y": 57,
+      "roleinfoNameByNpcId": "Gamba",
+      "roleinfoIdByName": 3383,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3383,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3383, 1,\"\"..macro_GetTypeNpcName(3383)..\"\",108,57)"
+    }
+  ]
+}

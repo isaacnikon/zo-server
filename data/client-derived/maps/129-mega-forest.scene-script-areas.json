@@ -1,0 +1,192 @@
+{
+  "mapId": 129,
+  "mapName": "Mega Forest",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        66
+      ],
+      "tileCount": 104,
+      "bbox": {
+        "minX": 0,
+        "minY": 131,
+        "maxX": 7,
+        "maxY": 145
+      },
+      "rowRuns": [
+        {
+          "y": 131,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 132,
+          "startX": 0,
+          "endX": 5
+        },
+        {
+          "y": 133,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 134,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 135,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 136,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 137,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 138,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 139,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 140,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 141,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 142,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 143,
+          "startX": 0,
+          "endX": 5
+        },
+        {
+          "y": 144,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 145,
+          "startX": 0,
+          "endX": 3
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        66
+      ],
+      "tileCount": 104,
+      "bbox": {
+        "minX": 118,
+        "minY": 132,
+        "maxX": 126,
+        "maxY": 145
+      },
+      "rowRuns": [
+        {
+          "y": 132,
+          "startX": 122,
+          "endX": 124
+        },
+        {
+          "y": 133,
+          "startX": 121,
+          "endX": 125
+        },
+        {
+          "y": 134,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 135,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 136,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 137,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 138,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 139,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 140,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 141,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 142,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 143,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 144,
+          "startX": 120,
+          "endX": 125
+        },
+        {
+          "y": 145,
+          "startX": 121,
+          "endX": 124
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

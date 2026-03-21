@@ -1,0 +1,158 @@
+{
+  "mapId": 232,
+  "mapName": "Mega Mountain",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 84,
+      "bbox": {
+        "minX": 36,
+        "minY": 91,
+        "maxX": 46,
+        "maxY": 101
+      },
+      "rowRuns": [
+        {
+          "y": 91,
+          "startX": 36,
+          "endX": 44
+        },
+        {
+          "y": 92,
+          "startX": 36,
+          "endX": 44
+        },
+        {
+          "y": 93,
+          "startX": 37,
+          "endX": 44
+        },
+        {
+          "y": 94,
+          "startX": 38,
+          "endX": 44
+        },
+        {
+          "y": 95,
+          "startX": 38,
+          "endX": 44
+        },
+        {
+          "y": 96,
+          "startX": 38,
+          "endX": 44
+        },
+        {
+          "y": 97,
+          "startX": 39,
+          "endX": 45
+        },
+        {
+          "y": 98,
+          "startX": 39,
+          "endX": 46
+        },
+        {
+          "y": 99,
+          "startX": 39,
+          "endX": 46
+        },
+        {
+          "y": 100,
+          "startX": 39,
+          "endX": 46
+        },
+        {
+          "y": 101,
+          "startX": 40,
+          "endX": 45
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2,
+        3
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 70,
+      "bbox": {
+        "minX": 18,
+        "minY": 21,
+        "maxX": 27,
+        "maxY": 31
+      },
+      "rowRuns": [
+        {
+          "y": 21,
+          "startX": 21,
+          "endX": 24
+        },
+        {
+          "y": 22,
+          "startX": 21,
+          "endX": 25
+        },
+        {
+          "y": 23,
+          "startX": 21,
+          "endX": 25
+        },
+        {
+          "y": 24,
+          "startX": 20,
+          "endX": 25
+        },
+        {
+          "y": 25,
+          "startX": 20,
+          "endX": 25
+        },
+        {
+          "y": 26,
+          "startX": 20,
+          "endX": 25
+        },
+        {
+          "y": 27,
+          "startX": 20,
+          "endX": 25
+        },
+        {
+          "y": 28,
+          "startX": 20,
+          "endX": 25
+        },
+        {
+          "y": 29,
+          "startX": 20,
+          "endX": 26
+        },
+        {
+          "y": 30,
+          "startX": 19,
+          "endX": 27
+        },
+        {
+          "y": 31,
+          "startX": 18,
+          "endX": 27
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "mapId": 229,
+  "mapName": "Dragon Wing-room",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "mapGcg": "/home/nikon/Data/Zodiac Online/gcg/map.gcg",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3536701,
+      "end": 3537048
+    },
+    "transitionContextStart": 3536189,
+    "mapConfigChunkOffsets": null
+  },
+  "bigTexts": [
+    {
+      "order": 0,
+      "text": "\u00a1\u00efDragon Wing-room\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "map-title",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efDragon Wing-room\u00a1\u00ef\",3000, 63500)"
+    }
+  ],
+  "homeInfo": null,
+  "temporaryMapPoints": [],
+  "sceneTransitions": [],
+  "mapConfig": null
+}

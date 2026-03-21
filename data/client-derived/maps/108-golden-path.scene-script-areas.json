@@ -1,0 +1,208 @@
+{
+  "mapId": 108,
+  "mapName": "Golden Path",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        22,
+        24
+      ],
+      "tileCount": 134,
+      "bbox": {
+        "minX": 77,
+        "minY": 241,
+        "maxX": 87,
+        "maxY": 254
+      },
+      "rowRuns": [
+        {
+          "y": 241,
+          "startX": 81,
+          "endX": 83
+        },
+        {
+          "y": 242,
+          "startX": 80,
+          "endX": 84
+        },
+        {
+          "y": 243,
+          "startX": 79,
+          "endX": 85
+        },
+        {
+          "y": 244,
+          "startX": 78,
+          "endX": 86
+        },
+        {
+          "y": 245,
+          "startX": 77,
+          "endX": 87
+        },
+        {
+          "y": 246,
+          "startX": 77,
+          "endX": 87
+        },
+        {
+          "y": 247,
+          "startX": 77,
+          "endX": 87
+        },
+        {
+          "y": 248,
+          "startX": 77,
+          "endX": 87
+        },
+        {
+          "y": 249,
+          "startX": 77,
+          "endX": 87
+        },
+        {
+          "y": 250,
+          "startX": 77,
+          "endX": 87
+        },
+        {
+          "y": 251,
+          "startX": 77,
+          "endX": 87
+        },
+        {
+          "y": 252,
+          "startX": 77,
+          "endX": 87
+        },
+        {
+          "y": 253,
+          "startX": 77,
+          "endX": 87
+        },
+        {
+          "y": 254,
+          "startX": 77,
+          "endX": 87
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 3,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        22
+      ],
+      "tileCount": 150,
+      "bbox": {
+        "minX": 0,
+        "minY": 72,
+        "maxX": 9,
+        "maxY": 89
+      },
+      "rowRuns": [
+        {
+          "y": 72,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 73,
+          "startX": 0,
+          "endX": 5
+        },
+        {
+          "y": 74,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 75,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 76,
+          "startX": 0,
+          "endX": 8
+        },
+        {
+          "y": 77,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 78,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 79,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 80,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 81,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 82,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 83,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 84,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 85,
+          "startX": 0,
+          "endX": 8
+        },
+        {
+          "y": 86,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 87,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 88,
+          "startX": 0,
+          "endX": 5
+        },
+        {
+          "y": 89,
+          "startX": 0,
+          "endX": 4
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

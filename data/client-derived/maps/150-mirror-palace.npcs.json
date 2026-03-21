@@ -1,0 +1,97 @@
+{
+  "mapId": 150,
+  "mapName": "Mirror Palace",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3497035,
+      "end": 3497561
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 5,
+    "statusCounts": {
+      "alias-id-mismatch": 2,
+      "match": 3
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3167,
+      "npcTypeId": 1,
+      "name": "Mussel Fairy",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 24,
+      "y": 45,
+      "roleinfoNameByNpcId": "Mussel Fairy",
+      "roleinfoIdByName": 3167,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3167,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3167, 1,\"\"..macro_GetTypeNpcName(3167)..\"\",24,45)"
+    },
+    {
+      "order": 1,
+      "npcId": 3294,
+      "npcTypeId": 1,
+      "name": "Cloud Host",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 101,
+      "y": 198,
+      "roleinfoNameByNpcId": "Cloud Host",
+      "roleinfoIdByName": 3294,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3294,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3294, 1,\"\"..macro_GetTypeNpcName(3294)..\"\",101,198)"
+    },
+    {
+      "order": 2,
+      "npcId": 3296,
+      "npcTypeId": 1,
+      "name": "Great Immortal",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 105,
+      "y": 178,
+      "roleinfoNameByNpcId": "Great Immortal",
+      "roleinfoIdByName": 3296,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3296,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3296, 1,\"\"..macro_GetTypeNpcName(3296)..\"\",105,178)"
+    },
+    {
+      "order": 3,
+      "npcId": 3297,
+      "npcTypeId": 1,
+      "name": "Receiver Ghost",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 79,
+      "y": 147,
+      "roleinfoNameByNpcId": "Receiver Ghost",
+      "roleinfoIdByName": 3250,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3297,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3297, 1,\"\"..macro_GetTypeNpcName(3297)..\"\",79,147)"
+    },
+    {
+      "order": 4,
+      "npcId": 3309,
+      "npcTypeId": 1,
+      "name": "Lion Captain",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 83,
+      "y": 163,
+      "roleinfoNameByNpcId": "Lion Captain",
+      "roleinfoIdByName": 3085,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3309,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3309, 1,\"\"..macro_GetTypeNpcName(3309)..\"\",83,163)"
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "mapId": 182,
+  "mapName": "Silent Hill",
+  "width": 128,
+  "height": 256,
+  "componentCount": 3,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 24,
+      "bbox": {
+        "minX": 0,
+        "minY": 116,
+        "maxX": 5,
+        "maxY": 122
+      },
+      "rowRuns": [
+        {
+          "y": 116,
+          "startX": 2,
+          "endX": 2
+        },
+        {
+          "y": 117,
+          "startX": 1,
+          "endX": 3
+        },
+        {
+          "y": 118,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 119,
+          "startX": 0,
+          "endX": 5
+        },
+        {
+          "y": 120,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 121,
+          "startX": 1,
+          "endX": 3
+        },
+        {
+          "y": 122,
+          "startX": 2,
+          "endX": 2
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        3
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 1,
+      "bbox": {
+        "minX": 127,
+        "minY": 170,
+        "maxX": 127,
+        "maxY": 170
+      },
+      "rowRuns": [
+        {
+          "y": 170,
+          "startX": 127,
+          "endX": 127
+        }
+      ],
+      "componentIndex": 2
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        102
+      ],
+      "tileCount": 64,
+      "bbox": {
+        "minX": 117,
+        "minY": 176,
+        "maxX": 126,
+        "maxY": 186
+      },
+      "rowRuns": [
+        {
+          "y": 176,
+          "startX": 122,
+          "endX": 122
+        },
+        {
+          "y": 177,
+          "startX": 121,
+          "endX": 123
+        },
+        {
+          "y": 178,
+          "startX": 120,
+          "endX": 124
+        },
+        {
+          "y": 179,
+          "startX": 119,
+          "endX": 125
+        },
+        {
+          "y": 180,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 181,
+          "startX": 117,
+          "endX": 125
+        },
+        {
+          "y": 182,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 183,
+          "startX": 118,
+          "endX": 125
+        },
+        {
+          "y": 184,
+          "startX": 119,
+          "endX": 124
+        },
+        {
+          "y": 185,
+          "startX": 120,
+          "endX": 123
+        },
+        {
+          "y": 186,
+          "startX": 121,
+          "endX": 122
+        }
+      ],
+      "componentIndex": 3
+    }
+  ]
+}

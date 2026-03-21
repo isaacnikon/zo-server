@@ -1,0 +1,96 @@
+{
+  "mapId": 182,
+  "mapName": "Silent Hill",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3512136,
+      "end": 3512771
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 5,
+    "statusCounts": {
+      "match": 5
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3375,
+      "npcTypeId": 1,
+      "name": "James",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 16,
+      "y": 35,
+      "roleinfoNameByNpcId": "James",
+      "roleinfoIdByName": 3375,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3375,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3375, 1,\"\"..macro_GetTypeNpcName(3375)..\"\",16,35)"
+    },
+    {
+      "order": 1,
+      "npcId": 3336,
+      "npcTypeId": 1,
+      "name": "Redface Ghost",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 23,
+      "y": 28,
+      "roleinfoNameByNpcId": "Redface Ghost",
+      "roleinfoIdByName": 3336,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3336,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3336, 1,\"\"..macro_GetTypeNpcName(3336)..\"\",23,28)"
+    },
+    {
+      "order": 2,
+      "npcId": 3338,
+      "npcTypeId": 1,
+      "name": "Blueface Ghost",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 86,
+      "y": 218,
+      "roleinfoNameByNpcId": "Blueface Ghost",
+      "roleinfoIdByName": 3338,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3338,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3338, 1,\"\"..macro_GetTypeNpcName(3338)..\"\",86,218)"
+    },
+    {
+      "order": 3,
+      "npcId": 3187,
+      "npcTypeId": 1,
+      "name": "Night Owl",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 32,
+      "y": 144,
+      "roleinfoNameByNpcId": "Night Owl",
+      "roleinfoIdByName": 3187,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3187,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3187, 1,\"\"..macro_GetTypeNpcName(3187)..\"\",32,144)"
+    },
+    {
+      "order": 4,
+      "npcId": 3187,
+      "npcTypeId": 1,
+      "name": "Night Owl",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 32,
+      "y": 144,
+      "roleinfoNameByNpcId": "Night Owl",
+      "roleinfoIdByName": 3187,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3187,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3187, 1,\"\"..macro_GetTypeNpcName(3187)..\"\",32,144)"
+    }
+  ]
+}

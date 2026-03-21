@@ -1,0 +1,175 @@
+{
+  "mapId": 148,
+  "mapName": "Deep Corridor",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        72,
+        73
+      ],
+      "tileCount": 120,
+      "bbox": {
+        "minX": 117,
+        "minY": 138,
+        "maxX": 126,
+        "maxY": 149
+      },
+      "rowRuns": [
+        {
+          "y": 138,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 139,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 140,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 141,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 142,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 143,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 144,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 145,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 146,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 147,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 148,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 149,
+          "startX": 117,
+          "endX": 126
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        72,
+        73
+      ],
+      "tileCount": 91,
+      "bbox": {
+        "minX": 0,
+        "minY": 131,
+        "maxX": 6,
+        "maxY": 143
+      },
+      "rowRuns": [
+        {
+          "y": 131,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 132,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 133,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 134,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 135,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 136,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 137,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 138,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 139,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 140,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 141,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 142,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 143,
+          "startX": 0,
+          "endX": 6
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

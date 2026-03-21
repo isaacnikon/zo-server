@@ -1,0 +1,81 @@
+{
+  "mapId": 128,
+  "mapName": "Dusk Forest",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3482965,
+      "end": 3483420
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 4,
+    "statusCounts": {
+      "match": 4
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3073,
+      "npcTypeId": 3,
+      "name": "Outcast",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 48,
+      "y": 104,
+      "roleinfoNameByNpcId": "Outcast",
+      "roleinfoIdByName": 3073,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3073,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3073, 3,\"\"..macro_GetTypeNpcName(3073)..\"\",48,104)"
+    },
+    {
+      "order": 1,
+      "npcId": 3284,
+      "npcTypeId": 1,
+      "name": "Bandit Fellow",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 53,
+      "y": 103,
+      "roleinfoNameByNpcId": "Bandit Fellow",
+      "roleinfoIdByName": 3284,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3284,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3284, 1,\"\"..macro_GetTypeNpcName(3284)..\"\",53,103)"
+    },
+    {
+      "order": 2,
+      "npcId": 3076,
+      "npcTypeId": 1,
+      "name": "Assassin",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 62,
+      "y": 189,
+      "roleinfoNameByNpcId": "Assassin",
+      "roleinfoIdByName": 3076,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3076,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3076, 1,\"\"..macro_GetTypeNpcName(3076)..\"\",62,189)"
+    },
+    {
+      "order": 3,
+      "npcId": 3223,
+      "npcTypeId": 1,
+      "name": "Poor Devilkin",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 64,
+      "y": 27,
+      "roleinfoNameByNpcId": "Poor Devilkin",
+      "roleinfoIdByName": 3223,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3223,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3223, 1,\"\"..macro_GetTypeNpcName(3223)..\"\",64,27)"
+    }
+  ]
+}

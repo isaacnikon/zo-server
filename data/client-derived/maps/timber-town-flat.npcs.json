@@ -1,0 +1,51 @@
+{
+  "mapId": 249,
+  "mapName": "Timber Town Flat",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3548159,
+      "end": 3548479
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 2,
+    "statusCounts": {
+      "match": 2
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3268,
+      "npcTypeId": 3,
+      "name": "Real Body of Dementor",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 39,
+      "y": 72,
+      "roleinfoNameByNpcId": "Real Body of Dementor",
+      "roleinfoIdByName": 3268,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3268,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3268, 3,\"\"..macro_GetTypeNpcName(3268)..\"\",39,72)"
+    },
+    {
+      "order": 1,
+      "npcId": 3155,
+      "npcTypeId": 3,
+      "name": "God of Kitchen",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 24,
+      "y": 62,
+      "roleinfoNameByNpcId": "God of Kitchen",
+      "roleinfoIdByName": 3155,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3155,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3155, 3,\"\"..macro_GetTypeNpcName(3155)..\"\",24,62)"
+    }
+  ]
+}

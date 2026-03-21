@@ -1,0 +1,114 @@
+{
+  "mapId": 120,
+  "mapName": "Cobweb Woods",
+  "width": 128,
+  "height": 256,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        41,
+        42
+      ],
+      "tileCount": 215,
+      "bbox": {
+        "minX": 81,
+        "minY": 238,
+        "maxX": 93,
+        "maxY": 254
+      },
+      "rowRuns": [
+        {
+          "y": 238,
+          "startX": 83,
+          "endX": 91
+        },
+        {
+          "y": 239,
+          "startX": 82,
+          "endX": 92
+        },
+        {
+          "y": 240,
+          "startX": 81,
+          "endX": 93
+        },
+        {
+          "y": 241,
+          "startX": 81,
+          "endX": 93
+        },
+        {
+          "y": 242,
+          "startX": 81,
+          "endX": 93
+        },
+        {
+          "y": 243,
+          "startX": 81,
+          "endX": 93
+        },
+        {
+          "y": 244,
+          "startX": 81,
+          "endX": 93
+        },
+        {
+          "y": 245,
+          "startX": 81,
+          "endX": 93
+        },
+        {
+          "y": 246,
+          "startX": 81,
+          "endX": 93
+        },
+        {
+          "y": 247,
+          "startX": 81,
+          "endX": 93
+        },
+        {
+          "y": 248,
+          "startX": 81,
+          "endX": 93
+        },
+        {
+          "y": 249,
+          "startX": 81,
+          "endX": 93
+        },
+        {
+          "y": 250,
+          "startX": 81,
+          "endX": 93
+        },
+        {
+          "y": 251,
+          "startX": 81,
+          "endX": 93
+        },
+        {
+          "y": 252,
+          "startX": 81,
+          "endX": 93
+        },
+        {
+          "y": 253,
+          "startX": 81,
+          "endX": 93
+        },
+        {
+          "y": 254,
+          "startX": 81,
+          "endX": 93
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

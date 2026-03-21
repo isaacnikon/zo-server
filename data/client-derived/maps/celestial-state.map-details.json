@@ -1,0 +1,209 @@
+{
+  "mapId": 204,
+  "mapName": "Celestial State",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "mapGcg": "/home/nikon/Data/Zodiac Online/gcg/map.gcg",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3522984,
+      "end": 3524552
+    },
+    "transitionContextStart": 3522472,
+    "mapConfigChunkOffsets": {
+      "start": 92785,
+      "end": 93248
+    }
+  },
+  "bigTexts": [
+    {
+      "order": 0,
+      "text": "\u00a1\u00efCelestial State\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "map-title",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efCelestial State\u00a1\u00ef\",3000, 63500)"
+    }
+  ],
+  "homeInfo": null,
+  "temporaryMapPoints": [],
+  "sceneTransitions": [],
+  "mapConfig": {
+    "smallMapAsset": "\\PicData\\smallmap\\204.gaf",
+    "backgroundAsset": "\\map\\mapres\\140.mpk",
+    "mapConfigNpcSpawns": [
+      {
+        "order": 1,
+        "npcId": 3414,
+        "x": 25,
+        "y": 64
+      },
+      {
+        "order": 2,
+        "npcId": 3247,
+        "x": 59,
+        "y": 76
+      },
+      {
+        "order": 3,
+        "npcId": 3248,
+        "x": 109,
+        "y": 119
+      },
+      {
+        "order": 4,
+        "npcId": 3434,
+        "x": 90,
+        "y": 181
+      },
+      {
+        "order": 5,
+        "npcId": 3753,
+        "x": 54,
+        "y": 185
+      },
+      {
+        "order": 6,
+        "npcId": 3751,
+        "x": 31,
+        "y": 224
+      },
+      {
+        "order": 7,
+        "npcId": 3404,
+        "x": 10,
+        "y": 154
+      },
+      {
+        "order": 8,
+        "npcId": 3403,
+        "x": 119,
+        "y": 225
+      },
+      {
+        "order": 9,
+        "npcId": 3405,
+        "x": 77,
+        "y": 27
+      },
+      {
+        "order": 10,
+        "npcId": 3777,
+        "x": 84,
+        "y": 98
+      },
+      {
+        "order": 11,
+        "npcId": 3778,
+        "x": 70,
+        "y": 27
+      },
+      {
+        "order": 12,
+        "npcId": 3779,
+        "x": 47,
+        "y": 119
+      },
+      {
+        "order": 13,
+        "npcId": 3415,
+        "x": 106,
+        "y": 142
+      },
+      {
+        "order": 14,
+        "npcId": 3416,
+        "x": 64,
+        "y": 169
+      },
+      {
+        "order": 15,
+        "npcId": 3417,
+        "x": 71,
+        "y": 125
+      }
+    ],
+    "sceneEffects": [
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 124,
+        "y": 148,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 81,
+        "y": 247,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\chuansong.gaf",
+        "assetName": "chuansong.gaf",
+        "x": 30,
+        "y": 146,
+        "arg3": 15,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\chuansong.gaf",
+        "assetName": "chuansong.gaf",
+        "x": 74,
+        "y": 178,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\chuansong.gaf",
+        "assetName": "chuansong.gaf",
+        "x": 105,
+        "y": 209,
+        "arg3": 10,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "prelude"
+      }
+    ],
+    "portalEffectCandidates": [
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 124,
+        "y": 148,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 81,
+        "y": 247,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      }
+    ],
+    "observedTriggerPoints": []
+  }
+}

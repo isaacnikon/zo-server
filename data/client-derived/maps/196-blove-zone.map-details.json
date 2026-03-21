@@ -1,0 +1,79 @@
+{
+  "mapId": 196,
+  "mapName": "Blove Zone",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "mapGcg": "/home/nikon/Data/Zodiac Online/gcg/map.gcg",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3521448,
+      "end": 3521910
+    },
+    "transitionContextStart": 3520936,
+    "mapConfigChunkOffsets": {
+      "start": 90749,
+      "end": 90993
+    }
+  },
+  "bigTexts": [
+    {
+      "order": 0,
+      "text": "\u00a1\u00efBlove Zone\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "map-title",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efBlove Zone\u00a1\u00ef\",3000, 63500)"
+    },
+    {
+      "order": 1,
+      "text": "\u00a1\u00efHeart Demon\u00a1\u00eeLevel:60-63\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 3000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efHeart Demon\u00a1\u00eeLevel:60-63\u00a1\u00ef\",3000, 63500,3000)"
+    },
+    {
+      "order": 2,
+      "text": "\u00a1\u00efChild Corpse\u00a1\u00eeLevel:60-63\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 3000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efChild Corpse\u00a1\u00eeLevel:60-63\u00a1\u00ef\",3000, 63500,3000)"
+    }
+  ],
+  "homeInfo": null,
+  "temporaryMapPoints": [],
+  "sceneTransitions": [],
+  "mapConfig": {
+    "smallMapAsset": "\\PicData\\smallmap\\196.gaf",
+    "backgroundAsset": "\\map\\mapres\\134-3.mpk",
+    "mapConfigNpcSpawns": [],
+    "sceneEffects": [
+      {
+        "assetPath": "PicData\\Effect\\scene\\chuansong.gaf",
+        "assetName": "chuansong.gaf",
+        "x": 119,
+        "y": 62,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\chuansong.gaf",
+        "assetName": "chuansong.gaf",
+        "x": 121,
+        "y": 179,
+        "arg3": 4,
+        "arg4": 5,
+        "arg5": 0,
+        "source": "prelude"
+      }
+    ],
+    "portalEffectCandidates": [],
+    "observedTriggerPoints": []
+  }
+}

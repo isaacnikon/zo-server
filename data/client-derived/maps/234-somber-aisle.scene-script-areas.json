@@ -1,0 +1,259 @@
+{
+  "mapId": 234,
+  "mapName": "Somber Aisle",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        59
+      ],
+      "tileCount": 140,
+      "bbox": {
+        "minX": 22,
+        "minY": 241,
+        "maxX": 33,
+        "maxY": 254
+      },
+      "rowRuns": [
+        {
+          "y": 241,
+          "startX": 25,
+          "endX": 30
+        },
+        {
+          "y": 242,
+          "startX": 24,
+          "endX": 31
+        },
+        {
+          "y": 243,
+          "startX": 23,
+          "endX": 32
+        },
+        {
+          "y": 244,
+          "startX": 23,
+          "endX": 33
+        },
+        {
+          "y": 245,
+          "startX": 22,
+          "endX": 33
+        },
+        {
+          "y": 246,
+          "startX": 22,
+          "endX": 33
+        },
+        {
+          "y": 247,
+          "startX": 22,
+          "endX": 32
+        },
+        {
+          "y": 248,
+          "startX": 22,
+          "endX": 31
+        },
+        {
+          "y": 249,
+          "startX": 22,
+          "endX": 31
+        },
+        {
+          "y": 250,
+          "startX": 22,
+          "endX": 31
+        },
+        {
+          "y": 251,
+          "startX": 22,
+          "endX": 31
+        },
+        {
+          "y": 252,
+          "startX": 22,
+          "endX": 31
+        },
+        {
+          "y": 253,
+          "startX": 22,
+          "endX": 31
+        },
+        {
+          "y": 254,
+          "startX": 22,
+          "endX": 31
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        59
+      ],
+      "tileCount": 206,
+      "bbox": {
+        "minX": 77,
+        "minY": 64,
+        "maxX": 90,
+        "maxY": 91
+      },
+      "rowRuns": [
+        {
+          "y": 64,
+          "startX": 90,
+          "endX": 90
+        },
+        {
+          "y": 65,
+          "startX": 89,
+          "endX": 90
+        },
+        {
+          "y": 66,
+          "startX": 88,
+          "endX": 90
+        },
+        {
+          "y": 67,
+          "startX": 84,
+          "endX": 90
+        },
+        {
+          "y": 68,
+          "startX": 84,
+          "endX": 90
+        },
+        {
+          "y": 69,
+          "startX": 83,
+          "endX": 89
+        },
+        {
+          "y": 70,
+          "startX": 83,
+          "endX": 89
+        },
+        {
+          "y": 71,
+          "startX": 82,
+          "endX": 89
+        },
+        {
+          "y": 72,
+          "startX": 81,
+          "endX": 89
+        },
+        {
+          "y": 73,
+          "startX": 81,
+          "endX": 89
+        },
+        {
+          "y": 74,
+          "startX": 80,
+          "endX": 89
+        },
+        {
+          "y": 75,
+          "startX": 78,
+          "endX": 89
+        },
+        {
+          "y": 76,
+          "startX": 77,
+          "endX": 89
+        },
+        {
+          "y": 77,
+          "startX": 77,
+          "endX": 89
+        },
+        {
+          "y": 78,
+          "startX": 77,
+          "endX": 89
+        },
+        {
+          "y": 79,
+          "startX": 78,
+          "endX": 89
+        },
+        {
+          "y": 80,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 81,
+          "startX": 80,
+          "endX": 89
+        },
+        {
+          "y": 82,
+          "startX": 81,
+          "endX": 89
+        },
+        {
+          "y": 83,
+          "startX": 82,
+          "endX": 89
+        },
+        {
+          "y": 84,
+          "startX": 83,
+          "endX": 89
+        },
+        {
+          "y": 85,
+          "startX": 84,
+          "endX": 90
+        },
+        {
+          "y": 86,
+          "startX": 85,
+          "endX": 90
+        },
+        {
+          "y": 87,
+          "startX": 86,
+          "endX": 90
+        },
+        {
+          "y": 88,
+          "startX": 87,
+          "endX": 90
+        },
+        {
+          "y": 89,
+          "startX": 88,
+          "endX": 90
+        },
+        {
+          "y": 90,
+          "startX": 89,
+          "endX": 90
+        },
+        {
+          "y": 91,
+          "startX": 90,
+          "endX": 90
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

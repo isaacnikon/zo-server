@@ -1,0 +1,127 @@
+{
+  "mapId": 153,
+  "mapName": "Nirvana Pool",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 24,
+      "bbox": {
+        "minX": 0,
+        "minY": 24,
+        "maxX": 5,
+        "maxY": 30
+      },
+      "rowRuns": [
+        {
+          "y": 24,
+          "startX": 2,
+          "endX": 2
+        },
+        {
+          "y": 25,
+          "startX": 1,
+          "endX": 3
+        },
+        {
+          "y": 26,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 27,
+          "startX": 0,
+          "endX": 5
+        },
+        {
+          "y": 28,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 29,
+          "startX": 1,
+          "endX": 3
+        },
+        {
+          "y": 30,
+          "startX": 2,
+          "endX": 2
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 41,
+      "bbox": {
+        "minX": 118,
+        "minY": 242,
+        "maxX": 126,
+        "maxY": 250
+      },
+      "rowRuns": [
+        {
+          "y": 242,
+          "startX": 122,
+          "endX": 122
+        },
+        {
+          "y": 243,
+          "startX": 121,
+          "endX": 123
+        },
+        {
+          "y": 244,
+          "startX": 120,
+          "endX": 124
+        },
+        {
+          "y": 245,
+          "startX": 119,
+          "endX": 125
+        },
+        {
+          "y": 246,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 247,
+          "startX": 119,
+          "endX": 125
+        },
+        {
+          "y": 248,
+          "startX": 120,
+          "endX": 124
+        },
+        {
+          "y": 249,
+          "startX": 121,
+          "endX": 123
+        },
+        {
+          "y": 250,
+          "startX": 122,
+          "endX": 122
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

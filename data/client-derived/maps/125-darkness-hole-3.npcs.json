@@ -1,0 +1,36 @@
+{
+  "mapId": 125,
+  "mapName": "Darkness Hole 3",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3480542,
+      "end": 3480791
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 1,
+    "statusCounts": {
+      "match": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3273,
+      "npcTypeId": 1,
+      "name": "Darkness Evil",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 84,
+      "y": 176,
+      "roleinfoNameByNpcId": "Darkness Evil",
+      "roleinfoIdByName": 3273,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3273,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3273, 1,\"\"..macro_GetTypeNpcName(3273)..\"\",84,176)"
+    }
+  ]
+}

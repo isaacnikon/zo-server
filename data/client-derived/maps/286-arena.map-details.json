@@ -1,0 +1,131 @@
+{
+  "mapId": 286,
+  "mapName": "Arena",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "mapGcg": "/home/nikon/Data/Zodiac Online/gcg/map.gcg",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3579452,
+      "end": 3579761
+    },
+    "transitionContextStart": 3578940,
+    "mapConfigChunkOffsets": {
+      "start": 145977,
+      "end": 146801
+    }
+  },
+  "bigTexts": [
+    {
+      "order": 0,
+      "text": "\u00a1\u00efArena\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "map-title",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efArena\u00a1\u00ef\",3000, 63500)"
+    }
+  ],
+  "homeInfo": null,
+  "temporaryMapPoints": [],
+  "sceneTransitions": [],
+  "mapConfig": {
+    "smallMapAsset": "\\PicData\\smallmap\\286.gaf",
+    "backgroundAsset": "\\map\\mapres\\313.mpk",
+    "mapConfigNpcSpawns": [
+      {
+        "order": 1,
+        "npcId": 3690,
+        "x": 63,
+        "y": 134
+      },
+      {
+        "order": 2,
+        "npcId": 3698,
+        "x": 41,
+        "y": 47
+      },
+      {
+        "order": 3,
+        "npcId": 3698,
+        "x": 65,
+        "y": 79
+      },
+      {
+        "order": 4,
+        "npcId": 3698,
+        "x": 86,
+        "y": 61
+      },
+      {
+        "order": 5,
+        "npcId": 3698,
+        "x": 35,
+        "y": 135
+      },
+      {
+        "order": 6,
+        "npcId": 3698,
+        "x": 84,
+        "y": 184
+      },
+      {
+        "order": 7,
+        "npcId": 3698,
+        "x": 46,
+        "y": 189
+      },
+      {
+        "order": 8,
+        "npcId": 3698,
+        "x": 96,
+        "y": 112
+      },
+      {
+        "order": 9,
+        "npcId": 3698,
+        "x": 68,
+        "y": 100
+      },
+      {
+        "order": 10,
+        "npcId": 3698,
+        "x": 76,
+        "y": 164
+      },
+      {
+        "order": 11,
+        "npcId": 3698,
+        "x": 78,
+        "y": 124
+      },
+      {
+        "order": 12,
+        "npcId": 3698,
+        "x": 55,
+        "y": 198
+      },
+      {
+        "order": 13,
+        "npcId": 3698,
+        "x": 80,
+        "y": 190
+      },
+      {
+        "order": 14,
+        "npcId": 3698,
+        "x": 63,
+        "y": 147
+      },
+      {
+        "order": 15,
+        "npcId": 3698,
+        "x": 45,
+        "y": 87
+      }
+    ],
+    "sceneEffects": [],
+    "portalEffectCandidates": [],
+    "observedTriggerPoints": []
+  }
+}

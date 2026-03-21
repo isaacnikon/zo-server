@@ -1,0 +1,36 @@
+{
+  "mapId": 152,
+  "mapName": "Hell Pass",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3498725,
+      "end": 3498974
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 1,
+    "statusCounts": {
+      "match": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3775,
+      "npcTypeId": 1,
+      "name": "Hell Keeper",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 37,
+      "y": 198,
+      "roleinfoNameByNpcId": "Hell Keeper",
+      "roleinfoIdByName": 3775,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3775,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3775, 1,\"\"..macro_GetTypeNpcName(3775)..\"\",37,198)"
+    }
+  ]
+}

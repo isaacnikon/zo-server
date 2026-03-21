@@ -1,0 +1,97 @@
+{
+  "mapId": 132,
+  "mapName": "Butterfly Peak",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3487169,
+      "end": 3487690
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 5,
+    "statusCounts": {
+      "alias-id-mismatch": 1,
+      "match": 4
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3084,
+      "npcTypeId": 3,
+      "name": "Sword Warrior",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 75,
+      "y": 91,
+      "roleinfoNameByNpcId": "Sword Warrior",
+      "roleinfoIdByName": 3084,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3084,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3084, 3,\"\"..macro_GetTypeNpcName(3084)..\"\",75,91)"
+    },
+    {
+      "order": 1,
+      "npcId": 3088,
+      "npcTypeId": 1,
+      "name": "Revenant",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 93,
+      "y": 107,
+      "roleinfoNameByNpcId": "Revenant",
+      "roleinfoIdByName": 3088,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3088,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3088, 1,\"\"..macro_GetTypeNpcName(3088)..\"\",93,107)"
+    },
+    {
+      "order": 2,
+      "npcId": 3260,
+      "npcTypeId": 1,
+      "name": "Wolf",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 26,
+      "y": 25,
+      "roleinfoNameByNpcId": "Wolf",
+      "roleinfoIdByName": 2507,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3260,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3260, 1,\"\"..macro_GetTypeNpcName(3260)..\"\",26,25)"
+    },
+    {
+      "order": 3,
+      "npcId": 3214,
+      "npcTypeId": 1,
+      "name": "Apparition",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 117,
+      "y": 203,
+      "roleinfoNameByNpcId": "Apparition",
+      "roleinfoIdByName": 3214,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3214,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3214, 1,\"\"..macro_GetTypeNpcName(3214)..\"\",117,203)"
+    },
+    {
+      "order": 4,
+      "npcId": 3215,
+      "npcTypeId": 1,
+      "name": "Specter",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 20,
+      "y": 39,
+      "roleinfoNameByNpcId": "Specter",
+      "roleinfoIdByName": 3215,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3215,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3215, 1,\"\"..macro_GetTypeNpcName(3215)..\"\",20,39)"
+    }
+  ]
+}

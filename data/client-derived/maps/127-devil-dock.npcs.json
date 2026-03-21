@@ -1,0 +1,96 @@
+{
+  "mapId": 127,
+  "mapName": "Devil Dock",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3482116,
+      "end": 3482637
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 5,
+    "statusCounts": {
+      "match": 5
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3651,
+      "npcTypeId": 1,
+      "name": "Zodiac Eudemon",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 19,
+      "y": 129,
+      "roleinfoNameByNpcId": "Zodiac Eudemon",
+      "roleinfoIdByName": 3651,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3651,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3651, 1,\"\"..macro_GetTypeNpcName(3651)..\"\",19,129)"
+    },
+    {
+      "order": 1,
+      "npcId": 3274,
+      "npcTypeId": 1,
+      "name": "Matthew",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 74,
+      "y": 178,
+      "roleinfoNameByNpcId": "Matthew",
+      "roleinfoIdByName": 3274,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3274,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3274, 1,\"\"..macro_GetTypeNpcName(3274)..\"\",74,178)"
+    },
+    {
+      "order": 2,
+      "npcId": 3275,
+      "npcTypeId": 1,
+      "name": "Andrew",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 100,
+      "y": 44,
+      "roleinfoNameByNpcId": "Andrew",
+      "roleinfoIdByName": 3275,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3275,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3275, 1,\"\"..macro_GetTypeNpcName(3275)..\"\",100,44)"
+    },
+    {
+      "order": 3,
+      "npcId": 3077,
+      "npcTypeId": 3,
+      "name": "Heather",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 14,
+      "y": 41,
+      "roleinfoNameByNpcId": "Heather",
+      "roleinfoIdByName": 3077,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3077,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3077, 3,\"\"..macro_GetTypeNpcName(3077)..\"\",14,41)"
+    },
+    {
+      "order": 4,
+      "npcId": 3290,
+      "npcTypeId": 1,
+      "name": "Banditi Guard",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 39,
+      "y": 68,
+      "roleinfoNameByNpcId": "Banditi Guard",
+      "roleinfoIdByName": 3290,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3290,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3290, 1,\"\"..macro_GetTypeNpcName(3290)..\"\",39,68)"
+    }
+  ]
+}

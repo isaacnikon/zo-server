@@ -1,0 +1,328 @@
+{
+  "mapId": 270,
+  "mapName": "Holy Beast Xanadu",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "mapGcg": "/home/nikon/Data/Zodiac Online/gcg/map.gcg",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3557118,
+      "end": 3557595
+    },
+    "transitionContextStart": 3556606,
+    "mapConfigChunkOffsets": {
+      "start": 134374,
+      "end": 135549
+    }
+  },
+  "bigTexts": [
+    {
+      "order": 0,
+      "text": "\u00a1\u00efHoly Beast Xanadu\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "map-title",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efHoly Beast Xanadu\u00a1\u00ef\",3000, 63500)"
+    }
+  ],
+  "homeInfo": null,
+  "temporaryMapPoints": [],
+  "sceneTransitions": [],
+  "mapConfig": {
+    "smallMapAsset": "\\PicData\\smallmap\\270.gaf",
+    "backgroundAsset": "\\map\\mapres\\310-3.mpk",
+    "mapConfigNpcSpawns": [
+      {
+        "order": 1,
+        "npcId": 3622,
+        "x": 31,
+        "y": 34
+      }
+    ],
+    "sceneEffects": [
+      {
+        "assetPath": "PicData\\Effect\\scene\\lazhu.gaf",
+        "assetName": "lazhu.gaf",
+        "x": 7,
+        "y": 17,
+        "arg3": 14,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\lazhu.gaf",
+        "assetName": "lazhu.gaf",
+        "x": 13,
+        "y": 11,
+        "arg3": 6,
+        "arg4": 6,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\denglong2.gaf",
+        "assetName": "denglong2.gaf",
+        "x": 3,
+        "y": 25,
+        "arg3": 12,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\denglong2.gaf",
+        "assetName": "denglong2.gaf",
+        "x": 22,
+        "y": 6,
+        "arg3": 6,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\languang.gaf",
+        "assetName": "languang.gaf",
+        "x": 11,
+        "y": 24,
+        "arg3": 12,
+        "arg4": 4,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\hongguang.gaf",
+        "assetName": "hongguang.gaf",
+        "x": 8,
+        "y": 29,
+        "arg3": 5,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\hongguang.gaf",
+        "assetName": "hongguang.gaf",
+        "x": 10,
+        "y": 29,
+        "arg3": 11,
+        "arg4": 1,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\hongguang.gaf",
+        "assetName": "hongguang.gaf",
+        "x": 21,
+        "y": 15,
+        "arg3": 9,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\hongguang.gaf",
+        "assetName": "hongguang.gaf",
+        "x": 23,
+        "y": 16,
+        "arg3": 15,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huaxin.gaf",
+        "assetName": "huaxin.gaf",
+        "x": 24,
+        "y": 38,
+        "arg3": 1,
+        "arg4": 4,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huaxin.gaf",
+        "assetName": "huaxin.gaf",
+        "x": 24,
+        "y": 58,
+        "arg3": 13,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huaxin.gaf",
+        "assetName": "huaxin.gaf",
+        "x": 43,
+        "y": 104,
+        "arg3": 3,
+        "arg4": 4,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huaxin.gaf",
+        "assetName": "huaxin.gaf",
+        "x": 55,
+        "y": 88,
+        "arg3": 4,
+        "arg4": 3,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\xingxing1.gaf",
+        "assetName": "xingxing1.gaf",
+        "x": 27,
+        "y": 3,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\xingxing1.gaf",
+        "assetName": "xingxing1.gaf",
+        "x": 19,
+        "y": 4,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\xingxing1.gaf",
+        "assetName": "xingxing1.gaf",
+        "x": 8,
+        "y": 0,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\xingxing1.gaf",
+        "assetName": "xingxing1.gaf",
+        "x": 13,
+        "y": 11,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\xingxing2.gaf",
+        "assetName": "xingxing2.gaf",
+        "x": 0,
+        "y": 54,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\xingxing2.gaf",
+        "assetName": "xingxing2.gaf",
+        "x": 22,
+        "y": 86,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\xingxing2.gaf",
+        "assetName": "xingxing2.gaf",
+        "x": 0,
+        "y": 85,
+        "arg3": 0,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\xingxing2.gaf",
+        "assetName": "xingxing2.gaf",
+        "x": 42,
+        "y": 29,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huaban.gaf",
+        "assetName": "huaban.gaf",
+        "x": 50,
+        "y": 51,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huaban.gaf",
+        "assetName": "huaban.gaf",
+        "x": 51,
+        "y": 59,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huaban.gaf",
+        "assetName": "huaban.gaf",
+        "x": 12,
+        "y": 76,
+        "arg3": 0,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huaban.gaf",
+        "assetName": "huaban.gaf",
+        "x": 24,
+        "y": 115,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huaban.gaf",
+        "assetName": "huaban.gaf",
+        "x": 29,
+        "y": 109,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huaban.gaf",
+        "assetName": "huaban.gaf",
+        "x": 39,
+        "y": 110,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huaban.gaf",
+        "assetName": "huaban.gaf",
+        "x": 1,
+        "y": 72,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      }
+    ],
+    "portalEffectCandidates": [],
+    "observedTriggerPoints": []
+  }
+}

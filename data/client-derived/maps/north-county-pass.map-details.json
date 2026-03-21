@@ -1,0 +1,287 @@
+{
+  "mapId": 212,
+  "mapName": "North County Pass",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "mapGcg": "/home/nikon/Data/Zodiac Online/gcg/map.gcg",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3530228,
+      "end": 3531723
+    },
+    "transitionContextStart": 3529716,
+    "mapConfigChunkOffsets": {
+      "start": 98759,
+      "end": 99241
+    }
+  },
+  "bigTexts": [
+    {
+      "order": 0,
+      "text": "\u00a1\u00efNorth County Pass\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "map-title",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efNorth County Pass\u00a1\u00ef\",3000, 63500)"
+    }
+  ],
+  "homeInfo": null,
+  "temporaryMapPoints": [],
+  "sceneTransitions": [],
+  "mapConfig": {
+    "smallMapAsset": "\\PicData\\smallmap\\212.gaf",
+    "backgroundAsset": "\\map\\mapres\\144-1.mpk",
+    "mapConfigNpcSpawns": [
+      {
+        "order": 1,
+        "npcId": 3762,
+        "x": 38,
+        "y": 168
+      },
+      {
+        "order": 2,
+        "npcId": 3763,
+        "x": 46,
+        "y": 177
+      },
+      {
+        "order": 3,
+        "npcId": 3754,
+        "x": 22,
+        "y": 193
+      },
+      {
+        "order": 4,
+        "npcId": 3770,
+        "x": 55,
+        "y": 201
+      },
+      {
+        "order": 5,
+        "npcId": 3766,
+        "x": 85,
+        "y": 187
+      },
+      {
+        "order": 6,
+        "npcId": 3768,
+        "x": 87,
+        "y": 184
+      },
+      {
+        "order": 7,
+        "npcId": 3767,
+        "x": 11,
+        "y": 114
+      },
+      {
+        "order": 8,
+        "npcId": 3769,
+        "x": 4,
+        "y": 102
+      },
+      {
+        "order": 9,
+        "npcId": 3764,
+        "x": 52,
+        "y": 42
+      },
+      {
+        "order": 10,
+        "npcId": 3765,
+        "x": 119,
+        "y": 113
+      },
+      {
+        "order": 11,
+        "npcId": 3772,
+        "x": 57,
+        "y": 47
+      },
+      {
+        "order": 12,
+        "npcId": 3771,
+        "x": 39,
+        "y": 37
+      },
+      {
+        "order": 13,
+        "npcId": 3773,
+        "x": 104,
+        "y": 34
+      }
+    ],
+    "sceneEffects": [
+      {
+        "assetPath": "PicData\\Effect\\scene\\chuansong.gaf",
+        "assetName": "chuansong.gaf",
+        "x": 59,
+        "y": 99,
+        "arg3": 6,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 4,
+        "y": 216,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\butterfly1.gaf",
+        "assetName": "butterfly1.gaf",
+        "x": 22,
+        "y": 211,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\butterfly1.gaf",
+        "assetName": "butterfly1.gaf",
+        "x": 54,
+        "y": 171,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\butterfly2.gaf",
+        "assetName": "butterfly2.gaf",
+        "x": 61,
+        "y": 155,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\butterfly2.gaf",
+        "assetName": "butterfly2.gaf",
+        "x": 73,
+        "y": 155,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\zhizhu.gaf",
+        "assetName": "zhizhu.gaf",
+        "x": 97,
+        "y": 170,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\zhizhu.gaf",
+        "assetName": "zhizhu.gaf",
+        "x": 62,
+        "y": 49,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\zhizhu.gaf",
+        "assetName": "zhizhu.gaf",
+        "x": 65,
+        "y": 147,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\butterfly2.gaf",
+        "assetName": "butterfly2.gaf",
+        "x": 54,
+        "y": 14,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\butterfly2.gaf",
+        "assetName": "butterfly2.gaf",
+        "x": 58,
+        "y": 15,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 6,
+        "y": 227,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huoba02.gaf",
+        "assetName": "huoba02.gaf",
+        "x": 41,
+        "y": 202,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huoba02.gaf",
+        "assetName": "huoba02.gaf",
+        "x": 18,
+        "y": 181,
+        "arg3": 12,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      }
+    ],
+    "portalEffectCandidates": [
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 4,
+        "y": 216,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 6,
+        "y": 227,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      }
+    ],
+    "observedTriggerPoints": []
+  }
+}

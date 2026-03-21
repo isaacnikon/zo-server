@@ -1,0 +1,108 @@
+{
+  "mapId": 164,
+  "mapName": "Sunlight Hole",
+  "width": 64,
+  "height": 128,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 148,
+      "bbox": {
+        "minX": 47,
+        "minY": 113,
+        "maxX": 59,
+        "maxY": 126
+      },
+      "rowRuns": [
+        {
+          "y": 113,
+          "startX": 51,
+          "endX": 51
+        },
+        {
+          "y": 114,
+          "startX": 50,
+          "endX": 52
+        },
+        {
+          "y": 115,
+          "startX": 49,
+          "endX": 52
+        },
+        {
+          "y": 115,
+          "startX": 57,
+          "endX": 57
+        },
+        {
+          "y": 116,
+          "startX": 48,
+          "endX": 53
+        },
+        {
+          "y": 116,
+          "startX": 56,
+          "endX": 58
+        },
+        {
+          "y": 117,
+          "startX": 47,
+          "endX": 59
+        },
+        {
+          "y": 118,
+          "startX": 47,
+          "endX": 59
+        },
+        {
+          "y": 119,
+          "startX": 47,
+          "endX": 59
+        },
+        {
+          "y": 120,
+          "startX": 47,
+          "endX": 59
+        },
+        {
+          "y": 121,
+          "startX": 47,
+          "endX": 59
+        },
+        {
+          "y": 122,
+          "startX": 47,
+          "endX": 59
+        },
+        {
+          "y": 123,
+          "startX": 47,
+          "endX": 59
+        },
+        {
+          "y": 124,
+          "startX": 47,
+          "endX": 59
+        },
+        {
+          "y": 125,
+          "startX": 47,
+          "endX": 59
+        },
+        {
+          "y": 126,
+          "startX": 47,
+          "endX": 59
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

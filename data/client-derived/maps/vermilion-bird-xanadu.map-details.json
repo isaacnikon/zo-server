@@ -1,0 +1,268 @@
+{
+  "mapId": 266,
+  "mapName": "Vermilion Bird Xanadu",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "mapGcg": "/home/nikon/Data/Zodiac Online/gcg/map.gcg",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3555200,
+      "end": 3555681
+    },
+    "transitionContextStart": 3554688,
+    "mapConfigChunkOffsets": {
+      "start": 127721,
+      "end": 128774
+    }
+  },
+  "bigTexts": [
+    {
+      "order": 0,
+      "text": "\u00a1\u00efVermilion Bird Xanadu\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "map-title",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efVermilion Bird Xanadu\u00a1\u00ef\",3000, 63500)"
+    }
+  ],
+  "homeInfo": null,
+  "temporaryMapPoints": [],
+  "sceneTransitions": [],
+  "mapConfig": {
+    "smallMapAsset": "\\PicData\\smallmap\\266.gaf",
+    "backgroundAsset": "\\map\\mapres\\134-3.mpk",
+    "mapConfigNpcSpawns": [
+      {
+        "order": 1,
+        "npcId": 3577,
+        "x": 122,
+        "y": 213
+      },
+      {
+        "order": 2,
+        "npcId": 3587,
+        "x": 112,
+        "y": 185
+      },
+      {
+        "order": 3,
+        "npcId": 3548,
+        "x": 80,
+        "y": 242
+      },
+      {
+        "order": 4,
+        "npcId": 3588,
+        "x": 52,
+        "y": 246
+      },
+      {
+        "order": 5,
+        "npcId": 3549,
+        "x": 6,
+        "y": 228
+      },
+      {
+        "order": 6,
+        "npcId": 3589,
+        "x": 6,
+        "y": 172
+      },
+      {
+        "order": 7,
+        "npcId": 3550,
+        "x": 15,
+        "y": 134
+      },
+      {
+        "order": 8,
+        "npcId": 3590,
+        "x": 60,
+        "y": 165
+      },
+      {
+        "order": 9,
+        "npcId": 3551,
+        "x": 116,
+        "y": 150
+      },
+      {
+        "order": 10,
+        "npcId": 3591,
+        "x": 106,
+        "y": 106
+      },
+      {
+        "order": 11,
+        "npcId": 3552,
+        "x": 62,
+        "y": 93
+      },
+      {
+        "order": 12,
+        "npcId": 3592,
+        "x": 102,
+        "y": 71
+      },
+      {
+        "order": 13,
+        "npcId": 3553,
+        "x": 11,
+        "y": 65
+      },
+      {
+        "order": 14,
+        "npcId": 3593,
+        "x": 53,
+        "y": 58
+      },
+      {
+        "order": 15,
+        "npcId": 3554,
+        "x": 104,
+        "y": 23
+      },
+      {
+        "order": 16,
+        "npcId": 3578,
+        "x": 26,
+        "y": 19
+      },
+      {
+        "order": 1,
+        "npcId": 3577,
+        "x": 122,
+        "y": 213
+      },
+      {
+        "order": 2,
+        "npcId": 3587,
+        "x": 112,
+        "y": 185
+      },
+      {
+        "order": 3,
+        "npcId": 3548,
+        "x": 80,
+        "y": 242
+      },
+      {
+        "order": 4,
+        "npcId": 3588,
+        "x": 52,
+        "y": 246
+      },
+      {
+        "order": 5,
+        "npcId": 3549,
+        "x": 6,
+        "y": 228
+      },
+      {
+        "order": 6,
+        "npcId": 3589,
+        "x": 6,
+        "y": 172
+      },
+      {
+        "order": 7,
+        "npcId": 3550,
+        "x": 15,
+        "y": 134
+      },
+      {
+        "order": 8,
+        "npcId": 3590,
+        "x": 60,
+        "y": 165
+      },
+      {
+        "order": 9,
+        "npcId": 3551,
+        "x": 116,
+        "y": 150
+      },
+      {
+        "order": 10,
+        "npcId": 3591,
+        "x": 106,
+        "y": 106
+      },
+      {
+        "order": 11,
+        "npcId": 3552,
+        "x": 62,
+        "y": 93
+      },
+      {
+        "order": 12,
+        "npcId": 3592,
+        "x": 102,
+        "y": 71
+      },
+      {
+        "order": 13,
+        "npcId": 3553,
+        "x": 11,
+        "y": 65
+      },
+      {
+        "order": 14,
+        "npcId": 3593,
+        "x": 53,
+        "y": 58
+      },
+      {
+        "order": 15,
+        "npcId": 3554,
+        "x": 104,
+        "y": 23
+      },
+      {
+        "order": 16,
+        "npcId": 3578,
+        "x": 26,
+        "y": 19
+      }
+    ],
+    "sceneEffects": [
+      {
+        "assetPath": "PicData\\Effect\\scene\\chuansong.gaf",
+        "assetName": "chuansong.gaf",
+        "x": 36,
+        "y": 96,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 4,
+        "y": 71,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      }
+    ],
+    "portalEffectCandidates": [
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 4,
+        "y": 71,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      }
+    ],
+    "observedTriggerPoints": []
+  }
+}

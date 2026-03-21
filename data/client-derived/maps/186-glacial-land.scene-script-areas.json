@@ -1,0 +1,210 @@
+{
+  "mapId": 186,
+  "mapName": "Glacial Land",
+  "width": 128,
+  "height": 256,
+  "componentCount": 3,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        1,
+        2,
+        3
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 106,
+      "bbox": {
+        "minX": 78,
+        "minY": 1,
+        "maxX": 89,
+        "maxY": 13
+      },
+      "rowRuns": [
+        {
+          "y": 1,
+          "startX": 82,
+          "endX": 83
+        },
+        {
+          "y": 2,
+          "startX": 81,
+          "endX": 86
+        },
+        {
+          "y": 3,
+          "startX": 80,
+          "endX": 87
+        },
+        {
+          "y": 4,
+          "startX": 79,
+          "endX": 88
+        },
+        {
+          "y": 5,
+          "startX": 80,
+          "endX": 89
+        },
+        {
+          "y": 6,
+          "startX": 79,
+          "endX": 88
+        },
+        {
+          "y": 7,
+          "startX": 78,
+          "endX": 88
+        },
+        {
+          "y": 8,
+          "startX": 78,
+          "endX": 88
+        },
+        {
+          "y": 9,
+          "startX": 79,
+          "endX": 88
+        },
+        {
+          "y": 10,
+          "startX": 79,
+          "endX": 88
+        },
+        {
+          "y": 11,
+          "startX": 80,
+          "endX": 87
+        },
+        {
+          "y": 12,
+          "startX": 81,
+          "endX": 86
+        },
+        {
+          "y": 13,
+          "startX": 82,
+          "endX": 85
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 1,
+      "bbox": {
+        "minX": 127,
+        "minY": 69,
+        "maxX": 127,
+        "maxY": 69
+      },
+      "rowRuns": [
+        {
+          "y": 69,
+          "startX": 127,
+          "endX": 127
+        }
+      ],
+      "componentIndex": 2
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        0,
+        2
+      ],
+      "auxValues": [
+        0,
+        104
+      ],
+      "tileCount": 79,
+      "bbox": {
+        "minX": 120,
+        "minY": 65,
+        "maxX": 127,
+        "maxY": 78
+      },
+      "rowRuns": [
+        {
+          "y": 65,
+          "startX": 123,
+          "endX": 123
+        },
+        {
+          "y": 66,
+          "startX": 122,
+          "endX": 124
+        },
+        {
+          "y": 67,
+          "startX": 121,
+          "endX": 125
+        },
+        {
+          "y": 68,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 69,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 70,
+          "startX": 120,
+          "endX": 127
+        },
+        {
+          "y": 71,
+          "startX": 120,
+          "endX": 127
+        },
+        {
+          "y": 72,
+          "startX": 120,
+          "endX": 127
+        },
+        {
+          "y": 73,
+          "startX": 120,
+          "endX": 127
+        },
+        {
+          "y": 74,
+          "startX": 120,
+          "endX": 127
+        },
+        {
+          "y": 75,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 76,
+          "startX": 121,
+          "endX": 125
+        },
+        {
+          "y": 77,
+          "startX": 122,
+          "endX": 124
+        },
+        {
+          "y": 78,
+          "startX": 123,
+          "endX": 123
+        }
+      ],
+      "componentIndex": 3
+    }
+  ]
+}

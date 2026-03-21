@@ -1,0 +1,75 @@
+{
+  "mapId": 246,
+  "mapName": "Lotus Peak Top",
+  "width": 128,
+  "height": 256,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2,
+        3
+      ],
+      "auxValues": [
+        0,
+        116
+      ],
+      "tileCount": 41,
+      "bbox": {
+        "minX": 38,
+        "minY": 181,
+        "maxX": 46,
+        "maxY": 189
+      },
+      "rowRuns": [
+        {
+          "y": 181,
+          "startX": 42,
+          "endX": 42
+        },
+        {
+          "y": 182,
+          "startX": 41,
+          "endX": 43
+        },
+        {
+          "y": 183,
+          "startX": 40,
+          "endX": 44
+        },
+        {
+          "y": 184,
+          "startX": 39,
+          "endX": 45
+        },
+        {
+          "y": 185,
+          "startX": 38,
+          "endX": 46
+        },
+        {
+          "y": 186,
+          "startX": 39,
+          "endX": 45
+        },
+        {
+          "y": 187,
+          "startX": 40,
+          "endX": 44
+        },
+        {
+          "y": 188,
+          "startX": 41,
+          "endX": 43
+        },
+        {
+          "y": 189,
+          "startX": 42,
+          "endX": 42
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

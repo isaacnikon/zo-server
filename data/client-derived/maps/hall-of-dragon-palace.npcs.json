@@ -1,0 +1,82 @@
+{
+  "mapId": 214,
+  "mapName": "Hall of Dragon Palace",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3532307,
+      "end": 3532746
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 4,
+    "statusCounts": {
+      "literal-name-mismatch": 1,
+      "match": 3
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3052,
+      "npcTypeId": 3,
+      "name": "Oceanlander",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 108,
+      "y": 42,
+      "roleinfoNameByNpcId": "Oceanlander",
+      "roleinfoIdByName": 3052,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3052,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3052, 3,\"\"..macro_GetTypeNpcName(3052)..\"\",108,42)"
+    },
+    {
+      "order": 1,
+      "npcId": 3053,
+      "npcTypeId": 1,
+      "name": "Plague Fiend",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 109,
+      "y": 169,
+      "roleinfoNameByNpcId": "Plague Fiend",
+      "roleinfoIdByName": 3053,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3053,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3053, 1,\"\"..macro_GetTypeNpcName(3053)..\"\",109,169)"
+    },
+    {
+      "order": 2,
+      "npcId": 3149,
+      "npcTypeId": 1,
+      "name": "Aeolus",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 30,
+      "y": 58,
+      "roleinfoNameByNpcId": "Aeolus",
+      "roleinfoIdByName": 3149,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3149,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3149, 1,\"\"..macro_GetTypeNpcName(3149)..\"\",30,58)"
+    },
+    {
+      "order": 3,
+      "npcId": 3125,
+      "npcTypeId": 1,
+      "name": "DragonPrincess",
+      "nameSource": "literal",
+      "x": 13,
+      "y": 69,
+      "roleinfoNameByNpcId": "Princess of Dragon",
+      "roleinfoIdByName": null,
+      "nameMatchesRoleinfo": false,
+      "resolvedSpawnEntityType": 3125,
+      "validationStatus": "literal-name-mismatch",
+      "rawCall": "macro_AddMapNpc(3125, 1,\"DragonPrincess\",13,69)"
+    }
+  ]
+}

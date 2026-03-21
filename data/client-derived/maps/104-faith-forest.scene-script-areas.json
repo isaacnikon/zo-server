@@ -1,0 +1,179 @@
+{
+  "mapId": 104,
+  "mapName": "Faith Forest",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2,
+        3
+      ],
+      "auxValues": [
+        0,
+        8
+      ],
+      "tileCount": 93,
+      "bbox": {
+        "minX": 120,
+        "minY": 186,
+        "maxX": 127,
+        "maxY": 199
+      },
+      "rowRuns": [
+        {
+          "y": 186,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 187,
+          "startX": 121,
+          "endX": 126
+        },
+        {
+          "y": 188,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 189,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 190,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 191,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 192,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 193,
+          "startX": 120,
+          "endX": 127
+        },
+        {
+          "y": 194,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 195,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 196,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 197,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 198,
+          "startX": 121,
+          "endX": 126
+        },
+        {
+          "y": 199,
+          "startX": 122,
+          "endX": 126
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        8
+      ],
+      "tileCount": 108,
+      "bbox": {
+        "minX": 26,
+        "minY": 0,
+        "maxX": 35,
+        "maxY": 11
+      },
+      "rowRuns": [
+        {
+          "y": 0,
+          "startX": 26,
+          "endX": 35
+        },
+        {
+          "y": 1,
+          "startX": 26,
+          "endX": 35
+        },
+        {
+          "y": 2,
+          "startX": 26,
+          "endX": 35
+        },
+        {
+          "y": 3,
+          "startX": 26,
+          "endX": 35
+        },
+        {
+          "y": 4,
+          "startX": 26,
+          "endX": 35
+        },
+        {
+          "y": 5,
+          "startX": 26,
+          "endX": 35
+        },
+        {
+          "y": 6,
+          "startX": 26,
+          "endX": 35
+        },
+        {
+          "y": 7,
+          "startX": 26,
+          "endX": 35
+        },
+        {
+          "y": 8,
+          "startX": 26,
+          "endX": 35
+        },
+        {
+          "y": 9,
+          "startX": 27,
+          "endX": 34
+        },
+        {
+          "y": 10,
+          "startX": 28,
+          "endX": 33
+        },
+        {
+          "y": 11,
+          "startX": 29,
+          "endX": 32
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

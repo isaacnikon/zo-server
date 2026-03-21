@@ -1,0 +1,67 @@
+{
+  "mapId": 243,
+  "mapName": "Palace Relic",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3545168,
+      "end": 3545557
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 3,
+    "statusCounts": {
+      "alias-id-mismatch": 1,
+      "match": 2
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3250,
+      "npcTypeId": 1,
+      "name": "Receiver Ghost",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 80,
+      "y": 140,
+      "roleinfoNameByNpcId": "Receiver Ghost",
+      "roleinfoIdByName": 3250,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3250,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3250, 1,\"\"..macro_GetTypeNpcName(3250)..\"\",80,140)"
+    },
+    {
+      "order": 1,
+      "npcId": 3252,
+      "npcTypeId": 1,
+      "name": "Mussel's Sister",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 32,
+      "y": 93,
+      "roleinfoNameByNpcId": "Mussel's Sister",
+      "roleinfoIdByName": 3252,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3252,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3252, 1,\"\"..macro_GetTypeNpcName(3252)..\"\",32,93)"
+    },
+    {
+      "order": 2,
+      "npcId": 3251,
+      "npcTypeId": 1,
+      "name": "Mussel Fairy",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 29,
+      "y": 46,
+      "roleinfoNameByNpcId": "Mussel Fairy",
+      "roleinfoIdByName": 3167,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3251,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3251, 1,\"\"..macro_GetTypeNpcName(3251)..\"\",29,46)"
+    }
+  ]
+}

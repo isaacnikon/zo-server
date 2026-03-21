@@ -1,0 +1,98 @@
+{
+  "mapId": 151,
+  "mapName": "Judgement Hall",
+  "width": 128,
+  "height": 256,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 76,
+      "bbox": {
+        "minX": 27,
+        "minY": 122,
+        "maxX": 36,
+        "maxY": 135
+      },
+      "rowRuns": [
+        {
+          "y": 122,
+          "startX": 32,
+          "endX": 32
+        },
+        {
+          "y": 123,
+          "startX": 31,
+          "endX": 33
+        },
+        {
+          "y": 124,
+          "startX": 30,
+          "endX": 34
+        },
+        {
+          "y": 125,
+          "startX": 29,
+          "endX": 34
+        },
+        {
+          "y": 126,
+          "startX": 28,
+          "endX": 34
+        },
+        {
+          "y": 127,
+          "startX": 27,
+          "endX": 34
+        },
+        {
+          "y": 128,
+          "startX": 27,
+          "endX": 34
+        },
+        {
+          "y": 129,
+          "startX": 27,
+          "endX": 35
+        },
+        {
+          "y": 130,
+          "startX": 28,
+          "endX": 35
+        },
+        {
+          "y": 131,
+          "startX": 29,
+          "endX": 36
+        },
+        {
+          "y": 132,
+          "startX": 30,
+          "endX": 35
+        },
+        {
+          "y": 133,
+          "startX": 31,
+          "endX": 34
+        },
+        {
+          "y": 134,
+          "startX": 32,
+          "endX": 33
+        },
+        {
+          "y": 135,
+          "startX": 32,
+          "endX": 32
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

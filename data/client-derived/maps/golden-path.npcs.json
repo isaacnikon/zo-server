@@ -1,0 +1,81 @@
+{
+  "mapId": 108,
+  "mapName": "Golden Path",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3463593,
+      "end": 3464029
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 4,
+    "statusCounts": {
+      "match": 4
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3300,
+      "npcTypeId": 5,
+      "name": "Peak Receiver",
+      "nameSource": "literal",
+      "x": 70,
+      "y": 19,
+      "roleinfoNameByNpcId": "Peak Receiver",
+      "roleinfoIdByName": 3300,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3300,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3300, 5,\"Peak Receiver\",70,19)"
+    },
+    {
+      "order": 1,
+      "npcId": 3195,
+      "npcTypeId": 1,
+      "name": "Jose",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 8,
+      "y": 191,
+      "roleinfoNameByNpcId": "Jose",
+      "roleinfoIdByName": 3195,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3195,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3195, 1,\"\"..macro_GetTypeNpcName(3195)..\"\",8,191)"
+    },
+    {
+      "order": 2,
+      "npcId": 3019,
+      "npcTypeId": 5,
+      "name": "Miser",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 119,
+      "y": 233,
+      "roleinfoNameByNpcId": "Miser",
+      "roleinfoIdByName": 3019,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3019,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3019, 5,\"\"..macro_GetTypeNpcName(3019)..\"\",119,233)"
+    },
+    {
+      "order": 3,
+      "npcId": 3163,
+      "npcTypeId": 3,
+      "name": "General White",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 92,
+      "y": 83,
+      "roleinfoNameByNpcId": "General White",
+      "roleinfoIdByName": 3163,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3163,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3163, 3,\"\"..macro_GetTypeNpcName(3163)..\"\",92,83)"
+    }
+  ]
+}

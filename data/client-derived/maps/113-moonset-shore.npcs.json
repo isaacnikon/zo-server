@@ -1,0 +1,111 @@
+{
+  "mapId": 113,
+  "mapName": "Moonset Shore",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3473319,
+      "end": 3473907
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 6,
+    "statusCounts": {
+      "match": 6
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3360,
+      "npcTypeId": 1,
+      "name": "Clan Guard",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 82,
+      "y": 59,
+      "roleinfoNameByNpcId": "Clan Guard",
+      "roleinfoIdByName": 3360,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3360,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3360, 1,\"\"..macro_GetTypeNpcName(3360)..\"\",82,59)"
+    },
+    {
+      "order": 1,
+      "npcId": 3361,
+      "npcTypeId": 3,
+      "name": "Old Shaikh",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 61,
+      "y": 72,
+      "roleinfoNameByNpcId": "Old Shaikh",
+      "roleinfoIdByName": 3361,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3361,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3361, 3,\"\"..macro_GetTypeNpcName(3361)..\"\",61,72)"
+    },
+    {
+      "order": 2,
+      "npcId": 3362,
+      "npcTypeId": 1,
+      "name": "Tree Spirit",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 99,
+      "y": 205,
+      "roleinfoNameByNpcId": "Tree Spirit",
+      "roleinfoIdByName": 3362,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3362,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3362, 1,\"\"..macro_GetTypeNpcName(3362)..\"\",99,205)"
+    },
+    {
+      "order": 3,
+      "npcId": 3359,
+      "npcTypeId": 1,
+      "name": "Samantha",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 35,
+      "y": 198,
+      "roleinfoNameByNpcId": "Samantha",
+      "roleinfoIdByName": 3359,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3359,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3359, 1,\"\"..macro_GetTypeNpcName(3359)..\"\",35,198)"
+    },
+    {
+      "order": 4,
+      "npcId": 3358,
+      "npcTypeId": 1,
+      "name": "Uncle William",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 81,
+      "y": 158,
+      "roleinfoNameByNpcId": "Uncle William",
+      "roleinfoIdByName": 3358,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3358,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3358, 1,\"\"..macro_GetTypeNpcName(3358)..\"\",81,158)"
+    },
+    {
+      "order": 5,
+      "npcId": 3269,
+      "npcTypeId": 1,
+      "name": "Strange Boy",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 82,
+      "y": 108,
+      "roleinfoNameByNpcId": "Strange Boy",
+      "roleinfoIdByName": 3269,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3269,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3269, 1,\"\"..macro_GetTypeNpcName(3269)..\"\",82,108)"
+    }
+  ]
+}

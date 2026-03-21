@@ -1,0 +1,88 @@
+{
+  "mapId": 228,
+  "mapName": "Pet Shop",
+  "width": 64,
+  "height": 128,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 76,
+      "bbox": {
+        "minX": 6,
+        "minY": 105,
+        "maxX": 16,
+        "maxY": 116
+      },
+      "rowRuns": [
+        {
+          "y": 105,
+          "startX": 10,
+          "endX": 10
+        },
+        {
+          "y": 106,
+          "startX": 9,
+          "endX": 11
+        },
+        {
+          "y": 107,
+          "startX": 8,
+          "endX": 12
+        },
+        {
+          "y": 108,
+          "startX": 7,
+          "endX": 13
+        },
+        {
+          "y": 109,
+          "startX": 6,
+          "endX": 14
+        },
+        {
+          "y": 110,
+          "startX": 6,
+          "endX": 15
+        },
+        {
+          "y": 111,
+          "startX": 7,
+          "endX": 16
+        },
+        {
+          "y": 112,
+          "startX": 8,
+          "endX": 16
+        },
+        {
+          "y": 113,
+          "startX": 9,
+          "endX": 16
+        },
+        {
+          "y": 114,
+          "startX": 10,
+          "endX": 15
+        },
+        {
+          "y": 115,
+          "startX": 11,
+          "endX": 15
+        },
+        {
+          "y": 116,
+          "startX": 12,
+          "endX": 14
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

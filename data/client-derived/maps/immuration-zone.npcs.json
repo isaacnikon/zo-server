@@ -1,0 +1,52 @@
+{
+  "mapId": 195,
+  "mapName": "Immuration Zone",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3520842,
+      "end": 3521137
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 2,
+    "statusCounts": {
+      "alias-id-mismatch": 1,
+      "match": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3461,
+      "npcTypeId": 5,
+      "name": "Cluck Bird",
+      "nameSource": "literal",
+      "x": 123,
+      "y": 166,
+      "roleinfoNameByNpcId": "Cluck Bird",
+      "roleinfoIdByName": 3161,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3161,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3461, 5,\"Cluck Bird\",123,166)"
+    },
+    {
+      "order": 1,
+      "npcId": 3048,
+      "npcTypeId": 1,
+      "name": "Mrs. White",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 78,
+      "y": 135,
+      "roleinfoNameByNpcId": "Mrs. White",
+      "roleinfoIdByName": 3048,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3048,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3048, 1,\"\"..macro_GetTypeNpcName(3048)..\"\",78,135)"
+    }
+  ]
+}

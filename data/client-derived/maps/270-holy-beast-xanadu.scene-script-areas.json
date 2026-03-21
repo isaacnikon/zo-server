@@ -1,0 +1,33 @@
+{
+  "mapId": 270,
+  "mapName": "Holy Beast Xanadu",
+  "width": 128,
+  "height": 256,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 1,
+      "bbox": {
+        "minX": 127,
+        "minY": 124,
+        "maxX": 127,
+        "maxY": 124
+      },
+      "rowRuns": [
+        {
+          "y": 124,
+          "startX": 127,
+          "endX": 127
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

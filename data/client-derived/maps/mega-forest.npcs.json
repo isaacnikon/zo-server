@@ -1,0 +1,66 @@
+{
+  "mapId": 129,
+  "mapName": "Mega Forest",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3483722,
+      "end": 3484111
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 3,
+    "statusCounts": {
+      "match": 3
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3651,
+      "npcTypeId": 1,
+      "name": "Zodiac Eudemon",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 108,
+      "y": 126,
+      "roleinfoNameByNpcId": "Zodiac Eudemon",
+      "roleinfoIdByName": 3651,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3651,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3651, 1,\"\"..macro_GetTypeNpcName(3651)..\"\",108,126)"
+    },
+    {
+      "order": 1,
+      "npcId": 3134,
+      "npcTypeId": 1,
+      "name": "Giant Spider",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 55,
+      "y": 161,
+      "roleinfoNameByNpcId": "Giant Spider",
+      "roleinfoIdByName": 3134,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3134,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3134, 1,\"\"..macro_GetTypeNpcName(3134)..\"\",55,161)"
+    },
+    {
+      "order": 2,
+      "npcId": 3096,
+      "npcTypeId": 1,
+      "name": "Lotus Boy",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 58,
+      "y": 69,
+      "roleinfoNameByNpcId": "Lotus Boy",
+      "roleinfoIdByName": 3096,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3096,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3096, 1,\"\"..macro_GetTypeNpcName(3096)..\"\",58,69)"
+    }
+  ]
+}

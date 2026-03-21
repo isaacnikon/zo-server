@@ -1,0 +1,30 @@
+{
+  "mapId": 167,
+  "mapName": "Ancient Sanctuary",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "mapGcg": "/home/nikon/Data/Zodiac Online/gcg/map.gcg",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3507559,
+      "end": 3508067
+    },
+    "transitionContextStart": 3507047,
+    "mapConfigChunkOffsets": null
+  },
+  "bigTexts": [
+    {
+      "order": 0,
+      "text": "\u00a1\u00efAncient Sanctuary\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "map-title",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efAncient Sanctuary\u00a1\u00ef\",3000, 63500)"
+    }
+  ],
+  "homeInfo": null,
+  "temporaryMapPoints": [],
+  "sceneTransitions": [],
+  "mapConfig": null
+}

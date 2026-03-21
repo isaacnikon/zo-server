@@ -1,0 +1,63 @@
+{
+  "mapId": 235,
+  "mapName": "Guardian Hall",
+  "width": 128,
+  "height": 256,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 25,
+      "bbox": {
+        "minX": 84,
+        "minY": 3,
+        "maxX": 90,
+        "maxY": 9
+      },
+      "rowRuns": [
+        {
+          "y": 3,
+          "startX": 87,
+          "endX": 87
+        },
+        {
+          "y": 4,
+          "startX": 86,
+          "endX": 88
+        },
+        {
+          "y": 5,
+          "startX": 85,
+          "endX": 89
+        },
+        {
+          "y": 6,
+          "startX": 84,
+          "endX": 90
+        },
+        {
+          "y": 7,
+          "startX": 85,
+          "endX": 89
+        },
+        {
+          "y": 8,
+          "startX": 86,
+          "endX": 88
+        },
+        {
+          "y": 9,
+          "startX": 87,
+          "endX": 87
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

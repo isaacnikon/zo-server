@@ -1,0 +1,36 @@
+{
+  "mapId": 171,
+  "mapName": "Zig Pass",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3511715,
+      "end": 3511964
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 1,
+    "statusCounts": {
+      "match": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3228,
+      "npcTypeId": 1,
+      "name": "Frontier Soldier",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 54,
+      "y": 209,
+      "roleinfoNameByNpcId": "Frontier Soldier",
+      "roleinfoIdByName": 3228,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3228,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3228, 1,\"\"..macro_GetTypeNpcName(3228)..\"\",54,209)"
+    }
+  ]
+}

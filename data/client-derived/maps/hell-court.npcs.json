@@ -1,0 +1,66 @@
+{
+  "mapId": 213,
+  "mapName": "Hell Court",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3531723,
+      "end": 3532105
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 3,
+    "statusCounts": {
+      "match": 3
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3101,
+      "npcTypeId": 1,
+      "name": "Bull-headed Guard",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 36,
+      "y": 57,
+      "roleinfoNameByNpcId": "Bull-headed Guard",
+      "roleinfoIdByName": 3101,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3101,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3101, 1,\"\"..macro_GetTypeNpcName(3101)..\"\",36,57)"
+    },
+    {
+      "order": 1,
+      "npcId": 3102,
+      "npcTypeId": 1,
+      "name": "Horse-headed Guard",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 48,
+      "y": 146,
+      "roleinfoNameByNpcId": "Horse-headed Guard",
+      "roleinfoIdByName": 3102,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3102,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3102, 1,\"\"..macro_GetTypeNpcName(3102)..\"\",48,146)"
+    },
+    {
+      "order": 2,
+      "npcId": 3120,
+      "npcTypeId": 3,
+      "name": "Soul Judge",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 40,
+      "y": 147,
+      "roleinfoNameByNpcId": "Soul Judge",
+      "roleinfoIdByName": 3120,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3120,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3120, 3,\"\"..macro_GetTypeNpcName(3120)..\"\",40,147)"
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "mapId": 118,
+  "mapName": "Wind Canyon",
+  "width": 128,
+  "height": 256,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2,
+        3
+      ],
+      "auxValues": [
+        0,
+        25,
+        27
+      ],
+      "tileCount": 117,
+      "bbox": {
+        "minX": 118,
+        "minY": 68,
+        "maxX": 127,
+        "maxY": 84
+      },
+      "rowRuns": [
+        {
+          "y": 68,
+          "startX": 125,
+          "endX": 126
+        },
+        {
+          "y": 69,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 70,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 71,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 72,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 73,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 74,
+          "startX": 118,
+          "endX": 127
+        },
+        {
+          "y": 75,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 76,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 77,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 78,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 79,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 80,
+          "startX": 118,
+          "endX": 122
+        },
+        {
+          "y": 81,
+          "startX": 118,
+          "endX": 121
+        },
+        {
+          "y": 82,
+          "startX": 118,
+          "endX": 120
+        },
+        {
+          "y": 83,
+          "startX": 118,
+          "endX": 119
+        },
+        {
+          "y": 84,
+          "startX": 118,
+          "endX": 118
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

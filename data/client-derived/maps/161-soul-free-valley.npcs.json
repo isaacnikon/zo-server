@@ -1,0 +1,127 @@
+{
+  "mapId": 161,
+  "mapName": "Soul-free Valley",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3503600,
+      "end": 3504455
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 7,
+    "statusCounts": {
+      "alias-id-mismatch": 1,
+      "match": 6
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3454,
+      "npcTypeId": 1,
+      "name": "Grandpa",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 77,
+      "y": 125,
+      "roleinfoNameByNpcId": "Grandpa",
+      "roleinfoIdByName": 3023,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3454,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3454, 1,\"\"..macro_GetTypeNpcName(3454)..\"\",77,125)"
+    },
+    {
+      "order": 1,
+      "npcId": 3457,
+      "npcTypeId": 1,
+      "name": "Soul-wander Valley Spirit",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 71,
+      "y": 121,
+      "roleinfoNameByNpcId": "Soul-wander Valley Spirit",
+      "roleinfoIdByName": 3457,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3457,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3457, 1,\"\"..macro_GetTypeNpcName(3457)..\"\",71,121)"
+    },
+    {
+      "order": 2,
+      "npcId": 3404,
+      "npcTypeId": 5,
+      "name": "Bob",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 13,
+      "y": 109,
+      "roleinfoNameByNpcId": "Bob",
+      "roleinfoIdByName": 3404,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3404,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3404, 5,\"\"..macro_GetTypeNpcName(3404)..\"\",13,109)"
+    },
+    {
+      "order": 3,
+      "npcId": 3406,
+      "npcTypeId": 5,
+      "name": "Treasure Guard",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 18,
+      "y": 103,
+      "roleinfoNameByNpcId": "Treasure Guard",
+      "roleinfoIdByName": 3406,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3406,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3406, 5,\"\"..macro_GetTypeNpcName(3406)..\"\",18,103)"
+    },
+    {
+      "order": 4,
+      "npcId": 3407,
+      "npcTypeId": 1,
+      "name": "Bob's Soul",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 12,
+      "y": 108,
+      "roleinfoNameByNpcId": "Bob's Soul",
+      "roleinfoIdByName": 3407,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3407,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3407, 1,\"\"..macro_GetTypeNpcName(3407)..\"\",12,108)"
+    },
+    {
+      "order": 5,
+      "npcId": 3418,
+      "npcTypeId": 1,
+      "name": "Ghost Fairy",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 75,
+      "y": 39,
+      "roleinfoNameByNpcId": "Ghost Fairy",
+      "roleinfoIdByName": 3418,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3418,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3418, 1,\"\"..macro_GetTypeNpcName(3418)..\"\",75,39)"
+    },
+    {
+      "order": 6,
+      "npcId": 3783,
+      "npcTypeId": 5,
+      "name": "Phoenix",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 69,
+      "y": 32,
+      "roleinfoNameByNpcId": "Phoenix",
+      "roleinfoIdByName": 3783,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3783,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3783, 5,\"\"..macro_GetTypeNpcName(3783)..\"\",69,32)"
+    }
+  ]
+}

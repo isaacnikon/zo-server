@@ -1,0 +1,108 @@
+{
+  "mapId": 133,
+  "mapName": "Mirror Lake",
+  "width": 128,
+  "height": 256,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        64
+      ],
+      "tileCount": 155,
+      "bbox": {
+        "minX": 117,
+        "minY": 159,
+        "maxX": 126,
+        "maxY": 174
+      },
+      "rowRuns": [
+        {
+          "y": 159,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 160,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 161,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 162,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 163,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 164,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 165,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 166,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 167,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 168,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 169,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 170,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 171,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 172,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 173,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 174,
+          "startX": 119,
+          "endX": 126
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

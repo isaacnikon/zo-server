@@ -1,0 +1,189 @@
+{
+  "mapId": 240,
+  "mapName": "Regret Cliff",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        100
+      ],
+      "tileCount": 138,
+      "bbox": {
+        "minX": 78,
+        "minY": 239,
+        "maxX": 89,
+        "maxY": 254
+      },
+      "rowRuns": [
+        {
+          "y": 239,
+          "startX": 83,
+          "endX": 83
+        },
+        {
+          "y": 240,
+          "startX": 83,
+          "endX": 85
+        },
+        {
+          "y": 241,
+          "startX": 82,
+          "endX": 86
+        },
+        {
+          "y": 242,
+          "startX": 82,
+          "endX": 87
+        },
+        {
+          "y": 243,
+          "startX": 79,
+          "endX": 79
+        },
+        {
+          "y": 243,
+          "startX": 82,
+          "endX": 88
+        },
+        {
+          "y": 244,
+          "startX": 78,
+          "endX": 89
+        },
+        {
+          "y": 245,
+          "startX": 78,
+          "endX": 88
+        },
+        {
+          "y": 246,
+          "startX": 78,
+          "endX": 88
+        },
+        {
+          "y": 247,
+          "startX": 78,
+          "endX": 88
+        },
+        {
+          "y": 248,
+          "startX": 79,
+          "endX": 88
+        },
+        {
+          "y": 249,
+          "startX": 79,
+          "endX": 88
+        },
+        {
+          "y": 250,
+          "startX": 79,
+          "endX": 88
+        },
+        {
+          "y": 251,
+          "startX": 79,
+          "endX": 88
+        },
+        {
+          "y": 252,
+          "startX": 79,
+          "endX": 88
+        },
+        {
+          "y": 253,
+          "startX": 79,
+          "endX": 88
+        },
+        {
+          "y": 254,
+          "startX": 79,
+          "endX": 88
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        100
+      ],
+      "tileCount": 105,
+      "bbox": {
+        "minX": 79,
+        "minY": 0,
+        "maxX": 89,
+        "maxY": 10
+      },
+      "rowRuns": [
+        {
+          "y": 0,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 1,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 2,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 3,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 4,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 5,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 6,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 7,
+          "startX": 79,
+          "endX": 88
+        },
+        {
+          "y": 8,
+          "startX": 80,
+          "endX": 87
+        },
+        {
+          "y": 9,
+          "startX": 81,
+          "endX": 86
+        },
+        {
+          "y": 10,
+          "startX": 82,
+          "endX": 85
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

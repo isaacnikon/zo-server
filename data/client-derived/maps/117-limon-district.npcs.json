@@ -1,0 +1,81 @@
+{
+  "mapId": 117,
+  "mapName": "Limon District",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3475037,
+      "end": 3475473
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 4,
+    "statusCounts": {
+      "match": 4
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3157,
+      "npcTypeId": 5,
+      "name": "General Smith",
+      "nameSource": "literal",
+      "x": 121,
+      "y": 75,
+      "roleinfoNameByNpcId": "General Smith",
+      "roleinfoIdByName": 3157,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3157,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3157, 5,\"General Smith\",121,75)"
+    },
+    {
+      "order": 1,
+      "npcId": 3231,
+      "npcTypeId": 1,
+      "name": "Limon Spirit",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 49,
+      "y": 235,
+      "roleinfoNameByNpcId": "Limon Spirit",
+      "roleinfoIdByName": 3231,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3231,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3231, 1,\"\"..macro_GetTypeNpcName(3231)..\"\",49,235)"
+    },
+    {
+      "order": 2,
+      "npcId": 3158,
+      "npcTypeId": 1,
+      "name": "Patrolman",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 101,
+      "y": 71,
+      "roleinfoNameByNpcId": "Patrolman",
+      "roleinfoIdByName": 3158,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3158,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3158, 1,\"\"..macro_GetTypeNpcName(3158)..\"\",101,71)"
+    },
+    {
+      "order": 3,
+      "npcId": 3158,
+      "npcTypeId": 1,
+      "name": "Patrolman",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 69,
+      "y": 94,
+      "roleinfoNameByNpcId": "Patrolman",
+      "roleinfoIdByName": 3158,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3158,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3158, 1,\"\"..macro_GetTypeNpcName(3158)..\"\",69,94)"
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "mapId": 210,
+  "mapName": "West County Pass",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0,
+        1
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 70,
+      "bbox": {
+        "minX": 0,
+        "minY": 239,
+        "maxX": 7,
+        "maxY": 251
+      },
+      "rowRuns": [
+        {
+          "y": 239,
+          "startX": 2,
+          "endX": 2
+        },
+        {
+          "y": 240,
+          "startX": 1,
+          "endX": 3
+        },
+        {
+          "y": 241,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 242,
+          "startX": 0,
+          "endX": 5
+        },
+        {
+          "y": 243,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 244,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 245,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 246,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 247,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 248,
+          "startX": 0,
+          "endX": 5
+        },
+        {
+          "y": 249,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 250,
+          "startX": 0,
+          "endX": 3
+        },
+        {
+          "y": 251,
+          "startX": 1,
+          "endX": 2
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 3,
+      "bbox": {
+        "minX": 125,
+        "minY": 253,
+        "maxX": 126,
+        "maxY": 254
+      },
+      "rowRuns": [
+        {
+          "y": 253,
+          "startX": 126,
+          "endX": 126
+        },
+        {
+          "y": 254,
+          "startX": 125,
+          "endX": 126
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

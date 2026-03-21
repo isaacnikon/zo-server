@@ -1,0 +1,51 @@
+{
+  "mapId": 160,
+  "mapName": "Soul Valley",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3502945,
+      "end": 3503260
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 2,
+    "statusCounts": {
+      "match": 2
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3078,
+      "npcTypeId": 3,
+      "name": "Black Azrael",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 94,
+      "y": 145,
+      "roleinfoNameByNpcId": "Black Azrael",
+      "roleinfoIdByName": 3078,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3078,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3078, 3,\"\"..macro_GetTypeNpcName(3078)..\"\",94,145)"
+    },
+    {
+      "order": 1,
+      "npcId": 3079,
+      "npcTypeId": 3,
+      "name": "White Azrael",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 83,
+      "y": 59,
+      "roleinfoNameByNpcId": "White Azrael",
+      "roleinfoIdByName": 3079,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3079,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3079, 3,\"\"..macro_GetTypeNpcName(3079)..\"\",83,59)"
+    }
+  ]
+}

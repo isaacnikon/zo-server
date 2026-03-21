@@ -1,0 +1,81 @@
+{
+  "mapId": 240,
+  "mapName": "Regret Cliff",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3542997,
+      "end": 3543453
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 4,
+    "statusCounts": {
+      "match": 4
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3347,
+      "npcTypeId": 3,
+      "name": "Vannessa",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 34,
+      "y": 182,
+      "roleinfoNameByNpcId": "Vannessa",
+      "roleinfoIdByName": 3347,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3347,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3347, 3,\"\"..macro_GetTypeNpcName(3347)..\"\",34,182)"
+    },
+    {
+      "order": 1,
+      "npcId": 3348,
+      "npcTypeId": 1,
+      "name": "Daniel",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 40,
+      "y": 179,
+      "roleinfoNameByNpcId": "Daniel",
+      "roleinfoIdByName": 3348,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3348,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3348, 1,\"\"..macro_GetTypeNpcName(3348)..\"\",40,179)"
+    },
+    {
+      "order": 2,
+      "npcId": 3363,
+      "npcTypeId": 3,
+      "name": "Old Witch Doctor",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 109,
+      "y": 122,
+      "roleinfoNameByNpcId": "Old Witch Doctor",
+      "roleinfoIdByName": 3363,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3363,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3363, 3,\"\"..macro_GetTypeNpcName(3363)..\"\",109,122)"
+    },
+    {
+      "order": 3,
+      "npcId": 3346,
+      "npcTypeId": 1,
+      "name": "Joshua",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 26,
+      "y": 21,
+      "roleinfoNameByNpcId": "Joshua",
+      "roleinfoIdByName": 3346,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3346,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3346, 1,\"\"..macro_GetTypeNpcName(3346)..\"\",26,21)"
+    }
+  ]
+}

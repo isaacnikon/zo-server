@@ -1,0 +1,111 @@
+{
+  "mapId": 130,
+  "mapName": "Triumph Path",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3484430,
+      "end": 3485101
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 6,
+    "statusCounts": {
+      "match": 6
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3409,
+      "npcTypeId": 1,
+      "name": "Sandy",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 99,
+      "y": 86,
+      "roleinfoNameByNpcId": "Sandy",
+      "roleinfoIdByName": 3409,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3409,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3409, 1,\"\"..macro_GetTypeNpcName(3409)..\"\",99,86)"
+    },
+    {
+      "order": 1,
+      "npcId": 3410,
+      "npcTypeId": 1,
+      "name": "Tina",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 65,
+      "y": 87,
+      "roleinfoNameByNpcId": "Tina",
+      "roleinfoIdByName": 3410,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3410,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3410, 1,\"\"..macro_GetTypeNpcName(3410)..\"\",65,87)"
+    },
+    {
+      "order": 2,
+      "npcId": 3411,
+      "npcTypeId": 1,
+      "name": "Linda",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 75,
+      "y": 90,
+      "roleinfoNameByNpcId": "Linda",
+      "roleinfoIdByName": 3411,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3411,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3411, 1,\"\"..macro_GetTypeNpcName(3411)..\"\",75,90)"
+    },
+    {
+      "order": 3,
+      "npcId": 3774,
+      "npcTypeId": 1,
+      "name": "Triumph Sprite",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 9,
+      "y": 136,
+      "roleinfoNameByNpcId": "Triumph Sprite",
+      "roleinfoIdByName": 3774,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3774,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3774, 1,\"\"..macro_GetTypeNpcName(3774)..\"\",9,136)"
+    },
+    {
+      "order": 4,
+      "npcId": 3782,
+      "npcTypeId": 1,
+      "name": "Queen of Soul Flower",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 9,
+      "y": 236,
+      "roleinfoNameByNpcId": "Queen of Soul Flower",
+      "roleinfoIdByName": 3782,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3782,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3782, 1,\"\"..macro_GetTypeNpcName(3782)..\"\",9,236)"
+    },
+    {
+      "order": 5,
+      "npcId": 3405,
+      "npcTypeId": 1,
+      "name": "Danny",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 16,
+      "y": 240,
+      "roleinfoNameByNpcId": "Danny",
+      "roleinfoIdByName": 3405,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3405,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3405, 1,\"\"..macro_GetTypeNpcName(3405)..\"\",16,240)"
+    }
+  ]
+}

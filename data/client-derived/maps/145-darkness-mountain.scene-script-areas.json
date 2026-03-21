@@ -1,0 +1,175 @@
+{
+  "mapId": 145,
+  "mapName": "Darkness Mountain",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        61,
+        63
+      ],
+      "tileCount": 79,
+      "bbox": {
+        "minX": 0,
+        "minY": 68,
+        "maxX": 7,
+        "maxY": 79
+      },
+      "rowRuns": [
+        {
+          "y": 68,
+          "startX": 0,
+          "endX": 2
+        },
+        {
+          "y": 69,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 70,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 71,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 72,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 73,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 74,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 75,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 76,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 77,
+          "startX": 0,
+          "endX": 5
+        },
+        {
+          "y": 78,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 79,
+          "startX": 0,
+          "endX": 3
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        61,
+        63
+      ],
+      "tileCount": 140,
+      "bbox": {
+        "minX": 79,
+        "minY": 0,
+        "maxX": 90,
+        "maxY": 12
+      },
+      "rowRuns": [
+        {
+          "y": 0,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 1,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 2,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 3,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 4,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 5,
+          "startX": 79,
+          "endX": 90
+        },
+        {
+          "y": 6,
+          "startX": 79,
+          "endX": 90
+        },
+        {
+          "y": 7,
+          "startX": 79,
+          "endX": 90
+        },
+        {
+          "y": 8,
+          "startX": 79,
+          "endX": 90
+        },
+        {
+          "y": 9,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 10,
+          "startX": 79,
+          "endX": 88
+        },
+        {
+          "y": 11,
+          "startX": 79,
+          "endX": 87
+        },
+        {
+          "y": 12,
+          "startX": 79,
+          "endX": 85
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

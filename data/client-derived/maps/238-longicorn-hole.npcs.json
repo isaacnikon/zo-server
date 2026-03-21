@@ -1,0 +1,82 @@
+{
+  "mapId": 238,
+  "mapName": "Longicorn Hole",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3541763,
+      "end": 3542216
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 4,
+    "statusCounts": {
+      "alias-id-mismatch": 1,
+      "match": 3
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3365,
+      "npcTypeId": 3,
+      "name": "Palm",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 68,
+      "y": 38,
+      "roleinfoNameByNpcId": "Palm",
+      "roleinfoIdByName": 3365,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3365,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3365, 3,\"\"..macro_GetTypeNpcName(3365)..\"\",68,38)"
+    },
+    {
+      "order": 1,
+      "npcId": 3370,
+      "npcTypeId": 1,
+      "name": "Ryan",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 97,
+      "y": 71,
+      "roleinfoNameByNpcId": "Ryan",
+      "roleinfoIdByName": 3181,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3370,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3370, 1,\"\"..macro_GetTypeNpcName(3370)..\"\",97,71)"
+    },
+    {
+      "order": 2,
+      "npcId": 3372,
+      "npcTypeId": 1,
+      "name": "Longicorn   Soldier",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 22,
+      "y": 55,
+      "roleinfoNameByNpcId": "Longicorn   Soldier",
+      "roleinfoIdByName": 3372,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3372,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3372, 1,\"\"..macro_GetTypeNpcName(3372)..\"\",22,55)"
+    },
+    {
+      "order": 3,
+      "npcId": 3366,
+      "npcTypeId": 3,
+      "name": "Alexander",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 81,
+      "y": 37,
+      "roleinfoNameByNpcId": "Alexander",
+      "roleinfoIdByName": 3366,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3366,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3366, 3,\"\"..macro_GetTypeNpcName(3366)..\"\",81,37)"
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "mapId": 165,
+  "mapName": "Lotus Peak",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3506010,
+      "end": 3506724
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 5,
+    "statusCounts": {
+      "alias-id-mismatch": 3,
+      "match": 2
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3453,
+      "npcTypeId": 1,
+      "name": "Thunder God",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 68,
+      "y": 129,
+      "roleinfoNameByNpcId": "Thunder God",
+      "roleinfoIdByName": 3453,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3453,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3453, 1,\"\"..macro_GetTypeNpcName(3453)..\"\",68,129)"
+    },
+    {
+      "order": 1,
+      "npcId": 3637,
+      "npcTypeId": 1,
+      "name": "Roaring Dog",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 62,
+      "y": 14,
+      "roleinfoNameByNpcId": "Roaring Dog",
+      "roleinfoIdByName": 3148,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3637,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3637, 1,\"\"..macro_GetTypeNpcName(3637)..\"\",62,14)"
+    },
+    {
+      "order": 2,
+      "npcId": 3636,
+      "npcTypeId": 1,
+      "name": "Jerry",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 68,
+      "y": 25,
+      "roleinfoNameByNpcId": "Jerry",
+      "roleinfoIdByName": 3636,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3636,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3636, 1,\"\"..macro_GetTypeNpcName(3636)..\"\",68,25)"
+    },
+    {
+      "order": 3,
+      "npcId": 3646,
+      "npcTypeId": 1,
+      "name": "Jerry",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 58,
+      "y": 126,
+      "roleinfoNameByNpcId": "Jerry",
+      "roleinfoIdByName": 3636,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3646,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3646, 1,\"\"..macro_GetTypeNpcName(3646)..\"\",58,126)"
+    },
+    {
+      "order": 4,
+      "npcId": 3646,
+      "npcTypeId": 1,
+      "name": "Jerry",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 58,
+      "y": 126,
+      "roleinfoNameByNpcId": "Jerry",
+      "roleinfoIdByName": 3636,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3646,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3646, 1,\"\"..macro_GetTypeNpcName(3646)..\"\",58,126)"
+    }
+  ]
+}

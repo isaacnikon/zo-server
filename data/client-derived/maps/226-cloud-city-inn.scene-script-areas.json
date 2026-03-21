@@ -1,0 +1,119 @@
+{
+  "mapId": 226,
+  "mapName": "Cloud City Inn",
+  "width": 64,
+  "height": 128,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0,
+        1
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 125,
+      "bbox": {
+        "minX": 46,
+        "minY": 110,
+        "maxX": 60,
+        "maxY": 126
+      },
+      "rowRuns": [
+        {
+          "y": 110,
+          "startX": 55,
+          "endX": 56
+        },
+        {
+          "y": 111,
+          "startX": 54,
+          "endX": 57
+        },
+        {
+          "y": 112,
+          "startX": 53,
+          "endX": 53
+        },
+        {
+          "y": 112,
+          "startX": 55,
+          "endX": 59
+        },
+        {
+          "y": 113,
+          "startX": 52,
+          "endX": 60
+        },
+        {
+          "y": 114,
+          "startX": 51,
+          "endX": 59
+        },
+        {
+          "y": 115,
+          "startX": 50,
+          "endX": 58
+        },
+        {
+          "y": 116,
+          "startX": 49,
+          "endX": 57
+        },
+        {
+          "y": 117,
+          "startX": 48,
+          "endX": 56
+        },
+        {
+          "y": 118,
+          "startX": 47,
+          "endX": 55
+        },
+        {
+          "y": 119,
+          "startX": 46,
+          "endX": 54
+        },
+        {
+          "y": 120,
+          "startX": 46,
+          "endX": 53
+        },
+        {
+          "y": 121,
+          "startX": 47,
+          "endX": 53
+        },
+        {
+          "y": 122,
+          "startX": 47,
+          "endX": 53
+        },
+        {
+          "y": 123,
+          "startX": 47,
+          "endX": 53
+        },
+        {
+          "y": 124,
+          "startX": 47,
+          "endX": 53
+        },
+        {
+          "y": 125,
+          "startX": 47,
+          "endX": 53
+        },
+        {
+          "y": 126,
+          "startX": 47,
+          "endX": 53
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

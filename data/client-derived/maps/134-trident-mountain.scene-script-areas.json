@@ -1,0 +1,184 @@
+{
+  "mapId": 134,
+  "mapName": "Trident Mountain",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        78
+      ],
+      "tileCount": 131,
+      "bbox": {
+        "minX": 60,
+        "minY": 0,
+        "maxX": 72,
+        "maxY": 11
+      },
+      "rowRuns": [
+        {
+          "y": 0,
+          "startX": 62,
+          "endX": 72
+        },
+        {
+          "y": 1,
+          "startX": 62,
+          "endX": 72
+        },
+        {
+          "y": 2,
+          "startX": 62,
+          "endX": 72
+        },
+        {
+          "y": 3,
+          "startX": 62,
+          "endX": 72
+        },
+        {
+          "y": 4,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 5,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 6,
+          "startX": 60,
+          "endX": 71
+        },
+        {
+          "y": 7,
+          "startX": 60,
+          "endX": 71
+        },
+        {
+          "y": 8,
+          "startX": 60,
+          "endX": 71
+        },
+        {
+          "y": 9,
+          "startX": 60,
+          "endX": 71
+        },
+        {
+          "y": 10,
+          "startX": 62,
+          "endX": 69
+        },
+        {
+          "y": 11,
+          "startX": 62,
+          "endX": 68
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        0,
+        2
+      ],
+      "auxValues": [
+        0,
+        78
+      ],
+      "tileCount": 175,
+      "bbox": {
+        "minX": 61,
+        "minY": 240,
+        "maxX": 72,
+        "maxY": 254
+      },
+      "rowRuns": [
+        {
+          "y": 240,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 241,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 242,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 243,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 244,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 245,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 246,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 247,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 248,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 249,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 250,
+          "startX": 62,
+          "endX": 72
+        },
+        {
+          "y": 251,
+          "startX": 62,
+          "endX": 72
+        },
+        {
+          "y": 252,
+          "startX": 62,
+          "endX": 72
+        },
+        {
+          "y": 253,
+          "startX": 62,
+          "endX": 72
+        },
+        {
+          "y": 254,
+          "startX": 62,
+          "endX": 72
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

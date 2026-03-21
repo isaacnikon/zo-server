@@ -1,0 +1,124 @@
+{
+  "mapId": 227,
+  "mapName": "Goal Manor Pothouse",
+  "width": 64,
+  "height": 128,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2,
+        3
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 140,
+      "bbox": {
+        "minX": 45,
+        "minY": 108,
+        "maxX": 60,
+        "maxY": 126
+      },
+      "rowRuns": [
+        {
+          "y": 108,
+          "startX": 55,
+          "endX": 55
+        },
+        {
+          "y": 109,
+          "startX": 54,
+          "endX": 55
+        },
+        {
+          "y": 110,
+          "startX": 53,
+          "endX": 56
+        },
+        {
+          "y": 111,
+          "startX": 52,
+          "endX": 57
+        },
+        {
+          "y": 112,
+          "startX": 51,
+          "endX": 57
+        },
+        {
+          "y": 113,
+          "startX": 50,
+          "endX": 60
+        },
+        {
+          "y": 114,
+          "startX": 49,
+          "endX": 59
+        },
+        {
+          "y": 115,
+          "startX": 48,
+          "endX": 58
+        },
+        {
+          "y": 116,
+          "startX": 47,
+          "endX": 57
+        },
+        {
+          "y": 117,
+          "startX": 46,
+          "endX": 56
+        },
+        {
+          "y": 118,
+          "startX": 45,
+          "endX": 55
+        },
+        {
+          "y": 119,
+          "startX": 45,
+          "endX": 54
+        },
+        {
+          "y": 120,
+          "startX": 46,
+          "endX": 53
+        },
+        {
+          "y": 121,
+          "startX": 47,
+          "endX": 52
+        },
+        {
+          "y": 122,
+          "startX": 47,
+          "endX": 52
+        },
+        {
+          "y": 123,
+          "startX": 47,
+          "endX": 52
+        },
+        {
+          "y": 124,
+          "startX": 47,
+          "endX": 52
+        },
+        {
+          "y": 125,
+          "startX": 47,
+          "endX": 52
+        },
+        {
+          "y": 126,
+          "startX": 47,
+          "endX": 52
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

@@ -1,0 +1,275 @@
+{
+  "kind": "map-npc-bulk-extract",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt"
+  },
+  "summary": {
+    "mapsInMapInfo": 147,
+    "mapsExtracted": 95,
+    "mapsSkipped": 52
+  },
+  "skipped": [
+    {
+      "mapId": 104,
+      "mapName": "Faith Forest",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 106,
+      "mapName": "Seaside Village",
+      "reason": "could not find map anchor for 'Seaside Village'"
+    },
+    {
+      "mapId": 110,
+      "mapName": "Dawn Mountain",
+      "reason": "could not find map anchor for 'Dawn Mountain'"
+    },
+    {
+      "mapId": 111,
+      "mapName": "Chill Pass",
+      "reason": "could not find map anchor for 'Chill Pass'"
+    },
+    {
+      "mapId": 119,
+      "mapName": "\u00b9\u00e9\u00d1\u00e0\u00c1\u00d6",
+      "reason": "could not find map anchor for '\u00b9\u00e9\u00d1\u00e0\u00c1\u00d6'"
+    },
+    {
+      "mapId": 134,
+      "mapName": "Trident Mountain",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 136,
+      "mapName": "Zig Alley 1",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 137,
+      "mapName": "Zig Alley 2",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 148,
+      "mapName": "Deep Corridor",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 153,
+      "mapName": "Nirvana Pool",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 154,
+      "mapName": "Hades Hall",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 164,
+      "mapName": "Sunlight Hole",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 168,
+      "mapName": "Darkness Sentry",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 178,
+      "mapName": "Great Desert ",
+      "reason": "could not find map anchor for 'Great Desert '"
+    },
+    {
+      "mapId": 190,
+      "mapName": "Underground Hall 2",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 192,
+      "mapName": "Underground Hall 1",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 194,
+      "mapName": "Calm Zone",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 196,
+      "mapName": "Blove Zone",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 197,
+      "mapName": "Tower 4",
+      "reason": "could not find map anchor for 'Tower 4'"
+    },
+    {
+      "mapId": 202,
+      "mapName": "Blove Palace",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 203,
+      "mapName": "Rosy Kiosk",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 206,
+      "mapName": "South Gate",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 207,
+      "mapName": "Cloud Hall",
+      "reason": "could not find map anchor for 'Cloud Hall'"
+    },
+    {
+      "mapId": 208,
+      "mapName": "Covert Palace",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 218,
+      "mapName": "Goal Manor Grocer",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 219,
+      "mapName": "Chill Pass Grocer",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 220,
+      "mapName": "Timber Town Inn",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 221,
+      "mapName": "Casino",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 222,
+      "mapName": "Jewelry Shop",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 223,
+      "mapName": "Armor Shop",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 224,
+      "mapName": "Armor Store",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 225,
+      "mapName": "Weapon Shop",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 226,
+      "mapName": "Cloud City Inn",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 227,
+      "mapName": "Goal Manor Pothouse",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 228,
+      "mapName": "Pet Shop",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 229,
+      "mapName": "Dragon Wing-room",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 234,
+      "mapName": "Somber Aisle",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 237,
+      "mapName": "Chill Pass Pothouse",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 241,
+      "mapName": "De-evil Tower",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 244,
+      "mapName": "Longicorn Cliff",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 248,
+      "mapName": " Weapon Shop",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 250,
+      "mapName": "Guild ",
+      "reason": "could not find map anchor for 'Guild '"
+    },
+    {
+      "mapId": 261,
+      "mapName": "Timber Town Grocer",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 262,
+      "mapName": "Ancient Stair",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 264,
+      "mapName": "Goal's Mansion",
+      "reason": "could not find map anchor for \"Goal's Mansion\""
+    },
+    {
+      "mapId": 272,
+      "mapName": "Love Pavilion",
+      "reason": "could not find map anchor for 'Love Pavilion'"
+    },
+    {
+      "mapId": 273,
+      "mapName": "Eden",
+      "reason": "could not find map anchor for 'Eden'"
+    },
+    {
+      "mapId": 279,
+      "mapName": "Under Sanctum",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 283,
+      "mapName": "Love Chamber",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 285,
+      "mapName": "Race Field",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 286,
+      "mapName": "Arena",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    },
+    {
+      "mapId": 287,
+      "mapName": "Battle Field",
+      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+    }
+  ]
+}

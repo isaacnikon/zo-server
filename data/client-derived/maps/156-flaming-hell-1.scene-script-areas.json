@@ -1,0 +1,83 @@
+{
+  "mapId": 156,
+  "mapName": "Flaming Hell 1",
+  "width": 128,
+  "height": 256,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        15
+      ],
+      "tileCount": 121,
+      "bbox": {
+        "minX": 54,
+        "minY": 0,
+        "maxX": 64,
+        "maxY": 10
+      },
+      "rowRuns": [
+        {
+          "y": 0,
+          "startX": 54,
+          "endX": 64
+        },
+        {
+          "y": 1,
+          "startX": 54,
+          "endX": 64
+        },
+        {
+          "y": 2,
+          "startX": 54,
+          "endX": 64
+        },
+        {
+          "y": 3,
+          "startX": 54,
+          "endX": 64
+        },
+        {
+          "y": 4,
+          "startX": 54,
+          "endX": 64
+        },
+        {
+          "y": 5,
+          "startX": 54,
+          "endX": 64
+        },
+        {
+          "y": 6,
+          "startX": 54,
+          "endX": 64
+        },
+        {
+          "y": 7,
+          "startX": 54,
+          "endX": 64
+        },
+        {
+          "y": 8,
+          "startX": 54,
+          "endX": 64
+        },
+        {
+          "y": 9,
+          "startX": 54,
+          "endX": 64
+        },
+        {
+          "y": 10,
+          "startX": 54,
+          "endX": 64
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

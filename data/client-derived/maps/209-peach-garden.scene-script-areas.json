@@ -1,0 +1,78 @@
+{
+  "mapId": 209,
+  "mapName": "Peach Garden",
+  "width": 128,
+  "height": 256,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 50,
+      "bbox": {
+        "minX": 2,
+        "minY": 207,
+        "maxX": 11,
+        "maxY": 216
+      },
+      "rowRuns": [
+        {
+          "y": 207,
+          "startX": 7,
+          "endX": 7
+        },
+        {
+          "y": 208,
+          "startX": 6,
+          "endX": 8
+        },
+        {
+          "y": 209,
+          "startX": 5,
+          "endX": 9
+        },
+        {
+          "y": 210,
+          "startX": 5,
+          "endX": 10
+        },
+        {
+          "y": 211,
+          "startX": 3,
+          "endX": 11
+        },
+        {
+          "y": 212,
+          "startX": 2,
+          "endX": 11
+        },
+        {
+          "y": 213,
+          "startX": 3,
+          "endX": 9
+        },
+        {
+          "y": 214,
+          "startX": 4,
+          "endX": 8
+        },
+        {
+          "y": 215,
+          "startX": 5,
+          "endX": 7
+        },
+        {
+          "y": 216,
+          "startX": 6,
+          "endX": 6
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

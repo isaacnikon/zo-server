@@ -1,0 +1,112 @@
+{
+  "mapId": 260,
+  "mapName": "Guardhouse",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3552100,
+      "end": 3552683
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 6,
+    "statusCounts": {
+      "alias-id-mismatch": 4,
+      "match": 2
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3219,
+      "npcTypeId": 3,
+      "name": "Mrs. White",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 81,
+      "y": 133,
+      "roleinfoNameByNpcId": "Mrs. White",
+      "roleinfoIdByName": 3048,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3219,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3219, 3,\"\"..macro_GetTypeNpcName(3219)..\"\",81,133)"
+    },
+    {
+      "order": 1,
+      "npcId": 3282,
+      "npcTypeId": 3,
+      "name": "Bonze",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 63,
+      "y": 143,
+      "roleinfoNameByNpcId": "Bonze",
+      "roleinfoIdByName": 3282,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3282,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3282, 3,\"\"..macro_GetTypeNpcName(3282)..\"\",63,143)"
+    },
+    {
+      "order": 2,
+      "npcId": 3441,
+      "npcTypeId": 3,
+      "name": "Heaven General",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 80,
+      "y": 51,
+      "roleinfoNameByNpcId": "Heaven General",
+      "roleinfoIdByName": 3324,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3441,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3441, 3,\"\"..macro_GetTypeNpcName(3441)..\"\",80,51)"
+    },
+    {
+      "order": 3,
+      "npcId": 3441,
+      "npcTypeId": 3,
+      "name": "Heaven General",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 104,
+      "y": 192,
+      "roleinfoNameByNpcId": "Heaven General",
+      "roleinfoIdByName": 3324,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3441,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3441, 3,\"\"..macro_GetTypeNpcName(3441)..\"\",104,192)"
+    },
+    {
+      "order": 4,
+      "npcId": 3440,
+      "npcTypeId": 3,
+      "name": "Heavenly Solider",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 3,
+      "y": 119,
+      "roleinfoNameByNpcId": "Heavenly Solider",
+      "roleinfoIdByName": 3440,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3440,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3440, 3,\"\"..macro_GetTypeNpcName(3440)..\"\",3,119)"
+    },
+    {
+      "order": 5,
+      "npcId": 3442,
+      "npcTypeId": 3,
+      "name": "Judy",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 38,
+      "y": 165,
+      "roleinfoNameByNpcId": "Judy",
+      "roleinfoIdByName": 3312,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3442,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3442, 3,\"\"..macro_GetTypeNpcName(3442)..\"\",38,165)"
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "mapId": 167,
+  "mapName": "Ancient Sanctuary",
+  "width": 128,
+  "height": 256,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0,
+        1
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 167,
+      "bbox": {
+        "minX": 61,
+        "minY": 238,
+        "maxX": 72,
+        "maxY": 254
+      },
+      "rowRuns": [
+        {
+          "y": 238,
+          "startX": 65,
+          "endX": 68
+        },
+        {
+          "y": 239,
+          "startX": 64,
+          "endX": 69
+        },
+        {
+          "y": 240,
+          "startX": 63,
+          "endX": 70
+        },
+        {
+          "y": 241,
+          "startX": 62,
+          "endX": 71
+        },
+        {
+          "y": 242,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 243,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 244,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 245,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 246,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 247,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 248,
+          "startX": 62,
+          "endX": 72
+        },
+        {
+          "y": 249,
+          "startX": 62,
+          "endX": 72
+        },
+        {
+          "y": 250,
+          "startX": 62,
+          "endX": 70
+        },
+        {
+          "y": 251,
+          "startX": 62,
+          "endX": 70
+        },
+        {
+          "y": 252,
+          "startX": 62,
+          "endX": 70
+        },
+        {
+          "y": 253,
+          "startX": 62,
+          "endX": 70
+        },
+        {
+          "y": 254,
+          "startX": 62,
+          "endX": 70
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

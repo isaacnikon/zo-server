@@ -1,0 +1,296 @@
+{
+  "mapId": 109,
+  "mapName": "Spring Forest",
+  "width": 128,
+  "height": 256,
+  "componentCount": 3,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        83
+      ],
+      "tileCount": 167,
+      "bbox": {
+        "minX": 0,
+        "minY": 74,
+        "maxX": 10,
+        "maxY": 90
+      },
+      "rowRuns": [
+        {
+          "y": 74,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 75,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 76,
+          "startX": 0,
+          "endX": 8
+        },
+        {
+          "y": 77,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 78,
+          "startX": 0,
+          "endX": 10
+        },
+        {
+          "y": 79,
+          "startX": 0,
+          "endX": 10
+        },
+        {
+          "y": 80,
+          "startX": 0,
+          "endX": 10
+        },
+        {
+          "y": 81,
+          "startX": 0,
+          "endX": 10
+        },
+        {
+          "y": 82,
+          "startX": 0,
+          "endX": 10
+        },
+        {
+          "y": 83,
+          "startX": 0,
+          "endX": 10
+        },
+        {
+          "y": 84,
+          "startX": 0,
+          "endX": 10
+        },
+        {
+          "y": 85,
+          "startX": 0,
+          "endX": 10
+        },
+        {
+          "y": 86,
+          "startX": 0,
+          "endX": 10
+        },
+        {
+          "y": 87,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 88,
+          "startX": 0,
+          "endX": 8
+        },
+        {
+          "y": 89,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 90,
+          "startX": 0,
+          "endX": 6
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        83,
+        84
+      ],
+      "tileCount": 124,
+      "bbox": {
+        "minX": 77,
+        "minY": 241,
+        "maxX": 87,
+        "maxY": 254
+      },
+      "rowRuns": [
+        {
+          "y": 241,
+          "startX": 82,
+          "endX": 82
+        },
+        {
+          "y": 242,
+          "startX": 81,
+          "endX": 83
+        },
+        {
+          "y": 243,
+          "startX": 80,
+          "endX": 84
+        },
+        {
+          "y": 244,
+          "startX": 79,
+          "endX": 85
+        },
+        {
+          "y": 245,
+          "startX": 78,
+          "endX": 86
+        },
+        {
+          "y": 246,
+          "startX": 77,
+          "endX": 87
+        },
+        {
+          "y": 247,
+          "startX": 77,
+          "endX": 87
+        },
+        {
+          "y": 248,
+          "startX": 77,
+          "endX": 87
+        },
+        {
+          "y": 249,
+          "startX": 77,
+          "endX": 87
+        },
+        {
+          "y": 250,
+          "startX": 77,
+          "endX": 87
+        },
+        {
+          "y": 251,
+          "startX": 77,
+          "endX": 87
+        },
+        {
+          "y": 252,
+          "startX": 77,
+          "endX": 87
+        },
+        {
+          "y": 253,
+          "startX": 77,
+          "endX": 87
+        },
+        {
+          "y": 254,
+          "startX": 77,
+          "endX": 87
+        }
+      ],
+      "componentIndex": 2
+    },
+    {
+      "sceneScriptId": 3,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        83,
+        84
+      ],
+      "tileCount": 140,
+      "bbox": {
+        "minX": 77,
+        "minY": 0,
+        "maxX": 89,
+        "maxY": 13
+      },
+      "rowRuns": [
+        {
+          "y": 0,
+          "startX": 77,
+          "endX": 89
+        },
+        {
+          "y": 1,
+          "startX": 77,
+          "endX": 89
+        },
+        {
+          "y": 2,
+          "startX": 77,
+          "endX": 89
+        },
+        {
+          "y": 3,
+          "startX": 77,
+          "endX": 89
+        },
+        {
+          "y": 4,
+          "startX": 77,
+          "endX": 89
+        },
+        {
+          "y": 5,
+          "startX": 77,
+          "endX": 89
+        },
+        {
+          "y": 6,
+          "startX": 77,
+          "endX": 89
+        },
+        {
+          "y": 7,
+          "startX": 77,
+          "endX": 89
+        },
+        {
+          "y": 8,
+          "startX": 78,
+          "endX": 88
+        },
+        {
+          "y": 9,
+          "startX": 79,
+          "endX": 87
+        },
+        {
+          "y": 10,
+          "startX": 80,
+          "endX": 86
+        },
+        {
+          "y": 11,
+          "startX": 81,
+          "endX": 85
+        },
+        {
+          "y": 12,
+          "startX": 82,
+          "endX": 84
+        },
+        {
+          "y": 13,
+          "startX": 83,
+          "endX": 83
+        }
+      ],
+      "componentIndex": 3
+    }
+  ]
+}

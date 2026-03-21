@@ -1,0 +1,83 @@
+{
+  "mapId": 139,
+  "mapName": "Darkness Hamlet",
+  "width": 128,
+  "height": 256,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 108,
+      "bbox": {
+        "minX": 59,
+        "minY": 244,
+        "maxX": 69,
+        "maxY": 254
+      },
+      "rowRuns": [
+        {
+          "y": 244,
+          "startX": 63,
+          "endX": 67
+        },
+        {
+          "y": 245,
+          "startX": 62,
+          "endX": 68
+        },
+        {
+          "y": 246,
+          "startX": 61,
+          "endX": 69
+        },
+        {
+          "y": 247,
+          "startX": 60,
+          "endX": 69
+        },
+        {
+          "y": 248,
+          "startX": 59,
+          "endX": 69
+        },
+        {
+          "y": 249,
+          "startX": 59,
+          "endX": 69
+        },
+        {
+          "y": 250,
+          "startX": 59,
+          "endX": 69
+        },
+        {
+          "y": 251,
+          "startX": 59,
+          "endX": 69
+        },
+        {
+          "y": 252,
+          "startX": 59,
+          "endX": 69
+        },
+        {
+          "y": 253,
+          "startX": 59,
+          "endX": 69
+        },
+        {
+          "y": 254,
+          "startX": 59,
+          "endX": 69
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

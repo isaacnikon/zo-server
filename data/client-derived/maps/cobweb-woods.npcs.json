@@ -1,0 +1,67 @@
+{
+  "mapId": 120,
+  "mapName": "Cobweb Woods",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3477251,
+      "end": 3477745
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 3,
+    "statusCounts": {
+      "alias-id-mismatch": 1,
+      "match": 2
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3162,
+      "npcTypeId": 3,
+      "name": "Geralyn",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 19,
+      "y": 25,
+      "roleinfoNameByNpcId": "Geralyn",
+      "roleinfoIdByName": 3162,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3162,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3162, 3,\"\"..macro_GetTypeNpcName(3162)..\"\",19,25)"
+    },
+    {
+      "order": 1,
+      "npcId": 3307,
+      "npcTypeId": 1,
+      "name": "Rogue Sniper",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 39,
+      "y": 59,
+      "roleinfoNameByNpcId": "Spider Overlord",
+      "roleinfoIdByName": 3067,
+      "nameMatchesRoleinfo": false,
+      "resolvedSpawnEntityType": 3307,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3307, 1,\"\"..macro_GetTypeNpcName(3067)..\"\",39,59)"
+    },
+    {
+      "order": 2,
+      "npcId": 3043,
+      "npcTypeId": 1,
+      "name": "Evil Spider",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 51,
+      "y": 86,
+      "roleinfoNameByNpcId": "Evil Spider",
+      "roleinfoIdByName": 3043,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3043,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3043, 1,\"\"..macro_GetTypeNpcName(3043)..\"\",51,86)"
+    }
+  ]
+}

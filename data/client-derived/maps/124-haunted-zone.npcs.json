@@ -1,0 +1,36 @@
+{
+  "mapId": 124,
+  "mapName": "Haunted Zone",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3480090,
+      "end": 3480338
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 1,
+    "statusCounts": {
+      "alias-id-mismatch": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3271,
+      "npcTypeId": 1,
+      "name": "Darkness Mage",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 58,
+      "y": 58,
+      "roleinfoNameByNpcId": "Darkness Mage",
+      "roleinfoIdByName": 3075,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3271,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3271, 1,\"\"..macro_GetTypeNpcName(3271)..\"\",58,58)"
+    }
+  ]
+}

@@ -1,0 +1,194 @@
+{
+  "mapId": 239,
+  "mapName": "Longicorn Gully",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2,
+        3
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 117,
+      "bbox": {
+        "minX": 0,
+        "minY": 117,
+        "maxX": 9,
+        "maxY": 131
+      },
+      "rowRuns": [
+        {
+          "y": 117,
+          "startX": 0,
+          "endX": 2
+        },
+        {
+          "y": 118,
+          "startX": 0,
+          "endX": 3
+        },
+        {
+          "y": 118,
+          "startX": 9,
+          "endX": 9
+        },
+        {
+          "y": 119,
+          "startX": 0,
+          "endX": 3
+        },
+        {
+          "y": 119,
+          "startX": 9,
+          "endX": 9
+        },
+        {
+          "y": 120,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 120,
+          "startX": 8,
+          "endX": 9
+        },
+        {
+          "y": 121,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 122,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 123,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 124,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 125,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 126,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 127,
+          "startX": 0,
+          "endX": 0
+        },
+        {
+          "y": 127,
+          "startX": 2,
+          "endX": 9
+        },
+        {
+          "y": 128,
+          "startX": 2,
+          "endX": 9
+        },
+        {
+          "y": 129,
+          "startX": 3,
+          "endX": 9
+        },
+        {
+          "y": 130,
+          "startX": 3,
+          "endX": 9
+        },
+        {
+          "y": 131,
+          "startX": 3,
+          "endX": 8
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2,
+        3
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 54,
+      "bbox": {
+        "minX": 18,
+        "minY": 34,
+        "maxX": 24,
+        "maxY": 43
+      },
+      "rowRuns": [
+        {
+          "y": 34,
+          "startX": 19,
+          "endX": 22
+        },
+        {
+          "y": 35,
+          "startX": 19,
+          "endX": 22
+        },
+        {
+          "y": 36,
+          "startX": 19,
+          "endX": 23
+        },
+        {
+          "y": 37,
+          "startX": 18,
+          "endX": 24
+        },
+        {
+          "y": 38,
+          "startX": 19,
+          "endX": 23
+        },
+        {
+          "y": 39,
+          "startX": 19,
+          "endX": 22
+        },
+        {
+          "y": 40,
+          "startX": 19,
+          "endX": 23
+        },
+        {
+          "y": 41,
+          "startX": 18,
+          "endX": 23
+        },
+        {
+          "y": 42,
+          "startX": 18,
+          "endX": 24
+        },
+        {
+          "y": 43,
+          "startX": 18,
+          "endX": 24
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

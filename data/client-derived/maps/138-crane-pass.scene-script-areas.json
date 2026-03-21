@@ -1,0 +1,199 @@
+{
+  "mapId": 138,
+  "mapName": "Crane Pass",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        37
+      ],
+      "tileCount": 145,
+      "bbox": {
+        "minX": 117,
+        "minY": 138,
+        "maxX": 126,
+        "maxY": 154
+      },
+      "rowRuns": [
+        {
+          "y": 138,
+          "startX": 124,
+          "endX": 126
+        },
+        {
+          "y": 139,
+          "startX": 123,
+          "endX": 126
+        },
+        {
+          "y": 140,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 141,
+          "startX": 121,
+          "endX": 126
+        },
+        {
+          "y": 142,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 143,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 144,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 145,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 146,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 147,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 148,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 149,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 150,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 151,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 152,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 153,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 154,
+          "startX": 117,
+          "endX": 126
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        39
+      ],
+      "tileCount": 131,
+      "bbox": {
+        "minX": 59,
+        "minY": 0,
+        "maxX": 75,
+        "maxY": 12
+      },
+      "rowRuns": [
+        {
+          "y": 0,
+          "startX": 59,
+          "endX": 72
+        },
+        {
+          "y": 1,
+          "startX": 60,
+          "endX": 72
+        },
+        {
+          "y": 2,
+          "startX": 61,
+          "endX": 73
+        },
+        {
+          "y": 3,
+          "startX": 61,
+          "endX": 75
+        },
+        {
+          "y": 4,
+          "startX": 62,
+          "endX": 75
+        },
+        {
+          "y": 5,
+          "startX": 62,
+          "endX": 75
+        },
+        {
+          "y": 6,
+          "startX": 63,
+          "endX": 74
+        },
+        {
+          "y": 7,
+          "startX": 64,
+          "endX": 73
+        },
+        {
+          "y": 8,
+          "startX": 64,
+          "endX": 72
+        },
+        {
+          "y": 9,
+          "startX": 65,
+          "endX": 71
+        },
+        {
+          "y": 10,
+          "startX": 66,
+          "endX": 71
+        },
+        {
+          "y": 11,
+          "startX": 67,
+          "endX": 69
+        },
+        {
+          "y": 12,
+          "startX": 68,
+          "endX": 68
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

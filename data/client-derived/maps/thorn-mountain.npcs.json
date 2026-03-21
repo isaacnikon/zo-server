@@ -1,0 +1,36 @@
+{
+  "mapId": 185,
+  "mapName": "Thorn Mountain",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3517596,
+      "end": 3517850
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 1,
+    "statusCounts": {
+      "match": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3544,
+      "npcTypeId": 1,
+      "name": "Cepheus",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 33,
+      "y": 31,
+      "roleinfoNameByNpcId": "Cepheus",
+      "roleinfoIdByName": 3544,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3544,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3544, 1,\"\"..macro_GetTypeNpcName(3544)..\"\",33,31)"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "mapId": 251,
+  "mapName": "Guild Restaurant",
+  "width": 64,
+  "height": 128,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0,
+        1
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 109,
+      "bbox": {
+        "minX": 3,
+        "minY": 88,
+        "maxX": 15,
+        "maxY": 101
+      },
+      "rowRuns": [
+        {
+          "y": 88,
+          "startX": 7,
+          "endX": 8
+        },
+        {
+          "y": 89,
+          "startX": 6,
+          "endX": 9
+        },
+        {
+          "y": 90,
+          "startX": 5,
+          "endX": 10
+        },
+        {
+          "y": 91,
+          "startX": 4,
+          "endX": 11
+        },
+        {
+          "y": 92,
+          "startX": 3,
+          "endX": 12
+        },
+        {
+          "y": 93,
+          "startX": 3,
+          "endX": 13
+        },
+        {
+          "y": 94,
+          "startX": 4,
+          "endX": 14
+        },
+        {
+          "y": 95,
+          "startX": 4,
+          "endX": 15
+        },
+        {
+          "y": 96,
+          "startX": 5,
+          "endX": 15
+        },
+        {
+          "y": 97,
+          "startX": 5,
+          "endX": 14
+        },
+        {
+          "y": 98,
+          "startX": 6,
+          "endX": 14
+        },
+        {
+          "y": 99,
+          "startX": 7,
+          "endX": 13
+        },
+        {
+          "y": 100,
+          "startX": 8,
+          "endX": 12
+        },
+        {
+          "y": 101,
+          "startX": 9,
+          "endX": 11
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

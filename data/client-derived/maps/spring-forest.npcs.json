@@ -1,0 +1,81 @@
+{
+  "mapId": 109,
+  "mapName": "Spring Forest",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3464498,
+      "end": 3465026
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 4,
+    "statusCounts": {
+      "match": 4
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3353,
+      "npcTypeId": 3,
+      "name": "Laura",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 96,
+      "y": 154,
+      "roleinfoNameByNpcId": "Laura",
+      "roleinfoIdByName": 3353,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3353,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3353, 3,\"\"..macro_GetTypeNpcName(3353)..\"\",96,154)"
+    },
+    {
+      "order": 1,
+      "npcId": 3351,
+      "npcTypeId": 1,
+      "name": "Sophia",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 67,
+      "y": 193,
+      "roleinfoNameByNpcId": "Sophia",
+      "roleinfoIdByName": 3351,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3351,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3351, 1,\"\"..macro_GetTypeNpcName(3351)..\"\",67,193)"
+    },
+    {
+      "order": 2,
+      "npcId": 3352,
+      "npcTypeId": 1,
+      "name": "Anthony",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 25,
+      "y": 34,
+      "roleinfoNameByNpcId": "Anthony",
+      "roleinfoIdByName": 3352,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3352,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3352, 1,\"\"..macro_GetTypeNpcName(3352)..\"\",25,34)"
+    },
+    {
+      "order": 3,
+      "npcId": 3268,
+      "npcTypeId": 1,
+      "name": "Real Body of Dementor",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 53,
+      "y": 105,
+      "roleinfoNameByNpcId": "Real Body of Dementor",
+      "roleinfoIdByName": 3268,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3268,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3268, 1,\"\"..macro_GetTypeNpcName(3268)..\"\",53,105)"
+    }
+  ]
+}

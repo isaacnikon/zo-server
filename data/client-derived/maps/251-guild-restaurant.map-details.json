@@ -1,0 +1,93 @@
+{
+  "mapId": 251,
+  "mapName": "Guild Restaurant",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "mapGcg": "/home/nikon/Data/Zodiac Online/gcg/map.gcg",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3548665,
+      "end": 3551464
+    },
+    "transitionContextStart": 3548153,
+    "mapConfigChunkOffsets": null
+  },
+  "bigTexts": [
+    {
+      "order": 0,
+      "text": "\u00a1\u00efGuild\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efGuild\u00a1\u00ef\",3000, 63500)"
+    },
+    {
+      "order": 1,
+      "text": "\u00a1\u00efGuild Restaurant\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "map-title",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efGuild Restaurant\u00a1\u00ef\",3000, 63500)"
+    },
+    {
+      "order": 2,
+      "text": "\u00a1\u00efGuild Pet Shop\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efGuild Pet Shop\u00a1\u00ef\",3000, 63500)"
+    },
+    {
+      "order": 3,
+      "text": "\u00a1\u00ef Guild Alchemy Room\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00ef Guild Alchemy Room\u00a1\u00ef\",3000, 63500)"
+    },
+    {
+      "order": 4,
+      "text": "\u00a1\u00efGuild Martial Club\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efGuild Martial Club\u00a1\u00ef\",3000, 63500)"
+    },
+    {
+      "order": 5,
+      "text": "\u00a1\u00efGuild Chamber\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efGuild Chamber\u00a1\u00ef\",3000, 63500)"
+    },
+    {
+      "order": 6,
+      "text": "\u00a1\u00efGuild Resaurant\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efGuild Resaurant\u00a1\u00ef\",3000, 63500)"
+    },
+    {
+      "order": 7,
+      "text": "\u00a1\u00efGuild Alchemy Room\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efGuild Alchemy Room\u00a1\u00ef\",3000, 63500)"
+    }
+  ],
+  "homeInfo": null,
+  "temporaryMapPoints": [],
+  "sceneTransitions": [],
+  "mapConfig": null
+}

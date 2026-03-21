@@ -1,0 +1,120 @@
+{
+  "mapId": 196,
+  "mapName": "Blove Zone",
+  "width": 128,
+  "height": 256,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        1,
+        2
+      ],
+      "auxValues": [
+        0,
+        98
+      ],
+      "tileCount": 100,
+      "bbox": {
+        "minX": 116,
+        "minY": 168,
+        "maxX": 126,
+        "maxY": 183
+      },
+      "rowRuns": [
+        {
+          "y": 168,
+          "startX": 126,
+          "endX": 126
+        },
+        {
+          "y": 169,
+          "startX": 125,
+          "endX": 126
+        },
+        {
+          "y": 170,
+          "startX": 124,
+          "endX": 126
+        },
+        {
+          "y": 171,
+          "startX": 123,
+          "endX": 126
+        },
+        {
+          "y": 172,
+          "startX": 116,
+          "endX": 116
+        },
+        {
+          "y": 172,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 173,
+          "startX": 116,
+          "endX": 117
+        },
+        {
+          "y": 173,
+          "startX": 121,
+          "endX": 126
+        },
+        {
+          "y": 174,
+          "startX": 116,
+          "endX": 126
+        },
+        {
+          "y": 175,
+          "startX": 116,
+          "endX": 126
+        },
+        {
+          "y": 176,
+          "startX": 116,
+          "endX": 126
+        },
+        {
+          "y": 177,
+          "startX": 116,
+          "endX": 125
+        },
+        {
+          "y": 178,
+          "startX": 116,
+          "endX": 124
+        },
+        {
+          "y": 179,
+          "startX": 116,
+          "endX": 123
+        },
+        {
+          "y": 180,
+          "startX": 116,
+          "endX": 122
+        },
+        {
+          "y": 181,
+          "startX": 117,
+          "endX": 121
+        },
+        {
+          "y": 182,
+          "startX": 118,
+          "endX": 120
+        },
+        {
+          "y": 183,
+          "startX": 118,
+          "endX": 118
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

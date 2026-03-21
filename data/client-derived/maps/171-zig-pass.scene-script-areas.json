@@ -1,0 +1,83 @@
+{
+  "mapId": 171,
+  "mapName": "Zig Pass",
+  "width": 128,
+  "height": 256,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 87,
+      "bbox": {
+        "minX": 115,
+        "minY": 124,
+        "maxX": 123,
+        "maxY": 134
+      },
+      "rowRuns": [
+        {
+          "y": 124,
+          "startX": 116,
+          "endX": 122
+        },
+        {
+          "y": 125,
+          "startX": 115,
+          "endX": 123
+        },
+        {
+          "y": 126,
+          "startX": 115,
+          "endX": 123
+        },
+        {
+          "y": 127,
+          "startX": 115,
+          "endX": 123
+        },
+        {
+          "y": 128,
+          "startX": 115,
+          "endX": 123
+        },
+        {
+          "y": 129,
+          "startX": 115,
+          "endX": 123
+        },
+        {
+          "y": 130,
+          "startX": 115,
+          "endX": 123
+        },
+        {
+          "y": 131,
+          "startX": 115,
+          "endX": 123
+        },
+        {
+          "y": 132,
+          "startX": 116,
+          "endX": 122
+        },
+        {
+          "y": 133,
+          "startX": 117,
+          "endX": 122
+        },
+        {
+          "y": 134,
+          "startX": 118,
+          "endX": 121
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

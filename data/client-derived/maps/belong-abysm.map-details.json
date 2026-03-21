@@ -1,0 +1,338 @@
+{
+  "mapId": 231,
+  "mapName": "Belong Abysm",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "mapGcg": "/home/nikon/Data/Zodiac Online/gcg/map.gcg",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3537619,
+      "end": 3538331
+    },
+    "transitionContextStart": 3537107,
+    "mapConfigChunkOffsets": {
+      "start": 105899,
+      "end": 106323
+    }
+  },
+  "bigTexts": [
+    {
+      "order": 0,
+      "text": "\u00a1\u00efBelong Abysm\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "map-title",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efBelong Abysm\u00a1\u00ef\",3000, 63500)"
+    },
+    {
+      "order": 1,
+      "text": "\u00a1\u00efEvil Rogue\u00a1\u00eeLevel:40-43\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 3000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efEvil Rogue\u00a1\u00eeLevel:40-43\u00a1\u00ef\",3000, 63500,3000)"
+    },
+    {
+      "order": 2,
+      "text": "\u00a1\u00efVillain\u00a1\u00eeLevel:40-43\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 3000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efVillain\u00a1\u00eeLevel:40-43\u00a1\u00ef\",3000, 63500,3000)"
+    }
+  ],
+  "homeInfo": null,
+  "temporaryMapPoints": [],
+  "sceneTransitions": [],
+  "mapConfig": {
+    "smallMapAsset": "\\PicData\\smallmap\\231.gaf",
+    "backgroundAsset": "\\map\\mapres\\120-2.mpk",
+    "mapConfigNpcSpawns": [
+      {
+        "order": 1,
+        "npcId": 3264,
+        "x": 20,
+        "y": 23
+      },
+      {
+        "order": 2,
+        "npcId": 3220,
+        "x": 81,
+        "y": 65
+      },
+      {
+        "order": 3,
+        "npcId": 3226,
+        "x": 75,
+        "y": 59
+      }
+    ],
+    "sceneEffects": [
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 42,
+        "y": 97,
+        "arg3": 2,
+        "arg4": 3,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\chuansong.gaf",
+        "assetName": "chuansong.gaf",
+        "x": 23,
+        "y": 29,
+        "arg3": 5,
+        "arg4": 4,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 2,
+        "y": 92,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 68,
+        "y": 5,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\chuansong.gaf",
+        "assetName": "chuansong.gaf",
+        "x": 62,
+        "y": 252,
+        "arg3": 8,
+        "arg4": 6,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\chuansong.gaf",
+        "assetName": "chuansong.gaf",
+        "x": 2,
+        "y": 122,
+        "arg3": 8,
+        "arg4": 4,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huoba01.gaf",
+        "assetName": "huoba01.gaf",
+        "x": 84,
+        "y": 74,
+        "arg3": 3,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huoba01.gaf",
+        "assetName": "huoba01.gaf",
+        "x": 28,
+        "y": 8,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huoba01.gaf",
+        "assetName": "huoba01.gaf",
+        "x": 38,
+        "y": 90,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huoba01.gaf",
+        "assetName": "huoba01.gaf",
+        "x": 44,
+        "y": 114,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huoba01.gaf",
+        "assetName": "huoba01.gaf",
+        "x": 110,
+        "y": 38,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huoba01.gaf",
+        "assetName": "huoba01.gaf",
+        "x": 10,
+        "y": 143,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huoba01.gaf",
+        "assetName": "huoba01.gaf",
+        "x": 68,
+        "y": 207,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huoba02.gaf",
+        "assetName": "huoba02.gaf",
+        "x": 47,
+        "y": 187,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huoba01.gaf",
+        "assetName": "huoba01.gaf",
+        "x": 38,
+        "y": 187,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huoba01.gaf",
+        "assetName": "huoba01.gaf",
+        "x": 50,
+        "y": 187,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huoba01.gaf",
+        "assetName": "huoba01.gaf",
+        "x": 116,
+        "y": 172,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huoba01.gaf",
+        "assetName": "huoba01.gaf",
+        "x": 116,
+        "y": 198,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huoba02.gaf",
+        "assetName": "huoba02.gaf",
+        "x": 73,
+        "y": 138,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shuipao.gaf",
+        "assetName": "shuipao.gaf",
+        "x": 73,
+        "y": 130,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shuipao.gaf",
+        "assetName": "shuipao.gaf",
+        "x": 12,
+        "y": 15,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huoba02.gaf",
+        "assetName": "huoba02.gaf",
+        "x": 12,
+        "y": 25,
+        "arg3": 12,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      }
+    ],
+    "portalEffectCandidates": [
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 42,
+        "y": 97,
+        "arg3": 2,
+        "arg4": 3,
+        "arg5": 0,
+        "source": "map-config",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 2,
+        "y": 92,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 68,
+        "y": 5,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      }
+    ],
+    "observedTriggerPoints": []
+  }
+}

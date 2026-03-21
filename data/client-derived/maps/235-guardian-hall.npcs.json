@@ -1,0 +1,67 @@
+{
+  "mapId": 235,
+  "mapName": "Guardian Hall",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3539762,
+      "end": 3540150
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 3,
+    "statusCounts": {
+      "alias-id-mismatch": 2,
+      "match": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3153,
+      "npcTypeId": 1,
+      "name": "Siren Illusion",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 23,
+      "y": 42,
+      "roleinfoNameByNpcId": "Siren Illusion",
+      "roleinfoIdByName": 3153,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3153,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3153, 1,\"\"..macro_GetTypeNpcName(3153)..\"\",23,42)"
+    },
+    {
+      "order": 1,
+      "npcId": 3328,
+      "npcTypeId": 1,
+      "name": "Melody",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 22,
+      "y": 52,
+      "roleinfoNameByNpcId": "Melody",
+      "roleinfoIdByName": 3265,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3328,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3328, 1,\"\"..macro_GetTypeNpcName(3328)..\"\",22,52)"
+    },
+    {
+      "order": 2,
+      "npcId": 3329,
+      "npcTypeId": 1,
+      "name": "Jessica",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 29,
+      "y": 43,
+      "roleinfoNameByNpcId": "Jessica",
+      "roleinfoIdByName": 3083,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3329,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3329, 1,\"\"..macro_GetTypeNpcName(3329)..\"\",29,43)"
+    }
+  ]
+}

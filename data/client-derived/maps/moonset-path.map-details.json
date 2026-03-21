@@ -1,0 +1,373 @@
+{
+  "mapId": 236,
+  "mapName": "Moonset Path",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "mapGcg": "/home/nikon/Data/Zodiac Online/gcg/map.gcg",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3540555,
+      "end": 3541360
+    },
+    "transitionContextStart": 3540043,
+    "mapConfigChunkOffsets": {
+      "start": 109637,
+      "end": 110053
+    }
+  },
+  "bigTexts": [
+    {
+      "order": 0,
+      "text": "\u00a1\u00efMoonset Path\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "map-title",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efMoonset Path\u00a1\u00ef\",3000, 63500)"
+    },
+    {
+      "order": 1,
+      "text": "\u00a1\u00efThorny Worm\u00a1\u00eeLevel:47-50\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 3000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efThorny Worm\u00a1\u00eeLevel:47-50\u00a1\u00ef\",3000, 63500,3000)"
+    },
+    {
+      "order": 2,
+      "text": "\u00a1\u00efPoisonous Lizard\u00a1\u00eeLevel:47-50\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 3000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efPoisonous Lizard\u00a1\u00eeLevel:47-50\u00a1\u00ef\",3000, 63500,3000)"
+    },
+    {
+      "order": 3,
+      "text": "\u00a1\u00efLadybug\u00a1\u00eeLevel:47-50\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 6000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efLadybug\u00a1\u00eeLevel:47-50\u00a1\u00ef\",3000, 63500,6000)"
+    },
+    {
+      "order": 4,
+      "text": "\u00a1\u00efRed Leaf\u00a1\u00eeLevel:47-50\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 6000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efRed Leaf\u00a1\u00eeLevel:47-50\u00a1\u00ef\",3000, 63500,6000)"
+    }
+  ],
+  "homeInfo": null,
+  "temporaryMapPoints": [],
+  "sceneTransitions": [],
+  "mapConfig": {
+    "smallMapAsset": "\\PicData\\smallmap\\236.gaf",
+    "backgroundAsset": "\\map\\mapres\\102-3.mpk",
+    "mapConfigNpcSpawns": [
+      {
+        "order": 1,
+        "npcId": 3354,
+        "x": 39,
+        "y": 53
+      },
+      {
+        "order": 2,
+        "npcId": 3357,
+        "x": 120,
+        "y": 98
+      },
+      {
+        "order": 3,
+        "npcId": 3463,
+        "x": 108,
+        "y": 231
+      },
+      {
+        "order": 4,
+        "npcId": 3464,
+        "x": 110,
+        "y": 233
+      },
+      {
+        "order": 5,
+        "npcId": 3464,
+        "x": 108,
+        "y": 243
+      },
+      {
+        "order": 6,
+        "npcId": 3465,
+        "x": 105,
+        "y": 235
+      },
+      {
+        "order": 7,
+        "npcId": 3465,
+        "x": 109,
+        "y": 236
+      },
+      {
+        "order": 8,
+        "npcId": 3465,
+        "x": 106,
+        "y": 238
+      }
+    ],
+    "sceneEffects": [
+      {
+        "assetPath": "PicData\\Effect\\scene\\chuansong.gaf",
+        "assetName": "chuansong.gaf",
+        "x": 52,
+        "y": 119,
+        "arg3": 4,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\xiaoxing.gaf",
+        "assetName": "xiaoxing.gaf",
+        "x": 62,
+        "y": 198,
+        "arg3": 6,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huoba01.gaf",
+        "assetName": "huoba01.gaf",
+        "x": 16,
+        "y": 207,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\chuansong.gaf",
+        "assetName": "chuansong.gaf",
+        "x": 87,
+        "y": 9,
+        "arg3": 8,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\starz.gaf",
+        "assetName": "starz.gaf",
+        "x": 92,
+        "y": 19,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\starz.gaf",
+        "assetName": "starz.gaf",
+        "x": 96,
+        "y": 19,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\starz.gaf",
+        "assetName": "starz.gaf",
+        "x": 95,
+        "y": 23,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\starz.gaf",
+        "assetName": "starz.gaf",
+        "x": 91,
+        "y": 24,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\starz.gaf",
+        "assetName": "starz.gaf",
+        "x": 28,
+        "y": 18,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\starz.gaf",
+        "assetName": "starz.gaf",
+        "x": 25,
+        "y": 17,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\starz.gaf",
+        "assetName": "starz.gaf",
+        "x": 25,
+        "y": 21,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\starz.gaf",
+        "assetName": "starz.gaf",
+        "x": 26,
+        "y": 23,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\star.gaf",
+        "assetName": "star.gaf",
+        "x": 32,
+        "y": 21,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\star.gaf",
+        "assetName": "star.gaf",
+        "x": 31,
+        "y": 25,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\star.gaf",
+        "assetName": "star.gaf",
+        "x": 33,
+        "y": 25,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\star.gaf",
+        "assetName": "star.gaf",
+        "x": 18,
+        "y": 109,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\star.gaf",
+        "assetName": "star.gaf",
+        "x": 18,
+        "y": 112,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\star.gaf",
+        "assetName": "star.gaf",
+        "x": 20,
+        "y": 110,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\star.gaf",
+        "assetName": "star.gaf",
+        "x": 19,
+        "y": 116,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\star.gaf",
+        "assetName": "star.gaf",
+        "x": 15,
+        "y": 110,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 30,
+        "y": 6,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 4,
+        "y": 193,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      }
+    ],
+    "portalEffectCandidates": [
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 30,
+        "y": 6,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 4,
+        "y": 193,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      }
+    ],
+    "observedTriggerPoints": []
+  }
+}

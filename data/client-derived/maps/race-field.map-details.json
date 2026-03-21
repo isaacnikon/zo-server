@@ -1,0 +1,49 @@
+{
+  "mapId": 285,
+  "mapName": "Race Field",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "mapGcg": "/home/nikon/Data/Zodiac Online/gcg/map.gcg",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3579142,
+      "end": 3579452
+    },
+    "transitionContextStart": 3578630,
+    "mapConfigChunkOffsets": null
+  },
+  "bigTexts": [
+    {
+      "order": 0,
+      "text": "\u00a1\u00efRace Field\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "map-title",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efRace Field\u00a1\u00ef\",3000, 63500)"
+    }
+  ],
+  "homeInfo": null,
+  "temporaryMapPoints": [],
+  "sceneTransitions": [
+    {
+      "order": 0,
+      "trigger": {
+        "kind": "role-check-round",
+        "mode": 0,
+        "x": 158,
+        "y": 250,
+        "radius": 10
+      },
+      "target": {
+        "mapId": 118,
+        "mapName": "Wind Canyon",
+        "x": 145,
+        "y": 492
+      },
+      "rawCheckCall": "macro_RoleCheckRound(0,158,250,10)",
+      "rawChangeSceneCall": "macro_ChangeScene(118,145,492)"
+    }
+  ],
+  "mapConfig": null
+}

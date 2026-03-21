@@ -1,0 +1,51 @@
+{
+  "mapId": 123,
+  "mapName": "Darkness Hole 2",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3479568,
+      "end": 3479883
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 2,
+    "statusCounts": {
+      "match": 2
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3128,
+      "npcTypeId": 1,
+      "name": "Irene",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 74,
+      "y": 148,
+      "roleinfoNameByNpcId": "Irene",
+      "roleinfoIdByName": 3128,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3128,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3128, 1,\"\"..macro_GetTypeNpcName(3128)..\"\",74,148)"
+    },
+    {
+      "order": 1,
+      "npcId": 3272,
+      "npcTypeId": 1,
+      "name": "Drunk Spirit",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 20,
+      "y": 76,
+      "roleinfoNameByNpcId": "Drunk Spirit",
+      "roleinfoIdByName": 3272,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3272,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3272, 1,\"\"..macro_GetTypeNpcName(3272)..\"\",20,76)"
+    }
+  ]
+}

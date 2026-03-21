@@ -1,0 +1,205 @@
+{
+  "mapId": 238,
+  "mapName": "Longicorn Hole",
+  "width": 128,
+  "height": 256,
+  "componentCount": 3,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        54
+      ],
+      "tileCount": 111,
+      "bbox": {
+        "minX": 23,
+        "minY": 242,
+        "maxX": 31,
+        "maxY": 254
+      },
+      "rowRuns": [
+        {
+          "y": 242,
+          "startX": 25,
+          "endX": 29
+        },
+        {
+          "y": 243,
+          "startX": 24,
+          "endX": 30
+        },
+        {
+          "y": 244,
+          "startX": 23,
+          "endX": 31
+        },
+        {
+          "y": 245,
+          "startX": 23,
+          "endX": 31
+        },
+        {
+          "y": 246,
+          "startX": 23,
+          "endX": 31
+        },
+        {
+          "y": 247,
+          "startX": 23,
+          "endX": 31
+        },
+        {
+          "y": 248,
+          "startX": 23,
+          "endX": 31
+        },
+        {
+          "y": 249,
+          "startX": 23,
+          "endX": 31
+        },
+        {
+          "y": 250,
+          "startX": 23,
+          "endX": 31
+        },
+        {
+          "y": 251,
+          "startX": 23,
+          "endX": 31
+        },
+        {
+          "y": 252,
+          "startX": 23,
+          "endX": 31
+        },
+        {
+          "y": 253,
+          "startX": 23,
+          "endX": 31
+        },
+        {
+          "y": 254,
+          "startX": 23,
+          "endX": 31
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2,
+        3
+      ],
+      "auxValues": [
+        0,
+        48,
+        54
+      ],
+      "tileCount": 57,
+      "bbox": {
+        "minX": 119,
+        "minY": 117,
+        "maxX": 127,
+        "maxY": 127
+      },
+      "rowRuns": [
+        {
+          "y": 117,
+          "startX": 124,
+          "endX": 124
+        },
+        {
+          "y": 118,
+          "startX": 123,
+          "endX": 125
+        },
+        {
+          "y": 119,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 120,
+          "startX": 121,
+          "endX": 127
+        },
+        {
+          "y": 121,
+          "startX": 120,
+          "endX": 127
+        },
+        {
+          "y": 122,
+          "startX": 119,
+          "endX": 127
+        },
+        {
+          "y": 123,
+          "startX": 120,
+          "endX": 127
+        },
+        {
+          "y": 124,
+          "startX": 121,
+          "endX": 127
+        },
+        {
+          "y": 125,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 126,
+          "startX": 123,
+          "endX": 125
+        },
+        {
+          "y": 127,
+          "startX": 124,
+          "endX": 124
+        }
+      ],
+      "componentIndex": 2
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        54
+      ],
+      "tileCount": 4,
+      "bbox": {
+        "minX": 0,
+        "minY": 122,
+        "maxX": 1,
+        "maxY": 124
+      },
+      "rowRuns": [
+        {
+          "y": 122,
+          "startX": 0,
+          "endX": 0
+        },
+        {
+          "y": 123,
+          "startX": 0,
+          "endX": 1
+        },
+        {
+          "y": 124,
+          "startX": 0,
+          "endX": 0
+        }
+      ],
+      "componentIndex": 3
+    }
+  ]
+}

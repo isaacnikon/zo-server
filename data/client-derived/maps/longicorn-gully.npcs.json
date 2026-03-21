@@ -1,0 +1,36 @@
+{
+  "mapId": 239,
+  "mapName": "Longicorn Gully",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3542559,
+      "end": 3542813
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 1,
+    "statusCounts": {
+      "match": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3364,
+      "npcTypeId": 3,
+      "name": "Joseph",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 10,
+      "y": 82,
+      "roleinfoNameByNpcId": "Joseph",
+      "roleinfoIdByName": 3364,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3364,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3364, 3,\"\"..macro_GetTypeNpcName(3364)..\"\",10,82)"
+    }
+  ]
+}

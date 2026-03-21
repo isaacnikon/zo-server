@@ -1,0 +1,463 @@
+{
+  "mapId": 107,
+  "mapName": "Chill Suburb",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "mapGcg": "/home/nikon/Data/Zodiac Online/gcg/map.gcg",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3462693,
+      "end": 3463593
+    },
+    "transitionContextStart": 3462181,
+    "mapConfigChunkOffsets": {
+      "start": 22279,
+      "end": 22829
+    }
+  },
+  "bigTexts": [
+    {
+      "order": 0,
+      "text": "\u00a1\u00efChill Suburb\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "map-title",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efChill Suburb\u00a1\u00ef\",3000, 63500)"
+    },
+    {
+      "order": 1,
+      "text": "\u00a1\u00efBandit\u00a1\u00eeLevel:28-31\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 3000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efBandit\u00a1\u00eeLevel:28-31\u00a1\u00ef\",3000, 63500,3000)"
+    },
+    {
+      "order": 2,
+      "text": "\u00a1\u00efThief\u00a1\u00eeLevel:28-31\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 3000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efThief\u00a1\u00eeLevel:28-31\u00a1\u00ef\",3000, 63500,3000)"
+    },
+    {
+      "order": 3,
+      "text": "\u00a1\u00efCateran\u00a1\u00eeLevel:28-31\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 6000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efCateran\u00a1\u00eeLevel:28-31\u00a1\u00ef\",3000, 63500,6000)"
+    },
+    {
+      "order": 4,
+      "text": "\u00a1\u00efLadybug\u00a1\u00eeLevel:28-31\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 6000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efLadybug\u00a1\u00eeLevel:28-31\u00a1\u00ef\",3000, 63500,6000)"
+    },
+    {
+      "order": 5,
+      "text": "\u00a1\u00efRed Leaf\u00a1\u00eeLevel:28-31\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 9000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efRed Leaf\u00a1\u00eeLevel:28-31\u00a1\u00ef\",3000, 63500,9000)"
+    },
+    {
+      "order": 6,
+      "text": "\u00a1\u00efGreen Worm\u00a1\u00eeLevel:28-31\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 9000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efGreen Worm\u00a1\u00eeLevel:28-31\u00a1\u00ef\",3000, 63500,9000)"
+    },
+    {
+      "order": 7,
+      "text": "\u00a1\u00efLizard\u00a1\u00eeLevel:28-31\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 12000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efLizard\u00a1\u00eeLevel:28-31\u00a1\u00ef\",3000, 63500,12000)"
+    }
+  ],
+  "homeInfo": null,
+  "temporaryMapPoints": [],
+  "sceneTransitions": [],
+  "mapConfig": {
+    "smallMapAsset": "\\PicData\\smallmap\\107.gaf",
+    "backgroundAsset": "\\map\\mapres\\104-1.mpk",
+    "mapConfigNpcSpawns": [
+      {
+        "order": 1,
+        "npcId": 3207,
+        "x": 112,
+        "y": 162
+      }
+    ],
+    "sceneEffects": [
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 2,
+        "y": 81,
+        "arg3": 1,
+        "arg4": 4,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 82,
+        "y": 248,
+        "arg3": 3,
+        "arg4": 5,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\xiaoxing.gaf",
+        "assetName": "xiaoxing.gaf",
+        "x": 22,
+        "y": 177,
+        "arg3": 9,
+        "arg4": 5,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\butterfly2.gaf",
+        "assetName": "butterfly2.gaf",
+        "x": 6,
+        "y": 167,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\qingwa.gaf",
+        "assetName": "qingwa.gaf",
+        "x": 38,
+        "y": 192,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\yinghuochong.gaf",
+        "assetName": "yinghuochong.gaf",
+        "x": 118,
+        "y": 48,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shui2.gaf",
+        "assetName": "shui2.gaf",
+        "x": 34,
+        "y": 86,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\qingwa.gaf",
+        "assetName": "qingwa.gaf",
+        "x": 40,
+        "y": 118,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shui2.gaf",
+        "assetName": "shui2.gaf",
+        "x": 15,
+        "y": 106,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shui2.gaf",
+        "assetName": "shui2.gaf",
+        "x": 81,
+        "y": 76,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\qingwa.gaf",
+        "assetName": "qingwa.gaf",
+        "x": 89,
+        "y": 89,
+        "arg3": 10,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\xiaoxing.gaf",
+        "assetName": "xiaoxing.gaf",
+        "x": 57,
+        "y": 37,
+        "arg3": 2,
+        "arg4": 2,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\xiaoxing.gaf",
+        "assetName": "xiaoxing.gaf",
+        "x": 26,
+        "y": 78,
+        "arg3": 15,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\xiaoxing.gaf",
+        "assetName": "xiaoxing.gaf",
+        "x": 108,
+        "y": 75,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\baozi.gaf",
+        "assetName": "baozi.gaf",
+        "x": 87,
+        "y": 176,
+        "arg3": 13,
+        "arg4": 2,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\butterfly2.gaf",
+        "assetName": "butterfly2.gaf",
+        "x": 108,
+        "y": 130,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\butterfly2.gaf",
+        "assetName": "butterfly2.gaf",
+        "x": 117,
+        "y": 219,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 30,
+        "y": 5,
+        "arg3": 2,
+        "arg4": 5,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 122,
+        "y": 192,
+        "arg3": 2,
+        "arg4": 4,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shui1.gaf",
+        "assetName": "shui1.gaf",
+        "x": 110,
+        "y": 221,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\xiaoxing.gaf",
+        "assetName": "xiaoxing.gaf",
+        "x": 106,
+        "y": 230,
+        "arg3": 0,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\butterfly2.gaf",
+        "assetName": "butterfly2.gaf",
+        "x": 31,
+        "y": 232,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\butterfly1.gaf",
+        "assetName": "butterfly1.gaf",
+        "x": 11,
+        "y": 53,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 82,
+        "y": 5,
+        "arg3": 3,
+        "arg4": 3,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 123,
+        "y": 82,
+        "arg3": 8,
+        "arg4": 6,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 2,
+        "y": 80,
+        "arg3": 13,
+        "arg4": 5,
+        "arg5": 0,
+        "source": "prelude"
+      }
+    ],
+    "portalEffectCandidates": [
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 2,
+        "y": 81,
+        "arg3": 1,
+        "arg4": 4,
+        "arg5": 0,
+        "source": "map-config",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 82,
+        "y": 248,
+        "arg3": 3,
+        "arg4": 5,
+        "arg5": 0,
+        "source": "map-config",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 30,
+        "y": 5,
+        "arg3": 2,
+        "arg4": 5,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 122,
+        "y": 192,
+        "arg3": 2,
+        "arg4": 4,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 82,
+        "y": 5,
+        "arg3": 3,
+        "arg4": 3,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 123,
+        "y": 82,
+        "arg3": 8,
+        "arg4": 6,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 2,
+        "y": 80,
+        "arg3": 13,
+        "arg4": 5,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      }
+    ],
+    "observedTriggerPoints": []
+  }
+}

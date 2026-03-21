@@ -1,0 +1,93 @@
+{
+  "mapId": 222,
+  "mapName": "Jewelry Shop",
+  "width": 64,
+  "height": 128,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 97,
+      "bbox": {
+        "minX": 45,
+        "minY": 89,
+        "maxX": 57,
+        "maxY": 101
+      },
+      "rowRuns": [
+        {
+          "y": 89,
+          "startX": 51,
+          "endX": 52
+        },
+        {
+          "y": 90,
+          "startX": 50,
+          "endX": 53
+        },
+        {
+          "y": 91,
+          "startX": 49,
+          "endX": 54
+        },
+        {
+          "y": 92,
+          "startX": 48,
+          "endX": 55
+        },
+        {
+          "y": 93,
+          "startX": 47,
+          "endX": 56
+        },
+        {
+          "y": 94,
+          "startX": 46,
+          "endX": 57
+        },
+        {
+          "y": 95,
+          "startX": 45,
+          "endX": 57
+        },
+        {
+          "y": 96,
+          "startX": 46,
+          "endX": 57
+        },
+        {
+          "y": 97,
+          "startX": 47,
+          "endX": 56
+        },
+        {
+          "y": 98,
+          "startX": 48,
+          "endX": 55
+        },
+        {
+          "y": 99,
+          "startX": 49,
+          "endX": 54
+        },
+        {
+          "y": 100,
+          "startX": 50,
+          "endX": 53
+        },
+        {
+          "y": 101,
+          "startX": 51,
+          "endX": 52
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "mapId": 249,
+  "mapName": "Timber Town Flat",
+  "width": 64,
+  "height": 128,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 64,
+      "bbox": {
+        "minX": 32,
+        "minY": 88,
+        "maxX": 40,
+        "maxY": 98
+      },
+      "rowRuns": [
+        {
+          "y": 88,
+          "startX": 35,
+          "endX": 37
+        },
+        {
+          "y": 89,
+          "startX": 34,
+          "endX": 38
+        },
+        {
+          "y": 90,
+          "startX": 33,
+          "endX": 39
+        },
+        {
+          "y": 91,
+          "startX": 32,
+          "endX": 40
+        },
+        {
+          "y": 92,
+          "startX": 32,
+          "endX": 40
+        },
+        {
+          "y": 93,
+          "startX": 32,
+          "endX": 39
+        },
+        {
+          "y": 94,
+          "startX": 32,
+          "endX": 38
+        },
+        {
+          "y": 95,
+          "startX": 32,
+          "endX": 37
+        },
+        {
+          "y": 96,
+          "startX": 32,
+          "endX": 36
+        },
+        {
+          "y": 97,
+          "startX": 33,
+          "endX": 35
+        },
+        {
+          "y": 98,
+          "startX": 33,
+          "endX": 34
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

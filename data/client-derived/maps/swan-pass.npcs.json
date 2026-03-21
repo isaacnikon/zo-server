@@ -1,0 +1,36 @@
+{
+  "mapId": 230,
+  "mapName": "Swan Pass",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3537048,
+      "end": 3537302
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 1,
+    "statusCounts": {
+      "match": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3230,
+      "npcTypeId": 3,
+      "name": "Swan Pass Guardian",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 48,
+      "y": 39,
+      "roleinfoNameByNpcId": "Swan Pass Guardian",
+      "roleinfoIdByName": 3230,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3230,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3230, 3,\"\"..macro_GetTypeNpcName(3230)..\"\",48,39)"
+    }
+  ]
+}

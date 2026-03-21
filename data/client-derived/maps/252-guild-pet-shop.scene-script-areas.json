@@ -1,0 +1,68 @@
+{
+  "mapId": 252,
+  "mapName": "Guild Pet Shop",
+  "width": 64,
+  "height": 128,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 32,
+      "bbox": {
+        "minX": 26,
+        "minY": 113,
+        "maxX": 32,
+        "maxY": 120
+      },
+      "rowRuns": [
+        {
+          "y": 113,
+          "startX": 29,
+          "endX": 29
+        },
+        {
+          "y": 114,
+          "startX": 28,
+          "endX": 30
+        },
+        {
+          "y": 115,
+          "startX": 27,
+          "endX": 31
+        },
+        {
+          "y": 116,
+          "startX": 26,
+          "endX": 32
+        },
+        {
+          "y": 117,
+          "startX": 26,
+          "endX": 32
+        },
+        {
+          "y": 118,
+          "startX": 27,
+          "endX": 31
+        },
+        {
+          "y": 119,
+          "startX": 28,
+          "endX": 30
+        },
+        {
+          "y": 120,
+          "startX": 29,
+          "endX": 29
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

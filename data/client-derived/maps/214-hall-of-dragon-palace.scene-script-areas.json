@@ -1,0 +1,188 @@
+{
+  "mapId": 214,
+  "mapName": "Hall of Dragon Palace",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 109,
+      "bbox": {
+        "minX": 0,
+        "minY": 220,
+        "maxX": 9,
+        "maxY": 239
+      },
+      "rowRuns": [
+        {
+          "y": 220,
+          "startX": 0,
+          "endX": 0
+        },
+        {
+          "y": 221,
+          "startX": 0,
+          "endX": 1
+        },
+        {
+          "y": 222,
+          "startX": 0,
+          "endX": 2
+        },
+        {
+          "y": 223,
+          "startX": 0,
+          "endX": 3
+        },
+        {
+          "y": 224,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 225,
+          "startX": 0,
+          "endX": 5
+        },
+        {
+          "y": 226,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 227,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 228,
+          "startX": 0,
+          "endX": 8
+        },
+        {
+          "y": 229,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 230,
+          "startX": 0,
+          "endX": 8
+        },
+        {
+          "y": 231,
+          "startX": 0,
+          "endX": 8
+        },
+        {
+          "y": 232,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 233,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 234,
+          "startX": 0,
+          "endX": 5
+        },
+        {
+          "y": 235,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 236,
+          "startX": 0,
+          "endX": 3
+        },
+        {
+          "y": 237,
+          "startX": 0,
+          "endX": 2
+        },
+        {
+          "y": 238,
+          "startX": 0,
+          "endX": 1
+        },
+        {
+          "y": 239,
+          "startX": 0,
+          "endX": 0
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        0,
+        1
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 41,
+      "bbox": {
+        "minX": 10,
+        "minY": 62,
+        "maxX": 17,
+        "maxY": 69
+      },
+      "rowRuns": [
+        {
+          "y": 62,
+          "startX": 13,
+          "endX": 13
+        },
+        {
+          "y": 63,
+          "startX": 12,
+          "endX": 14
+        },
+        {
+          "y": 64,
+          "startX": 11,
+          "endX": 15
+        },
+        {
+          "y": 65,
+          "startX": 10,
+          "endX": 16
+        },
+        {
+          "y": 66,
+          "startX": 11,
+          "endX": 17
+        },
+        {
+          "y": 67,
+          "startX": 11,
+          "endX": 17
+        },
+        {
+          "y": 68,
+          "startX": 11,
+          "endX": 16
+        },
+        {
+          "y": 69,
+          "startX": 11,
+          "endX": 15
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

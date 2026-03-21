@@ -1,0 +1,127 @@
+{
+  "mapId": 146,
+  "mapName": "Maple Valley",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3493853,
+      "end": 3494634
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 7,
+    "statusCounts": {
+      "alias-id-mismatch": 2,
+      "match": 5
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3651,
+      "npcTypeId": 3,
+      "name": "Zodiac Eudemon",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 51,
+      "y": 102,
+      "roleinfoNameByNpcId": "Zodiac Eudemon",
+      "roleinfoIdByName": 3651,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3651,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3651, 3,\"\"..macro_GetTypeNpcName(3651)..\"\",51,102)"
+    },
+    {
+      "order": 1,
+      "npcId": 3218,
+      "npcTypeId": 5,
+      "name": "Maple Spirit",
+      "nameSource": "literal",
+      "x": 6,
+      "y": 71,
+      "roleinfoNameByNpcId": "Maple Spirit",
+      "roleinfoIdByName": 3218,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3218,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3218, 5,\"Maple Spirit\",6,71)"
+    },
+    {
+      "order": 2,
+      "npcId": 3687,
+      "npcTypeId": 1,
+      "name": "Withered Stump",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 70,
+      "y": 135,
+      "roleinfoNameByNpcId": "Withered Stump",
+      "roleinfoIdByName": 3687,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3687,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3687, 1,\"\"..macro_GetTypeNpcName(3687)..\"\",70,135)"
+    },
+    {
+      "order": 3,
+      "npcId": 3085,
+      "npcTypeId": 1,
+      "name": "Lion Captain",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 78,
+      "y": 230,
+      "roleinfoNameByNpcId": "Lion Captain",
+      "roleinfoIdByName": 3085,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3085,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3085, 1,\"\"..macro_GetTypeNpcName(3085)..\"\",78,230)"
+    },
+    {
+      "order": 4,
+      "npcId": 3222,
+      "npcTypeId": 1,
+      "name": "God of Bless",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 17,
+      "y": 135,
+      "roleinfoNameByNpcId": "God of Bless",
+      "roleinfoIdByName": 3103,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3222,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3222, 1,\"\"..macro_GetTypeNpcName(3222)..\"\",17,135)"
+    },
+    {
+      "order": 5,
+      "npcId": 3307,
+      "npcTypeId": 1,
+      "name": "Spider Overlord",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 109,
+      "y": 27,
+      "roleinfoNameByNpcId": "Spider Overlord",
+      "roleinfoIdByName": 2528,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3307,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3307, 1,\"\"..macro_GetTypeNpcName(3307)..\"\",109,27)"
+    },
+    {
+      "order": 6,
+      "npcId": 3162,
+      "npcTypeId": 1,
+      "name": "Geralyn",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 104,
+      "y": 27,
+      "roleinfoNameByNpcId": "Geralyn",
+      "roleinfoIdByName": 3162,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3162,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3162, 1,\"\"..macro_GetTypeNpcName(3162)..\"\",104,27)"
+    }
+  ]
+}

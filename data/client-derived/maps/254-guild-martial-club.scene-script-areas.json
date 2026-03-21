@@ -1,0 +1,114 @@
+{
+  "mapId": 254,
+  "mapName": "Guild Martial Club",
+  "width": 64,
+  "height": 128,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0,
+        1
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 151,
+      "bbox": {
+        "minX": 8,
+        "minY": 90,
+        "maxX": 24,
+        "maxY": 106
+      },
+      "rowRuns": [
+        {
+          "y": 90,
+          "startX": 13,
+          "endX": 14
+        },
+        {
+          "y": 91,
+          "startX": 12,
+          "endX": 15
+        },
+        {
+          "y": 92,
+          "startX": 11,
+          "endX": 16
+        },
+        {
+          "y": 93,
+          "startX": 10,
+          "endX": 17
+        },
+        {
+          "y": 94,
+          "startX": 9,
+          "endX": 18
+        },
+        {
+          "y": 95,
+          "startX": 8,
+          "endX": 19
+        },
+        {
+          "y": 96,
+          "startX": 8,
+          "endX": 20
+        },
+        {
+          "y": 97,
+          "startX": 9,
+          "endX": 21
+        },
+        {
+          "y": 98,
+          "startX": 10,
+          "endX": 21
+        },
+        {
+          "y": 99,
+          "startX": 11,
+          "endX": 22
+        },
+        {
+          "y": 100,
+          "startX": 11,
+          "endX": 23
+        },
+        {
+          "y": 101,
+          "startX": 12,
+          "endX": 24
+        },
+        {
+          "y": 102,
+          "startX": 13,
+          "endX": 23
+        },
+        {
+          "y": 103,
+          "startX": 14,
+          "endX": 22
+        },
+        {
+          "y": 104,
+          "startX": 15,
+          "endX": 21
+        },
+        {
+          "y": 105,
+          "startX": 17,
+          "endX": 20
+        },
+        {
+          "y": 106,
+          "startX": 18,
+          "endX": 19
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

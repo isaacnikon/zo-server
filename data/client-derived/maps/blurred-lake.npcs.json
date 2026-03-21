@@ -1,0 +1,52 @@
+{
+  "mapId": 147,
+  "mapName": "Blurred Lake",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3494925,
+      "end": 3495248
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 2,
+    "statusCounts": {
+      "alias-id-mismatch": 1,
+      "match": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3293,
+      "npcTypeId": 5,
+      "name": "Lake Spirit",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 6,
+      "y": 139,
+      "roleinfoNameByNpcId": "Lake Spirit",
+      "roleinfoIdByName": 3293,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3293,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3293, 5,\"\"..macro_GetTypeNpcName(3293)..\"\",6,139)"
+    },
+    {
+      "order": 1,
+      "npcId": 3295,
+      "npcTypeId": 1,
+      "name": "Mussel's Sister",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 67,
+      "y": 169,
+      "roleinfoNameByNpcId": "Mussel's Sister",
+      "roleinfoIdByName": 3252,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3295,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3295, 1,\"\"..macro_GetTypeNpcName(3295)..\"\",67,169)"
+    }
+  ]
+}

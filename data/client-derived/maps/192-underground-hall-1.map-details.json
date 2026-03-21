@@ -1,0 +1,89 @@
+{
+  "mapId": 192,
+  "mapName": "Underground Hall 1",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "mapGcg": "/home/nikon/Data/Zodiac Online/gcg/map.gcg",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3519819,
+      "end": 3520326
+    },
+    "transitionContextStart": 3519307,
+    "mapConfigChunkOffsets": {
+      "start": 86588,
+      "end": 86838
+    }
+  },
+  "bigTexts": [
+    {
+      "order": 0,
+      "text": "\u00a1\u00efUnderground Hall 1\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "map-title",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efUnderground Hall 1\u00a1\u00ef\",3000, 63500)"
+    },
+    {
+      "order": 1,
+      "text": "\u00a1\u00efCentipede King\u00a1\u00eeLevel:84-87\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 3000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efCentipede King\u00a1\u00eeLevel:84-87\u00a1\u00ef\",3000, 63500,3000)"
+    },
+    {
+      "order": 2,
+      "text": "\u00a1\u00efVampire Bat\u00a1\u00eeLevel:84-87\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 6000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efVampire Bat\u00a1\u00eeLevel:84-87\u00a1\u00ef\",3000, 63500,6000)"
+    }
+  ],
+  "homeInfo": null,
+  "temporaryMapPoints": [],
+  "sceneTransitions": [],
+  "mapConfig": {
+    "smallMapAsset": "\\PicData\\smallmap\\192.gaf",
+    "backgroundAsset": "\\map\\mapres\\135-3.mpk",
+    "mapConfigNpcSpawns": [],
+    "sceneEffects": [
+      {
+        "assetPath": "PicData\\Effect\\scene\\fazhen.gaf",
+        "assetName": "fazhen.gaf",
+        "x": 47,
+        "y": 107,
+        "arg3": 15,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\chuansong.gaf",
+        "assetName": "chuansong.gaf",
+        "x": 2,
+        "y": 119,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\fazhen.gaf",
+        "assetName": "fazhen.gaf",
+        "x": 94,
+        "y": 52,
+        "arg3": 15,
+        "arg4": 6,
+        "arg5": 0,
+        "source": "prelude"
+      }
+    ],
+    "portalEffectCandidates": [],
+    "observedTriggerPoints": []
+  }
+}

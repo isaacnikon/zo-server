@@ -1,0 +1,30 @@
+{
+  "mapId": 237,
+  "mapName": "Chill Pass Pothouse",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "mapGcg": "/home/nikon/Data/Zodiac Online/gcg/map.gcg",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3541360,
+      "end": 3541763
+    },
+    "transitionContextStart": 3540848,
+    "mapConfigChunkOffsets": null
+  },
+  "bigTexts": [
+    {
+      "order": 0,
+      "text": "\u00a1\u00efChill Pass Pothouse\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "map-title",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efChill Pass Pothouse\u00a1\u00ef\",3000, 63500)"
+    }
+  ],
+  "homeInfo": null,
+  "temporaryMapPoints": [],
+  "sceneTransitions": [],
+  "mapConfig": null
+}

@@ -1,0 +1,81 @@
+{
+  "mapId": 118,
+  "mapName": "Wind Canyon",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3475875,
+      "end": 3476366
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 4,
+    "statusCounts": {
+      "match": 4
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3091,
+      "npcTypeId": 1,
+      "name": "Glede",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 87,
+      "y": 162,
+      "roleinfoNameByNpcId": "Glede",
+      "roleinfoIdByName": 3091,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3091,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3091, 1,\"\"..macro_GetTypeNpcName(3091)..\"\",87,162)"
+    },
+    {
+      "order": 1,
+      "npcId": 3302,
+      "npcTypeId": 1,
+      "name": "Slayer Ghost",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 30,
+      "y": 221,
+      "roleinfoNameByNpcId": "Slayer Ghost",
+      "roleinfoIdByName": 3302,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3302,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3302, 1,\"\"..macro_GetTypeNpcName(3302)..\"\",30,221)"
+    },
+    {
+      "order": 2,
+      "npcId": 3105,
+      "npcTypeId": 1,
+      "name": "God of Misfortune",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 30,
+      "y": 126,
+      "roleinfoNameByNpcId": "God of Misfortune",
+      "roleinfoIdByName": 3105,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3105,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3105, 1,\"\"..macro_GetTypeNpcName(3105)..\"\",30,126)"
+    },
+    {
+      "order": 3,
+      "npcId": 3499,
+      "npcTypeId": 1,
+      "name": "Golden Beast",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 77,
+      "y": 90,
+      "roleinfoNameByNpcId": "Golden Beast",
+      "roleinfoIdByName": 3499,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3499,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3499, 1,\"\"..macro_GetTypeNpcName(3499)..\"\",77,90)"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "mapId": 154,
+  "mapName": "Hades Hall",
+  "width": 128,
+  "height": 256,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 41,
+      "bbox": {
+        "minX": 119,
+        "minY": 16,
+        "maxX": 127,
+        "maxY": 24
+      },
+      "rowRuns": [
+        {
+          "y": 16,
+          "startX": 123,
+          "endX": 123
+        },
+        {
+          "y": 17,
+          "startX": 122,
+          "endX": 124
+        },
+        {
+          "y": 18,
+          "startX": 121,
+          "endX": 125
+        },
+        {
+          "y": 19,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 20,
+          "startX": 119,
+          "endX": 127
+        },
+        {
+          "y": 21,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 22,
+          "startX": 121,
+          "endX": 125
+        },
+        {
+          "y": 23,
+          "startX": 122,
+          "endX": 124
+        },
+        {
+          "y": 24,
+          "startX": 123,
+          "endX": 123
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "mapId": 122,
+  "mapName": "Darkness Hall",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        48,
+        49
+      ],
+      "tileCount": 198,
+      "bbox": {
+        "minX": 21,
+        "minY": 239,
+        "maxX": 33,
+        "maxY": 254
+      },
+      "rowRuns": [
+        {
+          "y": 239,
+          "startX": 21,
+          "endX": 33
+        },
+        {
+          "y": 240,
+          "startX": 21,
+          "endX": 33
+        },
+        {
+          "y": 241,
+          "startX": 21,
+          "endX": 33
+        },
+        {
+          "y": 242,
+          "startX": 21,
+          "endX": 33
+        },
+        {
+          "y": 243,
+          "startX": 21,
+          "endX": 33
+        },
+        {
+          "y": 244,
+          "startX": 21,
+          "endX": 33
+        },
+        {
+          "y": 245,
+          "startX": 21,
+          "endX": 32
+        },
+        {
+          "y": 246,
+          "startX": 21,
+          "endX": 32
+        },
+        {
+          "y": 247,
+          "startX": 21,
+          "endX": 32
+        },
+        {
+          "y": 248,
+          "startX": 21,
+          "endX": 32
+        },
+        {
+          "y": 249,
+          "startX": 21,
+          "endX": 32
+        },
+        {
+          "y": 250,
+          "startX": 21,
+          "endX": 32
+        },
+        {
+          "y": 251,
+          "startX": 21,
+          "endX": 32
+        },
+        {
+          "y": 252,
+          "startX": 21,
+          "endX": 32
+        },
+        {
+          "y": 253,
+          "startX": 21,
+          "endX": 32
+        },
+        {
+          "y": 254,
+          "startX": 21,
+          "endX": 32
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 3,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        48
+      ],
+      "tileCount": 1,
+      "bbox": {
+        "minX": 127,
+        "minY": 124,
+        "maxX": 127,
+        "maxY": 124
+      },
+      "rowRuns": [
+        {
+          "y": 124,
+          "startX": 127,
+          "endX": 127
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

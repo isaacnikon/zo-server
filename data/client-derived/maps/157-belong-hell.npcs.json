@@ -1,0 +1,52 @@
+{
+  "mapId": 157,
+  "mapName": "Belong Hell",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3501650,
+      "end": 3501966
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 2,
+    "statusCounts": {
+      "alias-id-mismatch": 1,
+      "match": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3262,
+      "npcTypeId": 3,
+      "name": "Red Hoe",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 99,
+      "y": 166,
+      "roleinfoNameByNpcId": "Red Hoe",
+      "roleinfoIdByName": 3262,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3262,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3262, 3,\"\"..macro_GetTypeNpcName(3262)..\"\",99,166)"
+    },
+    {
+      "order": 1,
+      "npcId": 3281,
+      "npcTypeId": 5,
+      "name": "Yates",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 66,
+      "y": 234,
+      "roleinfoNameByNpcId": "Yates",
+      "roleinfoIdByName": 3221,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3281,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3281, 5,\"\"..macro_GetTypeNpcName(3281)..\"\",66,234)"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "mapId": 177,
+  "mapName": "Silence Hell",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3513077,
+      "end": 3513840
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 6,
+    "statusCounts": {
+      "alias-id-mismatch": 1,
+      "match": 5
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3374,
+      "npcTypeId": 1,
+      "name": "Beauty",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 120,
+      "y": 28,
+      "roleinfoNameByNpcId": "Beauty",
+      "roleinfoIdByName": 3374,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3374,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3374, 1,\"\"..macro_GetTypeNpcName(3374)..\"\",120,28)"
+    },
+    {
+      "order": 1,
+      "npcId": 3187,
+      "npcTypeId": 3,
+      "name": "Night Owl",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 76,
+      "y": 162,
+      "roleinfoNameByNpcId": "Night Owl",
+      "roleinfoIdByName": 3187,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3187,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3187, 3,\"\"..macro_GetTypeNpcName(3187)..\"\",76,162)"
+    },
+    {
+      "order": 2,
+      "npcId": 3187,
+      "npcTypeId": 3,
+      "name": "Night Owl",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 76,
+      "y": 162,
+      "roleinfoNameByNpcId": "Night Owl",
+      "roleinfoIdByName": 3187,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3187,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3187, 3,\"\"..macro_GetTypeNpcName(3187)..\"\",76,162)"
+    },
+    {
+      "order": 3,
+      "npcId": 3187,
+      "npcTypeId": 3,
+      "name": "Night Owl",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 76,
+      "y": 162,
+      "roleinfoNameByNpcId": "Night Owl",
+      "roleinfoIdByName": 3187,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3187,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3187, 3,\"\"..macro_GetTypeNpcName(3187)..\"\",76,162)"
+    },
+    {
+      "order": 4,
+      "npcId": 3337,
+      "npcTypeId": 1,
+      "name": "GreenfaceGhost",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 16,
+      "y": 25,
+      "roleinfoNameByNpcId": "GreenfaceGhost",
+      "roleinfoIdByName": 3337,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3337,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3337, 1,\"\"..macro_GetTypeNpcName(3337)..\"\",16,25)"
+    },
+    {
+      "order": 5,
+      "npcId": 3281,
+      "npcTypeId": 5,
+      "name": "Yates",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 71,
+      "y": 244,
+      "roleinfoNameByNpcId": "Yates",
+      "roleinfoIdByName": 3221,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3281,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3281, 5,\"\"..macro_GetTypeNpcName(3281)..\"\",71,244)"
+    }
+  ]
+}

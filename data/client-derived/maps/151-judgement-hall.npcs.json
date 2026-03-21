@@ -1,0 +1,96 @@
+{
+  "mapId": 151,
+  "mapName": "Judgement Hall",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3498003,
+      "end": 3498519
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 5,
+    "statusCounts": {
+      "match": 5
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3119,
+      "npcTypeId": 1,
+      "name": "Hermes",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 73,
+      "y": 224,
+      "roleinfoNameByNpcId": "Hermes",
+      "roleinfoIdByName": 3119,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3119,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3119, 1,\"\"..macro_GetTypeNpcName(3119)..\"\",73,224)"
+    },
+    {
+      "order": 1,
+      "npcId": 3121,
+      "npcTypeId": 1,
+      "name": "Orc",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 45,
+      "y": 48,
+      "roleinfoNameByNpcId": "Orc",
+      "roleinfoIdByName": 3121,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3121,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3121, 1,\"\"..macro_GetTypeNpcName(3121)..\"\",45,48)"
+    },
+    {
+      "order": 2,
+      "npcId": 3221,
+      "npcTypeId": 1,
+      "name": "Yates",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 102,
+      "y": 152,
+      "roleinfoNameByNpcId": "Yates",
+      "roleinfoIdByName": 3221,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3221,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3221, 1,\"\"..macro_GetTypeNpcName(3221)..\"\",102,152)"
+    },
+    {
+      "order": 3,
+      "npcId": 3159,
+      "npcTypeId": 1,
+      "name": "Kobold",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 59,
+      "y": 87,
+      "roleinfoNameByNpcId": "Kobold",
+      "roleinfoIdByName": 3159,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3159,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3159, 1,\"\"..macro_GetTypeNpcName(3159)..\"\",59,87)"
+    },
+    {
+      "order": 4,
+      "npcId": 3254,
+      "npcTypeId": 1,
+      "name": "Ghost Fiend",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 84,
+      "y": 39,
+      "roleinfoNameByNpcId": "Ghost Fiend",
+      "roleinfoIdByName": 3254,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3254,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3254, 1,\"\"..macro_GetTypeNpcName(3254)..\"\",84,39)"
+    }
+  ]
+}

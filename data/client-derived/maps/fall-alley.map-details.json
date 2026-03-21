@@ -1,0 +1,502 @@
+{
+  "mapId": 105,
+  "mapName": "Fall Alley",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "mapGcg": "/home/nikon/Data/Zodiac Online/gcg/map.gcg",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3460515,
+      "end": 3461348
+    },
+    "transitionContextStart": 3460003,
+    "mapConfigChunkOffsets": {
+      "start": 21377,
+      "end": 21710
+    }
+  },
+  "bigTexts": [
+    {
+      "order": 0,
+      "text": "\u00a1\u00efFall Alley\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "map-title",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efFall Alley\u00a1\u00ef\",3000, 63500)"
+    },
+    {
+      "order": 1,
+      "text": "\u00a1\u00efLizard\u00a1\u00eeLevel:8-11\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 3000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efLizard\u00a1\u00eeLevel:8-11\u00a1\u00ef\",3000, 63500,3000)"
+    },
+    {
+      "order": 2,
+      "text": "\u00a1\u00efGreen Worm\u00a1\u00eeLevel:8-11\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 6000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efGreen Worm\u00a1\u00eeLevel:8-11\u00a1\u00ef\",3000, 63500,6000)"
+    }
+  ],
+  "homeInfo": null,
+  "temporaryMapPoints": [],
+  "sceneTransitions": [
+    {
+      "order": 0,
+      "trigger": {
+        "kind": "role-check-round",
+        "mode": 0,
+        "x": 158,
+        "y": 250,
+        "radius": 30
+      },
+      "target": {
+        "mapId": 121,
+        "mapName": "Dragon Palace",
+        "x": 146,
+        "y": 495
+      },
+      "rawCheckCall": "macro_RoleCheckRound(0,158,250,30)",
+      "rawChangeSceneCall": "macro_ChangeScene(121,146,495)"
+    }
+  ],
+  "mapConfig": {
+    "smallMapAsset": "\\PicData\\smallmap\\105.gaf",
+    "backgroundAsset": "\\map\\mapres\\102-4.mpk",
+    "mapConfigNpcSpawns": [
+      {
+        "order": 1,
+        "npcId": 3189,
+        "x": 15,
+        "y": 84
+      },
+      {
+        "order": 2,
+        "npcId": 3039,
+        "x": 9,
+        "y": 82
+      },
+      {
+        "order": 3,
+        "npcId": 3186,
+        "x": 72,
+        "y": 192
+      },
+      {
+        "order": 4,
+        "npcId": 3185,
+        "x": 69,
+        "y": 193
+      },
+      {
+        "order": 5,
+        "npcId": 3212,
+        "x": 97,
+        "y": 59
+      },
+      {
+        "order": 6,
+        "npcId": 3651,
+        "x": 69,
+        "y": 93
+      }
+    ],
+    "sceneEffects": [
+      {
+        "assetPath": "PicData\\Effect\\scene\\Pubu.gaf",
+        "assetName": "Pubu.gaf",
+        "x": 41,
+        "y": 108,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\Pubu.gaf",
+        "assetName": "Pubu.gaf",
+        "x": 43,
+        "y": 111,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shuiwen.gaf",
+        "assetName": "shuiwen.gaf",
+        "x": 40,
+        "y": 110,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shuiwen.gaf",
+        "assetName": "shuiwen.gaf",
+        "x": 43,
+        "y": 113,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shuipao.gaf",
+        "assetName": "shuipao.gaf",
+        "x": 39,
+        "y": 108,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shuipao.gaf",
+        "assetName": "shuipao.gaf",
+        "x": 42,
+        "y": 112,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shui1.gaf",
+        "assetName": "shui1.gaf",
+        "x": 21,
+        "y": 101,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shui2.gaf",
+        "assetName": "shui2.gaf",
+        "x": 55,
+        "y": 64,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shui2.gaf",
+        "assetName": "shui2.gaf",
+        "x": 64,
+        "y": 62,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\qingwa.gaf",
+        "assetName": "qingwa.gaf",
+        "x": 84,
+        "y": 75,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\xiaoxing.gaf",
+        "assetName": "xiaoxing.gaf",
+        "x": 46,
+        "y": 135,
+        "arg3": 14,
+        "arg4": 3,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\xiaoxing.gaf",
+        "assetName": "xiaoxing.gaf",
+        "x": 114,
+        "y": 147,
+        "arg3": 15,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 30,
+        "y": 5,
+        "arg3": 4,
+        "arg4": 4,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 124,
+        "y": 193,
+        "arg3": 10,
+        "arg4": 5,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shui2.gaf",
+        "assetName": "shui2.gaf",
+        "x": 34,
+        "y": 86,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\qingwa.gaf",
+        "assetName": "qingwa.gaf",
+        "x": 40,
+        "y": 118,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shui2.gaf",
+        "assetName": "shui2.gaf",
+        "x": 15,
+        "y": 106,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shui2.gaf",
+        "assetName": "shui2.gaf",
+        "x": 81,
+        "y": 76,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\qingwa.gaf",
+        "assetName": "qingwa.gaf",
+        "x": 89,
+        "y": 89,
+        "arg3": 10,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\xiaoxing.gaf",
+        "assetName": "xiaoxing.gaf",
+        "x": 57,
+        "y": 37,
+        "arg3": 2,
+        "arg4": 2,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\xiaoxing.gaf",
+        "assetName": "xiaoxing.gaf",
+        "x": 26,
+        "y": 78,
+        "arg3": 15,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\xiaoxing.gaf",
+        "assetName": "xiaoxing.gaf",
+        "x": 108,
+        "y": 75,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\baozi.gaf",
+        "assetName": "baozi.gaf",
+        "x": 87,
+        "y": 176,
+        "arg3": 13,
+        "arg4": 2,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\butterfly2.gaf",
+        "assetName": "butterfly2.gaf",
+        "x": 108,
+        "y": 130,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\butterfly2.gaf",
+        "assetName": "butterfly2.gaf",
+        "x": 117,
+        "y": 219,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 30,
+        "y": 5,
+        "arg3": 2,
+        "arg4": 5,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 122,
+        "y": 192,
+        "arg3": 2,
+        "arg4": 4,
+        "arg5": 0,
+        "source": "prelude"
+      }
+    ],
+    "portalEffectCandidates": [
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 30,
+        "y": 5,
+        "arg3": 4,
+        "arg4": 4,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": {
+          "order": 0,
+          "trigger": {
+            "kind": "role-check-round",
+            "mode": 0,
+            "x": 158,
+            "y": 250,
+            "radius": 30
+          },
+          "target": {
+            "mapId": 121,
+            "mapName": "Dragon Palace",
+            "x": 146,
+            "y": 495
+          },
+          "distanceSquared": 76409
+        },
+        "nearestObservedTrigger": null
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 124,
+        "y": 193,
+        "arg3": 10,
+        "arg4": 5,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": {
+          "order": 0,
+          "trigger": {
+            "kind": "role-check-round",
+            "mode": 0,
+            "x": 158,
+            "y": 250,
+            "radius": 30
+          },
+          "target": {
+            "mapId": 121,
+            "mapName": "Dragon Palace",
+            "x": 146,
+            "y": 495
+          },
+          "distanceSquared": 4405
+        },
+        "nearestObservedTrigger": null
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 30,
+        "y": 5,
+        "arg3": 2,
+        "arg4": 5,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": {
+          "order": 0,
+          "trigger": {
+            "kind": "role-check-round",
+            "mode": 0,
+            "x": 158,
+            "y": 250,
+            "radius": 30
+          },
+          "target": {
+            "mapId": 121,
+            "mapName": "Dragon Palace",
+            "x": 146,
+            "y": 495
+          },
+          "distanceSquared": 76409
+        },
+        "nearestObservedTrigger": null
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 122,
+        "y": 192,
+        "arg3": 2,
+        "arg4": 4,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": {
+          "order": 0,
+          "trigger": {
+            "kind": "role-check-round",
+            "mode": 0,
+            "x": 158,
+            "y": 250,
+            "radius": 30
+          },
+          "target": {
+            "mapId": 121,
+            "mapName": "Dragon Palace",
+            "x": 146,
+            "y": 495
+          },
+          "distanceSquared": 4660
+        },
+        "nearestObservedTrigger": null
+      }
+    ],
+    "observedTriggerPoints": []
+  }
+}

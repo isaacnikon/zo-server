@@ -1,0 +1,67 @@
+{
+  "mapId": 139,
+  "mapName": "Darkness Hamlet",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3491268,
+      "end": 3491656
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 3,
+    "statusCounts": {
+      "alias-id-mismatch": 1,
+      "match": 2
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3087,
+      "npcTypeId": 1,
+      "name": "Lord Glenn",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 61,
+      "y": 53,
+      "roleinfoNameByNpcId": "Lord Glenn",
+      "roleinfoIdByName": 3087,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3087,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3087, 1,\"\"..macro_GetTypeNpcName(3087)..\"\",61,53)"
+    },
+    {
+      "order": 1,
+      "npcId": 3291,
+      "npcTypeId": 5,
+      "name": "Arena Manager",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 32,
+      "y": 105,
+      "roleinfoNameByNpcId": "Arena Manager",
+      "roleinfoIdByName": 3291,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3291,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3291, 5,\"\"..macro_GetTypeNpcName(3291)..\"\",32,105)"
+    },
+    {
+      "order": 2,
+      "npcId": 3292,
+      "npcTypeId": 1,
+      "name": "Darkness Guard",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 27,
+      "y": 185,
+      "roleinfoNameByNpcId": "Darkness Guard",
+      "roleinfoIdByName": 3285,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3292,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3292, 1,\"\"..macro_GetTypeNpcName(3292)..\"\",27,185)"
+    }
+  ]
+}

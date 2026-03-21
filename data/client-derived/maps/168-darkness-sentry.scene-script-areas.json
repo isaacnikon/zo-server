@@ -1,0 +1,158 @@
+{
+  "mapId": 168,
+  "mapName": "Darkness Sentry",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 96,
+      "bbox": {
+        "minX": 61,
+        "minY": 243,
+        "maxX": 70,
+        "maxY": 254
+      },
+      "rowRuns": [
+        {
+          "y": 243,
+          "startX": 61,
+          "endX": 68
+        },
+        {
+          "y": 244,
+          "startX": 61,
+          "endX": 69
+        },
+        {
+          "y": 245,
+          "startX": 61,
+          "endX": 70
+        },
+        {
+          "y": 246,
+          "startX": 62,
+          "endX": 70
+        },
+        {
+          "y": 247,
+          "startX": 62,
+          "endX": 70
+        },
+        {
+          "y": 248,
+          "startX": 62,
+          "endX": 69
+        },
+        {
+          "y": 249,
+          "startX": 62,
+          "endX": 69
+        },
+        {
+          "y": 250,
+          "startX": 62,
+          "endX": 68
+        },
+        {
+          "y": 251,
+          "startX": 62,
+          "endX": 68
+        },
+        {
+          "y": 252,
+          "startX": 62,
+          "endX": 68
+        },
+        {
+          "y": 253,
+          "startX": 62,
+          "endX": 68
+        },
+        {
+          "y": 254,
+          "startX": 62,
+          "endX": 68
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        0,
+        1
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 65,
+      "bbox": {
+        "minX": 14,
+        "minY": 216,
+        "maxX": 22,
+        "maxY": 224
+      },
+      "rowRuns": [
+        {
+          "y": 216,
+          "startX": 16,
+          "endX": 20
+        },
+        {
+          "y": 217,
+          "startX": 15,
+          "endX": 21
+        },
+        {
+          "y": 218,
+          "startX": 15,
+          "endX": 15
+        },
+        {
+          "y": 218,
+          "startX": 17,
+          "endX": 21
+        },
+        {
+          "y": 219,
+          "startX": 15,
+          "endX": 21
+        },
+        {
+          "y": 220,
+          "startX": 15,
+          "endX": 21
+        },
+        {
+          "y": 221,
+          "startX": 15,
+          "endX": 21
+        },
+        {
+          "y": 222,
+          "startX": 14,
+          "endX": 21
+        },
+        {
+          "y": 223,
+          "startX": 14,
+          "endX": 22
+        },
+        {
+          "y": 224,
+          "startX": 14,
+          "endX": 22
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

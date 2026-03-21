@@ -1,0 +1,219 @@
+{
+  "mapId": 117,
+  "mapName": "Limon District",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "mapGcg": "/home/nikon/Data/Zodiac Online/gcg/map.gcg",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3475037,
+      "end": 3475875
+    },
+    "transitionContextStart": 3474525,
+    "mapConfigChunkOffsets": {
+      "start": 29468,
+      "end": 29822
+    }
+  },
+  "bigTexts": [
+    {
+      "order": 0,
+      "text": "\u00a1\u00efLimon District\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "map-title",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efLimon District\u00a1\u00ef\",3000, 63500)"
+    },
+    {
+      "order": 1,
+      "text": "\u00a1\u00efCateran\u00a1\u00eeLevel:8-11\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 3000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efCateran\u00a1\u00eeLevel:8-11\u00a1\u00ef\",3000, 63500,3000)"
+    },
+    {
+      "order": 2,
+      "text": "\u00a1\u00efRober\u00a1\u00eeLevel:8-11\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 3000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efRober\u00a1\u00eeLevel:8-11\u00a1\u00ef\",3000, 63500,3000)"
+    },
+    {
+      "order": 3,
+      "text": "\u00a1\u00efFlower Spirit\u00a1\u00eeLevel:8-11\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 6000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efFlower Spirit\u00a1\u00eeLevel:8-11\u00a1\u00ef\",3000, 63500,6000)"
+    },
+    {
+      "order": 4,
+      "text": "\u00a1\u00efGrass\u00a1\u00eeLevel:8-11\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 6000,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efGrass\u00a1\u00eeLevel:8-11\u00a1\u00ef\",3000, 63500,6000)"
+    }
+  ],
+  "homeInfo": null,
+  "temporaryMapPoints": [],
+  "sceneTransitions": [],
+  "mapConfig": {
+    "smallMapAsset": "\\PicData\\smallmap\\117.gaf",
+    "backgroundAsset": "\\map\\mapres\\108-1.mpk",
+    "mapConfigNpcSpawns": [
+      {
+        "order": 1,
+        "npcId": 3157,
+        "x": 121,
+        "y": 75
+      },
+      {
+        "order": 2,
+        "npcId": 3158,
+        "x": 101,
+        "y": 71
+      },
+      {
+        "order": 3,
+        "npcId": 3158,
+        "x": 69,
+        "y": 94
+      },
+      {
+        "order": 4,
+        "npcId": 3231,
+        "x": 45,
+        "y": 231
+      }
+    ],
+    "sceneEffects": [
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 123,
+        "y": 74,
+        "arg3": 15,
+        "arg4": 6,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\pubu_fan.gaf",
+        "assetName": "pubu_fan.gaf",
+        "x": 80,
+        "y": 100,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\pubu_fan.gaf",
+        "assetName": "pubu_fan.gaf",
+        "x": 82,
+        "y": 96,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shuiwen_fan.gaf",
+        "assetName": "shuiwen_fan.gaf",
+        "x": 79,
+        "y": 87,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shuiwen_fan.gaf",
+        "assetName": "shuiwen_fan.gaf",
+        "x": 82,
+        "y": 103,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shuiwen_fan.gaf",
+        "assetName": "shuiwen_fan.gaf",
+        "x": 83,
+        "y": 98,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shuipao.gaf",
+        "assetName": "shuipao.gaf",
+        "x": 81,
+        "y": 100,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shuipao.gaf",
+        "assetName": "shuipao.gaf",
+        "x": 85,
+        "y": 96,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 3,
+        "y": 74,
+        "arg3": 2,
+        "arg4": 5,
+        "arg5": 0,
+        "source": "prelude"
+      }
+    ],
+    "portalEffectCandidates": [
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 123,
+        "y": 74,
+        "arg3": 15,
+        "arg4": 6,
+        "arg5": 0,
+        "source": "map-config",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 3,
+        "y": 74,
+        "arg3": 2,
+        "arg4": 5,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      }
+    ],
+    "observedTriggerPoints": []
+  }
+}

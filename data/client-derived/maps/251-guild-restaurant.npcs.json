@@ -1,0 +1,97 @@
+{
+  "mapId": 251,
+  "mapName": "Guild Restaurant",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3548665,
+      "end": 3549751
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 5,
+    "statusCounts": {
+      "alias-id-mismatch": 1,
+      "match": 4
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3431,
+      "npcTypeId": 3,
+      "name": "Guild Worker",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 151,
+      "y": 314,
+      "roleinfoNameByNpcId": "Guild Worker",
+      "roleinfoIdByName": 3431,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3431,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3431, 3,\"\"..macro_GetTypeNpcName(3431)..\"\",151,314)"
+    },
+    {
+      "order": 1,
+      "npcId": 3429,
+      "npcTypeId": 3,
+      "name": "Craftsman",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 177,
+      "y": 343,
+      "roleinfoNameByNpcId": "Craftsman",
+      "roleinfoIdByName": 3429,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3429,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3429, 3,\"\"..macro_GetTypeNpcName(3429)..\"\",177,343)"
+    },
+    {
+      "order": 2,
+      "npcId": 3634,
+      "npcTypeId": 3,
+      "name": "Processor",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 138,
+      "y": 307,
+      "roleinfoNameByNpcId": "Processor",
+      "roleinfoIdByName": 3634,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3634,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3634, 3,\"\"..macro_GetTypeNpcName(3634)..\"\",138,307)"
+    },
+    {
+      "order": 3,
+      "npcId": 3699,
+      "npcTypeId": 3,
+      "name": "Manager Emerson",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 126,
+      "y": 340,
+      "roleinfoNameByNpcId": "Manager Emerson",
+      "roleinfoIdByName": 3699,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3699,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3699, 3,\"\"..macro_GetTypeNpcName(3699)..\"\",126,340)"
+    },
+    {
+      "order": 4,
+      "npcId": 3749,
+      "npcTypeId": 3,
+      "name": "frogteleporter",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 183,
+      "y": 351,
+      "roleinfoNameByNpcId": "frogteleporter",
+      "roleinfoIdByName": 3649,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3749,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3749, 3,\"\"..macro_GetTypeNpcName(3749)..\"\",183,351)"
+    }
+  ]
+}

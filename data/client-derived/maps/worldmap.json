@@ -1,0 +1,4221 @@
+{
+  "source": {
+    "nodes": "data/client-derived/maps/worldmap-nodes.json",
+    "connections": "data/client-derived/maps/worldmap-connections.json",
+    "generator": "scripts/generate-worldmap-dataset.py"
+  },
+  "summary": {
+    "nodeCount": 54,
+    "connectionCount": 57,
+    "authoritativeForTeleportRouting": false
+  },
+  "nodes": [
+    {
+      "mapName": "Rainbow Valley",
+      "mapId": 101,
+      "nodeId": 0,
+      "nodeName": "worldsubnode0",
+      "nodeKind": "big",
+      "x": 506,
+      "y": 343,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/101-rainbow-valley.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efRainbow Valley\u00a1\u00ef",
+        "homeInfo": {
+          "mapId": 101,
+          "x": 81,
+          "y": 235
+        },
+        "temporaryPointCount": 10,
+        "sceneTransitionCount": 1,
+        "portalEffectCandidateCount": 3
+      },
+      "adjacent": [
+        {
+          "toMapName": "Bling Spring",
+          "toMapId": 103,
+          "validation": "validated-manually",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Bling Spring",
+      "mapId": 103,
+      "nodeId": 1,
+      "nodeName": "worldsubnode1",
+      "nodeKind": "small",
+      "x": 494,
+      "y": 367,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/103-bling-spring.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efBling Spring\u00a1\u00ef",
+        "homeInfo": {
+          "mapId": 101,
+          "x": 81,
+          "y": 235
+        },
+        "temporaryPointCount": 10,
+        "sceneTransitionCount": 2,
+        "portalEffectCandidateCount": 4
+      },
+      "adjacent": [
+        {
+          "toMapName": "Bling Alley",
+          "toMapId": 102,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Rainbow Valley",
+          "toMapId": 101,
+          "validation": "validated-manually",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Bling Alley",
+      "mapId": 102,
+      "nodeId": 2,
+      "nodeName": "worldsubnode2",
+      "nodeKind": "small",
+      "x": 474,
+      "y": 387,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/102-bling-alley.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efBling Alley\u00a1\u00ef",
+        "homeInfo": {
+          "mapId": 101,
+          "x": 81,
+          "y": 235
+        },
+        "temporaryPointCount": 10,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      },
+      "adjacent": [
+        {
+          "toMapName": "Bling Spring",
+          "toMapId": 103,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Cloud City",
+          "toMapId": 112,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Cloud City",
+      "mapId": 112,
+      "nodeId": 3,
+      "nodeName": "worldsubnode3",
+      "nodeKind": "big",
+      "x": 458,
+      "y": 406,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/112-cloud-city.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efCloud City\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 7
+      },
+      "adjacent": [
+        {
+          "toMapName": "Bling Alley",
+          "toMapId": 102,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Fall Alley",
+          "toMapId": 105,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Limon District",
+          "toMapId": 117,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Darkness Hole",
+      "mapId": null,
+      "nodeId": 4,
+      "nodeName": "worldsubnode4",
+      "nodeKind": "big",
+      "x": 500,
+      "y": 397,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": null,
+      "mapDetailsSummary": null,
+      "adjacent": [
+        {
+          "toMapName": "Darkness Mountain",
+          "toMapId": 145,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Darkness Mountain",
+      "mapId": 145,
+      "nodeId": 5,
+      "nodeName": "worldsubnode5",
+      "nodeKind": "small",
+      "x": 489,
+      "y": 421,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/145-darkness-mountain.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efDarkness Mountain\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 6
+      },
+      "adjacent": [
+        {
+          "toMapName": "Darkness Hole",
+          "toMapId": null,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Limon District",
+          "toMapId": 117,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Limon District",
+      "mapId": 117,
+      "nodeId": 6,
+      "nodeName": "worldsubnode6",
+      "nodeKind": "small",
+      "x": 472,
+      "y": 439,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/117-limon-district.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efLimon District\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 2
+      },
+      "adjacent": [
+        {
+          "toMapName": "Cloud City",
+          "toMapId": 112,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Darkness Mountain",
+          "toMapId": 145,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Orchid Temple",
+      "mapId": 163,
+      "nodeId": 7,
+      "nodeName": "worldsubnode7",
+      "nodeKind": "big",
+      "x": 451,
+      "y": 358,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/163-orchid-temple.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efOrchid Temple\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 3
+      },
+      "adjacent": [
+        {
+          "toMapName": "Soul-wander Valley",
+          "toMapId": null,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Soul-wander Valley",
+      "mapId": null,
+      "nodeId": 8,
+      "nodeName": "worldsubnode8",
+      "nodeKind": "small",
+      "x": 447,
+      "y": 375,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": null,
+      "mapDetailsSummary": null,
+      "adjacent": [
+        {
+          "toMapName": "Butterfly Peak",
+          "toMapId": 132,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Dusk Forest",
+          "toMapId": 128,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Orchid Temple",
+          "toMapId": 163,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Dusk Forest",
+      "mapId": 128,
+      "nodeId": 9,
+      "nodeName": "worldsubnode9",
+      "nodeKind": "small",
+      "x": 436,
+      "y": 393,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/128-dusk-forest.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efDusk Forest\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 7
+      },
+      "adjacent": [
+        {
+          "toMapName": "Devil Dock",
+          "toMapId": 127,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Soul-wander Valley",
+          "toMapId": null,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Fall Alley",
+      "mapId": 105,
+      "nodeId": 10,
+      "nodeName": "worldsubnode10",
+      "nodeKind": "small",
+      "x": 436,
+      "y": 421,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/105-fall-alley.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efFall Alley\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 1,
+        "portalEffectCandidateCount": 4
+      },
+      "adjacent": [
+        {
+          "toMapName": "Cloud City",
+          "toMapId": 112,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Butterfly Peak",
+      "mapId": 132,
+      "nodeId": 11,
+      "nodeName": "worldsubnode11",
+      "nodeKind": "small",
+      "x": 420,
+      "y": 369,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/132-butterfly-peak.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efButterfly Peak\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      },
+      "adjacent": [
+        {
+          "toMapName": "Golden Path",
+          "toMapId": 108,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Soul-wander Valley",
+          "toMapId": null,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Devil Dock",
+      "mapId": 127,
+      "nodeId": 12,
+      "nodeName": "worldsubnode12",
+      "nodeKind": "small",
+      "x": 413,
+      "y": 399,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/127-devil-dock.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efDevil Dock\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      },
+      "adjacent": [
+        {
+          "toMapName": "Dusk Forest",
+          "toMapId": 128,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Goal Manor",
+          "toMapId": 131,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Darkness Hamlet",
+      "mapId": 139,
+      "nodeId": 13,
+      "nodeName": "worldsubnode13",
+      "nodeKind": "big",
+      "x": 399,
+      "y": 334,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/139-darkness-hamlet.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efDarkness Hamlet\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 6
+      },
+      "adjacent": [
+        {
+          "toMapName": "Golden Path",
+          "toMapId": 108,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Moon Lake",
+          "toMapId": 181,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Soul-free Valley",
+          "toMapId": 161,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Golden Path",
+      "mapId": 108,
+      "nodeId": 14,
+      "nodeName": "worldsubnode14",
+      "nodeKind": "small",
+      "x": 394,
+      "y": 360,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/108-golden-path.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efGolden Path\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 8
+      },
+      "adjacent": [
+        {
+          "toMapName": "Butterfly Peak",
+          "toMapId": 132,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Darkness Hamlet",
+          "toMapId": 139,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Goal Manor",
+      "mapId": 131,
+      "nodeId": 15,
+      "nodeName": "worldsubnode15",
+      "nodeKind": "big",
+      "x": 389,
+      "y": 391,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/131-goal-manor.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efGoal Manor\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 8
+      },
+      "adjacent": [
+        {
+          "toMapName": "Cobweb Woods",
+          "toMapId": 120,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Devil Dock",
+          "toMapId": 127,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Cobweb Woods",
+      "mapId": 120,
+      "nodeId": 16,
+      "nodeName": "worldsubnode16",
+      "nodeKind": "small",
+      "x": 367,
+      "y": 376,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/120-cobweb-woods.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efCobweb Woods\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 6
+      },
+      "adjacent": [
+        {
+          "toMapName": "Goal Manor",
+          "toMapId": 131,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Maple Valley",
+          "toMapId": 146,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Willow Forest",
+          "toMapId": 126,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Maple Valley",
+      "mapId": 146,
+      "nodeId": 17,
+      "nodeName": "worldsubnode17",
+      "nodeKind": "small",
+      "x": 362,
+      "y": 395,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/146-maple-valley.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efMaple Valley\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 7
+      },
+      "adjacent": [
+        {
+          "toMapName": "Cobweb Woods",
+          "toMapId": 120,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Trident Mountain",
+          "toMapId": 134,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Willow Forest",
+          "toMapId": 126,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Trident Mountain",
+      "mapId": 134,
+      "nodeId": 18,
+      "nodeName": "worldsubnode18",
+      "nodeKind": "small",
+      "x": 366,
+      "y": 417,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/134-trident-mountain.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efTrident Mountain\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 7
+      },
+      "adjacent": [
+        {
+          "toMapName": "Chill Pass",
+          "toMapId": null,
+          "validation": "ui-inferred",
+          "connectionType": "bridge",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Maple Valley",
+          "toMapId": 146,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Outside Chill Pass",
+          "toMapId": null,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Chill Pass",
+      "mapId": null,
+      "nodeId": 19,
+      "nodeName": "worldsubnode19",
+      "nodeKind": "big",
+      "x": 384,
+      "y": 449,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": null,
+      "mapDetailsSummary": null,
+      "adjacent": [
+        {
+          "toMapName": "Trident Mountain",
+          "toMapId": 134,
+          "validation": "ui-inferred",
+          "connectionType": "bridge",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Willow Forest",
+      "mapId": 126,
+      "nodeId": 21,
+      "nodeName": "worldsubnode21",
+      "nodeKind": "big",
+      "x": 346,
+      "y": 383,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/126-willow-forest.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efWillow Forest\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 2
+      },
+      "adjacent": [
+        {
+          "toMapName": "Cobweb Woods",
+          "toMapId": 120,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Maple Valley",
+          "toMapId": 146,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Precious Garden",
+          "toMapId": 135,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Sunlight Hole",
+      "mapId": 164,
+      "nodeId": 22,
+      "nodeName": "worldsubnode22",
+      "nodeKind": "big",
+      "x": 317,
+      "y": 376,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/164-sunlight-hole.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efSunlight Hole\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 0
+      },
+      "adjacent": [
+        {
+          "toMapName": "Great Desert",
+          "toMapId": null,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Precious Garden",
+          "toMapId": 135,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Thorn Mountain",
+          "toMapId": 185,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Precious Garden",
+      "mapId": 135,
+      "nodeId": 23,
+      "nodeName": "worldsubnode23",
+      "nodeKind": "small",
+      "x": 321,
+      "y": 398,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/135-precious-garden.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efPrecious Garden\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 8
+      },
+      "adjacent": [
+        {
+          "toMapName": "Mega Forest",
+          "toMapId": 129,
+          "validation": "ui-inferred",
+          "connectionType": "bridge",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Outside Chill Pass",
+          "toMapId": null,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Sunlight Hole",
+          "toMapId": 164,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Willow Forest",
+          "toMapId": 126,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Outside Chill Pass",
+      "mapId": null,
+      "nodeId": 24,
+      "nodeName": "worldsubnode24",
+      "nodeKind": "small",
+      "x": 336,
+      "y": 425,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": null,
+      "mapDetailsSummary": null,
+      "adjacent": [
+        {
+          "toMapName": "Precious Garden",
+          "toMapId": 135,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Trident Mountain",
+          "toMapId": 134,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Wind Canyon",
+          "toMapId": 118,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Wind Canyon",
+      "mapId": 118,
+      "nodeId": 25,
+      "nodeName": "worldsubnode25",
+      "nodeKind": "big",
+      "x": 324,
+      "y": 440,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/118-wind-canyon.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efWind Canyon\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      },
+      "adjacent": [
+        {
+          "toMapName": "Dew Peak",
+          "toMapId": 144,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Outside Chill Pass",
+          "toMapId": null,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Dew Peak",
+      "mapId": 144,
+      "nodeId": 26,
+      "nodeName": "worldsubnode26",
+      "nodeKind": "small",
+      "x": 347,
+      "y": 455,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/144-dew-peak.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efDew Peak\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 4
+      },
+      "adjacent": [
+        {
+          "toMapName": "Dragon Palace",
+          "toMapId": 121,
+          "validation": "ui-inferred",
+          "connectionType": "bridge",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Wind Canyon",
+          "toMapId": 118,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Mega Forest",
+      "mapId": 129,
+      "nodeId": 27,
+      "nodeName": "worldsubnode27",
+      "nodeKind": "small",
+      "x": 288,
+      "y": 412,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/129-mega-forest.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efMega Forest\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 7
+      },
+      "adjacent": [
+        {
+          "toMapName": "Precious Garden",
+          "toMapId": 135,
+          "validation": "ui-inferred",
+          "connectionType": "bridge",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Zig Pass",
+          "toMapId": 171,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Golden Beach",
+      "mapId": 114,
+      "nodeId": 28,
+      "nodeName": "worldsubnode28",
+      "nodeKind": "big",
+      "x": 283,
+      "y": 456,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/114-golden-beach.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efGolden Beach\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 4
+      },
+      "adjacent": [
+        {
+          "toMapName": "Moonset Shore",
+          "toMapId": 113,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Zig Pass",
+      "mapId": 171,
+      "nodeId": 29,
+      "nodeName": "worldsubnode29",
+      "nodeKind": "big",
+      "x": 265,
+      "y": 406,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/171-zig-pass.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efZig Pass\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 0
+      },
+      "adjacent": [
+        {
+          "toMapName": "Mega Forest",
+          "toMapId": 129,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Spring Forest",
+          "toMapId": 109,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Spring Forest",
+      "mapId": 109,
+      "nodeId": 30,
+      "nodeName": "worldsubnode30",
+      "nodeKind": "small",
+      "x": 255,
+      "y": 430,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/109-spring-forest.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efSpring Forest\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 9
+      },
+      "adjacent": [
+        {
+          "toMapName": "Moonset Shore",
+          "toMapId": 113,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Windbell Valley",
+          "toMapId": 242,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Zig Pass",
+          "toMapId": 171,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Moonset Shore",
+      "mapId": 113,
+      "nodeId": 31,
+      "nodeName": "worldsubnode31",
+      "nodeKind": "small",
+      "x": 258,
+      "y": 455,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/113-moonset-shore.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efMoonset Shore\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 4
+      },
+      "adjacent": [
+        {
+          "toMapName": "Golden Beach",
+          "toMapId": 114,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Spring Forest",
+          "toMapId": 109,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Windbell Valley",
+      "mapId": 242,
+      "nodeId": 32,
+      "nodeName": "worldsubnode32",
+      "nodeKind": "small",
+      "x": 233,
+      "y": 417,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/242-windbell-valley.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efWindbell Valley\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      },
+      "adjacent": [
+        {
+          "toMapName": "Longicorn Hole",
+          "toMapId": 238,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Moonset Path",
+          "toMapId": 236,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Spring Forest",
+          "toMapId": 109,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Moonset Path",
+      "mapId": 236,
+      "nodeId": 33,
+      "nodeName": "worldsubnode33",
+      "nodeKind": "small",
+      "x": 220,
+      "y": 441,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/236-moonset-path.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efMoonset Path\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 2
+      },
+      "adjacent": [
+        {
+          "toMapName": "Timber Town",
+          "toMapId": 169,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Windbell Valley",
+          "toMapId": 242,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Longicorn Hole",
+      "mapId": 238,
+      "nodeId": 34,
+      "nodeName": "worldsubnode34",
+      "nodeKind": "small",
+      "x": 219,
+      "y": 400,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/238-longicorn-hole.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efLongicorn Hole\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 2
+      },
+      "adjacent": [
+        {
+          "toMapName": "Longicorn  State",
+          "toMapId": null,
+          "validation": "ui-inferred",
+          "connectionType": "bridge",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Windbell Valley",
+          "toMapId": 242,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Timber Town",
+      "mapId": 169,
+      "nodeId": 35,
+      "nodeName": "worldsubnode35",
+      "nodeKind": "big",
+      "x": 189,
+      "y": 444,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/169-timber-town.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efTimber Town\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 7
+      },
+      "adjacent": [
+        {
+          "toMapName": "Moonset Path",
+          "toMapId": 236,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Regret Cliff",
+          "toMapId": 240,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Regret Cliff",
+      "mapId": 240,
+      "nodeId": 36,
+      "nodeName": "worldsubnode36",
+      "nodeKind": "small",
+      "x": 161,
+      "y": 440,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/240-regret-cliff.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efRegret Cliff\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      },
+      "adjacent": [
+        {
+          "toMapName": "De-evil Tower",
+          "toMapId": 241,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Timber Town",
+          "toMapId": 169,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "De-evil Tower",
+      "mapId": 241,
+      "nodeId": 37,
+      "nodeName": "worldsubnode37",
+      "nodeKind": "big",
+      "x": 146,
+      "y": 420,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/241-de-evil-tower.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efDe-evil Tower\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 0
+      },
+      "adjacent": [
+        {
+          "toMapName": "Regret Cliff",
+          "toMapId": 240,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Longicorn  State",
+      "mapId": null,
+      "nodeId": 38,
+      "nodeName": "worldsubnode38",
+      "nodeKind": "big",
+      "x": 191,
+      "y": 359,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": null,
+      "mapDetailsSummary": null,
+      "adjacent": [
+        {
+          "toMapName": "Chain Peak",
+          "toMapId": 166,
+          "validation": "ui-inferred",
+          "connectionType": "bridge",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Longicorn Hole",
+          "toMapId": 238,
+          "validation": "ui-inferred",
+          "connectionType": "bridge",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Chain Peak",
+      "mapId": 166,
+      "nodeId": 39,
+      "nodeName": "worldsubnode39",
+      "nodeKind": "big",
+      "x": 241,
+      "y": 353,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/166-chain-peak.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efChain Peak\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 3
+      },
+      "adjacent": [
+        {
+          "toMapName": "Longicorn  State",
+          "toMapId": null,
+          "validation": "ui-inferred",
+          "connectionType": "bridge",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Silent Hill",
+      "mapId": 182,
+      "nodeId": 40,
+      "nodeName": "worldsubnode40",
+      "nodeKind": "small",
+      "x": 293,
+      "y": 362,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/182-silent-hill.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efSilent Hill\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      },
+      "adjacent": [
+        {
+          "toMapName": "Great Desert",
+          "toMapId": null,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Thorn Mountain",
+          "toMapId": 185,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Thorn Mountain",
+      "mapId": 185,
+      "nodeId": 41,
+      "nodeName": "worldsubnode41",
+      "nodeKind": "small",
+      "x": 308,
+      "y": 352,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/185-thorn-mountain.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efThorn Mountain\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      },
+      "adjacent": [
+        {
+          "toMapName": "Great Desert",
+          "toMapId": null,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Hell Pass",
+          "toMapId": 152,
+          "validation": "ui-inferred",
+          "connectionType": "bridge",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Silent Hill",
+          "toMapId": 182,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Sunlight Hole",
+          "toMapId": 164,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Great Desert",
+      "mapId": null,
+      "nodeId": 42,
+      "nodeName": "worldsubnode42",
+      "nodeKind": "big",
+      "x": 324,
+      "y": 352,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": null,
+      "mapDetailsSummary": null,
+      "adjacent": [
+        {
+          "toMapName": "Silent Hill",
+          "toMapId": 182,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Sunlight Hole",
+          "toMapId": 164,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Thorn Mountain",
+          "toMapId": 185,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Ariel Manor",
+      "mapId": 170,
+      "nodeId": 43,
+      "nodeName": "worldsubnode43",
+      "nodeKind": "big",
+      "x": 358,
+      "y": 347,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/170-ariel-manor.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efAriel Manor\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 6
+      },
+      "adjacent": [
+        {
+          "toMapName": "Moon Lake",
+          "toMapId": 181,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Moon Lake",
+      "mapId": 181,
+      "nodeId": 44,
+      "nodeName": "worldsubnode44",
+      "nodeKind": "small",
+      "x": 372,
+      "y": 332,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/181-moon-lake.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efMoon Lake\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 3
+      },
+      "adjacent": [
+        {
+          "toMapName": "Ariel Manor",
+          "toMapId": 170,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Darkness Hamlet",
+          "toMapId": 139,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Soul-free Valley",
+          "toMapId": 161,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Lotus Peak",
+      "mapId": 165,
+      "nodeId": 45,
+      "nodeName": "worldsubnode45",
+      "nodeKind": "big",
+      "x": 339,
+      "y": 316,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/165-lotus-peak.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efLotus Peak\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 3
+      },
+      "adjacent": [
+        {
+          "toMapName": "Triumph Path",
+          "toMapId": 130,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Dragon Palace",
+      "mapId": 121,
+      "nodeId": 60,
+      "nodeName": "worldsubnode60",
+      "nodeKind": "big",
+      "x": 370,
+      "y": 492,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/121-dragon-palace.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efDragon Palace\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 1
+      },
+      "adjacent": [
+        {
+          "toMapName": "Dew Peak",
+          "toMapId": 144,
+          "validation": "ui-inferred",
+          "connectionType": "bridge",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Hell Pass",
+      "mapId": 152,
+      "nodeId": 62,
+      "nodeName": "worldsubnode62",
+      "nodeKind": "big",
+      "x": 299,
+      "y": 312,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/152-hell-pass.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efHell Pass\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 0
+      },
+      "adjacent": [
+        {
+          "toMapName": "Thorn Mountain",
+          "toMapId": 185,
+          "validation": "ui-inferred",
+          "connectionType": "bridge",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Celestial State",
+      "mapId": 204,
+      "nodeId": 63,
+      "nodeName": "worldsubnode63",
+      "nodeKind": "big",
+      "x": 334,
+      "y": 282,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/204-celestial-state.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efCelestial State\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 2
+      },
+      "adjacent": [
+        {
+          "toMapName": "Plume Forest",
+          "toMapId": null,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Triumph Path",
+          "toMapId": 130,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "West County Pass",
+      "mapId": 210,
+      "nodeId": 64,
+      "nodeName": "worldsubnode64",
+      "nodeKind": "big",
+      "x": 381,
+      "y": 265,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/210-west-county-pass.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efWest County Pass\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 3
+      },
+      "adjacent": [
+        {
+          "toMapName": "Plume Forest",
+          "toMapId": null,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "White Dew Snowland",
+          "toMapId": null,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "North County Pass",
+      "mapId": 212,
+      "nodeId": 65,
+      "nodeName": "worldsubnode65",
+      "nodeKind": "big",
+      "x": 433,
+      "y": 272,
+      "width": 12,
+      "height": 12,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodebig.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/212-north-county-pass.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efNorth County Pass\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 2
+      },
+      "adjacent": [
+        {
+          "toMapName": "White Dew Snowland",
+          "toMapId": null,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Soul-free Valley",
+      "mapId": 161,
+      "nodeId": 66,
+      "nodeName": "worldsubnode66",
+      "nodeKind": "small",
+      "x": 388,
+      "y": 315,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/161-soul-free-valley.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efSoul-free Valley\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 4
+      },
+      "adjacent": [
+        {
+          "toMapName": "Darkness Hamlet",
+          "toMapId": 139,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Moon Lake",
+          "toMapId": 181,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Triumph Path",
+          "toMapId": 130,
+          "validation": "ui-inferred",
+          "connectionType": "bridge",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Triumph Path",
+      "mapId": 130,
+      "nodeId": 68,
+      "nodeName": "worldsubnode68",
+      "nodeKind": "small",
+      "x": 356,
+      "y": 300,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": "data/client-derived/maps/130-triumph-path.map-details.json",
+      "mapDetailsSummary": {
+        "titleText": "\u00a1\u00efTriumph Path\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 8
+      },
+      "adjacent": [
+        {
+          "toMapName": "Celestial State",
+          "toMapId": 204,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Lotus Peak",
+          "toMapId": 165,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "Soul-free Valley",
+          "toMapId": 161,
+          "validation": "ui-inferred",
+          "connectionType": "bridge",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "Plume Forest",
+      "mapId": null,
+      "nodeId": 70,
+      "nodeName": "worldsubnode70",
+      "nodeKind": "small",
+      "x": 357,
+      "y": 263,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": null,
+      "mapDetailsSummary": null,
+      "adjacent": [
+        {
+          "toMapName": "Celestial State",
+          "toMapId": 204,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "West County Pass",
+          "toMapId": 210,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    },
+    {
+      "mapName": "White Dew Snowland",
+      "mapId": null,
+      "nodeId": 71,
+      "nodeName": "worldsubnode71",
+      "nodeKind": "small",
+      "x": 408,
+      "y": 275,
+      "width": 8,
+      "height": 8,
+      "hintlua": "gc_fileExec(\"script\\\\hint\\\\mapnodesmall.lua\")",
+      "mapDetailsPath": null,
+      "mapDetailsSummary": null,
+      "adjacent": [
+        {
+          "toMapName": "North County Pass",
+          "toMapId": 212,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        },
+        {
+          "toMapName": "West County Pass",
+          "toMapId": 210,
+          "validation": "ui-inferred",
+          "connectionType": "local-neighbor",
+          "authority": "presentation-only"
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "order": 0,
+      "fromMapName": "Ariel Manor",
+      "fromMapId": 170,
+      "fromNodeName": "worldsubnode43",
+      "fromNodeId": 43,
+      "toMapName": "Moon Lake",
+      "toMapId": 181,
+      "toNodeName": "worldsubnode44",
+      "toNodeId": 44,
+      "worldMapEdge": {
+        "from": {
+          "x": 358,
+          "y": 347
+        },
+        "to": {
+          "x": 372,
+          "y": 332
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/170-ariel-manor.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/181-moon-lake.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efAriel Manor\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 6
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efMoon Lake\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 3
+      }
+    },
+    {
+      "order": 1,
+      "fromMapName": "Bling Alley",
+      "fromMapId": 102,
+      "fromNodeName": "worldsubnode2",
+      "fromNodeId": 2,
+      "toMapName": "Bling Spring",
+      "toMapId": 103,
+      "toNodeName": "worldsubnode1",
+      "toNodeId": 1,
+      "worldMapEdge": {
+        "from": {
+          "x": 474,
+          "y": 387
+        },
+        "to": {
+          "x": 494,
+          "y": 367
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/102-bling-alley.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/103-bling-spring.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efBling Alley\u00a1\u00ef",
+        "homeInfo": {
+          "mapId": 101,
+          "x": 81,
+          "y": 235
+        },
+        "temporaryPointCount": 10,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efBling Spring\u00a1\u00ef",
+        "homeInfo": {
+          "mapId": 101,
+          "x": 81,
+          "y": 235
+        },
+        "temporaryPointCount": 10,
+        "sceneTransitionCount": 2,
+        "portalEffectCandidateCount": 4
+      }
+    },
+    {
+      "order": 2,
+      "fromMapName": "Bling Alley",
+      "fromMapId": 102,
+      "fromNodeName": "worldsubnode2",
+      "fromNodeId": 2,
+      "toMapName": "Cloud City",
+      "toMapId": 112,
+      "toNodeName": "worldsubnode3",
+      "toNodeId": 3,
+      "worldMapEdge": {
+        "from": {
+          "x": 474,
+          "y": 387
+        },
+        "to": {
+          "x": 458,
+          "y": 406
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/102-bling-alley.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/112-cloud-city.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efBling Alley\u00a1\u00ef",
+        "homeInfo": {
+          "mapId": 101,
+          "x": 81,
+          "y": 235
+        },
+        "temporaryPointCount": 10,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efCloud City\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 7
+      }
+    },
+    {
+      "order": 3,
+      "fromMapName": "Bling Spring",
+      "fromMapId": 103,
+      "fromNodeName": "worldsubnode1",
+      "fromNodeId": 1,
+      "toMapName": "Rainbow Valley",
+      "toMapId": 101,
+      "toNodeName": "worldsubnode0",
+      "toNodeId": 0,
+      "worldMapEdge": {
+        "from": {
+          "x": 494,
+          "y": 367
+        },
+        "to": {
+          "x": 506,
+          "y": 343
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "validated-manually",
+      "authority": "presentation-only",
+      "notes": "Validated from in-game travel and minimap teleporter investigation; not yet backed by extracted trigger destination code.",
+      "fromMapDetailsPath": "data/client-derived/maps/103-bling-spring.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/101-rainbow-valley.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efBling Spring\u00a1\u00ef",
+        "homeInfo": {
+          "mapId": 101,
+          "x": 81,
+          "y": 235
+        },
+        "temporaryPointCount": 10,
+        "sceneTransitionCount": 2,
+        "portalEffectCandidateCount": 4
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efRainbow Valley\u00a1\u00ef",
+        "homeInfo": {
+          "mapId": 101,
+          "x": 81,
+          "y": 235
+        },
+        "temporaryPointCount": 10,
+        "sceneTransitionCount": 1,
+        "portalEffectCandidateCount": 3
+      }
+    },
+    {
+      "order": 4,
+      "fromMapName": "Butterfly Peak",
+      "fromMapId": 132,
+      "fromNodeName": "worldsubnode11",
+      "fromNodeId": 11,
+      "toMapName": "Golden Path",
+      "toMapId": 108,
+      "toNodeName": "worldsubnode14",
+      "toNodeId": 14,
+      "worldMapEdge": {
+        "from": {
+          "x": 420,
+          "y": 369
+        },
+        "to": {
+          "x": 394,
+          "y": 360
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/132-butterfly-peak.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/108-golden-path.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efButterfly Peak\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efGolden Path\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 8
+      }
+    },
+    {
+      "order": 5,
+      "fromMapName": "Butterfly Peak",
+      "fromMapId": 132,
+      "fromNodeName": "worldsubnode11",
+      "fromNodeId": 11,
+      "toMapName": "Soul-wander Valley",
+      "toMapId": null,
+      "toNodeName": "worldsubnode8",
+      "toNodeId": 8,
+      "worldMapEdge": {
+        "from": {
+          "x": 420,
+          "y": 369
+        },
+        "to": {
+          "x": 447,
+          "y": 375
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/132-butterfly-peak.map-details.json",
+      "toMapDetailsPath": null,
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efButterfly Peak\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      },
+      "toMapDetailsSummary": null
+    },
+    {
+      "order": 6,
+      "fromMapName": "Celestial State",
+      "fromMapId": 204,
+      "fromNodeName": "worldsubnode63",
+      "fromNodeId": 63,
+      "toMapName": "Plume Forest",
+      "toMapId": null,
+      "toNodeName": "worldsubnode70",
+      "toNodeId": 70,
+      "worldMapEdge": {
+        "from": {
+          "x": 334,
+          "y": 282
+        },
+        "to": {
+          "x": 357,
+          "y": 263
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/204-celestial-state.map-details.json",
+      "toMapDetailsPath": null,
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efCelestial State\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 2
+      },
+      "toMapDetailsSummary": null
+    },
+    {
+      "order": 7,
+      "fromMapName": "Celestial State",
+      "fromMapId": 204,
+      "fromNodeName": "worldsubnode63",
+      "fromNodeId": 63,
+      "toMapName": "Triumph Path",
+      "toMapId": 130,
+      "toNodeName": "worldsubnode68",
+      "toNodeId": 68,
+      "worldMapEdge": {
+        "from": {
+          "x": 334,
+          "y": 282
+        },
+        "to": {
+          "x": 356,
+          "y": 300
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/204-celestial-state.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/130-triumph-path.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efCelestial State\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 2
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efTriumph Path\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 8
+      }
+    },
+    {
+      "order": 8,
+      "fromMapName": "Chain Peak",
+      "fromMapId": 166,
+      "fromNodeName": "worldsubnode39",
+      "fromNodeId": 39,
+      "toMapName": "Longicorn  State",
+      "toMapId": null,
+      "toNodeName": "worldsubnode38",
+      "toNodeId": 38,
+      "worldMapEdge": {
+        "from": {
+          "x": 241,
+          "y": 353
+        },
+        "to": {
+          "x": 191,
+          "y": 359
+        }
+      },
+      "connectionType": "bridge",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Component bridge added to keep the inferred world-map graph connected.",
+      "fromMapDetailsPath": "data/client-derived/maps/166-chain-peak.map-details.json",
+      "toMapDetailsPath": null,
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efChain Peak\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 3
+      },
+      "toMapDetailsSummary": null
+    },
+    {
+      "order": 9,
+      "fromMapName": "Chill Pass",
+      "fromMapId": null,
+      "fromNodeName": "worldsubnode19",
+      "fromNodeId": 19,
+      "toMapName": "Trident Mountain",
+      "toMapId": 134,
+      "toNodeName": "worldsubnode18",
+      "toNodeId": 18,
+      "worldMapEdge": {
+        "from": {
+          "x": 384,
+          "y": 449
+        },
+        "to": {
+          "x": 366,
+          "y": 417
+        }
+      },
+      "connectionType": "bridge",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Component bridge added to keep the inferred world-map graph connected.",
+      "fromMapDetailsPath": null,
+      "toMapDetailsPath": "data/client-derived/maps/134-trident-mountain.map-details.json",
+      "fromMapDetailsSummary": null,
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efTrident Mountain\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 7
+      }
+    },
+    {
+      "order": 10,
+      "fromMapName": "Cloud City",
+      "fromMapId": 112,
+      "fromNodeName": "worldsubnode3",
+      "fromNodeId": 3,
+      "toMapName": "Fall Alley",
+      "toMapId": 105,
+      "toNodeName": "worldsubnode10",
+      "toNodeId": 10,
+      "worldMapEdge": {
+        "from": {
+          "x": 458,
+          "y": 406
+        },
+        "to": {
+          "x": 436,
+          "y": 421
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/112-cloud-city.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/105-fall-alley.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efCloud City\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 7
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efFall Alley\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 1,
+        "portalEffectCandidateCount": 4
+      }
+    },
+    {
+      "order": 11,
+      "fromMapName": "Cloud City",
+      "fromMapId": 112,
+      "fromNodeName": "worldsubnode3",
+      "fromNodeId": 3,
+      "toMapName": "Limon District",
+      "toMapId": 117,
+      "toNodeName": "worldsubnode6",
+      "toNodeId": 6,
+      "worldMapEdge": {
+        "from": {
+          "x": 458,
+          "y": 406
+        },
+        "to": {
+          "x": 472,
+          "y": 439
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/112-cloud-city.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/117-limon-district.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efCloud City\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 7
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efLimon District\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 2
+      }
+    },
+    {
+      "order": 12,
+      "fromMapName": "Cobweb Woods",
+      "fromMapId": 120,
+      "fromNodeName": "worldsubnode16",
+      "fromNodeId": 16,
+      "toMapName": "Goal Manor",
+      "toMapId": 131,
+      "toNodeName": "worldsubnode15",
+      "toNodeId": 15,
+      "worldMapEdge": {
+        "from": {
+          "x": 367,
+          "y": 376
+        },
+        "to": {
+          "x": 389,
+          "y": 391
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/120-cobweb-woods.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/131-goal-manor.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efCobweb Woods\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 6
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efGoal Manor\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 8
+      }
+    },
+    {
+      "order": 13,
+      "fromMapName": "Cobweb Woods",
+      "fromMapId": 120,
+      "fromNodeName": "worldsubnode16",
+      "fromNodeId": 16,
+      "toMapName": "Maple Valley",
+      "toMapId": 146,
+      "toNodeName": "worldsubnode17",
+      "toNodeId": 17,
+      "worldMapEdge": {
+        "from": {
+          "x": 367,
+          "y": 376
+        },
+        "to": {
+          "x": 362,
+          "y": 395
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/120-cobweb-woods.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/146-maple-valley.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efCobweb Woods\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 6
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efMaple Valley\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 7
+      }
+    },
+    {
+      "order": 14,
+      "fromMapName": "Cobweb Woods",
+      "fromMapId": 120,
+      "fromNodeName": "worldsubnode16",
+      "fromNodeId": 16,
+      "toMapName": "Willow Forest",
+      "toMapId": 126,
+      "toNodeName": "worldsubnode21",
+      "toNodeId": 21,
+      "worldMapEdge": {
+        "from": {
+          "x": 367,
+          "y": 376
+        },
+        "to": {
+          "x": 346,
+          "y": 383
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/120-cobweb-woods.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/126-willow-forest.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efCobweb Woods\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 6
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efWillow Forest\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 2
+      }
+    },
+    {
+      "order": 15,
+      "fromMapName": "Darkness Hamlet",
+      "fromMapId": 139,
+      "fromNodeName": "worldsubnode13",
+      "fromNodeId": 13,
+      "toMapName": "Golden Path",
+      "toMapId": 108,
+      "toNodeName": "worldsubnode14",
+      "toNodeId": 14,
+      "worldMapEdge": {
+        "from": {
+          "x": 399,
+          "y": 334
+        },
+        "to": {
+          "x": 394,
+          "y": 360
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/139-darkness-hamlet.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/108-golden-path.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efDarkness Hamlet\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 6
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efGolden Path\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 8
+      }
+    },
+    {
+      "order": 16,
+      "fromMapName": "Darkness Hamlet",
+      "fromMapId": 139,
+      "fromNodeName": "worldsubnode13",
+      "fromNodeId": 13,
+      "toMapName": "Moon Lake",
+      "toMapId": 181,
+      "toNodeName": "worldsubnode44",
+      "toNodeId": 44,
+      "worldMapEdge": {
+        "from": {
+          "x": 399,
+          "y": 334
+        },
+        "to": {
+          "x": 372,
+          "y": 332
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/139-darkness-hamlet.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/181-moon-lake.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efDarkness Hamlet\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 6
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efMoon Lake\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 3
+      }
+    },
+    {
+      "order": 17,
+      "fromMapName": "Darkness Hamlet",
+      "fromMapId": 139,
+      "fromNodeName": "worldsubnode13",
+      "fromNodeId": 13,
+      "toMapName": "Soul-free Valley",
+      "toMapId": 161,
+      "toNodeName": "worldsubnode66",
+      "toNodeId": 66,
+      "worldMapEdge": {
+        "from": {
+          "x": 399,
+          "y": 334
+        },
+        "to": {
+          "x": 388,
+          "y": 315
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/139-darkness-hamlet.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/161-soul-free-valley.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efDarkness Hamlet\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 6
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efSoul-free Valley\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 4
+      }
+    },
+    {
+      "order": 18,
+      "fromMapName": "Darkness Hole",
+      "fromMapId": null,
+      "fromNodeName": "worldsubnode4",
+      "fromNodeId": 4,
+      "toMapName": "Darkness Mountain",
+      "toMapId": 145,
+      "toNodeName": "worldsubnode5",
+      "toNodeId": 5,
+      "worldMapEdge": {
+        "from": {
+          "x": 500,
+          "y": 397
+        },
+        "to": {
+          "x": 489,
+          "y": 421
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": null,
+      "toMapDetailsPath": "data/client-derived/maps/145-darkness-mountain.map-details.json",
+      "fromMapDetailsSummary": null,
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efDarkness Mountain\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 6
+      }
+    },
+    {
+      "order": 19,
+      "fromMapName": "Darkness Mountain",
+      "fromMapId": 145,
+      "fromNodeName": "worldsubnode5",
+      "fromNodeId": 5,
+      "toMapName": "Limon District",
+      "toMapId": 117,
+      "toNodeName": "worldsubnode6",
+      "toNodeId": 6,
+      "worldMapEdge": {
+        "from": {
+          "x": 489,
+          "y": 421
+        },
+        "to": {
+          "x": 472,
+          "y": 439
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/145-darkness-mountain.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/117-limon-district.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efDarkness Mountain\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 6
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efLimon District\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 2
+      }
+    },
+    {
+      "order": 20,
+      "fromMapName": "De-evil Tower",
+      "fromMapId": 241,
+      "fromNodeName": "worldsubnode37",
+      "fromNodeId": 37,
+      "toMapName": "Regret Cliff",
+      "toMapId": 240,
+      "toNodeName": "worldsubnode36",
+      "toNodeId": 36,
+      "worldMapEdge": {
+        "from": {
+          "x": 146,
+          "y": 420
+        },
+        "to": {
+          "x": 161,
+          "y": 440
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/241-de-evil-tower.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/240-regret-cliff.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efDe-evil Tower\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 0
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efRegret Cliff\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      }
+    },
+    {
+      "order": 21,
+      "fromMapName": "Devil Dock",
+      "fromMapId": 127,
+      "fromNodeName": "worldsubnode12",
+      "fromNodeId": 12,
+      "toMapName": "Dusk Forest",
+      "toMapId": 128,
+      "toNodeName": "worldsubnode9",
+      "toNodeId": 9,
+      "worldMapEdge": {
+        "from": {
+          "x": 413,
+          "y": 399
+        },
+        "to": {
+          "x": 436,
+          "y": 393
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/127-devil-dock.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/128-dusk-forest.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efDevil Dock\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efDusk Forest\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 7
+      }
+    },
+    {
+      "order": 22,
+      "fromMapName": "Devil Dock",
+      "fromMapId": 127,
+      "fromNodeName": "worldsubnode12",
+      "fromNodeId": 12,
+      "toMapName": "Goal Manor",
+      "toMapId": 131,
+      "toNodeName": "worldsubnode15",
+      "toNodeId": 15,
+      "worldMapEdge": {
+        "from": {
+          "x": 413,
+          "y": 399
+        },
+        "to": {
+          "x": 389,
+          "y": 391
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/127-devil-dock.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/131-goal-manor.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efDevil Dock\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efGoal Manor\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 8
+      }
+    },
+    {
+      "order": 23,
+      "fromMapName": "Dew Peak",
+      "fromMapId": 144,
+      "fromNodeName": "worldsubnode26",
+      "fromNodeId": 26,
+      "toMapName": "Dragon Palace",
+      "toMapId": 121,
+      "toNodeName": "worldsubnode60",
+      "toNodeId": 60,
+      "worldMapEdge": {
+        "from": {
+          "x": 347,
+          "y": 455
+        },
+        "to": {
+          "x": 370,
+          "y": 492
+        }
+      },
+      "connectionType": "bridge",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Component bridge added to keep the inferred world-map graph connected.",
+      "fromMapDetailsPath": "data/client-derived/maps/144-dew-peak.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/121-dragon-palace.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efDew Peak\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 4
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efDragon Palace\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 1
+      }
+    },
+    {
+      "order": 24,
+      "fromMapName": "Dew Peak",
+      "fromMapId": 144,
+      "fromNodeName": "worldsubnode26",
+      "fromNodeId": 26,
+      "toMapName": "Wind Canyon",
+      "toMapId": 118,
+      "toNodeName": "worldsubnode25",
+      "toNodeId": 25,
+      "worldMapEdge": {
+        "from": {
+          "x": 347,
+          "y": 455
+        },
+        "to": {
+          "x": 324,
+          "y": 440
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/144-dew-peak.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/118-wind-canyon.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efDew Peak\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 4
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efWind Canyon\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      }
+    },
+    {
+      "order": 25,
+      "fromMapName": "Dusk Forest",
+      "fromMapId": 128,
+      "fromNodeName": "worldsubnode9",
+      "fromNodeId": 9,
+      "toMapName": "Soul-wander Valley",
+      "toMapId": null,
+      "toNodeName": "worldsubnode8",
+      "toNodeId": 8,
+      "worldMapEdge": {
+        "from": {
+          "x": 436,
+          "y": 393
+        },
+        "to": {
+          "x": 447,
+          "y": 375
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/128-dusk-forest.map-details.json",
+      "toMapDetailsPath": null,
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efDusk Forest\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 7
+      },
+      "toMapDetailsSummary": null
+    },
+    {
+      "order": 26,
+      "fromMapName": "Golden Beach",
+      "fromMapId": 114,
+      "fromNodeName": "worldsubnode28",
+      "fromNodeId": 28,
+      "toMapName": "Moonset Shore",
+      "toMapId": 113,
+      "toNodeName": "worldsubnode31",
+      "toNodeId": 31,
+      "worldMapEdge": {
+        "from": {
+          "x": 283,
+          "y": 456
+        },
+        "to": {
+          "x": 258,
+          "y": 455
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/114-golden-beach.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/113-moonset-shore.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efGolden Beach\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 4
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efMoonset Shore\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 4
+      }
+    },
+    {
+      "order": 27,
+      "fromMapName": "Great Desert",
+      "fromMapId": null,
+      "fromNodeName": "worldsubnode42",
+      "fromNodeId": 42,
+      "toMapName": "Silent Hill",
+      "toMapId": 182,
+      "toNodeName": "worldsubnode40",
+      "toNodeId": 40,
+      "worldMapEdge": {
+        "from": {
+          "x": 324,
+          "y": 352
+        },
+        "to": {
+          "x": 293,
+          "y": 362
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": null,
+      "toMapDetailsPath": "data/client-derived/maps/182-silent-hill.map-details.json",
+      "fromMapDetailsSummary": null,
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efSilent Hill\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      }
+    },
+    {
+      "order": 28,
+      "fromMapName": "Great Desert",
+      "fromMapId": null,
+      "fromNodeName": "worldsubnode42",
+      "fromNodeId": 42,
+      "toMapName": "Sunlight Hole",
+      "toMapId": 164,
+      "toNodeName": "worldsubnode22",
+      "toNodeId": 22,
+      "worldMapEdge": {
+        "from": {
+          "x": 324,
+          "y": 352
+        },
+        "to": {
+          "x": 317,
+          "y": 376
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": null,
+      "toMapDetailsPath": "data/client-derived/maps/164-sunlight-hole.map-details.json",
+      "fromMapDetailsSummary": null,
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efSunlight Hole\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 0
+      }
+    },
+    {
+      "order": 29,
+      "fromMapName": "Great Desert",
+      "fromMapId": null,
+      "fromNodeName": "worldsubnode42",
+      "fromNodeId": 42,
+      "toMapName": "Thorn Mountain",
+      "toMapId": 185,
+      "toNodeName": "worldsubnode41",
+      "toNodeId": 41,
+      "worldMapEdge": {
+        "from": {
+          "x": 324,
+          "y": 352
+        },
+        "to": {
+          "x": 308,
+          "y": 352
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": null,
+      "toMapDetailsPath": "data/client-derived/maps/185-thorn-mountain.map-details.json",
+      "fromMapDetailsSummary": null,
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efThorn Mountain\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      }
+    },
+    {
+      "order": 30,
+      "fromMapName": "Hell Pass",
+      "fromMapId": 152,
+      "fromNodeName": "worldsubnode62",
+      "fromNodeId": 62,
+      "toMapName": "Thorn Mountain",
+      "toMapId": 185,
+      "toNodeName": "worldsubnode41",
+      "toNodeId": 41,
+      "worldMapEdge": {
+        "from": {
+          "x": 299,
+          "y": 312
+        },
+        "to": {
+          "x": 308,
+          "y": 352
+        }
+      },
+      "connectionType": "bridge",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Component bridge added to keep the inferred world-map graph connected.",
+      "fromMapDetailsPath": "data/client-derived/maps/152-hell-pass.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/185-thorn-mountain.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efHell Pass\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 0
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efThorn Mountain\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      }
+    },
+    {
+      "order": 31,
+      "fromMapName": "Longicorn  State",
+      "fromMapId": null,
+      "fromNodeName": "worldsubnode38",
+      "fromNodeId": 38,
+      "toMapName": "Longicorn Hole",
+      "toMapId": 238,
+      "toNodeName": "worldsubnode34",
+      "toNodeId": 34,
+      "worldMapEdge": {
+        "from": {
+          "x": 191,
+          "y": 359
+        },
+        "to": {
+          "x": 219,
+          "y": 400
+        }
+      },
+      "connectionType": "bridge",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Component bridge added to keep the inferred world-map graph connected.",
+      "fromMapDetailsPath": null,
+      "toMapDetailsPath": "data/client-derived/maps/238-longicorn-hole.map-details.json",
+      "fromMapDetailsSummary": null,
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efLongicorn Hole\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 2
+      }
+    },
+    {
+      "order": 32,
+      "fromMapName": "Longicorn Hole",
+      "fromMapId": 238,
+      "fromNodeName": "worldsubnode34",
+      "fromNodeId": 34,
+      "toMapName": "Windbell Valley",
+      "toMapId": 242,
+      "toNodeName": "worldsubnode32",
+      "toNodeId": 32,
+      "worldMapEdge": {
+        "from": {
+          "x": 219,
+          "y": 400
+        },
+        "to": {
+          "x": 233,
+          "y": 417
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/238-longicorn-hole.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/242-windbell-valley.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efLongicorn Hole\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 2
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efWindbell Valley\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      }
+    },
+    {
+      "order": 33,
+      "fromMapName": "Lotus Peak",
+      "fromMapId": 165,
+      "fromNodeName": "worldsubnode45",
+      "fromNodeId": 45,
+      "toMapName": "Triumph Path",
+      "toMapId": 130,
+      "toNodeName": "worldsubnode68",
+      "toNodeId": 68,
+      "worldMapEdge": {
+        "from": {
+          "x": 339,
+          "y": 316
+        },
+        "to": {
+          "x": 356,
+          "y": 300
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/165-lotus-peak.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/130-triumph-path.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efLotus Peak\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 3
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efTriumph Path\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 8
+      }
+    },
+    {
+      "order": 34,
+      "fromMapName": "Maple Valley",
+      "fromMapId": 146,
+      "fromNodeName": "worldsubnode17",
+      "fromNodeId": 17,
+      "toMapName": "Trident Mountain",
+      "toMapId": 134,
+      "toNodeName": "worldsubnode18",
+      "toNodeId": 18,
+      "worldMapEdge": {
+        "from": {
+          "x": 362,
+          "y": 395
+        },
+        "to": {
+          "x": 366,
+          "y": 417
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/146-maple-valley.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/134-trident-mountain.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efMaple Valley\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 7
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efTrident Mountain\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 7
+      }
+    },
+    {
+      "order": 35,
+      "fromMapName": "Maple Valley",
+      "fromMapId": 146,
+      "fromNodeName": "worldsubnode17",
+      "fromNodeId": 17,
+      "toMapName": "Willow Forest",
+      "toMapId": 126,
+      "toNodeName": "worldsubnode21",
+      "toNodeId": 21,
+      "worldMapEdge": {
+        "from": {
+          "x": 362,
+          "y": 395
+        },
+        "to": {
+          "x": 346,
+          "y": 383
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/146-maple-valley.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/126-willow-forest.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efMaple Valley\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 7
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efWillow Forest\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 2
+      }
+    },
+    {
+      "order": 36,
+      "fromMapName": "Mega Forest",
+      "fromMapId": 129,
+      "fromNodeName": "worldsubnode27",
+      "fromNodeId": 27,
+      "toMapName": "Precious Garden",
+      "toMapId": 135,
+      "toNodeName": "worldsubnode23",
+      "toNodeId": 23,
+      "worldMapEdge": {
+        "from": {
+          "x": 288,
+          "y": 412
+        },
+        "to": {
+          "x": 321,
+          "y": 398
+        }
+      },
+      "connectionType": "bridge",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Component bridge added to keep the inferred world-map graph connected.",
+      "fromMapDetailsPath": "data/client-derived/maps/129-mega-forest.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/135-precious-garden.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efMega Forest\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 7
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efPrecious Garden\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 8
+      }
+    },
+    {
+      "order": 37,
+      "fromMapName": "Mega Forest",
+      "fromMapId": 129,
+      "fromNodeName": "worldsubnode27",
+      "fromNodeId": 27,
+      "toMapName": "Zig Pass",
+      "toMapId": 171,
+      "toNodeName": "worldsubnode29",
+      "toNodeId": 29,
+      "worldMapEdge": {
+        "from": {
+          "x": 288,
+          "y": 412
+        },
+        "to": {
+          "x": 265,
+          "y": 406
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/129-mega-forest.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/171-zig-pass.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efMega Forest\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 7
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efZig Pass\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 0
+      }
+    },
+    {
+      "order": 38,
+      "fromMapName": "Moon Lake",
+      "fromMapId": 181,
+      "fromNodeName": "worldsubnode44",
+      "fromNodeId": 44,
+      "toMapName": "Soul-free Valley",
+      "toMapId": 161,
+      "toNodeName": "worldsubnode66",
+      "toNodeId": 66,
+      "worldMapEdge": {
+        "from": {
+          "x": 372,
+          "y": 332
+        },
+        "to": {
+          "x": 388,
+          "y": 315
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/181-moon-lake.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/161-soul-free-valley.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efMoon Lake\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 3
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efSoul-free Valley\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 4
+      }
+    },
+    {
+      "order": 39,
+      "fromMapName": "Moonset Path",
+      "fromMapId": 236,
+      "fromNodeName": "worldsubnode33",
+      "fromNodeId": 33,
+      "toMapName": "Timber Town",
+      "toMapId": 169,
+      "toNodeName": "worldsubnode35",
+      "toNodeId": 35,
+      "worldMapEdge": {
+        "from": {
+          "x": 220,
+          "y": 441
+        },
+        "to": {
+          "x": 189,
+          "y": 444
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/236-moonset-path.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/169-timber-town.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efMoonset Path\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 2
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efTimber Town\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 7
+      }
+    },
+    {
+      "order": 40,
+      "fromMapName": "Moonset Path",
+      "fromMapId": 236,
+      "fromNodeName": "worldsubnode33",
+      "fromNodeId": 33,
+      "toMapName": "Windbell Valley",
+      "toMapId": 242,
+      "toNodeName": "worldsubnode32",
+      "toNodeId": 32,
+      "worldMapEdge": {
+        "from": {
+          "x": 220,
+          "y": 441
+        },
+        "to": {
+          "x": 233,
+          "y": 417
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/236-moonset-path.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/242-windbell-valley.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efMoonset Path\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 2
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efWindbell Valley\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      }
+    },
+    {
+      "order": 41,
+      "fromMapName": "Moonset Shore",
+      "fromMapId": 113,
+      "fromNodeName": "worldsubnode31",
+      "fromNodeId": 31,
+      "toMapName": "Spring Forest",
+      "toMapId": 109,
+      "toNodeName": "worldsubnode30",
+      "toNodeId": 30,
+      "worldMapEdge": {
+        "from": {
+          "x": 258,
+          "y": 455
+        },
+        "to": {
+          "x": 255,
+          "y": 430
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/113-moonset-shore.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/109-spring-forest.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efMoonset Shore\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 4
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efSpring Forest\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 9
+      }
+    },
+    {
+      "order": 42,
+      "fromMapName": "North County Pass",
+      "fromMapId": 212,
+      "fromNodeName": "worldsubnode65",
+      "fromNodeId": 65,
+      "toMapName": "White Dew Snowland",
+      "toMapId": null,
+      "toNodeName": "worldsubnode71",
+      "toNodeId": 71,
+      "worldMapEdge": {
+        "from": {
+          "x": 433,
+          "y": 272
+        },
+        "to": {
+          "x": 408,
+          "y": 275
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/212-north-county-pass.map-details.json",
+      "toMapDetailsPath": null,
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efNorth County Pass\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 2
+      },
+      "toMapDetailsSummary": null
+    },
+    {
+      "order": 43,
+      "fromMapName": "Orchid Temple",
+      "fromMapId": 163,
+      "fromNodeName": "worldsubnode7",
+      "fromNodeId": 7,
+      "toMapName": "Soul-wander Valley",
+      "toMapId": null,
+      "toNodeName": "worldsubnode8",
+      "toNodeId": 8,
+      "worldMapEdge": {
+        "from": {
+          "x": 451,
+          "y": 358
+        },
+        "to": {
+          "x": 447,
+          "y": 375
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/163-orchid-temple.map-details.json",
+      "toMapDetailsPath": null,
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efOrchid Temple\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 3
+      },
+      "toMapDetailsSummary": null
+    },
+    {
+      "order": 44,
+      "fromMapName": "Outside Chill Pass",
+      "fromMapId": null,
+      "fromNodeName": "worldsubnode24",
+      "fromNodeId": 24,
+      "toMapName": "Precious Garden",
+      "toMapId": 135,
+      "toNodeName": "worldsubnode23",
+      "toNodeId": 23,
+      "worldMapEdge": {
+        "from": {
+          "x": 336,
+          "y": 425
+        },
+        "to": {
+          "x": 321,
+          "y": 398
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": null,
+      "toMapDetailsPath": "data/client-derived/maps/135-precious-garden.map-details.json",
+      "fromMapDetailsSummary": null,
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efPrecious Garden\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 8
+      }
+    },
+    {
+      "order": 45,
+      "fromMapName": "Outside Chill Pass",
+      "fromMapId": null,
+      "fromNodeName": "worldsubnode24",
+      "fromNodeId": 24,
+      "toMapName": "Trident Mountain",
+      "toMapId": 134,
+      "toNodeName": "worldsubnode18",
+      "toNodeId": 18,
+      "worldMapEdge": {
+        "from": {
+          "x": 336,
+          "y": 425
+        },
+        "to": {
+          "x": 366,
+          "y": 417
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": null,
+      "toMapDetailsPath": "data/client-derived/maps/134-trident-mountain.map-details.json",
+      "fromMapDetailsSummary": null,
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efTrident Mountain\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 7
+      }
+    },
+    {
+      "order": 46,
+      "fromMapName": "Outside Chill Pass",
+      "fromMapId": null,
+      "fromNodeName": "worldsubnode24",
+      "fromNodeId": 24,
+      "toMapName": "Wind Canyon",
+      "toMapId": 118,
+      "toNodeName": "worldsubnode25",
+      "toNodeId": 25,
+      "worldMapEdge": {
+        "from": {
+          "x": 336,
+          "y": 425
+        },
+        "to": {
+          "x": 324,
+          "y": 440
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": null,
+      "toMapDetailsPath": "data/client-derived/maps/118-wind-canyon.map-details.json",
+      "fromMapDetailsSummary": null,
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efWind Canyon\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      }
+    },
+    {
+      "order": 47,
+      "fromMapName": "Plume Forest",
+      "fromMapId": null,
+      "fromNodeName": "worldsubnode70",
+      "fromNodeId": 70,
+      "toMapName": "West County Pass",
+      "toMapId": 210,
+      "toNodeName": "worldsubnode64",
+      "toNodeId": 64,
+      "worldMapEdge": {
+        "from": {
+          "x": 357,
+          "y": 263
+        },
+        "to": {
+          "x": 381,
+          "y": 265
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": null,
+      "toMapDetailsPath": "data/client-derived/maps/210-west-county-pass.map-details.json",
+      "fromMapDetailsSummary": null,
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efWest County Pass\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 3
+      }
+    },
+    {
+      "order": 48,
+      "fromMapName": "Precious Garden",
+      "fromMapId": 135,
+      "fromNodeName": "worldsubnode23",
+      "fromNodeId": 23,
+      "toMapName": "Sunlight Hole",
+      "toMapId": 164,
+      "toNodeName": "worldsubnode22",
+      "toNodeId": 22,
+      "worldMapEdge": {
+        "from": {
+          "x": 321,
+          "y": 398
+        },
+        "to": {
+          "x": 317,
+          "y": 376
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/135-precious-garden.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/164-sunlight-hole.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efPrecious Garden\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 8
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efSunlight Hole\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 0
+      }
+    },
+    {
+      "order": 49,
+      "fromMapName": "Precious Garden",
+      "fromMapId": 135,
+      "fromNodeName": "worldsubnode23",
+      "fromNodeId": 23,
+      "toMapName": "Willow Forest",
+      "toMapId": 126,
+      "toNodeName": "worldsubnode21",
+      "toNodeId": 21,
+      "worldMapEdge": {
+        "from": {
+          "x": 321,
+          "y": 398
+        },
+        "to": {
+          "x": 346,
+          "y": 383
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/135-precious-garden.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/126-willow-forest.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efPrecious Garden\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 8
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efWillow Forest\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 2
+      }
+    },
+    {
+      "order": 50,
+      "fromMapName": "Regret Cliff",
+      "fromMapId": 240,
+      "fromNodeName": "worldsubnode36",
+      "fromNodeId": 36,
+      "toMapName": "Timber Town",
+      "toMapId": 169,
+      "toNodeName": "worldsubnode35",
+      "toNodeId": 35,
+      "worldMapEdge": {
+        "from": {
+          "x": 161,
+          "y": 440
+        },
+        "to": {
+          "x": 189,
+          "y": 444
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/240-regret-cliff.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/169-timber-town.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efRegret Cliff\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efTimber Town\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 7
+      }
+    },
+    {
+      "order": 51,
+      "fromMapName": "Silent Hill",
+      "fromMapId": 182,
+      "fromNodeName": "worldsubnode40",
+      "fromNodeId": 40,
+      "toMapName": "Thorn Mountain",
+      "toMapId": 185,
+      "toNodeName": "worldsubnode41",
+      "toNodeId": 41,
+      "worldMapEdge": {
+        "from": {
+          "x": 293,
+          "y": 362
+        },
+        "to": {
+          "x": 308,
+          "y": 352
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/182-silent-hill.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/185-thorn-mountain.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efSilent Hill\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efThorn Mountain\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      }
+    },
+    {
+      "order": 52,
+      "fromMapName": "Soul-free Valley",
+      "fromMapId": 161,
+      "fromNodeName": "worldsubnode66",
+      "fromNodeId": 66,
+      "toMapName": "Triumph Path",
+      "toMapId": 130,
+      "toNodeName": "worldsubnode68",
+      "toNodeId": 68,
+      "worldMapEdge": {
+        "from": {
+          "x": 388,
+          "y": 315
+        },
+        "to": {
+          "x": 356,
+          "y": 300
+        }
+      },
+      "connectionType": "bridge",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Component bridge added to keep the inferred world-map graph connected.",
+      "fromMapDetailsPath": "data/client-derived/maps/161-soul-free-valley.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/130-triumph-path.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efSoul-free Valley\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 4
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efTriumph Path\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 8
+      }
+    },
+    {
+      "order": 53,
+      "fromMapName": "Spring Forest",
+      "fromMapId": 109,
+      "fromNodeName": "worldsubnode30",
+      "fromNodeId": 30,
+      "toMapName": "Windbell Valley",
+      "toMapId": 242,
+      "toNodeName": "worldsubnode32",
+      "toNodeId": 32,
+      "worldMapEdge": {
+        "from": {
+          "x": 255,
+          "y": 430
+        },
+        "to": {
+          "x": 233,
+          "y": 417
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/109-spring-forest.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/242-windbell-valley.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efSpring Forest\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 9
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efWindbell Valley\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      }
+    },
+    {
+      "order": 54,
+      "fromMapName": "Spring Forest",
+      "fromMapId": 109,
+      "fromNodeName": "worldsubnode30",
+      "fromNodeId": 30,
+      "toMapName": "Zig Pass",
+      "toMapId": 171,
+      "toNodeName": "worldsubnode29",
+      "toNodeId": 29,
+      "worldMapEdge": {
+        "from": {
+          "x": 255,
+          "y": 430
+        },
+        "to": {
+          "x": 265,
+          "y": 406
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/109-spring-forest.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/171-zig-pass.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efSpring Forest\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 9
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efZig Pass\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 0
+      }
+    },
+    {
+      "order": 55,
+      "fromMapName": "Sunlight Hole",
+      "fromMapId": 164,
+      "fromNodeName": "worldsubnode22",
+      "fromNodeId": 22,
+      "toMapName": "Thorn Mountain",
+      "toMapId": 185,
+      "toNodeName": "worldsubnode41",
+      "toNodeId": 41,
+      "worldMapEdge": {
+        "from": {
+          "x": 317,
+          "y": 376
+        },
+        "to": {
+          "x": 308,
+          "y": 352
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/164-sunlight-hole.map-details.json",
+      "toMapDetailsPath": "data/client-derived/maps/185-thorn-mountain.map-details.json",
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efSunlight Hole\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 0
+      },
+      "toMapDetailsSummary": {
+        "titleText": "\u00a1\u00efThorn Mountain\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 5
+      }
+    },
+    {
+      "order": 56,
+      "fromMapName": "West County Pass",
+      "fromMapId": 210,
+      "fromNodeName": "worldsubnode64",
+      "fromNodeId": 64,
+      "toMapName": "White Dew Snowland",
+      "toMapId": null,
+      "toNodeName": "worldsubnode71",
+      "toNodeId": 71,
+      "worldMapEdge": {
+        "from": {
+          "x": 381,
+          "y": 265
+        },
+        "to": {
+          "x": 408,
+          "y": 275
+        }
+      },
+      "connectionType": "local-neighbor",
+      "validation": "ui-inferred",
+      "authority": "presentation-only",
+      "notes": "Inferred from world-map node geometry using mutual-nearest-neighbor heuristics.",
+      "fromMapDetailsPath": "data/client-derived/maps/210-west-county-pass.map-details.json",
+      "toMapDetailsPath": null,
+      "fromMapDetailsSummary": {
+        "titleText": "\u00a1\u00efWest County Pass\u00a1\u00ef",
+        "homeInfo": null,
+        "temporaryPointCount": 0,
+        "sceneTransitionCount": 0,
+        "portalEffectCandidateCount": 3
+      },
+      "toMapDetailsSummary": null
+    }
+  ]
+}

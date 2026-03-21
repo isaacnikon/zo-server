@@ -1,0 +1,108 @@
+{
+  "mapId": 220,
+  "mapName": "Timber Town Inn",
+  "width": 64,
+  "height": 128,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 120,
+      "bbox": {
+        "minX": 3,
+        "minY": 108,
+        "maxX": 18,
+        "maxY": 123
+      },
+      "rowRuns": [
+        {
+          "y": 108,
+          "startX": 8,
+          "endX": 8
+        },
+        {
+          "y": 109,
+          "startX": 7,
+          "endX": 9
+        },
+        {
+          "y": 110,
+          "startX": 6,
+          "endX": 10
+        },
+        {
+          "y": 111,
+          "startX": 5,
+          "endX": 11
+        },
+        {
+          "y": 112,
+          "startX": 4,
+          "endX": 12
+        },
+        {
+          "y": 113,
+          "startX": 3,
+          "endX": 13
+        },
+        {
+          "y": 114,
+          "startX": 4,
+          "endX": 14
+        },
+        {
+          "y": 115,
+          "startX": 5,
+          "endX": 15
+        },
+        {
+          "y": 116,
+          "startX": 6,
+          "endX": 16
+        },
+        {
+          "y": 117,
+          "startX": 7,
+          "endX": 17
+        },
+        {
+          "y": 118,
+          "startX": 8,
+          "endX": 18
+        },
+        {
+          "y": 119,
+          "startX": 9,
+          "endX": 18
+        },
+        {
+          "y": 120,
+          "startX": 10,
+          "endX": 17
+        },
+        {
+          "y": 121,
+          "startX": 11,
+          "endX": 16
+        },
+        {
+          "y": 122,
+          "startX": 12,
+          "endX": 15
+        },
+        {
+          "y": 123,
+          "startX": 13,
+          "endX": 13
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

@@ -1,0 +1,279 @@
+{
+  "mapId": 113,
+  "mapName": "Moonset Shore",
+  "width": 128,
+  "height": 256,
+  "componentCount": 3,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        29
+      ],
+      "tileCount": 122,
+      "bbox": {
+        "minX": 57,
+        "minY": 241,
+        "maxX": 67,
+        "maxY": 254
+      },
+      "rowRuns": [
+        {
+          "y": 241,
+          "startX": 62,
+          "endX": 62
+        },
+        {
+          "y": 242,
+          "startX": 61,
+          "endX": 63
+        },
+        {
+          "y": 243,
+          "startX": 60,
+          "endX": 64
+        },
+        {
+          "y": 244,
+          "startX": 59,
+          "endX": 65
+        },
+        {
+          "y": 245,
+          "startX": 58,
+          "endX": 66
+        },
+        {
+          "y": 246,
+          "startX": 58,
+          "endX": 66
+        },
+        {
+          "y": 247,
+          "startX": 57,
+          "endX": 67
+        },
+        {
+          "y": 248,
+          "startX": 57,
+          "endX": 67
+        },
+        {
+          "y": 249,
+          "startX": 57,
+          "endX": 67
+        },
+        {
+          "y": 250,
+          "startX": 57,
+          "endX": 67
+        },
+        {
+          "y": 251,
+          "startX": 57,
+          "endX": 67
+        },
+        {
+          "y": 252,
+          "startX": 57,
+          "endX": 67
+        },
+        {
+          "y": 253,
+          "startX": 57,
+          "endX": 67
+        },
+        {
+          "y": 254,
+          "startX": 57,
+          "endX": 67
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        29
+      ],
+      "tileCount": 118,
+      "bbox": {
+        "minX": 60,
+        "minY": 0,
+        "maxX": 69,
+        "maxY": 12
+      },
+      "rowRuns": [
+        {
+          "y": 0,
+          "startX": 60,
+          "endX": 69
+        },
+        {
+          "y": 1,
+          "startX": 60,
+          "endX": 69
+        },
+        {
+          "y": 2,
+          "startX": 60,
+          "endX": 69
+        },
+        {
+          "y": 3,
+          "startX": 60,
+          "endX": 69
+        },
+        {
+          "y": 4,
+          "startX": 60,
+          "endX": 69
+        },
+        {
+          "y": 5,
+          "startX": 60,
+          "endX": 69
+        },
+        {
+          "y": 6,
+          "startX": 60,
+          "endX": 69
+        },
+        {
+          "y": 7,
+          "startX": 60,
+          "endX": 69
+        },
+        {
+          "y": 8,
+          "startX": 60,
+          "endX": 69
+        },
+        {
+          "y": 9,
+          "startX": 60,
+          "endX": 69
+        },
+        {
+          "y": 10,
+          "startX": 61,
+          "endX": 68
+        },
+        {
+          "y": 11,
+          "startX": 62,
+          "endX": 67
+        },
+        {
+          "y": 12,
+          "startX": 63,
+          "endX": 66
+        }
+      ],
+      "componentIndex": 2
+    },
+    {
+      "sceneScriptId": 3,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        29
+      ],
+      "tileCount": 123,
+      "bbox": {
+        "minX": 118,
+        "minY": 53,
+        "maxX": 126,
+        "maxY": 67
+      },
+      "rowRuns": [
+        {
+          "y": 53,
+          "startX": 121,
+          "endX": 126
+        },
+        {
+          "y": 54,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 55,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 56,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 57,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 58,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 59,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 60,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 61,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 62,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 63,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 64,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 65,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 66,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 67,
+          "startX": 121,
+          "endX": 126
+        }
+      ],
+      "componentIndex": 3
+    }
+  ]
+}

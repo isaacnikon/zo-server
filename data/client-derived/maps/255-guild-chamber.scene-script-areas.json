@@ -1,0 +1,83 @@
+{
+  "mapId": 255,
+  "mapName": "Guild Chamber",
+  "width": 64,
+  "height": 128,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 61,
+      "bbox": {
+        "minX": 0,
+        "minY": 113,
+        "maxX": 10,
+        "maxY": 123
+      },
+      "rowRuns": [
+        {
+          "y": 113,
+          "startX": 5,
+          "endX": 5
+        },
+        {
+          "y": 114,
+          "startX": 4,
+          "endX": 6
+        },
+        {
+          "y": 115,
+          "startX": 3,
+          "endX": 7
+        },
+        {
+          "y": 116,
+          "startX": 2,
+          "endX": 8
+        },
+        {
+          "y": 117,
+          "startX": 1,
+          "endX": 9
+        },
+        {
+          "y": 118,
+          "startX": 0,
+          "endX": 10
+        },
+        {
+          "y": 119,
+          "startX": 1,
+          "endX": 9
+        },
+        {
+          "y": 120,
+          "startX": 2,
+          "endX": 8
+        },
+        {
+          "y": 121,
+          "startX": 3,
+          "endX": 7
+        },
+        {
+          "y": 122,
+          "startX": 4,
+          "endX": 6
+        },
+        {
+          "y": 123,
+          "startX": 5,
+          "endX": 5
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

@@ -1,0 +1,882 @@
+{
+  "mapId": 112,
+  "mapName": "Cloud City",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "mapGcg": "/home/nikon/Data/Zodiac Online/gcg/map.gcg",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3468022,
+      "end": 3473319
+    },
+    "transitionContextStart": 3467510,
+    "mapConfigChunkOffsets": {
+      "start": 25903,
+      "end": 27801
+    }
+  },
+  "bigTexts": [
+    {
+      "order": 0,
+      "text": "\u00a1\u00efCloud City\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "map-title",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efCloud City\u00a1\u00ef\",3000, 63500)"
+    }
+  ],
+  "homeInfo": null,
+  "temporaryMapPoints": [],
+  "sceneTransitions": [],
+  "mapConfig": {
+    "smallMapAsset": "\\PicData\\smallmap\\112.gaf",
+    "backgroundAsset": "\\map\\mapres\\106.mpk",
+    "mapConfigNpcSpawns": [
+      {
+        "order": 1,
+        "npcId": 3022,
+        "x": 84,
+        "y": 186
+      },
+      {
+        "order": 2,
+        "npcId": 3008,
+        "x": 240,
+        "y": 233
+      },
+      {
+        "order": 3,
+        "npcId": 3109,
+        "x": 79,
+        "y": 310
+      },
+      {
+        "order": 4,
+        "npcId": 3011,
+        "x": 196,
+        "y": 286
+      },
+      {
+        "order": 5,
+        "npcId": 3068,
+        "x": 132,
+        "y": 494
+      },
+      {
+        "order": 6,
+        "npcId": 3064,
+        "x": 152,
+        "y": 76
+      },
+      {
+        "order": 7,
+        "npcId": 3032,
+        "x": 42,
+        "y": 287
+      },
+      {
+        "order": 8,
+        "npcId": 3030,
+        "x": 124,
+        "y": 206
+      },
+      {
+        "order": 9,
+        "npcId": 3036,
+        "x": 22,
+        "y": 189
+      },
+      {
+        "order": 10,
+        "npcId": 3113,
+        "x": 65,
+        "y": 239
+      },
+      {
+        "order": 11,
+        "npcId": 3111,
+        "x": 79,
+        "y": 241
+      },
+      {
+        "order": 12,
+        "npcId": 3031,
+        "x": 189,
+        "y": 438
+      },
+      {
+        "order": 13,
+        "npcId": 3070,
+        "x": 11,
+        "y": 384
+      },
+      {
+        "order": 14,
+        "npcId": 3066,
+        "x": 151,
+        "y": 317
+      },
+      {
+        "order": 15,
+        "npcId": 3071,
+        "x": 242,
+        "y": 333
+      },
+      {
+        "order": 16,
+        "npcId": 3059,
+        "x": 180,
+        "y": 240
+      },
+      {
+        "order": 17,
+        "npcId": 3069,
+        "x": 225,
+        "y": 125
+      },
+      {
+        "order": 18,
+        "npcId": 3024,
+        "x": 153,
+        "y": 475
+      },
+      {
+        "order": 19,
+        "npcId": 3037,
+        "x": 159,
+        "y": 284
+      },
+      {
+        "order": 20,
+        "npcId": 3033,
+        "x": 220,
+        "y": 415
+      },
+      {
+        "order": 21,
+        "npcId": 3179,
+        "x": 44,
+        "y": 416
+      },
+      {
+        "order": 22,
+        "npcId": 3014,
+        "x": 171,
+        "y": 313
+      },
+      {
+        "order": 23,
+        "npcId": 3015,
+        "x": 121,
+        "y": 278
+      },
+      {
+        "order": 24,
+        "npcId": 3021,
+        "x": 88,
+        "y": 87
+      },
+      {
+        "order": 25,
+        "npcId": 3021,
+        "x": 78,
+        "y": 96
+      },
+      {
+        "order": 26,
+        "npcId": 3020,
+        "x": 18,
+        "y": 453
+      },
+      {
+        "order": 27,
+        "npcId": 3020,
+        "x": 227,
+        "y": 480
+      },
+      {
+        "order": 28,
+        "npcId": 3020,
+        "x": 231,
+        "y": 81
+      },
+      {
+        "order": 29,
+        "npcId": 3035,
+        "x": 11,
+        "y": 203
+      },
+      {
+        "order": 30,
+        "npcId": 3065,
+        "x": 215,
+        "y": 100
+      },
+      {
+        "order": 31,
+        "npcId": 3168,
+        "x": 89,
+        "y": 369
+      },
+      {
+        "order": 32,
+        "npcId": 3171,
+        "x": 68,
+        "y": 375
+      },
+      {
+        "order": 33,
+        "npcId": 3177,
+        "x": 137,
+        "y": 187
+      },
+      {
+        "order": 34,
+        "npcId": 3178,
+        "x": 192,
+        "y": 327
+      },
+      {
+        "order": 35,
+        "npcId": 3026,
+        "x": 131,
+        "y": 299
+      },
+      {
+        "order": 36,
+        "npcId": 3182,
+        "x": 140,
+        "y": 396
+      },
+      {
+        "order": 37,
+        "npcId": 3183,
+        "x": 119,
+        "y": 496
+      },
+      {
+        "order": 38,
+        "npcId": 3190,
+        "x": 134,
+        "y": 111
+      },
+      {
+        "order": 39,
+        "npcId": 3118,
+        "x": 14,
+        "y": 200
+      },
+      {
+        "order": 40,
+        "npcId": 3188,
+        "x": 156,
+        "y": 80
+      },
+      {
+        "order": 41,
+        "npcId": 3191,
+        "x": 242,
+        "y": 147
+      },
+      {
+        "order": 42,
+        "npcId": 3193,
+        "x": 190,
+        "y": 128
+      },
+      {
+        "order": 43,
+        "npcId": 3205,
+        "x": 191,
+        "y": 292
+      },
+      {
+        "order": 44,
+        "npcId": 3224,
+        "x": 187,
+        "y": 340
+      },
+      {
+        "order": 45,
+        "npcId": 3227,
+        "x": 142,
+        "y": 82
+      },
+      {
+        "order": 46,
+        "npcId": 3265,
+        "x": 100,
+        "y": 449
+      },
+      {
+        "order": 47,
+        "npcId": 3058,
+        "x": 211,
+        "y": 313
+      },
+      {
+        "order": 48,
+        "npcId": 3034,
+        "x": 49,
+        "y": 211
+      },
+      {
+        "order": 49,
+        "npcId": 3060,
+        "x": 177,
+        "y": 186
+      },
+      {
+        "order": 50,
+        "npcId": 3114,
+        "x": 56,
+        "y": 267
+      },
+      {
+        "order": 51,
+        "npcId": 3181,
+        "x": 135,
+        "y": 298
+      },
+      {
+        "order": 52,
+        "npcId": 3012,
+        "x": 210,
+        "y": 197
+      },
+      {
+        "order": 53,
+        "npcId": 3298,
+        "x": 64,
+        "y": 473
+      },
+      {
+        "order": 54,
+        "npcId": 3299,
+        "x": 7,
+        "y": 292
+      },
+      {
+        "order": 55,
+        "npcId": 3303,
+        "x": 217,
+        "y": 110
+      },
+      {
+        "order": 56,
+        "npcId": 3304,
+        "x": 196,
+        "y": 466
+      },
+      {
+        "order": 57,
+        "npcId": 3327,
+        "x": 65,
+        "y": 254
+      },
+      {
+        "order": 58,
+        "npcId": 3038,
+        "x": 86,
+        "y": 246
+      },
+      {
+        "order": 59,
+        "npcId": 3112,
+        "x": 57,
+        "y": 283
+      },
+      {
+        "order": 60,
+        "npcId": 3074,
+        "x": 79,
+        "y": 271
+      },
+      {
+        "order": 61,
+        "npcId": 3424,
+        "x": 98,
+        "y": 188
+      },
+      {
+        "order": 62,
+        "npcId": 3089,
+        "x": 191,
+        "y": 198
+      },
+      {
+        "order": 63,
+        "npcId": 3082,
+        "x": 165,
+        "y": 242
+      },
+      {
+        "order": 64,
+        "npcId": 3080,
+        "x": 183,
+        "y": 308
+      },
+      {
+        "order": 65,
+        "npcId": 3534,
+        "x": 105,
+        "y": 196
+      },
+      {
+        "order": 66,
+        "npcId": 3176,
+        "x": 246,
+        "y": 334
+      },
+      {
+        "order": 67,
+        "npcId": 3689,
+        "x": 101,
+        "y": 309
+      },
+      {
+        "order": 68,
+        "npcId": 3094,
+        "x": 141,
+        "y": 313
+      },
+      {
+        "order": 69,
+        "npcId": 3110,
+        "x": 76,
+        "y": 248
+      },
+      {
+        "order": 70,
+        "npcId": 3025,
+        "x": 93,
+        "y": 440
+      },
+      {
+        "order": 71,
+        "npcId": 3576,
+        "x": 74,
+        "y": 83
+      },
+      {
+        "order": 72,
+        "npcId": 3576,
+        "x": 175,
+        "y": 349
+      },
+      {
+        "order": 73,
+        "npcId": 3700,
+        "x": 92,
+        "y": 239
+      }
+    ],
+    "sceneEffects": [
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 65,
+        "y": 6,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 62,
+        "y": 248,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 123,
+        "y": 60,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\pubu_fan.gaf",
+        "assetName": "pubu_fan.gaf",
+        "x": 89,
+        "y": 93,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shuiwen_fan.gaf",
+        "assetName": "shuiwen_fan.gaf",
+        "x": 92,
+        "y": 97,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shuiwen_fan.gaf",
+        "assetName": "shuiwen_fan.gaf",
+        "x": 91,
+        "y": 100,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shuiwen_fan.gaf",
+        "assetName": "shuiwen_fan.gaf",
+        "x": 86,
+        "y": 83,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shuipao.gaf",
+        "assetName": "shuipao.gaf",
+        "x": 93,
+        "y": 94,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\shuipao.gaf",
+        "assetName": "shuipao.gaf",
+        "x": 91,
+        "y": 97,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\qingwa.gaf",
+        "assetName": "qingwa.gaf",
+        "x": 75,
+        "y": 40,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\qingwa.gaf",
+        "assetName": "qingwa.gaf",
+        "x": 16,
+        "y": 41,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "map-config"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 33,
+        "y": 4,
+        "arg3": 0,
+        "arg4": 6,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\huoba02.gaf",
+        "assetName": "huoba02.gaf",
+        "x": 115,
+        "y": 299,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\chuansong.gaf",
+        "assetName": "chuansong.gaf",
+        "x": 189,
+        "y": 193,
+        "arg3": 11,
+        "arg4": 6,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\chuansong.gaf",
+        "assetName": "chuansong.gaf",
+        "x": 173,
+        "y": 239,
+        "arg3": 4,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\pangxie.gaf",
+        "assetName": "pangxie.gaf",
+        "x": 219,
+        "y": 473,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\denglong.gaf",
+        "assetName": "denglong.gaf",
+        "x": 223,
+        "y": 162,
+        "arg3": 13,
+        "arg4": 2,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\denglong.gaf",
+        "assetName": "denglong.gaf",
+        "x": 205,
+        "y": 154,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\denglong.gaf",
+        "assetName": "denglong.gaf",
+        "x": 13,
+        "y": 174,
+        "arg3": 14,
+        "arg4": 5,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\denglong.gaf",
+        "assetName": "denglong.gaf",
+        "x": 160,
+        "y": 302,
+        "arg3": 13,
+        "arg4": 4,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\denglong.gaf",
+        "assetName": "denglong.gaf",
+        "x": 186,
+        "y": 301,
+        "arg3": 9,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\denglong.gaf",
+        "assetName": "denglong.gaf",
+        "x": 202,
+        "y": 277,
+        "arg3": 9,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 5,
+        "y": 501,
+        "arg3": 2,
+        "arg4": 5,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 245,
+        "y": 74,
+        "arg3": 15,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\chuansong.gaf",
+        "assetName": "chuansong.gaf",
+        "x": 119,
+        "y": 191,
+        "arg3": 5,
+        "arg4": 3,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\chuansong.gaf",
+        "assetName": "chuansong.gaf",
+        "x": 164,
+        "y": 157,
+        "arg3": 4,
+        "arg4": 6,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\chuansong.gaf",
+        "assetName": "chuansong.gaf",
+        "x": 213,
+        "y": 293,
+        "arg3": 4,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\chuansong.gaf",
+        "assetName": "chuansong.gaf",
+        "x": 123,
+        "y": 401,
+        "arg3": 3,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 229,
+        "y": 503,
+        "arg3": 2,
+        "arg4": 3,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\qingwa.gaf",
+        "assetName": "qingwa.gaf",
+        "x": 253,
+        "y": 343,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude"
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\chuansong.gaf",
+        "assetName": "chuansong.gaf",
+        "x": 153,
+        "y": 235,
+        "arg3": 0,
+        "arg4": 7,
+        "arg5": 0,
+        "source": "prelude"
+      }
+    ],
+    "portalEffectCandidates": [
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 65,
+        "y": 6,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "map-config",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 62,
+        "y": 248,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "map-config",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 123,
+        "y": 60,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "map-config",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 33,
+        "y": 4,
+        "arg3": 0,
+        "arg4": 6,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 5,
+        "y": 501,
+        "arg3": 2,
+        "arg4": 5,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 245,
+        "y": 74,
+        "arg3": 15,
+        "arg4": 0,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      },
+      {
+        "assetPath": "PicData\\Effect\\scene\\sina.gaf",
+        "assetName": "sina.gaf",
+        "x": 229,
+        "y": 503,
+        "arg3": 2,
+        "arg4": 3,
+        "arg5": 0,
+        "source": "prelude",
+        "kind": "portal-effect-candidate",
+        "nearestTransition": null,
+        "nearestObservedTrigger": null
+      }
+    ],
+    "observedTriggerPoints": []
+  }
+}

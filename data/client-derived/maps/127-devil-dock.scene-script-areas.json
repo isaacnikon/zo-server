@@ -1,0 +1,212 @@
+{
+  "mapId": 127,
+  "mapName": "Devil Dock",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        13
+      ],
+      "tileCount": 117,
+      "bbox": {
+        "minX": 118,
+        "minY": 135,
+        "maxX": 126,
+        "maxY": 147
+      },
+      "rowRuns": [
+        {
+          "y": 135,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 136,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 137,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 138,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 139,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 140,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 141,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 142,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 143,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 144,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 145,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 146,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 147,
+          "startX": 118,
+          "endX": 126
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        13
+      ],
+      "tileCount": 166,
+      "bbox": {
+        "minX": 0,
+        "minY": 129,
+        "maxX": 10,
+        "maxY": 148
+      },
+      "rowRuns": [
+        {
+          "y": 129,
+          "startX": 4,
+          "endX": 4
+        },
+        {
+          "y": 130,
+          "startX": 3,
+          "endX": 5
+        },
+        {
+          "y": 131,
+          "startX": 2,
+          "endX": 6
+        },
+        {
+          "y": 132,
+          "startX": 1,
+          "endX": 7
+        },
+        {
+          "y": 133,
+          "startX": 0,
+          "endX": 8
+        },
+        {
+          "y": 134,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 135,
+          "startX": 0,
+          "endX": 10
+        },
+        {
+          "y": 136,
+          "startX": 0,
+          "endX": 10
+        },
+        {
+          "y": 137,
+          "startX": 0,
+          "endX": 10
+        },
+        {
+          "y": 138,
+          "startX": 0,
+          "endX": 10
+        },
+        {
+          "y": 139,
+          "startX": 0,
+          "endX": 10
+        },
+        {
+          "y": 140,
+          "startX": 0,
+          "endX": 10
+        },
+        {
+          "y": 141,
+          "startX": 0,
+          "endX": 10
+        },
+        {
+          "y": 142,
+          "startX": 0,
+          "endX": 10
+        },
+        {
+          "y": 143,
+          "startX": 0,
+          "endX": 10
+        },
+        {
+          "y": 144,
+          "startX": 0,
+          "endX": 10
+        },
+        {
+          "y": 145,
+          "startX": 0,
+          "endX": 8
+        },
+        {
+          "y": 146,
+          "startX": 1,
+          "endX": 6
+        },
+        {
+          "y": 147,
+          "startX": 2,
+          "endX": 5
+        },
+        {
+          "y": 148,
+          "startX": 3,
+          "endX": 4
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

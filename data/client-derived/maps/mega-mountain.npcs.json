@@ -1,0 +1,51 @@
+{
+  "mapId": 232,
+  "mapName": "Mega Mountain",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3538331,
+      "end": 3538653
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 2,
+    "statusCounts": {
+      "match": 2
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3263,
+      "npcTypeId": 3,
+      "name": "Green Hoe",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 114,
+      "y": 216,
+      "roleinfoNameByNpcId": "Green Hoe",
+      "roleinfoIdByName": 3263,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3263,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3263, 3,\"\"..macro_GetTypeNpcName(3263)..\"\",114,216)"
+    },
+    {
+      "order": 1,
+      "npcId": 3264,
+      "npcTypeId": 3,
+      "name": "Blue Hoe",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 20,
+      "y": 23,
+      "roleinfoNameByNpcId": "Blue Hoe",
+      "roleinfoIdByName": 3264,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3264,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3264, 3,\"\"..macro_GetTypeNpcName(3264)..\"\",20,23)"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "kind": "map-details-bulk-extract",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "mapGcg": "/home/nikon/Data/Zodiac Online/gcg/map.gcg",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt"
+  },
+  "summary": {
+    "mapsInMapInfo": 147,
+    "mapsExtracted": 136,
+    "mapsSkipped": 11
+  },
+  "skipped": [
+    {
+      "mapId": 106,
+      "mapName": "Seaside Village",
+      "reason": "could not find map anchor for 'Seaside Village'"
+    },
+    {
+      "mapId": 110,
+      "mapName": "Dawn Mountain",
+      "reason": "could not find map anchor for 'Dawn Mountain'"
+    },
+    {
+      "mapId": 111,
+      "mapName": "Chill Pass",
+      "reason": "could not find map anchor for 'Chill Pass'"
+    },
+    {
+      "mapId": 119,
+      "mapName": "\u00b9\u00e9\u00d1\u00e0\u00c1\u00d6",
+      "reason": "could not find map anchor for '\u00b9\u00e9\u00d1\u00e0\u00c1\u00d6'"
+    },
+    {
+      "mapId": 178,
+      "mapName": "Great Desert ",
+      "reason": "could not find map anchor for 'Great Desert '"
+    },
+    {
+      "mapId": 197,
+      "mapName": "Tower 4",
+      "reason": "could not find map anchor for 'Tower 4'"
+    },
+    {
+      "mapId": 207,
+      "mapName": "Cloud Hall",
+      "reason": "could not find map anchor for 'Cloud Hall'"
+    },
+    {
+      "mapId": 250,
+      "mapName": "Guild ",
+      "reason": "could not find map anchor for 'Guild '"
+    },
+    {
+      "mapId": 264,
+      "mapName": "Goal's Mansion",
+      "reason": "could not find map anchor for \"Goal's Mansion\""
+    },
+    {
+      "mapId": 272,
+      "mapName": "Love Pavilion",
+      "reason": "could not find map anchor for 'Love Pavilion'"
+    },
+    {
+      "mapId": 273,
+      "mapName": "Eden",
+      "reason": "could not find map anchor for 'Eden'"
+    }
+  ]
+}

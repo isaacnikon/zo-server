@@ -1,0 +1,66 @@
+{
+  "mapId": 103,
+  "mapName": "Bling Spring",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3458189,
+      "end": 3458577
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 3,
+    "statusCounts": {
+      "match": 3
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3007,
+      "npcTypeId": 1,
+      "name": "Little Boar",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 13,
+      "y": 52,
+      "roleinfoNameByNpcId": "Little Boar",
+      "roleinfoIdByName": 3007,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3007,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3007, 1,\"\"..macro_GetTypeNpcName(3007)..\"\",13,52)"
+    },
+    {
+      "order": 1,
+      "npcId": 3023,
+      "npcTypeId": 3,
+      "name": "Grandpa",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 47,
+      "y": 114,
+      "roleinfoNameByNpcId": "Grandpa",
+      "roleinfoIdByName": 3023,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3023,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3023, 3,\"\"..macro_GetTypeNpcName(3023)..\"\",47,114)"
+    },
+    {
+      "order": 2,
+      "npcId": 3028,
+      "npcTypeId": 1,
+      "name": "Maria",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 57,
+      "y": 121,
+      "roleinfoNameByNpcId": "Maria",
+      "roleinfoIdByName": 3028,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3028,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3028, 1,\"\"..macro_GetTypeNpcName(3028)..\"\",57,121)"
+    }
+  ]
+}

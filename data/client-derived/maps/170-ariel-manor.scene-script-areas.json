@@ -1,0 +1,202 @@
+{
+  "mapId": 170,
+  "mapName": "Ariel Manor",
+  "width": 128,
+  "height": 256,
+  "componentCount": 3,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0,
+        1
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 41,
+      "bbox": {
+        "minX": 15,
+        "minY": 28,
+        "maxX": 23,
+        "maxY": 36
+      },
+      "rowRuns": [
+        {
+          "y": 28,
+          "startX": 19,
+          "endX": 19
+        },
+        {
+          "y": 29,
+          "startX": 18,
+          "endX": 20
+        },
+        {
+          "y": 30,
+          "startX": 17,
+          "endX": 21
+        },
+        {
+          "y": 31,
+          "startX": 16,
+          "endX": 22
+        },
+        {
+          "y": 32,
+          "startX": 15,
+          "endX": 23
+        },
+        {
+          "y": 33,
+          "startX": 16,
+          "endX": 22
+        },
+        {
+          "y": 34,
+          "startX": 17,
+          "endX": 21
+        },
+        {
+          "y": 35,
+          "startX": 18,
+          "endX": 20
+        },
+        {
+          "y": 36,
+          "startX": 19,
+          "endX": 19
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 41,
+      "bbox": {
+        "minX": 119,
+        "minY": 11,
+        "maxX": 127,
+        "maxY": 19
+      },
+      "rowRuns": [
+        {
+          "y": 11,
+          "startX": 123,
+          "endX": 123
+        },
+        {
+          "y": 12,
+          "startX": 122,
+          "endX": 124
+        },
+        {
+          "y": 13,
+          "startX": 121,
+          "endX": 125
+        },
+        {
+          "y": 14,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 15,
+          "startX": 119,
+          "endX": 127
+        },
+        {
+          "y": 16,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 17,
+          "startX": 121,
+          "endX": 125
+        },
+        {
+          "y": 18,
+          "startX": 122,
+          "endX": 124
+        },
+        {
+          "y": 19,
+          "startX": 123,
+          "endX": 123
+        }
+      ],
+      "componentIndex": 2
+    },
+    {
+      "sceneScriptId": 3,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 41,
+      "bbox": {
+        "minX": 94,
+        "minY": 244,
+        "maxX": 102,
+        "maxY": 252
+      },
+      "rowRuns": [
+        {
+          "y": 244,
+          "startX": 98,
+          "endX": 98
+        },
+        {
+          "y": 245,
+          "startX": 97,
+          "endX": 99
+        },
+        {
+          "y": 246,
+          "startX": 96,
+          "endX": 100
+        },
+        {
+          "y": 247,
+          "startX": 95,
+          "endX": 101
+        },
+        {
+          "y": 248,
+          "startX": 94,
+          "endX": 102
+        },
+        {
+          "y": 249,
+          "startX": 95,
+          "endX": 101
+        },
+        {
+          "y": 250,
+          "startX": 96,
+          "endX": 100
+        },
+        {
+          "y": 251,
+          "startX": 97,
+          "endX": 99
+        },
+        {
+          "y": 252,
+          "startX": 98,
+          "endX": 98
+        }
+      ],
+      "componentIndex": 3
+    }
+  ]
+}

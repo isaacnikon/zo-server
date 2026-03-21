@@ -1,0 +1,1243 @@
+{
+  "source": {
+    "mapSummary": "data/client-derived/maps/map-summary.json",
+    "generator": "scripts/generate-scene-script-area-index.py"
+  },
+  "summary": {
+    "capturedCount": 136,
+    "missingCount": 0,
+    "totalMaps": 136
+  },
+  "captured": [
+    {
+      "mapId": 101,
+      "mapName": "Rainbow Valley",
+      "path": "data/client-derived/maps/101-rainbow-valley.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": 1,
+      "focusTileCount": 74,
+      "focusBbox": {
+        "minX": 67,
+        "minY": 4,
+        "maxX": 77,
+        "maxY": 16
+      }
+    },
+    {
+      "mapId": 102,
+      "mapName": "Bling Alley",
+      "path": "data/client-derived/maps/102-bling-alley.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 103,
+      "mapName": "Bling Spring",
+      "path": "data/client-derived/maps/103-bling-spring.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 104,
+      "mapName": "Faith Forest",
+      "path": "data/client-derived/maps/104-faith-forest.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 105,
+      "mapName": "Fall Alley",
+      "path": "data/client-derived/maps/105-fall-alley.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 107,
+      "mapName": "Chill Suburb",
+      "path": "data/client-derived/maps/107-chill-suburb.scene-script-areas.json",
+      "componentCount": 3,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 108,
+      "mapName": "Golden Path",
+      "path": "data/client-derived/maps/108-golden-path.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 109,
+      "mapName": "Spring Forest",
+      "path": "data/client-derived/maps/109-spring-forest.scene-script-areas.json",
+      "componentCount": 3,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 112,
+      "mapName": "Cloud City",
+      "path": "data/client-derived/maps/112-cloud-city.scene-script-areas.json",
+      "componentCount": 8,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 113,
+      "mapName": "Moonset Shore",
+      "path": "data/client-derived/maps/113-moonset-shore.scene-script-areas.json",
+      "componentCount": 3,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 114,
+      "mapName": "Golden Beach",
+      "path": "data/client-derived/maps/114-golden-beach.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 117,
+      "mapName": "Limon District",
+      "path": "data/client-derived/maps/117-limon-district.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 118,
+      "mapName": "Wind Canyon",
+      "path": "data/client-derived/maps/118-wind-canyon.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 120,
+      "mapName": "Cobweb Woods",
+      "path": "data/client-derived/maps/120-cobweb-woods.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 121,
+      "mapName": "Dragon Palace",
+      "path": "data/client-derived/maps/121-dragon-palace.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 122,
+      "mapName": "Darkness Hall",
+      "path": "data/client-derived/maps/122-darkness-hall.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 123,
+      "mapName": "Darkness Hole 2",
+      "path": "data/client-derived/maps/123-darkness-hole-2.scene-script-areas.json",
+      "componentCount": 0,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 124,
+      "mapName": "Haunted Zone",
+      "path": "data/client-derived/maps/124-haunted-zone.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 125,
+      "mapName": "Darkness Hole 3",
+      "path": "data/client-derived/maps/125-darkness-hole-3.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 126,
+      "mapName": "Willow Forest",
+      "path": "data/client-derived/maps/126-willow-forest.scene-script-areas.json",
+      "componentCount": 6,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 127,
+      "mapName": "Devil Dock",
+      "path": "data/client-derived/maps/127-devil-dock.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 128,
+      "mapName": "Dusk Forest",
+      "path": "data/client-derived/maps/128-dusk-forest.scene-script-areas.json",
+      "componentCount": 3,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 129,
+      "mapName": "Mega Forest",
+      "path": "data/client-derived/maps/129-mega-forest.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 130,
+      "mapName": "Triumph Path",
+      "path": "data/client-derived/maps/130-triumph-path.scene-script-areas.json",
+      "componentCount": 3,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 131,
+      "mapName": "Goal Manor",
+      "path": "data/client-derived/maps/131-goal-manor.scene-script-areas.json",
+      "componentCount": 6,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 132,
+      "mapName": "Butterfly Peak",
+      "path": "data/client-derived/maps/132-butterfly-peak.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 133,
+      "mapName": "Mirror Lake",
+      "path": "data/client-derived/maps/133-mirror-lake.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 134,
+      "mapName": "Trident Mountain",
+      "path": "data/client-derived/maps/134-trident-mountain.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 135,
+      "mapName": "Precious Garden",
+      "path": "data/client-derived/maps/135-precious-garden.scene-script-areas.json",
+      "componentCount": 3,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 136,
+      "mapName": "Zig Alley 1",
+      "path": "data/client-derived/maps/136-zig-alley-1.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 137,
+      "mapName": "Zig Alley 2",
+      "path": "data/client-derived/maps/137-zig-alley-2.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 138,
+      "mapName": "Crane Pass",
+      "path": "data/client-derived/maps/138-crane-pass.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 139,
+      "mapName": "Darkness Hamlet",
+      "path": "data/client-derived/maps/139-darkness-hamlet.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 143,
+      "mapName": "Benthal Path",
+      "path": "data/client-derived/maps/143-benthal-path.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 144,
+      "mapName": "Dew Peak",
+      "path": "data/client-derived/maps/144-dew-peak.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 145,
+      "mapName": "Darkness Mountain",
+      "path": "data/client-derived/maps/145-darkness-mountain.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 146,
+      "mapName": "Maple Valley",
+      "path": "data/client-derived/maps/146-maple-valley.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 147,
+      "mapName": "Blurred Lake",
+      "path": "data/client-derived/maps/147-blurred-lake.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 148,
+      "mapName": "Deep Corridor",
+      "path": "data/client-derived/maps/148-deep-corridor.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 149,
+      "mapName": "Lake Abysm",
+      "path": "data/client-derived/maps/149-lake-abysm.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 150,
+      "mapName": "Mirror Palace",
+      "path": "data/client-derived/maps/150-mirror-palace.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 151,
+      "mapName": "Judgement Hall",
+      "path": "data/client-derived/maps/151-judgement-hall.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 152,
+      "mapName": "Hell Pass",
+      "path": "data/client-derived/maps/152-hell-pass.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 153,
+      "mapName": "Nirvana Pool",
+      "path": "data/client-derived/maps/153-nirvana-pool.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 154,
+      "mapName": "Hades Hall",
+      "path": "data/client-derived/maps/154-hades-hall.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 156,
+      "mapName": "Flaming Hell 1",
+      "path": "data/client-derived/maps/156-flaming-hell-1.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 157,
+      "mapName": "Belong Hell",
+      "path": "data/client-derived/maps/157-belong-hell.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 158,
+      "mapName": "Belong Cloister",
+      "path": "data/client-derived/maps/158-belong-cloister.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 160,
+      "mapName": "Soul Valley",
+      "path": "data/client-derived/maps/160-soul-valley.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 161,
+      "mapName": "Soul-free Valley",
+      "path": "data/client-derived/maps/161-soul-free-valley.scene-script-areas.json",
+      "componentCount": 4,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 163,
+      "mapName": "Orchid Temple",
+      "path": "data/client-derived/maps/163-orchid-temple.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 164,
+      "mapName": "Sunlight Hole",
+      "path": "data/client-derived/maps/164-sunlight-hole.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 165,
+      "mapName": "Lotus Peak",
+      "path": "data/client-derived/maps/165-lotus-peak.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 166,
+      "mapName": "Chain Peak",
+      "path": "data/client-derived/maps/166-chain-peak.scene-script-areas.json",
+      "componentCount": 3,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 167,
+      "mapName": "Ancient Sanctuary",
+      "path": "data/client-derived/maps/167-ancient-sanctuary.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 168,
+      "mapName": "Darkness Sentry",
+      "path": "data/client-derived/maps/168-darkness-sentry.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 169,
+      "mapName": "Timber Town",
+      "path": "data/client-derived/maps/169-timber-town.scene-script-areas.json",
+      "componentCount": 5,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 170,
+      "mapName": "Ariel Manor",
+      "path": "data/client-derived/maps/170-ariel-manor.scene-script-areas.json",
+      "componentCount": 3,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 171,
+      "mapName": "Zig Pass",
+      "path": "data/client-derived/maps/171-zig-pass.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 177,
+      "mapName": "Silence Hell",
+      "path": "data/client-derived/maps/177-silence-hell.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 181,
+      "mapName": "Moon Lake",
+      "path": "data/client-derived/maps/181-moon-lake.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 182,
+      "mapName": "Silent Hill",
+      "path": "data/client-derived/maps/182-silent-hill.scene-script-areas.json",
+      "componentCount": 3,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 185,
+      "mapName": "Thorn Mountain",
+      "path": "data/client-derived/maps/185-thorn-mountain.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 186,
+      "mapName": "Glacial Land",
+      "path": "data/client-derived/maps/186-glacial-land.scene-script-areas.json",
+      "componentCount": 3,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 190,
+      "mapName": "Underground Hall 2",
+      "path": "data/client-derived/maps/190-underground-hall-2.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 192,
+      "mapName": "Underground Hall 1",
+      "path": "data/client-derived/maps/192-underground-hall-1.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 194,
+      "mapName": "Calm Zone",
+      "path": "data/client-derived/maps/194-calm-zone.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 195,
+      "mapName": "Immuration Zone",
+      "path": "data/client-derived/maps/195-immuration-zone.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 196,
+      "mapName": "Blove Zone",
+      "path": "data/client-derived/maps/196-blove-zone.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 202,
+      "mapName": "Blove Palace",
+      "path": "data/client-derived/maps/202-blove-palace.scene-script-areas.json",
+      "componentCount": 0,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 203,
+      "mapName": "Rosy Kiosk",
+      "path": "data/client-derived/maps/203-rosy-kiosk.scene-script-areas.json",
+      "componentCount": 0,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 204,
+      "mapName": "Celestial State",
+      "path": "data/client-derived/maps/204-celestial-state.scene-script-areas.json",
+      "componentCount": 6,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 206,
+      "mapName": "South Gate",
+      "path": "data/client-derived/maps/206-south-gate.scene-script-areas.json",
+      "componentCount": 0,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 208,
+      "mapName": "Covert Palace",
+      "path": "data/client-derived/maps/208-covert-palace.scene-script-areas.json",
+      "componentCount": 0,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 209,
+      "mapName": "Peach Garden",
+      "path": "data/client-derived/maps/209-peach-garden.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 210,
+      "mapName": "West County Pass",
+      "path": "data/client-derived/maps/210-west-county-pass.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 211,
+      "mapName": "Longicorn State",
+      "path": "data/client-derived/maps/211-longicorn-state.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 212,
+      "mapName": "North County Pass",
+      "path": "data/client-derived/maps/212-north-county-pass.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 213,
+      "mapName": "Hell Court",
+      "path": "data/client-derived/maps/213-hell-court.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 214,
+      "mapName": "Hall of Dragon Palace",
+      "path": "data/client-derived/maps/214-hall-of-dragon-palace.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 218,
+      "mapName": "Goal Manor Grocer",
+      "path": "data/client-derived/maps/218-goal-manor-grocer.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 219,
+      "mapName": "Chill Pass Grocer",
+      "path": "data/client-derived/maps/219-chill-pass-grocer.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 220,
+      "mapName": "Timber Town Inn",
+      "path": "data/client-derived/maps/220-timber-town-inn.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 221,
+      "mapName": "Casino",
+      "path": "data/client-derived/maps/221-casino.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 222,
+      "mapName": "Jewelry Shop",
+      "path": "data/client-derived/maps/222-jewelry-shop.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 223,
+      "mapName": "Armor Shop",
+      "path": "data/client-derived/maps/223-armor-shop.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 224,
+      "mapName": "Armor Store",
+      "path": "data/client-derived/maps/224-armor-store.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 225,
+      "mapName": "Weapon Shop",
+      "path": "data/client-derived/maps/225-weapon-shop.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 226,
+      "mapName": "Cloud City Inn",
+      "path": "data/client-derived/maps/226-cloud-city-inn.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 227,
+      "mapName": "Goal Manor Pothouse",
+      "path": "data/client-derived/maps/227-goal-manor-pothouse.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 228,
+      "mapName": "Pet Shop",
+      "path": "data/client-derived/maps/228-pet-shop.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 229,
+      "mapName": "Dragon Wing-room",
+      "path": "data/client-derived/maps/229-dragon-wing-room.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 230,
+      "mapName": "Swan Pass",
+      "path": "data/client-derived/maps/230-swan-pass.scene-script-areas.json",
+      "componentCount": 3,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 231,
+      "mapName": "Belong Abysm",
+      "path": "data/client-derived/maps/231-belong-abysm.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 232,
+      "mapName": "Mega Mountain",
+      "path": "data/client-derived/maps/232-mega-mountain.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 233,
+      "mapName": "Darkness Hole Ground",
+      "path": "data/client-derived/maps/233-darkness-hole-ground.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 234,
+      "mapName": "Somber Aisle",
+      "path": "data/client-derived/maps/234-somber-aisle.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 235,
+      "mapName": "Guardian Hall",
+      "path": "data/client-derived/maps/235-guardian-hall.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 236,
+      "mapName": "Moonset Path",
+      "path": "data/client-derived/maps/236-moonset-path.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 237,
+      "mapName": "Chill Pass Pothouse",
+      "path": "data/client-derived/maps/237-chill-pass-pothouse.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 238,
+      "mapName": "Longicorn Hole",
+      "path": "data/client-derived/maps/238-longicorn-hole.scene-script-areas.json",
+      "componentCount": 3,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 239,
+      "mapName": "Longicorn Gully",
+      "path": "data/client-derived/maps/239-longicorn-gully.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 240,
+      "mapName": "Regret Cliff",
+      "path": "data/client-derived/maps/240-regret-cliff.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 241,
+      "mapName": "De-evil Tower",
+      "path": "data/client-derived/maps/241-de-evil-tower.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 242,
+      "mapName": "Windbell Valley",
+      "path": "data/client-derived/maps/242-windbell-valley.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 243,
+      "mapName": "Palace Relic",
+      "path": "data/client-derived/maps/243-palace-relic.scene-script-areas.json",
+      "componentCount": 0,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 244,
+      "mapName": "Longicorn Cliff",
+      "path": "data/client-derived/maps/244-longicorn-cliff.scene-script-areas.json",
+      "componentCount": 4,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 245,
+      "mapName": "Ever-spring Garden",
+      "path": "data/client-derived/maps/245-ever-spring-garden.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 246,
+      "mapName": "Lotus Peak Top",
+      "path": "data/client-derived/maps/246-lotus-peak-top.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 247,
+      "mapName": "Longicorn Prison",
+      "path": "data/client-derived/maps/247-longicorn-prison.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 248,
+      "mapName": " Weapon Shop",
+      "path": "data/client-derived/maps/248-weapon-shop.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 249,
+      "mapName": "Timber Town Flat",
+      "path": "data/client-derived/maps/249-timber-town-flat.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 251,
+      "mapName": "Guild Restaurant",
+      "path": "data/client-derived/maps/251-guild-restaurant.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 252,
+      "mapName": "Guild Pet Shop",
+      "path": "data/client-derived/maps/252-guild-pet-shop.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 253,
+      "mapName": " Guild Alchemy Room",
+      "path": "data/client-derived/maps/253-guild-alchemy-room.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 254,
+      "mapName": "Guild Martial Club",
+      "path": "data/client-derived/maps/254-guild-martial-club.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 255,
+      "mapName": "Guild Chamber",
+      "path": "data/client-derived/maps/255-guild-chamber.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 260,
+      "mapName": "Guardhouse",
+      "path": "data/client-derived/maps/260-guardhouse.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 261,
+      "mapName": "Timber Town Grocer",
+      "path": "data/client-derived/maps/261-timber-town-grocer.scene-script-areas.json",
+      "componentCount": 0,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 262,
+      "mapName": "Ancient Stair",
+      "path": "data/client-derived/maps/262-ancient-stair.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 263,
+      "mapName": "Flaming Hell 2",
+      "path": "data/client-derived/maps/263-flaming-hell-2.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 265,
+      "mapName": "Ancient Road",
+      "path": "data/client-derived/maps/265-ancient-road.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 266,
+      "mapName": "Vermilion Bird Xanadu",
+      "path": "data/client-derived/maps/266-vermilion-bird-xanadu.scene-script-areas.json",
+      "componentCount": 0,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 267,
+      "mapName": "Black Tortoise Xanadu",
+      "path": "data/client-derived/maps/267-black-tortoise-xanadu.scene-script-areas.json",
+      "componentCount": 0,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 268,
+      "mapName": "Blue Dragon Xanadu",
+      "path": "data/client-derived/maps/268-blue-dragon-xanadu.scene-script-areas.json",
+      "componentCount": 0,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 269,
+      "mapName": "White Tiger Xanadu",
+      "path": "data/client-derived/maps/269-white-tiger-xanadu.scene-script-areas.json",
+      "componentCount": 0,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 270,
+      "mapName": "Holy Beast Xanadu",
+      "path": "data/client-derived/maps/270-holy-beast-xanadu.scene-script-areas.json",
+      "componentCount": 1,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 271,
+      "mapName": "Guild Beachhead",
+      "path": "data/client-derived/maps/271-guild-beachhead.scene-script-areas.json",
+      "componentCount": 0,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 274,
+      "mapName": "Love Zone",
+      "path": "data/client-derived/maps/274-love-zone.scene-script-areas.json",
+      "componentCount": 0,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 276,
+      "mapName": "Chamber of Commerce",
+      "path": "data/client-derived/maps/276-chamber-of-commerce.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 277,
+      "mapName": "Heaven Palace",
+      "path": "data/client-derived/maps/277-heaven-palace.scene-script-areas.json",
+      "componentCount": 0,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 279,
+      "mapName": "Under Sanctum",
+      "path": "data/client-derived/maps/279-under-sanctum.scene-script-areas.json",
+      "componentCount": 2,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 283,
+      "mapName": "Love Chamber",
+      "path": "data/client-derived/maps/283-love-chamber.scene-script-areas.json",
+      "componentCount": 0,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 285,
+      "mapName": "Race Field",
+      "path": "data/client-derived/maps/285-race-field.scene-script-areas.json",
+      "componentCount": 0,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 286,
+      "mapName": "Arena",
+      "path": "data/client-derived/maps/286-arena.scene-script-areas.json",
+      "componentCount": 0,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 287,
+      "mapName": "Battle Field",
+      "path": "data/client-derived/maps/287-battle-field.scene-script-areas.json",
+      "componentCount": 0,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    }
+  ],
+  "missing": []
+}

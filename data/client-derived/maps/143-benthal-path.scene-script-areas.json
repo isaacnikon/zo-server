@@ -1,0 +1,176 @@
+{
+  "mapId": 143,
+  "mapName": "Benthal Path",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        60,
+        85
+      ],
+      "tileCount": 138,
+      "bbox": {
+        "minX": 91,
+        "minY": 0,
+        "maxX": 102,
+        "maxY": 11
+      },
+      "rowRuns": [
+        {
+          "y": 0,
+          "startX": 91,
+          "endX": 102
+        },
+        {
+          "y": 1,
+          "startX": 91,
+          "endX": 102
+        },
+        {
+          "y": 2,
+          "startX": 91,
+          "endX": 102
+        },
+        {
+          "y": 3,
+          "startX": 91,
+          "endX": 102
+        },
+        {
+          "y": 4,
+          "startX": 91,
+          "endX": 102
+        },
+        {
+          "y": 5,
+          "startX": 91,
+          "endX": 102
+        },
+        {
+          "y": 6,
+          "startX": 91,
+          "endX": 102
+        },
+        {
+          "y": 7,
+          "startX": 91,
+          "endX": 102
+        },
+        {
+          "y": 8,
+          "startX": 91,
+          "endX": 102
+        },
+        {
+          "y": 9,
+          "startX": 91,
+          "endX": 102
+        },
+        {
+          "y": 10,
+          "startX": 92,
+          "endX": 101
+        },
+        {
+          "y": 11,
+          "startX": 93,
+          "endX": 100
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2,
+        3
+      ],
+      "auxValues": [
+        0,
+        60,
+        85
+      ],
+      "tileCount": 105,
+      "bbox": {
+        "minX": 119,
+        "minY": 190,
+        "maxX": 127,
+        "maxY": 202
+      },
+      "rowRuns": [
+        {
+          "y": 190,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 191,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 192,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 193,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 194,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 195,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 196,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 197,
+          "startX": 119,
+          "endX": 127
+        },
+        {
+          "y": 198,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 199,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 200,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 201,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 202,
+          "startX": 119,
+          "endX": 126
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

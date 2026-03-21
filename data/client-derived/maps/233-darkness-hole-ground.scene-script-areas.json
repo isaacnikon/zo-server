@@ -1,0 +1,63 @@
+{
+  "mapId": 233,
+  "mapName": "Darkness Hole Ground",
+  "width": 128,
+  "height": 256,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        50
+      ],
+      "tileCount": 25,
+      "bbox": {
+        "minX": 25,
+        "minY": 247,
+        "maxX": 31,
+        "maxY": 253
+      },
+      "rowRuns": [
+        {
+          "y": 247,
+          "startX": 28,
+          "endX": 28
+        },
+        {
+          "y": 248,
+          "startX": 27,
+          "endX": 29
+        },
+        {
+          "y": 249,
+          "startX": 26,
+          "endX": 30
+        },
+        {
+          "y": 250,
+          "startX": 25,
+          "endX": 31
+        },
+        {
+          "y": 251,
+          "startX": 26,
+          "endX": 30
+        },
+        {
+          "y": 252,
+          "startX": 27,
+          "endX": 29
+        },
+        {
+          "y": 253,
+          "startX": 28,
+          "endX": 28
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

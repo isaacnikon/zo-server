@@ -1,0 +1,127 @@
+{
+  "mapId": 242,
+  "mapName": "Windbell Valley",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3544100,
+      "end": 3544901
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 7,
+    "statusCounts": {
+      "alias-id-mismatch": 1,
+      "match": 6
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3349,
+      "npcTypeId": 1,
+      "name": "Little Monkey",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 83,
+      "y": 43,
+      "roleinfoNameByNpcId": "Little Monkey",
+      "roleinfoIdByName": 3349,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3349,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3349, 1,\"\"..macro_GetTypeNpcName(3349)..\"\",83,43)"
+    },
+    {
+      "order": 1,
+      "npcId": 3350,
+      "npcTypeId": 1,
+      "name": "Wendy",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 78,
+      "y": 55,
+      "roleinfoNameByNpcId": "Wendy",
+      "roleinfoIdByName": 3350,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3350,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3350, 1,\"\"..macro_GetTypeNpcName(3350)..\"\",78,55)"
+    },
+    {
+      "order": 2,
+      "npcId": 3357,
+      "npcTypeId": 1,
+      "name": "Fairy Rabbit",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 16,
+      "y": 74,
+      "roleinfoNameByNpcId": "Fairy Rabbit",
+      "roleinfoIdByName": 3357,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3357,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3357, 1,\"\"..macro_GetTypeNpcName(3357)..\"\",16,74)"
+    },
+    {
+      "order": 3,
+      "npcId": 3451,
+      "npcTypeId": 1,
+      "name": "Evil Cat",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 104,
+      "y": 237,
+      "roleinfoNameByNpcId": "Evil Cat",
+      "roleinfoIdByName": 3138,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3451,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3451, 1,\"\"..macro_GetTypeNpcName(3451)..\"\",104,237)"
+    },
+    {
+      "order": 4,
+      "npcId": 3449,
+      "npcTypeId": 1,
+      "name": "Dementor",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 96,
+      "y": 237,
+      "roleinfoNameByNpcId": "Dementor",
+      "roleinfoIdByName": 3449,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3449,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3449, 1,\"\"..macro_GetTypeNpcName(3449)..\"\",96,237)"
+    },
+    {
+      "order": 5,
+      "npcId": 3283,
+      "npcTypeId": 3,
+      "name": "Hammal",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 60,
+      "y": 128,
+      "roleinfoNameByNpcId": "Hammal",
+      "roleinfoIdByName": 3283,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3283,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3283, 3,\"\"..macro_GetTypeNpcName(3283)..\"\",60,128)"
+    },
+    {
+      "order": 6,
+      "npcId": 3313,
+      "npcTypeId": 1,
+      "name": "Longicorn   Patrolman",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 55,
+      "y": 124,
+      "roleinfoNameByNpcId": "Longicorn   Patrolman",
+      "roleinfoIdByName": 3313,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3313,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3313, 1,\"\"..macro_GetTypeNpcName(3313)..\"\",55,124)"
+    }
+  ]
+}

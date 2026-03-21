@@ -1,0 +1,127 @@
+{
+  "mapId": 102,
+  "mapName": "Bling Alley",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3456740,
+      "end": 3457394
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 7,
+    "statusCounts": {
+      "alias-id-mismatch": 1,
+      "match": 6
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3651,
+      "npcTypeId": 3,
+      "name": "Zodiac Eudemon",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 22,
+      "y": 177,
+      "roleinfoNameByNpcId": "Zodiac Eudemon",
+      "roleinfoIdByName": 3651,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3651,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3651, 3,\"\"..macro_GetTypeNpcName(3651)..\"\",22,177)"
+    },
+    {
+      "order": 1,
+      "npcId": 3003,
+      "npcTypeId": 3,
+      "name": "Farmer",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 122,
+      "y": 99,
+      "roleinfoNameByNpcId": "Farmer",
+      "roleinfoIdByName": 3003,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3003,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3003, 3,\"\"..macro_GetTypeNpcName(3003)..\"\",122,99)"
+    },
+    {
+      "order": 2,
+      "npcId": 3055,
+      "npcTypeId": 3,
+      "name": "Eric",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 96,
+      "y": 45,
+      "roleinfoNameByNpcId": "Eric",
+      "roleinfoIdByName": 3055,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3055,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3055, 3,\"\"..macro_GetTypeNpcName(3055)..\"\",96,45)"
+    },
+    {
+      "order": 3,
+      "npcId": 3057,
+      "npcTypeId": 1,
+      "name": "Hungry Wolf",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 116,
+      "y": 97,
+      "roleinfoNameByNpcId": "Hungry Wolf",
+      "roleinfoIdByName": 3057,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3057,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3057, 1,\"\"..macro_GetTypeNpcName(3057)..\"\",116,97)"
+    },
+    {
+      "order": 4,
+      "npcId": 3006,
+      "npcTypeId": 1,
+      "name": "Evilelf",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 34,
+      "y": 79,
+      "roleinfoNameByNpcId": "Evilelf",
+      "roleinfoIdByName": 3006,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3006,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3006, 1,\"\"..macro_GetTypeNpcName(3006)..\"\",34,79)"
+    },
+    {
+      "order": 5,
+      "npcId": 3108,
+      "npcTypeId": 1,
+      "name": "Piggy",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 75,
+      "y": 238,
+      "roleinfoNameByNpcId": "Piggy",
+      "roleinfoIdByName": 2513,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3108,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3108, 1,\"\"..macro_GetTypeNpcName(3108)..\"\",75,238)"
+    },
+    {
+      "order": 6,
+      "npcId": 3174,
+      "npcTypeId": 3,
+      "name": "Injured Wolf",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 74,
+      "y": 34,
+      "roleinfoNameByNpcId": "Injured Wolf",
+      "roleinfoIdByName": 3174,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3174,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3174, 3,\"\"..macro_GetTypeNpcName(3174)..\"\",74,34)"
+    }
+  ]
+}

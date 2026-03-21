@@ -1,0 +1,82 @@
+{
+  "mapId": 181,
+  "mapName": "Moon Lake",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3514866,
+      "end": 3515364
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 4,
+    "statusCounts": {
+      "alias-id-mismatch": 2,
+      "match": 2
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3641,
+      "npcTypeId": 1,
+      "name": "Boy",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 71,
+      "y": 81,
+      "roleinfoNameByNpcId": "Boy",
+      "roleinfoIdByName": 3641,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3641,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3641, 1,\"\"..macro_GetTypeNpcName(3641)..\"\",71,81)"
+    },
+    {
+      "order": 1,
+      "npcId": 3452,
+      "npcTypeId": 1,
+      "name": "Lake Spirit",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 68,
+      "y": 85,
+      "roleinfoNameByNpcId": "Lake Spirit",
+      "roleinfoIdByName": 3293,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3452,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3452, 1,\"\"..macro_GetTypeNpcName(3452)..\"\",68,85)"
+    },
+    {
+      "order": 2,
+      "npcId": 3642,
+      "npcTypeId": 1,
+      "name": "Melody",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 61,
+      "y": 81,
+      "roleinfoNameByNpcId": "Melody",
+      "roleinfoIdByName": 3265,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3642,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3642, 1,\"\"..macro_GetTypeNpcName(3642)..\"\",61,81)"
+    },
+    {
+      "order": 3,
+      "npcId": 3097,
+      "npcTypeId": 5,
+      "name": "Lakery",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 51,
+      "y": 80,
+      "roleinfoNameByNpcId": "Lakery",
+      "roleinfoIdByName": 3097,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3097,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3097, 5,\"\"..macro_GetTypeNpcName(3097)..\"\",51,80)"
+    }
+  ]
+}

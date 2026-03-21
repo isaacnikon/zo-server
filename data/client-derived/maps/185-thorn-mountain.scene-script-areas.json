@@ -1,0 +1,64 @@
+{
+  "mapId": 185,
+  "mapName": "Thorn Mountain",
+  "width": 128,
+  "height": 256,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2,
+        3
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 25,
+      "bbox": {
+        "minX": 121,
+        "minY": 208,
+        "maxX": 127,
+        "maxY": 214
+      },
+      "rowRuns": [
+        {
+          "y": 208,
+          "startX": 124,
+          "endX": 124
+        },
+        {
+          "y": 209,
+          "startX": 123,
+          "endX": 125
+        },
+        {
+          "y": 210,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 211,
+          "startX": 121,
+          "endX": 127
+        },
+        {
+          "y": 212,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 213,
+          "startX": 123,
+          "endX": 125
+        },
+        {
+          "y": 214,
+          "startX": 124,
+          "endX": 124
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

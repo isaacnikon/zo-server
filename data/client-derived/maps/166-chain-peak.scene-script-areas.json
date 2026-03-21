@@ -1,0 +1,122 @@
+{
+  "mapId": 166,
+  "mapName": "Chain Peak",
+  "width": 128,
+  "height": 256,
+  "componentCount": 3,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        90
+      ],
+      "tileCount": 24,
+      "bbox": {
+        "minX": 0,
+        "minY": 120,
+        "maxX": 5,
+        "maxY": 126
+      },
+      "rowRuns": [
+        {
+          "y": 120,
+          "startX": 2,
+          "endX": 2
+        },
+        {
+          "y": 121,
+          "startX": 1,
+          "endX": 3
+        },
+        {
+          "y": 122,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 123,
+          "startX": 0,
+          "endX": 5
+        },
+        {
+          "y": 124,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 125,
+          "startX": 1,
+          "endX": 3
+        },
+        {
+          "y": 126,
+          "startX": 2,
+          "endX": 2
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 3,
+      "bbox": {
+        "minX": 127,
+        "minY": 123,
+        "maxX": 127,
+        "maxY": 125
+      },
+      "rowRuns": [
+        {
+          "y": 123,
+          "startX": 127,
+          "endX": 127
+        },
+        {
+          "y": 124,
+          "startX": 127,
+          "endX": 127
+        },
+        {
+          "y": 125,
+          "startX": 127,
+          "endX": 127
+        }
+      ],
+      "componentIndex": 2
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 1,
+      "bbox": {
+        "minX": 0,
+        "minY": 125,
+        "maxX": 0,
+        "maxY": 125
+      },
+      "rowRuns": [
+        {
+          "y": 125,
+          "startX": 0,
+          "endX": 0
+        }
+      ],
+      "componentIndex": 3
+    }
+  ]
+}

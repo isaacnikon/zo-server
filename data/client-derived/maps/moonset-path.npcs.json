@@ -1,0 +1,67 @@
+{
+  "mapId": 236,
+  "mapName": "Moonset Path",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3540555,
+      "end": 3540917
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 3,
+    "statusCounts": {
+      "literal-name-mismatch": 1,
+      "match": 2
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3354,
+      "npcTypeId": 1,
+      "name": "Jackal",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 39,
+      "y": 53,
+      "roleinfoNameByNpcId": "Jackal",
+      "roleinfoIdByName": 3354,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3354,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3354, 1,\"\"..macro_GetTypeNpcName(3354)..\"\",39,53)"
+    },
+    {
+      "order": 1,
+      "npcId": 3357,
+      "npcTypeId": 1,
+      "name": "Fairy Rabbit",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 120,
+      "y": 98,
+      "roleinfoNameByNpcId": "Fairy Rabbit",
+      "roleinfoIdByName": 3357,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3357,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3357, 1,\"\"..macro_GetTypeNpcName(3357)..\"\",120,98)"
+    },
+    {
+      "order": 2,
+      "npcId": 3004,
+      "npcTypeId": 1,
+      "name": "Herds",
+      "nameSource": "literal",
+      "x": 108,
+      "y": 235,
+      "roleinfoNameByNpcId": "Scholar",
+      "roleinfoIdByName": null,
+      "nameMatchesRoleinfo": false,
+      "resolvedSpawnEntityType": 3004,
+      "validationStatus": "literal-name-mismatch",
+      "rawCall": "macro_AddMapNpc(3004, 1,\"Herds\",108,235)"
+    }
+  ]
+}

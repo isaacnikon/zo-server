@@ -1,0 +1,73 @@
+{
+  "mapId": 181,
+  "mapName": "Moon Lake",
+  "width": 128,
+  "height": 256,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 41,
+      "bbox": {
+        "minX": 86,
+        "minY": 244,
+        "maxX": 94,
+        "maxY": 252
+      },
+      "rowRuns": [
+        {
+          "y": 244,
+          "startX": 90,
+          "endX": 90
+        },
+        {
+          "y": 245,
+          "startX": 89,
+          "endX": 91
+        },
+        {
+          "y": 246,
+          "startX": 88,
+          "endX": 92
+        },
+        {
+          "y": 247,
+          "startX": 87,
+          "endX": 93
+        },
+        {
+          "y": 248,
+          "startX": 86,
+          "endX": 94
+        },
+        {
+          "y": 249,
+          "startX": 87,
+          "endX": 93
+        },
+        {
+          "y": 250,
+          "startX": 88,
+          "endX": 92
+        },
+        {
+          "y": 251,
+          "startX": 89,
+          "endX": 91
+        },
+        {
+          "y": 252,
+          "startX": 90,
+          "endX": 90
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

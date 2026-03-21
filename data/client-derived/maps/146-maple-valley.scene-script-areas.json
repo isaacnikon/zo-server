@@ -1,0 +1,182 @@
+{
+  "mapId": 146,
+  "mapName": "Maple Valley",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        68
+      ],
+      "tileCount": 139,
+      "bbox": {
+        "minX": 78,
+        "minY": 0,
+        "maxX": 90,
+        "maxY": 11
+      },
+      "rowRuns": [
+        {
+          "y": 0,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 1,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 2,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 3,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 4,
+          "startX": 79,
+          "endX": 90
+        },
+        {
+          "y": 5,
+          "startX": 79,
+          "endX": 90
+        },
+        {
+          "y": 6,
+          "startX": 78,
+          "endX": 90
+        },
+        {
+          "y": 7,
+          "startX": 78,
+          "endX": 90
+        },
+        {
+          "y": 8,
+          "startX": 79,
+          "endX": 90
+        },
+        {
+          "y": 9,
+          "startX": 79,
+          "endX": 90
+        },
+        {
+          "y": 10,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 11,
+          "startX": 79,
+          "endX": 88
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        68
+      ],
+      "tileCount": 85,
+      "bbox": {
+        "minX": 118,
+        "minY": 68,
+        "maxX": 126,
+        "maxY": 82
+      },
+      "rowRuns": [
+        {
+          "y": 68,
+          "startX": 126,
+          "endX": 126
+        },
+        {
+          "y": 69,
+          "startX": 126,
+          "endX": 126
+        },
+        {
+          "y": 70,
+          "startX": 125,
+          "endX": 126
+        },
+        {
+          "y": 71,
+          "startX": 123,
+          "endX": 126
+        },
+        {
+          "y": 72,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 73,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 74,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 75,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 76,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 77,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 78,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 79,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 80,
+          "startX": 118,
+          "endX": 122
+        },
+        {
+          "y": 81,
+          "startX": 118,
+          "endX": 120
+        },
+        {
+          "y": 82,
+          "startX": 118,
+          "endX": 118
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

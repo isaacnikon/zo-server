@@ -1,0 +1,673 @@
+{
+  "source": {
+    "validationFile": "data/client-derived/maps/screenshot-teleporter-validations.json",
+    "screenshotDir": "/home/nikon/Pictures/Screenshots",
+    "generator": "scripts/generate-screenshot-review-index.py"
+  },
+  "summary": {
+    "screenshotCount": 82,
+    "usedInValidationCount": 5,
+    "unusedAfterSheetReviewCount": 77
+  },
+  "screenshots": [
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235138.png",
+      "fileName": "Screenshot_20260321_235138.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235147.png",
+      "fileName": "Screenshot_20260321_235147.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235154.png",
+      "fileName": "Screenshot_20260321_235154.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235205.png",
+      "fileName": "Screenshot_20260321_235205.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235214.png",
+      "fileName": "Screenshot_20260321_235214.png",
+      "status": "used-in-validation",
+      "validationCount": 1,
+      "links": [
+        {
+          "sourceMapId": 114,
+          "sceneScriptId": 1,
+          "displayLabel": "Moonset Shore",
+          "targetMapId": 113,
+          "targetMapName": "Moonset Shore",
+          "validation": "screenshot-validated"
+        }
+      ]
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235229.png",
+      "fileName": "Screenshot_20260321_235229.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235235.png",
+      "fileName": "Screenshot_20260321_235235.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235243.png",
+      "fileName": "Screenshot_20260321_235243.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235248.png",
+      "fileName": "Screenshot_20260321_235248.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235255.png",
+      "fileName": "Screenshot_20260321_235255.png",
+      "status": "used-in-validation",
+      "validationCount": 1,
+      "links": [
+        {
+          "sourceMapId": 121,
+          "sceneScriptId": 1,
+          "displayLabel": "Benthal Path",
+          "targetMapId": 143,
+          "targetMapName": "Benthal Path",
+          "validation": "screenshot-validated"
+        }
+      ]
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235304.png",
+      "fileName": "Screenshot_20260321_235304.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235314.png",
+      "fileName": "Screenshot_20260321_235314.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235334.png",
+      "fileName": "Screenshot_20260321_235334.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235344.png",
+      "fileName": "Screenshot_20260321_235344.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235354.png",
+      "fileName": "Screenshot_20260321_235354.png",
+      "status": "used-in-validation",
+      "validationCount": 2,
+      "links": [
+        {
+          "sourceMapId": 127,
+          "sceneScriptId": 1,
+          "displayLabel": "Dusk Forest",
+          "targetMapId": 128,
+          "targetMapName": "Dusk Forest",
+          "validation": "screenshot-validated"
+        },
+        {
+          "sourceMapId": 127,
+          "sceneScriptId": 2,
+          "displayLabel": "Goal Manor",
+          "targetMapId": 131,
+          "targetMapName": "Goal Manor",
+          "validation": "screenshot-validated"
+        }
+      ]
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235405.png",
+      "fileName": "Screenshot_20260321_235405.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235414.png",
+      "fileName": "Screenshot_20260321_235414.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235424.png",
+      "fileName": "Screenshot_20260321_235424.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235435.png",
+      "fileName": "Screenshot_20260321_235435.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235444.png",
+      "fileName": "Screenshot_20260321_235444.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235455.png",
+      "fileName": "Screenshot_20260321_235455.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235503.png",
+      "fileName": "Screenshot_20260321_235503.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235515.png",
+      "fileName": "Screenshot_20260321_235515.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235525.png",
+      "fileName": "Screenshot_20260321_235525.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235534.png",
+      "fileName": "Screenshot_20260321_235534.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235555.png",
+      "fileName": "Screenshot_20260321_235555.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235604.png",
+      "fileName": "Screenshot_20260321_235604.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235614.png",
+      "fileName": "Screenshot_20260321_235614.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235624.png",
+      "fileName": "Screenshot_20260321_235624.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235635.png",
+      "fileName": "Screenshot_20260321_235635.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235644.png",
+      "fileName": "Screenshot_20260321_235644.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235655.png",
+      "fileName": "Screenshot_20260321_235655.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235705.png",
+      "fileName": "Screenshot_20260321_235705.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235715.png",
+      "fileName": "Screenshot_20260321_235715.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235725.png",
+      "fileName": "Screenshot_20260321_235725.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235735.png",
+      "fileName": "Screenshot_20260321_235735.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235745.png",
+      "fileName": "Screenshot_20260321_235745.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235754.png",
+      "fileName": "Screenshot_20260321_235754.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235805.png",
+      "fileName": "Screenshot_20260321_235805.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235816.png",
+      "fileName": "Screenshot_20260321_235816.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235824.png",
+      "fileName": "Screenshot_20260321_235824.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235834.png",
+      "fileName": "Screenshot_20260321_235834.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235844.png",
+      "fileName": "Screenshot_20260321_235844.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235854.png",
+      "fileName": "Screenshot_20260321_235854.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235914.png",
+      "fileName": "Screenshot_20260321_235914.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235925.png",
+      "fileName": "Screenshot_20260321_235925.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235956.png",
+      "fileName": "Screenshot_20260321_235956.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000004.png",
+      "fileName": "Screenshot_20260322_000004.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000025.png",
+      "fileName": "Screenshot_20260322_000025.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000035.png",
+      "fileName": "Screenshot_20260322_000035.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000045.png",
+      "fileName": "Screenshot_20260322_000045.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000055.png",
+      "fileName": "Screenshot_20260322_000055.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000105.png",
+      "fileName": "Screenshot_20260322_000105.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000114.png",
+      "fileName": "Screenshot_20260322_000114.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000125.png",
+      "fileName": "Screenshot_20260322_000125.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000134.png",
+      "fileName": "Screenshot_20260322_000134.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000145.png",
+      "fileName": "Screenshot_20260322_000145.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000155.png",
+      "fileName": "Screenshot_20260322_000155.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000226.png",
+      "fileName": "Screenshot_20260322_000226.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000235.png",
+      "fileName": "Screenshot_20260322_000235.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000245.png",
+      "fileName": "Screenshot_20260322_000245.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000256.png",
+      "fileName": "Screenshot_20260322_000256.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000305.png",
+      "fileName": "Screenshot_20260322_000305.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000315.png",
+      "fileName": "Screenshot_20260322_000315.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000324.png",
+      "fileName": "Screenshot_20260322_000324.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000346.png",
+      "fileName": "Screenshot_20260322_000346.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000605.png",
+      "fileName": "Screenshot_20260322_000605.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000655.png",
+      "fileName": "Screenshot_20260322_000655.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000715.png",
+      "fileName": "Screenshot_20260322_000715.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000735.png",
+      "fileName": "Screenshot_20260322_000735.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000755.png",
+      "fileName": "Screenshot_20260322_000755.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000805.png",
+      "fileName": "Screenshot_20260322_000805.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000825.png",
+      "fileName": "Screenshot_20260322_000825.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_000845.png",
+      "fileName": "Screenshot_20260322_000845.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_001046.png",
+      "fileName": "Screenshot_20260322_001046.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_001317.png",
+      "fileName": "Screenshot_20260322_001317.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_001327.png",
+      "fileName": "Screenshot_20260322_001327.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_001336.png",
+      "fileName": "Screenshot_20260322_001336.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_001345.png",
+      "fileName": "Screenshot_20260322_001345.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_001355.png",
+      "fileName": "Screenshot_20260322_001355.png",
+      "status": "used-in-validation",
+      "validationCount": 3,
+      "links": [
+        {
+          "sourceMapId": 109,
+          "sceneScriptId": 1,
+          "displayLabel": "Windbell Valley",
+          "targetMapId": 242,
+          "targetMapName": "Windbell Valley",
+          "validation": "screenshot-validated"
+        },
+        {
+          "sourceMapId": 109,
+          "sceneScriptId": 2,
+          "displayLabel": "Moonset Shore",
+          "targetMapId": 113,
+          "targetMapName": "Moonset Shore",
+          "validation": "screenshot-validated"
+        },
+        {
+          "sourceMapId": 109,
+          "sceneScriptId": 3,
+          "displayLabel": "Zig Pass",
+          "targetMapId": 171,
+          "targetMapName": "Zig Pass",
+          "validation": "screenshot-validated"
+        }
+      ]
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_001406.png",
+      "fileName": "Screenshot_20260322_001406.png",
+      "status": "reviewed-contact-sheet-no-extracted-link",
+      "validationCount": 0,
+      "links": []
+    },
+    {
+      "path": "/home/nikon/Pictures/Screenshots/Screenshot_20260322_001416.png",
+      "fileName": "Screenshot_20260322_001416.png",
+      "status": "used-in-validation",
+      "validationCount": 3,
+      "links": [
+        {
+          "sourceMapId": 113,
+          "sceneScriptId": 1,
+          "displayLabel": "Moonset Path",
+          "targetMapId": 236,
+          "targetMapName": "Moonset Path",
+          "validation": "screenshot-validated"
+        },
+        {
+          "sourceMapId": 113,
+          "sceneScriptId": 2,
+          "displayLabel": "Spring Forest",
+          "targetMapId": 109,
+          "targetMapName": "Spring Forest",
+          "validation": "screenshot-validated"
+        },
+        {
+          "sourceMapId": 113,
+          "sceneScriptId": 3,
+          "displayLabel": "Golden Beach",
+          "targetMapId": 114,
+          "targetMapName": "Golden Beach",
+          "validation": "screenshot-validated"
+        }
+      ]
+    }
+  ]
+}

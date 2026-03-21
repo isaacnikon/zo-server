@@ -1,0 +1,66 @@
+{
+  "mapId": 231,
+  "mapName": "Belong Abysm",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3537619,
+      "end": 3537999
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 3,
+    "statusCounts": {
+      "match": 3
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3264,
+      "npcTypeId": 1,
+      "name": "Blue Hoe",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 20,
+      "y": 23,
+      "roleinfoNameByNpcId": "Blue Hoe",
+      "roleinfoIdByName": 3264,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3264,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3264, 1,\"\"..macro_GetTypeNpcName(3264)..\"\",20,23)"
+    },
+    {
+      "order": 1,
+      "npcId": 3226,
+      "npcTypeId": 1,
+      "name": "Hoe Ghost",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 75,
+      "y": 59,
+      "roleinfoNameByNpcId": "Hoe Ghost",
+      "roleinfoIdByName": 3226,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3226,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3226, 1,\"\"..macro_GetTypeNpcName(3226)..\"\",75,59)"
+    },
+    {
+      "order": 2,
+      "npcId": 3220,
+      "npcTypeId": 3,
+      "name": "Smith",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 81,
+      "y": 65,
+      "roleinfoNameByNpcId": "Smith",
+      "roleinfoIdByName": 3220,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3220,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3220, 3,\"\"..macro_GetTypeNpcName(3220)..\"\",81,65)"
+    }
+  ]
+}

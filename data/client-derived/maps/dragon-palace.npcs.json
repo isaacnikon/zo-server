@@ -1,0 +1,127 @@
+{
+  "mapId": 121,
+  "mapName": "Dragon Palace",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3478064,
+      "end": 3478701
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 7,
+    "statusCounts": {
+      "alias-id-mismatch": 2,
+      "match": 5
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3127,
+      "npcTypeId": 1,
+      "name": "Acalephe Guard",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 63,
+      "y": 114,
+      "roleinfoNameByNpcId": "Acalephe Guard",
+      "roleinfoIdByName": 3117,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3127,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3127, 1,\"\"..macro_GetTypeNpcName(3127)..\"\",63,114)"
+    },
+    {
+      "order": 1,
+      "npcId": 3127,
+      "npcTypeId": 1,
+      "name": "Acalephe Guard",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 49,
+      "y": 178,
+      "roleinfoNameByNpcId": "Acalephe Guard",
+      "roleinfoIdByName": 3117,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3127,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3127, 1,\"\"..macro_GetTypeNpcName(3127)..\"\",49,178)"
+    },
+    {
+      "order": 2,
+      "npcId": 3117,
+      "npcTypeId": 1,
+      "name": "Acalephe Guard",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 17,
+      "y": 193,
+      "roleinfoNameByNpcId": "Acalephe Guard",
+      "roleinfoIdByName": 3117,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3117,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3117, 1,\"\"..macro_GetTypeNpcName(3117)..\"\",17,193)"
+    },
+    {
+      "order": 3,
+      "npcId": 3126,
+      "npcTypeId": 1,
+      "name": "Conch Guard",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 31,
+      "y": 104,
+      "roleinfoNameByNpcId": "Conch Guard",
+      "roleinfoIdByName": 3126,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3126,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3126, 1,\"\"..macro_GetTypeNpcName(3126)..\"\",31,104)"
+    },
+    {
+      "order": 4,
+      "npcId": 3126,
+      "npcTypeId": 1,
+      "name": "Conch Guard",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 20,
+      "y": 28,
+      "roleinfoNameByNpcId": "Conch Guard",
+      "roleinfoIdByName": 3126,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3126,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3126, 1,\"\"..macro_GetTypeNpcName(3126)..\"\",20,28)"
+    },
+    {
+      "order": 5,
+      "npcId": 3052,
+      "npcTypeId": 1,
+      "name": "Oceanlander",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 83,
+      "y": 102,
+      "roleinfoNameByNpcId": "Oceanlander",
+      "roleinfoIdByName": 3052,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3052,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3052, 1,\"\"..macro_GetTypeNpcName(3052)..\"\",83,102)"
+    },
+    {
+      "order": 6,
+      "npcId": 3052,
+      "npcTypeId": 1,
+      "name": "Oceanlander",
+      "nameSource": "literal",
+      "x": 83,
+      "y": 102,
+      "roleinfoNameByNpcId": "Oceanlander",
+      "roleinfoIdByName": 3052,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3052,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3052, 1,\"Oceanlander\",83,102)"
+    }
+  ]
+}

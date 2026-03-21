@@ -1,0 +1,51 @@
+{
+  "mapId": 158,
+  "mapName": "Belong Cloister",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3502296,
+      "end": 3502611
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 2,
+    "statusCounts": {
+      "match": 2
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3124,
+      "npcTypeId": 1,
+      "name": "Muscular Nowt",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 43,
+      "y": 61,
+      "roleinfoNameByNpcId": "Muscular Nowt",
+      "roleinfoIdByName": 3124,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3124,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3124, 1,\"\"..macro_GetTypeNpcName(3124)..\"\",43,61)"
+    },
+    {
+      "order": 1,
+      "npcId": 3263,
+      "npcTypeId": 3,
+      "name": "Green Hoe",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 86,
+      "y": 212,
+      "roleinfoNameByNpcId": "Green Hoe",
+      "roleinfoIdByName": 3263,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3263,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3263, 3,\"\"..macro_GetTypeNpcName(3263)..\"\",86,212)"
+    }
+  ]
+}

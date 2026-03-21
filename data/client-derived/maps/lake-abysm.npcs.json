@@ -1,0 +1,36 @@
+{
+  "mapId": 149,
+  "mapName": "Lake Abysm",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3496377,
+      "end": 3496633
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 1,
+    "statusCounts": {
+      "match": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3651,
+      "npcTypeId": 3,
+      "name": "Zodiac Eudemon",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 45,
+      "y": 84,
+      "roleinfoNameByNpcId": "Zodiac Eudemon",
+      "roleinfoIdByName": 3651,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3651,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3651, 3,\"\"..macro_GetTypeNpcName(3651)..\"\",45,84)"
+    }
+  ]
+}

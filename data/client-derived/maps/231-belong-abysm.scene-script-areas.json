@@ -1,0 +1,208 @@
+{
+  "mapId": 231,
+  "mapName": "Belong Abysm",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        89
+      ],
+      "tileCount": 116,
+      "bbox": {
+        "minX": 58,
+        "minY": 243,
+        "maxX": 67,
+        "maxY": 254
+      },
+      "rowRuns": [
+        {
+          "y": 243,
+          "startX": 59,
+          "endX": 66
+        },
+        {
+          "y": 244,
+          "startX": 59,
+          "endX": 66
+        },
+        {
+          "y": 245,
+          "startX": 58,
+          "endX": 67
+        },
+        {
+          "y": 246,
+          "startX": 58,
+          "endX": 67
+        },
+        {
+          "y": 247,
+          "startX": 58,
+          "endX": 67
+        },
+        {
+          "y": 248,
+          "startX": 58,
+          "endX": 67
+        },
+        {
+          "y": 249,
+          "startX": 58,
+          "endX": 67
+        },
+        {
+          "y": 250,
+          "startX": 58,
+          "endX": 67
+        },
+        {
+          "y": 251,
+          "startX": 58,
+          "endX": 67
+        },
+        {
+          "y": 252,
+          "startX": 58,
+          "endX": 67
+        },
+        {
+          "y": 253,
+          "startX": 58,
+          "endX": 67
+        },
+        {
+          "y": 254,
+          "startX": 58,
+          "endX": 67
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        89
+      ],
+      "tileCount": 126,
+      "bbox": {
+        "minX": 0,
+        "minY": 110,
+        "maxX": 6,
+        "maxY": 129
+      },
+      "rowRuns": [
+        {
+          "y": 110,
+          "startX": 3,
+          "endX": 3
+        },
+        {
+          "y": 111,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 112,
+          "startX": 0,
+          "endX": 5
+        },
+        {
+          "y": 113,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 114,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 115,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 116,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 117,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 118,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 119,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 120,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 121,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 122,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 123,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 124,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 125,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 126,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 127,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 128,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 129,
+          "startX": 0,
+          "endX": 3
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "mapId": 210,
+  "mapName": "West County Pass",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3527559,
+      "end": 3528632
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 10,
+    "statusCounts": {
+      "alias-id-mismatch": 1,
+      "match": 9
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3413,
+      "npcTypeId": 1,
+      "name": "Sam",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 33,
+      "y": 211,
+      "roleinfoNameByNpcId": "Sam",
+      "roleinfoIdByName": 3413,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3413,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3413, 1,\"\"..macro_GetTypeNpcName(3413)..\"\",33,211)"
+    },
+    {
+      "order": 1,
+      "npcId": 3751,
+      "npcTypeId": 1,
+      "name": "God of Venus",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 52,
+      "y": 60,
+      "roleinfoNameByNpcId": "God of Venus",
+      "roleinfoIdByName": 3739,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3751,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3751, 1,\"\"..macro_GetTypeNpcName(3751)..\"\",52,60)"
+    },
+    {
+      "order": 2,
+      "npcId": 3758,
+      "npcTypeId": 1,
+      "name": "Taoist A",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 97,
+      "y": 229,
+      "roleinfoNameByNpcId": "Taoist A",
+      "roleinfoIdByName": 3758,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3758,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3758, 1,\"\"..macro_GetTypeNpcName(3758)..\"\",97,229)"
+    },
+    {
+      "order": 3,
+      "npcId": 3759,
+      "npcTypeId": 1,
+      "name": "Taoist B",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 106,
+      "y": 202,
+      "roleinfoNameByNpcId": "Taoist B",
+      "roleinfoIdByName": 3759,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3759,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3759, 1,\"\"..macro_GetTypeNpcName(3759)..\"\",106,202)"
+    },
+    {
+      "order": 4,
+      "npcId": 3760,
+      "npcTypeId": 1,
+      "name": "Taoist C",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 68,
+      "y": 203,
+      "roleinfoNameByNpcId": "Taoist C",
+      "roleinfoIdByName": 3760,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3760,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3760, 1,\"\"..macro_GetTypeNpcName(3760)..\"\",68,203)"
+    },
+    {
+      "order": 5,
+      "npcId": 3757,
+      "npcTypeId": 1,
+      "name": "Taoist",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 113,
+      "y": 213,
+      "roleinfoNameByNpcId": "Taoist",
+      "roleinfoIdByName": 3757,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3757,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3757, 1,\"\"..macro_GetTypeNpcName(3757)..\"\",113,213)"
+    },
+    {
+      "order": 6,
+      "npcId": 3756,
+      "npcTypeId": 1,
+      "name": "Shadow Bear",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 101,
+      "y": 144,
+      "roleinfoNameByNpcId": "Shadow Bear",
+      "roleinfoIdByName": 3756,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3756,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3756, 1,\"\"..macro_GetTypeNpcName(3756)..\"\",101,144)"
+    },
+    {
+      "order": 7,
+      "npcId": 3756,
+      "npcTypeId": 1,
+      "name": "Shadow Bear",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 110,
+      "y": 169,
+      "roleinfoNameByNpcId": "Shadow Bear",
+      "roleinfoIdByName": 3756,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3756,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3756, 1,\"\"..macro_GetTypeNpcName(3756)..\"\",110,169)"
+    },
+    {
+      "order": 8,
+      "npcId": 3756,
+      "npcTypeId": 1,
+      "name": "Shadow Bear",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 85,
+      "y": 202,
+      "roleinfoNameByNpcId": "Shadow Bear",
+      "roleinfoIdByName": 3756,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3756,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3756, 1,\"\"..macro_GetTypeNpcName(3756)..\"\",85,202)"
+    },
+    {
+      "order": 9,
+      "npcId": 3761,
+      "npcTypeId": 1,
+      "name": "West County Pass Guard",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 109,
+      "y": 242,
+      "roleinfoNameByNpcId": "West County Pass Guard",
+      "roleinfoIdByName": 3761,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3761,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3761, 1,\"\"..macro_GetTypeNpcName(3761)..\"\",109,242)"
+    }
+  ]
+}

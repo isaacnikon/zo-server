@@ -1,0 +1,157 @@
+{
+  "mapId": 126,
+  "mapName": "Willow Forest",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3481082,
+      "end": 3481742
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 9,
+    "statusCounts": {
+      "literal-name-mismatch": 4,
+      "match": 5
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3006,
+      "npcTypeId": 5,
+      "name": "Delivery",
+      "nameSource": "literal",
+      "x": 148,
+      "y": 8,
+      "roleinfoNameByNpcId": "Evilelf",
+      "roleinfoIdByName": null,
+      "nameMatchesRoleinfo": false,
+      "resolvedSpawnEntityType": 3006,
+      "validationStatus": "literal-name-mismatch",
+      "rawCall": "macro_AddMapNpc(3006, 5,\"Delivery\",148,8)"
+    },
+    {
+      "order": 1,
+      "npcId": 3286,
+      "npcTypeId": 5,
+      "name": "Guide Ghost",
+      "nameSource": "literal",
+      "x": 80,
+      "y": 123,
+      "roleinfoNameByNpcId": "Guide Ghost A",
+      "roleinfoIdByName": 3289,
+      "nameMatchesRoleinfo": false,
+      "resolvedSpawnEntityType": 3289,
+      "validationStatus": "literal-name-mismatch",
+      "rawCall": "macro_AddMapNpc(3286, 5,\"Guide Ghost\",80,123)"
+    },
+    {
+      "order": 2,
+      "npcId": 3287,
+      "npcTypeId": 5,
+      "name": "Guide Ghost",
+      "nameSource": "literal",
+      "x": 20,
+      "y": 84,
+      "roleinfoNameByNpcId": "Guide Ghost B",
+      "roleinfoIdByName": 3289,
+      "nameMatchesRoleinfo": false,
+      "resolvedSpawnEntityType": 3289,
+      "validationStatus": "literal-name-mismatch",
+      "rawCall": "macro_AddMapNpc(3287, 5,\"Guide Ghost\",20,84)"
+    },
+    {
+      "order": 3,
+      "npcId": 3288,
+      "npcTypeId": 5,
+      "name": "Guide Ghost",
+      "nameSource": "literal",
+      "x": 64,
+      "y": 29,
+      "roleinfoNameByNpcId": "Guide Ghost C",
+      "roleinfoIdByName": 3289,
+      "nameMatchesRoleinfo": false,
+      "resolvedSpawnEntityType": 3289,
+      "validationStatus": "literal-name-mismatch",
+      "rawCall": "macro_AddMapNpc(3288, 5,\"Guide Ghost\",64,29)"
+    },
+    {
+      "order": 4,
+      "npcId": 3289,
+      "npcTypeId": 5,
+      "name": "Guide Ghost",
+      "nameSource": "literal",
+      "x": 161,
+      "y": 456,
+      "roleinfoNameByNpcId": "Guide Ghost",
+      "roleinfoIdByName": 3289,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3289,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3289, 5,\"Guide Ghost\",161,456)"
+    },
+    {
+      "order": 5,
+      "npcId": 3161,
+      "npcTypeId": 5,
+      "name": "Cluck Bird",
+      "nameSource": "literal",
+      "x": 214,
+      "y": 459,
+      "roleinfoNameByNpcId": "Cluck Bird",
+      "roleinfoIdByName": 3161,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3161,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3161, 5,\"Cluck Bird\",214,459)"
+    },
+    {
+      "order": 6,
+      "npcId": 3040,
+      "npcTypeId": 1,
+      "name": "Giant Willow",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 32,
+      "y": 473,
+      "roleinfoNameByNpcId": "Giant Willow",
+      "roleinfoIdByName": 3040,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3040,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3040, 1,\"\"..macro_GetTypeNpcName(3040)..\"\",32,473)"
+    },
+    {
+      "order": 7,
+      "npcId": 3041,
+      "npcTypeId": 1,
+      "name": "Giant Peach",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 228,
+      "y": 46,
+      "roleinfoNameByNpcId": "Giant Peach",
+      "roleinfoIdByName": 3041,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3041,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3041, 1,\"\"..macro_GetTypeNpcName(3041)..\"\",228,46)"
+    },
+    {
+      "order": 8,
+      "npcId": 3040,
+      "npcTypeId": 1,
+      "name": "Giant Willow",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 239,
+      "y": 52,
+      "roleinfoNameByNpcId": "Giant Willow",
+      "roleinfoIdByName": 3040,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3040,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3040, 1,\"\"..macro_GetTypeNpcName(3040)..\"\",239,52)"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "mapId": 267,
+  "mapName": "Black Tortoise Xanadu",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3555681,
+      "end": 3556000
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 2,
+    "statusCounts": {
+      "alias-id-mismatch": 1,
+      "match": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3085,
+      "npcTypeId": 1,
+      "name": "Lion Captain",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 78,
+      "y": 230,
+      "roleinfoNameByNpcId": "Lion Captain",
+      "roleinfoIdByName": 3085,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3085,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3085, 1,\"\"..macro_GetTypeNpcName(3085)..\"\",78,230)"
+    },
+    {
+      "order": 1,
+      "npcId": 3222,
+      "npcTypeId": 1,
+      "name": "God of Bless",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 17,
+      "y": 135,
+      "roleinfoNameByNpcId": "God of Bless",
+      "roleinfoIdByName": 3103,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3222,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3222, 1,\"\"..macro_GetTypeNpcName(3222)..\"\",17,135)"
+    }
+  ]
+}

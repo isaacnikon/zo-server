@@ -1,0 +1,247 @@
+{
+  "mapId": 158,
+  "mapName": "Belong Cloister",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        89
+      ],
+      "tileCount": 158,
+      "bbox": {
+        "minX": 118,
+        "minY": 111,
+        "maxX": 126,
+        "maxY": 130
+      },
+      "rowRuns": [
+        {
+          "y": 111,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 112,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 113,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 114,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 115,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 116,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 117,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 118,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 119,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 120,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 121,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 122,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 123,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 124,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 125,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 126,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 127,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 128,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 129,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 130,
+          "startX": 121,
+          "endX": 125
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        89
+      ],
+      "tileCount": 130,
+      "bbox": {
+        "minX": 0,
+        "minY": 110,
+        "maxX": 7,
+        "maxY": 129
+      },
+      "rowRuns": [
+        {
+          "y": 110,
+          "startX": 2,
+          "endX": 4
+        },
+        {
+          "y": 111,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 112,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 113,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 114,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 115,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 116,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 117,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 118,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 119,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 120,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 121,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 122,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 123,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 124,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 125,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 126,
+          "startX": 0,
+          "endX": 3
+        },
+        {
+          "y": 127,
+          "startX": 0,
+          "endX": 3
+        },
+        {
+          "y": 128,
+          "startX": 0,
+          "endX": 1
+        },
+        {
+          "y": 129,
+          "startX": 0,
+          "endX": 1
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

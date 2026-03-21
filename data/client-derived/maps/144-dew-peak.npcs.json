@@ -1,0 +1,36 @@
+{
+  "mapId": 144,
+  "mapName": "Dew Peak",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3492501,
+      "end": 3492756
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 1,
+    "statusCounts": {
+      "match": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3092,
+      "npcTypeId": 1,
+      "name": "God of Rain",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 112,
+      "y": 35,
+      "roleinfoNameByNpcId": "God of Rain",
+      "roleinfoIdByName": 3092,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3092,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3092, 1,\"\"..macro_GetTypeNpcName(3092)..\"\",112,35)"
+    }
+  ]
+}

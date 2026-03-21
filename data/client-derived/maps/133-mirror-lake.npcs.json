@@ -1,0 +1,36 @@
+{
+  "mapId": 133,
+  "mapName": "Mirror Lake",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3487983,
+      "end": 3488216
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 1,
+    "statusCounts": {
+      "alias-id-mismatch": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3301,
+      "npcTypeId": 5,
+      "name": "Lake Spirit",
+      "nameSource": "literal",
+      "x": 75,
+      "y": 54,
+      "roleinfoNameByNpcId": "Lake Spirit",
+      "roleinfoIdByName": 3293,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3293,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3301, 5,\"Lake Spirit\",75,54)"
+    }
+  ]
+}

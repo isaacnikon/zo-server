@@ -1,0 +1,36 @@
+{
+  "mapId": 166,
+  "mapName": "Chain Peak",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3507035,
+      "end": 3507271
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 1,
+    "statusCounts": {
+      "match": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3529,
+      "npcTypeId": 5,
+      "name": "Beetle Guide",
+      "nameSource": "literal",
+      "x": 122,
+      "y": 118,
+      "roleinfoNameByNpcId": "Beetle Guide",
+      "roleinfoIdByName": 3529,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3529,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3529, 5,\"Beetle Guide\",122,118)"
+    }
+  ]
+}

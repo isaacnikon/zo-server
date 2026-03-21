@@ -1,0 +1,103 @@
+{
+  "mapId": 213,
+  "mapName": "Hell Court",
+  "width": 64,
+  "height": 128,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 107,
+      "bbox": {
+        "minX": 54,
+        "minY": 89,
+        "maxX": 62,
+        "maxY": 103
+      },
+      "rowRuns": [
+        {
+          "y": 89,
+          "startX": 60,
+          "endX": 60
+        },
+        {
+          "y": 90,
+          "startX": 59,
+          "endX": 62
+        },
+        {
+          "y": 91,
+          "startX": 58,
+          "endX": 62
+        },
+        {
+          "y": 92,
+          "startX": 57,
+          "endX": 62
+        },
+        {
+          "y": 93,
+          "startX": 56,
+          "endX": 62
+        },
+        {
+          "y": 94,
+          "startX": 55,
+          "endX": 62
+        },
+        {
+          "y": 95,
+          "startX": 54,
+          "endX": 62
+        },
+        {
+          "y": 96,
+          "startX": 54,
+          "endX": 62
+        },
+        {
+          "y": 97,
+          "startX": 54,
+          "endX": 62
+        },
+        {
+          "y": 98,
+          "startX": 54,
+          "endX": 62
+        },
+        {
+          "y": 99,
+          "startX": 54,
+          "endX": 62
+        },
+        {
+          "y": 100,
+          "startX": 54,
+          "endX": 62
+        },
+        {
+          "y": 101,
+          "startX": 55,
+          "endX": 62
+        },
+        {
+          "y": 102,
+          "startX": 56,
+          "endX": 62
+        },
+        {
+          "y": 103,
+          "startX": 56,
+          "endX": 62
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

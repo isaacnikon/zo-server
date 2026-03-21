@@ -1,0 +1,96 @@
+{
+  "mapId": 114,
+  "mapName": "Golden Beach",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3474225,
+      "end": 3474748
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 5,
+    "statusCounts": {
+      "match": 5
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3356,
+      "npcTypeId": 3,
+      "name": "White Dragon",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 117,
+      "y": 223,
+      "roleinfoNameByNpcId": "White Dragon",
+      "roleinfoIdByName": 3356,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3356,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3356, 3,\"\"..macro_GetTypeNpcName(3356)..\"\",117,223)"
+    },
+    {
+      "order": 1,
+      "npcId": 3355,
+      "npcTypeId": 3,
+      "name": "Elizabeth",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 112,
+      "y": 229,
+      "roleinfoNameByNpcId": "Elizabeth",
+      "roleinfoIdByName": 3355,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3355,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3355, 3,\"\"..macro_GetTypeNpcName(3355)..\"\",112,229)"
+    },
+    {
+      "order": 2,
+      "npcId": 3388,
+      "npcTypeId": 1,
+      "name": "Gage",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 16,
+      "y": 161,
+      "roleinfoNameByNpcId": "Gage",
+      "roleinfoIdByName": 3388,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3388,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3388, 1,\"\"..macro_GetTypeNpcName(3388)..\"\",16,161)"
+    },
+    {
+      "order": 3,
+      "npcId": 3197,
+      "npcTypeId": 1,
+      "name": "Alligator",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 35,
+      "y": 36,
+      "roleinfoNameByNpcId": "Alligator",
+      "roleinfoIdByName": 3197,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3197,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3197, 1,\"\"..macro_GetTypeNpcName(3197)..\"\",35,36)"
+    },
+    {
+      "order": 4,
+      "npcId": 3389,
+      "npcTypeId": 1,
+      "name": "Blue Dragon",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 68,
+      "y": 85,
+      "roleinfoNameByNpcId": "Blue Dragon",
+      "roleinfoIdByName": 3389,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3389,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3389, 1,\"\"..macro_GetTypeNpcName(3389)..\"\",68,85)"
+    }
+  ]
+}

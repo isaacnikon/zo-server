@@ -1,0 +1,160 @@
+{
+  "mapId": 262,
+  "mapName": "Ancient Stair",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2,
+        3
+      ],
+      "auxValues": [
+        0,
+        124
+      ],
+      "tileCount": 93,
+      "bbox": {
+        "minX": 52,
+        "minY": 0,
+        "maxX": 63,
+        "maxY": 9
+      },
+      "rowRuns": [
+        {
+          "y": 0,
+          "startX": 52,
+          "endX": 62
+        },
+        {
+          "y": 1,
+          "startX": 52,
+          "endX": 62
+        },
+        {
+          "y": 2,
+          "startX": 52,
+          "endX": 62
+        },
+        {
+          "y": 3,
+          "startX": 53,
+          "endX": 62
+        },
+        {
+          "y": 4,
+          "startX": 53,
+          "endX": 62
+        },
+        {
+          "y": 5,
+          "startX": 53,
+          "endX": 62
+        },
+        {
+          "y": 6,
+          "startX": 53,
+          "endX": 63
+        },
+        {
+          "y": 7,
+          "startX": 55,
+          "endX": 62
+        },
+        {
+          "y": 8,
+          "startX": 55,
+          "endX": 62
+        },
+        {
+          "y": 9,
+          "startX": 58,
+          "endX": 60
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        124
+      ],
+      "tileCount": 94,
+      "bbox": {
+        "minX": 37,
+        "minY": 238,
+        "maxX": 46,
+        "maxY": 249
+      },
+      "rowRuns": [
+        {
+          "y": 238,
+          "startX": 41,
+          "endX": 46
+        },
+        {
+          "y": 239,
+          "startX": 40,
+          "endX": 46
+        },
+        {
+          "y": 240,
+          "startX": 39,
+          "endX": 46
+        },
+        {
+          "y": 241,
+          "startX": 38,
+          "endX": 46
+        },
+        {
+          "y": 242,
+          "startX": 37,
+          "endX": 46
+        },
+        {
+          "y": 243,
+          "startX": 37,
+          "endX": 46
+        },
+        {
+          "y": 244,
+          "startX": 37,
+          "endX": 46
+        },
+        {
+          "y": 245,
+          "startX": 37,
+          "endX": 45
+        },
+        {
+          "y": 246,
+          "startX": 37,
+          "endX": 44
+        },
+        {
+          "y": 247,
+          "startX": 37,
+          "endX": 43
+        },
+        {
+          "y": 248,
+          "startX": 37,
+          "endX": 42
+        },
+        {
+          "y": 249,
+          "startX": 38,
+          "endX": 41
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

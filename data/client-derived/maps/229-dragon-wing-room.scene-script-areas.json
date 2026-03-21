@@ -1,0 +1,93 @@
+{
+  "mapId": 229,
+  "mapName": "Dragon Wing-room",
+  "width": 64,
+  "height": 128,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 81,
+      "bbox": {
+        "minX": 47,
+        "minY": 95,
+        "maxX": 59,
+        "maxY": 107
+      },
+      "rowRuns": [
+        {
+          "y": 95,
+          "startX": 55,
+          "endX": 56
+        },
+        {
+          "y": 96,
+          "startX": 54,
+          "endX": 57
+        },
+        {
+          "y": 97,
+          "startX": 53,
+          "endX": 58
+        },
+        {
+          "y": 98,
+          "startX": 52,
+          "endX": 59
+        },
+        {
+          "y": 99,
+          "startX": 51,
+          "endX": 59
+        },
+        {
+          "y": 100,
+          "startX": 50,
+          "endX": 58
+        },
+        {
+          "y": 101,
+          "startX": 49,
+          "endX": 57
+        },
+        {
+          "y": 102,
+          "startX": 48,
+          "endX": 56
+        },
+        {
+          "y": 103,
+          "startX": 47,
+          "endX": 55
+        },
+        {
+          "y": 104,
+          "startX": 48,
+          "endX": 54
+        },
+        {
+          "y": 105,
+          "startX": 49,
+          "endX": 53
+        },
+        {
+          "y": 106,
+          "startX": 50,
+          "endX": 52
+        },
+        {
+          "y": 107,
+          "startX": 51,
+          "endX": 51
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "mapId": 192,
+  "mapName": "Underground Hall 1",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        118
+      ],
+      "tileCount": 37,
+      "bbox": {
+        "minX": 0,
+        "minY": 112,
+        "maxX": 6,
+        "maxY": 120
+      },
+      "rowRuns": [
+        {
+          "y": 112,
+          "startX": 2,
+          "endX": 2
+        },
+        {
+          "y": 113,
+          "startX": 1,
+          "endX": 3
+        },
+        {
+          "y": 114,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 115,
+          "startX": 0,
+          "endX": 5
+        },
+        {
+          "y": 116,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 117,
+          "startX": 0,
+          "endX": 5
+        },
+        {
+          "y": 118,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 119,
+          "startX": 1,
+          "endX": 3
+        },
+        {
+          "y": 120,
+          "startX": 2,
+          "endX": 2
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        118
+      ],
+      "tileCount": 61,
+      "bbox": {
+        "minX": 99,
+        "minY": 58,
+        "maxX": 109,
+        "maxY": 68
+      },
+      "rowRuns": [
+        {
+          "y": 58,
+          "startX": 104,
+          "endX": 104
+        },
+        {
+          "y": 59,
+          "startX": 103,
+          "endX": 105
+        },
+        {
+          "y": 60,
+          "startX": 102,
+          "endX": 106
+        },
+        {
+          "y": 61,
+          "startX": 101,
+          "endX": 107
+        },
+        {
+          "y": 62,
+          "startX": 100,
+          "endX": 108
+        },
+        {
+          "y": 63,
+          "startX": 99,
+          "endX": 109
+        },
+        {
+          "y": 64,
+          "startX": 100,
+          "endX": 108
+        },
+        {
+          "y": 65,
+          "startX": 101,
+          "endX": 107
+        },
+        {
+          "y": 66,
+          "startX": 102,
+          "endX": 106
+        },
+        {
+          "y": 67,
+          "startX": 103,
+          "endX": 105
+        },
+        {
+          "y": 68,
+          "startX": 104,
+          "endX": 104
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

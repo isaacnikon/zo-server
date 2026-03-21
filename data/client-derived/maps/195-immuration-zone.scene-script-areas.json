@@ -1,0 +1,124 @@
+{
+  "mapId": 195,
+  "mapName": "Immuration Zone",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0,
+        2
+      ],
+      "auxValues": [
+        0,
+        96
+      ],
+      "tileCount": 51,
+      "bbox": {
+        "minX": 115,
+        "minY": 56,
+        "maxX": 123,
+        "maxY": 63
+      },
+      "rowRuns": [
+        {
+          "y": 56,
+          "startX": 119,
+          "endX": 119
+        },
+        {
+          "y": 57,
+          "startX": 117,
+          "endX": 120
+        },
+        {
+          "y": 58,
+          "startX": 115,
+          "endX": 121
+        },
+        {
+          "y": 59,
+          "startX": 115,
+          "endX": 122
+        },
+        {
+          "y": 60,
+          "startX": 115,
+          "endX": 122
+        },
+        {
+          "y": 61,
+          "startX": 115,
+          "endX": 123
+        },
+        {
+          "y": 62,
+          "startX": 115,
+          "endX": 123
+        },
+        {
+          "y": 63,
+          "startX": 117,
+          "endX": 121
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        96
+      ],
+      "tileCount": 25,
+      "bbox": {
+        "minX": 39,
+        "minY": 81,
+        "maxX": 45,
+        "maxY": 87
+      },
+      "rowRuns": [
+        {
+          "y": 81,
+          "startX": 42,
+          "endX": 42
+        },
+        {
+          "y": 82,
+          "startX": 41,
+          "endX": 43
+        },
+        {
+          "y": 83,
+          "startX": 40,
+          "endX": 44
+        },
+        {
+          "y": 84,
+          "startX": 39,
+          "endX": 45
+        },
+        {
+          "y": 85,
+          "startX": 40,
+          "endX": 44
+        },
+        {
+          "y": 86,
+          "startX": 41,
+          "endX": 43
+        },
+        {
+          "y": 87,
+          "startX": 42,
+          "endX": 42
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

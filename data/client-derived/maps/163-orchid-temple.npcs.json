@@ -1,0 +1,81 @@
+{
+  "mapId": 163,
+  "mapName": "Orchid Temple",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3504742,
+      "end": 3505190
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 4,
+    "statusCounts": {
+      "match": 4
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3651,
+      "npcTypeId": 3,
+      "name": "Zodiac Eudemon",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 77,
+      "y": 152,
+      "roleinfoNameByNpcId": "Zodiac Eudemon",
+      "roleinfoIdByName": 3651,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3651,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3651, 3,\"\"..macro_GetTypeNpcName(3651)..\"\",77,152)"
+    },
+    {
+      "order": 1,
+      "npcId": 3036,
+      "npcTypeId": 3,
+      "name": "Soul of Bonnie",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 19,
+      "y": 168,
+      "roleinfoNameByNpcId": "Soul of Bonnie",
+      "roleinfoIdByName": 3036,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3036,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3036, 3,\"\"..macro_GetTypeNpcName(3036)..\"\",19,168)"
+    },
+    {
+      "order": 2,
+      "npcId": 3062,
+      "npcTypeId": 1,
+      "name": "Ahriman Lord",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 15,
+      "y": 72,
+      "roleinfoNameByNpcId": "Ahriman Lord",
+      "roleinfoIdByName": 3062,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3062,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3062, 1,\"\"..macro_GetTypeNpcName(3062)..\"\",15,72)"
+    },
+    {
+      "order": 3,
+      "npcId": 3061,
+      "npcTypeId": 1,
+      "name": "Free Soul",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 35,
+      "y": 33,
+      "roleinfoNameByNpcId": "Free Soul",
+      "roleinfoIdByName": 3061,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3061,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3061, 1,\"\"..macro_GetTypeNpcName(3061)..\"\",35,33)"
+    }
+  ]
+}

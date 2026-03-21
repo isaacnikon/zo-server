@@ -1,0 +1,36 @@
+{
+  "mapId": 107,
+  "mapName": "Chill Suburb",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3462693,
+      "end": 3462949
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 1,
+    "statusCounts": {
+      "match": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3207,
+      "npcTypeId": 1,
+      "name": "Businessman",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 112,
+      "y": 162,
+      "roleinfoNameByNpcId": "Businessman",
+      "roleinfoIdByName": 3207,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3207,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3207, 1,\"\"..macro_GetTypeNpcName(3207)..\"\",112,162)"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "mapId": 224,
+  "mapName": "Armor Store",
+  "width": 64,
+  "height": 128,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 107,
+      "bbox": {
+        "minX": 12,
+        "minY": 77,
+        "maxX": 24,
+        "maxY": 91
+      },
+      "rowRuns": [
+        {
+          "y": 77,
+          "startX": 20,
+          "endX": 20
+        },
+        {
+          "y": 78,
+          "startX": 19,
+          "endX": 21
+        },
+        {
+          "y": 79,
+          "startX": 18,
+          "endX": 22
+        },
+        {
+          "y": 80,
+          "startX": 17,
+          "endX": 23
+        },
+        {
+          "y": 81,
+          "startX": 16,
+          "endX": 24
+        },
+        {
+          "y": 82,
+          "startX": 15,
+          "endX": 24
+        },
+        {
+          "y": 83,
+          "startX": 14,
+          "endX": 24
+        },
+        {
+          "y": 84,
+          "startX": 13,
+          "endX": 24
+        },
+        {
+          "y": 85,
+          "startX": 12,
+          "endX": 24
+        },
+        {
+          "y": 86,
+          "startX": 13,
+          "endX": 23
+        },
+        {
+          "y": 87,
+          "startX": 14,
+          "endX": 22
+        },
+        {
+          "y": 88,
+          "startX": 15,
+          "endX": 21
+        },
+        {
+          "y": 89,
+          "startX": 16,
+          "endX": 20
+        },
+        {
+          "y": 90,
+          "startX": 17,
+          "endX": 19
+        },
+        {
+          "y": 91,
+          "startX": 18,
+          "endX": 18
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

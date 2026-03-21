@@ -1,0 +1,114 @@
+{
+  "mapId": 132,
+  "mapName": "Butterfly Peak",
+  "width": 128,
+  "height": 256,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        55
+      ],
+      "tileCount": 179,
+      "bbox": {
+        "minX": 60,
+        "minY": 238,
+        "maxX": 72,
+        "maxY": 254
+      },
+      "rowRuns": [
+        {
+          "y": 238,
+          "startX": 67,
+          "endX": 68
+        },
+        {
+          "y": 239,
+          "startX": 66,
+          "endX": 69
+        },
+        {
+          "y": 240,
+          "startX": 65,
+          "endX": 70
+        },
+        {
+          "y": 241,
+          "startX": 64,
+          "endX": 71
+        },
+        {
+          "y": 242,
+          "startX": 63,
+          "endX": 72
+        },
+        {
+          "y": 243,
+          "startX": 62,
+          "endX": 72
+        },
+        {
+          "y": 244,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 245,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 246,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 247,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 248,
+          "startX": 61,
+          "endX": 72
+        },
+        {
+          "y": 249,
+          "startX": 60,
+          "endX": 72
+        },
+        {
+          "y": 250,
+          "startX": 60,
+          "endX": 72
+        },
+        {
+          "y": 251,
+          "startX": 60,
+          "endX": 72
+        },
+        {
+          "y": 252,
+          "startX": 60,
+          "endX": 72
+        },
+        {
+          "y": 253,
+          "startX": 60,
+          "endX": 72
+        },
+        {
+          "y": 254,
+          "startX": 60,
+          "endX": 72
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "mapId": 101,
+  "mapName": "Rainbow Valley",
+  "width": 128,
+  "height": 256,
+  "componentCount": 1,
+  "focus": {
+    "x": 74,
+    "y": 11
+  },
+  "focusArea": {
+    "sceneScriptId": 1,
+    "tileTypeValues": [
+      2
+    ],
+    "auxValues": [
+      0
+    ],
+    "tileCount": 74,
+    "bbox": {
+      "minX": 67,
+      "minY": 4,
+      "maxX": 77,
+      "maxY": 16
+    },
+    "rowRuns": [
+      {
+        "y": 4,
+        "startX": 71,
+        "endX": 71
+      },
+      {
+        "y": 5,
+        "startX": 70,
+        "endX": 72
+      },
+      {
+        "y": 6,
+        "startX": 69,
+        "endX": 73
+      },
+      {
+        "y": 7,
+        "startX": 68,
+        "endX": 74
+      },
+      {
+        "y": 8,
+        "startX": 67,
+        "endX": 75
+      },
+      {
+        "y": 9,
+        "startX": 67,
+        "endX": 77
+      },
+      {
+        "y": 10,
+        "startX": 67,
+        "endX": 77
+      },
+      {
+        "y": 11,
+        "startX": 68,
+        "endX": 76
+      },
+      {
+        "y": 12,
+        "startX": 69,
+        "endX": 75
+      },
+      {
+        "y": 13,
+        "startX": 70,
+        "endX": 74
+      },
+      {
+        "y": 14,
+        "startX": 71,
+        "endX": 73
+      },
+      {
+        "y": 15,
+        "startX": 71,
+        "endX": 72
+      },
+      {
+        "y": 16,
+        "startX": 71,
+        "endX": 71
+      }
+    ],
+    "componentIndex": 1
+  },
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 74,
+      "bbox": {
+        "minX": 67,
+        "minY": 4,
+        "maxX": 77,
+        "maxY": 16
+      },
+      "rowRuns": [
+        {
+          "y": 4,
+          "startX": 71,
+          "endX": 71
+        },
+        {
+          "y": 5,
+          "startX": 70,
+          "endX": 72
+        },
+        {
+          "y": 6,
+          "startX": 69,
+          "endX": 73
+        },
+        {
+          "y": 7,
+          "startX": 68,
+          "endX": 74
+        },
+        {
+          "y": 8,
+          "startX": 67,
+          "endX": 75
+        },
+        {
+          "y": 9,
+          "startX": 67,
+          "endX": 77
+        },
+        {
+          "y": 10,
+          "startX": 67,
+          "endX": 77
+        },
+        {
+          "y": 11,
+          "startX": 68,
+          "endX": 76
+        },
+        {
+          "y": 12,
+          "startX": 69,
+          "endX": 75
+        },
+        {
+          "y": 13,
+          "startX": 70,
+          "endX": 74
+        },
+        {
+          "y": 14,
+          "startX": 71,
+          "endX": 73
+        },
+        {
+          "y": 15,
+          "startX": 71,
+          "endX": 72
+        },
+        {
+          "y": 16,
+          "startX": 71,
+          "endX": 71
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

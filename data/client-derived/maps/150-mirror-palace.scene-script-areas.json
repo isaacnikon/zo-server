@@ -1,0 +1,148 @@
+{
+  "mapId": 150,
+  "mapName": "Mirror Palace",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        72,
+        73
+      ],
+      "tileCount": 117,
+      "bbox": {
+        "minX": 118,
+        "minY": 131,
+        "maxX": 126,
+        "maxY": 143
+      },
+      "rowRuns": [
+        {
+          "y": 131,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 132,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 133,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 134,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 135,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 136,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 137,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 138,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 139,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 140,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 141,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 142,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 143,
+          "startX": 118,
+          "endX": 126
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 25,
+      "bbox": {
+        "minX": 85,
+        "minY": 247,
+        "maxX": 91,
+        "maxY": 253
+      },
+      "rowRuns": [
+        {
+          "y": 247,
+          "startX": 88,
+          "endX": 88
+        },
+        {
+          "y": 248,
+          "startX": 87,
+          "endX": 89
+        },
+        {
+          "y": 249,
+          "startX": 86,
+          "endX": 90
+        },
+        {
+          "y": 250,
+          "startX": 85,
+          "endX": 91
+        },
+        {
+          "y": 251,
+          "startX": 86,
+          "endX": 90
+        },
+        {
+          "y": 252,
+          "startX": 87,
+          "endX": 89
+        },
+        {
+          "y": 253,
+          "startX": 88,
+          "endX": 88
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

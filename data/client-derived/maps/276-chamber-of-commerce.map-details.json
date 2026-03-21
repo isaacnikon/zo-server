@@ -1,0 +1,48 @@
+{
+  "mapId": 276,
+  "mapName": "Chamber of Commerce",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "mapGcg": "/home/nikon/Data/Zodiac Online/gcg/map.gcg",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3570074,
+      "end": 3576347
+    },
+    "transitionContextStart": 3569562,
+    "mapConfigChunkOffsets": null
+  },
+  "bigTexts": [
+    {
+      "order": 0,
+      "text": "\u00a1\u00efLove Zone\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efLove Zone\u00a1\u00ef\",3000, 63500)"
+    },
+    {
+      "order": 1,
+      "text": "\u00a1\u00ef\u00d0\u00c7\u00b9\u00e2\u00bb\u00d8\u00c0\u00c8\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "overlay-label",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00ef\u00d0\u00c7\u00b9\u00e2\u00bb\u00d8\u00c0\u00c8\u00a1\u00ef\",3000, 63500)"
+    },
+    {
+      "order": 2,
+      "text": "\u00a1\u00efChamber of Commerce\u00a1\u00ef",
+      "durationMs": 3000,
+      "color": 63500,
+      "delayMs": 0,
+      "kind": "map-title",
+      "rawCall": "macro_SetBigText(\"\u00a1\u00efChamber of Commerce\u00a1\u00ef\",3000, 63500)"
+    }
+  ],
+  "homeInfo": null,
+  "temporaryMapPoints": [],
+  "sceneTransitions": [],
+  "mapConfig": null
+}

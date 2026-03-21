@@ -1,0 +1,51 @@
+{
+  "mapId": 135,
+  "mapName": "Precious Garden",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3489072,
+      "end": 3489393
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 2,
+    "statusCounts": {
+      "match": 2
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3099,
+      "npcTypeId": 1,
+      "name": "Herbalist",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 40,
+      "y": 57,
+      "roleinfoNameByNpcId": "Herbalist",
+      "roleinfoIdByName": 3099,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3099,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3099, 1,\"\"..macro_GetTypeNpcName(3099)..\"\",40,57)"
+    },
+    {
+      "order": 1,
+      "npcId": 3100,
+      "npcTypeId": 3,
+      "name": "Cute Boy",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 97,
+      "y": 129,
+      "roleinfoNameByNpcId": "Cute Boy",
+      "roleinfoIdByName": 3100,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3100,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3100, 3,\"\"..macro_GetTypeNpcName(3100)..\"\",97,129)"
+    }
+  ]
+}

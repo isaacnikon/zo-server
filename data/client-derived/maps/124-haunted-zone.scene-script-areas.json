@@ -1,0 +1,117 @@
+{
+  "mapId": 124,
+  "mapName": "Haunted Zone",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        50
+      ],
+      "tileCount": 25,
+      "bbox": {
+        "minX": 25,
+        "minY": 247,
+        "maxX": 31,
+        "maxY": 253
+      },
+      "rowRuns": [
+        {
+          "y": 247,
+          "startX": 28,
+          "endX": 28
+        },
+        {
+          "y": 248,
+          "startX": 27,
+          "endX": 29
+        },
+        {
+          "y": 249,
+          "startX": 26,
+          "endX": 30
+        },
+        {
+          "y": 250,
+          "startX": 25,
+          "endX": 31
+        },
+        {
+          "y": 251,
+          "startX": 26,
+          "endX": 30
+        },
+        {
+          "y": 252,
+          "startX": 27,
+          "endX": 29
+        },
+        {
+          "y": 253,
+          "startX": 28,
+          "endX": 28
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        50
+      ],
+      "tileCount": 25,
+      "bbox": {
+        "minX": 121,
+        "minY": 116,
+        "maxX": 127,
+        "maxY": 122
+      },
+      "rowRuns": [
+        {
+          "y": 116,
+          "startX": 124,
+          "endX": 124
+        },
+        {
+          "y": 117,
+          "startX": 123,
+          "endX": 125
+        },
+        {
+          "y": 118,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 119,
+          "startX": 121,
+          "endX": 127
+        },
+        {
+          "y": 120,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 121,
+          "startX": 123,
+          "endX": 125
+        },
+        {
+          "y": 122,
+          "startX": 124,
+          "endX": 124
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "mapId": 125,
+  "mapName": "Darkness Hole 3",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        50,
+        52
+      ],
+      "tileCount": 24,
+      "bbox": {
+        "minX": 0,
+        "minY": 110,
+        "maxX": 5,
+        "maxY": 116
+      },
+      "rowRuns": [
+        {
+          "y": 110,
+          "startX": 2,
+          "endX": 2
+        },
+        {
+          "y": 111,
+          "startX": 1,
+          "endX": 3
+        },
+        {
+          "y": 112,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 113,
+          "startX": 0,
+          "endX": 5
+        },
+        {
+          "y": 114,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 115,
+          "startX": 1,
+          "endX": 3
+        },
+        {
+          "y": 116,
+          "startX": 2,
+          "endX": 2
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 25,
+      "bbox": {
+        "minX": 24,
+        "minY": 3,
+        "maxX": 30,
+        "maxY": 9
+      },
+      "rowRuns": [
+        {
+          "y": 3,
+          "startX": 27,
+          "endX": 27
+        },
+        {
+          "y": 4,
+          "startX": 26,
+          "endX": 28
+        },
+        {
+          "y": 5,
+          "startX": 25,
+          "endX": 29
+        },
+        {
+          "y": 6,
+          "startX": 24,
+          "endX": 30
+        },
+        {
+          "y": 7,
+          "startX": 25,
+          "endX": 29
+        },
+        {
+          "y": 8,
+          "startX": 26,
+          "endX": 28
+        },
+        {
+          "y": 9,
+          "startX": 27,
+          "endX": 27
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

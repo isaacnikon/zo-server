@@ -1,0 +1,36 @@
+{
+  "mapId": 186,
+  "mapName": "Glacial Land",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3518226,
+      "end": 3518481
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 1,
+    "statusCounts": {
+      "match": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3784,
+      "npcTypeId": 1,
+      "name": "Frozen Goblin",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 70,
+      "y": 196,
+      "roleinfoNameByNpcId": "Frozen Goblin",
+      "roleinfoIdByName": 3784,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3784,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3784, 1,\"\"..macro_GetTypeNpcName(3784)..\"\",70,196)"
+    }
+  ]
+}

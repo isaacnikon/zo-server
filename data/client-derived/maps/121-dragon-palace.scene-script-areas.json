@@ -1,0 +1,178 @@
+{
+  "mapId": 121,
+  "mapName": "Dragon Palace",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 119,
+      "bbox": {
+        "minX": 0,
+        "minY": 40,
+        "maxX": 7,
+        "maxY": 54
+      },
+      "rowRuns": [
+        {
+          "y": 40,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 41,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 42,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 43,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 44,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 45,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 46,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 47,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 48,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 49,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 50,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 51,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 52,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 53,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 54,
+          "startX": 1,
+          "endX": 7
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        0,
+        1
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 53,
+      "bbox": {
+        "minX": 80,
+        "minY": 94,
+        "maxX": 88,
+        "maxY": 104
+      },
+      "rowRuns": [
+        {
+          "y": 94,
+          "startX": 84,
+          "endX": 85
+        },
+        {
+          "y": 95,
+          "startX": 83,
+          "endX": 86
+        },
+        {
+          "y": 96,
+          "startX": 82,
+          "endX": 87
+        },
+        {
+          "y": 97,
+          "startX": 81,
+          "endX": 88
+        },
+        {
+          "y": 98,
+          "startX": 80,
+          "endX": 87
+        },
+        {
+          "y": 99,
+          "startX": 81,
+          "endX": 87
+        },
+        {
+          "y": 100,
+          "startX": 82,
+          "endX": 87
+        },
+        {
+          "y": 101,
+          "startX": 83,
+          "endX": 87
+        },
+        {
+          "y": 102,
+          "startX": 84,
+          "endX": 87
+        },
+        {
+          "y": 103,
+          "startX": 85,
+          "endX": 86
+        },
+        {
+          "y": 104,
+          "startX": 86,
+          "endX": 86
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

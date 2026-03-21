@@ -1,0 +1,36 @@
+{
+  "mapId": 246,
+  "mapName": "Lotus Peak Top",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3546613,
+      "end": 3546868
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 1,
+    "statusCounts": {
+      "match": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3347,
+      "npcTypeId": 3,
+      "name": "Vannessa",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 34,
+      "y": 182,
+      "roleinfoNameByNpcId": "Vannessa",
+      "roleinfoIdByName": 3347,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3347,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3347, 3,\"\"..macro_GetTypeNpcName(3347)..\"\",34,182)"
+    }
+  ]
+}

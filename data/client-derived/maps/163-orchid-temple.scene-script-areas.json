@@ -1,0 +1,141 @@
+{
+  "mapId": 163,
+  "mapName": "Orchid Temple",
+  "width": 128,
+  "height": 256,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0,
+        1,
+        2
+      ],
+      "auxValues": [
+        0,
+        82
+      ],
+      "tileCount": 124,
+      "bbox": {
+        "minX": 117,
+        "minY": 233,
+        "maxX": 126,
+        "maxY": 254
+      },
+      "rowRuns": [
+        {
+          "y": 233,
+          "startX": 122,
+          "endX": 122
+        },
+        {
+          "y": 234,
+          "startX": 121,
+          "endX": 122
+        },
+        {
+          "y": 235,
+          "startX": 120,
+          "endX": 122
+        },
+        {
+          "y": 236,
+          "startX": 119,
+          "endX": 123
+        },
+        {
+          "y": 237,
+          "startX": 118,
+          "endX": 123
+        },
+        {
+          "y": 238,
+          "startX": 117,
+          "endX": 124
+        },
+        {
+          "y": 239,
+          "startX": 117,
+          "endX": 124
+        },
+        {
+          "y": 240,
+          "startX": 117,
+          "endX": 124
+        },
+        {
+          "y": 241,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 242,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 243,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 244,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 245,
+          "startX": 121,
+          "endX": 126
+        },
+        {
+          "y": 246,
+          "startX": 121,
+          "endX": 126
+        },
+        {
+          "y": 247,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 248,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 249,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 250,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 251,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 252,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 253,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 254,
+          "startX": 122,
+          "endX": 126
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

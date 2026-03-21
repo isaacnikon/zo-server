@@ -1,0 +1,51 @@
+{
+  "mapId": 122,
+  "mapName": "Darkness Hall",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3478907,
+      "end": 3479221
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 2,
+    "statusCounts": {
+      "match": 2
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3285,
+      "npcTypeId": 1,
+      "name": "Darkness Guard",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 19,
+      "y": 57,
+      "roleinfoNameByNpcId": "Darkness Guard",
+      "roleinfoIdByName": 3285,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3285,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3285, 1,\"\"..macro_GetTypeNpcName(3285)..\"\",19,57)"
+    },
+    {
+      "order": 1,
+      "npcId": 3129,
+      "npcTypeId": 1,
+      "name": "Monster",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 70,
+      "y": 38,
+      "roleinfoNameByNpcId": "Monster",
+      "roleinfoIdByName": 3129,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3129,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3129, 1,\"\"..macro_GetTypeNpcName(3129)..\"\",70,38)"
+    }
+  ]
+}

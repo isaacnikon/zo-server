@@ -1,0 +1,208 @@
+{
+  "mapId": 230,
+  "mapName": "Swan Pass",
+  "width": 128,
+  "height": 256,
+  "componentCount": 3,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        39
+      ],
+      "tileCount": 85,
+      "bbox": {
+        "minX": 0,
+        "minY": 85,
+        "maxX": 7,
+        "maxY": 96
+      },
+      "rowRuns": [
+        {
+          "y": 85,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 86,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 87,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 88,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 89,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 90,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 91,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 92,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 93,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 94,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 95,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 96,
+          "startX": 0,
+          "endX": 1
+        },
+        {
+          "y": 96,
+          "startX": 3,
+          "endX": 4
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        39
+      ],
+      "tileCount": 101,
+      "bbox": {
+        "minX": 64,
+        "minY": 0,
+        "maxX": 75,
+        "maxY": 12
+      },
+      "rowRuns": [
+        {
+          "y": 0,
+          "startX": 64,
+          "endX": 72
+        },
+        {
+          "y": 1,
+          "startX": 64,
+          "endX": 72
+        },
+        {
+          "y": 2,
+          "startX": 64,
+          "endX": 73
+        },
+        {
+          "y": 3,
+          "startX": 64,
+          "endX": 75
+        },
+        {
+          "y": 4,
+          "startX": 64,
+          "endX": 75
+        },
+        {
+          "y": 5,
+          "startX": 64,
+          "endX": 75
+        },
+        {
+          "y": 6,
+          "startX": 65,
+          "endX": 65
+        },
+        {
+          "y": 6,
+          "startX": 67,
+          "endX": 75
+        },
+        {
+          "y": 7,
+          "startX": 68,
+          "endX": 74
+        },
+        {
+          "y": 8,
+          "startX": 67,
+          "endX": 73
+        },
+        {
+          "y": 9,
+          "startX": 68,
+          "endX": 72
+        },
+        {
+          "y": 10,
+          "startX": 68,
+          "endX": 71
+        },
+        {
+          "y": 11,
+          "startX": 68,
+          "endX": 70
+        },
+        {
+          "y": 12,
+          "startX": 69,
+          "endX": 69
+        }
+      ],
+      "componentIndex": 2
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 1,
+      "bbox": {
+        "minX": 66,
+        "minY": 7,
+        "maxX": 66,
+        "maxY": 7
+      },
+      "rowRuns": [
+        {
+          "y": 7,
+          "startX": 66,
+          "endX": 66
+        }
+      ],
+      "componentIndex": 3
+    }
+  ]
+}

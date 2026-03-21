@@ -1,0 +1,97 @@
+{
+  "mapId": 156,
+  "mapName": "Flaming Hell 1",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3500828,
+      "end": 3501342
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 5,
+    "statusCounts": {
+      "alias-id-mismatch": 1,
+      "match": 4
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3049,
+      "npcTypeId": 1,
+      "name": "Mr. Pan",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 20,
+      "y": 22,
+      "roleinfoNameByNpcId": "Mr. Pan",
+      "roleinfoIdByName": 3049,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3049,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3049, 1,\"\"..macro_GetTypeNpcName(3049)..\"\",20,22)"
+    },
+    {
+      "order": 1,
+      "npcId": 3160,
+      "npcTypeId": 3,
+      "name": "Peter",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 26,
+      "y": 23,
+      "roleinfoNameByNpcId": "Peter",
+      "roleinfoIdByName": 3160,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3160,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3160, 3,\"\"..macro_GetTypeNpcName(3160)..\"\",26,23)"
+    },
+    {
+      "order": 2,
+      "npcId": 3256,
+      "npcTypeId": 1,
+      "name": "Copper",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 71,
+      "y": 146,
+      "roleinfoNameByNpcId": "Copper",
+      "roleinfoIdByName": 3256,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3256,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3256, 1,\"\"..macro_GetTypeNpcName(3256)..\"\",71,146)"
+    },
+    {
+      "order": 3,
+      "npcId": 3259,
+      "npcTypeId": 1,
+      "name": "Hell Sufferer",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 73,
+      "y": 55,
+      "roleinfoNameByNpcId": "Hell Sufferer",
+      "roleinfoIdByName": 3259,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3259,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3259, 1,\"\"..macro_GetTypeNpcName(3259)..\"\",73,55)"
+    },
+    {
+      "order": 4,
+      "npcId": 3281,
+      "npcTypeId": 1,
+      "name": "Yates",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 68,
+      "y": 230,
+      "roleinfoNameByNpcId": "Yates",
+      "roleinfoIdByName": 3221,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3281,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3281, 1,\"\"..macro_GetTypeNpcName(3281)..\"\",68,230)"
+    }
+  ]
+}

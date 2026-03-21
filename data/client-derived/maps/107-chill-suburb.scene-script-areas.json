@@ -1,0 +1,309 @@
+{
+  "mapId": 107,
+  "mapName": "Chill Suburb",
+  "width": 128,
+  "height": 256,
+  "componentCount": 3,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        33,
+        35
+      ],
+      "tileCount": 156,
+      "bbox": {
+        "minX": 118,
+        "minY": 74,
+        "maxX": 126,
+        "maxY": 91
+      },
+      "rowRuns": [
+        {
+          "y": 74,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 75,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 76,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 77,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 78,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 79,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 80,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 81,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 82,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 83,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 84,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 85,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 86,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 87,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 88,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 89,
+          "startX": 118,
+          "endX": 126
+        },
+        {
+          "y": 90,
+          "startX": 119,
+          "endX": 126
+        },
+        {
+          "y": 91,
+          "startX": 120,
+          "endX": 126
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        33
+      ],
+      "tileCount": 150,
+      "bbox": {
+        "minX": 0,
+        "minY": 72,
+        "maxX": 9,
+        "maxY": 89
+      },
+      "rowRuns": [
+        {
+          "y": 72,
+          "startX": 0,
+          "endX": 4
+        },
+        {
+          "y": 73,
+          "startX": 0,
+          "endX": 5
+        },
+        {
+          "y": 74,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 75,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 76,
+          "startX": 0,
+          "endX": 8
+        },
+        {
+          "y": 77,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 78,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 79,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 80,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 81,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 82,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 83,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 84,
+          "startX": 0,
+          "endX": 9
+        },
+        {
+          "y": 85,
+          "startX": 0,
+          "endX": 8
+        },
+        {
+          "y": 86,
+          "startX": 0,
+          "endX": 7
+        },
+        {
+          "y": 87,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 88,
+          "startX": 0,
+          "endX": 5
+        },
+        {
+          "y": 89,
+          "startX": 0,
+          "endX": 4
+        }
+      ],
+      "componentIndex": 2
+    },
+    {
+      "sceneScriptId": 3,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        33,
+        34
+      ],
+      "tileCount": 119,
+      "bbox": {
+        "minX": 76,
+        "minY": 0,
+        "maxX": 87,
+        "maxY": 11
+      },
+      "rowRuns": [
+        {
+          "y": 0,
+          "startX": 76,
+          "endX": 87
+        },
+        {
+          "y": 1,
+          "startX": 76,
+          "endX": 87
+        },
+        {
+          "y": 2,
+          "startX": 76,
+          "endX": 87
+        },
+        {
+          "y": 3,
+          "startX": 76,
+          "endX": 87
+        },
+        {
+          "y": 4,
+          "startX": 76,
+          "endX": 87
+        },
+        {
+          "y": 5,
+          "startX": 76,
+          "endX": 87
+        },
+        {
+          "y": 6,
+          "startX": 76,
+          "endX": 87
+        },
+        {
+          "y": 7,
+          "startX": 77,
+          "endX": 87
+        },
+        {
+          "y": 8,
+          "startX": 78,
+          "endX": 86
+        },
+        {
+          "y": 9,
+          "startX": 79,
+          "endX": 85
+        },
+        {
+          "y": 10,
+          "startX": 80,
+          "endX": 84
+        },
+        {
+          "y": 11,
+          "startX": 81,
+          "endX": 83
+        }
+      ],
+      "componentIndex": 3
+    }
+  ]
+}

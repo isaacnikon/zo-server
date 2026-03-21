@@ -1,0 +1,82 @@
+{
+  "mapId": 247,
+  "mapName": "Longicorn Prison",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3547023,
+      "end": 3547472
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 4,
+    "statusCounts": {
+      "alias-id-mismatch": 1,
+      "match": 3
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3450,
+      "npcTypeId": 1,
+      "name": "Lunar Mirror",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 119,
+      "y": 232,
+      "roleinfoNameByNpcId": "Lunar Mirror",
+      "roleinfoIdByName": 3450,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3450,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3450, 1,\"\"..macro_GetTypeNpcName(3450)..\"\",119,232)"
+    },
+    {
+      "order": 1,
+      "npcId": 3447,
+      "npcTypeId": 1,
+      "name": "Treasure Guard",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 103,
+      "y": 167,
+      "roleinfoNameByNpcId": "Treasure Guard",
+      "roleinfoIdByName": 3406,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3447,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3447, 1,\"\"..macro_GetTypeNpcName(3447)..\"\",103,167)"
+    },
+    {
+      "order": 2,
+      "npcId": 3446,
+      "npcTypeId": 1,
+      "name": "Beetle Keeper",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 22,
+      "y": 55,
+      "roleinfoNameByNpcId": "Beetle Keeper",
+      "roleinfoIdByName": 3446,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3446,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3446, 1,\"\"..macro_GetTypeNpcName(3446)..\"\",22,55)"
+    },
+    {
+      "order": 3,
+      "npcId": 3448,
+      "npcTypeId": 1,
+      "name": "Sorcerer",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 5,
+      "y": 23,
+      "roleinfoNameByNpcId": "Sorcerer",
+      "roleinfoIdByName": 3448,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3448,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3448, 1,\"\"..macro_GetTypeNpcName(3448)..\"\",5,23)"
+    }
+  ]
+}

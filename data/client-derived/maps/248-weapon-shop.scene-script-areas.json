@@ -1,0 +1,88 @@
+{
+  "mapId": 248,
+  "mapName": " Weapon Shop",
+  "width": 64,
+  "height": 128,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 78,
+      "bbox": {
+        "minX": 9,
+        "minY": 87,
+        "maxX": 19,
+        "maxY": 98
+      },
+      "rowRuns": [
+        {
+          "y": 87,
+          "startX": 13,
+          "endX": 13
+        },
+        {
+          "y": 88,
+          "startX": 13,
+          "endX": 14
+        },
+        {
+          "y": 89,
+          "startX": 12,
+          "endX": 15
+        },
+        {
+          "y": 90,
+          "startX": 11,
+          "endX": 16
+        },
+        {
+          "y": 91,
+          "startX": 11,
+          "endX": 17
+        },
+        {
+          "y": 92,
+          "startX": 10,
+          "endX": 18
+        },
+        {
+          "y": 93,
+          "startX": 9,
+          "endX": 19
+        },
+        {
+          "y": 94,
+          "startX": 9,
+          "endX": 18
+        },
+        {
+          "y": 95,
+          "startX": 9,
+          "endX": 18
+        },
+        {
+          "y": 96,
+          "startX": 10,
+          "endX": 17
+        },
+        {
+          "y": 97,
+          "startX": 11,
+          "endX": 16
+        },
+        {
+          "y": 98,
+          "startX": 12,
+          "endX": 15
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

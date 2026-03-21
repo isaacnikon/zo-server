@@ -1,0 +1,67 @@
+{
+  "mapId": 265,
+  "mapName": "Ancient Road",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3518226,
+      "end": 3519064
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 3,
+    "statusCounts": {
+      "alias-id-mismatch": 1,
+      "match": 2
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3784,
+      "npcTypeId": 1,
+      "name": "Frozen Goblin",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 70,
+      "y": 196,
+      "roleinfoNameByNpcId": "Frozen Goblin",
+      "roleinfoIdByName": 3784,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3784,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3784, 1,\"\"..macro_GetTypeNpcName(3784)..\"\",70,196)"
+    },
+    {
+      "order": 1,
+      "npcId": 3173,
+      "npcTypeId": 1,
+      "name": "Jessica",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 100,
+      "y": 129,
+      "roleinfoNameByNpcId": "Jessica",
+      "roleinfoIdByName": 3083,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3173,
+      "validationStatus": "alias-id-mismatch",
+      "rawCall": "macro_AddMapNpc(3173, 1,\"\"..macro_GetTypeNpcName(3173)..\"\",100,129)"
+    },
+    {
+      "order": 2,
+      "npcId": 3484,
+      "npcTypeId": 1,
+      "name": "Resident",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 60,
+      "y": 159,
+      "roleinfoNameByNpcId": "Resident",
+      "roleinfoIdByName": 3484,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3484,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3484, 1,\"\"..macro_GetTypeNpcName(3484)..\"\",60,159)"
+    }
+  ]
+}

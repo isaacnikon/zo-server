@@ -1,0 +1,51 @@
+{
+  "mapId": 167,
+  "mapName": "Ancient Sanctuary",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3507559,
+      "end": 3507881
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 2,
+    "statusCounts": {
+      "match": 2
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3379,
+      "npcTypeId": 3,
+      "name": "Logan",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 41,
+      "y": 37,
+      "roleinfoNameByNpcId": "Logan",
+      "roleinfoIdByName": 3379,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3379,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3379, 3,\"\"..macro_GetTypeNpcName(3379)..\"\",41,37)"
+    },
+    {
+      "order": 1,
+      "npcId": 3380,
+      "npcTypeId": 3,
+      "name": "Richard",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 111,
+      "y": 192,
+      "roleinfoNameByNpcId": "Richard",
+      "roleinfoIdByName": 3380,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3380,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3380, 3,\"\"..macro_GetTypeNpcName(3380)..\"\",111,192)"
+    }
+  ]
+}

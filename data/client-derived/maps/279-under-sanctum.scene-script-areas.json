@@ -1,0 +1,97 @@
+{
+  "mapId": 279,
+  "mapName": "Under Sanctum",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 40,
+      "bbox": {
+        "minX": 120,
+        "minY": 120,
+        "maxX": 127,
+        "maxY": 128
+      },
+      "rowRuns": [
+        {
+          "y": 120,
+          "startX": 124,
+          "endX": 124
+        },
+        {
+          "y": 121,
+          "startX": 123,
+          "endX": 125
+        },
+        {
+          "y": 122,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 123,
+          "startX": 121,
+          "endX": 127
+        },
+        {
+          "y": 124,
+          "startX": 120,
+          "endX": 127
+        },
+        {
+          "y": 125,
+          "startX": 121,
+          "endX": 127
+        },
+        {
+          "y": 126,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 127,
+          "startX": 123,
+          "endX": 125
+        },
+        {
+          "y": 128,
+          "startX": 124,
+          "endX": 124
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 1,
+      "bbox": {
+        "minX": 0,
+        "minY": 125,
+        "maxX": 0,
+        "maxY": 125
+      },
+      "rowRuns": [
+        {
+          "y": 125,
+          "startX": 0,
+          "endX": 0
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

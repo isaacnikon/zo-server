@@ -1,0 +1,119 @@
+{
+  "source": {
+    "type": "manual-screenshot-review",
+    "description": "Screenshot-backed teleporter label validations extracted from minimap captures.",
+    "authoritativeForTeleportRouting": false
+  },
+  "validations": [
+    {
+      "sourceMapId": 109,
+      "sceneScriptId": 1,
+      "displayLabel": "Windbell Valley",
+      "targetMapId": 242,
+      "targetMapName": "Windbell Valley",
+      "validation": "screenshot-validated",
+      "evidence": [
+        "/home/nikon/Pictures/Screenshots/Screenshot_20260322_001355.png"
+      ]
+    },
+    {
+      "sourceMapId": 109,
+      "sceneScriptId": 2,
+      "displayLabel": "Moonset Shore",
+      "targetMapId": 113,
+      "targetMapName": "Moonset Shore",
+      "validation": "screenshot-validated",
+      "evidence": [
+        "/home/nikon/Pictures/Screenshots/Screenshot_20260322_001355.png"
+      ]
+    },
+    {
+      "sourceMapId": 109,
+      "sceneScriptId": 3,
+      "displayLabel": "Zig Pass",
+      "targetMapId": 171,
+      "targetMapName": "Zig Pass",
+      "validation": "screenshot-validated",
+      "evidence": [
+        "/home/nikon/Pictures/Screenshots/Screenshot_20260322_001355.png"
+      ]
+    },
+    {
+      "sourceMapId": 113,
+      "sceneScriptId": 1,
+      "displayLabel": "Moonset Path",
+      "targetMapId": 236,
+      "targetMapName": "Moonset Path",
+      "validation": "screenshot-validated",
+      "evidence": [
+        "/home/nikon/Pictures/Screenshots/Screenshot_20260322_001416.png"
+      ]
+    },
+    {
+      "sourceMapId": 113,
+      "sceneScriptId": 2,
+      "displayLabel": "Spring Forest",
+      "targetMapId": 109,
+      "targetMapName": "Spring Forest",
+      "validation": "screenshot-validated",
+      "evidence": [
+        "/home/nikon/Pictures/Screenshots/Screenshot_20260322_001416.png"
+      ]
+    },
+    {
+      "sourceMapId": 113,
+      "sceneScriptId": 3,
+      "displayLabel": "Golden Beach",
+      "targetMapId": 114,
+      "targetMapName": "Golden Beach",
+      "validation": "screenshot-validated",
+      "evidence": [
+        "/home/nikon/Pictures/Screenshots/Screenshot_20260322_001416.png"
+      ]
+    },
+    {
+      "sourceMapId": 114,
+      "sceneScriptId": 1,
+      "displayLabel": "Moonset Shore",
+      "targetMapId": 113,
+      "targetMapName": "Moonset Shore",
+      "validation": "screenshot-validated",
+      "evidence": [
+        "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235214.png"
+      ]
+    },
+    {
+      "sourceMapId": 121,
+      "sceneScriptId": 1,
+      "displayLabel": "Benthal Path",
+      "targetMapId": 143,
+      "targetMapName": "Benthal Path",
+      "validation": "screenshot-validated",
+      "evidence": [
+        "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235255.png"
+      ]
+    },
+    {
+      "sourceMapId": 127,
+      "sceneScriptId": 1,
+      "displayLabel": "Dusk Forest",
+      "targetMapId": 128,
+      "targetMapName": "Dusk Forest",
+      "validation": "screenshot-validated",
+      "evidence": [
+        "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235354.png"
+      ]
+    },
+    {
+      "sourceMapId": 127,
+      "sceneScriptId": 2,
+      "displayLabel": "Goal Manor",
+      "targetMapId": 131,
+      "targetMapName": "Goal Manor",
+      "validation": "screenshot-validated",
+      "evidence": [
+        "/home/nikon/Pictures/Screenshots/Screenshot_20260321_235354.png"
+      ]
+    }
+  ]
+}

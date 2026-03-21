@@ -1,0 +1,66 @@
+{
+  "mapId": 145,
+  "mapName": "Darkness Mountain",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3493068,
+      "end": 3493458
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 3,
+    "statusCounts": {
+      "match": 3
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3225,
+      "npcTypeId": 1,
+      "name": "Ninja",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 33,
+      "y": 184,
+      "roleinfoNameByNpcId": "Ninja",
+      "roleinfoIdByName": 3225,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3225,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3225, 1,\"\"..macro_GetTypeNpcName(3225)..\"\",33,184)"
+    },
+    {
+      "order": 1,
+      "npcId": 3073,
+      "npcTypeId": 3,
+      "name": "Outcast",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 44,
+      "y": 185,
+      "roleinfoNameByNpcId": "Outcast",
+      "roleinfoIdByName": 3073,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3073,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3073, 3,\"\"..macro_GetTypeNpcName(3073)..\"\",44,185)"
+    },
+    {
+      "order": 2,
+      "npcId": 3075,
+      "npcTypeId": 1,
+      "name": "Darkness Mage",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 112,
+      "y": 127,
+      "roleinfoNameByNpcId": "Darkness Mage",
+      "roleinfoIdByName": 3075,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3075,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3075, 1,\"\"..macro_GetTypeNpcName(3075)..\"\",112,127)"
+    }
+  ]
+}

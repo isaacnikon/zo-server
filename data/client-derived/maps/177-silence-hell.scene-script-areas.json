@@ -1,0 +1,104 @@
+{
+  "mapId": 177,
+  "mapName": "Silence Hell",
+  "width": 128,
+  "height": 256,
+  "componentCount": 1,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0,
+        110
+      ],
+      "tileCount": 105,
+      "bbox": {
+        "minX": 0,
+        "minY": 108,
+        "maxX": 6,
+        "maxY": 122
+      },
+      "rowRuns": [
+        {
+          "y": 108,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 109,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 110,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 111,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 112,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 113,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 114,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 115,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 116,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 117,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 118,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 119,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 120,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 121,
+          "startX": 0,
+          "endX": 6
+        },
+        {
+          "y": 122,
+          "startX": 0,
+          "endX": 6
+        }
+      ],
+      "componentIndex": 1
+    }
+  ]
+}

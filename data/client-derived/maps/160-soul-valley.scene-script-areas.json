@@ -1,0 +1,178 @@
+{
+  "mapId": 160,
+  "mapName": "Soul Valley",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        57,
+        58
+      ],
+      "tileCount": 145,
+      "bbox": {
+        "minX": 37,
+        "minY": 241,
+        "maxX": 47,
+        "maxY": 254
+      },
+      "rowRuns": [
+        {
+          "y": 241,
+          "startX": 39,
+          "endX": 44
+        },
+        {
+          "y": 242,
+          "startX": 38,
+          "endX": 45
+        },
+        {
+          "y": 243,
+          "startX": 37,
+          "endX": 46
+        },
+        {
+          "y": 244,
+          "startX": 37,
+          "endX": 47
+        },
+        {
+          "y": 245,
+          "startX": 37,
+          "endX": 47
+        },
+        {
+          "y": 246,
+          "startX": 37,
+          "endX": 47
+        },
+        {
+          "y": 247,
+          "startX": 37,
+          "endX": 47
+        },
+        {
+          "y": 248,
+          "startX": 37,
+          "endX": 47
+        },
+        {
+          "y": 249,
+          "startX": 37,
+          "endX": 47
+        },
+        {
+          "y": 250,
+          "startX": 37,
+          "endX": 47
+        },
+        {
+          "y": 251,
+          "startX": 37,
+          "endX": 47
+        },
+        {
+          "y": 252,
+          "startX": 37,
+          "endX": 47
+        },
+        {
+          "y": 253,
+          "startX": 37,
+          "endX": 47
+        },
+        {
+          "y": 254,
+          "startX": 37,
+          "endX": 47
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        57
+      ],
+      "tileCount": 132,
+      "bbox": {
+        "minX": 35,
+        "minY": 0,
+        "maxX": 45,
+        "maxY": 11
+      },
+      "rowRuns": [
+        {
+          "y": 0,
+          "startX": 35,
+          "endX": 45
+        },
+        {
+          "y": 1,
+          "startX": 35,
+          "endX": 45
+        },
+        {
+          "y": 2,
+          "startX": 35,
+          "endX": 45
+        },
+        {
+          "y": 3,
+          "startX": 35,
+          "endX": 45
+        },
+        {
+          "y": 4,
+          "startX": 35,
+          "endX": 45
+        },
+        {
+          "y": 5,
+          "startX": 35,
+          "endX": 45
+        },
+        {
+          "y": 6,
+          "startX": 35,
+          "endX": 45
+        },
+        {
+          "y": 7,
+          "startX": 35,
+          "endX": 45
+        },
+        {
+          "y": 8,
+          "startX": 35,
+          "endX": 45
+        },
+        {
+          "y": 9,
+          "startX": 35,
+          "endX": 45
+        },
+        {
+          "y": 10,
+          "startX": 35,
+          "endX": 45
+        },
+        {
+          "y": 11,
+          "startX": 35,
+          "endX": 45
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "mapId": 263,
+  "mapName": "Flaming Hell 2",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3500043,
+      "end": 3500491
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 4,
+    "statusCounts": {
+      "match": 4
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3050,
+      "npcTypeId": 3,
+      "name": "Nowt",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 49,
+      "y": 76,
+      "roleinfoNameByNpcId": "Nowt",
+      "roleinfoIdByName": 3050,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3050,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3050, 3,\"\"..macro_GetTypeNpcName(3050)..\"\",49,76)"
+    },
+    {
+      "order": 1,
+      "npcId": 3257,
+      "npcTypeId": 1,
+      "name": "Silver",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 37,
+      "y": 199,
+      "roleinfoNameByNpcId": "Silver",
+      "roleinfoIdByName": 3257,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3257,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3257, 1,\"\"..macro_GetTypeNpcName(3257)..\"\",37,199)"
+    },
+    {
+      "order": 2,
+      "npcId": 3258,
+      "npcTypeId": 1,
+      "name": "Gold Pan",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 84,
+      "y": 15,
+      "roleinfoNameByNpcId": "Gold Pan",
+      "roleinfoIdByName": 3258,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3258,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3258, 1,\"\"..macro_GetTypeNpcName(3258)..\"\",84,15)"
+    },
+    {
+      "order": 3,
+      "npcId": 3261,
+      "npcTypeId": 1,
+      "name": "Sufferer",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 43,
+      "y": 202,
+      "roleinfoNameByNpcId": "Sufferer",
+      "roleinfoIdByName": 3261,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3261,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3261, 1,\"\"..macro_GetTypeNpcName(3261)..\"\",43,202)"
+    }
+  ]
+}

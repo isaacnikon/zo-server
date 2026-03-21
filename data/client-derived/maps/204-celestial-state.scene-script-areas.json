@@ -1,0 +1,421 @@
+{
+  "mapId": 204,
+  "mapName": "Celestial State",
+  "width": 128,
+  "height": 256,
+  "componentCount": 6,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 169,
+      "bbox": {
+        "minX": 74,
+        "minY": 241,
+        "maxX": 89,
+        "maxY": 255
+      },
+      "rowRuns": [
+        {
+          "y": 241,
+          "startX": 79,
+          "endX": 80
+        },
+        {
+          "y": 242,
+          "startX": 78,
+          "endX": 82
+        },
+        {
+          "y": 243,
+          "startX": 77,
+          "endX": 83
+        },
+        {
+          "y": 244,
+          "startX": 76,
+          "endX": 85
+        },
+        {
+          "y": 245,
+          "startX": 75,
+          "endX": 86
+        },
+        {
+          "y": 246,
+          "startX": 75,
+          "endX": 87
+        },
+        {
+          "y": 247,
+          "startX": 74,
+          "endX": 88
+        },
+        {
+          "y": 248,
+          "startX": 74,
+          "endX": 89
+        },
+        {
+          "y": 249,
+          "startX": 75,
+          "endX": 89
+        },
+        {
+          "y": 250,
+          "startX": 76,
+          "endX": 89
+        },
+        {
+          "y": 251,
+          "startX": 76,
+          "endX": 89
+        },
+        {
+          "y": 252,
+          "startX": 76,
+          "endX": 89
+        },
+        {
+          "y": 253,
+          "startX": 76,
+          "endX": 89
+        },
+        {
+          "y": 254,
+          "startX": 77,
+          "endX": 89
+        },
+        {
+          "y": 255,
+          "startX": 78,
+          "endX": 82
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        0
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 78,
+      "bbox": {
+        "minX": 120,
+        "minY": 142,
+        "maxX": 127,
+        "maxY": 153
+      },
+      "rowRuns": [
+        {
+          "y": 142,
+          "startX": 123,
+          "endX": 126
+        },
+        {
+          "y": 143,
+          "startX": 122,
+          "endX": 126
+        },
+        {
+          "y": 144,
+          "startX": 121,
+          "endX": 126
+        },
+        {
+          "y": 145,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 146,
+          "startX": 120,
+          "endX": 127
+        },
+        {
+          "y": 147,
+          "startX": 120,
+          "endX": 127
+        },
+        {
+          "y": 148,
+          "startX": 120,
+          "endX": 127
+        },
+        {
+          "y": 149,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 150,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 151,
+          "startX": 120,
+          "endX": 126
+        },
+        {
+          "y": 152,
+          "startX": 121,
+          "endX": 126
+        },
+        {
+          "y": 153,
+          "startX": 122,
+          "endX": 126
+        }
+      ],
+      "componentIndex": 2
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        1
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 1,
+      "bbox": {
+        "minX": 0,
+        "minY": 148,
+        "maxX": 0,
+        "maxY": 148
+      },
+      "rowRuns": [
+        {
+          "y": 148,
+          "startX": 0,
+          "endX": 0
+        }
+      ],
+      "componentIndex": 3
+    },
+    {
+      "sceneScriptId": 3,
+      "tileTypeValues": [
+        0,
+        1
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 57,
+      "bbox": {
+        "minX": 27,
+        "minY": 138,
+        "maxX": 35,
+        "maxY": 147
+      },
+      "rowRuns": [
+        {
+          "y": 138,
+          "startX": 30,
+          "endX": 32
+        },
+        {
+          "y": 139,
+          "startX": 29,
+          "endX": 33
+        },
+        {
+          "y": 140,
+          "startX": 28,
+          "endX": 34
+        },
+        {
+          "y": 141,
+          "startX": 27,
+          "endX": 35
+        },
+        {
+          "y": 142,
+          "startX": 27,
+          "endX": 35
+        },
+        {
+          "y": 143,
+          "startX": 27,
+          "endX": 34
+        },
+        {
+          "y": 144,
+          "startX": 27,
+          "endX": 33
+        },
+        {
+          "y": 145,
+          "startX": 28,
+          "endX": 32
+        },
+        {
+          "y": 146,
+          "startX": 29,
+          "endX": 31
+        },
+        {
+          "y": 147,
+          "startX": 30,
+          "endX": 30
+        }
+      ],
+      "componentIndex": 4
+    },
+    {
+      "sceneScriptId": 4,
+      "tileTypeValues": [
+        0,
+        1
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 60,
+      "bbox": {
+        "minX": 70,
+        "minY": 170,
+        "maxX": 78,
+        "maxY": 181
+      },
+      "rowRuns": [
+        {
+          "y": 170,
+          "startX": 73,
+          "endX": 73
+        },
+        {
+          "y": 171,
+          "startX": 72,
+          "endX": 74
+        },
+        {
+          "y": 172,
+          "startX": 71,
+          "endX": 75
+        },
+        {
+          "y": 173,
+          "startX": 70,
+          "endX": 76
+        },
+        {
+          "y": 174,
+          "startX": 70,
+          "endX": 76
+        },
+        {
+          "y": 175,
+          "startX": 70,
+          "endX": 77
+        },
+        {
+          "y": 176,
+          "startX": 70,
+          "endX": 77
+        },
+        {
+          "y": 177,
+          "startX": 71,
+          "endX": 77
+        },
+        {
+          "y": 178,
+          "startX": 73,
+          "endX": 78
+        },
+        {
+          "y": 179,
+          "startX": 73,
+          "endX": 77
+        },
+        {
+          "y": 180,
+          "startX": 75,
+          "endX": 76
+        },
+        {
+          "y": 181,
+          "startX": 75,
+          "endX": 75
+        }
+      ],
+      "componentIndex": 5
+    },
+    {
+      "sceneScriptId": 5,
+      "tileTypeValues": [
+        0,
+        1
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 43,
+      "bbox": {
+        "minX": 101,
+        "minY": 203,
+        "maxX": 109,
+        "maxY": 211
+      },
+      "rowRuns": [
+        {
+          "y": 203,
+          "startX": 104,
+          "endX": 104
+        },
+        {
+          "y": 204,
+          "startX": 103,
+          "endX": 105
+        },
+        {
+          "y": 205,
+          "startX": 102,
+          "endX": 106
+        },
+        {
+          "y": 206,
+          "startX": 101,
+          "endX": 107
+        },
+        {
+          "y": 207,
+          "startX": 102,
+          "endX": 107
+        },
+        {
+          "y": 208,
+          "startX": 103,
+          "endX": 108
+        },
+        {
+          "y": 209,
+          "startX": 103,
+          "endX": 109
+        },
+        {
+          "y": 210,
+          "startX": 104,
+          "endX": 108
+        },
+        {
+          "y": 211,
+          "startX": 105,
+          "endX": 107
+        }
+      ],
+      "componentIndex": 6
+    }
+  ]
+}

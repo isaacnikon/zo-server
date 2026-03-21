@@ -1,0 +1,179 @@
+{
+  "mapId": 149,
+  "mapName": "Lake Abysm",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        80,
+        81
+      ],
+      "tileCount": 154,
+      "bbox": {
+        "minX": 82,
+        "minY": 0,
+        "maxX": 92,
+        "maxY": 13
+      },
+      "rowRuns": [
+        {
+          "y": 0,
+          "startX": 82,
+          "endX": 92
+        },
+        {
+          "y": 1,
+          "startX": 82,
+          "endX": 92
+        },
+        {
+          "y": 2,
+          "startX": 82,
+          "endX": 92
+        },
+        {
+          "y": 3,
+          "startX": 82,
+          "endX": 92
+        },
+        {
+          "y": 4,
+          "startX": 82,
+          "endX": 92
+        },
+        {
+          "y": 5,
+          "startX": 82,
+          "endX": 92
+        },
+        {
+          "y": 6,
+          "startX": 82,
+          "endX": 92
+        },
+        {
+          "y": 7,
+          "startX": 82,
+          "endX": 92
+        },
+        {
+          "y": 8,
+          "startX": 82,
+          "endX": 92
+        },
+        {
+          "y": 9,
+          "startX": 82,
+          "endX": 92
+        },
+        {
+          "y": 10,
+          "startX": 82,
+          "endX": 92
+        },
+        {
+          "y": 11,
+          "startX": 82,
+          "endX": 92
+        },
+        {
+          "y": 12,
+          "startX": 82,
+          "endX": 92
+        },
+        {
+          "y": 13,
+          "startX": 82,
+          "endX": 92
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        80,
+        81
+      ],
+      "tileCount": 127,
+      "bbox": {
+        "minX": 79,
+        "minY": 243,
+        "maxX": 92,
+        "maxY": 254
+      },
+      "rowRuns": [
+        {
+          "y": 243,
+          "startX": 84,
+          "endX": 85
+        },
+        {
+          "y": 244,
+          "startX": 83,
+          "endX": 86
+        },
+        {
+          "y": 245,
+          "startX": 82,
+          "endX": 87
+        },
+        {
+          "y": 246,
+          "startX": 80,
+          "endX": 88
+        },
+        {
+          "y": 247,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 248,
+          "startX": 79,
+          "endX": 90
+        },
+        {
+          "y": 249,
+          "startX": 79,
+          "endX": 91
+        },
+        {
+          "y": 250,
+          "startX": 79,
+          "endX": 92
+        },
+        {
+          "y": 251,
+          "startX": 79,
+          "endX": 92
+        },
+        {
+          "y": 252,
+          "startX": 79,
+          "endX": 92
+        },
+        {
+          "y": 253,
+          "startX": 79,
+          "endX": 92
+        },
+        {
+          "y": 254,
+          "startX": 79,
+          "endX": 92
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

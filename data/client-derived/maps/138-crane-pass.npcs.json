@@ -1,0 +1,36 @@
+{
+  "mapId": 138,
+  "mapName": "Crane Pass",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3490723,
+      "end": 3490978
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 1,
+    "statusCounts": {
+      "match": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3229,
+      "npcTypeId": 3,
+      "name": "Crane Pass Guardian",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 88,
+      "y": 109,
+      "roleinfoNameByNpcId": "Crane Pass Guardian",
+      "roleinfoIdByName": 3229,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3229,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3229, 3,\"\"..macro_GetTypeNpcName(3229)..\"\",88,109)"
+    }
+  ]
+}

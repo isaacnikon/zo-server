@@ -1,0 +1,181 @@
+{
+  "mapId": 194,
+  "mapName": "Calm Zone",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        0,
+        2
+      ],
+      "auxValues": [
+        0,
+        95
+      ],
+      "tileCount": 157,
+      "bbox": {
+        "minX": 73,
+        "minY": 239,
+        "maxX": 89,
+        "maxY": 254
+      },
+      "rowRuns": [
+        {
+          "y": 239,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 240,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 241,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 242,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 243,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 244,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 245,
+          "startX": 79,
+          "endX": 89
+        },
+        {
+          "y": 246,
+          "startX": 78,
+          "endX": 89
+        },
+        {
+          "y": 247,
+          "startX": 77,
+          "endX": 89
+        },
+        {
+          "y": 248,
+          "startX": 76,
+          "endX": 88
+        },
+        {
+          "y": 249,
+          "startX": 76,
+          "endX": 87
+        },
+        {
+          "y": 250,
+          "startX": 76,
+          "endX": 86
+        },
+        {
+          "y": 251,
+          "startX": 76,
+          "endX": 79
+        },
+        {
+          "y": 252,
+          "startX": 75,
+          "endX": 78
+        },
+        {
+          "y": 253,
+          "startX": 74,
+          "endX": 78
+        },
+        {
+          "y": 254,
+          "startX": 73,
+          "endX": 78
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 2,
+      "tileTypeValues": [
+        0,
+        2
+      ],
+      "auxValues": [
+        0,
+        95
+      ],
+      "tileCount": 52,
+      "bbox": {
+        "minX": 115,
+        "minY": 55,
+        "maxX": 123,
+        "maxY": 62
+      },
+      "rowRuns": [
+        {
+          "y": 55,
+          "startX": 115,
+          "endX": 115
+        },
+        {
+          "y": 55,
+          "startX": 119,
+          "endX": 119
+        },
+        {
+          "y": 56,
+          "startX": 115,
+          "endX": 116
+        },
+        {
+          "y": 56,
+          "startX": 118,
+          "endX": 120
+        },
+        {
+          "y": 57,
+          "startX": 115,
+          "endX": 121
+        },
+        {
+          "y": 58,
+          "startX": 115,
+          "endX": 122
+        },
+        {
+          "y": 59,
+          "startX": 115,
+          "endX": 122
+        },
+        {
+          "y": 60,
+          "startX": 115,
+          "endX": 123
+        },
+        {
+          "y": 61,
+          "startX": 116,
+          "endX": 123
+        },
+        {
+          "y": 62,
+          "startX": 117,
+          "endX": 121
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

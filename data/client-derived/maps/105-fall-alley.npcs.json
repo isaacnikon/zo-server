@@ -1,0 +1,111 @@
+{
+  "mapId": 105,
+  "mapName": "Fall Alley",
+  "source": {
+    "scriptGcg": "/home/nikon/Data/Zodiac Online/gcg/script.gcg",
+    "roleinfo": "data/client-derived/archive/0000136e__roleinfo.txt",
+    "mapinfo": "data/client-derived/archive/00000cb1__mapinfo.txt",
+    "chunkOffsets": {
+      "start": 3460515,
+      "end": 3461100
+    }
+  },
+  "validationSummary": {
+    "totalNpcs": 6,
+    "statusCounts": {
+      "match": 6
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3651,
+      "npcTypeId": 3,
+      "name": "Zodiac Eudemon",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 69,
+      "y": 93,
+      "roleinfoNameByNpcId": "Zodiac Eudemon",
+      "roleinfoIdByName": 3651,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3651,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3651, 3,\"\"..macro_GetTypeNpcName(3651)..\"\",69,93)"
+    },
+    {
+      "order": 1,
+      "npcId": 3185,
+      "npcTypeId": 3,
+      "name": "Debbie",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 69,
+      "y": 193,
+      "roleinfoNameByNpcId": "Debbie",
+      "roleinfoIdByName": 3185,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3185,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3185, 3,\"\"..macro_GetTypeNpcName(3185)..\"\",69,193)"
+    },
+    {
+      "order": 2,
+      "npcId": 3186,
+      "npcTypeId": 1,
+      "name": "Lazy Soldier",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 72,
+      "y": 192,
+      "roleinfoNameByNpcId": "Lazy Soldier",
+      "roleinfoIdByName": 3186,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3186,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3186, 1,\"\"..macro_GetTypeNpcName(3186)..\"\",72,192)"
+    },
+    {
+      "order": 3,
+      "npcId": 3189,
+      "npcTypeId": 3,
+      "name": "Frances",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 15,
+      "y": 84,
+      "roleinfoNameByNpcId": "Frances",
+      "roleinfoIdByName": 3189,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3189,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3189, 3,\"\"..macro_GetTypeNpcName(3189)..\"\",15,84)"
+    },
+    {
+      "order": 4,
+      "npcId": 3039,
+      "npcTypeId": 1,
+      "name": "Looter",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 9,
+      "y": 82,
+      "roleinfoNameByNpcId": "Looter",
+      "roleinfoIdByName": 3039,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3039,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3039, 1,\"\"..macro_GetTypeNpcName(3039)..\"\",9,82)"
+    },
+    {
+      "order": 5,
+      "npcId": 3212,
+      "npcTypeId": 1,
+      "name": "Ghost Pig",
+      "nameSource": "macro_GetTypeNpcName",
+      "x": 97,
+      "y": 59,
+      "roleinfoNameByNpcId": "Ghost Pig",
+      "roleinfoIdByName": 3212,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3212,
+      "validationStatus": "match",
+      "rawCall": "macro_AddMapNpc(3212, 1,\"\"..macro_GetTypeNpcName(3212)..\"\",97,59)"
+    }
+  ]
+}

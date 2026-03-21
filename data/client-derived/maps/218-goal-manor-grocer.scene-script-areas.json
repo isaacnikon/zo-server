@@ -1,0 +1,102 @@
+{
+  "mapId": 218,
+  "mapName": "Goal Manor Grocer",
+  "width": 64,
+  "height": 128,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 1,
+      "bbox": {
+        "minX": 37,
+        "minY": 94,
+        "maxX": 37,
+        "maxY": 94
+      },
+      "rowRuns": [
+        {
+          "y": 94,
+          "startX": 37,
+          "endX": 37
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        0
+      ],
+      "tileCount": 45,
+      "bbox": {
+        "minX": 32,
+        "minY": 95,
+        "maxX": 40,
+        "maxY": 104
+      },
+      "rowRuns": [
+        {
+          "y": 95,
+          "startX": 36,
+          "endX": 36
+        },
+        {
+          "y": 96,
+          "startX": 35,
+          "endX": 36
+        },
+        {
+          "y": 97,
+          "startX": 34,
+          "endX": 37
+        },
+        {
+          "y": 98,
+          "startX": 33,
+          "endX": 38
+        },
+        {
+          "y": 99,
+          "startX": 32,
+          "endX": 39
+        },
+        {
+          "y": 100,
+          "startX": 33,
+          "endX": 40
+        },
+        {
+          "y": 101,
+          "startX": 34,
+          "endX": 40
+        },
+        {
+          "y": 102,
+          "startX": 35,
+          "endX": 39
+        },
+        {
+          "y": 103,
+          "startX": 36,
+          "endX": 38
+        },
+        {
+          "y": 104,
+          "startX": 37,
+          "endX": 37
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}

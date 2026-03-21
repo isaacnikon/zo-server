@@ -1,0 +1,182 @@
+{
+  "mapId": 105,
+  "mapName": "Fall Alley",
+  "width": 128,
+  "height": 256,
+  "componentCount": 2,
+  "areas": [
+    {
+      "sceneScriptId": 1,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        75
+      ],
+      "tileCount": 119,
+      "bbox": {
+        "minX": 117,
+        "minY": 185,
+        "maxX": 126,
+        "maxY": 199
+      },
+      "rowRuns": [
+        {
+          "y": 185,
+          "startX": 120,
+          "endX": 123
+        },
+        {
+          "y": 186,
+          "startX": 119,
+          "endX": 124
+        },
+        {
+          "y": 187,
+          "startX": 118,
+          "endX": 124
+        },
+        {
+          "y": 188,
+          "startX": 117,
+          "endX": 125
+        },
+        {
+          "y": 189,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 190,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 191,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 192,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 193,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 194,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 195,
+          "startX": 117,
+          "endX": 126
+        },
+        {
+          "y": 196,
+          "startX": 118,
+          "endX": 125
+        },
+        {
+          "y": 197,
+          "startX": 119,
+          "endX": 125
+        },
+        {
+          "y": 198,
+          "startX": 120,
+          "endX": 124
+        },
+        {
+          "y": 199,
+          "startX": 121,
+          "endX": 123
+        }
+      ],
+      "componentIndex": 1
+    },
+    {
+      "sceneScriptId": 3,
+      "tileTypeValues": [
+        2
+      ],
+      "auxValues": [
+        75
+      ],
+      "tileCount": 97,
+      "bbox": {
+        "minX": 26,
+        "minY": 0,
+        "maxX": 34,
+        "maxY": 11
+      },
+      "rowRuns": [
+        {
+          "y": 0,
+          "startX": 28,
+          "endX": 32
+        },
+        {
+          "y": 1,
+          "startX": 27,
+          "endX": 33
+        },
+        {
+          "y": 2,
+          "startX": 26,
+          "endX": 34
+        },
+        {
+          "y": 3,
+          "startX": 26,
+          "endX": 34
+        },
+        {
+          "y": 4,
+          "startX": 26,
+          "endX": 34
+        },
+        {
+          "y": 5,
+          "startX": 26,
+          "endX": 34
+        },
+        {
+          "y": 6,
+          "startX": 26,
+          "endX": 34
+        },
+        {
+          "y": 7,
+          "startX": 26,
+          "endX": 34
+        },
+        {
+          "y": 8,
+          "startX": 26,
+          "endX": 34
+        },
+        {
+          "y": 9,
+          "startX": 26,
+          "endX": 34
+        },
+        {
+          "y": 10,
+          "startX": 27,
+          "endX": 33
+        },
+        {
+          "y": 11,
+          "startX": 27,
+          "endX": 32
+        }
+      ],
+      "componentIndex": 2
+    }
+  ]
+}
