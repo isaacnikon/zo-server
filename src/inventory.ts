@@ -14,15 +14,6 @@ const POTION_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'potions.json');
 const STUFF_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'stuff.json');
 const ITEMINFO_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'iteminfo.json');
 
-const EQUIPMENT_NAME_OVERRIDES = Object.freeze<Record<number, string>>({
-  10001: 'Light Hood',
-  11001: 'Fabric Garment',
-  13001: 'Shoes',
-  15001: 'Red String',
-  16001: 'Gauze Garment',
-  18001: 'Embroidered Shoes',
-});
-
 type UnknownRecord = Record<string, any>;
 
 interface AttributePair {
@@ -45,6 +36,9 @@ interface ItemDefinition {
   sellPrice?: number;
   defaultQuantity?: number;
   defaultAttributePairs?: AttributePair[];
+  equipSlotField?: number | null;
+  restrictions?: UnknownRecord;
+  combatStats?: UnknownRecord;
   iconPath: string;
   clientEvidence: string;
 }
@@ -172,7 +166,7 @@ function loadClientEquipmentDefinitions(filePath: string, kind: 'armor' | 'weapo
 
     rows.push({
       templateId: entry.templateId,
-      name: EQUIPMENT_NAME_OVERRIDES[entry.templateId] || entry.name || `Item ${entry.templateId}`,
+      name: entry.name || `Item ${entry.templateId}`,
       containerType: BAG_CONTAINER_TYPE,
       maxStack: 1,
       clientTemplateFamily: entry.clientTemplateFamily,
@@ -181,6 +175,9 @@ function loadClientEquipmentDefinitions(filePath: string, kind: 'armor' | 'weapo
       sellPrice: resolveClientSellPrice(entry, kind),
       defaultQuantity,
       defaultAttributePairs,
+      equipSlotField: Number.isInteger(entry?.equipSlotField) ? entry.equipSlotField : null,
+      restrictions: entry?.restrictions && typeof entry.restrictions === 'object' ? entry.restrictions : undefined,
+      combatStats: entry?.combatStats && typeof entry.combatStats === 'object' ? entry.combatStats : undefined,
       iconPath: typeof entry.iconPath === 'string' ? entry.iconPath : '',
       clientEvidence:
         `Client-derived ${path.basename(filePath)} row ${entry.templateId} derives family and equipment instance defaults.`,
@@ -231,13 +228,17 @@ function resolveConsumableEffect(
   entry: UnknownRecord,
   sourceLabel: string
 ): ItemDefinition['consumableEffect'] | undefined {
-  if (sourceLabel !== 'is_potion.txt' || !Array.isArray(entry?.usageFields)) {
+  if (sourceLabel !== 'is_potion.txt') {
     return undefined;
   }
 
-  const health = positiveIntOrZero(entry.usageFields[3]);
-  const mana = positiveIntOrZero(entry.usageFields[4]);
-  const rage = positiveIntOrZero(entry.usageFields[5]);
+  const effectFields =
+    entry?.effectFieldsNamed && typeof entry.effectFieldsNamed === 'object'
+      ? entry.effectFieldsNamed
+      : {};
+  const health = positiveIntOrZero(effectFields.health || entry?.usageFields?.[3]);
+  const mana = positiveIntOrZero(effectFields.mana || entry?.usageFields?.[4]);
+  const rage = positiveIntOrZero(effectFields.rage || entry?.usageFields?.[5]);
   if (health <= 0 && mana <= 0 && rage <= 0) {
     return undefined;
   }
@@ -798,6 +799,65 @@ function isEquipmentDefinition(definition: ItemDefinition): boolean {
   );
 }
 
+function getEquippedItems(session: InventorySessionLike): BagItem[] {
+  return Array.isArray(session.bagItems)
+    ? session.bagItems.filter((item) => item?.equipped === true)
+    : [];
+}
+
+function getEquipmentCombatBonuses(session: InventorySessionLike): UnknownRecord {
+  return getEquippedItems(session).reduce((totals: UnknownRecord, item: BagItem) => {
+    const definition = getItemDefinition(item.templateId);
+    const stats = definition?.combatStats && typeof definition.combatStats === 'object'
+      ? definition.combatStats
+      : {};
+    totals.attackMin += positiveIntOrZero(stats.attackMin);
+    totals.attackMax += positiveIntOrZero(stats.attackMax);
+    totals.magicAttackMin += positiveIntOrZero(stats.magicAttackMin);
+    totals.magicAttackMax += positiveIntOrZero(stats.magicAttackMax);
+    totals.defense += positiveIntOrZero(stats.defense);
+    totals.magicDefense += positiveIntOrZero(stats.magicDefense);
+    return totals;
+  }, {
+    attackMin: 0,
+    attackMax: 0,
+    magicAttackMin: 0,
+    magicAttackMax: 0,
+    defense: 0,
+    magicDefense: 0,
+  });
+}
+
+function canEquipItem(session: UnknownRecord, item: BagItem): UnknownRecord {
+  const definition = getItemDefinition(item?.templateId);
+  if (!definition || definition.hasDurability !== true) {
+    return { ok: false, reason: 'Item is not equippable' };
+  }
+
+  const restrictions =
+    definition.restrictions && typeof definition.restrictions === 'object'
+      ? definition.restrictions
+      : {};
+  const requiredLevel = positiveIntOrZero(restrictions.requiredLevel);
+  if (requiredLevel > 0 && Math.max(1, session?.level || 1) < requiredLevel) {
+    return { ok: false, reason: `Requires level ${requiredLevel}` };
+  }
+
+  const requiredGenderCode = positiveIntOrZero(restrictions.genderCode);
+  if (requiredGenderCode > 0) {
+    const roleEntityType = (session?.roleEntityType || session?.entityType || 0) >>> 0;
+    const isFemale = roleEntityType >= 1001 && roleEntityType <= 1024
+      ? (roleEntityType & 1) === 0
+      : (Math.max(0, roleEntityType - 1000) & 1) === 1;
+    const genderCode = isFemale ? 2 : 1;
+    if (genderCode !== requiredGenderCode) {
+      return { ok: false, reason: requiredGenderCode === 2 ? 'Female only' : 'Male only' };
+    }
+  }
+
+  return { ok: true };
+}
+
 function initialStoredQuantityForGrant(definition: ItemDefinition, requestedQuantity: number): number {
   return Math.max(1, requestedQuantity | 0);
 }
@@ -951,4 +1011,7 @@ export {
   normalizeInventoryState,
   consumeBagItemByInstanceId,
   removeBagItemByInstanceId,
+  canEquipItem,
+  getEquippedItems,
+  getEquipmentCombatBonuses,
 };

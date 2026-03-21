@@ -4,7 +4,7 @@
     "extractedFile": "/home/nikon/projects/zo-server/data/client-derived/archive/000006c3__is_weapon.txt"
   },
   "archiveEntry": "is_weapon.txt",
-  "generatedAt": "2026-03-19T12:26:08.144815+00:00",
+  "generatedAt": "2026-03-20T20:57:14.713067+00:00",
   "count": 138,
   "entries": [
     {
@@ -21,6 +21,30 @@
         "attackMax": 50,
         "magicAttackMin": 45,
         "magicAttackMax": 50
+      },
+      "combatStats": {
+        "attackMin": 45,
+        "attackMax": 50,
+        "magicAttackMin": 45,
+        "magicAttackMax": 50,
+        "raw": [
+          41,
+          45,
+          45,
+          50,
+          41,
+          45,
+          50,
+          50,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          0
+        ]
       },
       "combatFields": [
         41,
@@ -41,6 +65,24 @@
         0
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0001.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": 51,
+        "raw": [
+          51,
+          851,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         51,
         851,
@@ -72,6 +114,30 @@
         "magicAttackMin": 55,
         "magicAttackMax": 60
       },
+      "combatStats": {
+        "attackMin": 95,
+        "attackMax": 111,
+        "magicAttackMin": 55,
+        "magicAttackMax": 60,
+        "raw": [
+          91,
+          95,
+          95,
+          111,
+          45,
+          55,
+          55,
+          60,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         91,
         95,
@@ -91,6 +157,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0012.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 10,
+        "classCode": 51,
+        "raw": [
+          51,
+          851,
+          0,
+          141,
+          0,
+          0,
+          0,
+          10,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         51,
         851,
@@ -122,6 +206,30 @@
         "magicAttackMin": 106,
         "magicAttackMax": 111
       },
+      "combatStats": {
+        "attackMin": 50,
+        "attackMax": 60,
+        "magicAttackMin": 106,
+        "magicAttackMax": 111,
+        "raw": [
+          45,
+          50,
+          50,
+          60,
+          91,
+          106,
+          106,
+          111,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         45,
         50,
@@ -141,6 +249,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0029.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 10,
+        "classCode": 52,
+        "raw": [
+          52,
+          852,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          10
+        ]
+      },
       "restrictionFields": [
         52,
         852,
@@ -172,6 +298,30 @@
         "magicAttackMin": 80,
         "magicAttackMax": 85
       },
+      "combatStats": {
+        "attackMin": 72,
+        "attackMax": 85,
+        "magicAttackMin": 80,
+        "magicAttackMax": 85,
+        "raw": [
+          68,
+          72,
+          72,
+          85,
+          68,
+          80,
+          80,
+          85,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         68,
         72,
@@ -191,6 +341,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0013.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": 52,
+        "raw": [
+          52,
+          852,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         52,
         852,
@@ -222,6 +390,30 @@
         "magicAttackMin": 65,
         "magicAttackMax": 70
       },
+      "combatStats": {
+        "attackMin": 111,
+        "attackMax": 121,
+        "magicAttackMin": 65,
+        "magicAttackMax": 70,
+        "raw": [
+          100,
+          111,
+          111,
+          121,
+          54,
+          65,
+          60,
+          70,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         100,
         111,
@@ -241,6 +433,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0012.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 12,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          12,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -272,6 +482,30 @@
         "magicAttackMin": 116,
         "magicAttackMax": 121
       },
+      "combatStats": {
+        "attackMin": 60,
+        "attackMax": 70,
+        "magicAttackMin": 116,
+        "magicAttackMax": 121,
+        "raw": [
+          54,
+          60,
+          60,
+          70,
+          100,
+          116,
+          111,
+          121,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         54,
         60,
@@ -291,6 +525,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0029.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 12,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          12
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -322,6 +574,30 @@
         "magicAttackMin": 91,
         "magicAttackMax": 96
       },
+      "combatStats": {
+        "attackMin": 85,
+        "attackMax": 96,
+        "magicAttackMin": 91,
+        "magicAttackMax": 96,
+        "raw": [
+          77,
+          85,
+          85,
+          96,
+          77,
+          91,
+          85,
+          96,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         77,
         85,
@@ -341,6 +617,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0013.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -372,6 +666,30 @@
         "magicAttackMin": 70,
         "magicAttackMax": 75
       },
+      "combatStats": {
+        "attackMin": 121,
+        "attackMax": 126,
+        "magicAttackMin": 70,
+        "magicAttackMax": 75,
+        "raw": [
+          109,
+          121,
+          121,
+          126,
+          63,
+          70,
+          70,
+          75,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         109,
         121,
@@ -391,6 +709,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0012.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 14,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          14,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -422,6 +758,30 @@
         "magicAttackMin": 121,
         "magicAttackMax": 126
       },
+      "combatStats": {
+        "attackMin": 70,
+        "attackMax": 75,
+        "magicAttackMin": 121,
+        "magicAttackMax": 126,
+        "raw": [
+          63,
+          70,
+          70,
+          75,
+          109,
+          121,
+          121,
+          126,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         63,
         70,
@@ -441,6 +801,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0029.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 14,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          14
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -472,6 +850,30 @@
         "magicAttackMin": 96,
         "magicAttackMax": 101
       },
+      "combatStats": {
+        "attackMin": 96,
+        "attackMax": 101,
+        "magicAttackMin": 96,
+        "magicAttackMax": 101,
+        "raw": [
+          86,
+          96,
+          96,
+          101,
+          86,
+          96,
+          96,
+          101,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         86,
         96,
@@ -491,6 +893,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0013.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -522,6 +942,30 @@
         "magicAttackMin": 79,
         "magicAttackMax": 88
       },
+      "combatStats": {
+        "attackMin": 151,
+        "attackMax": 177,
+        "magicAttackMin": 79,
+        "magicAttackMax": 88,
+        "raw": [
+          143,
+          151,
+          151,
+          177,
+          63,
+          79,
+          79,
+          88,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         143,
         151,
@@ -541,6 +985,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0035.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 20,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          20,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -572,6 +1034,30 @@
         "magicAttackMin": 168,
         "magicAttackMax": 177
       },
+      "combatStats": {
+        "attackMin": 71,
+        "attackMax": 88,
+        "magicAttackMin": 168,
+        "magicAttackMax": 177,
+        "raw": [
+          63,
+          71,
+          71,
+          88,
+          143,
+          168,
+          168,
+          177,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         63,
         71,
@@ -591,6 +1077,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0026.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 20,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          20
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -622,6 +1126,30 @@
         "magicAttackMin": 123,
         "magicAttackMax": 132
       },
+      "combatStats": {
+        "attackMin": 111,
+        "attackMax": 132,
+        "magicAttackMin": 123,
+        "magicAttackMax": 132,
+        "raw": [
+          103,
+          111,
+          111,
+          132,
+          103,
+          123,
+          123,
+          132,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         103,
         111,
@@ -641,6 +1169,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0023.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -672,6 +1218,30 @@
         "magicAttackMin": 97,
         "magicAttackMax": 105
       },
+      "combatStats": {
+        "attackMin": 177,
+        "attackMax": 195,
+        "magicAttackMin": 97,
+        "magicAttackMax": 105,
+        "raw": [
+          159,
+          177,
+          177,
+          195,
+          79,
+          97,
+          88,
+          105,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         159,
         177,
@@ -691,6 +1261,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0035.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 22,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          22,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -722,6 +1310,30 @@
         "magicAttackMin": 186,
         "magicAttackMax": 195
       },
+      "combatStats": {
+        "attackMin": 88,
+        "attackMax": 105,
+        "magicAttackMin": 186,
+        "magicAttackMax": 195,
+        "raw": [
+          79,
+          88,
+          88,
+          105,
+          159,
+          186,
+          177,
+          195,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         79,
         88,
@@ -741,6 +1353,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0026.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 22,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          22
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -772,6 +1402,30 @@
         "magicAttackMin": 141,
         "magicAttackMax": 150
       },
+      "combatStats": {
+        "attackMin": 132,
+        "attackMax": 150,
+        "magicAttackMin": 141,
+        "magicAttackMax": 150,
+        "raw": [
+          119,
+          132,
+          132,
+          150,
+          119,
+          141,
+          132,
+          150,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         119,
         132,
@@ -791,6 +1445,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0023.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -822,6 +1494,30 @@
         "magicAttackMin": 105,
         "magicAttackMax": 114
       },
+      "combatStats": {
+        "attackMin": 195,
+        "attackMax": 204,
+        "magicAttackMin": 105,
+        "magicAttackMax": 114,
+        "raw": [
+          176,
+          195,
+          195,
+          204,
+          95,
+          105,
+          105,
+          114,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         176,
         195,
@@ -841,6 +1537,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0035.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 24,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          24,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -872,6 +1586,30 @@
         "magicAttackMin": 195,
         "magicAttackMax": 204
       },
+      "combatStats": {
+        "attackMin": 105,
+        "attackMax": 114,
+        "magicAttackMin": 195,
+        "magicAttackMax": 204,
+        "raw": [
+          95,
+          105,
+          105,
+          114,
+          176,
+          195,
+          195,
+          204,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         95,
         105,
@@ -891,6 +1629,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0026.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 24,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          24
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -922,6 +1678,30 @@
         "magicAttackMin": 150,
         "magicAttackMax": 159
       },
+      "combatStats": {
+        "attackMin": 150,
+        "attackMax": 159,
+        "magicAttackMin": 150,
+        "magicAttackMax": 159,
+        "raw": [
+          135,
+          150,
+          150,
+          159,
+          135,
+          150,
+          150,
+          159,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         135,
         150,
@@ -941,6 +1721,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0023.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -972,6 +1770,30 @@
         "magicAttackMin": 102,
         "magicAttackMax": 115
       },
+      "combatStats": {
+        "attackMin": 207,
+        "attackMax": 243,
+        "magicAttackMin": 102,
+        "magicAttackMax": 115,
+        "raw": [
+          196,
+          207,
+          207,
+          243,
+          80,
+          102,
+          102,
+          115,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         196,
         207,
@@ -991,6 +1813,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0040.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 30,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          30,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -1022,6 +1862,30 @@
         "magicAttackMin": 230,
         "magicAttackMax": 243
       },
+      "combatStats": {
+        "attackMin": 92,
+        "attackMax": 115,
+        "magicAttackMin": 230,
+        "magicAttackMax": 243,
+        "raw": [
+          80,
+          92,
+          92,
+          115,
+          196,
+          230,
+          230,
+          243,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         80,
         92,
@@ -1041,6 +1905,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0022.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 30,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          30
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -1072,6 +1954,30 @@
         "magicAttackMin": 166,
         "magicAttackMax": 179
       },
+      "combatStats": {
+        "attackMin": 149,
+        "attackMax": 179,
+        "magicAttackMin": 166,
+        "magicAttackMax": 179,
+        "raw": [
+          138,
+          149,
+          149,
+          179,
+          138,
+          166,
+          166,
+          179,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         138,
         149,
@@ -1091,6 +1997,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0017.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -1122,6 +2046,30 @@
         "magicAttackMin": 128,
         "magicAttackMax": 141
       },
+      "combatStats": {
+        "attackMin": 243,
+        "attackMax": 269,
+        "magicAttackMin": 128,
+        "magicAttackMax": 141,
+        "raw": [
+          219,
+          243,
+          243,
+          269,
+          104,
+          128,
+          115,
+          141,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         219,
         243,
@@ -1141,6 +2089,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0040.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 32,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          32,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -1172,6 +2138,30 @@
         "magicAttackMin": 256,
         "magicAttackMax": 269
       },
+      "combatStats": {
+        "attackMin": 115,
+        "attackMax": 141,
+        "magicAttackMin": 256,
+        "magicAttackMax": 269,
+        "raw": [
+          104,
+          115,
+          115,
+          141,
+          219,
+          256,
+          243,
+          269,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         104,
         115,
@@ -1191,6 +2181,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0022.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 32,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          32
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -1222,6 +2230,30 @@
         "magicAttackMin": 192,
         "magicAttackMax": 205
       },
+      "combatStats": {
+        "attackMin": 179,
+        "attackMax": 205,
+        "magicAttackMin": 192,
+        "magicAttackMax": 205,
+        "raw": [
+          161,
+          179,
+          179,
+          205,
+          161,
+          192,
+          179,
+          205,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         161,
         179,
@@ -1241,6 +2273,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0017.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -1272,6 +2322,30 @@
         "magicAttackMin": 141,
         "magicAttackMax": 153
       },
+      "combatStats": {
+        "attackMin": 269,
+        "attackMax": 282,
+        "magicAttackMin": 141,
+        "magicAttackMax": 153,
+        "raw": [
+          242,
+          269,
+          269,
+          282,
+          127,
+          141,
+          141,
+          153,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         242,
         269,
@@ -1291,6 +2365,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0040.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 34,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          34,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -1322,6 +2414,30 @@
         "magicAttackMin": 269,
         "magicAttackMax": 282
       },
+      "combatStats": {
+        "attackMin": 141,
+        "attackMax": 153,
+        "magicAttackMin": 269,
+        "magicAttackMax": 282,
+        "raw": [
+          127,
+          141,
+          141,
+          153,
+          242,
+          269,
+          269,
+          282,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         127,
         141,
@@ -1341,6 +2457,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0022.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 34,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          34
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -1372,6 +2506,30 @@
         "magicAttackMin": 205,
         "magicAttackMax": 218
       },
+      "combatStats": {
+        "attackMin": 205,
+        "attackMax": 218,
+        "magicAttackMin": 205,
+        "magicAttackMax": 218,
+        "raw": [
+          185,
+          205,
+          205,
+          218,
+          185,
+          205,
+          205,
+          218,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         185,
         205,
@@ -1391,6 +2549,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0017.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -1422,6 +2598,30 @@
         "magicAttackMin": 125,
         "magicAttackMax": 142
       },
+      "combatStats": {
+        "attackMin": 264,
+        "attackMax": 310,
+        "magicAttackMin": 125,
+        "magicAttackMax": 142,
+        "raw": [
+          248,
+          264,
+          264,
+          310,
+          98,
+          125,
+          125,
+          142,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         248,
         264,
@@ -1441,6 +2641,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0027.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 40,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          40,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -1472,6 +2690,30 @@
         "magicAttackMin": 293,
         "magicAttackMax": 310
       },
+      "combatStats": {
+        "attackMin": 113,
+        "attackMax": 142,
+        "magicAttackMin": 293,
+        "magicAttackMax": 310,
+        "raw": [
+          98,
+          113,
+          113,
+          142,
+          248,
+          293,
+          293,
+          310,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         98,
         113,
@@ -1491,6 +2733,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0032.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 40,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          40
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -1522,6 +2782,30 @@
         "magicAttackMin": 209,
         "magicAttackMax": 226
       },
+      "combatStats": {
+        "attackMin": 188,
+        "attackMax": 226,
+        "magicAttackMin": 209,
+        "magicAttackMax": 226,
+        "raw": [
+          173,
+          188,
+          188,
+          226,
+          173,
+          209,
+          209,
+          226,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         173,
         188,
@@ -1541,6 +2825,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0018.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -1572,6 +2874,30 @@
         "magicAttackMin": 159,
         "magicAttackMax": 176
       },
+      "combatStats": {
+        "attackMin": 310,
+        "attackMax": 343,
+        "magicAttackMin": 159,
+        "magicAttackMax": 176,
+        "raw": [
+          279,
+          310,
+          310,
+          343,
+          128,
+          159,
+          142,
+          176,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         279,
         310,
@@ -1591,6 +2917,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0027.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 42,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          42,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -1622,6 +2966,30 @@
         "magicAttackMin": 326,
         "magicAttackMax": 343
       },
+      "combatStats": {
+        "attackMin": 142,
+        "attackMax": 176,
+        "magicAttackMin": 326,
+        "magicAttackMax": 343,
+        "raw": [
+          128,
+          142,
+          142,
+          176,
+          279,
+          326,
+          310,
+          343,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         128,
         142,
@@ -1641,6 +3009,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0032.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 42,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          42
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -1672,6 +3058,30 @@
         "magicAttackMin": 243,
         "magicAttackMax": 259
       },
+      "combatStats": {
+        "attackMin": 226,
+        "attackMax": 259,
+        "magicAttackMin": 243,
+        "magicAttackMax": 259,
+        "raw": [
+          203,
+          226,
+          226,
+          259,
+          203,
+          243,
+          226,
+          259,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         203,
         226,
@@ -1691,6 +3101,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0018.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -1722,6 +3150,30 @@
         "magicAttackMin": 176,
         "magicAttackMax": 192
       },
+      "combatStats": {
+        "attackMin": 343,
+        "attackMax": 360,
+        "magicAttackMin": 176,
+        "magicAttackMax": 192,
+        "raw": [
+          309,
+          343,
+          343,
+          360,
+          158,
+          176,
+          176,
+          192,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         309,
         343,
@@ -1741,6 +3193,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0027.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 44,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          44,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -1772,6 +3242,30 @@
         "magicAttackMin": 343,
         "magicAttackMax": 360
       },
+      "combatStats": {
+        "attackMin": 176,
+        "attackMax": 192,
+        "magicAttackMin": 343,
+        "magicAttackMax": 360,
+        "raw": [
+          158,
+          176,
+          176,
+          192,
+          309,
+          343,
+          343,
+          360,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         158,
         176,
@@ -1791,6 +3285,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0032.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 44,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          44
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -1822,6 +3334,30 @@
         "magicAttackMin": 259,
         "magicAttackMax": 276
       },
+      "combatStats": {
+        "attackMin": 259,
+        "attackMax": 276,
+        "magicAttackMin": 259,
+        "magicAttackMax": 276,
+        "raw": [
+          233,
+          259,
+          259,
+          276,
+          233,
+          259,
+          259,
+          276,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         233,
         259,
@@ -1841,6 +3377,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0018.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -1872,6 +3426,30 @@
         "magicAttackMin": 149,
         "magicAttackMax": 169
       },
+      "combatStats": {
+        "attackMin": 320,
+        "attackMax": 376,
+        "magicAttackMin": 149,
+        "magicAttackMax": 169,
+        "raw": [
+          302,
+          320,
+          320,
+          376,
+          115,
+          149,
+          149,
+          169,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         302,
         320,
@@ -1891,6 +3469,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0004.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 50,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          50,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -1922,6 +3518,30 @@
         "magicAttackMin": 355,
         "magicAttackMax": 376
       },
+      "combatStats": {
+        "attackMin": 134,
+        "attackMax": 169,
+        "magicAttackMin": 355,
+        "magicAttackMax": 376,
+        "raw": [
+          115,
+          134,
+          134,
+          169,
+          302,
+          355,
+          355,
+          376,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         115,
         134,
@@ -1941,6 +3561,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0028.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 50,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          50
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -1972,6 +3610,30 @@
         "magicAttackMin": 252,
         "magicAttackMax": 273
       },
+      "combatStats": {
+        "attackMin": 227,
+        "attackMax": 273,
+        "magicAttackMin": 252,
+        "magicAttackMax": 273,
+        "raw": [
+          208,
+          227,
+          227,
+          273,
+          208,
+          252,
+          252,
+          273,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         208,
         227,
@@ -1991,6 +3653,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0025.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -2022,6 +3702,30 @@
         "magicAttackMin": 190,
         "magicAttackMax": 211
       },
+      "combatStats": {
+        "attackMin": 376,
+        "attackMax": 417,
+        "magicAttackMin": 190,
+        "magicAttackMax": 211,
+        "raw": [
+          338,
+          376,
+          376,
+          417,
+          152,
+          190,
+          169,
+          211,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         338,
         376,
@@ -2041,6 +3745,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0004.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 52,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          52,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -2072,6 +3794,30 @@
         "magicAttackMin": 397,
         "magicAttackMax": 417
       },
+      "combatStats": {
+        "attackMin": 169,
+        "attackMax": 211,
+        "magicAttackMin": 397,
+        "magicAttackMax": 417,
+        "raw": [
+          152,
+          169,
+          169,
+          211,
+          338,
+          397,
+          376,
+          417,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         152,
         169,
@@ -2091,6 +3837,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0028.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 52,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          52
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -2122,6 +3886,30 @@
         "magicAttackMin": 293,
         "magicAttackMax": 314
       },
+      "combatStats": {
+        "attackMin": 273,
+        "attackMax": 314,
+        "magicAttackMin": 293,
+        "magicAttackMax": 314,
+        "raw": [
+          246,
+          273,
+          273,
+          314,
+          246,
+          293,
+          273,
+          314,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         246,
         273,
@@ -2141,6 +3929,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0025.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -2172,6 +3978,30 @@
         "magicAttackMin": 211,
         "magicAttackMax": 231
       },
+      "combatStats": {
+        "attackMin": 417,
+        "attackMax": 438,
+        "magicAttackMin": 211,
+        "magicAttackMax": 231,
+        "raw": [
+          375,
+          417,
+          417,
+          438,
+          190,
+          211,
+          211,
+          231,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         375,
         417,
@@ -2191,6 +4021,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0004.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 54,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          54,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -2222,6 +4070,30 @@
         "magicAttackMin": 417,
         "magicAttackMax": 438
       },
+      "combatStats": {
+        "attackMin": 211,
+        "attackMax": 231,
+        "magicAttackMin": 417,
+        "magicAttackMax": 438,
+        "raw": [
+          190,
+          211,
+          211,
+          231,
+          375,
+          417,
+          417,
+          438,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         190,
         211,
@@ -2241,6 +4113,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0028.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 54,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          54
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -2272,6 +4162,30 @@
         "magicAttackMin": 314,
         "magicAttackMax": 335
       },
+      "combatStats": {
+        "attackMin": 314,
+        "attackMax": 335,
+        "magicAttackMin": 314,
+        "magicAttackMax": 335,
+        "raw": [
+          283,
+          314,
+          314,
+          335,
+          283,
+          314,
+          314,
+          335,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         283,
         314,
@@ -2291,6 +4205,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0025.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -2322,6 +4254,30 @@
         "magicAttackMin": 172,
         "magicAttackMax": 197
       },
+      "combatStats": {
+        "attackMin": 376,
+        "attackMax": 442,
+        "magicAttackMin": 172,
+        "magicAttackMax": 197,
+        "raw": [
+          354,
+          376,
+          376,
+          442,
+          133,
+          172,
+          172,
+          197,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         354,
         376,
@@ -2341,6 +4297,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0020.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 60,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          60,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -2372,6 +4346,30 @@
         "magicAttackMin": 418,
         "magicAttackMax": 442
       },
+      "combatStats": {
+        "attackMin": 155,
+        "attackMax": 197,
+        "magicAttackMin": 418,
+        "magicAttackMax": 442,
+        "raw": [
+          133,
+          155,
+          155,
+          197,
+          354,
+          418,
+          418,
+          442,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         133,
         155,
@@ -2391,6 +4389,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0014.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 60,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          60
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -2422,6 +4438,30 @@
         "magicAttackMin": 295,
         "magicAttackMax": 319
       },
+      "combatStats": {
+        "attackMin": 266,
+        "attackMax": 319,
+        "magicAttackMin": 295,
+        "magicAttackMax": 319,
+        "raw": [
+          243,
+          266,
+          266,
+          319,
+          243,
+          295,
+          295,
+          319,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         243,
         266,
@@ -2441,6 +4481,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0037.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -2472,6 +4530,30 @@
         "magicAttackMin": 221,
         "magicAttackMax": 246
       },
+      "combatStats": {
+        "attackMin": 442,
+        "attackMax": 491,
+        "magicAttackMin": 221,
+        "magicAttackMax": 246,
+        "raw": [
+          398,
+          442,
+          442,
+          491,
+          177,
+          221,
+          197,
+          246,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         398,
         442,
@@ -2491,6 +4573,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0020.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 62,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          62,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -2522,6 +4622,30 @@
         "magicAttackMin": 467,
         "magicAttackMax": 491
       },
+      "combatStats": {
+        "attackMin": 197,
+        "attackMax": 246,
+        "magicAttackMin": 467,
+        "magicAttackMax": 491,
+        "raw": [
+          177,
+          197,
+          197,
+          246,
+          398,
+          467,
+          442,
+          491,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         177,
         197,
@@ -2541,6 +4665,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0014.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 62,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          62
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -2572,6 +4714,30 @@
         "magicAttackMin": 344,
         "magicAttackMax": 369
       },
+      "combatStats": {
+        "attackMin": 319,
+        "attackMax": 369,
+        "magicAttackMin": 344,
+        "magicAttackMax": 369,
+        "raw": [
+          287,
+          319,
+          319,
+          369,
+          287,
+          344,
+          319,
+          369,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         287,
         319,
@@ -2591,6 +4757,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0037.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -2622,6 +4806,30 @@
         "magicAttackMin": 246,
         "magicAttackMax": 270
       },
+      "combatStats": {
+        "attackMin": 491,
+        "attackMax": 516,
+        "magicAttackMin": 246,
+        "magicAttackMax": 270,
+        "raw": [
+          442,
+          491,
+          491,
+          516,
+          221,
+          246,
+          246,
+          270,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         442,
         491,
@@ -2641,6 +4849,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0020.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 64,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          64,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -2672,6 +4898,30 @@
         "magicAttackMin": 491,
         "magicAttackMax": 516
       },
+      "combatStats": {
+        "attackMin": 246,
+        "attackMax": 270,
+        "magicAttackMin": 491,
+        "magicAttackMax": 516,
+        "raw": [
+          221,
+          246,
+          246,
+          270,
+          442,
+          491,
+          491,
+          516,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         221,
         246,
@@ -2691,6 +4941,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0014.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 64,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          64
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -2722,6 +4990,30 @@
         "magicAttackMin": 369,
         "magicAttackMax": 393
       },
+      "combatStats": {
+        "attackMin": 369,
+        "attackMax": 393,
+        "magicAttackMin": 369,
+        "magicAttackMax": 393,
+        "raw": [
+          332,
+          369,
+          369,
+          393,
+          332,
+          369,
+          369,
+          393,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         332,
         369,
@@ -2741,6 +5033,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0037.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -2772,6 +5082,30 @@
         "magicAttackMin": 196,
         "magicAttackMax": 224
       },
+      "combatStats": {
+        "attackMin": 432,
+        "attackMax": 508,
+        "magicAttackMin": 196,
+        "magicAttackMax": 224,
+        "raw": [
+          407,
+          432,
+          432,
+          508,
+          150,
+          196,
+          196,
+          224,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         407,
         432,
@@ -2791,6 +5125,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0033.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 70,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          70,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -2822,6 +5174,30 @@
         "magicAttackMin": 480,
         "magicAttackMax": 508
       },
+      "combatStats": {
+        "attackMin": 176,
+        "attackMax": 224,
+        "magicAttackMin": 480,
+        "magicAttackMax": 508,
+        "raw": [
+          150,
+          176,
+          176,
+          224,
+          407,
+          480,
+          480,
+          508,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         150,
         176,
@@ -2841,6 +5217,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0041.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 70,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          70
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -2872,6 +5266,30 @@
         "magicAttackMin": 338,
         "magicAttackMax": 366
       },
+      "combatStats": {
+        "attackMin": 304,
+        "attackMax": 366,
+        "magicAttackMin": 338,
+        "magicAttackMax": 366,
+        "raw": [
+          278,
+          304,
+          304,
+          366,
+          278,
+          338,
+          338,
+          366,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         278,
         304,
@@ -2891,6 +5309,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0019.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -2922,6 +5358,30 @@
         "magicAttackMin": 253,
         "magicAttackMax": 281
       },
+      "combatStats": {
+        "attackMin": 508,
+        "attackMax": 565,
+        "magicAttackMin": 253,
+        "magicAttackMax": 281,
+        "raw": [
+          457,
+          508,
+          508,
+          565,
+          202,
+          253,
+          224,
+          281,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         457,
         508,
@@ -2941,6 +5401,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0033.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 72,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          72,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -2972,6 +5450,30 @@
         "magicAttackMin": 537,
         "magicAttackMax": 565
       },
+      "combatStats": {
+        "attackMin": 224,
+        "attackMax": 281,
+        "magicAttackMin": 537,
+        "magicAttackMax": 565,
+        "raw": [
+          202,
+          224,
+          224,
+          281,
+          457,
+          537,
+          508,
+          565,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         202,
         224,
@@ -2991,6 +5493,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0041.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 72,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          72
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -3022,6 +5542,30 @@
         "magicAttackMin": 395,
         "magicAttackMax": 423
       },
+      "combatStats": {
+        "attackMin": 366,
+        "attackMax": 423,
+        "magicAttackMin": 395,
+        "magicAttackMax": 423,
+        "raw": [
+          329,
+          366,
+          366,
+          423,
+          329,
+          395,
+          366,
+          423,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         329,
         366,
@@ -3041,6 +5585,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0019.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -3072,6 +5634,30 @@
         "magicAttackMin": 281,
         "magicAttackMax": 309
       },
+      "combatStats": {
+        "attackMin": 565,
+        "attackMax": 594,
+        "magicAttackMin": 281,
+        "magicAttackMax": 309,
+        "raw": [
+          509,
+          565,
+          565,
+          594,
+          253,
+          281,
+          281,
+          309,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         509,
         565,
@@ -3091,6 +5677,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0033.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 74,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          74,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -3122,6 +5726,30 @@
         "magicAttackMin": 565,
         "magicAttackMax": 594
       },
+      "combatStats": {
+        "attackMin": 281,
+        "attackMax": 309,
+        "magicAttackMin": 565,
+        "magicAttackMax": 594,
+        "raw": [
+          253,
+          281,
+          281,
+          309,
+          509,
+          565,
+          565,
+          594,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         253,
         281,
@@ -3141,6 +5769,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0041.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 74,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          74
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -3172,6 +5818,30 @@
         "magicAttackMin": 423,
         "magicAttackMax": 452
       },
+      "combatStats": {
+        "attackMin": 423,
+        "attackMax": 452,
+        "magicAttackMin": 423,
+        "magicAttackMax": 452,
+        "raw": [
+          381,
+          423,
+          423,
+          452,
+          381,
+          423,
+          423,
+          452,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         381,
         423,
@@ -3191,6 +5861,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0019.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -3222,6 +5910,30 @@
         "magicAttackMin": 219,
         "magicAttackMax": 251
       },
+      "combatStats": {
+        "attackMin": 488,
+        "attackMax": 575,
+        "magicAttackMin": 219,
+        "magicAttackMax": 251,
+        "raw": [
+          459,
+          488,
+          488,
+          575,
+          168,
+          219,
+          219,
+          251,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         459,
         488,
@@ -3241,6 +5953,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0016.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 80,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          80,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -3272,6 +6002,30 @@
         "magicAttackMin": 542,
         "magicAttackMax": 575
       },
+      "combatStats": {
+        "attackMin": 197,
+        "attackMax": 251,
+        "magicAttackMin": 542,
+        "magicAttackMax": 575,
+        "raw": [
+          168,
+          197,
+          197,
+          251,
+          459,
+          542,
+          542,
+          575,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         168,
         197,
@@ -3291,6 +6045,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0031.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 80,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          80
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -3322,6 +6094,30 @@
         "magicAttackMin": 381,
         "magicAttackMax": 413
       },
+      "combatStats": {
+        "attackMin": 343,
+        "attackMax": 413,
+        "magicAttackMin": 381,
+        "magicAttackMax": 413,
+        "raw": [
+          313,
+          343,
+          343,
+          413,
+          313,
+          381,
+          381,
+          413,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         313,
         343,
@@ -3341,6 +6137,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0039.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -3372,6 +6186,30 @@
         "magicAttackMin": 284,
         "magicAttackMax": 316
       },
+      "combatStats": {
+        "attackMin": 575,
+        "attackMax": 639,
+        "magicAttackMin": 284,
+        "magicAttackMax": 316,
+        "raw": [
+          518,
+          575,
+          575,
+          639,
+          226,
+          284,
+          251,
+          316,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         518,
         575,
@@ -3391,6 +6229,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0016.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 82,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          82,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -3422,6 +6278,30 @@
         "magicAttackMin": 607,
         "magicAttackMax": 639
       },
+      "combatStats": {
+        "attackMin": 251,
+        "attackMax": 316,
+        "magicAttackMin": 607,
+        "magicAttackMax": 639,
+        "raw": [
+          226,
+          251,
+          251,
+          316,
+          518,
+          607,
+          575,
+          639,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         226,
         251,
@@ -3441,6 +6321,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0031.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 82,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          82
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -3472,6 +6370,30 @@
         "magicAttackMin": 445,
         "magicAttackMax": 478
       },
+      "combatStats": {
+        "attackMin": 413,
+        "attackMax": 478,
+        "magicAttackMin": 445,
+        "magicAttackMax": 478,
+        "raw": [
+          372,
+          413,
+          413,
+          478,
+          372,
+          445,
+          413,
+          478,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         372,
         413,
@@ -3491,6 +6413,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0039.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -3522,6 +6462,30 @@
         "magicAttackMin": 316,
         "magicAttackMax": 348
       },
+      "combatStats": {
+        "attackMin": 639,
+        "attackMax": 672,
+        "magicAttackMin": 316,
+        "magicAttackMax": 348,
+        "raw": [
+          575,
+          639,
+          639,
+          672,
+          284,
+          316,
+          316,
+          348,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         575,
         639,
@@ -3541,6 +6505,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0016.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 84,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          84,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -3572,6 +6554,30 @@
         "magicAttackMin": 639,
         "magicAttackMax": 672
       },
+      "combatStats": {
+        "attackMin": 316,
+        "attackMax": 348,
+        "magicAttackMin": 639,
+        "magicAttackMax": 672,
+        "raw": [
+          284,
+          316,
+          316,
+          348,
+          575,
+          639,
+          639,
+          672,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         284,
         316,
@@ -3591,6 +6597,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0031.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 84,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          84
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -3622,6 +6646,30 @@
         "magicAttackMin": 478,
         "magicAttackMax": 510
       },
+      "combatStats": {
+        "attackMin": 478,
+        "attackMax": 510,
+        "magicAttackMin": 478,
+        "magicAttackMax": 510,
+        "raw": [
+          430,
+          478,
+          478,
+          510,
+          430,
+          478,
+          478,
+          510,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         430,
         478,
@@ -3641,6 +6689,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0039.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -3672,6 +6738,30 @@
         "magicAttackMin": 242,
         "magicAttackMax": 279
       },
+      "combatStats": {
+        "attackMin": 545,
+        "attackMax": 641,
+        "magicAttackMin": 242,
+        "magicAttackMax": 279,
+        "raw": [
+          512,
+          545,
+          545,
+          641,
+          185,
+          242,
+          242,
+          279,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         512,
         545,
@@ -3691,6 +6781,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0036.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 90,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          90,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -3722,6 +6830,30 @@
         "magicAttackMin": 605,
         "magicAttackMax": 641
       },
+      "combatStats": {
+        "attackMin": 218,
+        "attackMax": 279,
+        "magicAttackMin": 605,
+        "magicAttackMax": 641,
+        "raw": [
+          185,
+          218,
+          218,
+          279,
+          512,
+          605,
+          605,
+          641,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         185,
         218,
@@ -3741,6 +6873,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0030.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 90,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          90
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -3772,6 +6922,30 @@
         "magicAttackMin": 424,
         "magicAttackMax": 460
       },
+      "combatStats": {
+        "attackMin": 382,
+        "attackMax": 460,
+        "magicAttackMin": 424,
+        "magicAttackMax": 460,
+        "raw": [
+          348,
+          382,
+          382,
+          460,
+          348,
+          424,
+          424,
+          460,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         348,
         382,
@@ -3791,6 +6965,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0021.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -3822,6 +7014,30 @@
         "magicAttackMin": 315,
         "magicAttackMax": 351
       },
+      "combatStats": {
+        "attackMin": 641,
+        "attackMax": 714,
+        "magicAttackMin": 315,
+        "magicAttackMax": 351,
+        "raw": [
+          577,
+          641,
+          641,
+          714,
+          251,
+          315,
+          279,
+          351,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         577,
         641,
@@ -3841,6 +7057,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0036.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 92,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          92,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -3872,6 +7106,30 @@
         "magicAttackMin": 677,
         "magicAttackMax": 714
       },
+      "combatStats": {
+        "attackMin": 279,
+        "attackMax": 351,
+        "magicAttackMin": 677,
+        "magicAttackMax": 714,
+        "raw": [
+          251,
+          279,
+          279,
+          351,
+          577,
+          677,
+          641,
+          714,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         251,
         279,
@@ -3891,6 +7149,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0030.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 92,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          92
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -3922,6 +7198,30 @@
         "magicAttackMin": 496,
         "magicAttackMax": 532
       },
+      "combatStats": {
+        "attackMin": 460,
+        "attackMax": 532,
+        "magicAttackMin": 496,
+        "magicAttackMax": 532,
+        "raw": [
+          414,
+          460,
+          460,
+          532,
+          414,
+          496,
+          460,
+          532,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         414,
         460,
@@ -3941,6 +7241,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0021.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -3972,6 +7290,30 @@
         "magicAttackMin": 351,
         "magicAttackMax": 387
       },
+      "combatStats": {
+        "attackMin": 714,
+        "attackMax": 750,
+        "magicAttackMin": 351,
+        "magicAttackMax": 387,
+        "raw": [
+          643,
+          714,
+          714,
+          750,
+          316,
+          351,
+          351,
+          387,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         643,
         714,
@@ -3991,6 +7333,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0036.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 94,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          94,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -4022,6 +7382,30 @@
         "magicAttackMin": 714,
         "magicAttackMax": 750
       },
+      "combatStats": {
+        "attackMin": 351,
+        "attackMax": 387,
+        "magicAttackMin": 714,
+        "magicAttackMax": 750,
+        "raw": [
+          316,
+          351,
+          351,
+          387,
+          643,
+          714,
+          714,
+          750,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         316,
         351,
@@ -4041,6 +7425,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0030.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 94,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          94
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -4072,6 +7474,30 @@
         "magicAttackMin": 532,
         "magicAttackMax": 569
       },
+      "combatStats": {
+        "attackMin": 532,
+        "attackMax": 569,
+        "magicAttackMin": 532,
+        "magicAttackMax": 569,
+        "raw": [
+          479,
+          532,
+          532,
+          569,
+          479,
+          532,
+          532,
+          569,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         479,
         532,
@@ -4091,6 +7517,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0021.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -4122,6 +7566,30 @@
         "magicAttackMin": 266,
         "magicAttackMax": 306
       },
+      "combatStats": {
+        "attackMin": 600,
+        "attackMax": 707,
+        "magicAttackMin": 266,
+        "magicAttackMax": 306,
+        "raw": [
+          564,
+          600,
+          600,
+          707,
+          203,
+          266,
+          266,
+          306,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         564,
         600,
@@ -4141,6 +7609,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0034.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 100,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          100,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -4172,6 +7658,30 @@
         "magicAttackMin": 667,
         "magicAttackMax": 707
       },
+      "combatStats": {
+        "attackMin": 239,
+        "attackMax": 306,
+        "magicAttackMin": 667,
+        "magicAttackMax": 707,
+        "raw": [
+          203,
+          239,
+          239,
+          306,
+          564,
+          667,
+          667,
+          707,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         203,
         239,
@@ -4191,6 +7701,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0015.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 100,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -4222,6 +7750,30 @@
         "magicAttackMin": 467,
         "magicAttackMax": 507
       },
+      "combatStats": {
+        "attackMin": 420,
+        "attackMax": 507,
+        "magicAttackMin": 467,
+        "magicAttackMax": 507,
+        "raw": [
+          383,
+          420,
+          420,
+          507,
+          383,
+          467,
+          467,
+          507,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         383,
         420,
@@ -4241,6 +7793,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0024.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -4272,6 +7842,30 @@
         "magicAttackMin": 346,
         "magicAttackMax": 386
       },
+      "combatStats": {
+        "attackMin": 707,
+        "attackMax": 788,
+        "magicAttackMin": 346,
+        "magicAttackMax": 386,
+        "raw": [
+          636,
+          707,
+          707,
+          788,
+          275,
+          346,
+          306,
+          386,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         636,
         707,
@@ -4291,6 +7885,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0034.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 102,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          102,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -4322,6 +7934,30 @@
         "magicAttackMin": 748,
         "magicAttackMax": 788
       },
+      "combatStats": {
+        "attackMin": 306,
+        "attackMax": 386,
+        "magicAttackMin": 748,
+        "magicAttackMax": 788,
+        "raw": [
+          275,
+          306,
+          306,
+          386,
+          636,
+          748,
+          707,
+          788,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         275,
         306,
@@ -4341,6 +7977,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0015.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 102,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          102
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -4372,6 +8026,30 @@
         "magicAttackMin": 547,
         "magicAttackMax": 587
       },
+      "combatStats": {
+        "attackMin": 507,
+        "attackMax": 587,
+        "magicAttackMin": 547,
+        "magicAttackMax": 587,
+        "raw": [
+          456,
+          507,
+          507,
+          587,
+          456,
+          547,
+          507,
+          587,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         456,
         507,
@@ -4391,6 +8069,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0024.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -4422,6 +8118,30 @@
         "magicAttackMin": 386,
         "magicAttackMax": 426
       },
+      "combatStats": {
+        "attackMin": 788,
+        "attackMax": 828,
+        "magicAttackMin": 386,
+        "magicAttackMax": 426,
+        "raw": [
+          709,
+          788,
+          788,
+          828,
+          347,
+          386,
+          386,
+          426,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         709,
         788,
@@ -4441,6 +8161,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0034.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 104,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          104,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -4472,6 +8210,30 @@
         "magicAttackMin": 788,
         "magicAttackMax": 828
       },
+      "combatStats": {
+        "attackMin": 386,
+        "attackMax": 426,
+        "magicAttackMin": 788,
+        "magicAttackMax": 828,
+        "raw": [
+          347,
+          386,
+          386,
+          426,
+          709,
+          788,
+          788,
+          828,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         347,
         386,
@@ -4491,6 +8253,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0015.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 104,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          104
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -4522,6 +8302,30 @@
         "magicAttackMin": 587,
         "magicAttackMax": 627
       },
+      "combatStats": {
+        "attackMin": 587,
+        "attackMax": 627,
+        "magicAttackMin": 587,
+        "magicAttackMax": 627,
+        "raw": [
+          528,
+          587,
+          587,
+          627,
+          528,
+          587,
+          587,
+          627,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         528,
         587,
@@ -4541,6 +8345,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0024.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -4572,6 +8394,30 @@
         "magicAttackMin": 84,
         "magicAttackMax": 84
       },
+      "combatStats": {
+        "attackMin": 84,
+        "attackMax": 84,
+        "magicAttackMin": 84,
+        "magicAttackMax": 84,
+        "raw": [
+          79,
+          84,
+          79,
+          84,
+          79,
+          84,
+          79,
+          84,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          0
+        ]
+      },
       "combatFields": [
         79,
         84,
@@ -4591,6 +8437,24 @@
         0
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0002.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -4622,6 +8486,30 @@
         "magicAttackMin": 70,
         "magicAttackMax": 80
       },
+      "combatStats": {
+        "attackMin": 135,
+        "attackMax": 140,
+        "magicAttackMin": 70,
+        "magicAttackMax": 80,
+        "raw": [
+          130,
+          135,
+          135,
+          140,
+          65,
+          70,
+          75,
+          80,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         130,
         135,
@@ -4641,6 +8529,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0001.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -4672,6 +8578,30 @@
         "magicAttackMin": 135,
         "magicAttackMax": 140
       },
+      "combatStats": {
+        "attackMin": 70,
+        "attackMax": 80,
+        "magicAttackMin": 135,
+        "magicAttackMax": 140,
+        "raw": [
+          65,
+          70,
+          75,
+          80,
+          130,
+          135,
+          135,
+          140,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         65,
         70,
@@ -4691,6 +8621,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0003.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -4722,6 +8670,30 @@
         "magicAttackMin": 99,
         "magicAttackMax": 109
       },
+      "combatStats": {
+        "attackMin": 99,
+        "attackMax": 109,
+        "magicAttackMin": 99,
+        "magicAttackMax": 109,
+        "raw": [
+          94,
+          99,
+          104,
+          109,
+          94,
+          99,
+          104,
+          109,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         94,
         99,
@@ -4741,6 +8713,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0002.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -4772,6 +8762,30 @@
         "magicAttackMin": 10,
         "magicAttackMax": 10
       },
+      "combatStats": {
+        "attackMin": 10,
+        "attackMax": 10,
+        "magicAttackMin": 10,
+        "magicAttackMax": 10,
+        "raw": [
+          5,
+          10,
+          5,
+          10,
+          5,
+          10,
+          5,
+          10,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          9009,
+          0
+        ]
+      },
       "combatFields": [
         5,
         10,
@@ -4791,6 +8805,24 @@
         0
       ],
       "iconPath": "PicData\\ui\\icon\\gj\\yugan.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -4822,6 +8854,30 @@
         "magicAttackMin": 10,
         "magicAttackMax": 10
       },
+      "combatStats": {
+        "attackMin": 10,
+        "attackMax": 10,
+        "magicAttackMin": 10,
+        "magicAttackMax": 10,
+        "raw": [
+          5,
+          10,
+          5,
+          10,
+          5,
+          10,
+          5,
+          10,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          9006,
+          0
+        ]
+      },
       "combatFields": [
         5,
         10,
@@ -4841,6 +8897,24 @@
         0
       ],
       "iconPath": "PicData\\ui\\icon\\gj\\chutou.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -4872,6 +8946,30 @@
         "magicAttackMin": 10,
         "magicAttackMax": 10
       },
+      "combatStats": {
+        "attackMin": 10,
+        "attackMax": 10,
+        "magicAttackMin": 10,
+        "magicAttackMax": 10,
+        "raw": [
+          5,
+          10,
+          5,
+          10,
+          5,
+          10,
+          5,
+          10,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          9008,
+          0
+        ]
+      },
       "combatFields": [
         5,
         10,
@@ -4891,6 +8989,24 @@
         0
       ],
       "iconPath": "PicData\\ui\\icon\\gj\\liandao.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -4922,6 +9038,30 @@
         "magicAttackMin": 10,
         "magicAttackMax": 10
       },
+      "combatStats": {
+        "attackMin": 10,
+        "attackMax": 10,
+        "magicAttackMin": 10,
+        "magicAttackMax": 10,
+        "raw": [
+          5,
+          10,
+          5,
+          10,
+          5,
+          10,
+          5,
+          10,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          9007,
+          0
+        ]
+      },
       "combatFields": [
         5,
         10,
@@ -4941,6 +9081,24 @@
         0
       ],
       "iconPath": "PicData\\ui\\icon\\gj\\futou.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -4972,6 +9130,30 @@
         "magicAttackMin": 50,
         "magicAttackMax": 50
       },
+      "combatStats": {
+        "attackMin": 50,
+        "attackMax": 50,
+        "magicAttackMin": 50,
+        "magicAttackMax": 50,
+        "raw": [
+          40,
+          50,
+          40,
+          50,
+          40,
+          50,
+          40,
+          50,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          9009,
+          0
+        ]
+      },
       "combatFields": [
         40,
         50,
@@ -4991,6 +9173,24 @@
         0
       ],
       "iconPath": "PicData\\ui\\icon\\gj\\yugan.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -5022,6 +9222,30 @@
         "magicAttackMin": 50,
         "magicAttackMax": 50
       },
+      "combatStats": {
+        "attackMin": 50,
+        "attackMax": 50,
+        "magicAttackMin": 50,
+        "magicAttackMax": 50,
+        "raw": [
+          40,
+          50,
+          40,
+          50,
+          40,
+          50,
+          40,
+          50,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          9006,
+          0
+        ]
+      },
       "combatFields": [
         40,
         50,
@@ -5041,6 +9265,24 @@
         0
       ],
       "iconPath": "PicData\\ui\\icon\\gj\\chutou.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -5072,6 +9314,30 @@
         "magicAttackMin": 50,
         "magicAttackMax": 50
       },
+      "combatStats": {
+        "attackMin": 50,
+        "attackMax": 50,
+        "magicAttackMin": 50,
+        "magicAttackMax": 50,
+        "raw": [
+          40,
+          50,
+          40,
+          50,
+          40,
+          50,
+          40,
+          50,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          9008,
+          0
+        ]
+      },
       "combatFields": [
         40,
         50,
@@ -5091,6 +9357,24 @@
         0
       ],
       "iconPath": "PicData\\ui\\icon\\gj\\liandao.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -5122,6 +9406,30 @@
         "magicAttackMin": 50,
         "magicAttackMax": 50
       },
+      "combatStats": {
+        "attackMin": 50,
+        "attackMax": 50,
+        "magicAttackMin": 50,
+        "magicAttackMax": 50,
+        "raw": [
+          40,
+          50,
+          40,
+          50,
+          40,
+          50,
+          40,
+          50,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          9007,
+          0
+        ]
+      },
       "combatFields": [
         40,
         50,
@@ -5141,6 +9449,24 @@
         0
       ],
       "iconPath": "PicData\\ui\\icon\\gj\\futou.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -5172,6 +9498,30 @@
         "magicAttackMin": 180,
         "magicAttackMax": 180
       },
+      "combatStats": {
+        "attackMin": 180,
+        "attackMax": 180,
+        "magicAttackMin": 180,
+        "magicAttackMax": 180,
+        "raw": [
+          160,
+          180,
+          160,
+          180,
+          160,
+          180,
+          160,
+          180,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         160,
         180,
@@ -5191,6 +9541,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0018.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -5222,6 +9590,30 @@
         "magicAttackMin": 210,
         "magicAttackMax": 210
       },
+      "combatStats": {
+        "attackMin": 210,
+        "attackMax": 210,
+        "magicAttackMin": 210,
+        "magicAttackMax": 210,
+        "raw": [
+          190,
+          210,
+          190,
+          210,
+          190,
+          210,
+          190,
+          210,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         190,
         210,
@@ -5241,6 +9633,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0025.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -5272,6 +9682,30 @@
         "magicAttackMin": 230,
         "magicAttackMax": 230
       },
+      "combatStats": {
+        "attackMin": 230,
+        "attackMax": 230,
+        "magicAttackMin": 230,
+        "magicAttackMax": 230,
+        "raw": [
+          210,
+          230,
+          210,
+          230,
+          210,
+          230,
+          210,
+          230,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         210,
         230,
@@ -5291,6 +9725,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0037.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -5322,6 +9774,30 @@
         "magicAttackMin": 260,
         "magicAttackMax": 260
       },
+      "combatStats": {
+        "attackMin": 260,
+        "attackMax": 260,
+        "magicAttackMin": 260,
+        "magicAttackMax": 260,
+        "raw": [
+          240,
+          260,
+          240,
+          260,
+          240,
+          260,
+          240,
+          260,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         240,
         260,
@@ -5341,6 +9817,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0019.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -5372,6 +9866,30 @@
         "magicAttackMin": 160,
         "magicAttackMax": 180
       },
+      "combatStats": {
+        "attackMin": 160,
+        "attackMax": 180,
+        "magicAttackMin": 160,
+        "magicAttackMax": 180,
+        "raw": [
+          160,
+          160,
+          180,
+          180,
+          160,
+          160,
+          180,
+          180,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         160,
         160,
@@ -5391,6 +9909,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0007.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -5422,6 +9958,30 @@
         "magicAttackMin": 200,
         "magicAttackMax": 220
       },
+      "combatStats": {
+        "attackMin": 200,
+        "attackMax": 220,
+        "magicAttackMin": 200,
+        "magicAttackMax": 220,
+        "raw": [
+          200,
+          200,
+          220,
+          220,
+          200,
+          200,
+          220,
+          220,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         200,
         200,
@@ -5441,6 +10001,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0005.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -5472,6 +10050,30 @@
         "magicAttackMin": 246,
         "magicAttackMax": 270
       },
+      "combatStats": {
+        "attackMin": 491,
+        "attackMax": 516,
+        "magicAttackMin": 246,
+        "magicAttackMax": 270,
+        "raw": [
+          442,
+          491,
+          491,
+          516,
+          221,
+          246,
+          246,
+          270,
+          0,
+          0,
+          9,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         442,
         491,
@@ -5491,6 +10093,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0020.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 64,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          64,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -5522,6 +10142,30 @@
         "magicAttackMin": 491,
         "magicAttackMax": 516
       },
+      "combatStats": {
+        "attackMin": 246,
+        "attackMax": 270,
+        "magicAttackMin": 491,
+        "magicAttackMax": 516,
+        "raw": [
+          221,
+          246,
+          246,
+          270,
+          442,
+          491,
+          491,
+          516,
+          0,
+          0,
+          12,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         221,
         246,
@@ -5541,6 +10185,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0014.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 64,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          64
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -5572,6 +10234,30 @@
         "magicAttackMin": 369,
         "magicAttackMax": 393
       },
+      "combatStats": {
+        "attackMin": 369,
+        "attackMax": 393,
+        "magicAttackMin": 369,
+        "magicAttackMax": 393,
+        "raw": [
+          332,
+          369,
+          369,
+          393,
+          332,
+          369,
+          369,
+          393,
+          0,
+          0,
+          11,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         332,
         369,
@@ -5591,6 +10277,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0037.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -5622,6 +10326,30 @@
         "magicAttackMin": 369,
         "magicAttackMax": 393
       },
+      "combatStats": {
+        "attackMin": 369,
+        "attackMax": 393,
+        "magicAttackMin": 369,
+        "magicAttackMax": 393,
+        "raw": [
+          332,
+          369,
+          369,
+          393,
+          332,
+          369,
+          369,
+          393,
+          0,
+          0,
+          10,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         332,
         369,
@@ -5641,6 +10369,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0033.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -5672,6 +10418,30 @@
         "magicAttackMin": 256,
         "magicAttackMax": 320
       },
+      "combatStats": {
+        "attackMin": 565,
+        "attackMax": 594,
+        "magicAttackMin": 256,
+        "magicAttackMax": 320,
+        "raw": [
+          509,
+          565,
+          565,
+          594,
+          251,
+          256,
+          296,
+          320,
+          0,
+          0,
+          15,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         509,
         565,
@@ -5691,6 +10461,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0016.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 80,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          80,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -5722,6 +10510,30 @@
         "magicAttackMin": 565,
         "magicAttackMax": 594
       },
+      "combatStats": {
+        "attackMin": 256,
+        "attackMax": 320,
+        "magicAttackMin": 565,
+        "magicAttackMax": 594,
+        "raw": [
+          251,
+          256,
+          296,
+          320,
+          509,
+          565,
+          565,
+          594,
+          0,
+          0,
+          18,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         251,
         256,
@@ -5741,6 +10553,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0031.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": 80,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          80
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -5772,6 +10602,30 @@
         "magicAttackMin": 419,
         "magicAttackMax": 463
       },
+      "combatStats": {
+        "attackMin": 419,
+        "attackMax": 463,
+        "magicAttackMin": 419,
+        "magicAttackMax": 463,
+        "raw": [
+          382,
+          419,
+          439,
+          463,
+          382,
+          419,
+          439,
+          463,
+          0,
+          0,
+          17,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         382,
         419,
@@ -5791,6 +10645,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0041.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -5822,6 +10694,30 @@
         "magicAttackMin": 419,
         "magicAttackMax": 463
       },
+      "combatStats": {
+        "attackMin": 419,
+        "attackMax": 463,
+        "magicAttackMin": 419,
+        "magicAttackMax": 463,
+        "raw": [
+          382,
+          419,
+          439,
+          463,
+          382,
+          419,
+          439,
+          463,
+          0,
+          0,
+          16,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         382,
         419,
@@ -5841,6 +10737,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0025.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -5872,6 +10786,30 @@
         "magicAttackMin": 0,
         "magicAttackMax": 0
       },
+      "combatStats": {
+        "attackMin": 0,
+        "attackMax": 0,
+        "magicAttackMin": 0,
+        "magicAttackMax": 0,
+        "raw": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          19,
+          1,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          0
+        ]
+      },
       "combatFields": [
         0,
         0,
@@ -5891,6 +10829,24 @@
         0
       ],
       "iconPath": "PicData\\ui\\icon\\tp\\cl\\I_cailiao_0225.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": 51,
+        "raw": [
+          51,
+          851,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         51,
         851,
@@ -5922,6 +10878,30 @@
         "magicAttackMin": 0,
         "magicAttackMax": 0
       },
+      "combatStats": {
+        "attackMin": 0,
+        "attackMax": 0,
+        "magicAttackMin": 0,
+        "magicAttackMax": 0,
+        "raw": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          21,
+          1,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          0
+        ]
+      },
       "combatFields": [
         0,
         0,
@@ -5941,6 +10921,24 @@
         0
       ],
       "iconPath": "PicData\\ui\\icon\\tp\\cl\\I_cailiao_0226.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": 51,
+        "raw": [
+          51,
+          851,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         51,
         851,
@@ -5972,6 +10970,30 @@
         "magicAttackMin": 0,
         "magicAttackMax": 0
       },
+      "combatStats": {
+        "attackMin": 0,
+        "attackMax": 0,
+        "magicAttackMin": 0,
+        "magicAttackMax": 0,
+        "raw": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          19,
+          3,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          0
+        ]
+      },
       "combatFields": [
         0,
         0,
@@ -5991,6 +11013,24 @@
         0
       ],
       "iconPath": "PicData\\ui\\icon\\tp\\cl\\I_cailiao_0213.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": 51,
+        "raw": [
+          51,
+          851,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         51,
         851,
@@ -6022,6 +11062,30 @@
         "magicAttackMin": 0,
         "magicAttackMax": 0
       },
+      "combatStats": {
+        "attackMin": 0,
+        "attackMax": 0,
+        "magicAttackMin": 0,
+        "magicAttackMax": 0,
+        "raw": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          21,
+          3,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          0
+        ]
+      },
       "combatFields": [
         0,
         0,
@@ -6041,6 +11105,24 @@
         0
       ],
       "iconPath": "PicData\\ui\\icon\\tp\\cl\\I_cailiao_0214.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": 51,
+        "raw": [
+          51,
+          851,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         51,
         851,
@@ -6072,6 +11154,30 @@
         "magicAttackMin": 65,
         "magicAttackMax": 70
       },
+      "combatStats": {
+        "attackMin": 116,
+        "attackMax": 121,
+        "magicAttackMin": 65,
+        "magicAttackMax": 70,
+        "raw": [
+          111,
+          116,
+          116,
+          121,
+          60,
+          65,
+          65,
+          70,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         111,
         116,
@@ -6091,6 +11197,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0012.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -6122,6 +11246,30 @@
         "magicAttackMin": 116,
         "magicAttackMax": 121
       },
+      "combatStats": {
+        "attackMin": 65,
+        "attackMax": 70,
+        "magicAttackMin": 116,
+        "magicAttackMax": 121,
+        "raw": [
+          60,
+          65,
+          65,
+          70,
+          111,
+          116,
+          116,
+          121,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         60,
         65,
@@ -6141,6 +11289,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0029.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -6172,6 +11338,30 @@
         "magicAttackMin": 91,
         "magicAttackMax": 96
       },
+      "combatStats": {
+        "attackMin": 91,
+        "attackMax": 96,
+        "magicAttackMin": 91,
+        "magicAttackMax": 96,
+        "raw": [
+          85,
+          91,
+          91,
+          96,
+          85,
+          91,
+          91,
+          96,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         85,
         91,
@@ -6191,6 +11381,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0013.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -6222,6 +11430,30 @@
         "magicAttackMin": 159,
         "magicAttackMax": 176
       },
+      "combatStats": {
+        "attackMin": 326,
+        "attackMax": 343,
+        "magicAttackMin": 159,
+        "magicAttackMax": 176,
+        "raw": [
+          310,
+          326,
+          326,
+          343,
+          142,
+          159,
+          159,
+          176,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         310,
         326,
@@ -6241,6 +11473,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0027.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -6272,6 +11522,30 @@
         "magicAttackMin": 326,
         "magicAttackMax": 343
       },
+      "combatStats": {
+        "attackMin": 159,
+        "attackMax": 176,
+        "magicAttackMin": 326,
+        "magicAttackMax": 343,
+        "raw": [
+          142,
+          159,
+          159,
+          176,
+          310,
+          326,
+          326,
+          343,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         142,
         159,
@@ -6291,6 +11565,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0032.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -6322,6 +11614,30 @@
         "magicAttackMin": 243,
         "magicAttackMax": 259
       },
+      "combatStats": {
+        "attackMin": 243,
+        "attackMax": 259,
+        "magicAttackMin": 243,
+        "magicAttackMax": 259,
+        "raw": [
+          226,
+          243,
+          243,
+          259,
+          226,
+          243,
+          243,
+          259,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         226,
         243,
@@ -6341,6 +11657,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0018.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -6372,6 +11706,30 @@
         "magicAttackMin": 176,
         "magicAttackMax": 192
       },
+      "combatStats": {
+        "attackMin": 343,
+        "attackMax": 360,
+        "magicAttackMin": 176,
+        "magicAttackMax": 192,
+        "raw": [
+          343,
+          343,
+          360,
+          360,
+          176,
+          176,
+          192,
+          192,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         343,
         343,
@@ -6391,6 +11749,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0027.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -6422,6 +11798,30 @@
         "magicAttackMin": 343,
         "magicAttackMax": 360
       },
+      "combatStats": {
+        "attackMin": 176,
+        "attackMax": 192,
+        "magicAttackMin": 343,
+        "magicAttackMax": 360,
+        "raw": [
+          176,
+          176,
+          192,
+          192,
+          343,
+          343,
+          360,
+          360,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         176,
         176,
@@ -6441,6 +11841,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0032.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -6472,6 +11890,30 @@
         "magicAttackMin": 259,
         "magicAttackMax": 276
       },
+      "combatStats": {
+        "attackMin": 259,
+        "attackMax": 276,
+        "magicAttackMin": 259,
+        "magicAttackMax": 276,
+        "raw": [
+          259,
+          259,
+          276,
+          276,
+          259,
+          259,
+          276,
+          276,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         259,
         259,
@@ -6491,6 +11933,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0018.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -6522,6 +11982,30 @@
         "magicAttackMin": 97,
         "magicAttackMax": 105
       },
+      "combatStats": {
+        "attackMin": 186,
+        "attackMax": 195,
+        "magicAttackMin": 97,
+        "magicAttackMax": 105,
+        "raw": [
+          177,
+          186,
+          186,
+          195,
+          88,
+          97,
+          97,
+          105,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         177,
         186,
@@ -6541,6 +12025,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0035.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -6572,6 +12074,30 @@
         "magicAttackMin": 186,
         "magicAttackMax": 195
       },
+      "combatStats": {
+        "attackMin": 97,
+        "attackMax": 105,
+        "magicAttackMin": 186,
+        "magicAttackMax": 195,
+        "raw": [
+          88,
+          97,
+          97,
+          105,
+          177,
+          186,
+          186,
+          195,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         88,
         97,
@@ -6591,6 +12117,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0026.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -6622,6 +12166,30 @@
         "magicAttackMin": 141,
         "magicAttackMax": 150
       },
+      "combatStats": {
+        "attackMin": 141,
+        "attackMax": 150,
+        "magicAttackMin": 141,
+        "magicAttackMax": 150,
+        "raw": [
+          132,
+          141,
+          141,
+          150,
+          132,
+          141,
+          141,
+          150,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         132,
         141,
@@ -6641,6 +12209,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0023.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -6672,6 +12258,30 @@
         "magicAttackMin": 105,
         "magicAttackMax": 114
       },
+      "combatStats": {
+        "attackMin": 195,
+        "attackMax": 204,
+        "magicAttackMin": 105,
+        "magicAttackMax": 114,
+        "raw": [
+          195,
+          195,
+          204,
+          204,
+          105,
+          105,
+          114,
+          114,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          1
+        ]
+      },
       "combatFields": [
         195,
         195,
@@ -6691,6 +12301,24 @@
         1
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0035.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -6722,6 +12350,30 @@
         "magicAttackMin": 195,
         "magicAttackMax": 204
       },
+      "combatStats": {
+        "attackMin": 105,
+        "attackMax": 114,
+        "magicAttackMin": 195,
+        "magicAttackMax": 204,
+        "raw": [
+          105,
+          105,
+          114,
+          114,
+          195,
+          195,
+          204,
+          204,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          4
+        ]
+      },
       "combatFields": [
         105,
         105,
@@ -6741,6 +12393,24 @@
         4
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0026.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -6772,6 +12442,30 @@
         "magicAttackMin": 150,
         "magicAttackMax": 159
       },
+      "combatStats": {
+        "attackMin": 150,
+        "attackMax": 159,
+        "magicAttackMin": 150,
+        "magicAttackMax": 159,
+        "raw": [
+          150,
+          150,
+          159,
+          159,
+          150,
+          150,
+          159,
+          159,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         150,
         150,
@@ -6791,6 +12485,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0023.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -6822,6 +12534,30 @@
         "magicAttackMin": null,
         "magicAttackMax": null
       },
+      "combatStats": {
+        "attackMin": 195,
+        "attackMax": 204,
+        "magicAttackMin": null,
+        "magicAttackMax": null,
+        "raw": [
+          195,
+          195,
+          204,
+          204,
+          null,
+          null,
+          null,
+          null,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         195,
         195,
@@ -6841,6 +12577,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0023.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,
@@ -6872,6 +12626,30 @@
         "magicAttackMin": 205,
         "magicAttackMax": 218
       },
+      "combatStats": {
+        "attackMin": 205,
+        "attackMax": 218,
+        "magicAttackMin": 205,
+        "magicAttackMax": 218,
+        "raw": [
+          185,
+          205,
+          205,
+          218,
+          185,
+          205,
+          205,
+          218,
+          0,
+          0,
+          0,
+          1,
+          -100,
+          0,
+          0,
+          32
+        ]
+      },
       "combatFields": [
         185,
         205,
@@ -6891,6 +12669,24 @@
         32
       ],
       "iconPath": "PicData\\ui\\icon\\wq\\I_wuqi_0017.gaf",
+      "restrictions": {
+        "genderCode": null,
+        "requiredLevel": null,
+        "classCode": null,
+        "raw": [
+          null,
+          null,
+          0,
+          141,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
       "restrictionFields": [
         null,
         null,

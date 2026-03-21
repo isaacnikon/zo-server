@@ -9,7 +9,7 @@ const {
   parseTargetedItemUse,
 } = require('../protocol/inbound-packets');
 const { FIGHT_CLIENT_ITEM_USE_SUBCMD, GAME_FIGHT_ACTION_CMD } = require('../config');
-const { getItemDefinition, removeBagItemByInstanceId } = require('../inventory');
+const { canEquipItem, getItemDefinition, removeBagItemByInstanceId } = require('../inventory');
 const {
   sendConsumeResultPackets,
   sendEquipmentContainerSync,
@@ -45,6 +45,16 @@ export function tryHandleEquipmentStatePacket(session: SessionLike, payload: Buf
   }
 
   const itemDefinition = getItemDefinition(item.templateId);
+  if (nextEquipped) {
+    const eligibility = canEquipItem(session, item);
+    if (!eligibility.ok) {
+      session.log(
+        `Equipment rejected instanceId=${instanceId} templateId=${item.templateId} reason=${eligibility.reason}`
+      );
+      sendEquipmentContainerSync(session);
+      return true;
+    }
+  }
   if (
     nextEquipped &&
     itemDefinition?.hasDurability === true &&

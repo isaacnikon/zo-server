@@ -70,36 +70,25 @@ function buildEnemyFromTemplate(template: UnknownRecord, mapId: number, index: n
   };
 }
 
-function chooseFallbackTemplate(pool: UnknownRecord[]): UnknownRecord {
-  return chooseWeightedTemplate(pool) || {
-    typeId: 5001,
-    logicalId: 1,
-    levelMin: 1,
-    levelMax: 1,
-    hpBase: 40,
-    hpPerLevel: 8,
-    aptitude: 0,
-    appearanceTypes: [0, 0, 0],
-    appearanceVariants: [0, 0, 0],
-    drops: [],
-    name: null,
-  };
-}
-
 function buildEncounterEnemies(action: UnknownRecord | null | undefined, mapId: number): UnknownRecord[] {
   const profile = action?.encounterProfile || {};
+  const pool = Array.isArray(profile.pool) ? profile.pool : [];
+  if (pool.length === 0) {
+    return [];
+  }
   const minEnemies = Math.max(1, Number(profile.minEnemies) || 1);
   const maxEnemies = Math.max(minEnemies, Number(profile.maxEnemies) || minEnemies);
   const requestedCount = FORCE_MULTI_ENEMY_ENCOUNTERS && maxEnemies > 1
     ? maxEnemies
     : randomIntInclusive(minEnemies, maxEnemies);
   const enemyCount = Math.min(ENEMY_POSITIONS.length, Math.max(1, requestedCount));
-  const pool = Array.isArray(profile.pool) ? profile.pool : [];
-  const fallbackTemplate = chooseFallbackTemplate(pool);
   const enemies = [];
 
   for (let index = 0; index < enemyCount; index += 1) {
-    const template = chooseWeightedTemplate(pool) || fallbackTemplate;
+    const template = chooseWeightedTemplate(pool);
+    if (!template) {
+      continue;
+    }
     enemies.push(buildEnemyFromTemplate(template, mapId, index));
   }
 

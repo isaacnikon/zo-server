@@ -21,46 +21,96 @@ function loadSceneData(): any {
 }
 
 function buildScenes(data: any): Record<number, UnknownRecord> {
-  const roleOverrides = data.roleOverrides || {};
-  const encounterProfiles = data.encounterProfiles || {};
-  const resolvedProfiles: Record<string, UnknownRecord> = {};
-
-  for (const [profileId, profile] of Object.entries(encounterProfiles) as [string, any][]) {
-    const overrides = profile.roleOverridesRef
-      ? (roleOverrides[profile.roleOverridesRef] || {})
-      : {};
-    resolvedProfiles[profileId] = {
-      source: profile.source,
-      minEnemies: profile.minEnemies,
-      maxEnemies: profile.maxEnemies,
-      encounterChancePercent: profile.encounterChancePercent,
-      cooldownMs: profile.cooldownMs,
-      pool: buildEncounterPoolForLocation(profile.locationName, overrides),
-    };
-  }
-
   const scenes: Record<number, UnknownRecord> = {};
   for (const [idStr, scene] of Object.entries(data.scenes) as [string, any][]) {
     const sceneId = Number(idStr);
+    const encounterProfile = resolveEncounterProfile(scene.encounterProfile);
+    const encounterTriggers = Array.isArray(scene.encounterTriggers) && scene.encounterTriggers.length > 0
+      ? scene.encounterTriggers.map((trigger: any) => ({
+          ...trigger,
+          action: trigger.action?.encounterProfile
+            ? {
+                ...trigger.action,
+                encounterProfile: resolveEncounterProfile(trigger.action.encounterProfile),
+              }
+            : trigger.action,
+        }))
+      : buildDefaultEncounterTriggers(scene, encounterProfile);
     scenes[sceneId] = {
       ...scene,
-      encounterTriggers: (scene.encounterTriggers || []).map((trigger: any) => {
-        if (trigger.action?.encounterProfileRef) {
-          const profile = resolvedProfiles[trigger.action.encounterProfileRef];
-          return {
-            ...trigger,
-            action: {
-              ...trigger.action,
-              encounterProfile: profile || null,
-            },
-          };
-        }
-        return trigger;
-      }),
+      encounterProfile,
+      encounterTriggers,
     };
   }
 
   return scenes;
+}
+
+function resolveEncounterProfile(profile: UnknownRecord | null | undefined): UnknownRecord | null {
+  if (!profile || typeof profile !== 'object') {
+    return null;
+  }
+
+  const locationName =
+    typeof profile.locationName === 'string' && profile.locationName.length > 0
+      ? profile.locationName
+      : null;
+  if (!locationName) {
+    return null;
+  }
+
+  const roleOverrides =
+    profile.roleOverrides && typeof profile.roleOverrides === 'object'
+      ? profile.roleOverrides
+      : {};
+
+  return {
+    source: profile.source,
+    minEnemies: profile.minEnemies,
+    maxEnemies: profile.maxEnemies,
+    encounterChancePercent: profile.encounterChancePercent,
+    cooldownMs: profile.cooldownMs,
+    locationName,
+    pool: buildEncounterPoolForLocation(locationName, roleOverrides),
+  };
+}
+
+function buildDefaultEncounterTriggers(scene: UnknownRecord, encounterProfile: UnknownRecord | null): UnknownRecord[] {
+  if (!encounterProfile || !scene?.mapDimensions) {
+    return [];
+  }
+
+  const width = Number(scene.mapDimensions.width) || 0;
+  const height = Number(scene.mapDimensions.height) || 0;
+  if (width <= 0 || height <= 0) {
+    return [];
+  }
+
+  const excludeRects = Array.isArray(scene.worldSpawns)
+    ? scene.worldSpawns.map((spawn: UnknownRecord) => ({
+        minX: Math.max(0, (spawn?.x || 0) - 5),
+        maxX: Math.min(width - 1, (spawn?.x || 0) + 5),
+        minY: Math.max(0, (spawn?.y || 0) - 5),
+        maxY: Math.min(height - 1, (spawn?.y || 0) + 5),
+      }))
+    : [];
+
+  return [
+    {
+      id: `scene_${scene.id}_default_encounter`,
+      minX: 0,
+      maxX: Math.max(0, width - 1),
+      minY: 0,
+      maxY: Math.max(0, height - 1),
+      excludeRects,
+      action: {
+        kind: 'encounterProbe',
+        probeId: `scene${scene.id}`,
+        reason: `${scene.name || `Map ${scene.id}`} encounter`,
+        encounterProfile,
+      },
+    },
+  ];
 }
 
 function getScene(sceneId: number): UnknownRecord | null {
@@ -80,7 +130,7 @@ function getSceneOrdinaryMonsterRoleIds(sceneId: number): number[] {
   if (!scene) {
     return [];
   }
-  return getOrdinaryMonsterRoleIdsForLocation(scene.name);
+  return getOrdinaryMonsterRoleIdsForLocation(scene?.encounterProfile?.locationName || scene.name);
 }
 
 function positionMatches(trigger: UnknownRecord, x: number | null, y: number | null): boolean {

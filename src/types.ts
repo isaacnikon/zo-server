@@ -193,6 +193,7 @@ export interface CombatEncounterProfile {
   maxEnemies?: number;
   encounterChancePercent?: number;
   cooldownMs?: number;
+  locationName?: string;
   pool: CombatEnemyTemplate[];
 }
 export type CombatPhase = 'idle' | 'intro' | 'command' | 'enemy-turn' | 'resolved';

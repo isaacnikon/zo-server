@@ -31,6 +31,7 @@ const { grantCombatDrops } = require('../gameplay/combat-drop-runtime');
 const { consumeUsableItemByInstanceId } = require('../gameplay/item-use-runtime');
 const { applyEffects } = require('../effects/effect-executor');
 const { buildDefeatRespawnState } = require('../gameplay/session-flows');
+const { getEquipmentCombatBonuses } = require('../inventory');
 const { resolveTownRespawn } = require('../scene-runtime');
 
 type SessionLike = GameSession & Record<string, any>;
@@ -119,6 +120,10 @@ function sendCombatEncounterProbe(session: SessionLike, action: CombatAction): v
   }
 
   const enemies = buildEncounterEnemies(action, session.currentMapId);
+  if (enemies.length === 0) {
+    session.log(`Skipping encounter probe with empty pool trigger=${action?.probeId || 'unknown'}`);
+    return;
+  }
   const player = buildPlayerEntry(session);
 
   session.combatState = {
@@ -518,15 +523,24 @@ function buildPlayerEntry(session: SessionLike): Record<string, any> {
 
 function computePlayerDamage(session: SessionLike, enemy: Record<string, any>): number {
   const stats = session.primaryAttributes || {};
-  const base = 8 + ((stats.strength || 0) * 2) + (session.level || 1);
-  const spread = 6 + (stats.dexterity || 0);
+  const equipment = getEquipmentCombatBonuses(session);
+  const weaponMin = Math.max(0, equipment.attackMin || 0);
+  const weaponMax = Math.max(weaponMin, equipment.attackMax || weaponMin);
+  const base = 8 + ((stats.strength || 0) * 2) + (session.level || 1) + weaponMin;
+  const spread = 6 + (stats.dexterity || 0) + Math.max(0, weaponMax - weaponMin);
   const mitigation = Math.floor(((enemy.level || 1) * 2) + (enemy.aptitude || 0));
   return Math.max(1, base + Math.floor(Math.random() * Math.max(1, spread)) - mitigation);
 }
 
 function computeEnemyDamage(session: SessionLike, enemy: Record<string, any>): number {
   const stats = session.primaryAttributes || {};
-  const defense = Math.floor(((stats.vitality || 0) * 0.8) + ((stats.dexterity || 0) * 0.4) + (session.level || 1));
+  const equipment = getEquipmentCombatBonuses(session);
+  const defense = Math.floor(
+    ((stats.vitality || 0) * 0.8) +
+    ((stats.dexterity || 0) * 0.4) +
+    (session.level || 1) +
+    Math.max(0, equipment.defense || 0)
+  );
   const base = 6 + ((enemy.level || 1) * 3) + (enemy.aptitude || 0);
   return Math.max(1, base + Math.floor(Math.random() * 5) - defense);
 }

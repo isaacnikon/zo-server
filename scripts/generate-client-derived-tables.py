@@ -232,7 +232,7 @@ def parse_equipment_rows(text: str) -> list[dict]:
         entries.append(
             {
                 "templateId": parse_int(row[0]),
-                "name": row[1],
+                "name": normalize_known_item_name(parse_int(row[0]), row[1]),
                 "kind": "armor",
                 "templateTierField": parse_int(row[2]),
                 "clientTemplateFamily": parse_int(row[3]),
@@ -243,8 +243,10 @@ def parse_equipment_rows(text: str) -> list[dict]:
                     "defense": parse_int(row[13]),
                     "magicDefense": parse_int(row[19]),
                 },
+                "combatStats": decode_armor_combat_fields(row[12:23]),
                 "combatFields": parse_ints(row[12:23]),
                 "iconPath": row[23],
+                "restrictions": decode_equipment_restrictions(parse_ints(row[24:-1])),
                 "restrictionFields": parse_ints(row[24:-1]),
                 "description": row[-1],
                 "rawColumnCount": len(row),
@@ -261,7 +263,7 @@ def parse_weapon_rows(text: str) -> list[dict]:
         entries.append(
             {
                 "templateId": parse_int(row[0]),
-                "name": row[1],
+                "name": normalize_known_item_name(parse_int(row[0]), row[1]),
                 "kind": "weapon",
                 "templateTierField": parse_int(row[2]),
                 "clientTemplateFamily": parse_int(row[3]),
@@ -274,8 +276,10 @@ def parse_weapon_rows(text: str) -> list[dict]:
                     "magicAttackMin": parse_int(row[17]),
                     "magicAttackMax": parse_int(row[19]),
                 },
+                "combatStats": decode_weapon_combat_fields(row[12:28]),
                 "combatFields": parse_ints(row[12:28]),
                 "iconPath": row[28],
+                "restrictions": decode_weapon_restrictions(parse_ints(row[29:-1])),
                 "restrictionFields": parse_ints(row[29:-1]),
                 "description": row[-1],
                 "rawColumnCount": len(row),
@@ -329,6 +333,7 @@ def parse_potion_rows(text: str) -> list[dict]:
                 "clientTemplateFamily": parse_int(row[4]),
                 "usageFields": parse_ints(row[5:11]),
                 "stackLimitField": parse_int(row[11]),
+                "effectFieldsNamed": decode_potion_effect_fields(row[12:20], row[5:11]),
                 "effectFields": parse_ints(row[12:20]),
                 "iconPath": row[20],
                 "bindField": parse_int(row[21]),
@@ -602,6 +607,77 @@ def parse_int(value: str) -> int | None:
 
 def parse_ints(values: Iterable[str]) -> list[int | None]:
     return [parse_int(value) for value in values]
+
+
+def normalize_known_item_name(template_id: int | None, name: str) -> str:
+    if template_id == 18001 and name == "Embordered Shoes":
+        return "Embroidered Shoes"
+    return name
+
+
+def decode_armor_combat_fields(values: list[str]) -> dict:
+    parsed = parse_ints(values)
+    return {
+        "defense": parse_int(values[1]) if len(values) > 1 else None,
+        "magicDefense": parse_int(values[7]) if len(values) > 7 else None,
+        "raw": parsed,
+    }
+
+
+def decode_weapon_combat_fields(values: list[str]) -> dict:
+    parsed = parse_ints(values)
+    return {
+        "attackMin": parse_int(values[1]) if len(values) > 1 else None,
+        "attackMax": parse_int(values[3]) if len(values) > 3 else None,
+        "magicAttackMin": parse_int(values[5]) if len(values) > 5 else None,
+        "magicAttackMax": parse_int(values[7]) if len(values) > 7 else None,
+        "raw": parsed,
+    }
+
+
+def decode_potion_effect_fields(effect_values: list[str], usage_values: list[str]) -> dict:
+    effect_fields = parse_ints(effect_values)
+    usage_fields = parse_ints(usage_values)
+    return {
+        "health": positive_int(effect_fields[4]) or positive_int(usage_fields[3] if len(usage_fields) > 3 else None),
+        "mana": positive_int(effect_fields[5]) or positive_int(usage_fields[4] if len(usage_fields) > 4 else None),
+        "rage": positive_int(usage_fields[5] if len(usage_fields) > 5 else None),
+        "durationMs": positive_int(effect_fields[6] if len(effect_fields) > 6 else None),
+        "flags": effect_fields[7] if len(effect_fields) > 7 else None,
+        "raw": effect_fields,
+    }
+
+
+def decode_equipment_restrictions(values: list[int | None]) -> dict:
+    required_gender = positive_int(values[6] if len(values) > 6 else None)
+    required_level = positive_int(values[8] if len(values) > 8 else None)
+    return {
+        "genderCode": required_gender or None,
+        "requiredLevel": required_level or None,
+        "classCode": positive_int(values[11] if len(values) > 11 else None) or None,
+        "raw": values,
+    }
+
+
+def decode_weapon_restrictions(values: list[int | None]) -> dict:
+    required_level_candidates = [
+        positive_int(values[index]) for index in (7, 8, 9, 10) if len(values) > index
+    ]
+    required_level = min((value for value in required_level_candidates if value > 0), default=0)
+    class_candidates = [
+        positive_int(values[index]) for index in (0, 1, 2) if len(values) > index
+    ]
+    class_code = min((value for value in class_candidates if value > 0), default=0)
+    return {
+        "genderCode": None,
+        "requiredLevel": required_level or None,
+        "classCode": class_code or None,
+        "raw": values,
+    }
+
+
+def positive_int(value: int | None) -> int:
+    return value if isinstance(value, int) and value > 0 else 0
 
 
 def parse_number(value: str) -> int | float | None:

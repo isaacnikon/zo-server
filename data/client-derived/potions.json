@@ -4,7 +4,7 @@
     "extractedFile": "/home/nikon/projects/zo-server/data/client-derived/archive/00000682__is_potion.txt"
   },
   "archiveEntry": "is_potion.txt",
-  "generatedAt": "2026-03-19T12:26:08.144815+00:00",
+  "generatedAt": "2026-03-20T20:57:14.713067+00:00",
   "count": 118,
   "entries": [
     {
@@ -23,6 +23,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 140,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          140,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -58,6 +75,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 560,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          560,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -93,6 +127,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 990,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          990,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -128,6 +179,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 240,
+        "mana": 150,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          240,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -163,6 +231,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 740,
+        "mana": 450,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          740,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -198,6 +283,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 1290,
+        "mana": 800,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          1290,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -233,6 +335,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 60,
+        "mana": 100,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          60,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -268,6 +387,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 70,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          70,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -303,6 +439,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 180,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          180,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -338,6 +491,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 200,
+        "mana": 150,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          200,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -373,6 +543,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 90,
+        "mana": 200,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          90,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -408,6 +595,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 600,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          600,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -443,6 +647,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 210,
+        "mana": 300,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          210,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -478,6 +699,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 800,
+        "mana": 500,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          800,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -513,6 +751,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 240,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          240,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -548,6 +803,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 280,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          280,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -583,6 +855,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 280,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          280,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -618,6 +907,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 380,
+        "mana": 200,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          380,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -653,6 +959,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 500,
+        "mana": 300,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          500,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -688,6 +1011,23 @@
         30
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 600,
+        "mana": 0,
+        "rage": 30,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          0,
+          0,
+          0,
+          600,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -723,6 +1063,23 @@
         20
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 400,
+        "mana": 0,
+        "rage": 20,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          0,
+          0,
+          0,
+          400,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -758,6 +1115,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 540,
+        "mana": 500,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          540,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -793,6 +1167,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 400,
+        "mana": 300,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          400,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -828,6 +1219,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 620,
+        "mana": 300,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          620,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -863,6 +1271,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 740,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          740,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -898,6 +1323,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 100,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          1,
+          100,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -933,6 +1375,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 210,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          1,
+          210,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -968,6 +1427,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 1200,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          1200,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1003,6 +1479,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 50,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          50,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1038,6 +1531,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 24,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          24,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1073,6 +1583,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 48,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          48,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1108,6 +1635,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 72,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          72,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1143,6 +1687,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 96,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          96,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1178,6 +1739,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1213,6 +1791,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 144,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          144,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1248,6 +1843,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 168,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          168,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1283,6 +1895,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 192,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          192,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1318,6 +1947,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 216,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          216,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1353,6 +1999,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 240,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          240,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1388,6 +2051,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 264,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          264,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1423,6 +2103,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 288,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          288,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1458,6 +2155,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1493,6 +2207,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 300,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1528,6 +2259,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 200,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1563,6 +2311,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1598,6 +2363,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 500,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1633,6 +2415,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 300,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1668,6 +2467,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1703,6 +2519,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 700,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1738,6 +2571,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 400,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1773,6 +2623,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1808,6 +2675,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 1000,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1843,6 +2727,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 600,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1878,6 +2779,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1913,6 +2831,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 1300,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1948,6 +2883,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 800,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -1983,6 +2935,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -2018,6 +2987,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 1600,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -2053,6 +3039,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 1100,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -2088,6 +3091,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -2123,6 +3143,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 2000,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -2158,6 +3195,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 1400,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -2193,6 +3247,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 200,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -2228,6 +3299,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 400,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -2263,6 +3351,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 200,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          200,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -2298,6 +3403,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 400,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          400,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -2333,6 +3455,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 600,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          600,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -2368,6 +3507,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 800,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          800,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -2403,6 +3559,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 200,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          200,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -2438,6 +3611,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 400,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          400,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -2473,6 +3663,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 600,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          600,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -2508,6 +3715,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 800,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          800,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -2543,6 +3767,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 1000,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          1000,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -2578,6 +3819,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 1200,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          1200,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -2613,6 +3871,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 1400,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          1400,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -2648,6 +3923,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 1600,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          1600,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -2683,6 +3975,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 1800,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          1800,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -2718,6 +4027,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 1800,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          1800,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -2753,6 +4079,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 200,
+        "mana": 200,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          200,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -2788,6 +4131,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 400,
+        "mana": 500,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          400,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -2823,6 +4183,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 600,
+        "mana": 800,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          600,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -2858,6 +4235,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 800,
+        "mana": 1000,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          800,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -2893,6 +4287,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 1000,
+        "mana": 1200,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          1000,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -2928,6 +4339,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 1200,
+        "mana": 1400,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          1200,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -2963,6 +4391,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 1400,
+        "mana": 1600,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          1400,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -2998,6 +4443,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 1600,
+        "mana": 1800,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          1600,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -3033,6 +4495,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 1800,
+        "mana": 2000,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          1800,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -3068,6 +4547,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 1800,
+        "mana": 2200,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          1800,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -3103,6 +4599,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -3138,6 +4651,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 2400,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -3173,6 +4703,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 1700,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -3208,6 +4755,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -3243,6 +4807,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 2800,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -3278,6 +4859,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 2000,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -3313,6 +4911,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -3348,6 +4963,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 3200,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -3383,6 +5015,23 @@
         0
       ],
       "stackLimitField": 100,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 2400,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -3418,6 +5067,23 @@
         0
       ],
       "stackLimitField": 1000,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 100,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 0,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          0
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -3453,6 +5119,23 @@
         0
       ],
       "stackLimitField": 5000,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 100,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 0,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          0
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -3488,6 +5171,23 @@
         0
       ],
       "stackLimitField": 200,
+      "effectFieldsNamed": {
+        "health": 150,
+        "mana": 150,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 0,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          30000,
+          0
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -3523,6 +5223,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 150,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 0,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          30000,
+          0
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -3558,6 +5275,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 0,
+        "mana": 150,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 0,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          30000,
+          0
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -3593,6 +5327,23 @@
         0
       ],
       "stackLimitField": 40,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 500,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 0,
+        "raw": [
+          1,
+          0,
+          0,
+          0,
+          120,
+          0,
+          30000,
+          0
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -3628,6 +5379,23 @@
         0
       ],
       "stackLimitField": 80,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 1000,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 0,
+        "raw": [
+          1,
+          0,
+          0,
+          0,
+          120,
+          0,
+          30000,
+          0
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -3663,6 +5431,23 @@
         1
       ],
       "stackLimitField": 30,
+      "effectFieldsNamed": {
+        "health": 1,
+        "mana": 1,
+        "rage": 1,
+        "durationMs": 30000,
+        "flags": 0,
+        "raw": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          30000,
+          0
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -3698,6 +5483,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 30,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 0,
+        "raw": [
+          1,
+          0,
+          0,
+          0,
+          120,
+          0,
+          30000,
+          0
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -3733,6 +5535,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 990,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 0,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          990,
+          0,
+          30000,
+          0
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -3768,6 +5587,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 1290,
+        "mana": 800,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 0,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          1290,
+          0,
+          30000,
+          0
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -3803,6 +5639,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 200,
+        "mana": 1200,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 0,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          200,
+          0,
+          30000,
+          0
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -3838,6 +5691,23 @@
         0
       ],
       "stackLimitField": 1,
+      "effectFieldsNamed": {
+        "health": 0,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 0,
+        "raw": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          30000,
+          0
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -3873,6 +5743,23 @@
         0
       ],
       "stackLimitField": 1000,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 100,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 0,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          0
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -3908,6 +5795,23 @@
         0
       ],
       "stackLimitField": 5000,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 100,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 0,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          0
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -3943,6 +5847,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 560,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 0,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          560,
+          0,
+          30000,
+          0
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -3978,6 +5899,23 @@
         0
       ],
       "stackLimitField": 5,
+      "effectFieldsNamed": {
+        "health": 740,
+        "mana": 450,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 0,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          740,
+          0,
+          30000,
+          0
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -4013,6 +5951,23 @@
         0
       ],
       "stackLimitField": 1,
+      "effectFieldsNamed": {
+        "health": 1000,
+        "mana": 0,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 0,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          30000,
+          0
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -4048,6 +6003,23 @@
         0
       ],
       "stackLimitField": 1,
+      "effectFieldsNamed": {
+        "health": 0,
+        "mana": 1000,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 0,
+        "raw": [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          30000,
+          0
+        ]
+      },
       "effectFields": [
         1,
         1,
@@ -4083,6 +6055,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 400,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 128,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          128
+        ]
+      },
       "effectFields": [
         1,
         0,
@@ -4118,6 +6107,23 @@
         0
       ],
       "stackLimitField": 10,
+      "effectFieldsNamed": {
+        "health": 120,
+        "mana": 800,
+        "rage": 0,
+        "durationMs": 30000,
+        "flags": 256,
+        "raw": [
+          1,
+          0,
+          1,
+          0,
+          120,
+          0,
+          30000,
+          256
+        ]
+      },
       "effectFields": [
         1,
         0,

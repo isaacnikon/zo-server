@@ -116,11 +116,13 @@ function resolveCharacterBonusAttributes(input: UnknownRecord | null | undefined
 }
 
 function resolveCharacterBaseAttributes(input: UnknownRecord | null | undefined): PrimaryAttributes {
+  const level = Math.max(1, numberOrDefault(input?.level, 1));
+  const base = level + 4;
   return {
-    intelligence: 12,
-    vitality: 12,
-    dexterity: 12,
-    strength: 12,
+    intelligence: base,
+    vitality: base,
+    dexterity: base,
+    strength: base,
   };
 }
 
