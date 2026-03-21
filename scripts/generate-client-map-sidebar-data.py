@@ -67,13 +67,26 @@ def discover_runtime_captures() -> list[dict]:
     captures = []
     for path in sorted((REPO_ROOT / "data" / "client-derived").glob(RUNTIME_CAPTURE_GLOB)):
         payload = load_json(path)
+        normalized_rows = []
+        for row in payload.get("rows", []):
+            raw_x = row.get("x")
+            raw_y = row.get("y")
+            normalized_rows.append(
+                {
+                    **row,
+                    "x": raw_y,
+                    "y": raw_x,
+                    "rawX": raw_x,
+                    "rawY": raw_y,
+                }
+            )
         captures.append(
             {
                 "path": str(path),
                 "mapName": payload.get("mapName"),
                 "capturedAt": payload.get("capturedAt"),
                 "count": payload.get("count", 0),
-                "rows": payload.get("rows", []),
+                "rows": normalized_rows,
             }
         )
     return captures

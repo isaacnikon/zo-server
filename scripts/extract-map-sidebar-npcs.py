@@ -43,6 +43,8 @@ def parse_blocks(text: str, role_names: dict[int, str]) -> list[dict]:
         for npc_match in ADD_MAP_NPC_RE.finditer(block_text):
             role_id = int(npc_match.group(1))
             flag_mask = int(npc_match.group(2))
+            raw_x = int(npc_match.group(4))
+            raw_y = int(npc_match.group(5))
             entries.append(
                 {
                     "roleId": role_id,
@@ -51,8 +53,10 @@ def parse_blocks(text: str, role_names: dict[int, str]) -> list[dict]:
                     "showsUnderFunction": bool(flag_mask & 4),
                     "nameExpr": unescape_name(npc_match.group(3)),
                     "resolvedName": role_names.get(role_id),
-                    "x": int(npc_match.group(4)),
-                    "y": int(npc_match.group(5)),
+                    "x": raw_y,
+                    "y": raw_x,
+                    "rawX": raw_x,
+                    "rawY": raw_y,
                 }
             )
 
