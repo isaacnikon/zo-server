@@ -112,6 +112,25 @@ function applyQuestEvents(
   applyObjectiveEvents(session, events, questEventHandler, source, options);
 }
 
+function handleQuestAbandonRequest(session: SessionLike, taskId: number, source = 'client-abandon'): boolean {
+  if (!Number.isInteger(taskId) || taskId <= 0) {
+    return false;
+  }
+
+  const questState = {
+    activeQuests: session.activeQuests,
+    completedQuests: session.completedQuests,
+  };
+  const events = abandonQuest(questState, taskId);
+  session.activeQuests = questState.activeQuests;
+  session.completedQuests = questState.completedQuests;
+  if (events.length > 0) {
+    applyQuestEvents(session, events, source);
+    return true;
+  }
+  return false;
+}
+
 function handleQuestPacket(session: SessionLike, payload: Buffer): void {
   if (payload.length < 5) {
     session.log('Short 0x03ff payload');
@@ -122,16 +141,7 @@ function handleQuestPacket(session: SessionLike, payload: Buffer): void {
   session.log(`Quest packet sub=0x${subcmd.toString(16)} taskId=${taskId}`);
 
   if (subcmd === 0x05) {
-    const questState = {
-      activeQuests: session.activeQuests,
-      completedQuests: session.completedQuests,
-    };
-    const events = abandonQuest(questState, taskId);
-    session.activeQuests = questState.activeQuests;
-    session.completedQuests = questState.completedQuests;
-    if (events.length > 0) {
-      applyQuestEvents(session, events, 'client-abandon');
-    }
+    handleQuestAbandonRequest(session, taskId, 'client-abandon');
     return;
   }
 
@@ -223,6 +233,7 @@ export {
   syncQuestStateToClient,
   ensureQuestStateReady,
   refreshQuestStateForItemTemplates,
+  handleQuestAbandonRequest,
   sendQuestAccept,
   sendQuestUpdate,
   sendQuestProgress,

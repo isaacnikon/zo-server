@@ -52,6 +52,8 @@ interface QuestDefinitionRecord {
   id: number;
   name: string;
   type: string;
+  acceptNpcId?: number;
+  acceptSubtype?: number;
   acceptMessage: string;
   completionMessage: string;
   autoAccept: boolean;
@@ -129,6 +131,8 @@ function normalizeQuestDefinition(quest: UnknownRecord): QuestDefinitionRecord |
       sanitizeClientQuestTitle(clientMeta?.title) ||
       (typeof quest.name === 'string' ? quest.name : `Quest ${quest.id}`),
     type: typeof quest.type === 'string' ? quest.type : 'story',
+    acceptNpcId: Number.isInteger(quest?.acceptNpcId) ? quest.acceptNpcId >>> 0 : undefined,
+    acceptSubtype: Number.isInteger(quest?.acceptSubtype) ? quest.acceptSubtype >>> 0 : undefined,
     acceptMessage: typeof quest.acceptMessage === 'string' ? quest.acceptMessage : '',
     completionMessage: typeof quest.completionMessage === 'string' ? quest.completionMessage : '',
     autoAccept: quest.autoAccept === true,

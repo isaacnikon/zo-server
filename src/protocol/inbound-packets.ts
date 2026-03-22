@@ -26,6 +26,20 @@ function parseServerRunRequest(payload: Buffer): ServerRunRequestData | null {
 
   const subcmd = payload[2] & 0xff;
 
+  if (subcmd === 0x04 && payload.length >= 10) {
+    return {
+      subcmd,
+      npcId: payload.readUInt16LE(4),
+      scriptId: payload.readUInt16LE(8),
+      rawArgs: [
+        payload[3] & 0xff,
+        payload.readUInt16LE(4),
+        payload.readUInt16LE(6),
+        payload.readUInt16LE(8),
+      ],
+    };
+  }
+
   if ((subcmd === 0x02 || subcmd === 0x03) && payload.length >= 9) {
     return {
       subcmd,

@@ -6,6 +6,7 @@ import { handleSceneInteractionRequest } from '../scenes/map-interactions';
 import { notifyAutoMapRotationPosition } from '../scenes/map-rotation';
 import { maybeTriggerFieldCombat } from '../scenes/field-combat';
 import { handleNpcInteractionRequest } from './npc-interaction-handler';
+const { handleQuestAbandonRequest } = require('./quest-handler');
 const { handleNpcShopServiceRequest } = require('../gameplay/shop-runtime');
 
 const {
@@ -89,6 +90,14 @@ function dispatchGamePacket(
     if (request) {
       handleSceneInteractionRequest(session, request);
       handleNpcInteractionRequest(session, request);
+      if (
+        request.subcmd === 0x05 &&
+        Array.isArray(request.rawArgs) &&
+        Number.isInteger(request.rawArgs[0]) &&
+        handleQuestAbandonRequest(session, request.rawArgs[0] >>> 0, 'server-run-abandon')
+      ) {
+        session.log(`Handled server-run quest abandon taskId=${request.rawArgs[0] >>> 0}`);
+      }
 
       if (request.subcmd === 0x03 && typeof request.npcId === 'number' && typeof request.scriptId === 'number') {
         session.log(

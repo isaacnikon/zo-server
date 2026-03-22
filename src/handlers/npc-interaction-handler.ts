@@ -7,6 +7,8 @@ const { getBagQuantityByTemplateId } = require('../inventory');
 const { interactWithNpc } = require('../quest-engine');
 const { buildNpcShopOpenPacket } = require('../protocol/gameplay-packets');
 const { resolveRepoPath } = require('../runtime-paths');
+const { resolveInnRestVitals } = require('../gameplay/session-flows');
+const { sendSelfStateValueUpdate, sendSelfStateVitalsUpdate } = require('../gameplay/stat-sync');
 const { applyQuestEvents } = require('./quest-handler');
 
 type SessionLike = GameSession & Record<string, any>;
@@ -20,9 +22,16 @@ type ShopRegistry = {
 
 const NPC_SHOP_REGISTRY_FILE = resolveRepoPath('data', 'client-derived', 'npc-shops.json');
 const NPC_SHOP_REGISTRY = loadNpcShopRegistry();
+const INN_REST_SCRIPT_ID = 5001;
 
 function handleNpcInteractionRequest(session: SessionLike, request: ServerRunRequestData): boolean {
-  if (request.subcmd !== 0x02 && request.subcmd !== 0x03 && request.subcmd !== 0x0f) {
+  if (
+    request.subcmd !== 0x02 &&
+    request.subcmd !== 0x03 &&
+    request.subcmd !== 0x04 &&
+    request.subcmd !== 0x08 &&
+    request.subcmd !== 0x0f
+  ) {
     return false;
   }
 
@@ -35,8 +44,15 @@ function handleNpcInteractionRequest(session: SessionLike, request: ServerRunReq
     return false;
   }
 
+  if (handleInnRestRequest(session, resolvedNpcId, request)) {
+    session.log(
+      `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId}`
+    );
+    return true;
+  }
+
   if (
-    (request.subcmd === 0x02 || request.subcmd === 0x03) &&
+    (request.subcmd === 0x02 || request.subcmd === 0x03 || request.subcmd === 0x04) &&
     Number.isInteger(request.scriptId) &&
     typeof session.sendServerRunScriptImmediate === 'function'
   ) {
@@ -47,7 +63,7 @@ function handleNpcInteractionRequest(session: SessionLike, request: ServerRunReq
     sendNpcShopOpen(session, resolvedNpcId, request);
   }
 
-  if (request.subcmd === 0x03) {
+  if (request.subcmd === 0x03 || request.subcmd === 0x04 || request.subcmd === 0x08) {
     const questState = {
       activeQuests: session.activeQuests,
       completedQuests: session.completedQuests,
@@ -73,6 +89,58 @@ function handleNpcInteractionRequest(session: SessionLike, request: ServerRunReq
   return true;
 }
 
+function handleInnRestRequest(session: SessionLike, npcId: number, request: ServerRunRequestData): boolean {
+  if (
+    request.subcmd !== 0x02 ||
+    !Number.isInteger(request.scriptId) ||
+    (request.scriptId! >>> 0) !== INN_REST_SCRIPT_ID
+  ) {
+    return false;
+  }
+
+  const price = resolveInnRestPrice(session);
+  const currentCoins = Number.isInteger(session.coins) ? Math.max(0, session.coins) : 0;
+  if (currentCoins < price) {
+    session.sendGameDialogue('Waiter', `You need ${price} coins to rest here.`);
+    return true;
+  }
+
+  const nextVitals = resolveInnRestVitals(session);
+  session.coins = currentCoins - price;
+  session.currentHealth = nextVitals.health;
+  session.currentMana = nextVitals.mana;
+  session.currentRage = nextVitals.rage;
+  sendSelfStateValueUpdate(session, 'coins', session.coins);
+  sendSelfStateVitalsUpdate(session, nextVitals);
+  session.persistCurrentCharacter();
+  const speaker = resolveInnRestSpeaker(session, npcId);
+  session.sendGameDialogue(
+    speaker,
+    price > 0 ? `You paid ${price} coins and had a good rest.` : 'You had a good rest.'
+  );
+  return true;
+}
+
+function resolveInnRestPrice(session: SessionLike): number {
+  const level = Number.isInteger(session.level) ? session.level >>> 0 : 1;
+  return level >= 10 ? 100 : 0;
+}
+
+function resolveInnRestSpeaker(session: SessionLike, npcId: number): string {
+  const name = resolveNpcNameForCurrentMap(session, npcId);
+  return name || 'Inn';
+}
+
+function resolveNpcNameForCurrentMap(session: SessionLike, npcId: number): string {
+  const mapNpcs = getMapNpcs(session.currentMapId);
+  const npcs = Array.isArray(mapNpcs?.npcs) ? mapNpcs.npcs : [];
+  const npc =
+    npcs.find(
+      (entry: MapNpcRecord) => Number.isInteger(entry?.npcId) && (entry.npcId >>> 0) === (npcId >>> 0)
+    ) || null;
+  return typeof npc?.name === 'string' && npc.name.length > 0 ? npc.name : '';
+}
+
 function resolveNpcInteractionTarget(session: SessionLike, request: ServerRunRequestData): MapNpcRecord | null {
   const mapNpcs = getMapNpcs(session.currentMapId);
   const npcs = Array.isArray(mapNpcs?.npcs) ? mapNpcs.npcs : [];
@@ -80,11 +148,20 @@ function resolveNpcInteractionTarget(session: SessionLike, request: ServerRunReq
     return null;
   }
 
-  const npcKey = Number.isInteger(request.npcId)
-    ? request.npcId! >>> 0
-    : Number.isInteger(request.rawArgs?.[0])
-      ? request.rawArgs[0] >>> 0
-      : 0;
+  if (request.subcmd === 0x08) {
+    const npcIndex = Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] >>> 0 : 0;
+    if (npcIndex >= 1 && npcIndex <= npcs.length) {
+      return npcs[npcIndex - 1] || null;
+    }
+    return null;
+  }
+
+  const npcKey =
+    Number.isInteger(request.npcId)
+      ? request.npcId! >>> 0
+      : Number.isInteger(request.rawArgs?.[0])
+        ? request.rawArgs[0] >>> 0
+        : 0;
   if (npcKey <= 0) {
     return null;
   }
