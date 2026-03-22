@@ -142,6 +142,8 @@ export interface GameSession {
   mapRotationAwaitingMapId?: number | null;
   mapRotationLastSentAt?: number | null;
   pendingSceneNpcSpawnMapId?: number | null;
+  fieldCombatCooldownUntil?: number | null;
+  lastFieldCombatProbeKey?: string | null;
 
   // I/O methods
   writePacket(payload: Buffer, flags?: number, message?: string): void;
@@ -217,4 +219,10 @@ export interface CombatState {
   awaitingClientReady: boolean;
   awaitingPlayerAction: boolean;
   startedAt: number;
+  playerStartHealth: number;
+  playerMaxHealthAtStart: number;
+  totalEnemyMaxHp: number;
+  averageEnemyLevel: number;
+  damageDealt: number;
+  damageTaken: number;
 }

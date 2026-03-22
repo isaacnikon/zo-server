@@ -30,6 +30,10 @@ type PortalEffectCandidateRecord = {
 type MapDetailsRecord = {
   mapId: number;
   mapName: string;
+  bigTexts?: Array<{
+    text?: string;
+    kind?: string;
+  }>;
   homeInfo?: {
     mapId: number;
     x: number;
@@ -50,6 +54,7 @@ type MapDetailsRecord = {
 
 type MapNpcRecord = {
   npcId: number;
+  npcTypeId?: number;
   name?: string;
   resolvedSpawnEntityType?: number;
   x: number;
@@ -107,6 +112,19 @@ type TeleportTargetRecord = {
   x: number | null;
   y: number | null;
   source: 'scene-transition' | 'portal-effect-candidate' | 'worldmap-connection';
+};
+
+type FieldCombatAnchorRecord = {
+  npcId: number;
+  npcTypeId: number;
+  name?: string;
+  x: number;
+  y: number;
+};
+
+type EncounterLevelRangeRecord = {
+  min: number;
+  max: number;
 };
 
 const MAP_SUMMARY_PATH = resolveRepoPath('data', 'client-derived', 'maps', 'map-summary.json');
@@ -285,12 +303,79 @@ function getMapTeleportTargets(mapId: number): TeleportTargetRecord[] {
   return Array.from(targets.values());
 }
 
+function getMapFieldCombatAnchors(mapId: number): FieldCombatAnchorRecord[] {
+  const npcs = getMapNpcs(mapId);
+  if (!npcs?.npcs || !Array.isArray(npcs.npcs)) {
+    return [];
+  }
+
+  return npcs.npcs
+    .filter(
+      (npc) =>
+        npc &&
+        npc.npcTypeId === 1 &&
+        Number.isInteger(npc.npcId) &&
+        Number.isInteger(npc.x) &&
+        Number.isInteger(npc.y)
+    )
+    .map((npc) => ({
+      npcId: npc.npcId,
+      npcTypeId: npc.npcTypeId || 0,
+      name: npc.name || '',
+      x: npc.x,
+      y: npc.y,
+    }));
+}
+
+function getMapEncounterLevelRange(mapId: number): EncounterLevelRangeRecord | null {
+  const details = getMapDetails(mapId);
+  const ranges = new Map<string, EncounterLevelRangeRecord>();
+
+  for (const entry of details?.bigTexts || []) {
+    if (entry?.kind !== 'overlay-label' || typeof entry?.text !== 'string') {
+      continue;
+    }
+    const match = entry.text.match(/Level:(\d+)(?:-(\d+))?/i);
+    if (!match) {
+      continue;
+    }
+    const min = Number(match[1]);
+    const max = Number(match[2] || match[1]);
+    if (!Number.isInteger(min) || !Number.isInteger(max)) {
+      continue;
+    }
+    const low = Math.min(min, max);
+    const high = Math.max(min, max);
+    ranges.set(`${low}:${high}`, { min: low, max: high });
+  }
+
+  if (ranges.size === 0) {
+    return null;
+  }
+  if (ranges.size === 1) {
+    return Array.from(ranges.values())[0];
+  }
+
+  let merged: EncounterLevelRangeRecord | null = null;
+  for (const range of ranges.values()) {
+    if (!merged) {
+      merged = { ...range };
+      continue;
+    }
+    merged.min = Math.min(merged.min, range.min);
+    merged.max = Math.max(merged.max, range.max);
+  }
+  return merged;
+}
+
 module.exports = {
   listMapSummaries,
   getMapSummary,
   getMapDetails,
   getMapNpcs,
   getMapBootstrapSpawns,
+  getMapFieldCombatAnchors,
+  getMapEncounterLevelRange,
   getMapConnections,
   getWorldMapAdjacency,
   getMapTeleportTargets,

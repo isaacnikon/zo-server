@@ -159,6 +159,8 @@ class Session implements GameSession {
   mapRotationAwaitingMapId: number | null;
   mapRotationLastSentAt: number | null;
   pendingSceneNpcSpawnMapId: number | null;
+  fieldCombatCooldownUntil: number | null;
+  lastFieldCombatProbeKey: string | null;
 
   constructor(
     socket: SocketLike,
@@ -229,6 +231,8 @@ class Session implements GameSession {
     this.mapRotationAwaitingMapId = null;
     this.mapRotationLastSentAt = null;
     this.pendingSceneNpcSpawnMapId = null;
+    this.fieldCombatCooldownUntil = null;
+    this.lastFieldCombatProbeKey = null;
     this.objectiveRegistry.register({
       system: questObjectiveSystem,
       handler: questEventHandler,

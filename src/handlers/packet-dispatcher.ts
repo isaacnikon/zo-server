@@ -4,6 +4,9 @@ import { appendFileSync, mkdirSync } from 'fs';
 import { dirname, resolve } from 'path';
 import { handleSceneInteractionRequest } from '../scenes/map-interactions';
 import { notifyAutoMapRotationPosition } from '../scenes/map-rotation';
+import { maybeTriggerFieldCombat } from '../scenes/field-combat';
+import { handleNpcInteractionRequest } from './npc-interaction-handler';
+const { handleNpcShopServiceRequest } = require('../gameplay/shop-runtime');
 
 const {
   GAME_POSITION_QUERY_CMD,
@@ -68,6 +71,7 @@ function dispatchGamePacket(
       session.sendMapNpcSpawns?.(position.mapId);
       session.pendingSceneNpcSpawnMapId = null;
     }
+    maybeTriggerFieldCombat(session, position.mapId, position.x, position.y);
     session.log(`Position update map=${position.mapId} pos=${position.x},${position.y}`);
     appendTriggerTrace({
       kind: 'position',
@@ -84,6 +88,7 @@ function dispatchGamePacket(
     const request = parseServerRunRequest(payload);
     if (request) {
       handleSceneInteractionRequest(session, request);
+      handleNpcInteractionRequest(session, request);
 
       if (request.subcmd === 0x03 && typeof request.npcId === 'number' && typeof request.scriptId === 'number') {
         session.log(
@@ -109,6 +114,10 @@ function dispatchGamePacket(
       });
       return true;
     }
+  }
+
+  if (handleNpcShopServiceRequest(session, payload)) {
+    return true;
   }
 
   if (cmdWord === GAME_FIGHT_RESULT_CMD && session.tryHandleEquipmentStatePacket(payload)) {

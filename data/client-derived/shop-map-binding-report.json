@@ -1,0 +1,5033 @@
+{
+  "summary": {
+    "generatedAt": "2026-03-22T11:31:23.470990+00:00",
+    "npcIdsWithShopVariants": 67,
+    "safeNpcIdOnlyBindings": 62,
+    "safeIdenticalVariantBindings": 1,
+    "ambiguousBindings": 4
+  },
+  "rows": [
+    {
+      "npcId": 2,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 3,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "21ddffc5f569",
+          "fileNames": [
+            "0000163e__2.shop"
+          ],
+          "itemCount": 3,
+          "sampleItems": [
+            {
+              "templateId": 5002,
+              "name": "Petal Fan",
+              "price": 10000
+            },
+            {
+              "templateId": 5003,
+              "name": "Glazed Flask",
+              "price": 10000
+            },
+            {
+              "templateId": 5004,
+              "name": "Bronze Kettle",
+              "price": 10000
+            }
+          ],
+          "shopKindHints": [
+            "weapon"
+          ]
+        },
+        {
+          "variantHash": "267f95d0350d",
+          "fileNames": [
+            "000018a9__2.shop"
+          ],
+          "itemCount": 3,
+          "sampleItems": [
+            {
+              "templateId": 5002,
+              "name": "Petal Fan",
+              "price": 1250
+            },
+            {
+              "templateId": 5003,
+              "name": "Glazed Flask",
+              "price": 1250
+            },
+            {
+              "templateId": 5004,
+              "name": "Bronze Kettle",
+              "price": 1250
+            }
+          ],
+          "shopKindHints": [
+            "weapon"
+          ]
+        },
+        {
+          "variantHash": "38bef77e25a7",
+          "fileNames": [
+            "00001c6a__2.shop"
+          ],
+          "itemCount": 4,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 150
+            },
+            {
+              "templateId": 20002,
+              "name": "Salve (S)",
+              "price": 500
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 150
+            },
+            {
+              "templateId": 20005,
+              "name": "Ratafee",
+              "price": 500
+            }
+          ],
+          "shopKindHints": []
+        }
+      ]
+    },
+    {
+      "npcId": 3,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 3,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "21ddffc5f569",
+          "fileNames": [
+            "00001658__3.shop"
+          ],
+          "itemCount": 3,
+          "sampleItems": [
+            {
+              "templateId": 5002,
+              "name": "Petal Fan",
+              "price": 10000
+            },
+            {
+              "templateId": 5003,
+              "name": "Glazed Flask",
+              "price": 10000
+            },
+            {
+              "templateId": 5004,
+              "name": "Bronze Kettle",
+              "price": 10000
+            }
+          ],
+          "shopKindHints": [
+            "weapon"
+          ]
+        },
+        {
+          "variantHash": "75df6aa6f7a6",
+          "fileNames": [
+            "00001c84__3.shop"
+          ],
+          "itemCount": 4,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 120
+            },
+            {
+              "templateId": 20002,
+              "name": "Salve (S)",
+              "price": 500
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 250
+            },
+            {
+              "templateId": 20005,
+              "name": "Ratafee",
+              "price": 700
+            }
+          ],
+          "shopKindHints": []
+        },
+        {
+          "variantHash": "208d931310ff",
+          "fileNames": [
+            "00001bbc__3.shop"
+          ],
+          "itemCount": 6,
+          "sampleItems": [
+            {
+              "templateId": 23010,
+              "name": "Red Fruit",
+              "price": 10000
+            },
+            {
+              "templateId": 23011,
+              "name": "Green Fruit",
+              "price": 10000
+            },
+            {
+              "templateId": 23012,
+              "name": "Flower Spirit Spine",
+              "price": 10000
+            },
+            {
+              "templateId": 23013,
+              "name": "Little Fang",
+              "price": 10000
+            },
+            {
+              "templateId": 29001,
+              "name": "Mob Flask Lv.1",
+              "price": 10000
+            },
+            {
+              "templateId": 29002,
+              "name": "Mob Flask Lv.2",
+              "price": 10000
+            }
+          ],
+          "shopKindHints": [
+            "materials",
+            "medicine"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 4,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 2,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "016093265a65",
+          "fileNames": [
+            "000016de__4.shop"
+          ],
+          "itemCount": 2,
+          "sampleItems": [
+            {
+              "templateId": 20015,
+              "name": "Cute Cookies",
+              "price": 10000
+            },
+            {
+              "templateId": 20016,
+              "name": "Unsavory Food",
+              "price": 10000
+            }
+          ],
+          "shopKindHints": [
+            "food",
+            "pet"
+          ]
+        },
+        {
+          "variantHash": "fb3350c10141",
+          "fileNames": [
+            "00001a1b__4.shop"
+          ],
+          "itemCount": 3,
+          "sampleItems": [
+            {
+              "templateId": 20015,
+              "name": "Cute Cookies",
+              "price": 400
+            },
+            {
+              "templateId": 20016,
+              "name": "Unsavory Food",
+              "price": 600
+            },
+            {
+              "templateId": 20025,
+              "name": "Pet Medicine (1)",
+              "price": 300
+            }
+          ],
+          "shopKindHints": [
+            "food",
+            "pet"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 5,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "763a8957a39a",
+          "fileNames": [
+            "00001523__5.shop"
+          ],
+          "itemCount": 2,
+          "sampleItems": [
+            {
+              "templateId": 20007,
+              "name": "Rice Vino",
+              "price": 600
+            },
+            {
+              "templateId": 20008,
+              "name": "Rainbow Fruit",
+              "price": 75
+            }
+          ],
+          "shopKindHints": []
+        }
+      ]
+    },
+    {
+      "npcId": 6,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 2,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "016093265a65",
+          "fileNames": [
+            "0000177f__6.shop"
+          ],
+          "itemCount": 2,
+          "sampleItems": [
+            {
+              "templateId": 20015,
+              "name": "Cute Cookies",
+              "price": 10000
+            },
+            {
+              "templateId": 20016,
+              "name": "Unsavory Food",
+              "price": 10000
+            }
+          ],
+          "shopKindHints": [
+            "food",
+            "pet"
+          ]
+        },
+        {
+          "variantHash": "763a8957a39a",
+          "fileNames": [
+            "0000153d__6.shop"
+          ],
+          "itemCount": 2,
+          "sampleItems": [
+            {
+              "templateId": 20007,
+              "name": "Rice Vino",
+              "price": 600
+            },
+            {
+              "templateId": 20008,
+              "name": "Rainbow Fruit",
+              "price": 75
+            }
+          ],
+          "shopKindHints": []
+        }
+      ]
+    },
+    {
+      "npcId": 7,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "b4e3e0c7805f",
+          "fileNames": [
+            "00001833__7.shop"
+          ],
+          "itemCount": 4,
+          "sampleItems": [
+            {
+              "templateId": 20013,
+              "name": "Hot Crayfish",
+              "price": 600
+            },
+            {
+              "templateId": 20014,
+              "name": "Bittern Duck",
+              "price": 600
+            },
+            {
+              "templateId": 20019,
+              "name": "Curry Fried Rice",
+              "price": 600
+            },
+            {
+              "templateId": 20020,
+              "name": "Chen's Wine",
+              "price": 800
+            }
+          ],
+          "shopKindHints": [
+            "food"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 8,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "79ca5d58aa5c",
+          "fileNames": [
+            "0000184d__8.shop"
+          ],
+          "itemCount": 24,
+          "sampleItems": [
+            {
+              "templateId": 10200,
+              "name": "Violent Helmet",
+              "price": 5000
+            },
+            {
+              "templateId": 10201,
+              "name": "Intelligent Helmet",
+              "price": 5000
+            },
+            {
+              "templateId": 10202,
+              "name": "Cosmos Helmet",
+              "price": 5000
+            },
+            {
+              "templateId": 15200,
+              "name": "Azure Hairpin",
+              "price": 5000
+            },
+            {
+              "templateId": 15201,
+              "name": "Emerald Hairpin",
+              "price": 5000
+            },
+            {
+              "templateId": 15202,
+              "name": "Purple Hairpin",
+              "price": 5000
+            },
+            {
+              "templateId": 11200,
+              "name": "Violent Armor",
+              "price": 6000
+            },
+            {
+              "templateId": 11201,
+              "name": "Intelligent Robe",
+              "price": 6000
+            }
+          ],
+          "shopKindHints": [
+            "equipment"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 9,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 2,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "37eddbe88b6a",
+          "fileNames": [
+            "000015e1__9.shop"
+          ],
+          "itemCount": 4,
+          "sampleItems": [
+            {
+              "templateId": 20017,
+              "name": "Teriyaki Beef Noodle (S)",
+              "price": 10000
+            },
+            {
+              "templateId": 20017,
+              "name": "Teriyaki Beef Noodle (S)",
+              "price": 10000
+            },
+            {
+              "templateId": 20017,
+              "name": "Teriyaki Beef Noodle (S)",
+              "price": 10000
+            },
+            {
+              "templateId": 20017,
+              "name": "Teriyaki Beef Noodle (S)",
+              "price": 10000
+            }
+          ],
+          "shopKindHints": [
+            "food"
+          ]
+        },
+        {
+          "variantHash": "2649823c14d4",
+          "fileNames": [
+            "00001867__9.shop"
+          ],
+          "itemCount": 6,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 150
+            },
+            {
+              "templateId": 20002,
+              "name": "Salve (S)",
+              "price": 500
+            },
+            {
+              "templateId": 20003,
+              "name": "Salve (M)",
+              "price": 1500
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 250
+            },
+            {
+              "templateId": 20005,
+              "name": "Ratafee",
+              "price": 700
+            },
+            {
+              "templateId": 20006,
+              "name": "Panax",
+              "price": 1800
+            }
+          ],
+          "shopKindHints": []
+        }
+      ]
+    },
+    {
+      "npcId": 10,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 4,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "ae6cff85e1f0",
+          "fileNames": [
+            "000013ee__10.shop"
+          ],
+          "itemCount": 4,
+          "sampleItems": [
+            {
+              "templateId": 5001,
+              "name": "Club",
+              "price": 150
+            },
+            {
+              "templateId": 5002,
+              "name": "Petal Fan",
+              "price": 1250
+            },
+            {
+              "templateId": 5003,
+              "name": "Glazed Flask",
+              "price": 1250
+            },
+            {
+              "templateId": 5004,
+              "name": "Bronze Kettle",
+              "price": 1250
+            }
+          ],
+          "shopKindHints": [
+            "weapon"
+          ]
+        },
+        {
+          "variantHash": "f49f89ed8793",
+          "fileNames": [
+            "00001b6b__10.shop"
+          ],
+          "itemCount": 12,
+          "sampleItems": [
+            {
+              "templateId": 10200,
+              "name": "Violent Helmet",
+              "price": 10000
+            },
+            {
+              "templateId": 10201,
+              "name": "Intelligent Helmet",
+              "price": 10000
+            },
+            {
+              "templateId": 10202,
+              "name": "Cosmos Helmet",
+              "price": 10000
+            },
+            {
+              "templateId": 15200,
+              "name": "Azure Hairpin",
+              "price": 10000
+            },
+            {
+              "templateId": 15201,
+              "name": "Emerald Hairpin",
+              "price": 10000
+            },
+            {
+              "templateId": 15202,
+              "name": "Purple Hairpin",
+              "price": 10000
+            },
+            {
+              "templateId": 11200,
+              "name": "Violent Armor",
+              "price": 10000
+            },
+            {
+              "templateId": 11201,
+              "name": "Intelligent Robe",
+              "price": 10000
+            }
+          ],
+          "shopKindHints": [
+            "equipment"
+          ]
+        },
+        {
+          "variantHash": "13eb29e7b59f",
+          "fileNames": [
+            "000017a6__10.shop"
+          ],
+          "itemCount": 24,
+          "sampleItems": [
+            {
+              "templateId": 10200,
+              "name": "Violent Helmet",
+              "price": 6500
+            },
+            {
+              "templateId": 10201,
+              "name": "Intelligent Helmet",
+              "price": 6500
+            },
+            {
+              "templateId": 10202,
+              "name": "Cosmos Helmet",
+              "price": 6500
+            },
+            {
+              "templateId": 15200,
+              "name": "Azure Hairpin",
+              "price": 6500
+            },
+            {
+              "templateId": 15201,
+              "name": "Emerald Hairpin",
+              "price": 6500
+            },
+            {
+              "templateId": 15202,
+              "name": "Purple Hairpin",
+              "price": 6500
+            },
+            {
+              "templateId": 11200,
+              "name": "Violent Armor",
+              "price": 7500
+            },
+            {
+              "templateId": 11201,
+              "name": "Intelligent Robe",
+              "price": 7500
+            }
+          ],
+          "shopKindHints": [
+            "equipment"
+          ]
+        },
+        {
+          "variantHash": "e6819844ea27",
+          "fileNames": [
+            "0000158e__10.shop"
+          ],
+          "itemCount": 24,
+          "sampleItems": [
+            {
+              "templateId": 12200,
+              "name": "Violent Belt",
+              "price": 10000
+            },
+            {
+              "templateId": 12201,
+              "name": "Intelligent Belt",
+              "price": 10000
+            },
+            {
+              "templateId": 12202,
+              "name": "Cosmos Belt",
+              "price": 10000
+            },
+            {
+              "templateId": 17200,
+              "name": "Azure Belt",
+              "price": 10000
+            },
+            {
+              "templateId": 17201,
+              "name": "Emerald Belt",
+              "price": 10000
+            },
+            {
+              "templateId": 17202,
+              "name": "Purple Belt",
+              "price": 10000
+            },
+            {
+              "templateId": 13200,
+              "name": "Violent Boots",
+              "price": 10000
+            },
+            {
+              "templateId": 13201,
+              "name": "Intelligent Boots",
+              "price": 10000
+            }
+          ],
+          "shopKindHints": [
+            "equipment"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 11,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 3,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "bb1235ac6d61",
+          "fileNames": [
+            "00001409__11.shop"
+          ],
+          "itemCount": 2,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 150
+            },
+            {
+              "templateId": 29001,
+              "name": "Mob Flask Lv.1",
+              "price": 650
+            }
+          ],
+          "shopKindHints": [
+            "medicine"
+          ]
+        },
+        {
+          "variantHash": "5b008cf9083c",
+          "fileNames": [
+            "000017c1__11.shop"
+          ],
+          "itemCount": 6,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 120
+            },
+            {
+              "templateId": 20002,
+              "name": "Salve (S)",
+              "price": 500
+            },
+            {
+              "templateId": 20003,
+              "name": "Salve (M)",
+              "price": 1500
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 250
+            },
+            {
+              "templateId": 20005,
+              "name": "Ratafee",
+              "price": 700
+            },
+            {
+              "templateId": 20006,
+              "name": "Panax",
+              "price": 1800
+            }
+          ],
+          "shopKindHints": []
+        },
+        {
+          "variantHash": "d14bc7f8f84c",
+          "fileNames": [
+            "000015a9__11.shop"
+          ],
+          "itemCount": 12,
+          "sampleItems": [
+            {
+              "templateId": 10300,
+              "name": "Dazzling Helmet",
+              "price": 10000
+            },
+            {
+              "templateId": 10301,
+              "name": "Shadow Helmet",
+              "price": 10000
+            },
+            {
+              "templateId": 10302,
+              "name": "Star Helmet",
+              "price": 10000
+            },
+            {
+              "templateId": 15300,
+              "name": "Thunder Hairpin",
+              "price": 10000
+            },
+            {
+              "templateId": 15301,
+              "name": "Cloud Hairpin",
+              "price": 10000
+            },
+            {
+              "templateId": 15302,
+              "name": "Wind Hairpin",
+              "price": 10000
+            },
+            {
+              "templateId": 11300,
+              "name": "Dazzling Armor",
+              "price": 10000
+            },
+            {
+              "templateId": 11301,
+              "name": "Shadow Robe",
+              "price": 10000
+            }
+          ],
+          "shopKindHints": [
+            "equipment"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 12,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "cdcac578839b",
+          "fileNames": [
+            "00001b86__12.shop"
+          ],
+          "itemCount": 3,
+          "sampleItems": [
+            {
+              "templateId": 5011,
+              "name": "Furnace",
+              "price": 10000
+            },
+            {
+              "templateId": 5012,
+              "name": "Flawless Traton",
+              "price": 10000
+            },
+            {
+              "templateId": 5013,
+              "name": "Skull Flag of Ghost",
+              "price": 10000
+            }
+          ],
+          "shopKindHints": [
+            "weapon"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 13,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 3,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "bbdecd074615",
+          "fileNames": [
+            "00001424__13.shop"
+          ],
+          "itemCount": 3,
+          "sampleItems": [
+            {
+              "templateId": 29001,
+              "name": "Mob Flask Lv.1",
+              "price": 150
+            },
+            {
+              "templateId": 20007,
+              "name": "Rice Vino",
+              "price": 400
+            },
+            {
+              "templateId": 20008,
+              "name": "Rainbow Fruit",
+              "price": 100
+            }
+          ],
+          "shopKindHints": [
+            "medicine"
+          ]
+        },
+        {
+          "variantHash": "fbcbf9a78006",
+          "fileNames": [
+            "00001ba1__13.shop"
+          ],
+          "itemCount": 3,
+          "sampleItems": [
+            {
+              "templateId": 20021,
+              "name": "Goal Vintage",
+              "price": 10000
+            },
+            {
+              "templateId": 20022,
+              "name": "Crop",
+              "price": 10000
+            },
+            {
+              "templateId": 20023,
+              "name": "Grilled Mutton",
+              "price": 10000
+            }
+          ],
+          "shopKindHints": []
+        },
+        {
+          "variantHash": "109932d1dede",
+          "fileNames": [
+            "00001be3__13.shop"
+          ],
+          "itemCount": 4,
+          "sampleItems": [
+            {
+              "templateId": 20017,
+              "name": "Teriyaki Beef Noodle (S)",
+              "price": 350
+            },
+            {
+              "templateId": 20018,
+              "name": "Teriyaki Beef Noodle (L)",
+              "price": 450
+            },
+            {
+              "templateId": 20021,
+              "name": "Goal Vintage",
+              "price": 800
+            },
+            {
+              "templateId": 20023,
+              "name": "Grilled Mutton",
+              "price": 500
+            }
+          ],
+          "shopKindHints": [
+            "food"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 14,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 2,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "0ef4573e6192",
+          "fileNames": [
+            "0000143f__14.shop"
+          ],
+          "itemCount": 2,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 150
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 150
+            }
+          ],
+          "shopKindHints": []
+        },
+        {
+          "variantHash": "cb58254fc6ef",
+          "fileNames": [
+            "00001bfe__14.shop"
+          ],
+          "itemCount": 6,
+          "sampleItems": [
+            {
+              "templateId": 5011,
+              "name": "Furnace",
+              "price": 2500
+            },
+            {
+              "templateId": 5012,
+              "name": "Flawless Traton",
+              "price": 2500
+            },
+            {
+              "templateId": 5013,
+              "name": "Skull Flag of Ghost",
+              "price": 2500
+            },
+            {
+              "templateId": 5020,
+              "name": "Moon Club",
+              "price": 5000
+            },
+            {
+              "templateId": 5021,
+              "name": "Boxing Rune",
+              "price": 5000
+            },
+            {
+              "templateId": 5022,
+              "name": "Pot of Prophesy",
+              "price": 5000
+            }
+          ],
+          "shopKindHints": [
+            "weapon"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 15,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 4,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "17e3a69efded",
+          "fileNames": [
+            "0000188e__15.shop"
+          ],
+          "itemCount": 4,
+          "sampleItems": [
+            {
+              "templateId": 8001,
+              "name": "Scenery Necklace",
+              "price": 5000
+            },
+            {
+              "templateId": 8002,
+              "name": "Loyal Necklace",
+              "price": 5000
+            },
+            {
+              "templateId": 9001,
+              "name": "Scenery Pendant",
+              "price": 5000
+            },
+            {
+              "templateId": 9002,
+              "name": "Loyal Pendant",
+              "price": 5000
+            }
+          ],
+          "shopKindHints": []
+        },
+        {
+          "variantHash": "1e4be6a84eab",
+          "fileNames": [
+            "00001c19__15.shop"
+          ],
+          "itemCount": 5,
+          "sampleItems": [
+            {
+              "templateId": 23006,
+              "name": "Ladybug Shell",
+              "price": 200
+            },
+            {
+              "templateId": 23007,
+              "name": "Cobweb",
+              "price": 200
+            },
+            {
+              "templateId": 23012,
+              "name": "Flower Spirit Spine",
+              "price": 200
+            },
+            {
+              "templateId": 23013,
+              "name": "Little Fang",
+              "price": 200
+            },
+            {
+              "templateId": 23014,
+              "name": "Withered Wood",
+              "price": 200
+            }
+          ],
+          "shopKindHints": [
+            "materials"
+          ]
+        },
+        {
+          "variantHash": "8d8d56070a67",
+          "fileNames": [
+            "00001608__15.shop"
+          ],
+          "itemCount": 6,
+          "sampleItems": [
+            {
+              "templateId": 8000,
+              "name": "Item 8000",
+              "price": 10000
+            },
+            {
+              "templateId": 8001,
+              "name": "Scenery Necklace",
+              "price": 10000
+            },
+            {
+              "templateId": 8002,
+              "name": "Loyal Necklace",
+              "price": 10000
+            },
+            {
+              "templateId": 9000,
+              "name": "Item 9000",
+              "price": 10000
+            },
+            {
+              "templateId": 9001,
+              "name": "Scenery Pendant",
+              "price": 10000
+            },
+            {
+              "templateId": 9002,
+              "name": "Loyal Pendant",
+              "price": 10000
+            }
+          ],
+          "shopKindHints": []
+        },
+        {
+          "variantHash": "b3c1443ff936",
+          "fileNames": [
+            "0000145a__15.shop"
+          ],
+          "itemCount": 8,
+          "sampleItems": [
+            {
+              "templateId": 10001,
+              "name": "Light Hood",
+              "price": 120
+            },
+            {
+              "templateId": 15001,
+              "name": "Red String",
+              "price": 120
+            },
+            {
+              "templateId": 11001,
+              "name": "Fabric Garment",
+              "price": 120
+            },
+            {
+              "templateId": 16001,
+              "name": "Gauze Garment",
+              "price": 120
+            },
+            {
+              "templateId": 12001,
+              "name": "Snake Belt",
+              "price": 120
+            },
+            {
+              "templateId": 17001,
+              "name": "Linen Belt",
+              "price": 120
+            },
+            {
+              "templateId": 13001,
+              "name": "Shoes",
+              "price": 120
+            },
+            {
+              "templateId": 18001,
+              "name": "Embroidered Shoes",
+              "price": 120
+            }
+          ],
+          "shopKindHints": [
+            "equipment"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 16,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "cb58254fc6ef",
+          "fileNames": [
+            "00001c34__16.shop"
+          ],
+          "itemCount": 6,
+          "sampleItems": [
+            {
+              "templateId": 5011,
+              "name": "Furnace",
+              "price": 2500
+            },
+            {
+              "templateId": 5012,
+              "name": "Flawless Traton",
+              "price": 2500
+            },
+            {
+              "templateId": 5013,
+              "name": "Skull Flag of Ghost",
+              "price": 2500
+            },
+            {
+              "templateId": 5020,
+              "name": "Moon Club",
+              "price": 5000
+            },
+            {
+              "templateId": 5021,
+              "name": "Boxing Rune",
+              "price": 5000
+            },
+            {
+              "templateId": 5022,
+              "name": "Pot of Prophesy",
+              "price": 5000
+            }
+          ],
+          "shopKindHints": [
+            "weapon"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 17,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 2,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "3bb954388c9e",
+          "fileNames": [
+            "00001c4f__17.shop"
+          ],
+          "itemCount": 5,
+          "sampleItems": [
+            {
+              "templateId": 23006,
+              "name": "Ladybug Shell",
+              "price": 300
+            },
+            {
+              "templateId": 23007,
+              "name": "Cobweb",
+              "price": 300
+            },
+            {
+              "templateId": 23012,
+              "name": "Flower Spirit Spine",
+              "price": 300
+            },
+            {
+              "templateId": 23013,
+              "name": "Little Fang",
+              "price": 300
+            },
+            {
+              "templateId": 23014,
+              "name": "Withered Wood",
+              "price": 300
+            }
+          ],
+          "shopKindHints": [
+            "materials"
+          ]
+        },
+        {
+          "variantHash": "8d8d56070a67",
+          "fileNames": [
+            "00001623__17.shop"
+          ],
+          "itemCount": 6,
+          "sampleItems": [
+            {
+              "templateId": 8000,
+              "name": "Item 8000",
+              "price": 10000
+            },
+            {
+              "templateId": 8001,
+              "name": "Scenery Necklace",
+              "price": 10000
+            },
+            {
+              "templateId": 8002,
+              "name": "Loyal Necklace",
+              "price": 10000
+            },
+            {
+              "templateId": 9000,
+              "name": "Item 9000",
+              "price": 10000
+            },
+            {
+              "templateId": 9001,
+              "name": "Scenery Pendant",
+              "price": 10000
+            },
+            {
+              "templateId": 9002,
+              "name": "Loyal Pendant",
+              "price": 10000
+            }
+          ],
+          "shopKindHints": []
+        }
+      ]
+    },
+    {
+      "npcId": 30,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 2,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "52b3f0aa4ad6",
+          "fileNames": [
+            "000018c3__30.shop"
+          ],
+          "itemCount": 24,
+          "sampleItems": [
+            {
+              "templateId": 10002,
+              "name": "Valiant Hood",
+              "price": 1350
+            },
+            {
+              "templateId": 10003,
+              "name": "Scholarly Hood",
+              "price": 1350
+            },
+            {
+              "templateId": 10004,
+              "name": "Masterly Hood",
+              "price": 1350
+            },
+            {
+              "templateId": 15002,
+              "name": "Orchid Hairpin",
+              "price": 1350
+            },
+            {
+              "templateId": 15003,
+              "name": "Willow Hairpin",
+              "price": 1350
+            },
+            {
+              "templateId": 15004,
+              "name": "Plum Hairpin",
+              "price": 1350
+            },
+            {
+              "templateId": 11002,
+              "name": "Valiant Robe",
+              "price": 1500
+            },
+            {
+              "templateId": 11003,
+              "name": "Scholarly Garment",
+              "price": 1500
+            }
+          ],
+          "shopKindHints": [
+            "equipment"
+          ]
+        },
+        {
+          "variantHash": "e095f301b88b",
+          "fileNames": [
+            "00001672__30.shop"
+          ],
+          "itemCount": 24,
+          "sampleItems": [
+            {
+              "templateId": 10002,
+              "name": "Valiant Hood",
+              "price": 10000
+            },
+            {
+              "templateId": 10003,
+              "name": "Scholarly Hood",
+              "price": 10000
+            },
+            {
+              "templateId": 10004,
+              "name": "Masterly Hood",
+              "price": 10000
+            },
+            {
+              "templateId": 15002,
+              "name": "Orchid Hairpin",
+              "price": 10000
+            },
+            {
+              "templateId": 15003,
+              "name": "Willow Hairpin",
+              "price": 10000
+            },
+            {
+              "templateId": 15004,
+              "name": "Plum Hairpin",
+              "price": 10000
+            },
+            {
+              "templateId": 11002,
+              "name": "Valiant Robe",
+              "price": 10000
+            },
+            {
+              "templateId": 11003,
+              "name": "Scholarly Garment",
+              "price": 10000
+            }
+          ],
+          "shopKindHints": [
+            "equipment"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 31,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 2,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "fdd403bba7db",
+          "fileNames": [
+            "000019c6__31.shop"
+          ],
+          "itemCount": 4,
+          "sampleItems": [
+            {
+              "templateId": 20009,
+              "name": "Carbonado",
+              "price": 200
+            },
+            {
+              "templateId": 20010,
+              "name": "Pepper Pork",
+              "price": 250
+            },
+            {
+              "templateId": 20011,
+              "name": "Heaven Wine",
+              "price": 800
+            },
+            {
+              "templateId": 20012,
+              "name": "Mar-Boh Tofu",
+              "price": 300
+            }
+          ],
+          "shopKindHints": [
+            "food"
+          ]
+        },
+        {
+          "variantHash": "e3176c95e719",
+          "fileNames": [
+            "0000168d__31.shop"
+          ],
+          "itemCount": 5,
+          "sampleItems": [
+            {
+              "templateId": 20009,
+              "name": "Carbonado",
+              "price": 10000
+            },
+            {
+              "templateId": 20011,
+              "name": "Heaven Wine",
+              "price": 10000
+            },
+            {
+              "templateId": 20012,
+              "name": "Mar-Boh Tofu",
+              "price": 10000
+            },
+            {
+              "templateId": 20013,
+              "name": "Hot Crayfish",
+              "price": 10000
+            },
+            {
+              "templateId": 20014,
+              "name": "Bittern Duck",
+              "price": 10000
+            }
+          ],
+          "shopKindHints": [
+            "food"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 34,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "e095f301b88b",
+          "fileNames": [
+            "000016a8__34.shop"
+          ],
+          "itemCount": 24,
+          "sampleItems": [
+            {
+              "templateId": 10002,
+              "name": "Valiant Hood",
+              "price": 10000
+            },
+            {
+              "templateId": 10003,
+              "name": "Scholarly Hood",
+              "price": 10000
+            },
+            {
+              "templateId": 10004,
+              "name": "Masterly Hood",
+              "price": 10000
+            },
+            {
+              "templateId": 15002,
+              "name": "Orchid Hairpin",
+              "price": 10000
+            },
+            {
+              "templateId": 15003,
+              "name": "Willow Hairpin",
+              "price": 10000
+            },
+            {
+              "templateId": 15004,
+              "name": "Plum Hairpin",
+              "price": 10000
+            },
+            {
+              "templateId": 11002,
+              "name": "Valiant Robe",
+              "price": 10000
+            },
+            {
+              "templateId": 11003,
+              "name": "Scholarly Garment",
+              "price": 10000
+            }
+          ],
+          "shopKindHints": [
+            "equipment"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 35,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "e3176c95e719",
+          "fileNames": [
+            "000016c3__35.shop"
+          ],
+          "itemCount": 5,
+          "sampleItems": [
+            {
+              "templateId": 20009,
+              "name": "Carbonado",
+              "price": 10000
+            },
+            {
+              "templateId": 20011,
+              "name": "Heaven Wine",
+              "price": 10000
+            },
+            {
+              "templateId": 20012,
+              "name": "Mar-Boh Tofu",
+              "price": 10000
+            },
+            {
+              "templateId": 20013,
+              "name": "Hot Crayfish",
+              "price": 10000
+            },
+            {
+              "templateId": 20014,
+              "name": "Bittern Duck",
+              "price": 10000
+            }
+          ],
+          "shopKindHints": [
+            "food"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 42,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 2,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "04754100ae29",
+          "fileNames": [
+            "000016f8__42.shop"
+          ],
+          "itemCount": 1,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 10000
+            }
+          ],
+          "shopKindHints": []
+        },
+        {
+          "variantHash": "38bef77e25a7",
+          "fileNames": [
+            "00001a35__42.shop"
+          ],
+          "itemCount": 4,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 150
+            },
+            {
+              "templateId": 20002,
+              "name": "Salve (S)",
+              "price": 500
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 150
+            },
+            {
+              "templateId": 20005,
+              "name": "Ratafee",
+              "price": 500
+            }
+          ],
+          "shopKindHints": []
+        }
+      ]
+    },
+    {
+      "npcId": 43,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 2,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "2d6b66104bef",
+          "fileNames": [
+            "00001a50__43.shop"
+          ],
+          "itemCount": 7,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 150
+            },
+            {
+              "templateId": 20002,
+              "name": "Salve (S)",
+              "price": 500
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 150
+            },
+            {
+              "templateId": 20005,
+              "name": "Ratafee",
+              "price": 500
+            },
+            {
+              "templateId": 29001,
+              "name": "Mob Flask Lv.1",
+              "price": 200
+            },
+            {
+              "templateId": 29002,
+              "name": "Mob Flask Lv.2",
+              "price": 400
+            },
+            {
+              "templateId": 29003,
+              "name": "Mob Flask Lv.3",
+              "price": 600
+            }
+          ],
+          "shopKindHints": [
+            "medicine"
+          ]
+        },
+        {
+          "variantHash": "927ce2db1b0e",
+          "fileNames": [
+            "00001713__43.shop"
+          ],
+          "itemCount": 7,
+          "sampleItems": [
+            {
+              "templateId": 23001,
+              "name": "Boar Tusks",
+              "price": 10000
+            },
+            {
+              "templateId": 23002,
+              "name": "Slimy Tail",
+              "price": 10000
+            },
+            {
+              "templateId": 23003,
+              "name": "Beetle Shell",
+              "price": 10000
+            },
+            {
+              "templateId": 23004,
+              "name": "Worm Spine",
+              "price": 10000
+            },
+            {
+              "templateId": 23005,
+              "name": "Grass Fluff",
+              "price": 10000
+            },
+            {
+              "templateId": 29001,
+              "name": "Mob Flask Lv.1",
+              "price": 10000
+            },
+            {
+              "templateId": 29002,
+              "name": "Mob Flask Lv.2",
+              "price": 10000
+            }
+          ],
+          "shopKindHints": [
+            "materials",
+            "medicine"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 45,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 2,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "25bcaa0499f2",
+          "fileNames": [
+            "0000172e__45.shop"
+          ],
+          "itemCount": 5,
+          "sampleItems": [
+            {
+              "templateId": 23006,
+              "name": "Ladybug Shell",
+              "price": 10000
+            },
+            {
+              "templateId": 23007,
+              "name": "Cobweb",
+              "price": 10000
+            },
+            {
+              "templateId": 23008,
+              "name": "Conch",
+              "price": 10000
+            },
+            {
+              "templateId": 23009,
+              "name": "Branch",
+              "price": 10000
+            },
+            {
+              "templateId": 23010,
+              "name": "Red Fruit",
+              "price": 10000
+            }
+          ],
+          "shopKindHints": [
+            "materials"
+          ]
+        },
+        {
+          "variantHash": "5c06d4bb4175",
+          "fileNames": [
+            "00001a6b__45.shop"
+          ],
+          "itemCount": 5,
+          "sampleItems": [
+            {
+              "templateId": 23001,
+              "name": "Boar Tusks",
+              "price": 200
+            },
+            {
+              "templateId": 23002,
+              "name": "Slimy Tail",
+              "price": 200
+            },
+            {
+              "templateId": 23003,
+              "name": "Beetle Shell",
+              "price": 200
+            },
+            {
+              "templateId": 23004,
+              "name": "Worm Spine",
+              "price": 200
+            },
+            {
+              "templateId": 23005,
+              "name": "Grass Fluff",
+              "price": 200
+            }
+          ],
+          "shopKindHints": [
+            "materials"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 47,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "927ce2db1b0e",
+          "fileNames": [
+            "00001749__47.shop"
+          ],
+          "itemCount": 7,
+          "sampleItems": [
+            {
+              "templateId": 23001,
+              "name": "Boar Tusks",
+              "price": 10000
+            },
+            {
+              "templateId": 23002,
+              "name": "Slimy Tail",
+              "price": 10000
+            },
+            {
+              "templateId": 23003,
+              "name": "Beetle Shell",
+              "price": 10000
+            },
+            {
+              "templateId": 23004,
+              "name": "Worm Spine",
+              "price": 10000
+            },
+            {
+              "templateId": 23005,
+              "name": "Grass Fluff",
+              "price": 10000
+            },
+            {
+              "templateId": 29001,
+              "name": "Mob Flask Lv.1",
+              "price": 10000
+            },
+            {
+              "templateId": 29002,
+              "name": "Mob Flask Lv.2",
+              "price": 10000
+            }
+          ],
+          "shopKindHints": [
+            "materials",
+            "medicine"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 49,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "04754100ae29",
+          "fileNames": [
+            "00001764__49.shop"
+          ],
+          "itemCount": 1,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 10000
+            }
+          ],
+          "shopKindHints": []
+        }
+      ]
+    },
+    {
+      "npcId": 3001,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 0,
+      "status": "safe-npcid-only",
+      "variants": []
+    },
+    {
+      "npcId": 3008,
+      "maps": [
+        {
+          "mapId": 112,
+          "mapFile": "112-cloud-city.npcs.json",
+          "slot": 9,
+          "name": "Blacksmith",
+          "x": 240,
+          "y": 233
+        }
+      ],
+      "uniqueMapIds": [
+        112
+      ],
+      "variantCount": 2,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "267f95d0350d",
+          "fileNames": [
+            "000018de__3008.shop"
+          ],
+          "itemCount": 3,
+          "sampleItems": [
+            {
+              "templateId": 5002,
+              "name": "Petal Fan",
+              "price": 1250
+            },
+            {
+              "templateId": 5003,
+              "name": "Glazed Flask",
+              "price": 1250
+            },
+            {
+              "templateId": 5004,
+              "name": "Bronze Kettle",
+              "price": 1250
+            }
+          ],
+          "shopKindHints": [
+            "weapon"
+          ]
+        },
+        {
+          "variantHash": "adfc61e82644",
+          "fileNames": [
+            "00001a93__3008.shop"
+          ],
+          "itemCount": 9,
+          "sampleItems": [
+            {
+              "templateId": 5002,
+              "name": "Petal Fan",
+              "price": 600
+            },
+            {
+              "templateId": 5003,
+              "name": "Glazed Flask",
+              "price": 600
+            },
+            {
+              "templateId": 5004,
+              "name": "Bronze Kettle",
+              "price": 600
+            },
+            {
+              "templateId": 5102,
+              "name": "Treasures Club",
+              "price": 1000
+            },
+            {
+              "templateId": 5103,
+              "name": "Purple Club",
+              "price": 1000
+            },
+            {
+              "templateId": 5104,
+              "name": "Emerald Club",
+              "price": 1000
+            },
+            {
+              "templateId": 5011,
+              "name": "Furnace",
+              "price": 1200
+            },
+            {
+              "templateId": 5012,
+              "name": "Flawless Traton",
+              "price": 1200
+            }
+          ],
+          "shopKindHints": [
+            "weapon"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3009,
+      "maps": [
+        {
+          "mapId": 112,
+          "mapFile": "112-cloud-city.npcs.json",
+          "slot": 5,
+          "name": "Diana",
+          "x": 163,
+          "y": 155
+        },
+        {
+          "mapId": 204,
+          "mapFile": "204-celestial-state.npcs.json",
+          "slot": 3,
+          "name": "Garment Shop",
+          "x": 104,
+          "y": 210
+        }
+      ],
+      "uniqueMapIds": [
+        112,
+        204
+      ],
+      "variantCount": 2,
+      "status": "ambiguous",
+      "variants": [
+        {
+          "variantHash": "390adf9aa125",
+          "fileNames": [
+            "00001f47__3009.shop"
+          ],
+          "itemCount": 24,
+          "sampleItems": [
+            {
+              "templateId": 10002,
+              "name": "Valiant Hood",
+              "price": 360
+            },
+            {
+              "templateId": 10003,
+              "name": "Scholarly Hood",
+              "price": 360
+            },
+            {
+              "templateId": 10004,
+              "name": "Masterly Hood",
+              "price": 360
+            },
+            {
+              "templateId": 15002,
+              "name": "Orchid Hairpin",
+              "price": 360
+            },
+            {
+              "templateId": 15003,
+              "name": "Willow Hairpin",
+              "price": 360
+            },
+            {
+              "templateId": 15004,
+              "name": "Plum Hairpin",
+              "price": 360
+            },
+            {
+              "templateId": 11002,
+              "name": "Valiant Robe",
+              "price": 420
+            },
+            {
+              "templateId": 11003,
+              "name": "Scholarly Garment",
+              "price": 420
+            }
+          ],
+          "shopKindHints": [
+            "equipment"
+          ]
+        },
+        {
+          "variantHash": "52b3f0aa4ad6",
+          "fileNames": [
+            "000018fb__3009.shop"
+          ],
+          "itemCount": 24,
+          "sampleItems": [
+            {
+              "templateId": 10002,
+              "name": "Valiant Hood",
+              "price": 1350
+            },
+            {
+              "templateId": 10003,
+              "name": "Scholarly Hood",
+              "price": 1350
+            },
+            {
+              "templateId": 10004,
+              "name": "Masterly Hood",
+              "price": 1350
+            },
+            {
+              "templateId": 15002,
+              "name": "Orchid Hairpin",
+              "price": 1350
+            },
+            {
+              "templateId": 15003,
+              "name": "Willow Hairpin",
+              "price": 1350
+            },
+            {
+              "templateId": 15004,
+              "name": "Plum Hairpin",
+              "price": 1350
+            },
+            {
+              "templateId": 11002,
+              "name": "Valiant Robe",
+              "price": 1500
+            },
+            {
+              "templateId": 11003,
+              "name": "Scholarly Garment",
+              "price": 1500
+            }
+          ],
+          "shopKindHints": [
+            "equipment"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3010,
+      "maps": [
+        {
+          "mapId": 112,
+          "mapFile": "112-cloud-city.npcs.json",
+          "slot": 8,
+          "name": "Pub Owner",
+          "x": 213,
+          "y": 293
+        },
+        {
+          "mapId": 204,
+          "mapFile": "204-celestial-state.npcs.json",
+          "slot": 2,
+          "name": "Restaurant",
+          "x": 74,
+          "y": 178
+        }
+      ],
+      "uniqueMapIds": [
+        112,
+        204
+      ],
+      "variantCount": 2,
+      "status": "ambiguous",
+      "variants": [
+        {
+          "variantHash": "fdd403bba7db",
+          "fileNames": [
+            "00001918__3010.shop"
+          ],
+          "itemCount": 4,
+          "sampleItems": [
+            {
+              "templateId": 20009,
+              "name": "Carbonado",
+              "price": 200
+            },
+            {
+              "templateId": 20010,
+              "name": "Pepper Pork",
+              "price": 250
+            },
+            {
+              "templateId": 20011,
+              "name": "Heaven Wine",
+              "price": 800
+            },
+            {
+              "templateId": 20012,
+              "name": "Mar-Boh Tofu",
+              "price": 300
+            }
+          ],
+          "shopKindHints": [
+            "food"
+          ]
+        },
+        {
+          "variantHash": "06a328e9daff",
+          "fileNames": [
+            "00001fc5__3010.shop"
+          ],
+          "itemCount": 6,
+          "sampleItems": [
+            {
+              "templateId": 20009,
+              "name": "Carbonado",
+              "price": 190
+            },
+            {
+              "templateId": 20010,
+              "name": "Pepper Pork",
+              "price": 210
+            },
+            {
+              "templateId": 20013,
+              "name": "Hot Crayfish",
+              "price": 220
+            },
+            {
+              "templateId": 20017,
+              "name": "Teriyaki Beef Noodle (S)",
+              "price": 290
+            },
+            {
+              "templateId": 20018,
+              "name": "Teriyaki Beef Noodle (L)",
+              "price": 390
+            },
+            {
+              "templateId": 20011,
+              "name": "Heaven Wine",
+              "price": 100
+            }
+          ],
+          "shopKindHints": [
+            "food"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3012,
+      "maps": [
+        {
+          "mapId": 112,
+          "mapFile": "112-cloud-city.npcs.json",
+          "slot": 15,
+          "name": "Grocer",
+          "x": 210,
+          "y": 197
+        }
+      ],
+      "uniqueMapIds": [
+        112
+      ],
+      "variantCount": 2,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "2d6b66104bef",
+          "fileNames": [
+            "00001935__3012.shop"
+          ],
+          "itemCount": 7,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 150
+            },
+            {
+              "templateId": 20002,
+              "name": "Salve (S)",
+              "price": 500
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 150
+            },
+            {
+              "templateId": 20005,
+              "name": "Ratafee",
+              "price": 500
+            },
+            {
+              "templateId": 29001,
+              "name": "Mob Flask Lv.1",
+              "price": 200
+            },
+            {
+              "templateId": 29002,
+              "name": "Mob Flask Lv.2",
+              "price": 400
+            },
+            {
+              "templateId": 29003,
+              "name": "Mob Flask Lv.3",
+              "price": 600
+            }
+          ],
+          "shopKindHints": [
+            "medicine"
+          ]
+        },
+        {
+          "variantHash": "93fcf0489bee",
+          "fileNames": [
+            "00001ab0__3012.shop"
+          ],
+          "itemCount": 28,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 150
+            },
+            {
+              "templateId": 20002,
+              "name": "Salve (S)",
+              "price": 570
+            },
+            {
+              "templateId": 20003,
+              "name": "Salve (M)",
+              "price": 1000
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 250
+            },
+            {
+              "templateId": 20005,
+              "name": "Ratafee",
+              "price": 750
+            },
+            {
+              "templateId": 20006,
+              "name": "Panax",
+              "price": 1300
+            },
+            {
+              "templateId": 29001,
+              "name": "Mob Flask Lv.1",
+              "price": 100
+            },
+            {
+              "templateId": 29002,
+              "name": "Mob Flask Lv.2",
+              "price": 200
+            }
+          ],
+          "shopKindHints": [
+            "medicine"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3013,
+      "maps": [
+        {
+          "mapId": 112,
+          "mapFile": "112-cloud-city.npcs.json",
+          "slot": 10,
+          "name": "Pet Curer",
+          "x": 152,
+          "y": 233
+        }
+      ],
+      "uniqueMapIds": [
+        112
+      ],
+      "variantCount": 2,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "ae7d55636ced",
+          "fileNames": [
+            "00002019__3013.shop"
+          ],
+          "itemCount": 3,
+          "sampleItems": [
+            {
+              "templateId": 20015,
+              "name": "Cute Cookies",
+              "price": 250
+            },
+            {
+              "templateId": 20016,
+              "name": "Unsavory Food",
+              "price": 290
+            },
+            {
+              "templateId": 20025,
+              "name": "Pet Medicine (1)",
+              "price": 750
+            }
+          ],
+          "shopKindHints": [
+            "food",
+            "pet"
+          ]
+        },
+        {
+          "variantHash": "ba0b8761f75e",
+          "fileNames": [
+            "00001952__3013.shop"
+          ],
+          "itemCount": 4,
+          "sampleItems": [
+            {
+              "templateId": 20015,
+              "name": "Cute Cookies",
+              "price": 400
+            },
+            {
+              "templateId": 20016,
+              "name": "Unsavory Food",
+              "price": 600
+            },
+            {
+              "templateId": 20025,
+              "name": "Pet Medicine (1)",
+              "price": 300
+            },
+            {
+              "templateId": 20028,
+              "name": "Pet Medicine (2)",
+              "price": 600
+            }
+          ],
+          "shopKindHints": [
+            "food",
+            "pet"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3016,
+      "maps": [
+        {
+          "mapId": 112,
+          "mapFile": "112-cloud-city.npcs.json",
+          "slot": 6,
+          "name": "Amber",
+          "x": 119,
+          "y": 191
+        }
+      ],
+      "uniqueMapIds": [
+        112
+      ],
+      "variantCount": 2,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "17e3a69efded",
+          "fileNames": [
+            "0000196f__3016.shop"
+          ],
+          "itemCount": 4,
+          "sampleItems": [
+            {
+              "templateId": 8001,
+              "name": "Scenery Necklace",
+              "price": 5000
+            },
+            {
+              "templateId": 8002,
+              "name": "Loyal Necklace",
+              "price": 5000
+            },
+            {
+              "templateId": 9001,
+              "name": "Scenery Pendant",
+              "price": 5000
+            },
+            {
+              "templateId": 9002,
+              "name": "Loyal Pendant",
+              "price": 5000
+            }
+          ],
+          "shopKindHints": []
+        },
+        {
+          "variantHash": "632880734569",
+          "fileNames": [
+            "00001f1d__3016.shop"
+          ],
+          "itemCount": 6,
+          "sampleItems": [
+            {
+              "templateId": 8001,
+              "name": "Scenery Necklace",
+              "price": 900
+            },
+            {
+              "templateId": 8002,
+              "name": "Loyal Necklace",
+              "price": 1600
+            },
+            {
+              "templateId": 8003,
+              "name": "Amethyst Necklace",
+              "price": 2700
+            },
+            {
+              "templateId": 9001,
+              "name": "Scenery Pendant",
+              "price": 900
+            },
+            {
+              "templateId": 9002,
+              "name": "Loyal Pendant",
+              "price": 1600
+            },
+            {
+              "templateId": 9003,
+              "name": "Amethyst Pendant",
+              "price": 2700
+            }
+          ],
+          "shopKindHints": []
+        }
+      ]
+    },
+    {
+      "npcId": 3019,
+      "maps": [
+        {
+          "mapId": 108,
+          "mapFile": "108-golden-path.npcs.json",
+          "slot": 3,
+          "name": "Miser",
+          "x": 119,
+          "y": 233
+        }
+      ],
+      "uniqueMapIds": [
+        108
+      ],
+      "variantCount": 2,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "341bc4ae5a7d",
+          "fileNames": [
+            "00001564__3019.shop"
+          ],
+          "itemCount": 2,
+          "sampleItems": [
+            {
+              "templateId": 21129,
+              "name": "Invitation Card",
+              "price": 1000
+            },
+            {
+              "templateId": 29002,
+              "name": "Mob Flask Lv.2",
+              "price": 350
+            }
+          ],
+          "shopKindHints": [
+            "medicine"
+          ]
+        },
+        {
+          "variantHash": "52f9c461113e",
+          "fileNames": [
+            "000015c4__3019.shop"
+          ],
+          "itemCount": 2,
+          "sampleItems": [
+            {
+              "templateId": 21129,
+              "name": "Invitation Card",
+              "price": 2500
+            },
+            {
+              "templateId": 29002,
+              "name": "Mob Flask Lv.2",
+              "price": 150
+            }
+          ],
+          "shopKindHints": [
+            "medicine"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3061,
+      "maps": [
+        {
+          "mapId": 163,
+          "mapFile": "163-orchid-temple.npcs.json",
+          "slot": 4,
+          "name": "Free Soul",
+          "x": 35,
+          "y": 33
+        },
+        {
+          "mapId": 169,
+          "mapFile": "169-timber-town.npcs.json",
+          "slot": 22,
+          "name": "Blacksmith",
+          "x": 67,
+          "y": 125
+        }
+      ],
+      "uniqueMapIds": [
+        163,
+        169
+      ],
+      "variantCount": 1,
+      "status": "safe-identical-variants",
+      "variants": [
+        {
+          "variantHash": "f74a978ee826",
+          "fileNames": [
+            "0000206d__3061.shop"
+          ],
+          "itemCount": 6,
+          "sampleItems": [
+            {
+              "templateId": 5011,
+              "name": "Furnace",
+              "price": 1200
+            },
+            {
+              "templateId": 5012,
+              "name": "Flawless Traton",
+              "price": 1200
+            },
+            {
+              "templateId": 5013,
+              "name": "Skull Flag of Ghost",
+              "price": 1200
+            },
+            {
+              "templateId": 5020,
+              "name": "Moon Club",
+              "price": 2200
+            },
+            {
+              "templateId": 5021,
+              "name": "Boxing Rune",
+              "price": 2200
+            },
+            {
+              "templateId": 5022,
+              "name": "Pot of Prophesy",
+              "price": 2200
+            }
+          ],
+          "shopKindHints": [
+            "weapon"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3063,
+      "maps": [
+        {
+          "mapId": 169,
+          "mapFile": "169-timber-town.npcs.json",
+          "slot": 23,
+          "name": "Mercer",
+          "x": 116,
+          "y": 73
+        }
+      ],
+      "uniqueMapIds": [
+        169
+      ],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "2b9e3f803abc",
+          "fileNames": [
+            "00001f71__3063.shop"
+          ],
+          "itemCount": 24,
+          "sampleItems": [
+            {
+              "templateId": 10200,
+              "name": "Violent Helmet",
+              "price": 1296
+            },
+            {
+              "templateId": 10201,
+              "name": "Intelligent Helmet",
+              "price": 1296
+            },
+            {
+              "templateId": 10202,
+              "name": "Cosmos Helmet",
+              "price": 1296
+            },
+            {
+              "templateId": 15200,
+              "name": "Azure Hairpin",
+              "price": 1296
+            },
+            {
+              "templateId": 15201,
+              "name": "Emerald Hairpin",
+              "price": 1296
+            },
+            {
+              "templateId": 15202,
+              "name": "Purple Hairpin",
+              "price": 1296
+            },
+            {
+              "templateId": 11200,
+              "name": "Violent Armor",
+              "price": 1512
+            },
+            {
+              "templateId": 11201,
+              "name": "Intelligent Robe",
+              "price": 1512
+            }
+          ],
+          "shopKindHints": [
+            "equipment"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3072,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "38bef77e25a7",
+          "fileNames": [
+            "0000198c__3072.shop"
+          ],
+          "itemCount": 4,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 150
+            },
+            {
+              "templateId": 20002,
+              "name": "Salve (S)",
+              "price": 500
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 150
+            },
+            {
+              "templateId": 20005,
+              "name": "Ratafee",
+              "price": 500
+            }
+          ],
+          "shopKindHints": []
+        }
+      ]
+    },
+    {
+      "npcId": 3080,
+      "maps": [
+        {
+          "mapId": 112,
+          "mapFile": "112-cloud-city.npcs.json",
+          "slot": 3,
+          "name": "Freddie",
+          "x": 183,
+          "y": 308
+        }
+      ],
+      "uniqueMapIds": [
+        112
+      ],
+      "variantCount": 2,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "2e5ea4807423",
+          "fileNames": [
+            "000019a9__3080.shop"
+          ],
+          "itemCount": 8,
+          "sampleItems": [
+            {
+              "templateId": 5020,
+              "name": "Moon Club",
+              "price": 2200
+            },
+            {
+              "templateId": 5021,
+              "name": "Boxing Rune",
+              "price": 2200
+            },
+            {
+              "templateId": 5022,
+              "name": "Pot of Prophesy",
+              "price": 2200
+            },
+            {
+              "templateId": 23070,
+              "name": "Soul Weapon Fragment",
+              "price": 1200
+            },
+            {
+              "templateId": 23071,
+              "name": "Soul Cap Fragment",
+              "price": 1200
+            },
+            {
+              "templateId": 23072,
+              "name": "Soul Clothes Fragment",
+              "price": 1200
+            },
+            {
+              "templateId": 23073,
+              "name": "Soul Belt Fragment",
+              "price": 1200
+            },
+            {
+              "templateId": 23074,
+              "name": "Soul Shoe Fragment",
+              "price": 1200
+            }
+          ],
+          "shopKindHints": [
+            "materials",
+            "weapon"
+          ]
+        },
+        {
+          "variantHash": "adb4d02597e2",
+          "fileNames": [
+            "00001acd__3080.shop"
+          ],
+          "itemCount": 25,
+          "sampleItems": [
+            {
+              "templateId": 27001,
+              "name": "Enervate",
+              "price": 500
+            },
+            {
+              "templateId": 27002,
+              "name": "Double Hit",
+              "price": 500
+            },
+            {
+              "templateId": 27003,
+              "name": "Bleed",
+              "price": 500
+            },
+            {
+              "templateId": 27004,
+              "name": "Easy Attack",
+              "price": 500
+            },
+            {
+              "templateId": 27005,
+              "name": "Agilely Attack",
+              "price": 500
+            },
+            {
+              "templateId": 27006,
+              "name": "Icy Assault",
+              "price": 500
+            },
+            {
+              "templateId": 27007,
+              "name": "Pet Healing",
+              "price": 500
+            },
+            {
+              "templateId": 27008,
+              "name": "Epee Chop",
+              "price": 500
+            }
+          ],
+          "shopKindHints": [
+            "pet"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3089,
+      "maps": [
+        {
+          "mapId": 112,
+          "mapFile": "112-cloud-city.npcs.json",
+          "slot": 12,
+          "name": "Housewife",
+          "x": 191,
+          "y": 198
+        }
+      ],
+      "uniqueMapIds": [
+        112
+      ],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "50c561d30576",
+          "fileNames": [
+            "00001aea__3089.shop"
+          ],
+          "itemCount": 4,
+          "sampleItems": [
+            {
+              "templateId": 5105,
+              "name": "Fishing Rod",
+              "price": 300
+            },
+            {
+              "templateId": 5106,
+              "name": "Pickaxe",
+              "price": 300
+            },
+            {
+              "templateId": 5107,
+              "name": "Reaphook",
+              "price": 300
+            },
+            {
+              "templateId": 5108,
+              "name": "Chooper",
+              "price": 300
+            }
+          ],
+          "shopKindHints": [
+            "weapon"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3115,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "55a12cb85c6a",
+          "fileNames": [
+            "00001eac__3115.shop"
+          ],
+          "itemCount": 14,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 150
+            },
+            {
+              "templateId": 20002,
+              "name": "Salve (S)",
+              "price": 570
+            },
+            {
+              "templateId": 20003,
+              "name": "Salve (M)",
+              "price": 1000
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 250
+            },
+            {
+              "templateId": 20005,
+              "name": "Ratafee",
+              "price": 750
+            },
+            {
+              "templateId": 20006,
+              "name": "Panax",
+              "price": 1300
+            },
+            {
+              "templateId": 29001,
+              "name": "Mob Flask Lv.1",
+              "price": 100
+            },
+            {
+              "templateId": 29002,
+              "name": "Mob Flask Lv.2",
+              "price": 200
+            }
+          ],
+          "shopKindHints": [
+            "medicine"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3116,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "bc9e818efb2c",
+          "fileNames": [
+            "00002043__3116.shop"
+          ],
+          "itemCount": 3,
+          "sampleItems": [
+            {
+              "templateId": 20012,
+              "name": "Mar-Boh Tofu",
+              "price": 610
+            },
+            {
+              "templateId": 20014,
+              "name": "Bittern Duck",
+              "price": 810
+            },
+            {
+              "templateId": 20019,
+              "name": "Curry Fried Rice",
+              "price": 510
+            }
+          ],
+          "shopKindHints": [
+            "food"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3152,
+      "maps": [
+        {
+          "mapId": 131,
+          "mapFile": "131-goal-manor.npcs.json",
+          "slot": 1,
+          "name": "Servant ",
+          "x": 89,
+          "y": 177
+        }
+      ],
+      "uniqueMapIds": [
+        131
+      ],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "ee827373e8ab",
+          "fileNames": [
+            "00001b07__3152.shop"
+          ],
+          "itemCount": 1,
+          "sampleItems": [
+            {
+              "templateId": 23119,
+              "name": "Iron Crab Claw",
+              "price": 600
+            }
+          ],
+          "shopKindHints": [
+            "materials"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3171,
+      "maps": [
+        {
+          "mapId": 112,
+          "mapFile": "112-cloud-city.npcs.json",
+          "slot": 52,
+          "name": "Material Dealer",
+          "x": 68,
+          "y": 376
+        }
+      ],
+      "uniqueMapIds": [
+        112
+      ],
+      "variantCount": 2,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "5c06d4bb4175",
+          "fileNames": [
+            "000019e1__3171.shop"
+          ],
+          "itemCount": 5,
+          "sampleItems": [
+            {
+              "templateId": 23001,
+              "name": "Boar Tusks",
+              "price": 200
+            },
+            {
+              "templateId": 23002,
+              "name": "Slimy Tail",
+              "price": 200
+            },
+            {
+              "templateId": 23003,
+              "name": "Beetle Shell",
+              "price": 200
+            },
+            {
+              "templateId": 23004,
+              "name": "Worm Spine",
+              "price": 200
+            },
+            {
+              "templateId": 23005,
+              "name": "Grass Fluff",
+              "price": 200
+            }
+          ],
+          "shopKindHints": [
+            "materials"
+          ]
+        },
+        {
+          "variantHash": "96dd9930b5f5",
+          "fileNames": [
+            "00001b24__3171.shop"
+          ],
+          "itemCount": 5,
+          "sampleItems": [
+            {
+              "templateId": 23001,
+              "name": "Boar Tusks",
+              "price": 2000
+            },
+            {
+              "templateId": 23002,
+              "name": "Slimy Tail",
+              "price": 2000
+            },
+            {
+              "templateId": 23003,
+              "name": "Beetle Shell",
+              "price": 2000
+            },
+            {
+              "templateId": 23004,
+              "name": "Worm Spine",
+              "price": 2000
+            },
+            {
+              "templateId": 23005,
+              "name": "Grass Fluff",
+              "price": 2000
+            }
+          ],
+          "shopKindHints": [
+            "materials"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3175,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "8eca4dc1abb6",
+          "fileNames": [
+            "00001492__3175.shop"
+          ],
+          "itemCount": 3,
+          "sampleItems": [
+            {
+              "templateId": 20008,
+              "name": "Rainbow Fruit",
+              "price": 80
+            },
+            {
+              "templateId": 20029,
+              "name": "Travel Food",
+              "price": 60
+            },
+            {
+              "templateId": 20007,
+              "name": "Rice Vino",
+              "price": 70
+            }
+          ],
+          "shopKindHints": []
+        }
+      ]
+    },
+    {
+      "npcId": 3191,
+      "maps": [
+        {
+          "mapId": 112,
+          "mapFile": "112-cloud-city.npcs.json",
+          "slot": 11,
+          "name": "Samuel",
+          "x": 242,
+          "y": 147
+        }
+      ],
+      "uniqueMapIds": [
+        112
+      ],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "09ae47502500",
+          "fileNames": [
+            "00001b41__3191.shop"
+          ],
+          "itemCount": 10,
+          "sampleItems": [
+            {
+              "templateId": 20030,
+              "name": "Pork",
+              "price": 60
+            },
+            {
+              "templateId": 20031,
+              "name": "Gecko Meat",
+              "price": 100
+            },
+            {
+              "templateId": 20032,
+              "name": "Spider Meat",
+              "price": 160
+            },
+            {
+              "templateId": 20033,
+              "name": "Carp Meat",
+              "price": 200
+            },
+            {
+              "templateId": 20034,
+              "name": "Crab Meat",
+              "price": 360
+            },
+            {
+              "templateId": 20035,
+              "name": "Bear Meat",
+              "price": 500
+            },
+            {
+              "templateId": 20036,
+              "name": "Leopard Meat",
+              "price": 700
+            },
+            {
+              "templateId": 20037,
+              "name": "Turtle Meat",
+              "price": 1000
+            }
+          ],
+          "shopKindHints": [
+            "food"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3199,
+      "maps": [
+        {
+          "mapId": 131,
+          "mapFile": "131-goal-manor.npcs.json",
+          "slot": 20,
+          "name": "Grocer",
+          "x": 62,
+          "y": 96
+        }
+      ],
+      "uniqueMapIds": [
+        131
+      ],
+      "variantCount": 2,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "2d6b66104bef",
+          "fileNames": [
+            "00001c9e__3199.shop"
+          ],
+          "itemCount": 7,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 150
+            },
+            {
+              "templateId": 20002,
+              "name": "Salve (S)",
+              "price": 500
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 150
+            },
+            {
+              "templateId": 20005,
+              "name": "Ratafee",
+              "price": 500
+            },
+            {
+              "templateId": 29001,
+              "name": "Mob Flask Lv.1",
+              "price": 200
+            },
+            {
+              "templateId": 29002,
+              "name": "Mob Flask Lv.2",
+              "price": 400
+            },
+            {
+              "templateId": 29003,
+              "name": "Mob Flask Lv.3",
+              "price": 600
+            }
+          ],
+          "shopKindHints": [
+            "medicine"
+          ]
+        },
+        {
+          "variantHash": "c5a24c87b6f0",
+          "fileNames": [
+            "00001e65__3199.shop"
+          ],
+          "itemCount": 8,
+          "sampleItems": [
+            {
+              "templateId": 29001,
+              "name": "Mob Flask Lv.1",
+              "price": 100
+            },
+            {
+              "templateId": 29002,
+              "name": "Mob Flask Lv.2",
+              "price": 200
+            },
+            {
+              "templateId": 29003,
+              "name": "Mob Flask Lv.3",
+              "price": 300
+            },
+            {
+              "templateId": 29004,
+              "name": "Mob Flask Lv.4",
+              "price": 400
+            },
+            {
+              "templateId": 23007,
+              "name": "Cobweb",
+              "price": 3000
+            },
+            {
+              "templateId": 23010,
+              "name": "Red Fruit",
+              "price": 3000
+            },
+            {
+              "templateId": 23013,
+              "name": "Little Fang",
+              "price": 3000
+            },
+            {
+              "templateId": 23001,
+              "name": "Boar Tusks",
+              "price": 3000
+            }
+          ],
+          "shopKindHints": [
+            "materials",
+            "medicine"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3202,
+      "maps": [
+        {
+          "mapId": 131,
+          "mapFile": "131-goal-manor.npcs.json",
+          "slot": 15,
+          "name": "Don",
+          "x": 80,
+          "y": 171
+        }
+      ],
+      "uniqueMapIds": [
+        131
+      ],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "177c94681eeb",
+          "fileNames": [
+            "00001e82__3202.shop"
+          ],
+          "itemCount": 10,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 135
+            },
+            {
+              "templateId": 20002,
+              "name": "Salve (S)",
+              "price": 400
+            },
+            {
+              "templateId": 20003,
+              "name": "Salve (M)",
+              "price": 720
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 225
+            },
+            {
+              "templateId": 20005,
+              "name": "Ratafee",
+              "price": 665
+            },
+            {
+              "templateId": 20006,
+              "name": "Panax",
+              "price": 1200
+            },
+            {
+              "templateId": 29001,
+              "name": "Mob Flask Lv.1",
+              "price": 100
+            },
+            {
+              "templateId": 29002,
+              "name": "Mob Flask Lv.2",
+              "price": 200
+            }
+          ],
+          "shopKindHints": [
+            "medicine"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3234,
+      "maps": [
+        {
+          "mapId": 101,
+          "mapFile": "101-rainbow-valley.npcs.json",
+          "slot": 15,
+          "name": "Grocer",
+          "x": 71,
+          "y": 160
+        }
+      ],
+      "uniqueMapIds": [
+        101
+      ],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "b461b3fa616b",
+          "fileNames": [
+            "000014af__3234.shop"
+          ],
+          "itemCount": 4,
+          "sampleItems": [
+            {
+              "templateId": 29001,
+              "name": "Mob Flask Lv.1",
+              "price": 100
+            },
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 150
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 250
+            },
+            {
+              "templateId": 26009,
+              "name": "Portal Stone",
+              "price": 100
+            }
+          ],
+          "shopKindHints": [
+            "medicine"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3236,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "b4e3e0c7805f",
+          "fileNames": [
+            "000017dc__3236.shop"
+          ],
+          "itemCount": 4,
+          "sampleItems": [
+            {
+              "templateId": 20013,
+              "name": "Hot Crayfish",
+              "price": 600
+            },
+            {
+              "templateId": 20014,
+              "name": "Bittern Duck",
+              "price": 600
+            },
+            {
+              "templateId": 20019,
+              "name": "Curry Fried Rice",
+              "price": 600
+            },
+            {
+              "templateId": 20020,
+              "name": "Chen's Wine",
+              "price": 800
+            }
+          ],
+          "shopKindHints": [
+            "food"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3237,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 2,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "2b9e3f803abc",
+          "fileNames": [
+            "000019fe__3237.shop",
+            "000021da__3237.shop"
+          ],
+          "itemCount": 24,
+          "sampleItems": [
+            {
+              "templateId": 10200,
+              "name": "Violent Helmet",
+              "price": 1296
+            },
+            {
+              "templateId": 10201,
+              "name": "Intelligent Helmet",
+              "price": 1296
+            },
+            {
+              "templateId": 10202,
+              "name": "Cosmos Helmet",
+              "price": 1296
+            },
+            {
+              "templateId": 15200,
+              "name": "Azure Hairpin",
+              "price": 1296
+            },
+            {
+              "templateId": 15201,
+              "name": "Emerald Hairpin",
+              "price": 1296
+            },
+            {
+              "templateId": 15202,
+              "name": "Purple Hairpin",
+              "price": 1296
+            },
+            {
+              "templateId": 11200,
+              "name": "Violent Armor",
+              "price": 1512
+            },
+            {
+              "templateId": 11201,
+              "name": "Intelligent Robe",
+              "price": 1512
+            }
+          ],
+          "shopKindHints": [
+            "equipment"
+          ]
+        },
+        {
+          "variantHash": "79ca5d58aa5c",
+          "fileNames": [
+            "000017f9__3237.shop"
+          ],
+          "itemCount": 24,
+          "sampleItems": [
+            {
+              "templateId": 10200,
+              "name": "Violent Helmet",
+              "price": 5000
+            },
+            {
+              "templateId": 10201,
+              "name": "Intelligent Helmet",
+              "price": 5000
+            },
+            {
+              "templateId": 10202,
+              "name": "Cosmos Helmet",
+              "price": 5000
+            },
+            {
+              "templateId": 15200,
+              "name": "Azure Hairpin",
+              "price": 5000
+            },
+            {
+              "templateId": 15201,
+              "name": "Emerald Hairpin",
+              "price": 5000
+            },
+            {
+              "templateId": 15202,
+              "name": "Purple Hairpin",
+              "price": 5000
+            },
+            {
+              "templateId": 11200,
+              "name": "Violent Armor",
+              "price": 6000
+            },
+            {
+              "templateId": 11201,
+              "name": "Intelligent Robe",
+              "price": 6000
+            }
+          ],
+          "shopKindHints": [
+            "equipment"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3238,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "2649823c14d4",
+          "fileNames": [
+            "00001816__3238.shop"
+          ],
+          "itemCount": 6,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 150
+            },
+            {
+              "templateId": 20002,
+              "name": "Salve (S)",
+              "price": 500
+            },
+            {
+              "templateId": 20003,
+              "name": "Salve (M)",
+              "price": 1500
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 250
+            },
+            {
+              "templateId": 20005,
+              "name": "Ratafee",
+              "price": 700
+            },
+            {
+              "templateId": 20006,
+              "name": "Panax",
+              "price": 1800
+            }
+          ],
+          "shopKindHints": []
+        }
+      ]
+    },
+    {
+      "npcId": 3246,
+      "maps": [
+        {
+          "mapId": 131,
+          "mapFile": "131-goal-manor.npcs.json",
+          "slot": 4,
+          "name": "Pub Owner",
+          "x": 34,
+          "y": 124
+        }
+      ],
+      "uniqueMapIds": [
+        131
+      ],
+      "variantCount": 2,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "109932d1dede",
+          "fileNames": [
+            "00001cbb__3246.shop"
+          ],
+          "itemCount": 4,
+          "sampleItems": [
+            {
+              "templateId": 20017,
+              "name": "Teriyaki Beef Noodle (S)",
+              "price": 350
+            },
+            {
+              "templateId": 20018,
+              "name": "Teriyaki Beef Noodle (L)",
+              "price": 450
+            },
+            {
+              "templateId": 20021,
+              "name": "Goal Vintage",
+              "price": 800
+            },
+            {
+              "templateId": 20023,
+              "name": "Grilled Mutton",
+              "price": 500
+            }
+          ],
+          "shopKindHints": [
+            "food"
+          ]
+        },
+        {
+          "variantHash": "d7a1e757c0f5",
+          "fileNames": [
+            "00001fef__3246.shop"
+          ],
+          "itemCount": 4,
+          "sampleItems": [
+            {
+              "templateId": 20017,
+              "name": "Teriyaki Beef Noodle (S)",
+              "price": 290
+            },
+            {
+              "templateId": 20018,
+              "name": "Teriyaki Beef Noodle (L)",
+              "price": 390
+            },
+            {
+              "templateId": 20022,
+              "name": "Crop",
+              "price": 700
+            },
+            {
+              "templateId": 20023,
+              "name": "Grilled Mutton",
+              "price": 410
+            }
+          ],
+          "shopKindHints": [
+            "food"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3247,
+      "maps": [
+        {
+          "mapId": 131,
+          "mapFile": "131-goal-manor.npcs.json",
+          "slot": 2,
+          "name": "Blacksmith",
+          "x": 54,
+          "y": 177
+        },
+        {
+          "mapId": 204,
+          "mapFile": "204-celestial-state.npcs.json",
+          "slot": 5,
+          "name": "Blacksmith",
+          "x": 59,
+          "y": 76
+        }
+      ],
+      "uniqueMapIds": [
+        131,
+        204
+      ],
+      "variantCount": 2,
+      "status": "ambiguous",
+      "variants": [
+        {
+          "variantHash": "cb58254fc6ef",
+          "fileNames": [
+            "00001cd8__3247.shop"
+          ],
+          "itemCount": 6,
+          "sampleItems": [
+            {
+              "templateId": 5011,
+              "name": "Furnace",
+              "price": 2500
+            },
+            {
+              "templateId": 5012,
+              "name": "Flawless Traton",
+              "price": 2500
+            },
+            {
+              "templateId": 5013,
+              "name": "Skull Flag of Ghost",
+              "price": 2500
+            },
+            {
+              "templateId": 5020,
+              "name": "Moon Club",
+              "price": 5000
+            },
+            {
+              "templateId": 5021,
+              "name": "Boxing Rune",
+              "price": 5000
+            },
+            {
+              "templateId": 5022,
+              "name": "Pot of Prophesy",
+              "price": 5000
+            }
+          ],
+          "shopKindHints": [
+            "weapon"
+          ]
+        },
+        {
+          "variantHash": "f74a978ee826",
+          "fileNames": [
+            "00001df4__3247.shop",
+            "00001f9b__3247.shop",
+            "0000208a__3247.shop"
+          ],
+          "itemCount": 6,
+          "sampleItems": [
+            {
+              "templateId": 5011,
+              "name": "Furnace",
+              "price": 1200
+            },
+            {
+              "templateId": 5012,
+              "name": "Flawless Traton",
+              "price": 1200
+            },
+            {
+              "templateId": 5013,
+              "name": "Skull Flag of Ghost",
+              "price": 1200
+            },
+            {
+              "templateId": 5020,
+              "name": "Moon Club",
+              "price": 2200
+            },
+            {
+              "templateId": 5021,
+              "name": "Boxing Rune",
+              "price": 2200
+            },
+            {
+              "templateId": 5022,
+              "name": "Pot of Prophesy",
+              "price": 2200
+            }
+          ],
+          "shopKindHints": [
+            "weapon"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3248,
+      "maps": [
+        {
+          "mapId": 131,
+          "mapFile": "131-goal-manor.npcs.json",
+          "slot": 5,
+          "name": "Grocer",
+          "x": 90,
+          "y": 111
+        },
+        {
+          "mapId": 204,
+          "mapFile": "204-celestial-state.npcs.json",
+          "slot": 6,
+          "name": "Grocer",
+          "x": 109,
+          "y": 119
+        }
+      ],
+      "uniqueMapIds": [
+        131,
+        204
+      ],
+      "variantCount": 3,
+      "status": "ambiguous",
+      "variants": [
+        {
+          "variantHash": "1e4be6a84eab",
+          "fileNames": [
+            "00001cf5__3248.shop"
+          ],
+          "itemCount": 5,
+          "sampleItems": [
+            {
+              "templateId": 23006,
+              "name": "Ladybug Shell",
+              "price": 200
+            },
+            {
+              "templateId": 23007,
+              "name": "Cobweb",
+              "price": 200
+            },
+            {
+              "templateId": 23012,
+              "name": "Flower Spirit Spine",
+              "price": 200
+            },
+            {
+              "templateId": 23013,
+              "name": "Little Fang",
+              "price": 200
+            },
+            {
+              "templateId": 23014,
+              "name": "Withered Wood",
+              "price": 200
+            }
+          ],
+          "shopKindHints": [
+            "materials"
+          ]
+        },
+        {
+          "variantHash": "bc8da9f4af31",
+          "fileNames": [
+            "00001d3c__3248.shop"
+          ],
+          "itemCount": 25,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 150
+            },
+            {
+              "templateId": 20002,
+              "name": "Salve (S)",
+              "price": 570
+            },
+            {
+              "templateId": 20003,
+              "name": "Salve (M)",
+              "price": 1000
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 250
+            },
+            {
+              "templateId": 20005,
+              "name": "Ratafee",
+              "price": 750
+            },
+            {
+              "templateId": 20006,
+              "name": "Panax",
+              "price": 1300
+            },
+            {
+              "templateId": 29001,
+              "name": "Mob Flask Lv.1",
+              "price": 100
+            },
+            {
+              "templateId": 29002,
+              "name": "Mob Flask Lv.2",
+              "price": 200
+            }
+          ],
+          "shopKindHints": [
+            "medicine"
+          ]
+        },
+        {
+          "variantHash": "c134051529f3",
+          "fileNames": [
+            "00001e11__3248.shop"
+          ],
+          "itemCount": 25,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 150
+            },
+            {
+              "templateId": 20002,
+              "name": "Salve (S)",
+              "price": 570
+            },
+            {
+              "templateId": 20003,
+              "name": "Salve (M)",
+              "price": 1000
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 250
+            },
+            {
+              "templateId": 20005,
+              "name": "Ratafee",
+              "price": 750
+            },
+            {
+              "templateId": 20006,
+              "name": "Panax",
+              "price": 1300
+            },
+            {
+              "templateId": 29007,
+              "name": "Mob Flask Lv.7",
+              "price": 1000
+            },
+            {
+              "templateId": 29008,
+              "name": "Mob Flask Lv.8",
+              "price": 1500
+            }
+          ],
+          "shopKindHints": [
+            "medicine"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3276,
+      "maps": [
+        {
+          "mapId": 101,
+          "mapFile": "101-rainbow-valley.npcs.json",
+          "slot": 2,
+          "name": "Blacksmith",
+          "x": 17,
+          "y": 169
+        }
+      ],
+      "uniqueMapIds": [
+        101
+      ],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "c1528e221c72",
+          "fileNames": [
+            "000014cc__3276.shop"
+          ],
+          "itemCount": 5,
+          "sampleItems": [
+            {
+              "templateId": 5001,
+              "name": "Club",
+              "price": 55
+            },
+            {
+              "templateId": 5101,
+              "name": "Club of Mystery",
+              "price": 65
+            },
+            {
+              "templateId": 5002,
+              "name": "Petal Fan",
+              "price": 600
+            },
+            {
+              "templateId": 5003,
+              "name": "Glazed Flask",
+              "price": 600
+            },
+            {
+              "templateId": 5004,
+              "name": "Bronze Kettle",
+              "price": 600
+            }
+          ],
+          "shopKindHints": [
+            "weapon"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3277,
+      "maps": [
+        {
+          "mapId": 101,
+          "mapFile": "101-rainbow-valley.npcs.json",
+          "slot": 1,
+          "name": "Candy",
+          "x": 21,
+          "y": 208
+        }
+      ],
+      "uniqueMapIds": [
+        101
+      ],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "b3c1443ff936",
+          "fileNames": [
+            "000014e9__3277.shop"
+          ],
+          "itemCount": 8,
+          "sampleItems": [
+            {
+              "templateId": 10001,
+              "name": "Light Hood",
+              "price": 120
+            },
+            {
+              "templateId": 15001,
+              "name": "Red String",
+              "price": 120
+            },
+            {
+              "templateId": 11001,
+              "name": "Fabric Garment",
+              "price": 120
+            },
+            {
+              "templateId": 16001,
+              "name": "Gauze Garment",
+              "price": 120
+            },
+            {
+              "templateId": 12001,
+              "name": "Snake Belt",
+              "price": 120
+            },
+            {
+              "templateId": 17001,
+              "name": "Linen Belt",
+              "price": 120
+            },
+            {
+              "templateId": 13001,
+              "name": "Shoes",
+              "price": 120
+            },
+            {
+              "templateId": 18001,
+              "name": "Embroidered Shoes",
+              "price": 120
+            }
+          ],
+          "shopKindHints": [
+            "equipment"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3278,
+      "maps": [
+        {
+          "mapId": 169,
+          "mapFile": "169-timber-town.npcs.json",
+          "slot": 19,
+          "name": "Johnson",
+          "x": 101,
+          "y": 73
+        }
+      ],
+      "uniqueMapIds": [
+        169
+      ],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "0ef4573e6192",
+          "fileNames": [
+            "00001506__3278.shop"
+          ],
+          "itemCount": 2,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 150
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 150
+            }
+          ],
+          "shopKindHints": []
+        }
+      ]
+    },
+    {
+      "npcId": 3310,
+      "maps": [
+        {
+          "mapId": 131,
+          "mapFile": "131-goal-manor.npcs.json",
+          "slot": 3,
+          "name": "Mercer",
+          "x": 54,
+          "y": 102
+        }
+      ],
+      "uniqueMapIds": [
+        131
+      ],
+      "variantCount": 2,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "1e782f0e0b63",
+          "fileNames": [
+            "00001d12__3310.shop"
+          ],
+          "itemCount": 27,
+          "sampleItems": [
+            {
+              "templateId": 10100,
+              "name": "Hunting Cap",
+              "price": 2500
+            },
+            {
+              "templateId": 10101,
+              "name": "Wise Cap",
+              "price": 2500
+            },
+            {
+              "templateId": 10102,
+              "name": "Universal Cap",
+              "price": 2500
+            },
+            {
+              "templateId": 10200,
+              "name": "Violent Helmet",
+              "price": 5000
+            },
+            {
+              "templateId": 10201,
+              "name": "Intelligent Helmet",
+              "price": 5000
+            },
+            {
+              "templateId": 10202,
+              "name": "Cosmos Helmet",
+              "price": 5000
+            },
+            {
+              "templateId": 15100,
+              "name": "Princess Hairpin",
+              "price": 2500
+            },
+            {
+              "templateId": 15101,
+              "name": "Silk Hairpin",
+              "price": 2500
+            }
+          ],
+          "shopKindHints": [
+            "equipment"
+          ]
+        },
+        {
+          "variantHash": "a59c4a6963b4",
+          "fileNames": [
+            "00001d59__3310.shop"
+          ],
+          "itemCount": 30,
+          "sampleItems": [
+            {
+              "templateId": 10100,
+              "name": "Hunting Cap",
+              "price": 720
+            },
+            {
+              "templateId": 10101,
+              "name": "Wise Cap",
+              "price": 720
+            },
+            {
+              "templateId": 10102,
+              "name": "Universal Cap",
+              "price": 720
+            },
+            {
+              "templateId": 15100,
+              "name": "Princess Hairpin",
+              "price": 720
+            },
+            {
+              "templateId": 15101,
+              "name": "Silk Hairpin",
+              "price": 720
+            },
+            {
+              "templateId": 15102,
+              "name": "Mesh Hairpin",
+              "price": 720
+            },
+            {
+              "templateId": 11100,
+              "name": "Hunting Armor",
+              "price": 840
+            },
+            {
+              "templateId": 11101,
+              "name": "Wise Armor",
+              "price": 840
+            }
+          ],
+          "shopKindHints": [
+            "equipment"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3330,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "7aca8027d871",
+          "fileNames": [
+            "00001ec9__3330.shop"
+          ],
+          "itemCount": 12,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 135
+            },
+            {
+              "templateId": 20002,
+              "name": "Salve (S)",
+              "price": 400
+            },
+            {
+              "templateId": 20003,
+              "name": "Salve (M)",
+              "price": 720
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 225
+            },
+            {
+              "templateId": 20005,
+              "name": "Ratafee",
+              "price": 665
+            },
+            {
+              "templateId": 20006,
+              "name": "Panax",
+              "price": 1200
+            },
+            {
+              "templateId": 29001,
+              "name": "Mob Flask Lv.1",
+              "price": 100
+            },
+            {
+              "templateId": 29002,
+              "name": "Mob Flask Lv.2",
+              "price": 200
+            }
+          ],
+          "shopKindHints": [
+            "medicine"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3331,
+      "maps": [
+        {
+          "mapId": 169,
+          "mapFile": "169-timber-town.npcs.json",
+          "slot": 24,
+          "name": "Pub Owner",
+          "x": 76,
+          "y": 55
+        }
+      ],
+      "uniqueMapIds": [
+        169
+      ],
+      "variantCount": 2,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "ba8c8d73d967",
+          "fileNames": [
+            "00002204__3331.shop"
+          ],
+          "itemCount": 2,
+          "sampleItems": [
+            {
+              "templateId": 20113,
+              "name": "Celestial State Treasure",
+              "price": 1600
+            },
+            {
+              "templateId": 20114,
+              "name": "Fortune Noodles",
+              "price": 1800
+            }
+          ],
+          "shopKindHints": [
+            "food"
+          ]
+        },
+        {
+          "variantHash": "bc9e818efb2c",
+          "fileNames": [
+            "00001ef3__3331.shop"
+          ],
+          "itemCount": 3,
+          "sampleItems": [
+            {
+              "templateId": 20012,
+              "name": "Mar-Boh Tofu",
+              "price": 610
+            },
+            {
+              "templateId": 20014,
+              "name": "Bittern Duck",
+              "price": 810
+            },
+            {
+              "templateId": 20019,
+              "name": "Curry Fried Rice",
+              "price": 510
+            }
+          ],
+          "shopKindHints": [
+            "food"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3433,
+      "maps": [
+        {
+          "mapId": 169,
+          "mapFile": "169-timber-town.npcs.json",
+          "slot": 8,
+          "name": "Grocer",
+          "x": 113,
+          "y": 160
+        }
+      ],
+      "uniqueMapIds": [
+        169
+      ],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "ead9bffbdc0e",
+          "fileNames": [
+            "00001d83__3433.shop"
+          ],
+          "itemCount": 14,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 180
+            },
+            {
+              "templateId": 20002,
+              "name": "Salve (S)",
+              "price": 700
+            },
+            {
+              "templateId": 20003,
+              "name": "Salve (M)",
+              "price": 1300
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 300
+            },
+            {
+              "templateId": 20005,
+              "name": "Ratafee",
+              "price": 950
+            },
+            {
+              "templateId": 20006,
+              "name": "Panax",
+              "price": 1600
+            },
+            {
+              "templateId": 29003,
+              "name": "Mob Flask Lv.3",
+              "price": 300
+            },
+            {
+              "templateId": 29004,
+              "name": "Mob Flask Lv.4",
+              "price": 400
+            }
+          ],
+          "shopKindHints": [
+            "medicine"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3458,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "8c2548915d5d",
+          "fileNames": [
+            "000020b4__3458.shop"
+          ],
+          "itemCount": 3,
+          "sampleItems": [
+            {
+              "templateId": 29007,
+              "name": "Mob Flask Lv.7",
+              "price": 1200
+            },
+            {
+              "templateId": 29008,
+              "name": "Mob Flask Lv.8",
+              "price": 1500
+            },
+            {
+              "templateId": 29009,
+              "name": "Mob Flask Lv.9",
+              "price": 2000
+            }
+          ],
+          "shopKindHints": [
+            "medicine"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3462,
+      "maps": [
+        {
+          "mapId": 211,
+          "mapFile": "211-longicorn-state.npcs.json",
+          "slot": 14,
+          "name": "Miser",
+          "x": 53,
+          "y": 152
+        }
+      ],
+      "uniqueMapIds": [
+        211
+      ],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "63512c61bbae",
+          "fileNames": [
+            "00001e3b__3462.shop"
+          ],
+          "itemCount": 1,
+          "sampleItems": [
+            {
+              "templateId": 21170,
+              "name": "Ticket B",
+              "price": 4100
+            }
+          ],
+          "shopKindHints": []
+        }
+      ]
+    },
+    {
+      "npcId": 3577,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "4a71dbd7b9d3",
+          "fileNames": [
+            "000020de__3577.shop",
+            "00002108__3577.shop",
+            "00002132__3577.shop",
+            "0000215c__3577.shop"
+          ],
+          "itemCount": 6,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 500
+            },
+            {
+              "templateId": 20002,
+              "name": "Salve (S)",
+              "price": 1500
+            },
+            {
+              "templateId": 20003,
+              "name": "Salve (M)",
+              "price": 3000
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 750
+            },
+            {
+              "templateId": 20005,
+              "name": "Ratafee",
+              "price": 2250
+            },
+            {
+              "templateId": 20006,
+              "name": "Panax",
+              "price": 3900
+            }
+          ],
+          "shopKindHints": []
+        }
+      ]
+    },
+    {
+      "npcId": 3579,
+      "maps": [],
+      "uniqueMapIds": [],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "4a71dbd7b9d3",
+          "fileNames": [
+            "00002186__3579.shop"
+          ],
+          "itemCount": 6,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 500
+            },
+            {
+              "templateId": 20002,
+              "name": "Salve (S)",
+              "price": 1500
+            },
+            {
+              "templateId": 20003,
+              "name": "Salve (M)",
+              "price": 3000
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 750
+            },
+            {
+              "templateId": 20005,
+              "name": "Ratafee",
+              "price": 2250
+            },
+            {
+              "templateId": 20006,
+              "name": "Panax",
+              "price": 3900
+            }
+          ],
+          "shopKindHints": []
+        }
+      ]
+    },
+    {
+      "npcId": 3644,
+      "maps": [
+        {
+          "mapId": 170,
+          "mapFile": "170-ariel-manor.npcs.json",
+          "slot": 11,
+          "name": "Pub Owner",
+          "x": 87,
+          "y": 178
+        }
+      ],
+      "uniqueMapIds": [
+        170
+      ],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "8cc4b2e078da",
+          "fileNames": [
+            "00001dad__3644.shop"
+          ],
+          "itemCount": 3,
+          "sampleItems": [
+            {
+              "templateId": 20063,
+              "name": "Fried Potato and Eggplant",
+              "price": 1400
+            },
+            {
+              "templateId": 20064,
+              "name": "Chang",
+              "price": 800
+            },
+            {
+              "templateId": 20014,
+              "name": "Bittern Duck",
+              "price": 810
+            }
+          ],
+          "shopKindHints": []
+        }
+      ]
+    },
+    {
+      "npcId": 3645,
+      "maps": [
+        {
+          "mapId": 170,
+          "mapFile": "170-ariel-manor.npcs.json",
+          "slot": 12,
+          "name": "Grocer",
+          "x": 67,
+          "y": 145
+        }
+      ],
+      "uniqueMapIds": [
+        170
+      ],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "6618409fa45f",
+          "fileNames": [
+            "00001dca__3645.shop"
+          ],
+          "itemCount": 16,
+          "sampleItems": [
+            {
+              "templateId": 20001,
+              "name": "Medicine",
+              "price": 180
+            },
+            {
+              "templateId": 20002,
+              "name": "Salve (S)",
+              "price": 700
+            },
+            {
+              "templateId": 20003,
+              "name": "Salve (M)",
+              "price": 1300
+            },
+            {
+              "templateId": 20004,
+              "name": "Heal Grass",
+              "price": 300
+            },
+            {
+              "templateId": 20005,
+              "name": "Ratafee",
+              "price": 950
+            },
+            {
+              "templateId": 20006,
+              "name": "Panax",
+              "price": 1600
+            },
+            {
+              "templateId": 29003,
+              "name": "Mob Flask Lv.3",
+              "price": 300
+            },
+            {
+              "templateId": 29004,
+              "name": "Mob Flask Lv.4",
+              "price": 400
+            }
+          ],
+          "shopKindHints": [
+            "medicine"
+          ]
+        }
+      ]
+    },
+    {
+      "npcId": 3752,
+      "maps": [
+        {
+          "mapId": 204,
+          "mapFile": "204-celestial-state.npcs.json",
+          "slot": 1,
+          "name": "Jewelry Store ",
+          "x": 30,
+          "y": 145
+        }
+      ],
+      "uniqueMapIds": [
+        204
+      ],
+      "variantCount": 1,
+      "status": "safe-npcid-only",
+      "variants": [
+        {
+          "variantHash": "632880734569",
+          "fileNames": [
+            "000021b0__3752.shop"
+          ],
+          "itemCount": 6,
+          "sampleItems": [
+            {
+              "templateId": 8001,
+              "name": "Scenery Necklace",
+              "price": 900
+            },
+            {
+              "templateId": 8002,
+              "name": "Loyal Necklace",
+              "price": 1600
+            },
+            {
+              "templateId": 8003,
+              "name": "Amethyst Necklace",
+              "price": 2700
+            },
+            {
+              "templateId": 9001,
+              "name": "Scenery Pendant",
+              "price": 900
+            },
+            {
+              "templateId": 9002,
+              "name": "Loyal Pendant",
+              "price": 1600
+            },
+            {
+              "templateId": 9003,
+              "name": "Amethyst Pendant",
+              "price": 2700
+            }
+          ],
+          "shopKindHints": []
+        }
+      ]
+    }
+  ]
+}

@@ -54,6 +54,11 @@ function getRoleName(roleId: number): string | null {
   return typeof role?.name === 'string' && role.name.length > 0 ? role.name : null;
 }
 
+function getRoleServiceId(roleId: number): number | null {
+  const role = getRoleInfo(roleId);
+  return getIndexedInteger(role?.tailFields, 4);
+}
+
 function getRolePrimaryDrop(roleId: number): DropEntry | null {
   const role = getRoleInfo(roleId);
   if (!role) {
@@ -230,6 +235,7 @@ module.exports = {
   getRoleInfo,
   getRoleLocations,
   getRoleName,
+  getRoleServiceId,
   getOrdinaryMonsterRoleIdsForLocation,
   getRolePrimaryDrop,
   isFemaleRole,

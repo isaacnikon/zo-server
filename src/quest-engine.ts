@@ -26,6 +26,8 @@ interface RewardChoiceGroup {
 
 interface QuestStep {
   type: string;
+  npcId?: number;
+  mapId?: number;
   monsterId?: number;
   count?: number;
   status?: number;
@@ -173,6 +175,8 @@ function normalizeQuestStep(step: UnknownRecord): QuestStep | null {
 
   return {
     type: step.type,
+    npcId: Number.isInteger(step.npcId) ? step.npcId >>> 0 : undefined,
+    mapId: Number.isInteger(step.mapId) ? step.mapId >>> 0 : undefined,
     monsterId: Number.isInteger(step.monsterId) ? step.monsterId >>> 0 : undefined,
     count: Number.isInteger(step.count) ? step.count >>> 0 : undefined,
     status: Number.isInteger(step.status) ? step.status >>> 0 : undefined,
@@ -297,8 +301,7 @@ function isQuestAccepted(state: QuestState, taskId: number): boolean {
   return state.activeQuests.some((record) => record.id === (taskId >>> 0));
 }
 
-function acceptQuest(state: QuestState, taskId: number, events: QuestEvent[], reason: string): boolean {
-  const definition = getQuestDefinition(taskId);
+function canAcceptQuest(state: QuestState, definition: QuestDefinitionRecord | null): boolean {
   if (!definition) {
     return false;
   }
@@ -311,9 +314,40 @@ function acceptQuest(state: QuestState, taskId: number, events: QuestEvent[], re
   if (missingPrerequisites || numberOrDefault(state.level, 1) < definition.minLevel) {
     return false;
   }
+  return true;
+}
+
+function appendGrantedItemEvents(
+  events: QuestEvent[],
+  definition: QuestDefinitionRecord,
+  items: GrantedItem[] | undefined,
+  reason: string
+): void {
+  for (const item of Array.isArray(items) ? items : []) {
+    if (!Number.isInteger(item?.templateId) || item.templateId <= 0) {
+      continue;
+    }
+    events.push({
+      type: 'item-granted',
+      taskId: definition.id,
+      definition,
+      templateId: item.templateId >>> 0,
+      quantity: Math.max(1, numberOrDefault(item.quantity, 1)),
+      itemName: item.name || '',
+      reason,
+    });
+  }
+}
+
+function acceptQuest(state: QuestState, taskId: number, events: QuestEvent[], reason: string): boolean {
+  const definition = getQuestDefinition(taskId);
+  if (!canAcceptQuest(state, definition)) {
+    return false;
+  }
+  const acceptedDefinition = definition as QuestDefinitionRecord;
 
   const record: QuestRecord = {
-    id: definition.id,
+    id: acceptedDefinition.id,
     stepIndex: 0,
     status: 0,
     progress: {},
@@ -323,13 +357,19 @@ function acceptQuest(state: QuestState, taskId: number, events: QuestEvent[], re
 
   events.push({
     type: 'accepted',
-    taskId: definition.id,
-    definition,
+    taskId: acceptedDefinition.id,
+    definition: acceptedDefinition,
     status: 0,
-    stepDescription: getQuestStepDescription(definition, record),
-    progressObjectiveId: getQuestProgressObjectiveId(definition, record),
+    stepDescription: getQuestStepDescription(acceptedDefinition, record),
+    progressObjectiveId: getQuestProgressObjectiveId(acceptedDefinition, record),
     reason,
   });
+  appendGrantedItemEvents(
+    events,
+    acceptedDefinition,
+    acceptedDefinition.acceptGrantItems,
+    `${reason}-accept`
+  );
   return true;
 }
 
@@ -400,13 +440,81 @@ function advanceQuest(state: QuestState, record: QuestRecord, definition: QuestD
   });
 }
 
-function reconcileAutoAccept(state: QuestState): QuestEvent[] {
-  const events: QuestEvent[] = [];
-  for (const definition of QUEST_DEFINITIONS) {
-    if (definition.autoAccept) {
-      acceptQuest(state, definition.id, events, 'auto');
-    }
+function reconcileAutoAccept(_state: QuestState): QuestEvent[] {
+  return [];
+}
+
+function interactWithNpc(
+  state: QuestState,
+  npcId: number,
+  getItemQuantity?: (templateId: number) => number
+): QuestEvent[] {
+  if (!Number.isInteger(npcId) || npcId <= 0) {
+    return [];
   }
+
+  const events: QuestEvent[] = [];
+  const activeRecords = [...state.activeQuests].sort((left, right) => {
+    const acceptedDelta = numberOrDefault(left.acceptedAt, 0) - numberOrDefault(right.acceptedAt, 0);
+    if (acceptedDelta !== 0) {
+      return acceptedDelta;
+    }
+    return left.id - right.id;
+  });
+
+  for (const record of activeRecords) {
+    const definition = getQuestDefinition(record.id);
+    const step = getCurrentStep(definition, record);
+    if (!definition || !step || step.type !== 'talk' || numberOrDefault(step.npcId, 0) !== (npcId >>> 0)) {
+      continue;
+    }
+
+    for (const item of Array.isArray(step.consumeItems) ? step.consumeItems : []) {
+      const quantity = Math.max(1, numberOrDefault(item.quantity, 1));
+      const ownedQuantity =
+        typeof getItemQuantity === 'function'
+          ? Math.max(0, numberOrDefault(getItemQuantity(item.templateId >>> 0), 0))
+          : 0;
+      if (ownedQuantity < quantity) {
+        events.push({
+          type: 'item-missing',
+          taskId: definition.id,
+          definition,
+          templateId: item.templateId >>> 0,
+          quantity,
+          itemName: item.name || '',
+          reason: 'talk-missing-item',
+        });
+        return events;
+      }
+    }
+
+    for (const item of Array.isArray(step.consumeItems) ? step.consumeItems : []) {
+      events.push({
+        type: 'item-consumed',
+        taskId: definition.id,
+        definition,
+        templateId: item.templateId >>> 0,
+        quantity: Math.max(1, numberOrDefault(item.quantity, 1)),
+        itemName: item.name || '',
+        reason: 'talk-consume-item',
+      });
+    }
+
+    appendGrantedItemEvents(events, definition, step.grantItems, 'talk-step-grant');
+    advanceQuest(state, record, definition, events, 'talk');
+    return events;
+  }
+
+  const availableQuest = QUEST_DEFINITIONS
+    .filter((definition) => numberOrDefault(definition?.acceptNpcId, 0) === (npcId >>> 0))
+    .sort((left, right) => left.id - right.id)
+    .find((definition) => canAcceptQuest(state, definition));
+  if (!availableQuest) {
+    return [];
+  }
+
+  acceptQuest(state, availableQuest.id, events, 'talk-accept');
   return events;
 }
 
@@ -523,6 +631,7 @@ export {
   buildQuestSyncState,
   normalizeQuestState,
   reconcileAutoAccept,
+  interactWithNpc,
   applyMonsterDefeat,
   abandonQuest,
   getQuestDefinition,

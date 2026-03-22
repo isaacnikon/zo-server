@@ -13,6 +13,8 @@ const GENERAL_ITEM_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'items.json');
 const POTION_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'potions.json');
 const STUFF_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'stuff.json');
 const ITEMINFO_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'iteminfo.json');
+const RAW_ARMOR_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'raw', 'is_armor.txt');
+const RAW_WEAPON_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'raw', 'is_weapon.txt');
 
 type UnknownRecord = Record<string, any>;
 
@@ -86,6 +88,7 @@ interface InventoryChange {
 }
 
 const ITEMINFO_BY_TEMPLATE_ID = loadItemInfoMap();
+const EQUIPMENT_VALUE_BY_TEMPLATE_ID = loadEquipmentValueMap();
 const ITEM_DEFINITIONS: readonly ItemDefinition[] = Object.freeze([
   ...loadClientGeneralItemDefinitions(),
   ...loadClientPotionDefinitions(),
@@ -261,6 +264,70 @@ function loadItemInfoMap(): Map<number, ItemInfoEntry> {
         },
       ])
   );
+}
+
+function loadEquipmentValueMap(): Map<number, number> {
+  const rows = [
+    ...loadRawEquipmentValueRows(RAW_ARMOR_TABLE_FILE),
+    ...loadRawEquipmentValueRows(RAW_WEAPON_TABLE_FILE),
+  ];
+  return new Map(rows);
+}
+
+function loadRawEquipmentValueRows(filePath: string): Array<[number, number]> {
+  let rawText = '';
+  try {
+    rawText = fs.readFileSync(filePath, 'utf8');
+  } catch (_err) {
+    return [];
+  }
+
+  const rows: Array<[number, number]> = [];
+  for (const line of rawText.split(/\r?\n/)) {
+    const columns = splitCsvColumns(line);
+    if (columns.length < 11) {
+      continue;
+    }
+    const templateId = parseInt(columns[0] || '', 10);
+    const baseValue = parseInt(columns[9] || '', 10);
+    if (!Number.isInteger(templateId) || templateId <= 0) {
+      continue;
+    }
+    if (!Number.isInteger(baseValue) || baseValue <= 0) {
+      continue;
+    }
+    rows.push([templateId, baseValue]);
+  }
+  return rows;
+}
+
+function splitCsvColumns(line: string): string[] {
+  if (typeof line !== 'string' || line.length === 0) {
+    return [];
+  }
+  const columns: string[] = [];
+  let current = '';
+  let inQuotes = false;
+  for (let index = 0; index < line.length; index += 1) {
+    const char = line[index];
+    if (char === '"') {
+      if (inQuotes && line[index + 1] === '"') {
+        current += '"';
+        index += 1;
+      } else {
+        inQuotes = !inQuotes;
+      }
+      continue;
+    }
+    if (char === ',' && !inQuotes) {
+      columns.push(current);
+      current = '';
+      continue;
+    }
+    current += char;
+  }
+  columns.push(current);
+  return columns;
 }
 
 function normalizeInventoryState(character: UnknownRecord): InventoryState {
@@ -947,7 +1014,7 @@ function resolveClientSellPrice(
     }
   } else if (category === 'general') {
     if (itemInfo) {
-      const infoPrice = computeClientDisplayedSellPrice(itemInfo.field1 || 0, itemInfo.field2 || 1);
+      const infoPrice = resolveItemInfoSellPrice(itemInfo);
       if (infoPrice > 0) {
         return infoPrice;
       }
@@ -962,7 +1029,7 @@ function resolveClientSellPrice(
     }
   } else if (category === 'stuff') {
     if (itemInfo) {
-      const infoPrice = computeClientDisplayedSellPrice(itemInfo.field1 || 0, itemInfo.field2 || 1);
+      const infoPrice = resolveItemInfoSellPrice(itemInfo);
       if (infoPrice > 0) {
         return infoPrice;
       }
@@ -976,6 +1043,10 @@ function resolveClientSellPrice(
       }
     }
   } else if (category === 'armor' || category === 'weapon') {
+    const equipmentBaseValue = EQUIPMENT_VALUE_BY_TEMPLATE_ID.get(templateId) || 0;
+    if (equipmentBaseValue > 0) {
+      return computeClientDisplayedSellPrice(equipmentBaseValue, 1);
+    }
     const templateLevel = Number.isInteger(entry?.templateLevelField) ? entry.templateLevelField : 0;
     if (templateLevel > 0) {
       return Math.max(1, templateLevel * 10);
@@ -983,6 +1054,17 @@ function resolveClientSellPrice(
   }
 
   return 1;
+}
+
+function resolveItemInfoSellPrice(itemInfo: ItemInfoEntry): number {
+  const baseValue = Number.isInteger(itemInfo.field1) ? (itemInfo.field1 as number) : 0;
+  const fallbackDivisor = Number.isInteger(itemInfo.field2) ? (itemInfo.field2 as number) : 1;
+  const ratioDivisor =
+    Number.isInteger(itemInfo.field4) && (itemInfo.field4 as number) > 0 ? (itemInfo.field4 as number) : 0;
+  if (baseValue > 0 && ratioDivisor > 0) {
+    return Math.max(1, Math.floor(baseValue / ratioDivisor));
+  }
+  return computeClientDisplayedSellPrice(baseValue, fallbackDivisor);
 }
 
 function computeClientDisplayedSellPrice(baseValue: number, divisorValue: number): number {

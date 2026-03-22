@@ -67,7 +67,11 @@
       "Bash(npm test:*)",
       "Bash(node:*)",
       "Bash(git commit:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(done)",
+      "Bash(du -sh /home/nikon/projects/zo-server/data/*)",
+      "Bash(do echo:*)",
+      "Read(//home/nikon/projects/zo-server/**)"
     ]
   },
   "enableAllProjectMcpServers": true,

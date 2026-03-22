@@ -26,7 +26,7 @@ function parseServerRunRequest(payload: Buffer): ServerRunRequestData | null {
 
   const subcmd = payload[2] & 0xff;
 
-  if (subcmd === 0x03 && payload.length >= 9) {
+  if ((subcmd === 0x02 || subcmd === 0x03) && payload.length >= 9) {
     return {
       subcmd,
       npcId: payload.readUInt16LE(3),

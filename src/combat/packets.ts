@@ -210,7 +210,7 @@ function buildVictoryPacket(
     characterExperience?: number;
     petExperience?: number;
     coins?: number;
-    auxiliaryValue?: number;
+    petExperienceAuxiliary?: number;
     items?: Array<{ templateId: number; quantity?: number }>;
   } = {}
 ): Buffer {
@@ -232,10 +232,28 @@ function buildVictoryPacket(
   writer.writeUint32((rewards.characterExperience || 0) >>> 0);
   writer.writeUint32((rewards.coins || 0) >>> 0);
   writer.writeUint32((rewards.petExperience || 0) >>> 0);
-  writer.writeUint32((rewards.auxiliaryValue || 0) >>> 0);
+  if ((rewards.petExperience || 0) > 0) {
+    writer.writeUint32((rewards.petExperienceAuxiliary || 0) >>> 0);
+  }
   for (const templateId of expandedItems) {
     writer.writeUint16(templateId & 0xffff);
   }
+  return writer.payload();
+}
+
+function buildVictoryPointsPacket(currentPoints: number): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_FIGHT_STREAM_CMD);
+  writer.writeUint8(0x6c);
+  writer.writeUint32(Math.max(0, currentPoints) >>> 0);
+  return writer.payload();
+}
+
+function buildVictoryRankPacket(rankCode: number): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_FIGHT_STREAM_CMD);
+  writer.writeUint8(0x6d);
+  writer.writeUint8(rankCode & 0xff);
   return writer.payload();
 }
 
@@ -257,5 +275,7 @@ module.exports = {
   buildStateModePacket,
   buildTurnPromptPacket,
   buildVictoryPacket,
+  buildVictoryPointsPacket,
+  buildVictoryRankPacket,
   buildVitalsPacket,
 };

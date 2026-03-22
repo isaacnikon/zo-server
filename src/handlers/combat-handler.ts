@@ -25,6 +25,8 @@ const {
   buildStateModePacket,
   buildTurnPromptPacket,
   buildVictoryPacket,
+  buildVictoryPointsPacket,
+  buildVictoryRankPacket,
   buildVitalsPacket,
 } = require('../combat/packets');
 const { grantCombatDrops } = require('../gameplay/combat-drop-runtime');
@@ -51,6 +53,12 @@ function createIdleCombatState(): CombatState {
     awaitingClientReady: false,
     awaitingPlayerAction: false,
     startedAt: 0,
+    playerStartHealth: 0,
+    playerMaxHealthAtStart: 0,
+    totalEnemyMaxHp: 0,
+    averageEnemyLevel: 0,
+    damageDealt: 0,
+    damageTaken: 0,
   };
 }
 
@@ -135,6 +143,15 @@ function sendCombatEncounterProbe(session: SessionLike, action: CombatAction): v
     awaitingClientReady: true,
     awaitingPlayerAction: false,
     startedAt: Date.now(),
+    playerStartHealth: session.currentHealth,
+    playerMaxHealthAtStart: session.maxHealth,
+    totalEnemyMaxHp: enemies.reduce((sum: number, enemy: CombatEnemyInstance) => sum + Math.max(0, enemy?.maxHp || 0), 0),
+    averageEnemyLevel:
+      enemies.length > 0
+        ? enemies.reduce((sum: number, enemy: CombatEnemyInstance) => sum + Math.max(1, enemy?.level || 1), 0) / enemies.length
+        : 0,
+    damageDealt: 0,
+    damageTaken: 0,
   };
 
   session.writePacket(
@@ -212,7 +229,9 @@ function handleAttackSelection(session: SessionLike, payload: Buffer): void {
   session.log(`Combat attack selected mode=${selection.attackMode} target=${selection.targetA},${selection.targetB} enemy=${describeEnemy(enemy)} living=${describeLivingEnemies(session.combatState.enemies)}`);
 
   const playerDamage = computePlayerDamage(session, enemy);
+  const appliedPlayerDamage = Math.max(0, Math.min(enemy.hp, playerDamage));
   enemy.hp = Math.max(0, enemy.hp - playerDamage);
+  session.combatState.damageDealt = Math.max(0, (session.combatState.damageDealt || 0) + appliedPlayerDamage);
   session.writePacket(
     buildAttackPlaybackPacket(
       session.entityType >>> 0,
@@ -306,7 +325,9 @@ function processNextEnemyTurnAttack(session: SessionLike, reason: EnemyTurnReaso
   }
 
   const enemyDamage = computeEnemyDamage(session, enemy);
+  const appliedEnemyDamage = Math.max(0, Math.min(session.currentHealth, enemyDamage));
   session.currentHealth = Math.max(0, session.currentHealth - enemyDamage);
+  session.combatState.damageTaken = Math.max(0, (session.combatState.damageTaken || 0) + appliedEnemyDamage);
   session.writePacket(
     buildAttackPlaybackPacket(
       enemy.entityId >>> 0,
@@ -343,7 +364,20 @@ function resolveVictory(session: SessionLike): void {
   for (const enemy of defeatedEnemies) {
     session.handleQuestMonsterDefeat(enemy.typeId, 1);
   }
-  const combatRewards = buildCombatVictoryRewards(defeatedEnemies);
+  const combatRewards = buildCombatVictoryRewards(
+    defeatedEnemies,
+    dropResultPreview(defeatedEnemies),
+    Math.max(1, session.combatState?.round || 1),
+    {
+      playerStartHealth: session.combatState?.playerStartHealth || session.currentHealth,
+      playerMaxHealthAtStart: session.combatState?.playerMaxHealthAtStart || session.maxHealth,
+      totalEnemyMaxHp: session.combatState?.totalEnemyMaxHp || 0,
+      averageEnemyLevel: session.combatState?.averageEnemyLevel || 0,
+      damageDealt: session.combatState?.damageDealt || 0,
+      damageTaken: session.combatState?.damageTaken || 0,
+    },
+    session.level
+  );
   applyEffects(
     session,
     [
@@ -363,6 +397,19 @@ function resolveVictory(session: SessionLike): void {
     );
   }
 
+  const rankCode = deriveCombatResultRankCode(combatRewards.totalScore, combatRewards.maxScore);
+
+  session.writePacket(
+    buildVictoryPointsPacket(combatRewards.totalScore),
+    DEFAULT_FLAGS,
+    `Sending combat victory points currentPoints=${combatRewards.totalScore}`
+  );
+  session.writePacket(
+    buildVictoryRankPacket(rankCode),
+    DEFAULT_FLAGS,
+    `Sending combat victory rank rankCode=${rankCode} score=${combatRewards.totalScore}/${combatRewards.maxScore}`
+  );
+
   session.writePacket(
     buildVictoryPacket(session.currentHealth, session.currentMana, session.currentRage, {
       characterExperience: combatRewards.characterExperience,
@@ -371,13 +418,27 @@ function resolveVictory(session: SessionLike): void {
       items: dropResult.granted,
     }),
     DEFAULT_FLAGS,
-    `Sending combat victory enemies=${defeatedEnemies.map((enemy: Record<string, any>) => `${enemy.typeId}@${enemy.entityId}`).join('|') || 'none'} exp=${combatRewards.characterExperience} petExp=0 coins=${combatRewards.coins} drops=${dropResult.granted.length}`
+    `Sending combat victory enemies=${defeatedEnemies.map((enemy: Record<string, any>) => `${enemy.typeId}@${enemy.entityId}`).join('|') || 'none'} exp=${combatRewards.characterExperience} petExp=0 coins=${combatRewards.coins} score=${combatRewards.totalScore}/${combatRewards.maxScore} drops=${dropResult.granted.length}`
   );
-  session.log(`Combat victory trigger=${session.combatState.triggerId} enemies=${defeatedEnemies.map((enemy: Record<string, any>) => `${enemy.typeId}@${enemy.entityId}`).join('|') || 'none'} exp=${combatRewards.characterExperience} petExp=0 coins=${combatRewards.coins} drops=${dropResult.granted.map((drop: Record<string, any>) => `${drop.templateId}x${drop.quantity}`).join(',') || 'none'}`);
+  session.log(`Combat victory trigger=${session.combatState.triggerId} enemies=${defeatedEnemies.map((enemy: Record<string, any>) => `${enemy.typeId}@${enemy.entityId}`).join('|') || 'none'} exp=${combatRewards.characterExperience} petExp=0 coins=${combatRewards.coins} score=${combatRewards.totalScore}/${combatRewards.maxScore} drops=${dropResult.granted.map((drop: Record<string, any>) => `${drop.templateId}x${drop.quantity}`).join(',') || 'none'}`);
   clearCombatState(session, dropResult.inventoryDirty);
 }
 
-function buildCombatVictoryRewards(enemies: Record<string, any>[]): { characterExperience: number; coins: number } {
+function buildCombatVictoryRewards(
+  enemies: Record<string, any>[],
+  preview: { dropCount: number },
+  roundCount: number,
+  performance: {
+    playerStartHealth: number;
+    playerMaxHealthAtStart: number;
+    totalEnemyMaxHp: number;
+    averageEnemyLevel: number;
+    damageDealt: number;
+    damageTaken: number;
+  },
+  playerLevel: number
+): { characterExperience: number; coins: number; totalScore: number; maxScore: number } {
+  const enemyCount = Math.max(1, enemies.length);
   const totals = enemies.reduce((acc, enemy) => {
     const level = Math.max(1, enemy?.level || 1);
     const aptitude = Math.max(0, enemy?.aptitude || 0);
@@ -385,10 +446,69 @@ function buildCombatVictoryRewards(enemies: Record<string, any>[]): { characterE
     acc.coins += Math.max(1, level * 3);
     return acc;
   }, { characterExperience: 0, coins: 0 });
+  const characterExperience = Math.max(1, totals.characterExperience);
+  const coins = Math.max(1, totals.coins);
+  const normalizedRoundCount = Math.max(1, roundCount);
+  const playerStartHealth = Math.max(1, performance.playerStartHealth || 1);
+  const playerMaxHealthAtStart = Math.max(playerStartHealth, performance.playerMaxHealthAtStart || playerStartHealth);
+  const totalEnemyMaxHp = Math.max(1, performance.totalEnemyMaxHp || enemies.reduce((sum, enemy) => sum + Math.max(0, enemy?.maxHp || 0), 0));
+  const damageDealt = Math.max(0, performance.damageDealt || totalEnemyMaxHp);
+  const damageTaken = Math.max(0, performance.damageTaken || 0);
+  const currentHealth = Math.max(0, playerStartHealth - damageTaken);
+  const hpLost = Math.max(0, playerStartHealth - currentHealth);
+  const averageEnemyLevel = Math.max(1, performance.averageEnemyLevel || 1);
+  const expectedRoundBudget = Math.max(1, Math.ceil(enemyCount / 2));
+  const roundScore = 250 * Math.min(1, expectedRoundBudget / normalizedRoundCount);
+  const exchangeScore = 200 * (damageDealt / Math.max(1, damageDealt + damageTaken));
+  const damageTakenBudget = Math.max(1, playerMaxHealthAtStart * expectedRoundBudget);
+  const damageTakenScore = 150 * Math.max(0, 1 - (damageTaken / damageTakenBudget));
+  const hpPreservationScore = 200 * Math.max(0, 1 - (hpLost / playerStartHealth));
+  const challengeScore = 200 * Math.min(1, averageEnemyLevel / Math.max(1, playerLevel || 1));
+  const rewardScore = 50 * Math.min(1, Math.max(0, preview.dropCount) / Math.max(1, enemyCount));
+  const maxScore = 1000;
+  const totalScore = Math.max(
+    1,
+    Math.floor(
+      roundScore +
+      exchangeScore +
+      damageTakenScore +
+      hpPreservationScore +
+      challengeScore +
+      rewardScore
+    )
+  );
   return {
-    characterExperience: Math.max(1, totals.characterExperience),
-    coins: Math.max(1, totals.coins),
+    characterExperience,
+    coins,
+    totalScore,
+    maxScore,
   };
+}
+
+function dropResultPreview(enemies: Record<string, any>[]): { dropCount: number } {
+  const dropCount = enemies.reduce((count, enemy) => {
+    const drops = Array.isArray(enemy?.drops) ? enemy.drops : [];
+    return count + drops.length;
+  }, 0);
+  return { dropCount };
+}
+
+function deriveCombatResultRankCode(totalScore: number, maxScore: number): number {
+  const safeMaxScore = Math.max(1, maxScore);
+  const scorePercent = (totalScore / safeMaxScore) * 100;
+  if (scorePercent >= 90) {
+    return 4; // S
+  }
+  if (scorePercent >= 80) {
+    return 0; // A
+  }
+  if (scorePercent >= 70) {
+    return 1; // B
+  }
+  if (scorePercent >= 60) {
+    return 2; // C
+  }
+  return 3; // D
 }
 
 function resolveDefeat(session: SessionLike): void {

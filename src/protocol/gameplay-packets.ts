@@ -8,6 +8,7 @@ const {
   GAME_ITEM_CONTAINER_CMD,
   ITEM_CONTAINER_POSITION_SUBCMD,
   GAME_ITEM_CMD,
+  GAME_NPC_SHOP_CMD,
   GAME_QUEST_CMD,
   GAME_SCENE_ENTER_CMD,
   GAME_SCRIPT_EVENT_CMD,
@@ -105,6 +106,11 @@ interface ItemInstance {
   attributePairs: Array<{ key: number; value: number }>;
 }
 
+interface NpcShopCatalogItem {
+  templateId: number;
+  price: number;
+}
+
 function buildSelfStateAptitudeSyncPacket({
   selectedAptitude,
   level,
@@ -153,6 +159,22 @@ function buildServerRunScriptPacket(scriptId: number, subtype: number): Buffer {
   writer.writeUint16(GAME_SCRIPT_EVENT_CMD);
   writer.writeUint8(subtype & 0xff);
   writer.writeUint16(scriptId & 0xffff);
+  return writer.payload();
+}
+
+function buildNpcShopOpenPacket({
+  items,
+}: {
+  items: NpcShopCatalogItem[];
+}): Buffer {
+  const writer = new PacketWriter();
+  const normalizedItems = Array.isArray(items) ? items : [];
+  writer.writeUint16(GAME_NPC_SHOP_CMD);
+  writer.writeUint8(0x07);
+  for (const item of normalizedItems) {
+    writer.writeUint16((item.templateId || 0) & 0xffff);
+    writer.writeUint32((item.price || 0) >>> 0);
+  }
   return writer.payload();
 }
 
@@ -534,6 +556,7 @@ module.exports = {
   buildPetTreeRegistrationPacket,
   buildPetCreateSyncPacket,
   buildPetRosterSyncPacket,
+  buildNpcShopOpenPacket,
   buildSceneEnterPacket,
   buildSelfStateAptitudeSyncPacket,
   buildSelfStateValueUpdatePacket,

@@ -1,0 +1,2862 @@
+{
+  "version": 1,
+  "defaultsByNpcId": {
+    "2": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 20001,
+          "price": 150
+        },
+        {
+          "templateId": 20002,
+          "price": 500
+        },
+        {
+          "templateId": 20004,
+          "price": 150
+        },
+        {
+          "templateId": 20005,
+          "price": 500
+        }
+      ]
+    },
+    "3": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 23010,
+          "price": 10000
+        },
+        {
+          "templateId": 23011,
+          "price": 10000
+        },
+        {
+          "templateId": 23012,
+          "price": 10000
+        },
+        {
+          "templateId": 23013,
+          "price": 10000
+        },
+        {
+          "templateId": 29001,
+          "price": 10000
+        },
+        {
+          "templateId": 29002,
+          "price": 10000
+        }
+      ]
+    },
+    "4": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 20015,
+          "price": 400
+        },
+        {
+          "templateId": 20016,
+          "price": 600
+        },
+        {
+          "templateId": 20025,
+          "price": 300
+        }
+      ]
+    },
+    "5": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 20007,
+          "price": 600
+        },
+        {
+          "templateId": 20008,
+          "price": 75
+        }
+      ]
+    },
+    "6": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 20015,
+          "price": 10000
+        },
+        {
+          "templateId": 20016,
+          "price": 10000
+        }
+      ]
+    },
+    "7": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 20013,
+          "price": 600
+        },
+        {
+          "templateId": 20014,
+          "price": 600
+        },
+        {
+          "templateId": 20019,
+          "price": 600
+        },
+        {
+          "templateId": 20020,
+          "price": 800
+        }
+      ]
+    },
+    "8": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 10200,
+          "price": 5000
+        },
+        {
+          "templateId": 10201,
+          "price": 5000
+        },
+        {
+          "templateId": 10202,
+          "price": 5000
+        },
+        {
+          "templateId": 15200,
+          "price": 5000
+        },
+        {
+          "templateId": 15201,
+          "price": 5000
+        },
+        {
+          "templateId": 15202,
+          "price": 5000
+        },
+        {
+          "templateId": 11200,
+          "price": 6000
+        },
+        {
+          "templateId": 11201,
+          "price": 6000
+        },
+        {
+          "templateId": 11202,
+          "price": 6000
+        },
+        {
+          "templateId": 16200,
+          "price": 6000
+        },
+        {
+          "templateId": 16201,
+          "price": 6000
+        },
+        {
+          "templateId": 16202,
+          "price": 6000
+        },
+        {
+          "templateId": 12200,
+          "price": 4500
+        },
+        {
+          "templateId": 12201,
+          "price": 4500
+        },
+        {
+          "templateId": 12202,
+          "price": 4500
+        },
+        {
+          "templateId": 17200,
+          "price": 4500
+        },
+        {
+          "templateId": 17201,
+          "price": 4500
+        },
+        {
+          "templateId": 17202,
+          "price": 4500
+        },
+        {
+          "templateId": 13200,
+          "price": 4500
+        },
+        {
+          "templateId": 13201,
+          "price": 4500
+        },
+        {
+          "templateId": 13202,
+          "price": 4500
+        },
+        {
+          "templateId": 18200,
+          "price": 4500
+        },
+        {
+          "templateId": 18201,
+          "price": 4500
+        },
+        {
+          "templateId": 18202,
+          "price": 4500
+        }
+      ]
+    },
+    "9": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 20001,
+          "price": 150
+        },
+        {
+          "templateId": 20002,
+          "price": 500
+        },
+        {
+          "templateId": 20003,
+          "price": 1500
+        },
+        {
+          "templateId": 20004,
+          "price": 250
+        },
+        {
+          "templateId": 20005,
+          "price": 700
+        },
+        {
+          "templateId": 20006,
+          "price": 1800
+        }
+      ]
+    },
+    "10": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 10200,
+          "price": 6500
+        },
+        {
+          "templateId": 10201,
+          "price": 6500
+        },
+        {
+          "templateId": 10202,
+          "price": 6500
+        },
+        {
+          "templateId": 15200,
+          "price": 6500
+        },
+        {
+          "templateId": 15201,
+          "price": 6500
+        },
+        {
+          "templateId": 15202,
+          "price": 6500
+        },
+        {
+          "templateId": 11200,
+          "price": 7500
+        },
+        {
+          "templateId": 11201,
+          "price": 7500
+        },
+        {
+          "templateId": 11202,
+          "price": 7500
+        },
+        {
+          "templateId": 16200,
+          "price": 7500
+        },
+        {
+          "templateId": 16201,
+          "price": 7500
+        },
+        {
+          "templateId": 16202,
+          "price": 7500
+        },
+        {
+          "templateId": 12200,
+          "price": 6000
+        },
+        {
+          "templateId": 12201,
+          "price": 6000
+        },
+        {
+          "templateId": 12202,
+          "price": 6000
+        },
+        {
+          "templateId": 17200,
+          "price": 6000
+        },
+        {
+          "templateId": 17201,
+          "price": 6000
+        },
+        {
+          "templateId": 17202,
+          "price": 6000
+        },
+        {
+          "templateId": 13200,
+          "price": 6000
+        },
+        {
+          "templateId": 13201,
+          "price": 6000
+        },
+        {
+          "templateId": 13202,
+          "price": 6000
+        },
+        {
+          "templateId": 18200,
+          "price": 6000
+        },
+        {
+          "templateId": 18201,
+          "price": 6000
+        },
+        {
+          "templateId": 18202,
+          "price": 6000
+        }
+      ]
+    },
+    "11": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 10300,
+          "price": 10000
+        },
+        {
+          "templateId": 10301,
+          "price": 10000
+        },
+        {
+          "templateId": 10302,
+          "price": 10000
+        },
+        {
+          "templateId": 15300,
+          "price": 10000
+        },
+        {
+          "templateId": 15301,
+          "price": 10000
+        },
+        {
+          "templateId": 15302,
+          "price": 10000
+        },
+        {
+          "templateId": 11300,
+          "price": 10000
+        },
+        {
+          "templateId": 11301,
+          "price": 10000
+        },
+        {
+          "templateId": 11302,
+          "price": 10000
+        },
+        {
+          "templateId": 16300,
+          "price": 10000
+        },
+        {
+          "templateId": 16301,
+          "price": 10000
+        },
+        {
+          "templateId": 16302,
+          "price": 10000
+        }
+      ]
+    },
+    "12": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 5011,
+          "price": 10000
+        },
+        {
+          "templateId": 5012,
+          "price": 10000
+        },
+        {
+          "templateId": 5013,
+          "price": 10000
+        }
+      ]
+    },
+    "13": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 20017,
+          "price": 350
+        },
+        {
+          "templateId": 20018,
+          "price": 450
+        },
+        {
+          "templateId": 20021,
+          "price": 800
+        },
+        {
+          "templateId": 20023,
+          "price": 500
+        }
+      ]
+    },
+    "14": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 5011,
+          "price": 2500
+        },
+        {
+          "templateId": 5012,
+          "price": 2500
+        },
+        {
+          "templateId": 5013,
+          "price": 2500
+        },
+        {
+          "templateId": 5020,
+          "price": 5000
+        },
+        {
+          "templateId": 5021,
+          "price": 5000
+        },
+        {
+          "templateId": 5022,
+          "price": 5000
+        }
+      ]
+    },
+    "15": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 10001,
+          "price": 120
+        },
+        {
+          "templateId": 15001,
+          "price": 120
+        },
+        {
+          "templateId": 11001,
+          "price": 120
+        },
+        {
+          "templateId": 16001,
+          "price": 120
+        },
+        {
+          "templateId": 12001,
+          "price": 120
+        },
+        {
+          "templateId": 17001,
+          "price": 120
+        },
+        {
+          "templateId": 13001,
+          "price": 120
+        },
+        {
+          "templateId": 18001,
+          "price": 120
+        }
+      ]
+    },
+    "16": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 5011,
+          "price": 2500
+        },
+        {
+          "templateId": 5012,
+          "price": 2500
+        },
+        {
+          "templateId": 5013,
+          "price": 2500
+        },
+        {
+          "templateId": 5020,
+          "price": 5000
+        },
+        {
+          "templateId": 5021,
+          "price": 5000
+        },
+        {
+          "templateId": 5022,
+          "price": 5000
+        }
+      ]
+    },
+    "17": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 8000,
+          "price": 10000
+        },
+        {
+          "templateId": 8001,
+          "price": 10000
+        },
+        {
+          "templateId": 8002,
+          "price": 10000
+        },
+        {
+          "templateId": 9000,
+          "price": 10000
+        },
+        {
+          "templateId": 9001,
+          "price": 10000
+        },
+        {
+          "templateId": 9002,
+          "price": 10000
+        }
+      ]
+    },
+    "30": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 10002,
+          "price": 1350
+        },
+        {
+          "templateId": 10003,
+          "price": 1350
+        },
+        {
+          "templateId": 10004,
+          "price": 1350
+        },
+        {
+          "templateId": 15002,
+          "price": 1350
+        },
+        {
+          "templateId": 15003,
+          "price": 1350
+        },
+        {
+          "templateId": 15004,
+          "price": 1350
+        },
+        {
+          "templateId": 11002,
+          "price": 1500
+        },
+        {
+          "templateId": 11003,
+          "price": 1500
+        },
+        {
+          "templateId": 11004,
+          "price": 1500
+        },
+        {
+          "templateId": 16002,
+          "price": 1500
+        },
+        {
+          "templateId": 16003,
+          "price": 1500
+        },
+        {
+          "templateId": 16004,
+          "price": 1500
+        },
+        {
+          "templateId": 12002,
+          "price": 1250
+        },
+        {
+          "templateId": 12003,
+          "price": 1250
+        },
+        {
+          "templateId": 12004,
+          "price": 1250
+        },
+        {
+          "templateId": 17002,
+          "price": 1250
+        },
+        {
+          "templateId": 17003,
+          "price": 1250
+        },
+        {
+          "templateId": 17004,
+          "price": 1250
+        },
+        {
+          "templateId": 13002,
+          "price": 1250
+        },
+        {
+          "templateId": 13003,
+          "price": 1250
+        },
+        {
+          "templateId": 13004,
+          "price": 1250
+        },
+        {
+          "templateId": 18002,
+          "price": 1250
+        },
+        {
+          "templateId": 18003,
+          "price": 1250
+        },
+        {
+          "templateId": 18004,
+          "price": 1250
+        }
+      ]
+    },
+    "31": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 20009,
+          "price": 10000
+        },
+        {
+          "templateId": 20011,
+          "price": 10000
+        },
+        {
+          "templateId": 20012,
+          "price": 10000
+        },
+        {
+          "templateId": 20013,
+          "price": 10000
+        },
+        {
+          "templateId": 20014,
+          "price": 10000
+        }
+      ]
+    },
+    "34": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 10002,
+          "price": 10000
+        },
+        {
+          "templateId": 10003,
+          "price": 10000
+        },
+        {
+          "templateId": 10004,
+          "price": 10000
+        },
+        {
+          "templateId": 15002,
+          "price": 10000
+        },
+        {
+          "templateId": 15003,
+          "price": 10000
+        },
+        {
+          "templateId": 15004,
+          "price": 10000
+        },
+        {
+          "templateId": 11002,
+          "price": 10000
+        },
+        {
+          "templateId": 11003,
+          "price": 10000
+        },
+        {
+          "templateId": 11004,
+          "price": 10000
+        },
+        {
+          "templateId": 16002,
+          "price": 10000
+        },
+        {
+          "templateId": 16003,
+          "price": 10000
+        },
+        {
+          "templateId": 16004,
+          "price": 10000
+        },
+        {
+          "templateId": 12002,
+          "price": 10000
+        },
+        {
+          "templateId": 12003,
+          "price": 10000
+        },
+        {
+          "templateId": 12004,
+          "price": 10000
+        },
+        {
+          "templateId": 17002,
+          "price": 10000
+        },
+        {
+          "templateId": 17003,
+          "price": 10000
+        },
+        {
+          "templateId": 17004,
+          "price": 10000
+        },
+        {
+          "templateId": 13002,
+          "price": 10000
+        },
+        {
+          "templateId": 13003,
+          "price": 10000
+        },
+        {
+          "templateId": 13004,
+          "price": 10000
+        },
+        {
+          "templateId": 18002,
+          "price": 10000
+        },
+        {
+          "templateId": 18003,
+          "price": 10000
+        },
+        {
+          "templateId": 18004,
+          "price": 10000
+        }
+      ]
+    },
+    "35": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 20009,
+          "price": 10000
+        },
+        {
+          "templateId": 20011,
+          "price": 10000
+        },
+        {
+          "templateId": 20012,
+          "price": 10000
+        },
+        {
+          "templateId": 20013,
+          "price": 10000
+        },
+        {
+          "templateId": 20014,
+          "price": 10000
+        }
+      ]
+    },
+    "42": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 20001,
+          "price": 150
+        },
+        {
+          "templateId": 20002,
+          "price": 500
+        },
+        {
+          "templateId": 20004,
+          "price": 150
+        },
+        {
+          "templateId": 20005,
+          "price": 500
+        }
+      ]
+    },
+    "43": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 20001,
+          "price": 150
+        },
+        {
+          "templateId": 20002,
+          "price": 500
+        },
+        {
+          "templateId": 20004,
+          "price": 150
+        },
+        {
+          "templateId": 20005,
+          "price": 500
+        },
+        {
+          "templateId": 29001,
+          "price": 200
+        },
+        {
+          "templateId": 29002,
+          "price": 400
+        },
+        {
+          "templateId": 29003,
+          "price": 600
+        }
+      ]
+    },
+    "45": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 23001,
+          "price": 200
+        },
+        {
+          "templateId": 23002,
+          "price": 200
+        },
+        {
+          "templateId": 23003,
+          "price": 200
+        },
+        {
+          "templateId": 23004,
+          "price": 200
+        },
+        {
+          "templateId": 23005,
+          "price": 200
+        }
+      ]
+    },
+    "47": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 23001,
+          "price": 10000
+        },
+        {
+          "templateId": 23002,
+          "price": 10000
+        },
+        {
+          "templateId": 23003,
+          "price": 10000
+        },
+        {
+          "templateId": 23004,
+          "price": 10000
+        },
+        {
+          "templateId": 23005,
+          "price": 10000
+        },
+        {
+          "templateId": 29001,
+          "price": 10000
+        },
+        {
+          "templateId": 29002,
+          "price": 10000
+        }
+      ]
+    },
+    "49": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 20001,
+          "price": 10000
+        }
+      ]
+    },
+    "3001": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 8001,
+          "price": 100000
+        },
+        {
+          "templateId": 8002,
+          "price": 100000
+        }
+      ]
+    },
+    "3008": {
+      "speaker": "Blacksmith",
+      "items": [
+        {
+          "templateId": 5002,
+          "price": 600
+        },
+        {
+          "templateId": 5003,
+          "price": 600
+        },
+        {
+          "templateId": 5004,
+          "price": 600
+        },
+        {
+          "templateId": 5102,
+          "price": 1000
+        },
+        {
+          "templateId": 5103,
+          "price": 1000
+        },
+        {
+          "templateId": 5104,
+          "price": 1000
+        },
+        {
+          "templateId": 5011,
+          "price": 1200
+        },
+        {
+          "templateId": 5012,
+          "price": 1200
+        }
+      ]
+    },
+    "3009": {
+      "speaker": "Diana",
+      "items": [
+        {
+          "templateId": 10002,
+          "price": 360
+        },
+        {
+          "templateId": 10003,
+          "price": 360
+        },
+        {
+          "templateId": 10004,
+          "price": 360
+        },
+        {
+          "templateId": 15002,
+          "price": 360
+        },
+        {
+          "templateId": 15003,
+          "price": 360
+        },
+        {
+          "templateId": 15004,
+          "price": 360
+        },
+        {
+          "templateId": 11002,
+          "price": 420
+        },
+        {
+          "templateId": 11003,
+          "price": 420
+        },
+        {
+          "templateId": 11004,
+          "price": 420
+        },
+        {
+          "templateId": 16002,
+          "price": 420
+        },
+        {
+          "templateId": 16003,
+          "price": 420
+        },
+        {
+          "templateId": 16004,
+          "price": 420
+        },
+        {
+          "templateId": 12002,
+          "price": 220
+        },
+        {
+          "templateId": 12003,
+          "price": 220
+        },
+        {
+          "templateId": 12004,
+          "price": 220
+        },
+        {
+          "templateId": 17002,
+          "price": 220
+        },
+        {
+          "templateId": 17003,
+          "price": 220
+        },
+        {
+          "templateId": 17004,
+          "price": 220
+        },
+        {
+          "templateId": 13002,
+          "price": 260
+        },
+        {
+          "templateId": 13003,
+          "price": 260
+        },
+        {
+          "templateId": 13004,
+          "price": 260
+        },
+        {
+          "templateId": 18002,
+          "price": 260
+        },
+        {
+          "templateId": 18003,
+          "price": 260
+        },
+        {
+          "templateId": 18004,
+          "price": 260
+        }
+      ]
+    },
+    "3010": {
+      "speaker": "Pub Owner",
+      "items": [
+        {
+          "templateId": 20009,
+          "price": 190
+        },
+        {
+          "templateId": 20010,
+          "price": 210
+        },
+        {
+          "templateId": 20013,
+          "price": 220
+        },
+        {
+          "templateId": 20017,
+          "price": 290
+        },
+        {
+          "templateId": 20018,
+          "price": 390
+        },
+        {
+          "templateId": 20011,
+          "price": 100
+        }
+      ]
+    },
+    "3012": {
+      "speaker": "Grocer",
+      "items": [
+        {
+          "templateId": 20001,
+          "price": 150
+        },
+        {
+          "templateId": 20002,
+          "price": 570
+        },
+        {
+          "templateId": 20003,
+          "price": 1000
+        },
+        {
+          "templateId": 20004,
+          "price": 250
+        },
+        {
+          "templateId": 20005,
+          "price": 750
+        },
+        {
+          "templateId": 20006,
+          "price": 1300
+        },
+        {
+          "templateId": 29001,
+          "price": 100
+        },
+        {
+          "templateId": 29002,
+          "price": 200
+        }
+      ]
+    },
+    "3013": {
+      "speaker": "Pet Curer",
+      "items": [
+        {
+          "templateId": 20015,
+          "price": 250
+        },
+        {
+          "templateId": 20016,
+          "price": 290
+        },
+        {
+          "templateId": 20025,
+          "price": 750
+        }
+      ]
+    },
+    "3016": {
+      "speaker": "Amber",
+      "items": [
+        {
+          "templateId": 8001,
+          "price": 900
+        },
+        {
+          "templateId": 8002,
+          "price": 1600
+        },
+        {
+          "templateId": 8003,
+          "price": 2700
+        },
+        {
+          "templateId": 9001,
+          "price": 900
+        },
+        {
+          "templateId": 9002,
+          "price": 1600
+        },
+        {
+          "templateId": 9003,
+          "price": 2700
+        }
+      ]
+    },
+    "3019": {
+      "speaker": "Miser",
+      "items": [
+        {
+          "templateId": 21129,
+          "price": 2500
+        },
+        {
+          "templateId": 29002,
+          "price": 150
+        }
+      ]
+    },
+    "3061": {
+      "speaker": "Free Soul",
+      "items": [
+        {
+          "templateId": 5011,
+          "price": 1200
+        },
+        {
+          "templateId": 5012,
+          "price": 1200
+        },
+        {
+          "templateId": 5013,
+          "price": 1200
+        },
+        {
+          "templateId": 5020,
+          "price": 2200
+        },
+        {
+          "templateId": 5021,
+          "price": 2200
+        },
+        {
+          "templateId": 5022,
+          "price": 2200
+        }
+      ]
+    },
+    "3063": {
+      "speaker": "Mercer",
+      "items": [
+        {
+          "templateId": 10200,
+          "price": 1296
+        },
+        {
+          "templateId": 10201,
+          "price": 1296
+        },
+        {
+          "templateId": 10202,
+          "price": 1296
+        },
+        {
+          "templateId": 15200,
+          "price": 1296
+        },
+        {
+          "templateId": 15201,
+          "price": 1296
+        },
+        {
+          "templateId": 15202,
+          "price": 1296
+        },
+        {
+          "templateId": 11200,
+          "price": 1512
+        },
+        {
+          "templateId": 11201,
+          "price": 1512
+        },
+        {
+          "templateId": 11202,
+          "price": 1512
+        },
+        {
+          "templateId": 16200,
+          "price": 1512
+        },
+        {
+          "templateId": 16201,
+          "price": 1512
+        },
+        {
+          "templateId": 16202,
+          "price": 1512
+        },
+        {
+          "templateId": 12200,
+          "price": 648
+        },
+        {
+          "templateId": 12201,
+          "price": 648
+        },
+        {
+          "templateId": 12202,
+          "price": 648
+        },
+        {
+          "templateId": 17200,
+          "price": 648
+        },
+        {
+          "templateId": 17201,
+          "price": 648
+        },
+        {
+          "templateId": 17202,
+          "price": 648
+        },
+        {
+          "templateId": 13200,
+          "price": 864
+        },
+        {
+          "templateId": 13201,
+          "price": 864
+        },
+        {
+          "templateId": 13202,
+          "price": 864
+        },
+        {
+          "templateId": 18200,
+          "price": 864
+        },
+        {
+          "templateId": 18201,
+          "price": 864
+        },
+        {
+          "templateId": 18202,
+          "price": 864
+        }
+      ]
+    },
+    "3072": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 20001,
+          "price": 150
+        },
+        {
+          "templateId": 20002,
+          "price": 500
+        },
+        {
+          "templateId": 20004,
+          "price": 150
+        },
+        {
+          "templateId": 20005,
+          "price": 500
+        }
+      ]
+    },
+    "3080": {
+      "speaker": "Freddie",
+      "items": [
+        {
+          "templateId": 27001,
+          "price": 500
+        },
+        {
+          "templateId": 27002,
+          "price": 500
+        },
+        {
+          "templateId": 27003,
+          "price": 500
+        },
+        {
+          "templateId": 27004,
+          "price": 500
+        },
+        {
+          "templateId": 27005,
+          "price": 500
+        },
+        {
+          "templateId": 27006,
+          "price": 500
+        },
+        {
+          "templateId": 27007,
+          "price": 500
+        },
+        {
+          "templateId": 27008,
+          "price": 500
+        },
+        {
+          "templateId": 27009,
+          "price": 500
+        },
+        {
+          "templateId": 27010,
+          "price": 500
+        },
+        {
+          "templateId": 27011,
+          "price": 500
+        },
+        {
+          "templateId": 27012,
+          "price": 500
+        },
+        {
+          "templateId": 27013,
+          "price": 3000
+        },
+        {
+          "templateId": 27014,
+          "price": 3000
+        },
+        {
+          "templateId": 27015,
+          "price": 3000
+        },
+        {
+          "templateId": 27016,
+          "price": 3000
+        },
+        {
+          "templateId": 27017,
+          "price": 3000
+        },
+        {
+          "templateId": 27018,
+          "price": 3000
+        },
+        {
+          "templateId": 27019,
+          "price": 3000
+        },
+        {
+          "templateId": 27020,
+          "price": 3000
+        },
+        {
+          "templateId": 27021,
+          "price": 3000
+        },
+        {
+          "templateId": 27022,
+          "price": 3000
+        },
+        {
+          "templateId": 27023,
+          "price": 3000
+        },
+        {
+          "templateId": 27024,
+          "price": 3000
+        },
+        {
+          "templateId": 27114,
+          "price": 100
+        }
+      ]
+    },
+    "3089": {
+      "speaker": "Housewife",
+      "items": [
+        {
+          "templateId": 5105,
+          "price": 300
+        },
+        {
+          "templateId": 5106,
+          "price": 300
+        },
+        {
+          "templateId": 5107,
+          "price": 300
+        },
+        {
+          "templateId": 5108,
+          "price": 300
+        }
+      ]
+    },
+    "3115": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 20001,
+          "price": 150
+        },
+        {
+          "templateId": 20002,
+          "price": 570
+        },
+        {
+          "templateId": 20003,
+          "price": 1000
+        },
+        {
+          "templateId": 20004,
+          "price": 250
+        },
+        {
+          "templateId": 20005,
+          "price": 750
+        },
+        {
+          "templateId": 20006,
+          "price": 1300
+        },
+        {
+          "templateId": 29001,
+          "price": 100
+        },
+        {
+          "templateId": 29002,
+          "price": 200
+        },
+        {
+          "templateId": 29003,
+          "price": 300
+        },
+        {
+          "templateId": 29004,
+          "price": 400
+        },
+        {
+          "templateId": 29005,
+          "price": 600
+        },
+        {
+          "templateId": 26009,
+          "price": 100
+        },
+        {
+          "templateId": 26039,
+          "price": 400
+        },
+        {
+          "templateId": 26040,
+          "price": 400
+        }
+      ]
+    },
+    "3116": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 20012,
+          "price": 610
+        },
+        {
+          "templateId": 20014,
+          "price": 810
+        },
+        {
+          "templateId": 20019,
+          "price": 510
+        }
+      ]
+    },
+    "3152": {
+      "speaker": "Servant ",
+      "items": [
+        {
+          "templateId": 23119,
+          "price": 600
+        }
+      ]
+    },
+    "3171": {
+      "speaker": "Material Dealer",
+      "items": [
+        {
+          "templateId": 23001,
+          "price": 2000
+        },
+        {
+          "templateId": 23002,
+          "price": 2000
+        },
+        {
+          "templateId": 23003,
+          "price": 2000
+        },
+        {
+          "templateId": 23004,
+          "price": 2000
+        },
+        {
+          "templateId": 23005,
+          "price": 2000
+        }
+      ]
+    },
+    "3175": {
+      "speaker": "Shopkeeper",
+      "items": [
+        {
+          "templateId": 20008,
+          "price": 80
+        },
+        {
+          "templateId": 20029,
+          "price": 60
+        },
+        {
+          "templateId": 20007,
+          "price": 70
+        }
+      ]
+    },
+    "3191": {
+      "speaker": "Samuel",
+      "items": [
+        {
+          "templateId": 20030,
+          "price": 60
+        },
+        {
+          "templateId": 20031,
+          "price": 100
+        },
+        {
+          "templateId": 20032,
+          "price": 160
+        },
+        {
+          "templateId": 20033,
+          "price": 200
+        },
+        {
+          "templateId": 20034,
+          "price": 360
+        },
+        {
+          "templateId": 20035,
+          "price": 500
+        },
+        {
+          "templateId": 20036,
+          "price": 700
+        },
+        {
+          "templateId": 20037,
+          "price": 1000
+        },
+        {
+          "templateId": 20038,
+          "price": 1200
+        },
+        {
+          "templateId": 20039,
+          "price": 1500
+        }
+      ]
+    },
+    "3199": {
+      "speaker": "Grocer",
+      "items": [
+        {
+          "templateId": 29001,
+          "price": 100
+        },
+        {
+          "templateId": 29002,
+          "price": 200
+        },
+        {
+          "templateId": 29003,
+          "price": 300
+        },
+        {
+          "templateId": 29004,
+          "price": 400
+        },
+        {
+          "templateId": 23007,
+          "price": 3000
+        },
+        {
+          "templateId": 23010,
+          "price": 3000
+        },
+        {
+          "templateId": 23013,
+          "price": 3000
+        },
+        {
+          "templateId": 23001,
+          "price": 3000
+        }
+      ]
+    },
+    "3202": {
+      "speaker": "Don",
+      "items": [
+        {
+          "templateId": 20001,
+          "price": 135
+        },
+        {
+          "templateId": 20002,
+          "price": 400
+        },
+        {
+          "templateId": 20003,
+          "price": 720
+        },
+        {
+          "templateId": 20004,
+          "price": 225
+        },
+        {
+          "templateId": 20005,
+          "price": 665
+        },
+        {
+          "templateId": 20006,
+          "price": 1200
+        },
+        {
+          "templateId": 29001,
+          "price": 100
+        },
+        {
+          "templateId": 29002,
+          "price": 200
+        },
+        {
+          "templateId": 29003,
+          "price": 300
+        },
+        {
+          "templateId": 29004,
+          "price": 400
+        }
+      ]
+    },
+    "3234": {
+      "speaker": "Grocer",
+      "items": [
+        {
+          "templateId": 29001,
+          "price": 100
+        },
+        {
+          "templateId": 20001,
+          "price": 150
+        },
+        {
+          "templateId": 20004,
+          "price": 250
+        },
+        {
+          "templateId": 26009,
+          "price": 100
+        }
+      ]
+    },
+    "3236": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 20013,
+          "price": 600
+        },
+        {
+          "templateId": 20014,
+          "price": 600
+        },
+        {
+          "templateId": 20019,
+          "price": 600
+        },
+        {
+          "templateId": 20020,
+          "price": 800
+        }
+      ]
+    },
+    "3237": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 10200,
+          "price": 1296
+        },
+        {
+          "templateId": 10201,
+          "price": 1296
+        },
+        {
+          "templateId": 10202,
+          "price": 1296
+        },
+        {
+          "templateId": 15200,
+          "price": 1296
+        },
+        {
+          "templateId": 15201,
+          "price": 1296
+        },
+        {
+          "templateId": 15202,
+          "price": 1296
+        },
+        {
+          "templateId": 11200,
+          "price": 1512
+        },
+        {
+          "templateId": 11201,
+          "price": 1512
+        },
+        {
+          "templateId": 11202,
+          "price": 1512
+        },
+        {
+          "templateId": 16200,
+          "price": 1512
+        },
+        {
+          "templateId": 16201,
+          "price": 1512
+        },
+        {
+          "templateId": 16202,
+          "price": 1512
+        },
+        {
+          "templateId": 12200,
+          "price": 648
+        },
+        {
+          "templateId": 12201,
+          "price": 648
+        },
+        {
+          "templateId": 12202,
+          "price": 648
+        },
+        {
+          "templateId": 17200,
+          "price": 648
+        },
+        {
+          "templateId": 17201,
+          "price": 648
+        },
+        {
+          "templateId": 17202,
+          "price": 648
+        },
+        {
+          "templateId": 13200,
+          "price": 864
+        },
+        {
+          "templateId": 13201,
+          "price": 864
+        },
+        {
+          "templateId": 13202,
+          "price": 864
+        },
+        {
+          "templateId": 18200,
+          "price": 864
+        },
+        {
+          "templateId": 18201,
+          "price": 864
+        },
+        {
+          "templateId": 18202,
+          "price": 864
+        }
+      ]
+    },
+    "3238": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 20001,
+          "price": 150
+        },
+        {
+          "templateId": 20002,
+          "price": 500
+        },
+        {
+          "templateId": 20003,
+          "price": 1500
+        },
+        {
+          "templateId": 20004,
+          "price": 250
+        },
+        {
+          "templateId": 20005,
+          "price": 700
+        },
+        {
+          "templateId": 20006,
+          "price": 1800
+        }
+      ]
+    },
+    "3246": {
+      "speaker": "Pub Owner",
+      "items": [
+        {
+          "templateId": 20017,
+          "price": 290
+        },
+        {
+          "templateId": 20018,
+          "price": 390
+        },
+        {
+          "templateId": 20022,
+          "price": 700
+        },
+        {
+          "templateId": 20023,
+          "price": 410
+        }
+      ]
+    },
+    "3247": {
+      "speaker": "Blacksmith",
+      "items": [
+        {
+          "templateId": 5011,
+          "price": 1200
+        },
+        {
+          "templateId": 5012,
+          "price": 1200
+        },
+        {
+          "templateId": 5013,
+          "price": 1200
+        },
+        {
+          "templateId": 5020,
+          "price": 2200
+        },
+        {
+          "templateId": 5021,
+          "price": 2200
+        },
+        {
+          "templateId": 5022,
+          "price": 2200
+        }
+      ]
+    },
+    "3276": {
+      "speaker": "Blacksmith",
+      "items": [
+        {
+          "templateId": 5001,
+          "price": 55
+        },
+        {
+          "templateId": 5101,
+          "price": 65
+        },
+        {
+          "templateId": 5002,
+          "price": 600
+        },
+        {
+          "templateId": 5003,
+          "price": 600
+        },
+        {
+          "templateId": 5004,
+          "price": 600
+        }
+      ]
+    },
+    "3277": {
+      "speaker": "Candy",
+      "items": [
+        {
+          "templateId": 10001,
+          "price": 120
+        },
+        {
+          "templateId": 15001,
+          "price": 120
+        },
+        {
+          "templateId": 11001,
+          "price": 120
+        },
+        {
+          "templateId": 16001,
+          "price": 120
+        },
+        {
+          "templateId": 12001,
+          "price": 120
+        },
+        {
+          "templateId": 17001,
+          "price": 120
+        },
+        {
+          "templateId": 13001,
+          "price": 120
+        },
+        {
+          "templateId": 18001,
+          "price": 120
+        }
+      ]
+    },
+    "3278": {
+      "speaker": "Johnson",
+      "items": [
+        {
+          "templateId": 20001,
+          "price": 150
+        },
+        {
+          "templateId": 20004,
+          "price": 150
+        }
+      ]
+    },
+    "3310": {
+      "speaker": "Mercer",
+      "items": [
+        {
+          "templateId": 10100,
+          "price": 720
+        },
+        {
+          "templateId": 10101,
+          "price": 720
+        },
+        {
+          "templateId": 10102,
+          "price": 720
+        },
+        {
+          "templateId": 15100,
+          "price": 720
+        },
+        {
+          "templateId": 15101,
+          "price": 720
+        },
+        {
+          "templateId": 15102,
+          "price": 720
+        },
+        {
+          "templateId": 11100,
+          "price": 840
+        },
+        {
+          "templateId": 11101,
+          "price": 840
+        },
+        {
+          "templateId": 11102,
+          "price": 840
+        },
+        {
+          "templateId": 16100,
+          "price": 840
+        },
+        {
+          "templateId": 16101,
+          "price": 840
+        },
+        {
+          "templateId": 16102,
+          "price": 840
+        },
+        {
+          "templateId": 11200,
+          "price": 1960
+        },
+        {
+          "templateId": 11201,
+          "price": 1960
+        },
+        {
+          "templateId": 11202,
+          "price": 1960
+        },
+        {
+          "templateId": 16200,
+          "price": 1960
+        },
+        {
+          "templateId": 16201,
+          "price": 1960
+        },
+        {
+          "templateId": 16202,
+          "price": 1960
+        },
+        {
+          "templateId": 12100,
+          "price": 400
+        },
+        {
+          "templateId": 12101,
+          "price": 400
+        },
+        {
+          "templateId": 12102,
+          "price": 400
+        },
+        {
+          "templateId": 17100,
+          "price": 400
+        },
+        {
+          "templateId": 17101,
+          "price": 400
+        },
+        {
+          "templateId": 17102,
+          "price": 400
+        },
+        {
+          "templateId": 13100,
+          "price": 480
+        },
+        {
+          "templateId": 13101,
+          "price": 480
+        },
+        {
+          "templateId": 13102,
+          "price": 480
+        },
+        {
+          "templateId": 18100,
+          "price": 480
+        },
+        {
+          "templateId": 18101,
+          "price": 480
+        },
+        {
+          "templateId": 18102,
+          "price": 480
+        }
+      ]
+    },
+    "3330": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 20001,
+          "price": 135
+        },
+        {
+          "templateId": 20002,
+          "price": 400
+        },
+        {
+          "templateId": 20003,
+          "price": 720
+        },
+        {
+          "templateId": 20004,
+          "price": 225
+        },
+        {
+          "templateId": 20005,
+          "price": 665
+        },
+        {
+          "templateId": 20006,
+          "price": 1200
+        },
+        {
+          "templateId": 29001,
+          "price": 100
+        },
+        {
+          "templateId": 29002,
+          "price": 200
+        },
+        {
+          "templateId": 29003,
+          "price": 300
+        },
+        {
+          "templateId": 29004,
+          "price": 400
+        },
+        {
+          "templateId": 29005,
+          "price": 500
+        },
+        {
+          "templateId": 26009,
+          "price": 100
+        }
+      ]
+    },
+    "3331": {
+      "speaker": "Pub Owner",
+      "items": [
+        {
+          "templateId": 20012,
+          "price": 610
+        },
+        {
+          "templateId": 20014,
+          "price": 810
+        },
+        {
+          "templateId": 20019,
+          "price": 510
+        }
+      ]
+    },
+    "3433": {
+      "speaker": "Grocer",
+      "items": [
+        {
+          "templateId": 20001,
+          "price": 180
+        },
+        {
+          "templateId": 20002,
+          "price": 700
+        },
+        {
+          "templateId": 20003,
+          "price": 1300
+        },
+        {
+          "templateId": 20004,
+          "price": 300
+        },
+        {
+          "templateId": 20005,
+          "price": 950
+        },
+        {
+          "templateId": 20006,
+          "price": 1600
+        },
+        {
+          "templateId": 29003,
+          "price": 300
+        },
+        {
+          "templateId": 29004,
+          "price": 400
+        },
+        {
+          "templateId": 29005,
+          "price": 600
+        },
+        {
+          "templateId": 29006,
+          "price": 800
+        },
+        {
+          "templateId": 29007,
+          "price": 1000
+        },
+        {
+          "templateId": 26009,
+          "price": 100
+        },
+        {
+          "templateId": 26039,
+          "price": 400
+        },
+        {
+          "templateId": 26040,
+          "price": 400
+        }
+      ]
+    },
+    "3458": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 29007,
+          "price": 1200
+        },
+        {
+          "templateId": 29008,
+          "price": 1500
+        },
+        {
+          "templateId": 29009,
+          "price": 2000
+        }
+      ]
+    },
+    "3462": {
+      "speaker": "Miser",
+      "items": [
+        {
+          "templateId": 21170,
+          "price": 4100
+        }
+      ]
+    },
+    "3577": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 20001,
+          "price": 500
+        },
+        {
+          "templateId": 20002,
+          "price": 1500
+        },
+        {
+          "templateId": 20003,
+          "price": 3000
+        },
+        {
+          "templateId": 20004,
+          "price": 750
+        },
+        {
+          "templateId": 20005,
+          "price": 2250
+        },
+        {
+          "templateId": 20006,
+          "price": 3900
+        }
+      ]
+    },
+    "3579": {
+      "speaker": "",
+      "items": [
+        {
+          "templateId": 20001,
+          "price": 500
+        },
+        {
+          "templateId": 20002,
+          "price": 1500
+        },
+        {
+          "templateId": 20003,
+          "price": 3000
+        },
+        {
+          "templateId": 20004,
+          "price": 750
+        },
+        {
+          "templateId": 20005,
+          "price": 2250
+        },
+        {
+          "templateId": 20006,
+          "price": 3900
+        }
+      ]
+    },
+    "3644": {
+      "speaker": "Pub Owner",
+      "items": [
+        {
+          "templateId": 20063,
+          "price": 1400
+        },
+        {
+          "templateId": 20064,
+          "price": 800
+        },
+        {
+          "templateId": 20014,
+          "price": 810
+        }
+      ]
+    },
+    "3645": {
+      "speaker": "Grocer",
+      "items": [
+        {
+          "templateId": 20001,
+          "price": 180
+        },
+        {
+          "templateId": 20002,
+          "price": 700
+        },
+        {
+          "templateId": 20003,
+          "price": 1300
+        },
+        {
+          "templateId": 20004,
+          "price": 300
+        },
+        {
+          "templateId": 20005,
+          "price": 950
+        },
+        {
+          "templateId": 20006,
+          "price": 1600
+        },
+        {
+          "templateId": 29003,
+          "price": 300
+        },
+        {
+          "templateId": 29004,
+          "price": 400
+        },
+        {
+          "templateId": 29005,
+          "price": 600
+        },
+        {
+          "templateId": 29006,
+          "price": 800
+        },
+        {
+          "templateId": 29007,
+          "price": 1000
+        },
+        {
+          "templateId": 26009,
+          "price": 100
+        },
+        {
+          "templateId": 26039,
+          "price": 400
+        },
+        {
+          "templateId": 26040,
+          "price": 400
+        },
+        {
+          "templateId": 29008,
+          "price": 1500
+        },
+        {
+          "templateId": 29009,
+          "price": 2000
+        }
+      ]
+    },
+    "3752": {
+      "speaker": "Jewelry Store ",
+      "items": [
+        {
+          "templateId": 8001,
+          "price": 900
+        },
+        {
+          "templateId": 8002,
+          "price": 1600
+        },
+        {
+          "templateId": 8003,
+          "price": 2700
+        },
+        {
+          "templateId": 9001,
+          "price": 900
+        },
+        {
+          "templateId": 9002,
+          "price": 1600
+        },
+        {
+          "templateId": 9003,
+          "price": 2700
+        }
+      ]
+    }
+  },
+  "mapOverrides": [
+    {
+      "mapId": 112,
+      "npcId": 3009,
+      "speaker": "Diana",
+      "items": [
+        {
+          "templateId": 10002,
+          "price": 360
+        },
+        {
+          "templateId": 10003,
+          "price": 360
+        },
+        {
+          "templateId": 10004,
+          "price": 360
+        },
+        {
+          "templateId": 15002,
+          "price": 360
+        },
+        {
+          "templateId": 15003,
+          "price": 360
+        },
+        {
+          "templateId": 15004,
+          "price": 360
+        },
+        {
+          "templateId": 11002,
+          "price": 420
+        },
+        {
+          "templateId": 11003,
+          "price": 420
+        },
+        {
+          "templateId": 11004,
+          "price": 420
+        },
+        {
+          "templateId": 16002,
+          "price": 420
+        },
+        {
+          "templateId": 16003,
+          "price": 420
+        },
+        {
+          "templateId": 16004,
+          "price": 420
+        },
+        {
+          "templateId": 12002,
+          "price": 220
+        },
+        {
+          "templateId": 12003,
+          "price": 220
+        },
+        {
+          "templateId": 12004,
+          "price": 220
+        },
+        {
+          "templateId": 17002,
+          "price": 220
+        },
+        {
+          "templateId": 17003,
+          "price": 220
+        },
+        {
+          "templateId": 17004,
+          "price": 220
+        },
+        {
+          "templateId": 13002,
+          "price": 260
+        },
+        {
+          "templateId": 13003,
+          "price": 260
+        },
+        {
+          "templateId": 13004,
+          "price": 260
+        },
+        {
+          "templateId": 18002,
+          "price": 260
+        },
+        {
+          "templateId": 18003,
+          "price": 260
+        },
+        {
+          "templateId": 18004,
+          "price": 260
+        }
+      ]
+    },
+    {
+      "mapId": 131,
+      "npcId": 3247,
+      "speaker": "Blacksmith",
+      "items": [
+        {
+          "templateId": 5011,
+          "price": 1200
+        },
+        {
+          "templateId": 5012,
+          "price": 1200
+        },
+        {
+          "templateId": 5013,
+          "price": 1200
+        },
+        {
+          "templateId": 5020,
+          "price": 2200
+        },
+        {
+          "templateId": 5021,
+          "price": 2200
+        },
+        {
+          "templateId": 5022,
+          "price": 2200
+        }
+      ]
+    },
+    {
+      "mapId": 131,
+      "npcId": 3248,
+      "speaker": "Grocer",
+      "items": [
+        {
+          "templateId": 23006,
+          "price": 200
+        },
+        {
+          "templateId": 23007,
+          "price": 200
+        },
+        {
+          "templateId": 23012,
+          "price": 200
+        },
+        {
+          "templateId": 23013,
+          "price": 200
+        },
+        {
+          "templateId": 23014,
+          "price": 200
+        }
+      ]
+    },
+    {
+      "mapId": 204,
+      "npcId": 3009,
+      "speaker": "Garment Shop",
+      "items": [
+        {
+          "templateId": 10002,
+          "price": 1350
+        },
+        {
+          "templateId": 10003,
+          "price": 1350
+        },
+        {
+          "templateId": 10004,
+          "price": 1350
+        },
+        {
+          "templateId": 15002,
+          "price": 1350
+        },
+        {
+          "templateId": 15003,
+          "price": 1350
+        },
+        {
+          "templateId": 15004,
+          "price": 1350
+        },
+        {
+          "templateId": 11002,
+          "price": 1500
+        },
+        {
+          "templateId": 11003,
+          "price": 1500
+        },
+        {
+          "templateId": 11004,
+          "price": 1500
+        },
+        {
+          "templateId": 16002,
+          "price": 1500
+        },
+        {
+          "templateId": 16003,
+          "price": 1500
+        },
+        {
+          "templateId": 16004,
+          "price": 1500
+        },
+        {
+          "templateId": 12002,
+          "price": 1250
+        },
+        {
+          "templateId": 12003,
+          "price": 1250
+        },
+        {
+          "templateId": 12004,
+          "price": 1250
+        },
+        {
+          "templateId": 17002,
+          "price": 1250
+        },
+        {
+          "templateId": 17003,
+          "price": 1250
+        },
+        {
+          "templateId": 17004,
+          "price": 1250
+        },
+        {
+          "templateId": 13002,
+          "price": 1250
+        },
+        {
+          "templateId": 13003,
+          "price": 1250
+        },
+        {
+          "templateId": 13004,
+          "price": 1250
+        },
+        {
+          "templateId": 18002,
+          "price": 1250
+        },
+        {
+          "templateId": 18003,
+          "price": 1250
+        },
+        {
+          "templateId": 18004,
+          "price": 1250
+        }
+      ]
+    },
+    {
+      "mapId": 204,
+      "npcId": 3010,
+      "speaker": "Restaurant",
+      "items": [
+        {
+          "templateId": 20009,
+          "price": 200
+        },
+        {
+          "templateId": 20010,
+          "price": 250
+        },
+        {
+          "templateId": 20011,
+          "price": 800
+        },
+        {
+          "templateId": 20012,
+          "price": 300
+        }
+      ]
+    },
+    {
+      "mapId": 204,
+      "npcId": 3247,
+      "speaker": "Blacksmith",
+      "items": [
+        {
+          "templateId": 5011,
+          "price": 2500
+        },
+        {
+          "templateId": 5012,
+          "price": 2500
+        },
+        {
+          "templateId": 5013,
+          "price": 2500
+        },
+        {
+          "templateId": 5020,
+          "price": 5000
+        },
+        {
+          "templateId": 5021,
+          "price": 5000
+        },
+        {
+          "templateId": 5022,
+          "price": 5000
+        }
+      ]
+    },
+    {
+      "mapId": 204,
+      "npcId": 3248,
+      "speaker": "Grocer",
+      "items": [
+        {
+          "templateId": 20001,
+          "price": 150
+        },
+        {
+          "templateId": 20002,
+          "price": 570
+        },
+        {
+          "templateId": 20003,
+          "price": 1000
+        },
+        {
+          "templateId": 20004,
+          "price": 250
+        },
+        {
+          "templateId": 20005,
+          "price": 750
+        },
+        {
+          "templateId": 20006,
+          "price": 1300
+        },
+        {
+          "templateId": 29007,
+          "price": 1000
+        },
+        {
+          "templateId": 29008,
+          "price": 1500
+        },
+        {
+          "templateId": 29009,
+          "price": 2000
+        }
+      ]
+    }
+  ]
+}
