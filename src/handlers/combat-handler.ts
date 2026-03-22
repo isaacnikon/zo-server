@@ -8,6 +8,7 @@ const {
   FIGHT_CLIENT_READY_SUBCMD,
   FIGHT_CONTROL_RING_OPEN_SUBCMD,
   GAME_FIGHT_ACTION_CMD,
+  GAME_FIGHT_CLIENT_CMD,
   GAME_FIGHT_STREAM_CMD,
 } = require('../config');
 const { parseAttackSelection, parseCombatItemUse } = require('../protocol/inbound-packets');
@@ -33,6 +34,7 @@ const { grantCombatDrops } = require('../gameplay/combat-drop-runtime');
 const { consumeUsableItemByInstanceId } = require('../gameplay/item-use-runtime');
 const { applyEffects } = require('../effects/effect-executor');
 const { buildDefeatRespawnState } = require('../gameplay/session-flows');
+const { sendSelfStateVitalsUpdate } = require('../gameplay/stat-sync');
 const { getEquipmentCombatBonuses } = require('../inventory');
 
 type SessionLike = GameSession & Record<string, any>;
@@ -88,10 +90,19 @@ function handleCombatPacket(session: SessionLike, cmdWord: number, payload: Buff
     payload.length >= 11 &&
     payload[2] === FIGHT_CLIENT_ITEM_USE_SUBCMD
   ) {
-    handleCombatItemUse(session, payload);
+    const { instanceId, targetEntityId } = parseCombatItemUse(payload);
+    resolveCombatItemUse(session, instanceId, targetEntityId, `cmd=0x${cmdWord.toString(16)} sub=0x${payload[2].toString(16)}`);
     return;
   }
 
+  if (cmdWord === GAME_FIGHT_CLIENT_CMD) {
+    session.log(describeUnhandledCombatClientPacket(session, payload));
+    return;
+  }
+
+  session.log(
+    `Unhandled combat packet cmd=0x${cmdWord.toString(16)} len=${payload.length} phase=${session.combatState.phase || 'unknown'} awaitingPlayerAction=${session.combatState.awaitingPlayerAction === true ? 1 : 0} hex=${payload.toString('hex')}`
+  );
 }
 
 function isClientReadyPacket(cmdWord: number, payload: Buffer): boolean {
@@ -264,34 +275,57 @@ function handleAttackSelection(session: SessionLike, payload: Buffer): void {
 }
 
 function handleCombatItemUse(session: SessionLike, payload: Buffer): void {
+  const { instanceId, targetEntityId } = parseCombatItemUse(payload);
+  resolveCombatItemUse(session, instanceId, targetEntityId, `cmd=0x${GAME_FIGHT_ACTION_CMD.toString(16)} sub=0x${payload[2].toString(16)}`);
+}
+
+function resolveCombatItemUse(
+  session: SessionLike,
+  instanceId: number,
+  targetEntityId: number,
+  sourceLabel: string
+): void {
   if (!session.combatState?.active || !session.combatState.awaitingPlayerAction) {
     session.log(`Ignoring combat item use without command prompt active=${session.combatState?.active ? 1 : 0}`);
     return;
   }
 
-  const { instanceId, targetEntityId } = parseCombatItemUse(payload);
   const useResult = consumeUsableItemByInstanceId(session, instanceId, {
+    targetEntityId,
     suppressVitalSync: true,
     suppressPersist: true,
   });
   if (!useResult.ok) {
     session.log(
-      `Combat item use rejected instanceId=${instanceId} targetEntityId=${targetEntityId} reason=${useResult.reason}`
+      `Combat item use rejected source=${sourceLabel} instanceId=${instanceId} targetEntityId=${targetEntityId} reason=${useResult.reason}`
     );
     return;
   }
 
   session.combatState.awaitingPlayerAction = false;
   session.combatState.phase = 'resolved';
-  session.writePacket(
-    buildVitalsPacket(FIGHT_CONTROL_RING_OPEN_SUBCMD, session.currentHealth, session.currentMana, session.currentRage),
-    DEFAULT_FLAGS,
-    `Sending combat item-use vitals instanceId=${instanceId} targetEntityId=${targetEntityId} hp/mp/rage=${session.currentHealth}/${session.currentMana}/${session.currentRage}`
-  );
+  sendSelfStateVitalsUpdate(session, {
+    health: Math.max(0, session.currentHealth || 0),
+    mana: Math.max(0, session.currentMana || 0),
+    rage: Math.max(0, session.currentRage || 0),
+  });
   session.log(
-    `Combat item use ok instanceId=${instanceId} targetEntityId=${targetEntityId} templateId=${useResult.item?.templateId || 0} restored=${useResult.gained?.health || 0}/${useResult.gained?.mana || 0}/${useResult.gained?.rage || 0}`
+    `Combat item use ok source=${sourceLabel} instanceId=${instanceId} targetEntityId=${targetEntityId} templateId=${useResult.item?.templateId || 0} restored=${useResult.gained?.health || 0}/${useResult.gained?.mana || 0}/${useResult.gained?.rage || 0} hp/mp/rage=${session.currentHealth}/${session.currentMana}/${session.currentRage}`
   );
   resolveEnemyCounterattack(session, 'normal');
+}
+
+function describeUnhandledCombatClientPacket(session: SessionLike, payload: Buffer): string {
+  const head = payload.length >= 3 ? payload[2] & 0xff : -1;
+  const u32At3 = payload.length >= 7 ? payload.readUInt32LE(3) >>> 0 : 0;
+  const u16At3 = payload.length >= 5 ? payload.readUInt16LE(3) & 0xffff : 0;
+  const u16At5 = payload.length >= 7 ? payload.readUInt16LE(5) & 0xffff : 0;
+  return (
+    `Unhandled combat client packet cmd=0x${GAME_FIGHT_CLIENT_CMD.toString(16)} ` +
+    `len=${payload.length} phase=${session.combatState.phase || 'unknown'} ` +
+    `awaitingPlayerAction=${session.combatState.awaitingPlayerAction === true ? 1 : 0} ` +
+    `head=0x${head.toString(16)} u16@3=${u16At3} u16@5=${u16At5} u32@3=${u32At3} hex=${payload.toString('hex')}`
+  );
 }
 
 function resolveEnemyCounterattack(session: SessionLike, reason: EnemyTurnReason): void {
