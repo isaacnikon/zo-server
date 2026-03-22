@@ -206,8 +206,9 @@ function getMapBootstrapSpawns(mapId: number): SpawnRecord[] {
         Number.isInteger(npc.x) &&
         Number.isInteger(npc.y)
     )
-    .map((npc) => ({
-      id: (((mapId & 0xffff) << 16) | (npc.npcId & 0xffff)) >>> 0,
+    .map((npc, index) => ({
+      // Runtime ids must be unique per live instance; npcId/entityType can repeat on the same map.
+      id: (((mapId & 0xffff) << 16) | ((index + 1) & 0xffff)) >>> 0,
       entityType: resolveSpawnEntityType(npc),
       x: npc.x & 0xffff,
       y: npc.y & 0xffff,

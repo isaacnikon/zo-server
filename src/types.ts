@@ -141,11 +141,13 @@ export interface GameSession {
   mapRotationIndex?: number;
   mapRotationAwaitingMapId?: number | null;
   mapRotationLastSentAt?: number | null;
+  pendingSceneNpcSpawnMapId?: number | null;
 
   // I/O methods
   writePacket(payload: Buffer, flags?: number, message?: string): void;
   log(message: string): void;
   persistCurrentCharacter(overrides?: Record<string, unknown>): void;
+  sendMapNpcSpawns?(mapId: number): void;
   sendSceneEnter?(mapId: number, x: number, y: number, subtype?: number): void;
   dispatchObjectiveMonsterDefeat?(monsterId: number, count?: number, source?: string, options?: Record<string, unknown>): boolean;
   reconcileObjectives?(source?: string, options?: Record<string, unknown>): boolean;

@@ -64,6 +64,10 @@ function dispatchGamePacket(
       y: position.y,
     });
     notifyAutoMapRotationPosition(session, position.mapId);
+    if (session.pendingSceneNpcSpawnMapId === position.mapId) {
+      session.sendMapNpcSpawns?.(position.mapId);
+      session.pendingSceneNpcSpawnMapId = null;
+    }
     session.log(`Position update map=${position.mapId} pos=${position.x},${position.y}`);
     appendTriggerTrace({
       kind: 'position',

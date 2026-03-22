@@ -158,6 +158,7 @@ class Session implements GameSession {
   mapRotationIndex: number;
   mapRotationAwaitingMapId: number | null;
   mapRotationLastSentAt: number | null;
+  pendingSceneNpcSpawnMapId: number | null;
 
   constructor(
     socket: SocketLike,
@@ -227,6 +228,7 @@ class Session implements GameSession {
     this.mapRotationIndex = 0;
     this.mapRotationAwaitingMapId = null;
     this.mapRotationLastSentAt = null;
+    this.pendingSceneNpcSpawnMapId = null;
     this.objectiveRegistry.register({
       system: questObjectiveSystem,
       handler: questEventHandler,
@@ -511,6 +513,10 @@ class Session implements GameSession {
       DEFAULT_FLAGS,
       `Sending scene-enter cmd=0x${GAME_SCENE_ENTER_CMD.toString(16)} sub=0x${subtype.toString(16)} map=${mapId} pos=${x},${y}`
     );
+    this.pendingSceneNpcSpawnMapId = mapId;
+  }
+
+  sendMapNpcSpawns(mapId: number): void {
     sessionBootstrapHandlerSendMapNpcSpawns(this, mapId);
   }
 

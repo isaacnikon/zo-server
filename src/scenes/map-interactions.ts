@@ -55,11 +55,25 @@ type TeleportInteraction = {
 type SceneInteraction = TeleportInteraction;
 
 const MAP_TELEPORTERS_PATH = resolveRepoPath('data', 'client-derived', 'maps', 'map-teleporters.json');
+const MANUAL_ROUTE_TARGETS = new Map<string, { mapId: number; mapName: string; validation: string }>([
+  ['102:2', { mapId: 112, mapName: 'Cloud City', validation: 'validated-manually' }],
+  ['105:1', { mapId: 112, mapName: 'Cloud City', validation: 'validated-manually' }],
+  ['112:2', { mapId: 102, mapName: 'Bling Alley', validation: 'validated-manually' }],
+  ['112:1', { mapId: 105, mapName: 'Fall Alley', validation: 'validated-manually' }],
+  ['112:3', { mapId: 117, mapName: 'Limon District', validation: 'validated-manually' }],
+  ['117:1', { mapId: 112, mapName: 'Cloud City', validation: 'validated-manually' }],
+]);
 const MANUAL_LANDING_OVERRIDES = new Map<string, { x: number; y: number }>([
   ['101:1:103', { x: 118, y: 189 }],
   ['103:1:101', { x: 72, y: 19 }],
   ['103:2:102', { x: 118, y: 189 }],
   ['102:1:103', { x: 8, y: 188 }],
+  ['102:2:112', { x: 244, y: 92 }],
+  ['112:2:102', { x: 14, y: 192 }],
+  ['105:1:112', { x: 24, y: 492 }],
+  ['112:1:105', { x: 109, y: 192 }],
+  ['112:3:117', { x: 16, y: 74 }],
+  ['117:1:112', { x: 220, y: 492 }],
 ]);
 
 function isInsideTriggerArea(x: number, y: number, trigger: Rect): boolean {
@@ -204,7 +218,8 @@ function buildSceneInteractions(): SceneInteraction[] {
       if (!Number.isInteger(teleporter.sceneScriptId)) {
         continue;
       }
-      const target = chooseTargetCandidate(teleporter);
+      const manualTarget = MANUAL_ROUTE_TARGETS.get(`${sourceMap.mapId}:${teleporter.sceneScriptId}`);
+      const target = manualTarget || chooseTargetCandidate(teleporter);
       if (!target || !Number.isInteger(target.mapId)) {
         continue;
       }
