@@ -9,7 +9,7 @@ const {
   parseTargetedItemUse,
 } = require('../protocol/inbound-packets');
 const { FIGHT_CLIENT_ITEM_USE_SUBCMD, GAME_FIGHT_ACTION_CMD } = require('../config');
-const { canEquipItem, getItemDefinition, removeBagItemByInstanceId } = require('../inventory');
+const { canEquipItem, getBagItemByReference, getItemDefinition, removeBagItemByInstanceId } = require('../inventory');
 const {
   sendConsumeResultPackets,
   sendEquipmentContainerSync,
@@ -161,21 +161,7 @@ export function tryHandleFightResultItemActionProbe(
   }
 
   const rawValue = parsed.rawValue >>> 0;
-  const bagItem = Array.isArray(session.bagItems)
-    ? session.bagItems.find((entry: { instanceId?: number; slot?: number }) => {
-        const instanceIdValue = entry?.instanceId;
-        const slotValue = entry?.slot;
-        const instanceId =
-          typeof instanceIdValue === 'number' && Number.isInteger(instanceIdValue)
-            ? instanceIdValue >>> 0
-            : 0;
-        const slot =
-          typeof slotValue === 'number' && Number.isInteger(slotValue)
-            ? slotValue >>> 0
-            : 0;
-        return instanceId === rawValue || slot === rawValue;
-      }) || null
-    : null;
+  const bagItem = getBagItemByReference(session, rawValue);
 
   if (!bagItem) {
     session.log(
@@ -184,7 +170,7 @@ export function tryHandleFightResultItemActionProbe(
     return true;
   }
 
-  const removeResult = removeBagItemByInstanceId(session, rawValue);
+  const removeResult = removeBagItemByInstanceId(session, bagItem.instanceId >>> 0);
   if (!removeResult.ok) {
     session.log(
       `Discard rejected instanceId=${rawValue} templateId=${bagItem.templateId >>> 0} reason=${removeResult.reason}`

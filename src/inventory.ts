@@ -239,9 +239,19 @@ function resolveConsumableEffect(
     entry?.effectFieldsNamed && typeof entry.effectFieldsNamed === 'object'
       ? entry.effectFieldsNamed
       : {};
-  const health = positiveIntOrZero(effectFields.health || entry?.usageFields?.[3]);
-  const mana = positiveIntOrZero(effectFields.mana || entry?.usageFields?.[4]);
-  const rage = positiveIntOrZero(effectFields.rage || entry?.usageFields?.[5]);
+  const usageFields = Array.isArray(entry?.usageFields) ? entry.usageFields : [];
+  const hasUsageHealth = usageFields.length > 3;
+  const hasUsageMana = usageFields.length > 4;
+  const hasUsageRage = usageFields.length > 5;
+  const health = hasUsageHealth
+    ? positiveIntOrZero(usageFields[3])
+    : positiveIntOrZero(effectFields.health);
+  const mana = hasUsageMana
+    ? positiveIntOrZero(usageFields[4])
+    : positiveIntOrZero(effectFields.mana);
+  const rage = hasUsageRage
+    ? positiveIntOrZero(usageFields[5])
+    : positiveIntOrZero(effectFields.rage);
   if (health <= 0 && mana <= 0 && rage <= 0) {
     return undefined;
   }
@@ -464,6 +474,18 @@ function getBagItemByInstanceId(session: InventorySessionLike, instanceId: numbe
         (item) => item.equipped !== true && (item.instanceId >>> 0) === (instanceId >>> 0)
       ) || null
     : null;
+}
+
+function getBagItemBySlot(session: InventorySessionLike, slot: number): BagItem | null {
+  return Array.isArray(session.bagItems)
+    ? session.bagItems.find(
+        (item) => item.equipped !== true && (item.slot >>> 0) === (slot >>> 0)
+      ) || null
+    : null;
+}
+
+function getBagItemByReference(session: InventorySessionLike, reference: number): BagItem | null {
+  return getBagItemByInstanceId(session, reference) || getBagItemBySlot(session, reference);
 }
 
 function getBagQuantityByTemplateId(session: InventorySessionLike, templateId: number): number {
@@ -1086,6 +1108,8 @@ export {
   bagHasTemplateQuantity,
   consumeItemFromBag,
   getBagItemByInstanceId,
+  getBagItemBySlot,
+  getBagItemByReference,
   getBagQuantityByTemplateId,
   getBagItemByTemplateId,
   getItemDefinition,

@@ -3,7 +3,7 @@ export {};
 
 const {
   consumeBagItemByInstanceId,
-  getBagItemByInstanceId,
+  getBagItemByReference,
   getItemDefinition,
 } = require('../inventory');
 const { sendConsumeResultPackets } = require('./inventory-runtime');
@@ -20,7 +20,7 @@ function consumeUsableItemByInstanceId(
   instanceId: number,
   options: UnknownRecord = {}
 ): UnknownRecord {
-  const bagItem = getBagItemByInstanceId(session, instanceId);
+  const bagItem = getBagItemByReference(session, instanceId);
   if (!bagItem) {
     return {
       ok: false,
@@ -56,19 +56,8 @@ function consumeUsableItemByInstanceId(
     mana: Math.max(0, nextVitals.mana - previousVitals.mana),
     rage: Math.max(0, nextVitals.rage - previousVitals.rage),
   };
-  if (gained.health <= 0 && gained.mana <= 0 && gained.rage <= 0) {
-    return {
-      ok: false,
-      reason: 'No vitals were restored',
-      item: bagItem,
-      definition,
-      previousVitals,
-      nextVitals,
-      gained,
-    };
-  }
 
-  const consumeResult = consumeBagItemByInstanceId(session, instanceId, 1);
+  const consumeResult = consumeBagItemByInstanceId(session, bagItem.instanceId >>> 0, 1);
   if (!consumeResult.ok) {
     return {
       ok: false,
@@ -81,7 +70,9 @@ function consumeUsableItemByInstanceId(
   if (options.suppressInventoryPackets !== true) {
     sendConsumeResultPackets(session, consumeResult);
   }
-  target.sync(options);
+  if (gained.health > 0 || gained.mana > 0 || gained.rage > 0) {
+    target.sync(options);
+  }
   if (options.suppressPersist !== true && typeof session.persistCurrentCharacter === 'function') {
     session.persistCurrentCharacter();
   }
