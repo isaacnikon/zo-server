@@ -4,6 +4,7 @@ const {
   abandonQuest,
   buildQuestSyncState,
   getQuestDefinition,
+  getQuestMarkerNpcId,
   normalizeQuestState,
 } = require('../quest-engine');
 const { normalizeInventoryState } = require('../inventory');
@@ -32,15 +33,23 @@ function sendQuestAccept(session: SessionLike, taskId: number): void {
 
 function sendQuestUpdate(session: SessionLike, taskId: number, status: number): void {
   session.writePacket(
-    buildQuestPacket(0x08, taskId),
+    buildQuestPacket(0x08, taskId, status, 'u16'),
     DEFAULT_FLAGS,
     `Sending quest update cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x08 taskId=${taskId} status=${status}`
   );
 }
 
+function sendQuestMarker(session: SessionLike, taskId: number, npcId: number): void {
+  session.writePacket(
+    buildQuestPacket(0x0c, taskId, npcId, 'u32'),
+    DEFAULT_FLAGS,
+    `Sending quest marker cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x0c taskId=${taskId} npcId=${npcId}`
+  );
+}
+
 function sendQuestProgress(session: SessionLike, objectiveId: number, status: number): void {
   session.writePacket(
-    buildQuestPacket(0x0b, objectiveId),
+    buildQuestPacket(0x0b, objectiveId, status, 'u16'),
     DEFAULT_FLAGS,
     `Sending quest progress cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x0b objectiveId=${objectiveId} status=${status}`
   );
@@ -92,7 +101,22 @@ function syncQuestStateToClient(session: SessionLike, options: QuestSyncOptions 
       }
     }
     if (quest.stepType === 'kill' && numberOrDefault(quest.status, 0) > 0) {
-      sendQuestProgress(session, numberOrDefault(quest.progressObjectiveId, quest.taskId), quest.status);
+      sendQuestUpdate(session, quest.taskId, numberOrDefault(quest.status, 0));
+    }
+    if (quest.stepType === 'kill' && numberOrDefault(quest.progressCount, 0) > 0) {
+      sendQuestProgress(
+        session,
+        numberOrDefault(quest.progressObjectiveId, quest.taskId),
+        numberOrDefault(quest.progressCount, 0)
+      );
+    }
+    const definition = getQuestDefinition(quest.taskId);
+    const record = Array.isArray(session.activeQuests)
+      ? session.activeQuests.find((entry: UnknownRecord) => numberOrDefault(entry?.id, 0) === quest.taskId) || null
+      : null;
+    const markerNpcId = getQuestMarkerNpcId(definition, record);
+    if (markerNpcId > 0) {
+      sendQuestMarker(session, quest.taskId, markerNpcId);
     }
   }
 
@@ -138,7 +162,13 @@ function handleQuestPacket(session: SessionLike, payload: Buffer): void {
   }
 
   const { subcmd, taskId } = parseQuestPacket(payload);
-  session.log(`Quest packet sub=0x${subcmd.toString(16)} taskId=${taskId}`);
+  if (subcmd === 0x04) {
+    session.log(
+      `Quest packet sub=0x${subcmd.toString(16)} taskId=${taskId} len=${payload.length} hex=${payload.toString('hex')}`
+    );
+  } else {
+    session.log(`Quest packet sub=0x${subcmd.toString(16)} taskId=${taskId}`);
+  }
 
   if (subcmd === 0x05) {
     handleQuestAbandonRequest(session, taskId, 'client-abandon');
@@ -181,6 +211,7 @@ function ensureQuestStateReady(session: SessionLike): void {
 const questEventHandler = createQuestEventHandler({
   sendQuestAccept,
   sendQuestUpdate,
+  sendQuestMarker,
   sendQuestProgress,
   sendQuestComplete,
   sendQuestAbandon,

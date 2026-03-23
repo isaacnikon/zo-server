@@ -22,6 +22,10 @@ interface AttributePair {
   value: number;
 }
 
+interface ItemInstanceAttributePair {
+  value: number;
+}
+
 interface ItemDefinition {
   templateId: number;
   name: string;
@@ -29,6 +33,10 @@ interface ItemDefinition {
   maxStack: number;
   clientTemplateFamily: number | null;
   isQuestItem?: boolean;
+  captureProfile?: {
+    maxTargetLevel: number;
+    requiresDying: boolean;
+  };
   consumableEffect?: {
     health: number;
     mana: number;
@@ -59,6 +67,9 @@ interface BagItem {
   durability?: number;
   tradeState?: number;
   bindState?: number;
+  stateCode?: number;
+  extraValue?: number;
+  attributePairs?: ItemInstanceAttributePair[];
   equipped: boolean;
   slot: number;
 }
@@ -148,6 +159,7 @@ function loadClientStackableDefinitions(filePath: string, sourceLabel: string): 
         Number.isInteger(entry.stackLimitField) && entry.stackLimitField > 0 ? entry.stackLimitField : 1,
       clientTemplateFamily: entry.clientTemplateFamily,
       isQuestItem: isQuestItemEntry(entry),
+      captureProfile: resolveCaptureProfile(entry, sourceLabel),
       consumableEffect: resolveConsumableEffect(entry, sourceLabel),
       sellPrice: resolveClientSellPrice(entry, sourceLabel === 'is_potion.txt' ? 'potion' : 'general'),
       iconPath: typeof entry.iconPath === 'string' ? entry.iconPath : '',
@@ -257,6 +269,32 @@ function resolveConsumableEffect(
   }
 
   return { health, mana, rage };
+}
+
+function resolveCaptureProfile(
+  entry: UnknownRecord,
+  sourceLabel: string
+): ItemDefinition['captureProfile'] | undefined {
+  if (sourceLabel !== 'is_general.txt') {
+    return undefined;
+  }
+  if ((entry?.clientTemplateFamily ?? 0) !== 131) {
+    return undefined;
+  }
+  const templateId = Number.isInteger(entry?.templateId) ? entry.templateId : 0;
+  if (templateId < 29000 || templateId > 29011) {
+    return undefined;
+  }
+  const valueFields = Array.isArray(entry?.valueFields) ? entry.valueFields : [];
+  const maxTargetLevel = positiveIntOrZero(valueFields[2]);
+  if (maxTargetLevel <= 0) {
+    return undefined;
+  }
+  const requiresDying = valueFields.length > 4 ? positiveIntOrZero(valueFields[4]) === 0 : false;
+  return {
+    maxTargetLevel,
+    requiresDying,
+  };
 }
 
 function loadItemInfoMap(): Map<number, ItemInfoEntry> {
@@ -411,6 +449,9 @@ function normalizeBagItem(item: UnknownRecord): BagItem | null {
     durability: normalizeStoredItemDurability(definition, item.durability, rawQuantity),
     tradeState: normalizeStoredTradeState(item.tradeState, item.bindState),
     bindState: Number.isInteger(item.bindState) ? (item.bindState & 0xff) : 0,
+    stateCode: Number.isInteger(item.stateCode) ? (item.stateCode & 0xff) : 0,
+    extraValue: Number.isInteger(item.extraValue) ? (item.extraValue & 0xffff) : 0,
+    attributePairs: normalizeInstanceAttributePairs(item.attributePairs),
     equipped: item.equipped === true,
     slot: Math.max(FIRST_BAG_SLOT, item.slot >>> 0),
   };
@@ -445,6 +486,15 @@ function buildInventorySnapshot(session: InventorySessionLike): InventoryState['
             Number.isInteger(item.bindState) && typeof item.bindState === 'number'
               ? (item.bindState & 0xff)
               : 0,
+          stateCode:
+            Number.isInteger(item.stateCode) && typeof item.stateCode === 'number'
+              ? (item.stateCode & 0xff)
+              : 0,
+          extraValue:
+            Number.isInteger(item.extraValue) && typeof item.extraValue === 'number'
+              ? (item.extraValue & 0xffff)
+              : 0,
+          attributePairs: normalizeInstanceAttributePairs(item.attributePairs),
           equipped: item.equipped === true,
           slot: item.slot >>> 0,
         }))
@@ -454,6 +504,21 @@ function buildInventorySnapshot(session: InventorySessionLike): InventoryState['
     nextBagSlot,
   };
   return normalizeInventoryState({ inventory: snapshot }).inventory;
+}
+
+function normalizeInstanceAttributePairs(value: unknown): ItemInstanceAttributePair[] | undefined {
+  if (!Array.isArray(value)) {
+    return undefined;
+  }
+  const normalized = value
+    .map((entry) => ({
+      value:
+        Number.isInteger((entry as UnknownRecord)?.value) && typeof (entry as UnknownRecord)?.value === 'number'
+          ? (((entry as UnknownRecord).value as number) & 0xffff)
+          : 0,
+    }))
+    .filter((entry) => entry.value !== 0);
+  return normalized.length > 0 ? normalized : undefined;
 }
 
 function bagHasTemplateId(session: InventorySessionLike, templateId: number): boolean {

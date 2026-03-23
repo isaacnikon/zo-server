@@ -7,6 +7,7 @@ export interface ServerRunRequestData {
   rawArgs: number[];
   npcId?: number;
   scriptId?: number;
+  awardId?: number;
 }
 export interface CreateRoleData { templateIndex: number; roleName: string; birthMonth: number; birthDay: number; selectedAptitude: number; extra1: number; extra2: number }
 export interface QuestPacketData { subcmd: number; taskId: number }
@@ -26,18 +27,24 @@ export interface QuestAcceptedEvent extends QuestEventBase {
   status: number;
   stepDescription?: string;
   progressObjectiveId?: number;
+  progressCount?: number;
+  markerNpcId?: number;
 }
 export interface QuestProgressEvent extends QuestEventBase {
   type: 'progress';
   status: number;
   stepDescription?: string;
   progressObjectiveId?: number;
+  progressCount?: number;
+  markerNpcId?: number;
 }
 export interface QuestAdvancedEvent extends QuestEventBase {
   type: 'advanced';
   status: number;
   stepDescription?: string;
   progressObjectiveId?: number;
+  progressCount?: number;
+  markerNpcId?: number;
 }
 export interface QuestCompletedEvent extends QuestEventBase {
   type: 'completed';

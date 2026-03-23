@@ -11,6 +11,7 @@ type DispatchOptions = {
   suppressPackets?: boolean;
   suppressDialogues?: boolean;
   suppressStatSync?: boolean;
+  selectedAwardId?: number;
 };
 
 interface ObjectiveEventHandler<TEvent> {

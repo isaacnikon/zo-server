@@ -281,6 +281,17 @@ function buildInventoryItemsDocument(characterId: string, character: any): Recor
           ...(Number.isInteger(item?.durability) ? { durability: item.durability } : {}),
           ...(Number.isInteger(item?.tradeState) ? { tradeState: item.tradeState | 0 } : {}),
           ...(Number.isInteger(item?.bindState) ? { bindState: item.bindState & 0xff } : {}),
+          ...(Number.isInteger(item?.stateCode) ? { stateCode: item.stateCode & 0xff } : {}),
+          ...(Number.isInteger(item?.extraValue) ? { extraValue: item.extraValue & 0xffff } : {}),
+          ...(Array.isArray(item?.attributePairs) && item.attributePairs.length > 0
+            ? {
+                attributePairs: item.attributePairs
+                  .map((pair: any) => ({
+                    value: Number.isInteger(pair?.value) ? (pair.value & 0xffff) : 0,
+                  }))
+                  .filter((pair: any) => pair.value !== 0),
+              }
+            : {}),
           equipped: item.equipped === true,
           slot: numberOrDefault(item.slot, 0),
         }))

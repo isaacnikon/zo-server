@@ -5,6 +5,7 @@ const { resolveRepoPath } = require('./runtime-paths');
 
 const QUEST_DATA_FILE = resolveRepoPath('data', 'quests', 'main-story.json');
 const CLIENT_QUEST_METADATA_FILE = resolveRepoPath('data', 'client-derived', 'quests.json');
+const CLIENT_HELP_QUESTS_FILE = resolveRepoPath('data', 'client-verified', 'quests', 'client-help-quests.json');
 
 type UnknownRecord = Record<string, any>;
 
@@ -12,6 +13,7 @@ interface GrantedItem {
   templateId: number;
   quantity: number;
   name: string;
+  capturedMonsterId?: number;
 }
 
 interface RewardChoiceGroup {
@@ -29,6 +31,8 @@ interface QuestStep {
   npcId?: number;
   mapId?: number;
   monsterId?: number;
+  completionNpcId?: number;
+  completionMapId?: number;
   count?: number;
   status?: number;
   description: string;
@@ -87,7 +91,16 @@ interface ClientQuestMetadata {
   minLevel?: number;
 }
 
+interface ClientHelpQuestMetadata {
+  taskId?: number;
+  stepIndex?: number;
+  itemIds?: number[];
+  targetNpcIds?: number[];
+  blockPreview?: string;
+}
+
 const CLIENT_QUEST_METADATA: Map<number, ClientQuestMetadata> = loadClientQuestMetadata();
+const CLIENT_HELP_QUEST_METADATA: Map<string, ClientHelpQuestMetadata> = loadClientHelpQuestMetadata();
 const QUEST_DEFINITIONS: readonly QuestDefinitionRecord[] = Object.freeze(loadQuestDefinitions());
 const QUESTS_BY_ID = new Map<number, QuestDefinitionRecord>(
   QUEST_DEFINITIONS.map((quest) => [quest.id, quest])
@@ -117,6 +130,24 @@ function loadClientQuestMetadata(): Map<number, ClientQuestMetadata> {
   }
 }
 
+function loadClientHelpQuestMetadata(): Map<string, ClientHelpQuestMetadata> {
+  try {
+    const raw = fs.readFileSync(CLIENT_HELP_QUESTS_FILE, 'utf8');
+    const parsed = JSON.parse(raw) as UnknownRecord;
+    const quests = Array.isArray(parsed?.quests) ? parsed.quests : [];
+    return new Map(
+      quests
+        .filter(
+          (entry: UnknownRecord) =>
+            Number.isInteger(entry?.taskId) && Number.isInteger(entry?.stepIndex)
+        )
+        .map((entry: UnknownRecord) => [`${entry.taskId >>> 0}:${entry.stepIndex >>> 0}`, entry as ClientHelpQuestMetadata] as const)
+    );
+  } catch {
+    return new Map();
+  }
+}
+
 function normalizeQuestDefinition(quest: UnknownRecord): QuestDefinitionRecord | null {
   if (!Number.isInteger(quest?.id) || !Array.isArray(quest?.steps) || quest.steps.length === 0) {
     return null;
@@ -124,6 +155,7 @@ function normalizeQuestDefinition(quest: UnknownRecord): QuestDefinitionRecord |
 
   const clientMeta = CLIENT_QUEST_METADATA.get(quest.id >>> 0) || null;
   const clientMinLevel = clientMeta?.minLevel;
+  const rewardOverrides = getClientRewardOverrides(quest.id >>> 0);
 
   return {
     id: quest.id >>> 0,
@@ -157,7 +189,7 @@ function normalizeQuestDefinition(quest: UnknownRecord): QuestDefinitionRecord |
       renown: numberOrDefault(quest?.rewards?.renown, 0),
       choiceGroups: Array.isArray(quest?.rewards?.choiceGroups)
         ? quest.rewards.choiceGroups
-            .map((group: UnknownRecord) => normalizeRewardChoiceGroup(group))
+            .map((group: UnknownRecord) => normalizeRewardChoiceGroup(group, rewardOverrides))
             .filter((group: RewardChoiceGroup | null): group is RewardChoiceGroup => Boolean(group))
         : [],
       items: Array.isArray(quest?.rewards?.items)
@@ -167,38 +199,71 @@ function normalizeQuestDefinition(quest: UnknownRecord): QuestDefinitionRecord |
         : [],
     },
     steps: quest.steps
-      .map((step: UnknownRecord) => normalizeQuestStep(step))
+      .map((step: UnknownRecord, index: number) => normalizeQuestStep(quest.id >>> 0, index, step))
       .filter((step: QuestStep | null): step is QuestStep => Boolean(step)),
   };
 }
 
-function normalizeQuestStep(step: UnknownRecord): QuestStep | null {
+function normalizeQuestStep(taskId: number, stepIndex: number, step: UnknownRecord): QuestStep | null {
   if (typeof step?.type !== 'string') {
     return null;
   }
+
+  const normalizedConsumeItems = Array.isArray(step.consumeItems)
+    ? step.consumeItems
+        .map((item: UnknownRecord) => normalizeGrantedItem(item))
+        .filter((item: GrantedItem | null): item is GrantedItem => Boolean(item))
+    : undefined;
+  const captureMetadata = getCaptureStepMetadata(taskId, stepIndex, step);
+  const effectiveConsumeItems =
+    captureMetadata
+      ? [
+          {
+            templateId: captureMetadata.templateId,
+            quantity: 1,
+            name: '',
+            capturedMonsterId: captureMetadata.monsterId,
+          },
+        ]
+      : normalizedConsumeItems;
 
   return {
     type: step.type,
     npcId: Number.isInteger(step.npcId) ? step.npcId >>> 0 : undefined,
     mapId: Number.isInteger(step.mapId) ? step.mapId >>> 0 : undefined,
     monsterId: Number.isInteger(step.monsterId) ? step.monsterId >>> 0 : undefined,
+    completionNpcId: Number.isInteger(step.completionNpcId) ? step.completionNpcId >>> 0 : undefined,
+    completionMapId: Number.isInteger(step.completionMapId) ? step.completionMapId >>> 0 : undefined,
     count: Number.isInteger(step.count) ? step.count >>> 0 : undefined,
     status: Number.isInteger(step.status) ? step.status >>> 0 : undefined,
     description: typeof step.description === 'string' ? step.description : '',
     completionDescription:
       typeof step.completionDescription === 'string' ? step.completionDescription : '',
-    completeOnTalkAfterKill: false,
-    consumeItems: Array.isArray(step.consumeItems)
-      ? step.consumeItems
-          .map((item: UnknownRecord) => normalizeGrantedItem(item))
-          .filter((item: GrantedItem | null): item is GrantedItem => Boolean(item))
-      : undefined,
+    completeOnTalkAfterKill: step.completeOnTalkAfterKill === true,
+    consumeItems: effectiveConsumeItems,
     grantItems: Array.isArray(step.grantItems)
       ? step.grantItems
           .map((item: UnknownRecord) => normalizeGrantedItem(item))
           .filter((item: GrantedItem | null): item is GrantedItem => Boolean(item))
       : undefined,
   };
+}
+
+function getCaptureStepMetadata(
+  taskId: number,
+  stepIndex: number,
+  step: UnknownRecord
+): { templateId: number; monsterId: number } | null {
+  if (typeof step?.originalType !== 'string' || step.originalType !== 'capture') {
+    return null;
+  }
+  const helpMeta = CLIENT_HELP_QUEST_METADATA.get(`${taskId}:${stepIndex + 1}`) || null;
+  const templateId = Number.isInteger(helpMeta?.itemIds?.[0]) ? (helpMeta!.itemIds![0] >>> 0) : null;
+  const monsterId = Number.isInteger(helpMeta?.targetNpcIds?.[0]) ? (helpMeta!.targetNpcIds![0] >>> 0) : null;
+  if (!templateId || !monsterId) {
+    return null;
+  }
+  return { templateId, monsterId };
 }
 
 function normalizeGrantedItem(item: UnknownRecord): GrantedItem | null {
@@ -213,7 +278,10 @@ function normalizeGrantedItem(item: UnknownRecord): GrantedItem | null {
   };
 }
 
-function normalizeRewardChoiceGroup(group: UnknownRecord): RewardChoiceGroup | null {
+function normalizeRewardChoiceGroup(
+  group: UnknownRecord,
+  rewardOverrides?: Map<number, number>
+): RewardChoiceGroup | null {
   if (!group || typeof group !== 'object') {
     return null;
   }
@@ -228,9 +296,36 @@ function normalizeRewardChoiceGroup(group: UnknownRecord): RewardChoiceGroup | n
     items: Array.isArray(group.items)
       ? group.items
           .map((item: UnknownRecord) => normalizeGrantedItem(item))
+          .map((item: GrantedItem | null) => {
+            if (!item || !rewardOverrides || rewardOverrides.size === 0) {
+              return item;
+            }
+            const overrideQuantity = rewardOverrides.get(item.templateId >>> 0);
+            return overrideQuantity && overrideQuantity > 0
+              ? { ...item, quantity: overrideQuantity }
+              : item;
+          })
           .filter((item: GrantedItem | null): item is GrantedItem => Boolean(item))
       : [],
   };
+}
+
+function getClientRewardOverrides(taskId: number): Map<number, number> {
+  const overrides = new Map<number, number>();
+  for (const entry of CLIENT_HELP_QUEST_METADATA.values()) {
+    const entryTaskId = typeof entry?.taskId === 'number' && Number.isInteger(entry.taskId)
+      ? (entry.taskId >>> 0)
+      : 0;
+    if (entryTaskId !== (taskId >>> 0) || typeof entry?.blockPreview !== 'string') {
+      continue;
+    }
+    const text = entry.blockPreview;
+    const mobFlaskCount = text.match(/Item:\s*Level 1 Mob Flask\s*\n(\d+)/i);
+    if (mobFlaskCount) {
+      overrides.set(29001, Math.max(1, numberOrDefault(Number.parseInt(mobFlaskCount[1], 10), 1)));
+    }
+  }
+  return overrides;
 }
 
 function mergePrerequisiteTaskIds(values: unknown, extraValue?: number): number[] {
@@ -266,11 +361,16 @@ function normalizeQuestState(source: UnknownRecord): QuestState {
 }
 
 function normalizeQuestRecord(record: UnknownRecord): QuestRecord | null {
-  if (!Number.isInteger(record?.id)) {
+  const questId = Number.isInteger(record?.id)
+    ? (record.id >>> 0)
+    : Number.isInteger(record?.taskId)
+    ? (record.taskId >>> 0)
+    : 0;
+  if (questId <= 0) {
     return null;
   }
   return {
-    id: record.id >>> 0,
+    id: questId,
     stepIndex: Math.max(0, numberOrDefault(record.stepIndex, 0)),
     status: Math.max(0, numberOrDefault(record.status, 0)),
     progress: cloneProgress(record.progress),
@@ -366,6 +466,8 @@ function acceptQuest(state: QuestState, taskId: number, events: QuestEvent[], re
     status: 0,
     stepDescription: getQuestStepDescription(acceptedDefinition, record),
     progressObjectiveId: getQuestProgressObjectiveId(acceptedDefinition, record),
+    progressCount: getQuestProgressCount(acceptedDefinition, record),
+    markerNpcId: getQuestMarkerNpcId(acceptedDefinition, record),
     reason,
   });
   appendGrantedItemEvents(
@@ -382,10 +484,15 @@ function getQuestStatus(definition: QuestDefinitionRecord | null, record: QuestR
   if (!step || !record) {
     return 0;
   }
-  if (step.type === 'kill') {
-    return numberOrDefault(record.progress?.count, 0);
-  }
   return numberOrDefault(step.status, numberOrDefault(record.status, 0));
+}
+
+function getQuestProgressCount(definition: QuestDefinitionRecord | null, record: QuestRecord | null): number {
+  const step = getCurrentStep(definition, record);
+  if (!step || !record || step.type !== 'kill') {
+    return 0;
+  }
+  return Math.max(0, numberOrDefault(record.progress?.count, 0));
 }
 
 function getQuestStepDescription(definition: QuestDefinitionRecord | null, record: QuestRecord | null): string {
@@ -401,7 +508,22 @@ function getQuestStepDescription(definition: QuestDefinitionRecord | null, recor
 }
 
 function getQuestProgressObjectiveId(definition: QuestDefinitionRecord | null, _record?: QuestRecord | null): number {
+  const step = getCurrentStep(definition, _record || null);
+  if (step?.type === 'kill') {
+    return numberOrDefault(step.monsterId, 0);
+  }
   return numberOrDefault(definition?.id, 0);
+}
+
+function getQuestMarkerNpcId(definition: QuestDefinitionRecord | null, record: QuestRecord | null): number {
+  const step = getCurrentStep(definition, record);
+  if (!step) {
+    return 0;
+  }
+  if (step.type === 'kill' && step.completeOnTalkAfterKill === true) {
+    return numberOrDefault(step.completionNpcId, numberOrDefault(step.npcId, 0));
+  }
+  return numberOrDefault(step.npcId, 0);
 }
 
 function completeQuest(state: QuestState, record: QuestRecord, definition: QuestDefinitionRecord, events: QuestEvent[], reason: string): void {
@@ -440,6 +562,8 @@ function advanceQuest(state: QuestState, record: QuestRecord, definition: QuestD
     status: record.status,
     stepDescription: getQuestStepDescription(definition, record),
     progressObjectiveId: getQuestProgressObjectiveId(definition, record),
+    progressCount: getQuestProgressCount(definition, record),
+    markerNpcId: getQuestMarkerNpcId(definition, record),
     reason,
   });
 }
@@ -451,7 +575,8 @@ function reconcileAutoAccept(_state: QuestState): QuestEvent[] {
 function interactWithNpc(
   state: QuestState,
   npcId: number,
-  getItemQuantity?: (templateId: number) => number
+  getItemQuantity?: (templateId: number) => number,
+  matchItemRequirement?: (item: GrantedItem) => number
 ): QuestEvent[] {
   if (!Number.isInteger(npcId) || npcId <= 0) {
     return [];
@@ -469,6 +594,17 @@ function interactWithNpc(
   for (const record of activeRecords) {
     const definition = getQuestDefinition(record.id);
     const step = getCurrentStep(definition, record);
+    if (
+      definition &&
+      step &&
+      step.type === 'kill' &&
+      step.completeOnTalkAfterKill === true &&
+      numberOrDefault(step.completionNpcId, numberOrDefault(step.npcId, 0)) === (npcId >>> 0) &&
+      numberOrDefault(record.progress?.count, 0) >= Math.max(1, numberOrDefault(step.count, 1))
+    ) {
+      advanceQuest(state, record, definition, events, 'kill-turn-in');
+      return events;
+    }
     if (!definition || !step || step.type !== 'talk' || numberOrDefault(step.npcId, 0) !== (npcId >>> 0)) {
       continue;
     }
@@ -476,7 +612,9 @@ function interactWithNpc(
     for (const item of Array.isArray(step.consumeItems) ? step.consumeItems : []) {
       const quantity = Math.max(1, numberOrDefault(item.quantity, 1));
       const ownedQuantity =
-        typeof getItemQuantity === 'function'
+        typeof matchItemRequirement === 'function'
+          ? Math.max(0, numberOrDefault(matchItemRequirement(item), 0))
+          : typeof getItemQuantity === 'function'
           ? Math.max(0, numberOrDefault(getItemQuantity(item.templateId >>> 0), 0))
           : 0;
       if (ownedQuantity < quantity) {
@@ -538,7 +676,25 @@ function applyMonsterDefeat(state: QuestState, monsterId: number, count = 1): Qu
       ...cloneProgress(record.progress),
       count: nextCount,
     };
-    record.status = nextCount;
+    record.status = getQuestStatus(definition, record);
+
+    if (nextCount >= targetCount && step.completeOnTalkAfterKill === true) {
+      events.push({
+        type: 'progress',
+        taskId: definition!.id,
+        definition: definition!,
+        status: getQuestStatus(definition, record),
+        stepDescription:
+          typeof step.completionDescription === 'string' && step.completionDescription.length > 0
+            ? step.completionDescription
+            : getQuestStepDescription(definition, record),
+        progressObjectiveId: getQuestProgressObjectiveId(definition, record),
+        progressCount: getQuestProgressCount(definition, record),
+        markerNpcId: getQuestMarkerNpcId(definition, record),
+        reason: 'kill-ready-to-turn-in',
+      });
+      continue;
+    }
 
     if (nextCount >= targetCount) {
       advanceQuest(state, record, definition!, events, 'kill-complete');
@@ -549,9 +705,10 @@ function applyMonsterDefeat(state: QuestState, monsterId: number, count = 1): Qu
       type: 'progress',
       taskId: definition!.id,
       definition: definition!,
-      status: nextCount,
+      status: getQuestStatus(definition, record),
       stepDescription: getQuestStepDescription(definition, record),
       progressObjectiveId: getQuestProgressObjectiveId(definition, record),
+      progressCount: getQuestProgressCount(definition, record),
       reason: 'kill',
     });
   }
@@ -613,6 +770,7 @@ function buildQuestSyncState(state: QuestState): UnknownRecord[] {
         status: getQuestStatus(definition, record),
         stepDescription: getQuestStepDescription(definition, record),
         progressObjectiveId: getQuestProgressObjectiveId(definition, record),
+        progressCount: getQuestProgressCount(definition, record),
         stepType:
           typeof definition.steps?.[record.stepIndex]?.type === 'string'
             ? definition.steps[record.stepIndex].type
@@ -640,4 +798,5 @@ export {
   abandonQuest,
   getQuestDefinition,
   getQuestProgressObjectiveId,
+  getQuestMarkerNpcId,
 };

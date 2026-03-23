@@ -31,15 +31,19 @@ const {
   buildVitalsPacket,
 } = require('../combat/packets');
 const { grantCombatDrops } = require('../gameplay/combat-drop-runtime');
+const { sendInventoryFullSync } = require('../gameplay/inventory-runtime');
 const { consumeUsableItemByInstanceId } = require('../gameplay/item-use-runtime');
 const { applyEffects } = require('../effects/effect-executor');
 const { buildDefeatRespawnState } = require('../gameplay/session-flows');
 const { sendSelfStateVitalsUpdate } = require('../gameplay/stat-sync');
-const { getEquipmentCombatBonuses } = require('../inventory');
+const { getCapturePetTemplateId } = require('../roleinfo');
+const { getBagItemByReference, getEquipmentCombatBonuses, getItemDefinition } = require('../inventory');
 
 type SessionLike = GameSession & Record<string, any>;
 type CombatAction = Record<string, any>;
 type EnemyTurnReason = 'normal' | 'post-kill';
+const CAPTURE_ELEMENT_CODE_MIN = 1;
+const CAPTURE_ELEMENT_CODE_MAX = 4;
 
 function createIdleCombatState(): CombatState {
   return {
@@ -62,6 +66,11 @@ function createIdleCombatState(): CombatState {
     damageDealt: 0,
     damageTaken: 0,
   };
+}
+
+function rollCapturedMonsterElementCode(): number {
+  const span = (CAPTURE_ELEMENT_CODE_MAX - CAPTURE_ELEMENT_CODE_MIN) + 1;
+  return CAPTURE_ELEMENT_CODE_MIN + Math.floor(Math.random() * Math.max(1, span));
 }
 
 function handleCombatPacket(session: SessionLike, cmdWord: number, payload: Buffer): void {
@@ -290,6 +299,13 @@ function resolveCombatItemUse(
     return;
   }
 
+  const bagItem = getBagItemByReference(session, instanceId);
+  const definition = getItemDefinition(bagItem?.templateId || 0);
+  if (definition?.captureProfile && bagItem) {
+    resolveCombatCaptureItemUse(session, bagItem, definition, targetEntityId, sourceLabel);
+    return;
+  }
+
   const useResult = consumeUsableItemByInstanceId(session, instanceId, {
     targetEntityId,
     suppressVitalSync: true,
@@ -299,11 +315,13 @@ function resolveCombatItemUse(
     session.log(
       `Combat item use rejected source=${sourceLabel} instanceId=${instanceId} targetEntityId=${targetEntityId} reason=${useResult.reason}`
     );
+    resendCombatCommandPrompt(session, 'item-use-rejected');
     return;
   }
 
   session.combatState.awaitingPlayerAction = false;
   session.combatState.phase = 'resolved';
+  sendCombatItemPlayback(session, useResult.gained || {});
   sendSelfStateVitalsUpdate(session, {
     health: Math.max(0, session.currentHealth || 0),
     mana: Math.max(0, session.currentMana || 0),
@@ -312,6 +330,138 @@ function resolveCombatItemUse(
   session.log(
     `Combat item use ok source=${sourceLabel} instanceId=${instanceId} targetEntityId=${targetEntityId} templateId=${useResult.item?.templateId || 0} restored=${useResult.gained?.health || 0}/${useResult.gained?.mana || 0}/${useResult.gained?.rage || 0} hp/mp/rage=${session.currentHealth}/${session.currentMana}/${session.currentRage}`
   );
+  resolveEnemyCounterattack(session, 'normal');
+}
+
+function sendCombatItemPlayback(
+  session: SessionLike,
+  gained: { health?: number; mana?: number; rage?: number }
+): void {
+  const primaryAmount = Math.max(
+    0,
+    Number(gained?.health || 0),
+    Number(gained?.mana || 0),
+    Number(gained?.rage || 0)
+  ) >>> 0;
+
+  if (primaryAmount <= 0) {
+    return;
+  }
+
+  session.writePacket(
+    buildAttackPlaybackPacket(
+      session.entityType >>> 0,
+      session.entityType >>> 0,
+      FIGHT_ACTIVE_STATE_SUBCMD,
+      primaryAmount
+    ),
+    DEFAULT_FLAGS,
+    `Sending combat item playback active=${session.entityType} restored=${primaryAmount}`
+  );
+}
+
+function resolveCombatCaptureItemUse(
+  session: SessionLike,
+  bagItem: Record<string, any>,
+  definition: Record<string, any>,
+  targetEntityId: number,
+  sourceLabel: string
+): void {
+  const profile = definition?.captureProfile || {};
+  const targetEnemy = resolveCaptureTargetEnemy(session, targetEntityId);
+  if (!targetEnemy) {
+    session.log(
+      `Combat capture rejected source=${sourceLabel} instanceId=${bagItem.instanceId} targetEntityId=${targetEntityId} reason=no-target`
+    );
+    if (typeof session.sendGameDialogue === 'function') {
+      session.sendGameDialogue('Combat', `${definition?.name || 'Mob Flask'} could not find a target.`);
+    }
+    resendCombatCommandPrompt(session, 'capture-rejected-no-target');
+    return;
+  }
+
+  if ((targetEnemy.level || 0) > (profile.maxTargetLevel || 0)) {
+    session.log(
+      `Combat capture rejected source=${sourceLabel} instanceId=${bagItem.instanceId} targetEntityId=${targetEnemy.entityId} reason=level-cap targetLevel=${targetEnemy.level} max=${profile.maxTargetLevel}`
+    );
+    if (typeof session.sendGameDialogue === 'function') {
+      session.sendGameDialogue('Combat', `${targetEnemy.name || 'Target'} is too strong for ${definition?.name || 'this flask'}.`);
+    }
+    resendCombatCommandPrompt(session, 'capture-rejected-level');
+    return;
+  }
+
+  if (profile.requiresDying === true && !isEnemyDying(targetEnemy)) {
+    session.log(
+      `Combat capture rejected source=${sourceLabel} instanceId=${bagItem.instanceId} targetEntityId=${targetEnemy.entityId} reason=not-dying hp=${targetEnemy.hp}/${targetEnemy.maxHp}`
+    );
+    if (typeof session.sendGameDialogue === 'function') {
+      session.sendGameDialogue('Combat', `${targetEnemy.name || 'Target'} must be weakened before capture.`);
+    }
+    resendCombatCommandPrompt(session, 'capture-rejected-not-dying');
+    return;
+  }
+
+  const petTemplateId = getCapturePetTemplateId(targetEnemy.typeId >>> 0);
+  if (!petTemplateId) {
+    session.log(
+      `Combat capture rejected source=${sourceLabel} instanceId=${bagItem.instanceId} targetEntityId=${targetEnemy.entityId} reason=no-pet-template enemyType=${targetEnemy.typeId}`
+    );
+    if (typeof session.sendGameDialogue === 'function') {
+      session.sendGameDialogue('Combat', `${targetEnemy.name || 'Target'} cannot be captured yet.`);
+    }
+    resendCombatCommandPrompt(session, 'capture-rejected-no-map');
+    return;
+  }
+
+  const flaskAttributePairs = Array.isArray(bagItem.attributePairs) ? bagItem.attributePairs : [];
+  const occupiedMonsterId = Number.isInteger(flaskAttributePairs[0]?.value)
+    ? (flaskAttributePairs[0].value & 0xffff)
+    : (bagItem.extraValue || 0);
+  if ((bagItem.stateCode || 0) !== 0 || occupiedMonsterId !== 0) {
+    session.log(
+      `Combat capture rejected source=${sourceLabel} instanceId=${bagItem.instanceId} targetEntityId=${targetEnemy.entityId} reason=flask-not-empty state=${bagItem.stateCode || 0} extra=${bagItem.extraValue || 0} ext0=${occupiedMonsterId}`
+    );
+    if (typeof session.sendGameDialogue === 'function') {
+      session.sendGameDialogue('Combat', `${definition?.name || 'Mob Flask'} is already occupied.`);
+    }
+    resendCombatCommandPrompt(session, 'capture-rejected-occupied');
+    return;
+  }
+
+  const capturedMonsterLevel = Math.max(1, targetEnemy.level || 1) >>> 0;
+  const capturedMonsterElementCode = rollCapturedMonsterElementCode() >>> 0;
+  bagItem.stateCode = 1;
+  bagItem.extraValue = targetEnemy.typeId >>> 0;
+  bagItem.attributePairs = [
+    { value: targetEnemy.typeId >>> 0 },
+    { value: capturedMonsterLevel },
+    { value: capturedMonsterElementCode },
+  ];
+  sendInventoryFullSync(session);
+
+  targetEnemy.hp = 0;
+  session.combatState.awaitingPlayerAction = false;
+  session.combatState.phase = 'resolved';
+  session.writePacket(
+    buildEntityHidePacket(targetEnemy.entityId >>> 0),
+    DEFAULT_FLAGS,
+    `Sending combat enemy hide entity=${targetEnemy.entityId} reason=capture`
+  );
+  session.log(
+    `Combat capture ok source=${sourceLabel} instanceId=${bagItem.instanceId} targetEntityId=${targetEnemy.entityId} enemyType=${targetEnemy.typeId} enemyName=${targetEnemy.name || 'unknown'} petTemplateId=${petTemplateId} capturedLevel=${capturedMonsterLevel} capturedElement=${capturedMonsterElementCode} flaskState=${bagItem.stateCode || 0} flaskExtra=${bagItem.extraValue || 0} ext=${JSON.stringify(bagItem.attributePairs || [])}`
+  );
+  if (typeof session.sendGameDialogue === 'function') {
+    session.sendGameDialogue('Combat', `Monster ${targetEnemy.name || 'Unknown'} was captured!`);
+  }
+
+  if (!findFirstLivingEnemy(session.combatState.enemies)) {
+    session.persistCurrentCharacter();
+    resolveVictory(session);
+    return;
+  }
+
+  session.persistCurrentCharacter();
   resolveEnemyCounterattack(session, 'normal');
 }
 
@@ -326,6 +476,15 @@ function describeUnhandledCombatClientPacket(session: SessionLike, payload: Buff
     `awaitingPlayerAction=${session.combatState.awaitingPlayerAction === true ? 1 : 0} ` +
     `head=0x${head.toString(16)} u16@3=${u16At3} u16@5=${u16At5} u32@3=${u32At3} hex=${payload.toString('hex')}`
   );
+}
+
+function resendCombatCommandPrompt(session: SessionLike, reason: string): void {
+  if (!session.combatState?.active) {
+    return;
+  }
+  session.combatState.awaitingPlayerAction = true;
+  session.combatState.phase = 'command';
+  sendCommandPrompt(session, reason);
 }
 
 function resolveEnemyCounterattack(session: SessionLike, reason: EnemyTurnReason): void {
@@ -607,6 +766,23 @@ function findFirstLivingEnemy(enemies: CombatEnemyInstance[] | null | undefined)
     return null;
   }
   return enemies.find((enemy) => enemy && (enemy.hp || 0) > 0) || null;
+}
+
+function resolveCaptureTargetEnemy(session: SessionLike, targetEntityId: number): CombatEnemyInstance | null {
+  const explicitTarget = findEnemyByEntityId(session.combatState?.enemies, targetEntityId >>> 0);
+  if (explicitTarget && explicitTarget.hp > 0) {
+    return explicitTarget;
+  }
+  const living = listLivingEnemies(session.combatState?.enemies);
+  return living.length === 1 ? living[0] : null;
+}
+
+function isEnemyDying(enemy: CombatEnemyInstance | null | undefined): boolean {
+  if (!enemy) {
+    return false;
+  }
+  const maxHp = Math.max(1, enemy.maxHp || 1);
+  return (enemy.hp || 0) <= Math.max(1, Math.floor(maxHp * 0.25));
 }
 
 function findEnemyByEntityId(enemies: CombatEnemyInstance[] | null | undefined, entityId: number): CombatEnemyInstance | null {

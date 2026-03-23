@@ -29,6 +29,7 @@ function parseServerRunRequest(payload: Buffer): ServerRunRequestData | null {
   if (subcmd === 0x04 && payload.length >= 10) {
     return {
       subcmd,
+      awardId: payload[3] & 0xff,
       npcId: payload.readUInt16LE(4),
       scriptId: payload.readUInt16LE(8),
       rawArgs: [

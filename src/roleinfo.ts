@@ -39,8 +39,12 @@ const ROLEINFO_FILE = resolveRepoPath('data', 'client-derived', 'roleinfo.json')
 const PRIMARY_DROP_STAT_INDEX = 30;
 const PRIMARY_DROP_CHANCE_INDEX = 0;
 const LOCATION_PATTERN = /\[([^\]]+)\]/g;
+const CAPTURE_PET_TEMPLATE_OVERRIDES = Object.freeze({
+  5002: 2520, // Beetle -> Beatle Soldier
+} as Record<number, number>);
 
 const ROLEINFO_BY_ID = loadRoleinfoById();
+const CAPTURE_PET_TEMPLATE_BY_ROLE_ID = buildCapturePetTemplateMap();
 
 function getRoleInfo(roleId: number): UnknownRecord | null {
   if (!Number.isInteger(roleId)) {
@@ -116,6 +120,14 @@ function getPetTemplateProfile(roleId: number): PetTemplateProfile | null {
     baseStats,
     statCoefficients,
   };
+}
+
+function getCapturePetTemplateId(roleId: number): number | null {
+  if (!Number.isInteger(roleId)) {
+    return null;
+  }
+  const mapped = CAPTURE_PET_TEMPLATE_BY_ROLE_ID.get(roleId);
+  return typeof mapped === 'number' && Number.isInteger(mapped) && mapped > 0 ? mapped : null;
 }
 
 function buildEncounterPoolEntry(roleId: number, overrides: EncounterOverrides = {}) {
@@ -207,6 +219,50 @@ function loadRoleinfoById(): Map<number, UnknownRecord> {
   }
 }
 
+function buildCapturePetTemplateMap(): Map<number, number> {
+  const mapping = new Map<number, number>();
+  for (const [roleIdText, petTemplateId] of Object.entries(CAPTURE_PET_TEMPLATE_OVERRIDES)) {
+    const roleId = Number(roleIdText);
+    if (!Number.isInteger(roleId) || roleId <= 0 || !Number.isInteger(petTemplateId) || petTemplateId <= 0) {
+      continue;
+    }
+    mapping.set(roleId >>> 0, petTemplateId >>> 0);
+  }
+
+  const petCandidatesByName = new Map<string, number[]>();
+  for (const role of ROLEINFO_BY_ID.values()) {
+    if (role?.roleClassField !== 2 || typeof role?.name !== 'string' || role.name.length === 0) {
+      continue;
+    }
+    const key = normalizeLocationName(role.name);
+    if (!key) {
+      continue;
+    }
+    const existing = petCandidatesByName.get(key) || [];
+    existing.push(role.roleId >>> 0);
+    petCandidatesByName.set(key, existing);
+  }
+
+  for (const role of ROLEINFO_BY_ID.values()) {
+    if (![4, 5].includes(role?.roleClassField) || !Number.isInteger(role?.roleId)) {
+      continue;
+    }
+    if (mapping.has(role.roleId >>> 0)) {
+      continue;
+    }
+    const key = normalizeLocationName(role.name);
+    if (!key) {
+      continue;
+    }
+    const candidates = petCandidatesByName.get(key) || [];
+    if (candidates.length === 0) {
+      continue;
+    }
+    mapping.set(role.roleId >>> 0, Math.min(...candidates));
+  }
+  return mapping;
+}
+
 function getIndexedInteger(values: unknown, index: number): number | null {
   if (!Array.isArray(values) || index < 0 || index >= values.length) {
     return null;
@@ -237,6 +293,7 @@ module.exports = {
   getRoleName,
   getRoleServiceId,
   getOrdinaryMonsterRoleIdsForLocation,
+  getCapturePetTemplateId,
   getRolePrimaryDrop,
   isFemaleRole,
   roleHasLocation,

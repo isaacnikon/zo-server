@@ -64,13 +64,27 @@ function sendInventoryFullSync(session: SessionLike): void {
 
 function buildClientInventoryItem(item: UnknownRecord): UnknownRecord {
   const definition = getItemDefinition(item.templateId);
+  const itemAttributePairs = Array.isArray(item.attributePairs)
+    ? item.attributePairs
+        .map((pair: UnknownRecord) => ({
+          value: Number.isInteger(pair?.value) ? (pair.value & 0xffff) : 0,
+        }))
+        .filter((pair: UnknownRecord) => pair.value !== 0)
+    : [];
   return {
     ...item,
     tradeState: Number.isInteger(item.tradeState) ? (item.tradeState | 0) : 0,
+    stateCode: Number.isInteger(item.stateCode) ? (item.stateCode & 0xff) : 0,
     quantity: resolveClientItemQuantity(definition, item.quantity, item.durability),
     bindState: 0,
+    extraValue: Number.isInteger(item.extraValue) ? (item.extraValue & 0xffff) : 0,
     clientTemplateFamily: definition?.clientTemplateFamily ?? null,
-    attributePairs: Array.isArray(definition?.defaultAttributePairs) ? definition.defaultAttributePairs : [],
+    attributePairs:
+      itemAttributePairs.length > 0
+        ? itemAttributePairs
+        : Array.isArray(definition?.defaultAttributePairs)
+          ? definition.defaultAttributePairs
+          : [],
   };
 }
 

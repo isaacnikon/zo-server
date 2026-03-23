@@ -103,7 +103,7 @@ interface ItemInstance {
   quantity: number;
   extraValue: number;
   clientTemplateFamily: number | null;
-  attributePairs: Array<{ key: number; value: number }>;
+  attributePairs: Array<{ value: number }>;
 }
 
 interface NpcShopCatalogItem {

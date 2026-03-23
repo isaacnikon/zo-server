@@ -7,6 +7,69 @@ const { sendSelfStateValueUpdate } = require('./stat-sync');
 type UnknownRecord = Record<string, any>;
 type SessionLike = Record<string, any>;
 
+const BEHIND_CURTAIN_REWARD_ITEMS: Record<number, { templateId: number; name: string }[]> = {
+  0: [
+    { templateId: 27008, name: 'Epee Chop' },
+    { templateId: 27010, name: 'Fire Ball' },
+    { templateId: 27011, name: 'Frost Bolt' },
+  ],
+  1: [
+    { templateId: 27001, name: 'Enervate' },
+    { templateId: 27003, name: 'Bleed' },
+    { templateId: 27009, name: 'Defiant' },
+  ],
+  2: [
+    { templateId: 27002, name: 'Double Hit' },
+    { templateId: 27004, name: 'Easy Attack' },
+    { templateId: 27011, name: 'Frost Bolt' },
+  ],
+  3: [
+    { templateId: 27006, name: 'Icy Assault' },
+    { templateId: 27005, name: 'Agilely Attack' },
+    { templateId: 27012, name: 'Cure' },
+  ],
+  4: [
+    { templateId: 27002, name: 'Double Hit' },
+    { templateId: 27008, name: 'Epee Chop' },
+    { templateId: 27010, name: 'Fire Ball' },
+  ],
+  5: [
+    { templateId: 27003, name: 'Bleed' },
+    { templateId: 27009, name: 'Defiant' },
+    { templateId: 27012, name: 'Cure' },
+  ],
+  6: [
+    { templateId: 27004, name: 'Easy Attack' },
+    { templateId: 27006, name: 'Icy Assault' },
+    { templateId: 27007, name: 'Pet Healing' },
+  ],
+  7: [
+    { templateId: 27004, name: 'Easy Attack' },
+    { templateId: 27010, name: 'Fire Ball' },
+    { templateId: 27011, name: 'Frost Bolt' },
+  ],
+  8: [
+    { templateId: 27005, name: 'Agilely Attack' },
+    { templateId: 27006, name: 'Icy Assault' },
+    { templateId: 27007, name: 'Pet Healing' },
+  ],
+  9: [
+    { templateId: 27007, name: 'Pet Healing' },
+    { templateId: 27008, name: 'Epee Chop' },
+    { templateId: 27012, name: 'Cure' },
+  ],
+  10: [
+    { templateId: 27001, name: 'Enervate' },
+    { templateId: 27002, name: 'Double Hit' },
+    { templateId: 27005, name: 'Agilely Attack' },
+  ],
+  11: [
+    { templateId: 27001, name: 'Enervate' },
+    { templateId: 27003, name: 'Bleed' },
+    { templateId: 27009, name: 'Defiant' },
+  ],
+};
+
 function applyQuestCompletionReward(
   session: SessionLike,
   reward: UnknownRecord,
@@ -14,7 +77,9 @@ function applyQuestCompletionReward(
 ): UnknownRecord {
   const suppressPackets = options.suppressPackets === true;
   const suppressDialogues = options.suppressDialogues === true;
-  const normalizedReward = normalizeReward(resolveQuestRewardForSession(session, reward, options.taskId));
+  const normalizedReward = normalizeReward(
+    resolveQuestRewardForSession(session, reward, options.taskId, options.selectedAwardId)
+  );
   let petsDirty = false;
   let requiresFullStatSync = false;
   let levelSummary: UnknownRecord | null = null;
@@ -88,10 +153,18 @@ function applyQuestCompletionReward(
   };
 }
 
-function resolveQuestRewardForSession(session: SessionLike, reward: UnknownRecord, taskId: number): UnknownRecord {
+function resolveQuestRewardForSession(
+  session: SessionLike,
+  reward: UnknownRecord,
+  taskId: number,
+  selectedAwardId = 0
+): UnknownRecord {
   const normalizedReward = normalizeReward(reward);
+  if ((taskId >>> 0) === 353) {
+    return resolveBehindCurtainRewardForSession(session, normalizedReward, selectedAwardId);
+  }
   if (normalizedReward.choiceGroups.length > 0) {
-    const selectedGroup = selectRewardChoiceGroupForSession(session, normalizedReward.choiceGroups);
+    const selectedGroup = selectRewardChoiceGroupForSession(session, normalizedReward.choiceGroups, selectedAwardId);
     if (selectedGroup) {
       return {
         gold: selectedGroup.gold || normalizedReward.gold,
@@ -119,9 +192,47 @@ function resolveQuestRewardForSession(session: SessionLike, reward: UnknownRecor
   };
 }
 
-function selectRewardChoiceGroupForSession(session: SessionLike, choiceGroups: UnknownRecord[]): UnknownRecord | null {
+function resolveBehindCurtainRewardForSession(
+  session: SessionLike,
+  normalizedReward: UnknownRecord,
+  selectedAwardId = 0
+): UnknownRecord {
+  const aptitude = clampAptitudeIndex(session?.selectedAptitude);
+  const rewardItems = BEHIND_CURTAIN_REWARD_ITEMS[aptitude] || BEHIND_CURTAIN_REWARD_ITEMS[0];
+  const choiceGroups = rewardItems.map((item, index) => ({
+    awardId: index + 1,
+    gold: normalizedReward.gold,
+    experience: normalizedReward.experience,
+    coins: normalizedReward.coins,
+    renown: normalizedReward.renown,
+    pets: [],
+    items: [{ ...item, quantity: 1 }],
+  }));
+
+  return {
+    ...normalizedReward,
+    choiceGroups,
+    items:
+      (choiceGroups.find((group) => numberOrDefault(group?.awardId, 0) === selectedAwardId) || choiceGroups[0])?.items ||
+      [],
+  };
+}
+
+function selectRewardChoiceGroupForSession(
+  session: SessionLike,
+  choiceGroups: UnknownRecord[],
+  selectedAwardId = 0
+): UnknownRecord | null {
   if (!Array.isArray(choiceGroups) || choiceGroups.length === 0) {
     return null;
+  }
+
+  if (selectedAwardId > 0) {
+    const explicitSelection =
+      choiceGroups.find((group) => numberOrDefault(group?.awardId, 0) === selectedAwardId) || null;
+    if (explicitSelection) {
+      return explicitSelection;
+    }
   }
 
   const petBearingGroup = choiceGroups.find((group) => Array.isArray(group?.pets) && group.pets.length > 0);
@@ -242,6 +353,13 @@ function normalizeReward(reward: UnknownRecord): UnknownRecord {
 
 function numberOrDefault(value: unknown, fallback: number): number {
   return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
+}
+
+function clampAptitudeIndex(value: unknown): number {
+  if (!Number.isInteger(value)) {
+    return 0;
+  }
+  return Math.max(0, Math.min(11, (value as number) >>> 0));
 }
 
 export {

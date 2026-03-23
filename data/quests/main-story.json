@@ -387,7 +387,11 @@
           "description": "Kill \"Evilelf\"",
           "mapId": 102,
           "monsterId": 5010,
-          "count": 1
+          "count": 1,
+          "completionNpcId": 3006,
+          "completionMapId": 102,
+          "completionDescription": "Return to \"Evilelf\" after defeating him",
+          "completeOnTalkAfterKill": true
         }
       ],
       "minLevel": 1
@@ -3349,10 +3353,10 @@
       "steps": [
         {
           "type": "talk",
-          "npcId": 3007,
+          "npcId": 3004,
           "status": 1,
-          "description": "Quest step 1",
-          "mapId": 103
+          "description": "Talk to Scholar",
+          "mapId": 101
         },
         {
           "type": "talk",
@@ -3363,12 +3367,16 @@
         },
         {
           "type": "kill",
-          "npcId": 3023,
+          "npcId": 3108,
           "status": 3,
           "description": "Kill \"Piggy\"--Bling Alley(75.238)",
-          "mapId": 103,
+          "mapId": 102,
           "monsterId": 5006,
-          "count": 1
+          "count": 1,
+          "completionNpcId": 3023,
+          "completionMapId": 103,
+          "completionDescription": "Return to \"Grandpa\" after defeating \"Piggy\"",
+          "completeOnTalkAfterKill": true
         }
       ],
       "minLevel": 1
@@ -3386,9 +3394,9 @@
       ],
       "acceptGrantItems": [
         {
-          "templateId": 21002,
+          "templateId": 21051,
           "quantity": 1,
-          "name": "Sachet"
+          "name": "Fennel"
         }
       ],
       "rewards": {
@@ -3424,11 +3432,18 @@
           "status": 1,
           "description": "Bring \"Fennel\" to \"Maria\"",
           "mapId": 103,
-          "grantItems": [
+          "consumeItems": [
             {
               "templateId": 21051,
               "quantity": 1,
-              "name": ""
+              "name": "Fennel"
+            }
+          ],
+          "grantItems": [
+            {
+              "templateId": 21002,
+              "quantity": 1,
+              "name": "Sachet"
             }
           ]
         },
@@ -3445,15 +3460,6 @@
               "name": ""
             }
           ]
-        },
-        {
-          "type": "kill",
-          "npcId": 3030,
-          "status": 3,
-          "description": "Speak to \"Hubbert\" to know more about Renown Quest reward: Experience: 1000 Gold: 500 Coin: 800 Renown: 20 Quest Description: In Cloud City,Hubbert enjoys great renown and you can refer to him for your renown question. Renown is closely related with your money and skill proficiency degree. ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ <204000><0>Previous ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ <200001><0>Back",
-          "mapId": 112,
-          "monsterId": 5585,
-          "count": 1
         }
       ],
       "minLevel": 1
@@ -3528,11 +3534,17 @@
       "auxiliaryActions": [],
       "steps": [
         {
-          "type": "talk",
-          "npcId": 3003,
+          "type": "kill",
+          "npcId": 3057,
           "status": 2,
-          "description": "Travel to \"Map 102\" to locate \"Farmer\"",
-          "mapId": 102
+          "description": "Defeat \"Hungry Wolf\" and then console the terrified \"Farmer\"",
+          "mapId": 102,
+          "monsterId": 5005,
+          "count": 1,
+          "completionNpcId": 3003,
+          "completionMapId": 102,
+          "completionDescription": "Return to \"Farmer\" after defeating \"Hungry Wolf\"",
+          "completeOnTalkAfterKill": true
         }
       ],
       "minLevel": 1

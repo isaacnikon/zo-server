@@ -2,13 +2,14 @@ import fs from 'fs';
 import type { GameSession, ServerRunRequestData } from '../types';
 
 const { DEFAULT_FLAGS, GAME_NPC_SHOP_CMD } = require('../config');
-const { getMapNpcs } = require('../map-data');
+const { getMapEncounterLevelRange, getMapNpcs, getMapSummary } = require('../map-data');
 const { getBagQuantityByTemplateId } = require('../inventory');
-const { interactWithNpc } = require('../quest-engine');
+const { interactWithNpc, getQuestDefinition } = require('../quest-engine');
 const { buildNpcShopOpenPacket } = require('../protocol/gameplay-packets');
 const { resolveRepoPath } = require('../runtime-paths');
 const { resolveInnRestVitals } = require('../gameplay/session-flows');
 const { sendSelfStateValueUpdate, sendSelfStateVitalsUpdate } = require('../gameplay/stat-sync');
+const { buildEncounterPoolEntry } = require('../roleinfo');
 const { applyQuestEvents } = require('./quest-handler');
 
 type SessionLike = GameSession & Record<string, any>;
@@ -37,9 +38,13 @@ function handleNpcInteractionRequest(session: SessionLike, request: ServerRunReq
 
   const npc = resolveNpcInteractionTarget(session, request);
   const npcRecordId = typeof npc?.npcId === 'number' && Number.isInteger(npc.npcId) ? (npc.npcId >>> 0) : 0;
+  const npcEntityType =
+    typeof npc?.resolvedSpawnEntityType === 'number' && Number.isInteger(npc.resolvedSpawnEntityType)
+      ? (npc.resolvedSpawnEntityType >>> 0)
+      : 0;
   const requestNpcId =
     typeof request.npcId === 'number' && Number.isInteger(request.npcId) ? (request.npcId >>> 0) : 0;
-  const resolvedNpcId = npcRecordId || requestNpcId || 0;
+  const resolvedNpcId = npcEntityType || npcRecordId || requestNpcId || 0;
   if (resolvedNpcId <= 0) {
     return false;
   }
@@ -51,18 +56,11 @@ function handleNpcInteractionRequest(session: SessionLike, request: ServerRunReq
     return true;
   }
 
-  if (
-    (request.subcmd === 0x02 || request.subcmd === 0x03 || request.subcmd === 0x04) &&
-    Number.isInteger(request.scriptId) &&
-    typeof session.sendServerRunScriptImmediate === 'function'
-  ) {
-    session.sendServerRunScriptImmediate(request.scriptId! >>> 0);
-  }
-
   if (request.subcmd === 0x0f) {
     sendNpcShopOpen(session, resolvedNpcId, request);
   }
 
+  let handledQuestEvents = false;
   if (request.subcmd === 0x03 || request.subcmd === 0x04 || request.subcmd === 0x08) {
     const questState = {
       activeQuests: session.activeQuests,
@@ -72,21 +70,130 @@ function handleNpcInteractionRequest(session: SessionLike, request: ServerRunReq
     const events = interactWithNpc(
       questState,
       resolvedNpcId,
-      (templateId: number) => getBagQuantityByTemplateId(session, templateId)
+      (templateId: number) => getBagQuantityByTemplateId(session, templateId),
+      (item: { templateId: number; quantity: number; capturedMonsterId?: number }) =>
+        countMatchingQuestItems(session, item)
     );
 
     session.activeQuests = questState.activeQuests;
     session.completedQuests = questState.completedQuests;
 
     if (events.length > 0) {
-      applyQuestEvents(session, events, 'npc-talk');
+      handledQuestEvents = true;
+      applyQuestEvents(session, events, 'npc-talk', {
+        selectedAwardId: Number.isInteger(request.awardId) ? (request.awardId! >>> 0) : 0,
+      });
     }
+  }
+
+  if (
+    handledQuestEvents !== true &&
+    tryStartQuestKillCombat(session, resolvedNpcId, request)
+  ) {
+    session.log(
+      `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId} questCombat=1`
+    );
+    return true;
+  }
+
+  if (
+    handledQuestEvents !== true &&
+    (request.subcmd === 0x02 || request.subcmd === 0x03 || request.subcmd === 0x04) &&
+    Number.isInteger(request.scriptId) &&
+    typeof session.sendServerRunScriptImmediate === 'function'
+  ) {
+    session.sendServerRunScriptImmediate(request.scriptId! >>> 0);
   }
 
   session.log(
     `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId}`
   );
   return true;
+}
+
+function tryStartQuestKillCombat(session: SessionLike, npcId: number, request: ServerRunRequestData): boolean {
+  if (request.subcmd !== 0x02 || typeof session.sendCombatEncounterProbe !== 'function') {
+    return false;
+  }
+  if (session.combatState?.active) {
+    return false;
+  }
+
+  const activeQuests = Array.isArray(session.activeQuests) ? session.activeQuests : [];
+  for (const record of activeQuests) {
+    const taskId = Number.isInteger(record?.id) ? (record.id >>> 0) : 0;
+    const stepIndex = Number.isInteger(record?.stepIndex) ? (record.stepIndex >>> 0) : 0;
+    if (taskId <= 0) {
+      continue;
+    }
+
+    const definition = getQuestDefinition(taskId);
+    const step = Array.isArray(definition?.steps) ? definition.steps[stepIndex] : null;
+    const stepNpcId = Number.isInteger(step?.npcId) ? (step.npcId >>> 0) : 0;
+    const monsterId = Number.isInteger(step?.monsterId) ? (step.monsterId >>> 0) : 0;
+    if (!step || step.type !== 'kill' || stepNpcId !== (npcId >>> 0) || monsterId <= 0) {
+      continue;
+    }
+
+    const encounterLevelRange = getMapEncounterLevelRange(session.currentMapId);
+    const mapName = getMapSummary(session.currentMapId)?.mapName || `Map ${session.currentMapId}`;
+    session.sendCombatEncounterProbe({
+      probeId: `quest-kill:${taskId}:${monsterId}:${Date.now()}`,
+      encounterProfile: {
+        minEnemies: 1,
+        maxEnemies: 1,
+        locationName: mapName,
+        pool: [
+          buildEncounterPoolEntry(monsterId, {
+            levelMin: encounterLevelRange?.min || 1,
+            levelMax: encounterLevelRange?.max || encounterLevelRange?.min || 1,
+            weight: 1,
+          }),
+        ],
+      },
+    });
+    return true;
+  }
+
+  return false;
+}
+
+function countMatchingQuestItems(
+  session: SessionLike,
+  item: { templateId: number; quantity: number; capturedMonsterId?: number }
+): number {
+  const bagItems = Array.isArray(session.bagItems) ? session.bagItems : [];
+  const rawCapturedMonsterId = item?.capturedMonsterId;
+  const requiredCapturedMonsterId = typeof rawCapturedMonsterId === 'number' && Number.isInteger(rawCapturedMonsterId)
+    ? (rawCapturedMonsterId >>> 0)
+    : 0;
+  if (requiredCapturedMonsterId <= 0) {
+    return getBagQuantityByTemplateId(session, item.templateId >>> 0);
+  }
+  return bagItems.reduce((total: number, bagItem: Record<string, any>) => {
+    const bagTemplateId = bagItem?.templateId >>> 0;
+    if (bagItem?.equipped === true) {
+      return total;
+    }
+    if (isMobFlaskTemplateId(item.templateId >>> 0)) {
+      if (!isMobFlaskTemplateId(bagTemplateId)) {
+        return total;
+      }
+    } else if (bagTemplateId !== (item.templateId >>> 0)) {
+      return total;
+    }
+    const capturedMonsterId = Number.isInteger(bagItem?.attributePairs?.[0]?.value)
+      ? (bagItem.attributePairs[0].value >>> 0)
+      : (Number.isInteger(bagItem?.extraValue) ? (bagItem.extraValue >>> 0) : 0);
+    if (capturedMonsterId !== requiredCapturedMonsterId) {
+      return total;
+    }
+    return total + Math.max(1, Number.isInteger(bagItem?.quantity) ? bagItem.quantity : 1);
+  }, 0);
+}
+
+function isMobFlaskTemplateId(templateId: number): boolean {
+  return templateId >= 29000 && templateId <= 29011;
 }
 
 function handleInnRestRequest(session: SessionLike, npcId: number, request: ServerRunRequestData): boolean {

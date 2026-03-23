@@ -20,6 +20,7 @@ type SessionLike = Record<string, any>;
 type QuestEventHandlerDeps = {
   sendQuestAccept(session: SessionLike, taskId: number): void;
   sendQuestUpdate(session: SessionLike, taskId: number, status: number): void;
+  sendQuestMarker(session: SessionLike, taskId: number, npcId: number): void;
   sendQuestProgress(session: SessionLike, objectiveId: number, status: number): void;
   sendQuestComplete(session: SessionLike, taskId: number): void;
   sendQuestAbandon(session: SessionLike, taskId: number): void;
@@ -47,6 +48,9 @@ function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHan
       if (event.type === 'accepted') {
         if (!suppressPackets) {
           deps.sendQuestAccept(session, event.taskId);
+          if (numberOrDefault(event.markerNpcId, 0) > 0) {
+            deps.sendQuestMarker(session, event.taskId, numberOrDefault(event.markerNpcId, 0));
+          }
         }
         if (!suppressDialogues) {
           session.sendGameDialogue('Quest', `${event.definition.acceptMessage || `${event.definition.name} accepted.`}${event.stepDescription ? ` Objective: ${event.stepDescription}` : ''}`);
@@ -59,11 +63,23 @@ function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHan
           if (event.type === 'advanced') {
             deps.sendQuestUpdate(session, event.taskId, event.status);
           } else if (event.type === 'progress') {
-            deps.sendQuestProgress(session, numberOrDefault(event.progressObjectiveId, event.taskId), event.status);
+            if (typeof event.reason === 'string' && event.reason === 'kill-ready-to-turn-in') {
+              deps.sendQuestUpdate(session, event.taskId, event.status);
+            }
+            deps.sendQuestProgress(
+              session,
+              numberOrDefault(event.progressObjectiveId, event.taskId),
+              numberOrDefault(event.progressCount, event.status)
+            );
+          }
+          if (numberOrDefault(event.markerNpcId, 0) > 0) {
+            deps.sendQuestMarker(session, event.taskId, numberOrDefault(event.markerNpcId, 0));
           }
         }
         if (!suppressDialogues) {
-          const progressText = event.type === 'progress' ? ` Progress: ${event.status}.` : '';
+          const progressText = event.type === 'progress'
+            ? ` Progress: ${numberOrDefault(event.progressCount, event.status)}.`
+            : '';
           session.sendGameDialogue('Quest', `Quest updated: ${event.definition.name}.${event.stepDescription ? ` ${event.stepDescription}` : ''}${progressText}`);
         }
         return { stateDirty: true };
@@ -74,6 +90,7 @@ function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHan
           suppressPackets,
           suppressDialogues,
           taskId: event.taskId,
+          selectedAwardId: numberOrDefault(options?.selectedAwardId, 0),
         });
         if (rewardResult.petsDirty) {
           session.pets = normalizePets(session.pets);
