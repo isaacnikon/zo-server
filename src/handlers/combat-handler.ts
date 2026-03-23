@@ -1053,7 +1053,7 @@ function sendCombatSkillCastPlayback(
   skillLevel: number,
   targets: Array<{ entityId: number; actionCode: number; value: number }>
 ): void {
-  const skillLevelIndex = Math.max(0, Math.min(11, skillLevel - 1));
+  const skillLevelIndex = Math.max(1, Math.min(12, skillLevel));
   const probedTargets = buildSkillPacketProbeTargets(
     skillId >>> 0,
     skillLevel >>> 0,

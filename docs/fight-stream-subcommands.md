@@ -97,13 +97,24 @@ Live breakpoints show the `sub=0x04` cast header is currently packed correctly:
 2. `skillId: u16`
 3. `levelIndex: u8`
 
-Observed live values for `Enervate`:
+Earlier assumption:
+
+- the server originally sent this byte as a zero-based level index (`skillLevel - 1`)
+- for `Enervate` level 1 that meant `levelIndex = 0`
+
+Confirmed current finding:
+
+- this client expects the `sub=0x04` level byte to be one-based
+- changing the server packet to send `level = 1` for level-1 `Enervate` made the skill fire correctly
+- dispel playback/animation also became correct after the change
+
+Observed working values for `Enervate`:
 
 - `casterRuntimeId = 1021`
 - `skillId = 1101`
-- `levelIndex = 0`
+- `levelIndex = 1`
 
-So the remaining bug is not in the `sub=0x04` opener/header.
+So the `sub=0x04` opener/header was not fully correct before. The skill level byte was one of the protocol mismatches.
 
 ### Confirmed `sub=0x03` Runtime Shape
 
