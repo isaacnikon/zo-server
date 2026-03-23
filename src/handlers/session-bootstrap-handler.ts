@@ -3,6 +3,7 @@ import type { GameSession, QuestSyncMode } from '../types';
 const { DEFAULT_FLAGS, LOGIN_CMD, LOGIN_SERVER_LIST_RESULT } = require('../config');
 const { PacketWriter } = require('../protocol');
 const { syncInventoryStateToClient } = require('../gameplay/inventory-runtime');
+const { sendSkillStateSync } = require('../gameplay/skill-runtime');
 const { getMapBootstrapSpawns } = require('../map-spawns');
 const { startAutoMapRotation } = require('../scenes/map-rotation');
 
@@ -30,6 +31,7 @@ export function sendEnterGameOk(session: SessionLike, options: { syncMode?: Ques
     `Sending enter-game success char="${session.charName}" runtimeId=0x${session.entityType.toString(16)} entity=0x${session.entityType.toString(16)} roleEntity=0x${session.roleEntityType.toString(16)} aptitude=${session.selectedAptitude} map=${session.currentMapId} pos=${session.currentX},${session.currentY}`
   );
   session.sendSelfStateAptitudeSync();
+  sendSkillStateSync(session, 'enter-game');
   syncInventoryStateToClient(session);
   session.scheduleEquipmentReplay();
   session.syncQuestStateToClient({ mode: syncMode });

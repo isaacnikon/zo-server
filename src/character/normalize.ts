@@ -14,6 +14,20 @@ type PrimaryAttributes = {
   dexterity: number;
   strength: number;
 };
+type LearnedSkillRecord = {
+  skillId: number;
+  name: string;
+  sourceTemplateId?: number;
+  learnedAt: number;
+  requiredLevel?: number;
+  requiredAttribute?: 'strength' | 'dexterity' | 'vitality' | 'intelligence' | null;
+  requiredAttributeValue?: number;
+  hotbarSlot?: number | null;
+};
+type SkillState = {
+  learnedSkills: LearnedSkillRecord[];
+  hotbarSkillIds: number[];
+};
 
 function numberOrDefault(value: unknown, fallback: number): number {
   return typeof value === 'number' ? value : fallback;
@@ -34,6 +48,13 @@ function defaultBonusAttributes(): PrimaryAttributes {
     vitality: 0,
     dexterity: 0,
     strength: 0,
+  };
+}
+
+function defaultSkillState(): SkillState {
+  return {
+    learnedSkills: [],
+    hotbarSkillIds: Array.from({ length: 12 }, () => 0),
   };
 }
 
@@ -81,6 +102,42 @@ function normalizeBonusAttributes(primaryAttributes: UnknownRecord | null | unde
   };
 }
 
+function normalizeSkillState(skillState: UnknownRecord | null | undefined): SkillState {
+  const defaults = defaultSkillState();
+  const learnedSkills = Array.isArray(skillState?.learnedSkills)
+    ? skillState.learnedSkills
+        .filter((entry: UnknownRecord) => Number.isInteger(entry?.skillId))
+        .map((entry: UnknownRecord) => ({
+          skillId: entry.skillId >>> 0,
+          name: typeof entry.name === 'string' && entry.name.length > 0 ? entry.name : `Skill ${entry.skillId >>> 0}`,
+          ...(Number.isInteger(entry?.level) ? { level: entry.level >>> 0 } : {}),
+          ...(Number.isInteger(entry?.proficiency) ? { proficiency: entry.proficiency >>> 0 } : {}),
+          ...(Number.isInteger(entry?.sourceTemplateId) ? { sourceTemplateId: entry.sourceTemplateId >>> 0 } : {}),
+          learnedAt: numberOrDefault(entry.learnedAt, Date.now()),
+          ...(Number.isInteger(entry?.requiredLevel) ? { requiredLevel: entry.requiredLevel >>> 0 } : {}),
+          ...(typeof entry?.requiredAttribute === 'string'
+            ? { requiredAttribute: entry.requiredAttribute as LearnedSkillRecord['requiredAttribute'] }
+            : {}),
+          ...(Number.isInteger(entry?.requiredAttributeValue)
+            ? { requiredAttributeValue: entry.requiredAttributeValue >>> 0 }
+            : {}),
+          ...(Number.isInteger(entry?.hotbarSlot) ? { hotbarSlot: entry.hotbarSlot | 0 } : {}),
+        }))
+    : defaults.learnedSkills;
+  const hotbarSource = Array.isArray(skillState?.hotbarSkillIds)
+    ? skillState.hotbarSkillIds
+    : defaults.hotbarSkillIds;
+  const hotbarSkillIds = Array.from({ length: defaults.hotbarSkillIds.length }, (_value, index) => {
+    const candidate = hotbarSource[index];
+    return Number.isInteger(candidate) ? (candidate >>> 0) : 0;
+  });
+
+  return {
+    learnedSkills,
+    hotbarSkillIds,
+  };
+}
+
 function normalizeCharacterRecord(character: UnknownRecord): UnknownRecord {
   const mapId = numberOrDefault(character.mapId, MAP_ID);
   const x = numberOrDefault(character.x, SPAWN_X);
@@ -88,6 +145,7 @@ function normalizeCharacterRecord(character: UnknownRecord): UnknownRecord {
   const questState = normalizeQuestState(character);
   const inventoryState = normalizeInventoryState(character);
   const bonusAttributes = normalizeBonusAttributes(character.bonusAttributes);
+  const skillState = normalizeSkillState(character.skillState);
   const maxVitals = resolveCharacterMaxVitals({
     roleEntityType: numberOrDefault(
       character.roleEntityType,
@@ -129,6 +187,7 @@ function normalizeCharacterRecord(character: UnknownRecord): UnknownRecord {
     statusPoints: numberOrDefault(character.statusPoints, 0),
     primaryAttributes: normalizePrimaryAttributes(character.primaryAttributes),
     bonusAttributes,
+    skillState,
     activeQuests: questState.activeQuests,
     completedQuests: questState.completedQuests,
     pets: normalizePets(character.pets),
@@ -145,7 +204,9 @@ module.exports = {
   numberOrDefault,
   defaultBonusAttributes,
   defaultPrimaryAttributes,
+  defaultSkillState,
   normalizeBonusAttributes,
   normalizePrimaryAttributes,
+  normalizeSkillState,
   normalizeCharacterRecord,
 };

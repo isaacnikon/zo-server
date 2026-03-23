@@ -5,6 +5,7 @@ const {
   FIGHT_ACTIVE_STATE_SUBCMD,
   GAME_DIALOG_CMD,
   GAME_FIGHT_STREAM_CMD,
+  GAME_FIGHT_TURN_CMD,
   GAME_ITEM_CONTAINER_CMD,
   ITEM_CONTAINER_POSITION_SUBCMD,
   GAME_ITEM_CMD,
@@ -111,6 +112,12 @@ interface NpcShopCatalogItem {
   price: number;
 }
 
+interface SkillSyncEntry {
+  skillId: number;
+  level?: number;
+  proficiency?: number;
+}
+
 function buildSelfStateAptitudeSyncPacket({
   selectedAptitude,
   level,
@@ -194,6 +201,24 @@ function buildSelfStateValueUpdatePacket({ discriminator, value }: ValueUpdatePa
   writer.writeUint8(SELF_STATE_VALUE_UPDATE_SUBCMD);
   writer.writeUint8(discriminator & 0xff);
   writer.writeUint32(value >>> 0);
+  return writer.payload();
+}
+
+function buildSkillStateSyncPacket({
+  skills,
+}: {
+  skills: SkillSyncEntry[];
+}): Buffer {
+  const writer = new PacketWriter();
+  const normalizedSkills = Array.isArray(skills) ? skills : [];
+  writer.writeUint16(GAME_FIGHT_TURN_CMD);
+  writer.writeUint8(0x00);
+  writer.writeUint16(normalizedSkills.length & 0xffff);
+  for (const skill of normalizedSkills) {
+    writer.writeUint16((skill?.skillId || 0) & 0xffff);
+    writer.writeUint16((skill?.level || 1) & 0xffff);
+    writer.writeUint16((skill?.proficiency || 0) & 0xffff);
+  }
   return writer.payload();
 }
 
@@ -558,6 +583,7 @@ module.exports = {
   buildPetRosterSyncPacket,
   buildNpcShopOpenPacket,
   buildSceneEnterPacket,
+  buildSkillStateSyncPacket,
   buildSelfStateAptitudeSyncPacket,
   buildSelfStateValueUpdatePacket,
   buildServerRunScriptPacket,

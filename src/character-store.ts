@@ -81,6 +81,7 @@ class CharacterStore {
     this.writeJsonFile(this.getCharacterFilePath(characterId, 'attributes.json'), buildAttributesDocument(characterId, normalizedCharacter));
     this.writeJsonFile(this.getCharacterFilePath(characterId, 'active-quests.json'), buildActiveQuestsDocument(characterId, normalizedCharacter));
     this.writeJsonFile(this.getCharacterFilePath(characterId, 'completed-quests.json'), buildCompletedQuestsDocument(characterId, normalizedCharacter));
+    this.writeJsonFile(this.getCharacterFilePath(characterId, 'skills.json'), buildSkillsDocument(characterId, normalizedCharacter));
     this.writeJsonFile(this.getCharacterFilePath(characterId, 'pets.json'), buildPetsDocument(characterId, normalizedCharacter));
     this.writeJsonFile(this.getCharacterFilePath(characterId, 'inventory-items.json'), buildInventoryItemsDocument(characterId, normalizedCharacter));
     this.writeJsonFile(this.getCharacterFilePath(characterId, 'inventory-state.json'), buildInventoryStateDocument(characterId, normalizedCharacter));
@@ -98,6 +99,7 @@ class CharacterStore {
     const attributes = (this.readJsonFile(this.getCharacterFilePath(characterId, 'attributes.json')) || {}) as any;
     const activeQuests = (this.readJsonFile(this.getCharacterFilePath(characterId, 'active-quests.json')) || {}) as any;
     const completedQuests = (this.readJsonFile(this.getCharacterFilePath(characterId, 'completed-quests.json')) || {}) as any;
+    const skills = (this.readJsonFile(this.getCharacterFilePath(characterId, 'skills.json')) || {}) as any;
     const pets = (this.readJsonFile(this.getCharacterFilePath(characterId, 'pets.json')) || {}) as any;
     const inventoryItems = (this.readJsonFile(this.getCharacterFilePath(characterId, 'inventory-items.json')) || {}) as any;
     const inventoryState = (this.readJsonFile(this.getCharacterFilePath(characterId, 'inventory-state.json')) || {}) as any;
@@ -142,6 +144,10 @@ class CharacterStore {
         vitality: numberOrDefault(attributes?.bonusAttributes?.vitality, 0),
         dexterity: numberOrDefault(attributes?.bonusAttributes?.dexterity, 0),
         strength: numberOrDefault(attributes?.bonusAttributes?.strength, 0),
+      },
+      skillState: {
+        learnedSkills: Array.isArray(skills.learnedSkills) ? skills.learnedSkills : [],
+        hotbarSkillIds: Array.isArray(skills.hotbarSkillIds) ? skills.hotbarSkillIds : [],
       },
       activeQuests: Array.isArray(activeQuests.quests) ? activeQuests.quests : [],
       completedQuests: Array.isArray(completedQuests.taskIds) ? completedQuests.taskIds : [],
@@ -295,6 +301,36 @@ function buildInventoryItemsDocument(characterId: string, character: any): Recor
           equipped: item.equipped === true,
           slot: numberOrDefault(item.slot, 0),
         }))
+      : [],
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+function buildSkillsDocument(characterId: string, character: any): Record<string, unknown> {
+  return {
+    characterId,
+    learnedSkills: Array.isArray(character?.skillState?.learnedSkills)
+      ? character.skillState.learnedSkills
+          .filter((entry: any) => Number.isInteger(entry?.skillId))
+          .map((entry: any) => ({
+            skillId: entry.skillId >>> 0,
+            name: typeof entry.name === 'string' ? entry.name : `Skill ${entry.skillId >>> 0}`,
+            ...(Number.isInteger(entry?.level) ? { level: entry.level >>> 0 } : {}),
+            ...(Number.isInteger(entry?.proficiency) ? { proficiency: entry.proficiency >>> 0 } : {}),
+            ...(Number.isInteger(entry?.sourceTemplateId) ? { sourceTemplateId: entry.sourceTemplateId >>> 0 } : {}),
+            learnedAt: numberOrDefault(entry.learnedAt, Date.now()),
+            ...(Number.isInteger(entry?.requiredLevel) ? { requiredLevel: entry.requiredLevel >>> 0 } : {}),
+            ...(typeof entry?.requiredAttribute === 'string' ? { requiredAttribute: entry.requiredAttribute } : {}),
+            ...(Number.isInteger(entry?.requiredAttributeValue)
+              ? { requiredAttributeValue: entry.requiredAttributeValue >>> 0 }
+              : {}),
+            ...(Number.isInteger(entry?.hotbarSlot) ? { hotbarSlot: entry.hotbarSlot | 0 } : {}),
+          }))
+      : [],
+    hotbarSkillIds: Array.isArray(character?.skillState?.hotbarSkillIds)
+      ? character.skillState.hotbarSkillIds.map((skillId: unknown) => (
+          Number.isInteger(skillId) ? ((skillId as number) >>> 0) : 0
+        ))
       : [],
     updatedAt: new Date().toISOString(),
   };

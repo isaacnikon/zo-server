@@ -7,6 +7,7 @@ const {
   getItemDefinition,
 } = require('../inventory');
 const { sendConsumeResultPackets } = require('./inventory-runtime');
+const { learnSkillFromBook, sendSkillStateSync } = require('./skill-runtime');
 const { recomputeSessionMaxVitals } = require('./session-flows');
 const { resolvePetMaxVitals } = require('./max-vitals');
 const { sendPetStateSync } = require('../handlers/pet-handler');
@@ -30,6 +31,57 @@ function consumeUsableItemByInstanceId(
 
   const definition = getItemDefinition(bagItem.templateId);
   const effect = definition?.consumableEffect;
+  if (!effect || (!effect.health && !effect.mana && !effect.rage)) {
+    const learnResult = learnSkillFromBook(session, bagItem);
+    if (learnResult.ok) {
+      const consumeResult = consumeBagItemByInstanceId(session, bagItem.instanceId >>> 0, 1);
+      if (!consumeResult.ok) {
+        return {
+          ok: false,
+          reason: consumeResult.reason || `Failed to consume skill book instanceId=${instanceId}`,
+          item: bagItem,
+          definition,
+          learnedSkill: learnResult.learnedSkill,
+        };
+      }
+
+      if (options.suppressInventoryPackets !== true) {
+        sendConsumeResultPackets(session, consumeResult);
+      }
+      sendSkillStateSync(session, 'learn-skill');
+      if (typeof session.sendGameDialogue === 'function') {
+        const hotbarSuffix =
+          Number.isInteger(learnResult.autoAssignedHotbarSlot) && learnResult.autoAssignedHotbarSlot >= 0
+            ? ` Added to hotbar slot ${learnResult.autoAssignedHotbarSlot + 1}.`
+            : '';
+        session.sendGameDialogue('Skill', `Learned ${learnResult.learnedSkill?.name || 'a skill'}.${hotbarSuffix}`);
+      }
+      if (options.suppressPersist !== true && typeof session.persistCurrentCharacter === 'function') {
+        session.persistCurrentCharacter();
+      }
+      return {
+        ok: true,
+        item: bagItem,
+        definition,
+        consumeResult,
+        learnedSkill: learnResult.learnedSkill,
+        useKind: 'skill-book',
+        gained: {
+          health: 0,
+          mana: 0,
+          rage: 0,
+        },
+      };
+    }
+    if (learnResult.skillBook) {
+      return {
+        ok: false,
+        reason: learnResult.reason || `Skill book templateId=${bagItem.templateId} could not be learned`,
+        item: bagItem,
+        definition,
+      };
+    }
+  }
   if (!effect || (!effect.health && !effect.mana && !effect.rage)) {
     return {
       ok: false,

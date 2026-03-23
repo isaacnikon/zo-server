@@ -1,4 +1,4 @@
-import type { GameSession, PrimaryAttributes, QuestSyncMode } from './types';
+import type { GameSession, PrimaryAttributes, QuestSyncMode, SkillState } from './types';
 
 const { parsePingToken } = require('./protocol/inbound-packets');
 const { dispatchGamePacket } = require('./handlers/packet-dispatcher');
@@ -80,7 +80,7 @@ const {
   persistCurrentCharacter: sessionHydrationPersistCurrentCharacter,
   saveCharacter: sessionHydrationSaveCharacter,
 } = require('./character/session-hydration');
-const { defaultBonusAttributes } = require('./character/normalize');
+const { defaultBonusAttributes, defaultSkillState } = require('./character/normalize');
 
 type SharedState = Record<string, any>;
 type LoggerLike = {
@@ -132,6 +132,7 @@ class Session implements GameSession {
   renown: number;
   primaryAttributes: PrimaryAttributes;
   bonusAttributes: PrimaryAttributes;
+  skillState: SkillState;
   statusPoints: number;
   activeQuests: any[];
   completedQuests: number[];
@@ -204,6 +205,7 @@ class Session implements GameSession {
       strength: 15,
     };
     this.bonusAttributes = defaultBonusAttributes();
+    this.skillState = defaultSkillState();
     this.statusPoints = 0;
     this.activeQuests = [];
     this.completedQuests = [];

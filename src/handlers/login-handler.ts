@@ -29,6 +29,7 @@ const {
   normalizeBonusAttributes,
   normalizePrimaryAttributes,
   normalizeCharacterRecord,
+  normalizeSkillState,
 } = require('../character/normalize');
 const { normalizeQuestState } = require('../quest-engine');
 const { normalizeInventoryState } = require('../inventory');
@@ -264,6 +265,7 @@ function sendGameServerRedirect(session: SessionLike): void {
     renown: persisted?.renown || session.renown || 0,
     primaryAttributes: normalizePrimaryAttributes(persisted?.primaryAttributes || session.primaryAttributes),
     bonusAttributes: normalizeBonusAttributes(persisted?.bonusAttributes || session.bonusAttributes),
+    skillState: normalizeSkillState(persisted?.skillState || session.skillState),
     statusPoints: persisted?.statusPoints || session.statusPoints || 0,
     activeQuests: normalizeQuestState(persisted || {}).activeQuests,
     completedQuests: normalizeQuestState(persisted || {}).completedQuests,

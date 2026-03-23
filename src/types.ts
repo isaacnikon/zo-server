@@ -15,6 +15,22 @@ export interface EquipmentStateData { instanceId: number; equipFlag: number; une
 export interface AttributeAllocationData { strengthDelta: number; dexterityDelta: number; vitalityDelta: number; intelligenceDelta: number }
 export interface AttackSelectionData { attackMode: number; targetA: number; targetB: number }
 export type QuestSyncMode = 'login' | 'runtime';
+export interface LearnedSkillRecord {
+  skillId: number;
+  name: string;
+  level?: number;
+  proficiency?: number;
+  sourceTemplateId?: number;
+  learnedAt: number;
+  requiredLevel?: number;
+  requiredAttribute?: 'strength' | 'dexterity' | 'vitality' | 'intelligence' | null;
+  requiredAttributeValue?: number;
+  hotbarSlot?: number | null;
+}
+export interface SkillState {
+  learnedSkills: LearnedSkillRecord[];
+  hotbarSkillIds: number[];
+}
 
 // --- Quest events (discriminated union — replaces if/else type dispatch) ---
 export interface QuestEventBase {
@@ -139,6 +155,7 @@ export interface GameSession {
   renown: number;
   primaryAttributes: PrimaryAttributes;
   bonusAttributes?: PrimaryAttributes;
+  skillState: SkillState;
   activeQuests: QuestRecord[];
   completedQuests: number[];
   defeatRespawnPending: boolean;
@@ -213,6 +230,21 @@ export interface CombatEnemyInstance {
   drops?: DropEntry[];
   name: string;
 }
+export interface CombatPlayerStatus {
+  defiantRoundsRemaining?: number;
+  defiantDefenseBonusPercent?: number;
+  defiantAttackPenaltyPercent?: number;
+}
+export interface CombatEnemyStatus {
+  enervateRoundsRemaining?: number;
+  enervateAttackPenaltyPercent?: number;
+}
+export interface PendingSkillOutcome {
+  skillId: number;
+  targetEntityId: number;
+  playerDamage: number;
+  targetDied: boolean;
+}
 export interface CombatState {
   active: boolean;
   phase: CombatPhase;
@@ -232,4 +264,10 @@ export interface CombatState {
   averageEnemyLevel: number;
   damageDealt: number;
   damageTaken: number;
+  awaitingSkillResolution?: boolean;
+  skillResolutionStartedAt?: number;
+  skillResolutionReason?: string | null;
+  pendingSkillOutcomes?: PendingSkillOutcome[] | null;
+  playerStatus: CombatPlayerStatus;
+  enemyStatuses: Record<number, CombatEnemyStatus>;
 }

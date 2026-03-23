@@ -17,12 +17,34 @@ const {
 const { PacketWriter } = require('../protocol');
 
 const ABSENT_COMPANION_SENTINEL = 0xfffe7960;
+const GAME_PLAYER_ACTION_STATE_CMD = 0x040d;
 
 type UnknownRecord = Record<string, any>;
 type TurnPromptRow = {
   commandId: number;
   levelIndex?: number;
   state?: number;
+};
+type SkillCastPlaybackTarget = {
+  entityId: number;
+  actionCode?: number;
+  value?: number;
+};
+type SkillCastStage2Entry = {
+  wordA: number;
+  wordB: number;
+  dwordC: number;
+};
+type SkillCastPlaybackOptions = {
+  stage2Flag?: number | null;
+  stage2Entries?: SkillCastStage2Entry[];
+};
+type RoundStartOptions = {
+  fieldA?: number;
+  fieldB?: number;
+  fieldC?: number;
+  fieldD?: number;
+  fieldE?: number | null;
 };
 
 function writeEntry(writer: InstanceType<typeof PacketWriter>, entry: UnknownRecord, extended = false): void {
@@ -119,13 +141,33 @@ function buildControlShowPacket(activeEntityId: number): Buffer {
   return writer.payload();
 }
 
-function buildRoundStartPacket(round: number, activeEntityId: number): Buffer {
+function buildRoundStartPacket(round: number, activeEntityId: number, options: RoundStartOptions = {}): Buffer {
   const writer = new PacketWriter();
+  const fieldA = options.fieldA;
+  const fieldB = options.fieldB;
+  const fieldC = options.fieldC;
+  const fieldD = options.fieldD;
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(0x06);
-  writer.writeUint16(Math.max(1, round) & 0xffff);
-  writer.writeUint32(activeEntityId >>> 0);
-  writer.writeUint8(0x0c);
+  if (
+    fieldA === undefined &&
+    fieldB === undefined &&
+    fieldC === undefined &&
+    fieldD === undefined &&
+    options.fieldE === undefined
+  ) {
+    writer.writeUint16(Math.max(1, round) & 0xffff);
+    writer.writeUint32(activeEntityId >>> 0);
+    writer.writeUint8(0x0c);
+    return writer.payload();
+  }
+  writer.writeUint16((fieldA ?? Math.max(1, round)) & 0xffff);
+  writer.writeUint32((fieldB ?? (activeEntityId >>> 0)) >>> 0);
+  writer.writeUint16((fieldC ?? 0) & 0xffff);
+  writer.writeUint8((fieldD ?? 0x0c) & 0xff);
+  if ((fieldD ?? 0x0c) !== 0 && (fieldD ?? 0x0c) !== 0x0c) {
+    writer.writeUint32((options.fieldE ?? 0) >>> 0);
+  }
   return writer.payload();
 }
 
@@ -166,6 +208,63 @@ function buildAttackPlaybackPacket(
   writer.writeUint32((options.secondaryEntityId ?? 0xffffffff) >>> 0);
   writer.writeUint8((options.secondaryHitstate || 0) & 0xff);
   writer.writeUint32((options.secondaryValue || 0) >>> 0);
+  return writer.payload();
+}
+
+function buildSkillCastPlaybackPacket(
+  casterEntityId: number,
+  skillId: number,
+  skillLevelIndex: number,
+  targets: SkillCastPlaybackTarget[],
+  options: SkillCastPlaybackOptions = {}
+): Buffer {
+  const writer = new PacketWriter();
+  const normalizedTargets = Array.isArray(targets) ? targets : [];
+  const normalizedStage2Entries = Array.isArray(options.stage2Entries) ? options.stage2Entries : [];
+  writer.writeUint16(GAME_FIGHT_STREAM_CMD);
+  writer.writeUint8(0x04);
+  writer.writeUint32(casterEntityId >>> 0);
+  writer.writeUint16(skillId & 0xffff);
+  writer.writeUint8(skillLevelIndex & 0xff);
+  for (const target of normalizedTargets) {
+    writer.writeUint32((target?.entityId || 0) >>> 0);
+    writer.writeUint8((target?.actionCode || 0) & 0xff);
+    writer.writeUint32((target?.value || 0) >>> 0);
+  }
+  if (options.stage2Flag !== undefined && options.stage2Flag !== null) {
+    writer.writeUint8(options.stage2Flag & 0xff);
+    if ((options.stage2Flag & 0xff) === 0) {
+      writer.writeUint16(normalizedStage2Entries.length & 0xffff);
+      for (const entry of normalizedStage2Entries) {
+        writer.writeUint16((entry?.wordA || 0) & 0xffff);
+        writer.writeUint16((entry?.wordB || 0) & 0xffff);
+        writer.writeUint32((entry?.dwordC || 0) >>> 0);
+      }
+    }
+  }
+  return writer.payload();
+}
+
+function buildActionStateResetPacket(entityId: number): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_PLAYER_ACTION_STATE_CMD);
+  writer.writeUint32(entityId >>> 0);
+  writer.writeUint8(0x62);
+  return writer.payload();
+}
+
+function buildActionStateTableResetPacket(entityId: number, values: number[] = []): Buffer {
+  const writer = new PacketWriter();
+  const normalizedValues = Array.isArray(values) ? values.slice(0, 11) : [];
+  while (normalizedValues.length < 11) {
+    normalizedValues.push(0);
+  }
+  writer.writeUint16(GAME_PLAYER_ACTION_STATE_CMD);
+  writer.writeUint32(entityId >>> 0);
+  writer.writeUint8(0x63);
+  for (const value of normalizedValues) {
+    writer.writeUint16((value || 0) & 0xffff);
+  }
   return writer.payload();
 }
 
@@ -263,7 +362,10 @@ function buildDefeatPacket(health: number, mana: number, rage: number): Buffer {
 
 module.exports = {
   buildActiveStatePacket,
+  buildActionStateResetPacket,
+  buildActionStateTableResetPacket,
   buildAttackPlaybackPacket,
+  buildSkillCastPlaybackPacket,
   buildProtectPlaybackPacket,
   buildControlInitPacket,
   buildControlShowPacket,

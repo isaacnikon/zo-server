@@ -11,6 +11,16 @@ const ENEMY_POSITIONS = [
   { row: 0, col: 1 },
   { row: 0, col: 2 },
 ];
+let nextCombatEnemyEntityId = 0x700001;
+
+function allocateCombatEnemyEntityId(): number {
+  const entityId = nextCombatEnemyEntityId >>> 0;
+  nextCombatEnemyEntityId = (nextCombatEnemyEntityId + 1) >>> 0;
+  if (nextCombatEnemyEntityId < 0x700001 || nextCombatEnemyEntityId >= 0x7fffffff) {
+    nextCombatEnemyEntityId = 0x700001;
+  }
+  return entityId;
+}
 
 function chooseWeightedTemplate(pool: UnknownRecord[]): UnknownRecord | null {
   const entries = Array.isArray(pool)
@@ -54,7 +64,7 @@ function buildEnemyFromTemplate(template: UnknownRecord, mapId: number, index: n
 
   return {
     side: 1,
-    entityId: 0x700001 + index,
+    entityId: allocateCombatEnemyEntityId(),
     logicalId: Number.isInteger(template.logicalId) ? template.logicalId : typeId,
     typeId,
     row: position.row,

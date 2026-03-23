@@ -9,6 +9,7 @@ const {
   normalizeBonusAttributes,
   normalizePrimaryAttributes,
   normalizeCharacterRecord,
+  normalizeSkillState,
 } = require('./normalize');
 const { normalizeQuestState } = require('../quest-engine');
 const { buildInventorySnapshot, normalizeInventoryState } = require('../inventory');
@@ -45,6 +46,7 @@ export function hydratePendingGameCharacter(session: SessionLike, sharedState: R
   session.renown = numberOrDefault(pendingCharacter.renown, 0);
   session.primaryAttributes = normalizePrimaryAttributes(pendingCharacter.primaryAttributes);
   session.bonusAttributes = normalizeBonusAttributes(pendingCharacter.bonusAttributes);
+  session.skillState = normalizeSkillState(pendingCharacter.skillState);
   session.statusPoints = numberOrDefault(pendingCharacter.statusPoints, 0);
   const maxVitals = resolveCharacterMaxVitals({
     roleEntityType: session.roleEntityType,
@@ -132,6 +134,7 @@ export function buildCharacterSnapshot(
     renown: session.renown,
     primaryAttributes: session.primaryAttributes,
     bonusAttributes: session.bonusAttributes || defaultBonusAttributes(),
+    skillState: session.skillState,
     statusPoints: session.statusPoints,
     activeQuests: session.activeQuests,
     completedQuests: session.completedQuests,

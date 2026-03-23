@@ -26,10 +26,44 @@ const {
 type SessionLike = GameSession & Record<string, any>;
 
 const TRIGGER_TRACE_PATH = resolve(process.cwd(), 'data/runtime/trigger-trace.jsonl');
+const SKILL_PACKET_TRACE_PATH = resolve(process.cwd(), 'data/runtime/skill-packet-trace.jsonl');
+const SKILL_UI_TRACE_COMMANDS = new Set([0x03f5, 0x0400, 0x040d, 0x0410]);
 
 function appendTriggerTrace(event: Record<string, unknown>): void {
   mkdirSync(dirname(TRIGGER_TRACE_PATH), { recursive: true });
   appendFileSync(TRIGGER_TRACE_PATH, `${JSON.stringify(event)}\n`, 'utf8');
+}
+
+function appendSkillPacketTrace(event: Record<string, unknown>): void {
+  mkdirSync(dirname(SKILL_PACKET_TRACE_PATH), { recursive: true });
+  appendFileSync(SKILL_PACKET_TRACE_PATH, `${JSON.stringify(event)}\n`, 'utf8');
+}
+
+function traceSkillUiPacket(
+  session: SessionLike,
+  cmdWord: number,
+  payload: Buffer,
+  phase: 'pre-dispatch' | 'post-unhandled'
+): void {
+  if (!SKILL_UI_TRACE_COMMANDS.has(cmdWord)) {
+    return;
+  }
+
+  const subcmd = payload.length >= 3 ? payload[2] : -1;
+  appendSkillPacketTrace({
+    kind: 'skill-ui-packet',
+    phase,
+    ts: new Date().toISOString(),
+    sessionId: session.id,
+    cmdWord,
+    subcmd,
+    len: payload.length,
+    hex: payload.toString('hex'),
+    mapId: session.currentMapId,
+    x: session.currentX,
+    y: session.currentY,
+    skillState: session.skillState || null,
+  });
 }
 
 function buildPacketDispatch(): Map<number, string> {
@@ -45,6 +79,8 @@ function dispatchGamePacket(
   flags: number,
   payload: Buffer
 ): boolean {
+  traceSkillUiPacket(session, cmdWord, payload, 'pre-dispatch');
+
   if ((flags & 0x04) !== 0 && payload.length >= 6) {
     session.handleSpecialPacket(cmdWord, payload);
     return true;
@@ -153,6 +189,19 @@ function dispatchGamePacket(
 
   if (cmdWord === 0x03ef) {
     const subcmd = payload.length >= 3 ? payload[2] : -1;
+    appendSkillPacketTrace({
+      kind: 'player-state-unhandled',
+      ts: new Date().toISOString(),
+      sessionId: session.id,
+      cmdWord,
+      subcmd,
+      len: payload.length,
+      hex: payload.toString('hex'),
+      mapId: session.currentMapId,
+      x: session.currentX,
+      y: session.currentY,
+      skillState: session.skillState || null,
+    });
     session.log(
       `Unhandled player-state packet cmd=0x03ef sub=0x${subcmd.toString(16)} len=${payload.length} hex=${payload.toString('hex')}`
     );
@@ -170,6 +219,8 @@ function dispatchGamePacket(
     session.handleCombatPacket(cmdWord, payload);
     return true;
   }
+
+  traceSkillUiPacket(session, cmdWord, payload, 'post-unhandled');
 
   return false;
 }
