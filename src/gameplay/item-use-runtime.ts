@@ -74,6 +74,14 @@ function consumeUsableItemByInstanceId(
       };
     }
     if (learnResult.skillBook) {
+      if (typeof session.sendGameDialogue === 'function') {
+        session.sendGameDialogue('Skill', learnResult.reason || `Could not learn ${learnResult.skillBook.name || 'that skill'}.`);
+      }
+      if (typeof session.log === 'function') {
+        session.log(
+          `Skill book learn rejected templateId=${bagItem.templateId >>> 0} skillId=${learnResult.skillBook.skillId >>> 0} reason=${learnResult.reason || 'unknown'}`
+        );
+      }
       return {
         ok: false,
         reason: learnResult.reason || `Skill book templateId=${bagItem.templateId} could not be learned`,

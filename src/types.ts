@@ -241,8 +241,9 @@ export interface CombatEnemyStatus {
 export interface PendingSkillOutcome {
   skillId: number;
   targetEntityId: number;
-  playerDamage: number;
-  targetDied: boolean;
+  playerDamage?: number;
+  healAmount?: number;
+  targetDied?: boolean;
 }
 export interface CombatState {
   active: boolean;

@@ -51,11 +51,21 @@ const CAPTURE_ELEMENT_CODE_MIN = 1;
 const CAPTURE_ELEMENT_CODE_MAX = 4;
 const FIGHT_CLIENT_SKILL_USE_SUBCMD = 0x04;
 const SKILL_PACKET_TRACE_PATH = resolve(process.cwd(), 'data/runtime/skill-packet-trace.jsonl');
+const ENERVATE_SKILL_ID = 1101;
+const DEFIANT_SKILL_ID = 3103;
+const FIREBALL_SKILL_ID = 4101;
+const CURE_SKILL_ID = 4103;
 const DEFIANT_MP_COST_BY_LEVEL = [50, 55, 65, 75, 90, 110, 110, 110, 200, 200, 250, 300];
 const DEFIANT_DEFENSE_BONUS_BY_LEVEL = [20, 20, 20, 20, 20, 30, 32, 34, 36, 48, 75, 75];
 const ENERVATE_MP_COST_BY_LEVEL = [40, 59, 80, 100, 120, 140, 140, 140, 200, 200, 250, 300];
 const ENERVATE_DAMAGE_SCALE_MIN_BY_LEVEL = [1.12, 1.122, 1.124, 1.126, 1.128, 1.13, 1.132, 1.134, 1.136, 1.138, 1.16, 1.2];
 const ENERVATE_DAMAGE_SCALE_MAX_BY_LEVEL = [1.13, 1.132, 1.134, 1.136, 1.138, 1.14, 1.142, 1.144, 1.146, 1.148, 1.18, 1.22];
+const FIREBALL_MP_COST_BY_LEVEL = [40, 55, 70, 85, 100, 120, 120, 120, 180, 180, 220, 260];
+const FIREBALL_DAMAGE_SCALE_MIN_BY_LEVEL = [1.18, 1.2, 1.22, 1.24, 1.26, 1.28, 1.3, 1.32, 1.34, 1.36, 1.4, 1.46];
+const FIREBALL_DAMAGE_SCALE_MAX_BY_LEVEL = [1.28, 1.3, 1.32, 1.34, 1.36, 1.38, 1.4, 1.42, 1.44, 1.46, 1.52, 1.58];
+const FIREBALL_EXPLOSION_CHANCE = 0.1;
+const CURE_MP_COST_BY_LEVEL = [35, 42, 50, 58, 66, 75, 75, 75, 110, 110, 140, 180];
+const CURE_HEAL_SCALE_BY_LEVEL = [1.15, 1.2, 1.25, 1.3, 1.35, 1.4, 1.45, 1.5, 1.55, 1.6, 1.68, 1.76];
 const MULTI_TARGET_ENTITY_SENTINEL = 0xffffffff;
 const MULTI_TARGET_SKILL_IDS = new Set<number>([]);
 const SKILL_PACKET_HYBRID_IMPACT_ENABLED = /^(1|true|yes)$/i.test(process.env.SKILL_PACKET_HYBRID_IMPACT_ENABLED || '');
@@ -646,19 +656,21 @@ function resolveCombatSkillUse(
   }
 
   const targetEnemies = resolveSkillTargets(session, skillId, targetEntityId);
+  const fireballExploded = (skillId >>> 0) === FIREBALL_SKILL_ID && targetEnemies.length > 1;
   session.log(
     `Combat skill request source=${sourceLabel} skillId=${skillId} rawTargetEntityId=${targetEntityId >>> 0} ` +
     `resolvedTargets=${targetEnemies.map((enemy) => `${enemy.entityId}[${enemy.row},${enemy.col}]`).join('|') || 'none'} ` +
+    `fireballExploded=${fireballExploded ? 1 : 0} ` +
     `roster=${describeEnemyRoster(session.combatState?.enemies)}`
   );
-  if (targetEnemies.length <= 0) {
+  if ((skillId >>> 0) !== CURE_SKILL_ID && targetEnemies.length <= 0) {
     session.log(
       `Combat skill use rejected source=${sourceLabel} skillId=${skillId} targetEntityId=${targetEntityId} reason=missing-target`
     );
     resendCombatCommandPrompt(session, 'skill-rejected-missing-target');
     return;
   }
-  const primaryTarget = targetEnemies[0];
+  const primaryTarget = targetEnemies[0] || null;
 
   const skillLevel = Math.max(1, Math.min(12, Number(learnedSkill?.level || 1) || 1));
   const manaCost = resolveSkillManaCost(skillId, skillLevel);
@@ -674,9 +686,9 @@ function resolveCombatSkillUse(
   session.combatState.phase = 'resolved';
   session.currentMana = Math.max(0, (session.currentMana || 0) - manaCost);
 
-  if ((skillId >>> 0) === 3103) {
+  if ((skillId >>> 0) === DEFIANT_SKILL_ID) {
     sendCombatSkillCastPlayback(session, skillId, skillLevel, [{
-      entityId: primaryTarget.entityId >>> 0,
+      entityId: (primaryTarget?.entityId || session.entityType) >>> 0,
       actionCode: 0,
       value: 0,
     }]);
@@ -689,9 +701,32 @@ function resolveCombatSkillUse(
       defiantAttackPenaltyPercent: 10,
     };
     session.log(
-      `Combat skill use ok source=${sourceLabel} skillId=${skillId} targetEntityId=${primaryTarget.entityId} effect=defiant manaCost=${manaCost} rounds=${durationRounds} defenseBonus=${defenseBonusPercent}`
+      `Combat skill use ok source=${sourceLabel} skillId=${skillId} targetEntityId=${(primaryTarget?.entityId || session.entityType) >>> 0} effect=defiant manaCost=${manaCost} rounds=${durationRounds} defenseBonus=${defenseBonusPercent}`
     );
     session.combatState.pendingSkillOutcomes = null;
+    queuePostSkillEnemyResponse(session);
+    return;
+  }
+
+  if ((skillId >>> 0) === CURE_SKILL_ID) {
+    const healAmount = resolveSkillHealing(session, skillId, skillLevel);
+    const previousHealth = Math.max(0, session.currentHealth || 0);
+    const maxHealth = Math.max(previousHealth, session.maxHealth || previousHealth || 1);
+    const appliedHeal = Math.max(0, Math.min(maxHealth - previousHealth, healAmount));
+    session.currentHealth = Math.max(0, Math.min(maxHealth, previousHealth + healAmount));
+    sendCombatSkillCastPlayback(session, skillId, skillLevel, [{
+      entityId: session.entityType >>> 0,
+      actionCode: 1,
+      value: Math.max(1, appliedHeal || healAmount || 1),
+    }]);
+    session.log(
+      `Combat skill use ok source=${sourceLabel} skillId=${skillId} targetEntityId=${session.entityType} effect=cure manaCost=${manaCost} healed=${appliedHeal} hp=${session.currentHealth}/${maxHealth}`
+    );
+    session.combatState.pendingSkillOutcomes = [{
+      skillId,
+      targetEntityId: session.entityType >>> 0,
+      healAmount: appliedHeal,
+    }];
     queuePostSkillEnemyResponse(session);
     return;
   }
@@ -716,7 +751,7 @@ function resolveCombatSkillUse(
       playerDamage: Math.max(1, playerDamage || 1),
       targetDied,
     });
-    if ((skillId >>> 0) === 1101) {
+    if ((skillId >>> 0) === ENERVATE_SKILL_ID) {
       session.combatState.enemyStatuses[targetEnemy.entityId >>> 0] = {
         enervateRoundsRemaining: resolveEnervateDuration(skillLevel),
         enervateAttackPenaltyPercent: resolveEnervateAttackPenalty(skillLevel),
@@ -726,7 +761,7 @@ function resolveCombatSkillUse(
   sendCombatSkillCastPlayback(session, skillId, skillLevel, castTargets);
   session.combatState.damageDealt = Math.max(0, (session.combatState.damageDealt || 0) + totalAppliedDamage);
   session.log(
-    `Combat skill use ok source=${sourceLabel} skillId=${skillId} targetCount=${pendingOutcomes.length} manaCost=${manaCost} totalDamage=${totalAppliedDamage} remaining=${describeLivingEnemies(session.combatState.enemies)}`
+    `Combat skill use ok source=${sourceLabel} skillId=${skillId} targetCount=${pendingOutcomes.length} manaCost=${manaCost} totalDamage=${totalAppliedDamage} fireballExploded=${fireballExploded ? 1 : 0} remaining=${describeLivingEnemies(session.combatState.enemies)}`
   );
   session.combatState.pendingSkillOutcomes = pendingOutcomes;
   queuePostSkillEnemyResponse(session);
@@ -1404,6 +1439,12 @@ function resolveCaptureTargetEnemy(session: SessionLike, targetEntityId: number)
 }
 
 function resolveSkillTargets(session: SessionLike, skillId: number, targetEntityId: number): CombatEnemyInstance[] {
+  if ((skillId >>> 0) === CURE_SKILL_ID) {
+    return [];
+  }
+  if ((skillId >>> 0) === FIREBALL_SKILL_ID) {
+    return resolveFireballTargets(session, targetEntityId);
+  }
   const living = listLivingEnemies(session.combatState?.enemies);
   if (living.length <= 0) {
     return [];
@@ -1416,6 +1457,27 @@ function resolveSkillTargets(session: SessionLike, skillId: number, targetEntity
     return [explicitTarget];
   }
   return [];
+}
+
+function resolveFireballTargets(session: SessionLike, targetEntityId: number): CombatEnemyInstance[] {
+  const primaryTarget = findEnemyByEntityId(session.combatState?.enemies, targetEntityId >>> 0);
+  if (!primaryTarget || primaryTarget.hp <= 0) {
+    return [];
+  }
+
+  if (Math.random() >= FIREBALL_EXPLOSION_CHANCE) {
+    return [primaryTarget];
+  }
+
+  const adjacentTargets = listLivingEnemies(session.combatState?.enemies)
+    .filter((enemy) =>
+      enemy.entityId !== primaryTarget.entityId &&
+      enemy.row === primaryTarget.row &&
+      Math.abs((enemy.col || 0) - (primaryTarget.col || 0)) === 1
+    )
+    .sort((a, b) => a.col - b.col);
+
+  return [primaryTarget, ...adjacentTargets];
 }
 
 function isEnemyDying(enemy: CombatEnemyInstance | null | undefined): boolean {
@@ -1591,7 +1653,7 @@ function computeEnemyDamage(session: SessionLike, enemy: Record<string, any>): n
 }
 
 function computeSkillDamage(session: SessionLike, skillId: number, skillLevel: number, enemy: Record<string, any>): number {
-  if ((skillId >>> 0) === 1101) {
+  if ((skillId >>> 0) === ENERVATE_SKILL_ID) {
     const attackRange = resolvePlayerAttackRange(session);
     const attackMin = Math.max(1, attackRange.min || 0);
     const attackMax = Math.max(attackMin, attackRange.max || attackMin);
@@ -1603,15 +1665,43 @@ function computeSkillDamage(session: SessionLike, skillId: number, skillLevel: n
     const mitigation = Math.floor(((enemy.level || 1) * 2) + (enemy.aptitude || 0));
     return Math.max(1, baseDamage - mitigation);
   }
+  if ((skillId >>> 0) === FIREBALL_SKILL_ID) {
+    const attackRange = resolvePlayerMagicAttackRange(session);
+    const attackMin = Math.max(1, attackRange.min || 0);
+    const attackMax = Math.max(attackMin, attackRange.max || attackMin);
+    const scaleMin = FIREBALL_DAMAGE_SCALE_MIN_BY_LEVEL[Math.max(0, skillLevel - 1)] || FIREBALL_DAMAGE_SCALE_MIN_BY_LEVEL[0];
+    const scaleMax = FIREBALL_DAMAGE_SCALE_MAX_BY_LEVEL[Math.max(0, skillLevel - 1)] || FIREBALL_DAMAGE_SCALE_MAX_BY_LEVEL[0];
+    const scaledMin = Math.max(1, Math.round(attackMin * scaleMin));
+    const scaledMax = Math.max(scaledMin, Math.round(attackMax * scaleMax));
+    const baseDamage = scaledMin + Math.floor(Math.random() * Math.max(1, (scaledMax - scaledMin) + 1));
+    const mitigation = Math.floor((enemy.level || 1) + Math.max(0, enemy.aptitude || 0));
+    return Math.max(1, baseDamage - mitigation);
+  }
   return computePlayerDamage(session, enemy);
 }
 
 function resolveSkillManaCost(skillId: number, skillLevel: number): number {
-  if ((skillId >>> 0) === 3103) {
+  if ((skillId >>> 0) === DEFIANT_SKILL_ID) {
     return DEFIANT_MP_COST_BY_LEVEL[Math.max(0, skillLevel - 1)] || DEFIANT_MP_COST_BY_LEVEL[0];
   }
-  if ((skillId >>> 0) === 1101) {
+  if ((skillId >>> 0) === ENERVATE_SKILL_ID) {
     return ENERVATE_MP_COST_BY_LEVEL[Math.max(0, skillLevel - 1)] || ENERVATE_MP_COST_BY_LEVEL[0];
+  }
+  if ((skillId >>> 0) === FIREBALL_SKILL_ID) {
+    return FIREBALL_MP_COST_BY_LEVEL[Math.max(0, skillLevel - 1)] || FIREBALL_MP_COST_BY_LEVEL[0];
+  }
+  if ((skillId >>> 0) === CURE_SKILL_ID) {
+    return CURE_MP_COST_BY_LEVEL[Math.max(0, skillLevel - 1)] || CURE_MP_COST_BY_LEVEL[0];
+  }
+  return 0;
+}
+
+function resolveSkillHealing(session: SessionLike, skillId: number, skillLevel: number): number {
+  if ((skillId >>> 0) === CURE_SKILL_ID) {
+    const attackRange = resolvePlayerMagicAttackRange(session);
+    const attackMin = Math.max(1, attackRange.min || 0);
+    const scale = CURE_HEAL_SCALE_BY_LEVEL[Math.max(0, skillLevel - 1)] || CURE_HEAL_SCALE_BY_LEVEL[0];
+    return Math.max(1, Math.round(attackMin * scale) + (session.level || 1) * 2);
   }
   return 0;
 }
@@ -1635,6 +1725,22 @@ function resolveEnervateDuration(skillLevel: number): number {
 
 function resolveEnervateAttackPenalty(skillLevel: number): number {
   return Math.min(40, 18 + ((Math.max(1, skillLevel) - 1) * 2));
+}
+
+function resolvePlayerMagicAttackRange(session: SessionLike): { min: number; max: number } {
+  const stats = session.primaryAttributes || {};
+  const equipment = getEquipmentCombatBonuses(session);
+  const weaponMin = Math.max(0, equipment.magicAttackMin || 0);
+  const weaponMax = Math.max(weaponMin, equipment.magicAttackMax || weaponMin);
+  const intelligence = Math.max(0, stats.intelligence || 0);
+  const vitality = Math.max(0, stats.vitality || 0);
+  const level = Math.max(1, session.level || 1);
+  const base = weaponMin + (intelligence * 4) + level;
+  const spread = Math.max(1, (weaponMax - weaponMin) + Math.floor(vitality / 8));
+  return {
+    min: Math.max(1, base),
+    max: Math.max(1, base + spread),
+  };
 }
 
 function tickCombatStatuses(session: SessionLike): void {

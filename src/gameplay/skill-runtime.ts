@@ -21,6 +21,33 @@ interface SkillBookDefinition {
   incompatibleSkillIds: number[];
 }
 
+const SKILL_BOOK_OVERRIDES = new Map<number, Partial<SkillBookDefinition>>([
+  [27010, {
+    skillId: 4101,
+    name: 'Fire Ball',
+    requiredLevel: 10,
+    requiredAttribute: 'intelligence',
+    requiredAttributeValue: 20,
+    incompatibleSkillIds: [4102, 4103],
+  }],
+  [27011, {
+    skillId: 4102,
+    name: 'Frost Bolt',
+    requiredLevel: 10,
+    requiredAttribute: 'intelligence',
+    requiredAttributeValue: 20,
+    incompatibleSkillIds: [4101, 4103],
+  }],
+  [27012, {
+    skillId: 4103,
+    name: 'Cure',
+    requiredLevel: 10,
+    requiredAttribute: 'intelligence',
+    requiredAttributeValue: 20,
+    incompatibleSkillIds: [4101, 4102],
+  }],
+]);
+
 const ITEMS_TABLE_FILE = resolveRepoPath('data', 'client-derived', 'items.json');
 const SKILL_BOOKS_BY_TEMPLATE_ID = loadSkillBookDefinitions();
 
@@ -195,16 +222,25 @@ function loadSkillBookDefinitions(): Map<number, SkillBookDefinition> {
     const requiredAttribute = resolveRequiredAttribute(entry);
     const requiredAttributeValue = resolveRequiredAttributeValue(entry);
     const incompatibleNames = parseIncompatibleSkillNames(entry);
+    const override = SKILL_BOOK_OVERRIDES.get(entry.templateId >>> 0) || {};
     byTemplateId.set(entry.templateId >>> 0, {
       templateId: entry.templateId >>> 0,
-      skillId: normalizedSkillId,
-      name,
-      requiredLevel: Math.max(1, Number(entry?.templateTierField || 1)) >>> 0,
-      requiredAttribute,
-      requiredAttributeValue,
-      incompatibleSkillIds: incompatibleNames
-        .map((skillName) => nameToSkillId.get(skillName.toLowerCase()) || 0)
-        .filter((value) => value > 0),
+      skillId: typeof override.skillId === 'number' && Number.isInteger(override.skillId)
+        ? (override.skillId >>> 0)
+        : normalizedSkillId,
+      name: typeof override.name === 'string' && override.name.length > 0 ? override.name : name,
+      requiredLevel: typeof override.requiredLevel === 'number' && Number.isInteger(override.requiredLevel)
+        ? Math.max(1, override.requiredLevel) >>> 0
+        : (Math.max(1, Number(entry?.templateTierField || 1)) >>> 0),
+      requiredAttribute: override.requiredAttribute ?? requiredAttribute,
+      requiredAttributeValue: typeof override.requiredAttributeValue === 'number' && Number.isInteger(override.requiredAttributeValue)
+        ? (override.requiredAttributeValue >>> 0)
+        : requiredAttributeValue,
+      incompatibleSkillIds: Array.isArray(override.incompatibleSkillIds)
+        ? override.incompatibleSkillIds.map((value) => value >>> 0)
+        : incompatibleNames
+            .map((skillName) => nameToSkillId.get(skillName.toLowerCase()) || 0)
+            .filter((value) => value > 0),
     });
   }
 
