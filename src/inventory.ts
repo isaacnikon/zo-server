@@ -982,6 +982,59 @@ function getEquipmentCombatBonuses(session: InventorySessionLike): UnknownRecord
   });
 }
 
+function getCombatAppearanceProfile(session: InventorySessionLike): { appearanceTypes: number[]; appearanceVariants: number[] } {
+  const equippedItems = getEquippedItems(session);
+  const appearanceTypes = [0, 0, 0];
+  const appearanceVariants = [0, 0, 0];
+
+  for (const item of equippedItems) {
+    const definition = getItemDefinition(item.templateId);
+    const family = Number.isInteger(definition?.clientTemplateFamily)
+      ? (definition!.clientTemplateFamily as number)
+      : null;
+    if (family === null) {
+      continue;
+    }
+
+    // Normal wearable visual families align with head/body/belt(/shoes) buckets.
+    if (family === 33) {
+      appearanceTypes[0] = family;
+      continue;
+    }
+    if (family === 34) {
+      appearanceTypes[1] = family;
+      continue;
+    }
+    if (family === 35 || family === 36) {
+      appearanceTypes[2] = family;
+      continue;
+    }
+  }
+
+  return { appearanceTypes, appearanceVariants };
+}
+
+function describeCombatAppearanceProfile(session: InventorySessionLike): string {
+  const equippedItems = getEquippedItems(session);
+  if (equippedItems.length === 0) {
+    return 'equipped=none';
+  }
+
+  return equippedItems.map((item) => {
+    const definition = getItemDefinition(item.templateId);
+    const family = Number.isInteger(definition?.clientTemplateFamily)
+      ? (definition!.clientTemplateFamily as number)
+      : 0;
+    const slot = Number.isInteger(definition?.equipSlotField)
+      ? (definition!.equipSlotField as number)
+      : 0;
+    const tier = Number.isInteger((definition as UnknownRecord | null)?.templateTierField)
+      ? (((definition as UnknownRecord).templateTierField as number) & 0xffff)
+      : 0;
+    return `${item.instanceId}:${item.templateId}:family=${family}:slot=${slot}:tier=${tier}`;
+  }).join('|');
+}
+
 function canEquipItem(session: UnknownRecord, item: BagItem): UnknownRecord {
   const definition = getItemDefinition(item?.templateId);
   if (!definition || definition.hasDurability !== true) {
@@ -1183,6 +1236,8 @@ export {
   consumeBagItemByInstanceId,
   removeBagItemByInstanceId,
   canEquipItem,
+  describeCombatAppearanceProfile,
   getEquippedItems,
   getEquipmentCombatBonuses,
+  getCombatAppearanceProfile,
 };

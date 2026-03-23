@@ -42,7 +42,13 @@ const { applyEffects } = require('../effects/effect-executor');
 const { buildDefeatRespawnState } = require('../gameplay/session-flows');
 const { sendSelfStateVitalsUpdate } = require('../gameplay/stat-sync');
 const { getCapturePetTemplateId } = require('../roleinfo');
-const { getBagItemByReference, getEquipmentCombatBonuses, getItemDefinition } = require('../inventory');
+const {
+  describeCombatAppearanceProfile,
+  getBagItemByReference,
+  getCombatAppearanceProfile,
+  getEquipmentCombatBonuses,
+  getItemDefinition,
+} = require('../inventory');
 
 type SessionLike = GameSession & Record<string, any>;
 type CombatAction = Record<string, any>;
@@ -54,8 +60,8 @@ const SKILL_PACKET_TRACE_PATH = resolve(process.cwd(), 'data/runtime/skill-packe
 const DEFIANT_MP_COST_BY_LEVEL = [50, 55, 65, 75, 90, 110, 110, 110, 200, 200, 250, 300];
 const DEFIANT_DEFENSE_BONUS_BY_LEVEL = [20, 20, 20, 20, 20, 30, 32, 34, 36, 48, 75, 75];
 const ENERVATE_MP_COST_BY_LEVEL = [40, 59, 80, 100, 120, 140, 140, 140, 200, 200, 250, 300];
-const ENERVATE_DAMAGE_MIN_BY_LEVEL = [20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 69, 100];
-const ENERVATE_DAMAGE_MAX_BY_LEVEL = [30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 78, 108];
+const ENERVATE_DAMAGE_SCALE_MIN_BY_LEVEL = [1.12, 1.122, 1.124, 1.126, 1.128, 1.13, 1.132, 1.134, 1.136, 1.138, 1.16, 1.2];
+const ENERVATE_DAMAGE_SCALE_MAX_BY_LEVEL = [1.13, 1.132, 1.134, 1.136, 1.138, 1.14, 1.142, 1.144, 1.146, 1.148, 1.18, 1.22];
 const MULTI_TARGET_ENTITY_SENTINEL = 0xffffffff;
 const MULTI_TARGET_SKILL_IDS = new Set<number>([]);
 const SKILL_PACKET_HYBRID_IMPACT_ENABLED = /^(1|true|yes)$/i.test(process.env.SKILL_PACKET_HYBRID_IMPACT_ENABLED || '');
@@ -1382,6 +1388,9 @@ function clearCombatState(session: SessionLike, persist = false): void {
   if (persist) {
     session.persistCurrentCharacter();
   }
+  if (typeof session.scheduleEquipmentReplay === 'function') {
+    session.scheduleEquipmentReplay(100);
+  }
 }
 
 function findFirstLivingEnemy(enemies: CombatEnemyInstance[] | null | undefined): CombatEnemyInstance | null {
@@ -1484,6 +1493,10 @@ function describeEnemyRoster(enemies: CombatEnemyInstance[] | null | undefined):
 }
 
 function buildPlayerEntry(session: SessionLike): Record<string, any> {
+  const appearance = getCombatAppearanceProfile(session);
+  session.log(
+    `Combat player appearance entry types=${appearance.appearanceTypes.join('/')} variants=${appearance.appearanceVariants.join('/')} ${describeCombatAppearanceProfile(session)}`
+  );
   return {
     side: 0xff,
     entityId: session.entityType >>> 0,
@@ -1494,8 +1507,8 @@ function buildPlayerEntry(session: SessionLike): Record<string, any> {
     mp: Math.max(0, session.currentMana || 0),
     aptitude: 0,
     level: Math.max(1, session.level || 1),
-    appearanceTypes: [0, 0, 0],
-    appearanceVariants: [0, 0, 0],
+    appearanceTypes: appearance.appearanceTypes,
+    appearanceVariants: appearance.appearanceVariants,
     name: session.charName || 'Hero',
   };
 }
@@ -1511,6 +1524,63 @@ function computePlayerDamage(session: SessionLike, enemy: Record<string, any>): 
   const defiantPenalty = Math.max(0, Math.min(90, session.combatState?.playerStatus?.defiantAttackPenaltyPercent || 0));
   const adjustedBase = Math.round(base * (1 - (defiantPenalty / 100)));
   return Math.max(1, adjustedBase + Math.floor(Math.random() * Math.max(1, spread)) - mitigation);
+}
+
+function readExplicitCharacterAttackRange(session: SessionLike): { min: number; max: number } | null {
+  const candidates: Array<{ min: number; max: number }> = [];
+  const hasDirect = session?.characterAttackMin != null && session?.characterAttackMax != null;
+  const directMin = hasDirect ? Number(session?.characterAttackMin) : NaN;
+  const directMax = hasDirect ? Number(session?.characterAttackMax) : NaN;
+  if (Number.isFinite(directMin) && Number.isFinite(directMax) && directMin > 0 && directMax > 0) {
+    candidates.push({ min: directMin, max: directMax });
+  }
+  const hasAlt = session?.attackMin != null && session?.attackMax != null;
+  const altMin = hasAlt ? Number(session?.attackMin) : NaN;
+  const altMax = hasAlt ? Number(session?.attackMax) : NaN;
+  if (Number.isFinite(altMin) && Number.isFinite(altMax) && altMin > 0 && altMax > 0) {
+    candidates.push({ min: altMin, max: altMax });
+  }
+  const persisted = session?.persistedCharacter && typeof session.persistedCharacter === 'object'
+    ? session.persistedCharacter
+    : {};
+  const persistedAttackMin = (persisted as Record<string, unknown>)?.attackMin;
+  const persistedAttackMax = (persisted as Record<string, unknown>)?.attackMax;
+  const hasPersisted = persistedAttackMin != null && persistedAttackMax != null;
+  const persistedMin = hasPersisted ? Number(persistedAttackMin) : NaN;
+  const persistedMax = hasPersisted ? Number(persistedAttackMax) : NaN;
+  if (Number.isFinite(persistedMin) && Number.isFinite(persistedMax) && persistedMin > 0 && persistedMax > 0) {
+    candidates.push({ min: persistedMin, max: persistedMax });
+  }
+  for (const candidate of candidates) {
+    const min = Math.max(1, Math.round(candidate.min));
+    const max = Math.max(min, Math.round(candidate.max));
+    if (max >= min) {
+      return { min, max };
+    }
+  }
+  return null;
+}
+
+function resolvePlayerAttackRange(session: SessionLike): { min: number; max: number } {
+  const explicitRange = readExplicitCharacterAttackRange(session);
+  if (explicitRange) {
+    return explicitRange;
+  }
+  const stats = session.primaryAttributes || {};
+  const equipment = getEquipmentCombatBonuses(session);
+  const weaponMin = Math.max(0, equipment.attackMin || 0);
+  const weaponMax = Math.max(weaponMin, equipment.attackMax || weaponMin);
+  const strength = Math.max(0, stats.strength || 0);
+  const dexterity = Math.max(0, stats.dexterity || 0);
+  const level = Math.max(1, session.level || 1);
+  // This range tracks the client-facing ATK panel more closely than per-hit combat roll math.
+  const base = weaponMin + (strength * 4) + level;
+  const spread = Math.max(1, (weaponMax - weaponMin) + Math.floor(dexterity / 6));
+  const defiantPenalty = Math.max(0, Math.min(90, session.combatState?.playerStatus?.defiantAttackPenaltyPercent || 0));
+  const adjustedBase = Math.max(1, Math.round(base * (1 - (defiantPenalty / 100))));
+  const adjustedMin = adjustedBase;
+  const adjustedMax = Math.max(adjustedMin, adjustedBase + spread);
+  return { min: adjustedMin, max: adjustedMax };
 }
 
 function computeEnemyDamage(session: SessionLike, enemy: Record<string, any>): number {
@@ -1532,12 +1602,16 @@ function computeEnemyDamage(session: SessionLike, enemy: Record<string, any>): n
 
 function computeSkillDamage(session: SessionLike, skillId: number, skillLevel: number, enemy: Record<string, any>): number {
   if ((skillId >>> 0) === 1101) {
-    const minDamage = ENERVATE_DAMAGE_MIN_BY_LEVEL[Math.max(0, skillLevel - 1)] || 20;
-    const maxDamage = ENERVATE_DAMAGE_MAX_BY_LEVEL[Math.max(0, skillLevel - 1)] || minDamage;
-    const baseDamage = minDamage + Math.floor((maxDamage - minDamage) / 2);
-    const strengthBonus = Math.round(Math.max(0, session.primaryAttributes?.strength || 0) * 0.35);
+    const attackRange = resolvePlayerAttackRange(session);
+    const attackMin = Math.max(1, attackRange.min || 0);
+    const attackMax = Math.max(attackMin, attackRange.max || attackMin);
+    const scaleMin = ENERVATE_DAMAGE_SCALE_MIN_BY_LEVEL[Math.max(0, skillLevel - 1)] || ENERVATE_DAMAGE_SCALE_MIN_BY_LEVEL[0];
+    const scaleMax = ENERVATE_DAMAGE_SCALE_MAX_BY_LEVEL[Math.max(0, skillLevel - 1)] || ENERVATE_DAMAGE_SCALE_MAX_BY_LEVEL[0];
+    const scaledMin = Math.max(1, Math.round(attackMin * scaleMin));
+    const scaledMax = Math.max(scaledMin, Math.round(attackMax * scaleMax));
+    const baseDamage = scaledMin + Math.floor(Math.random() * Math.max(1, (scaledMax - scaledMin) + 1));
     const mitigation = Math.floor(((enemy.level || 1) * 2) + (enemy.aptitude || 0));
-    return Math.max(1, baseDamage + strengthBonus - mitigation);
+    return Math.max(1, baseDamage - mitigation);
   }
   return computePlayerDamage(session, enemy);
 }

@@ -133,6 +133,8 @@ class CharacterStore {
       lastTownMapId: profile.lastTownMapId,
       lastTownX: profile.lastTownX,
       lastTownY: profile.lastTownY,
+      attackMin: numberOrNull(profile.attackMin),
+      attackMax: numberOrNull(profile.attackMax),
       primaryAttributes: {
         intelligence: attributes.intelligence,
         vitality: attributes.vitality,
@@ -216,6 +218,8 @@ function buildProfileDocument(accountId: string, characterId: string, character:
     lastTownMapId: numberOrNull(character.lastTownMapId),
     lastTownX: numberOrNull(character.lastTownX),
     lastTownY: numberOrNull(character.lastTownY),
+    attackMin: numberOrNull(character.attackMin),
+    attackMax: numberOrNull(character.attackMax),
     updatedAt: new Date().toISOString(),
   };
 }

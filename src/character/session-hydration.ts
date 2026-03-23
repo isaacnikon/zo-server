@@ -85,6 +85,10 @@ export function hydratePendingGameCharacter(session: SessionLike, sharedState: R
   session.currentMapId = numberOrDefault(pendingCharacter.mapId, session.currentMapId);
   session.currentX = numberOrDefault(pendingCharacter.x, session.currentX);
   session.currentY = numberOrDefault(pendingCharacter.y, session.currentY);
+  if (Number.isFinite(Number(pendingCharacter.attackMin)) && Number.isFinite(Number(pendingCharacter.attackMax))) {
+    session.attackMin = Math.max(1, Number(pendingCharacter.attackMin) | 0);
+    session.attackMax = Math.max(session.attackMin, Number(pendingCharacter.attackMax) | 0);
+  }
   sharedState.pendingGameCharacter = null;
 }
 

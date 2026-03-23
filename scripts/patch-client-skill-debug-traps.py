@@ -13,13 +13,11 @@ DEFAULT_BINARY = pathlib.Path("/home/nikon/Data/Zodiac Online/gc12.exe")
 DEFAULT_STATE = pathlib.Path("/tmp/gc12-skill-debug-traps.json")
 
 TRAPS = {
-    "skill_target_read_1": 0x54CE58,
-    "skill_target_read_2": 0x54CE68,
-    "skill_target_read_3": 0x54CE78,
-    "skill_float_primary": 0x437A60,
-    "skill_float_single": 0x437B39,
-    "skill_text_generic": 0x4379D0,
-    "skill_text_named": 0x437954,
+    "skill_apply_overlay": 0x52028D,
+    "skill_gate_entry": 0x52034C,
+    "skill_gate_call": 0x520370,
+    "skill_gate_branch": 0x52038D,
+    "skill_effect_block": 0x520397,
 }
 
 

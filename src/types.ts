@@ -168,7 +168,6 @@ export interface GameSession {
   pendingSceneNpcSpawnMapId?: number | null;
   fieldCombatCooldownUntil?: number | null;
   lastFieldCombatProbeKey?: string | null;
-
   // I/O methods
   writePacket(payload: Buffer, flags?: number, message?: string): void;
   log(message: string): void;
