@@ -42,13 +42,7 @@ const { applyEffects } = require('../effects/effect-executor');
 const { buildDefeatRespawnState } = require('../gameplay/session-flows');
 const { sendSelfStateVitalsUpdate } = require('../gameplay/stat-sync');
 const { getCapturePetTemplateId } = require('../roleinfo');
-const {
-  describeCombatAppearanceProfile,
-  getBagItemByReference,
-  getCombatAppearanceProfile,
-  getEquipmentCombatBonuses,
-  getItemDefinition,
-} = require('../inventory');
+const { getBagItemByReference, getEquipmentCombatBonuses, getItemDefinition } = require('../inventory');
 
 type SessionLike = GameSession & Record<string, any>;
 type CombatAction = Record<string, any>;
@@ -1493,10 +1487,6 @@ function describeEnemyRoster(enemies: CombatEnemyInstance[] | null | undefined):
 }
 
 function buildPlayerEntry(session: SessionLike): Record<string, any> {
-  const appearance = getCombatAppearanceProfile(session);
-  session.log(
-    `Combat player appearance entry types=${appearance.appearanceTypes.join('/')} variants=${appearance.appearanceVariants.join('/')} ${describeCombatAppearanceProfile(session)}`
-  );
   return {
     side: 0xff,
     entityId: session.entityType >>> 0,
@@ -1507,8 +1497,8 @@ function buildPlayerEntry(session: SessionLike): Record<string, any> {
     mp: Math.max(0, session.currentMana || 0),
     aptitude: 0,
     level: Math.max(1, session.level || 1),
-    appearanceTypes: appearance.appearanceTypes,
-    appearanceVariants: appearance.appearanceVariants,
+    appearanceTypes: [0, 0, 0],
+    appearanceVariants: [0, 0, 0],
     name: session.charName || 'Hero',
   };
 }

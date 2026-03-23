@@ -265,6 +265,5 @@ export function scheduleEquipmentReplay(session: SessionLike, delayMs = 300): vo
       return;
     }
     sendEquipmentContainerSync(session);
-    sendSkillStateSync(session, 'post-equipment-replay');
   }, Math.max(0, delayMs | 0));
 }
