@@ -64,6 +64,9 @@ const SKILL_PACKET_PROBE_STAGE2_FLAG = Number.isFinite(Number(process.env.SKILL_
   ? Number(process.env.SKILL_PACKET_PROBE_STAGE2_FLAG)
   : 0;
 const SKILL_PACKET_PROBE_STAGE2_SPEC = String(process.env.SKILL_PACKET_PROBE_STAGE2_SPEC || '').trim();
+const SKILL_PACKET_PROBE_TARGET_ENTITY = String(process.env.SKILL_PACKET_PROBE_TARGET_ENTITY || '').trim();
+const SKILL_PACKET_PROBE_TARGET_ACTION = String(process.env.SKILL_PACKET_PROBE_TARGET_ACTION || '').trim();
+const SKILL_PACKET_PROBE_TARGET_VALUE = String(process.env.SKILL_PACKET_PROBE_TARGET_VALUE || '').trim();
 const ROUND_START_PROBE_ENABLED = /^(1|true|yes)$/i.test(process.env.ROUND_START_PROBE_ENABLED || '');
 const ROUND_START_PROBE_FIELD_B = String(process.env.ROUND_START_PROBE_FIELD_B || '').trim();
 const ROUND_START_PROBE_FIELD_C = String(process.env.ROUND_START_PROBE_FIELD_C || '').trim();
@@ -274,6 +277,48 @@ function buildSkillPacketProbeStage2Entries(
   }
 
   return entries;
+}
+
+function buildSkillPacketProbeTargets(
+  skillId: number,
+  skillLevel: number,
+  skillLevelIndex: number,
+  casterEntityId: number,
+  targets: Array<{ entityId: number; actionCode: number; value: number }>
+): Array<{ entityId: number; actionCode: number; value: number }> {
+  if (
+    SKILL_PACKET_PROBE_TARGET_ENTITY.length === 0 &&
+    SKILL_PACKET_PROBE_TARGET_ACTION.length === 0 &&
+    SKILL_PACKET_PROBE_TARGET_VALUE.length === 0
+  ) {
+    return targets;
+  }
+
+  return targets.map((target) => {
+    const context: SkillPacketProbeContext = {
+      casterEntityId: casterEntityId >>> 0,
+      skillId: skillId >>> 0,
+      skillLevel: skillLevel >>> 0,
+      skillLevelIndex: skillLevelIndex >>> 0,
+      targetCount: targets.length >>> 0,
+      targetEntityId: target.entityId >>> 0,
+      targetEntityIdLow: (target.entityId >>> 0) & 0xffff,
+      targetEntityIdHigh: ((target.entityId >>> 0) >>> 16) & 0xffff,
+      targetActionCode: target.actionCode >>> 0,
+      targetValue: target.value >>> 0,
+    };
+    return {
+      entityId: (SKILL_PACKET_PROBE_TARGET_ENTITY.length > 0
+        ? resolveSkillPacketProbeToken(SKILL_PACKET_PROBE_TARGET_ENTITY, context)
+        : context.targetEntityId) >>> 0,
+      actionCode: (SKILL_PACKET_PROBE_TARGET_ACTION.length > 0
+        ? resolveSkillPacketProbeToken(SKILL_PACKET_PROBE_TARGET_ACTION, context)
+        : context.targetActionCode) & 0xff,
+      value: (SKILL_PACKET_PROBE_TARGET_VALUE.length > 0
+        ? resolveSkillPacketProbeToken(SKILL_PACKET_PROBE_TARGET_VALUE, context)
+        : context.targetValue) >>> 0,
+    };
+  });
 }
 
 function handleCombatPacket(session: SessionLike, cmdWord: number, payload: Buffer): void {
@@ -1009,18 +1054,25 @@ function sendCombatSkillCastPlayback(
   targets: Array<{ entityId: number; actionCode: number; value: number }>
 ): void {
   const skillLevelIndex = Math.max(0, Math.min(11, skillLevel - 1));
-  const stage2Entries = buildSkillPacketProbeStage2Entries(
+  const probedTargets = buildSkillPacketProbeTargets(
     skillId >>> 0,
     skillLevel >>> 0,
     skillLevelIndex,
     session.entityType >>> 0,
     targets
   );
+  const stage2Entries = buildSkillPacketProbeStage2Entries(
+    skillId >>> 0,
+    skillLevel >>> 0,
+    skillLevelIndex,
+    session.entityType >>> 0,
+    probedTargets
+  );
   const packet = buildSkillCastPlaybackPacket(
     session.entityType >>> 0,
     skillId >>> 0,
     skillLevelIndex,
-    targets,
+    probedTargets,
     SKILL_PACKET_PROBE_STAGE2_ENABLED
       ? {
           stage2Flag: SKILL_PACKET_PROBE_STAGE2_FLAG,
@@ -1038,14 +1090,19 @@ function sendCombatSkillCastPlayback(
     stage2Enabled: SKILL_PACKET_PROBE_STAGE2_ENABLED,
     stage2Flag: SKILL_PACKET_PROBE_STAGE2_ENABLED ? (SKILL_PACKET_PROBE_STAGE2_FLAG & 0xff) : null,
     stage2Spec: SKILL_PACKET_PROBE_STAGE2_ENABLED ? SKILL_PACKET_PROBE_STAGE2_SPEC : '',
+    targetProbe: {
+      entity: SKILL_PACKET_PROBE_TARGET_ENTITY,
+      action: SKILL_PACKET_PROBE_TARGET_ACTION,
+      value: SKILL_PACKET_PROBE_TARGET_VALUE,
+    },
     stage2Entries,
-    targets,
+    targets: probedTargets,
     packetHex: packet.toString('hex'),
   });
   session.writePacket(
     packet,
     DEFAULT_FLAGS,
-    `Sending combat skill cast attacker=${session.entityType} skillId=${skillId} levelIndex=${skillLevelIndex} targets=${targets.map((target) => `${target.entityId}:${target.actionCode}:${target.value}`).join('|') || 'none'} stage2=${SKILL_PACKET_PROBE_STAGE2_ENABLED ? `${SKILL_PACKET_PROBE_STAGE2_FLAG}:${stage2Entries.map((entry) => `${entry.wordA}/${entry.wordB}/${entry.dwordC}`).join('|') || 'none'}` : 'off'}`
+    `Sending combat skill cast attacker=${session.entityType} skillId=${skillId} levelIndex=${skillLevelIndex} targets=${probedTargets.map((target) => `${target.entityId}:${target.actionCode}:${target.value}`).join('|') || 'none'} stage2=${SKILL_PACKET_PROBE_STAGE2_ENABLED ? `${SKILL_PACKET_PROBE_STAGE2_FLAG}:${stage2Entries.map((entry) => `${entry.wordA}/${entry.wordB}/${entry.dwordC}`).join('|') || 'none'}` : 'off'}`
   );
 }
 

@@ -326,3 +326,47 @@ So the remaining issue is now isolated:
   - `skillId=3103 (Defiant) -> enabled=1`
 - Self-buffs and offensive skills therefore do not share the same client gate.
 - A likely failure mode is stale combat-target state carried across encounters. Reusing the same enemy runtime IDs across fights is unsafe because the client appears to cache targetability for offensive-skill validation.
+
+## Latest `sub=0x04` Gate Result
+
+With the round-refresh fix active and hybrid impact disabled, the client still takes the same early `sub=0x04` path and bails before the deeper effect block:
+
+- `0x52028d` apply/overlay:
+  - `esi=0x4c8e0f0`
+  - `ebp=0x5fd8fd0`
+- `0x52034c` early gate:
+  - `eax=0x4b365d8`
+  - `edx=0x48d9630`
+  - `esi=0x8e9110`
+  - `ebp=0x5fd8fd0`
+- `0x520370` and `0x52038d` did not fire
+
+Current implication:
+
+- the client still exits before the deeper `0x43d1b0` call / effect block
+- the remaining missing-damage bug is still upstream of the effect block
+- round-state and hybrid-animation issues are no longer part of this bug
+
+## Failed Packet Probes
+
+The following server-side `sub=0x04` experiments were all accepted by the client but did not unlock red damage playback:
+
+1. Flat target entity overridden to `targetIdLo`
+   - example wire target became `2:3:95`
+2. Flat `targetAction` forced to `0`
+   - example wire target became `7340034:0:93`
+3. Flat `targetValue` forced to `0`
+   - behavior stayed unchanged
+4. Two-entry stage-2 tail:
+   - entry 1: `skillId,targetAction,targetValue`
+   - entry 2: `targetIdLo,targetAction,targetValue`
+
+Example two-entry packet:
+
+- `fa 03 04 fd 03 00 00 4d 04 00 01 00 70 00 03 5f 00 00 00 00 02 00 4d 04 03 00 5f 00 00 00 01 00 03 00 5f 00 00 00`
+
+Current implication:
+
+- the missing semantics are not in the simple flat target triplet alone
+- the missing semantics are also not solved by a trivial one-entry or two-entry `u16/u16/u32` stage-2 tail
+- the remaining protocol gap is likely a different target-side semantic in `sub=0x04`, or another client-side prerequisite event/state before damage UI is emitted
