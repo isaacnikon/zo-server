@@ -65,7 +65,6 @@ const SKILL_PACKET_PROBE_STAGE2_FLAG = Number.isFinite(Number(process.env.SKILL_
   : 0;
 const SKILL_PACKET_PROBE_STAGE2_SPEC = String(process.env.SKILL_PACKET_PROBE_STAGE2_SPEC || '').trim();
 const ROUND_START_PROBE_ENABLED = /^(1|true|yes)$/i.test(process.env.ROUND_START_PROBE_ENABLED || '');
-const ROUND_START_PROBE_FIELD_A = String(process.env.ROUND_START_PROBE_FIELD_A || '').trim();
 const ROUND_START_PROBE_FIELD_B = String(process.env.ROUND_START_PROBE_FIELD_B || '').trim();
 const ROUND_START_PROBE_FIELD_C = String(process.env.ROUND_START_PROBE_FIELD_C || '').trim();
 const ROUND_START_PROBE_FIELD_D = String(process.env.ROUND_START_PROBE_FIELD_D || '').trim();
@@ -215,13 +214,14 @@ function buildRoundStartProbeOptions(round: number, activeEntityId: number): Rou
     round: Math.max(1, round) & 0xffff,
     activeEntityId: activeEntityId >>> 0,
   };
-  const fieldA = resolveRoundStartProbeToken(ROUND_START_PROBE_FIELD_A, context);
   const fieldB = resolveRoundStartProbeToken(ROUND_START_PROBE_FIELD_B, context);
   const fieldC = resolveRoundStartProbeToken(ROUND_START_PROBE_FIELD_C, context);
   const fieldD = resolveRoundStartProbeToken(ROUND_START_PROBE_FIELD_D, context);
   const fieldE = resolveRoundStartProbeToken(ROUND_START_PROBE_FIELD_E, context);
   return {
-    fieldA,
+    // The client renders the visible round banner directly from sub=0x06 fieldA.
+    // Keep it locked to the real round counter even while probing the other fields.
+    fieldA: context.round,
     fieldB,
     fieldC,
     fieldD,

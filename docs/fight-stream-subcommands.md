@@ -292,6 +292,16 @@ Resending `0x03f0` skill state sync at command-phase refresh fixes the round-2 d
 
 This keeps `Enervate` enabled across rounds without needing the old hybrid `sub=0x03` impact packet.
 
+Important follow-up:
+
+- `0x03fa sub=0x06 fieldA` is also the visible round-banner value in the client UI.
+- Using selector probes like `fieldA=5` makes the client render `Round 5` even when the real encounter round is `1`.
+- So the working server fix is:
+  - keep the extra `0x03f0` refresh
+  - keep hybrid skill impact off by default
+  - keep `sub=0x06 fieldA` equal to the real round number
+- Do not reuse `fieldA` for selector experimentation.
+
 ## Current Remaining Bug
 
 After the `0x03f0` refresh fix:
@@ -310,6 +320,7 @@ So the remaining issue is now isolated:
 
 - the missing red damage is a pure `sub=0x04` client playback/decode problem
 - it is no longer entangled with the round-2 skill-disable bug
+- the round banner regression from the probe was self-inflicted by overriding `sub=0x06 fieldA`, not by the real round counter
 - Observed breakpoint result in the failing second-fight case:
   - `skillId=1101 (Enervate) -> enabled=0`
   - `skillId=3103 (Defiant) -> enabled=1`
