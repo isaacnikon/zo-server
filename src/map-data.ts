@@ -1,6 +1,6 @@
-import fs from 'fs';
+import fs from 'node:fs';
 
-const { resolveRepoPath } = require('./runtime-paths');
+import { resolveRepoPath } from './runtime-paths.js';
 
 type MapConnectionRecord = {
   fromMapName: string;
@@ -158,14 +158,14 @@ function loadMapSummary(): Map<number, MapSummaryRecord> {
   return byMapId;
 }
 
-function getMapSummary(mapId: number): MapSummaryRecord | null {
+export function getMapSummary(mapId: number): MapSummaryRecord | null {
   if (!Number.isInteger(mapId)) {
     return null;
   }
   return MAP_SUMMARY.get(mapId) || null;
 }
 
-function listMapSummaries(): MapSummaryRecord[] {
+export function listMapSummaries(): MapSummaryRecord[] {
   return Array.from(MAP_SUMMARY.values()).sort((left, right) => left.mapId - right.mapId);
 }
 
@@ -187,7 +187,7 @@ function loadJsonFile<T>(path: string, cache: Map<string, T | null>): T | null {
   }
 }
 
-function getMapDetails(mapId: number): MapDetailsRecord | null {
+export function getMapDetails(mapId: number): MapDetailsRecord | null {
   const summary = getMapSummary(mapId);
   if (!summary?.mapDetailsPath) {
     return null;
@@ -195,7 +195,7 @@ function getMapDetails(mapId: number): MapDetailsRecord | null {
   return loadJsonFile<MapDetailsRecord>(summary.mapDetailsPath, MAP_DETAILS_CACHE);
 }
 
-function getMapNpcs(mapId: number): MapNpcFile | null {
+export function getMapNpcs(mapId: number): MapNpcFile | null {
   const summary = getMapSummary(mapId);
   if (!summary?.npcsPath) {
     return null;
@@ -210,7 +210,7 @@ function resolveSpawnEntityType(npc: MapNpcRecord): number {
   return npc.npcId & 0xffff;
 }
 
-function getMapBootstrapSpawns(mapId: number): SpawnRecord[] {
+export function getMapBootstrapSpawns(mapId: number): SpawnRecord[] {
   const npcs = getMapNpcs(mapId);
   if (!npcs?.npcs || !Array.isArray(npcs.npcs)) {
     return [];
@@ -235,7 +235,7 @@ function getMapBootstrapSpawns(mapId: number): SpawnRecord[] {
     }));
 }
 
-function getMapConnections(mapId: number): MapConnectionRecord[] {
+export function getMapConnections(mapId: number): MapConnectionRecord[] {
   const summary = getMapSummary(mapId);
   if (!summary?.connections || !Array.isArray(summary.connections)) {
     return [];
@@ -243,7 +243,7 @@ function getMapConnections(mapId: number): MapConnectionRecord[] {
   return summary.connections;
 }
 
-function getWorldMapAdjacency(mapId: number): Array<{
+export function getWorldMapAdjacency(mapId: number): Array<{
   toMapName: string;
   toMapId: number | null;
   validation?: string;
@@ -254,7 +254,7 @@ function getWorldMapAdjacency(mapId: number): Array<{
   return summary?.worldMap?.adjacent || [];
 }
 
-function getMapTeleportTargets(mapId: number): TeleportTargetRecord[] {
+export function getMapTeleportTargets(mapId: number): TeleportTargetRecord[] {
   const details = getMapDetails(mapId);
   const summary = getMapSummary(mapId);
   const targets = new Map<string, TeleportTargetRecord>();
@@ -303,7 +303,7 @@ function getMapTeleportTargets(mapId: number): TeleportTargetRecord[] {
   return Array.from(targets.values());
 }
 
-function getMapFieldCombatAnchors(mapId: number): FieldCombatAnchorRecord[] {
+export function getMapFieldCombatAnchors(mapId: number): FieldCombatAnchorRecord[] {
   const npcs = getMapNpcs(mapId);
   if (!npcs?.npcs || !Array.isArray(npcs.npcs)) {
     return [];
@@ -327,7 +327,7 @@ function getMapFieldCombatAnchors(mapId: number): FieldCombatAnchorRecord[] {
     }));
 }
 
-function getMapEncounterLevelRange(mapId: number): EncounterLevelRangeRecord | null {
+export function getMapEncounterLevelRange(mapId: number): EncounterLevelRangeRecord | null {
   const details = getMapDetails(mapId);
   const ranges = new Map<string, EncounterLevelRangeRecord>();
 
@@ -367,16 +367,3 @@ function getMapEncounterLevelRange(mapId: number): EncounterLevelRangeRecord | n
   }
   return merged;
 }
-
-module.exports = {
-  listMapSummaries,
-  getMapSummary,
-  getMapDetails,
-  getMapNpcs,
-  getMapBootstrapSpawns,
-  getMapFieldCombatAnchors,
-  getMapEncounterLevelRange,
-  getMapConnections,
-  getWorldMapAdjacency,
-  getMapTeleportTargets,
-};

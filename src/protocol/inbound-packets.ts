@@ -6,9 +6,9 @@ import type {
   PositionUpdate,
   QuestPacketData,
   ServerRunRequestData,
-} from '../types';
+} from '../types.js';
 
-const { PacketReader } = require('./packet-reader');
+import { PacketReader } from './packet-reader.js';
 
 function parsePositionUpdate(payload: Buffer): PositionUpdate {
   const reader = new PacketReader(payload, 2);

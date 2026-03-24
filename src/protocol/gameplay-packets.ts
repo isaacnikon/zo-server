@@ -1,25 +1,6 @@
-'use strict';
-
-const {
-  GAME_DIALOG_MESSAGE_SUBCMD,
-  FIGHT_ACTIVE_STATE_SUBCMD,
-  GAME_DIALOG_CMD,
-  GAME_FIGHT_STREAM_CMD,
-  GAME_FIGHT_TURN_CMD,
-  GAME_ITEM_CONTAINER_CMD,
-  ITEM_CONTAINER_POSITION_SUBCMD,
-  GAME_ITEM_CMD,
-  GAME_NPC_SHOP_CMD,
-  GAME_QUEST_CMD,
-  GAME_SCENE_ENTER_CMD,
-  GAME_SCRIPT_EVENT_CMD,
-  SCENE_ENTER_LOAD_SUBCMD,
-  GAME_SELF_STATE_CMD,
-  SELF_STATE_APTITUDE_SUBCMD,
-  SELF_STATE_VALUE_UPDATE_SUBCMD,
-} = require('../config');
-const { PacketWriter } = require('../protocol');
-const { writeClientItemInstancePayload } = require('./item-serializer');
+import { GAME_DIALOG_MESSAGE_SUBCMD, FIGHT_ACTIVE_STATE_SUBCMD, GAME_DIALOG_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, GAME_ITEM_CONTAINER_CMD, ITEM_CONTAINER_POSITION_SUBCMD, GAME_ITEM_CMD, GAME_NPC_SHOP_CMD, GAME_QUEST_CMD, GAME_SCENE_ENTER_CMD, GAME_SCRIPT_EVENT_CMD, SCENE_ENTER_LOAD_SUBCMD, GAME_SELF_STATE_CMD, SELF_STATE_APTITUDE_SUBCMD, SELF_STATE_VALUE_UPDATE_SUBCMD, } from '../config.js';
+import { PacketWriter } from '../protocol.js';
+import { writeClientItemInstancePayload } from './item-serializer.js';
 
 const ABSENT_COMPANION_SENTINEL = 0xfffe7960;
 
@@ -118,7 +99,7 @@ interface SkillSyncEntry {
   proficiency?: number;
 }
 
-function buildSelfStateAptitudeSyncPacket({
+export function buildSelfStateAptitudeSyncPacket({
   selectedAptitude,
   level,
   experience,
@@ -161,7 +142,7 @@ function buildSelfStateAptitudeSyncPacket({
   return writer.payload();
 }
 
-function buildServerRunScriptPacket(scriptId: number, subtype: number): Buffer {
+export function buildServerRunScriptPacket(scriptId: number, subtype: number): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_SCRIPT_EVENT_CMD);
   writer.writeUint8(subtype & 0xff);
@@ -169,7 +150,7 @@ function buildServerRunScriptPacket(scriptId: number, subtype: number): Buffer {
   return writer.payload();
 }
 
-function buildNpcShopOpenPacket({
+export function buildNpcShopOpenPacket({
   items,
 }: {
   items: NpcShopCatalogItem[];
@@ -185,7 +166,7 @@ function buildNpcShopOpenPacket({
   return writer.payload();
 }
 
-function buildSceneEnterPacket(mapId: number, x: number, y: number, subtype = SCENE_ENTER_LOAD_SUBCMD): Buffer {
+export function buildSceneEnterPacket(mapId: number, x: number, y: number, subtype = SCENE_ENTER_LOAD_SUBCMD): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_SCENE_ENTER_CMD);
   writer.writeUint8(subtype & 0xff);
@@ -195,7 +176,7 @@ function buildSceneEnterPacket(mapId: number, x: number, y: number, subtype = SC
   return writer.payload();
 }
 
-function buildSelfStateValueUpdatePacket({ discriminator, value }: ValueUpdateParams): Buffer {
+export function buildSelfStateValueUpdatePacket({ discriminator, value }: ValueUpdateParams): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_SELF_STATE_CMD);
   writer.writeUint8(SELF_STATE_VALUE_UPDATE_SUBCMD);
@@ -204,7 +185,7 @@ function buildSelfStateValueUpdatePacket({ discriminator, value }: ValueUpdatePa
   return writer.payload();
 }
 
-function buildSkillStateSyncPacket({
+export function buildSkillStateSyncPacket({
   skills,
 }: {
   skills: SkillSyncEntry[];
@@ -222,7 +203,7 @@ function buildSkillStateSyncPacket({
   return writer.payload();
 }
 
-function buildPetSummonSyncPacket({
+export function buildPetSummonSyncPacket({
   ownerRuntimeId,
   pet,
 }: {
@@ -250,7 +231,7 @@ function buildPetSummonSyncPacket({
   return writer.payload();
 }
 
-function buildPetCreateSyncPacket({ pet }: { pet: PetData }): Buffer {
+export function buildPetCreateSyncPacket({ pet }: { pet: PetData }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(0x0f);
@@ -267,7 +248,7 @@ function buildPetCreateSyncPacket({ pet }: { pet: PetData }): Buffer {
   return writer.payload();
 }
 
-function buildPetRosterSyncPacket({ pets }: { pets: PetData[] }): Buffer {
+export function buildPetRosterSyncPacket({ pets }: { pets: PetData[] }): Buffer {
   const writer = new PacketWriter();
   const normalizedPets = Array.isArray(pets) ? pets : [];
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
@@ -281,7 +262,7 @@ function buildPetRosterSyncPacket({ pets }: { pets: PetData[] }): Buffer {
   return writer.payload();
 }
 
-function buildPetStatsSyncPacket({ pet }: { pet: PetData }): Buffer {
+export function buildPetStatsSyncPacket({ pet }: { pet: PetData }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_SELF_STATE_CMD);
   writer.writeUint8(0x1f);
@@ -294,7 +275,7 @@ function buildPetStatsSyncPacket({ pet }: { pet: PetData }): Buffer {
   return writer.payload();
 }
 
-function buildPetTreeRegistrationPacket({ pet }: { pet: PetData }): Buffer {
+export function buildPetTreeRegistrationPacket({ pet }: { pet: PetData }): Buffer {
   const writer = new PacketWriter();
   const statCoefficients = Array.isArray(pet.statCoefficients) && pet.statCoefficients.length === 9
     ? pet.statCoefficients
@@ -341,7 +322,7 @@ function buildPetTreeRegistrationPacket({ pet }: { pet: PetData }): Buffer {
   return writer.payload();
 }
 
-function buildPetPanelBindPacket({ ownerRuntimeId, pet }: { ownerRuntimeId: number; pet: PetData }): Buffer {
+export function buildPetPanelBindPacket({ ownerRuntimeId, pet }: { ownerRuntimeId: number; pet: PetData }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(0x03ee);
   writer.writeUint8(0x51);
@@ -351,7 +332,7 @@ function buildPetPanelBindPacket({ ownerRuntimeId, pet }: { ownerRuntimeId: numb
   return writer.payload();
 }
 
-function buildPetPanelRebindPacket({ ownerRuntimeId }: { ownerRuntimeId: number }): Buffer {
+export function buildPetPanelRebindPacket({ ownerRuntimeId }: { ownerRuntimeId: number }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(0x03ee);
   writer.writeUint8(0x53);
@@ -359,7 +340,7 @@ function buildPetPanelRebindPacket({ ownerRuntimeId }: { ownerRuntimeId: number 
   return writer.payload();
 }
 
-function buildPetPanelClearPacket({ ownerRuntimeId }: { ownerRuntimeId: number }): Buffer {
+export function buildPetPanelClearPacket({ ownerRuntimeId }: { ownerRuntimeId: number }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(0x03ee);
   writer.writeUint8(0x58);
@@ -367,7 +348,7 @@ function buildPetPanelClearPacket({ ownerRuntimeId }: { ownerRuntimeId: number }
   return writer.payload();
 }
 
-function buildPetPanelNamePacket({ ownerRuntimeId, pet }: { ownerRuntimeId: number; pet: PetData }): Buffer {
+export function buildPetPanelNamePacket({ ownerRuntimeId, pet }: { ownerRuntimeId: number; pet: PetData }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(0x03ee);
   writer.writeUint8(0x59);
@@ -376,7 +357,7 @@ function buildPetPanelNamePacket({ ownerRuntimeId, pet }: { ownerRuntimeId: numb
   return writer.payload();
 }
 
-function buildPetPanelPropertyPacket({ ownerRuntimeId, index, value }: { ownerRuntimeId: number; index: number; value: number }): Buffer {
+export function buildPetPanelPropertyPacket({ ownerRuntimeId, index, value }: { ownerRuntimeId: number; index: number; value: number }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(0x03ee);
   writer.writeUint8(0x55);
@@ -386,7 +367,7 @@ function buildPetPanelPropertyPacket({ ownerRuntimeId, index, value }: { ownerRu
   return writer.payload();
 }
 
-function buildPetPanelModePacket({ ownerRuntimeId, enabled }: { ownerRuntimeId: number; enabled: boolean }): Buffer {
+export function buildPetPanelModePacket({ ownerRuntimeId, enabled }: { ownerRuntimeId: number; enabled: boolean }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(0x03ee);
   writer.writeUint8(enabled ? 0x56 : 0x57);
@@ -394,14 +375,14 @@ function buildPetPanelModePacket({ ownerRuntimeId, enabled }: { ownerRuntimeId: 
   return writer.payload();
 }
 
-function buildPetActiveSelectPacket({ runtimeId }: { runtimeId: number }): Buffer {
+export function buildPetActiveSelectPacket({ runtimeId }: { runtimeId: number }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(0x03f5);
   writer.writeUint32((runtimeId || 0) >>> 0);
   return writer.payload();
 }
 
-function buildQuestPacket(subtype: number, taskId: number, extraValue: number | null = null, extraType: 'u8' | 'u16' | 'u32' = 'u32'): Buffer {
+export function buildQuestPacket(subtype: number, taskId: number, extraValue: number | null = null, extraType: 'u8' | 'u16' | 'u32' = 'u32'): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_QUEST_CMD);
   writer.writeUint8(subtype & 0xff);
@@ -418,7 +399,7 @@ function buildQuestPacket(subtype: number, taskId: number, extraValue: number | 
   return writer.payload();
 }
 
-function buildInventoryContainerBulkSyncPacket({
+export function buildInventoryContainerBulkSyncPacket({
   containerType,
   items,
 }: {
@@ -439,7 +420,7 @@ function buildInventoryContainerBulkSyncPacket({
   return writer.payload();
 }
 
-function buildInventoryContainerPositionPacket({
+export function buildInventoryContainerPositionPacket({
   containerType,
   instanceId,
   slotIndex,
@@ -463,7 +444,7 @@ function buildInventoryContainerPositionPacket({
   return writer.payload();
 }
 
-function buildInventoryContainerQuantityPacket({
+export function buildInventoryContainerQuantityPacket({
   containerType,
   instanceId,
   quantity,
@@ -481,7 +462,7 @@ function buildInventoryContainerQuantityPacket({
   return writer.payload();
 }
 
-function buildItemAddPacket({
+export function buildItemAddPacket({
   containerType,
   templateId,
   instanceId = 0,
@@ -521,7 +502,7 @@ function buildItemAddPacket({
   return writer.payload();
 }
 
-function buildItemRemovePacket({ containerType, instanceId }: { containerType: number; instanceId: number }): Buffer {
+export function buildItemRemovePacket({ containerType, instanceId }: { containerType: number; instanceId: number }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_ITEM_CMD + 1);
   writer.writeUint8(containerType & 0xff);
@@ -529,7 +510,7 @@ function buildItemRemovePacket({ containerType, instanceId }: { containerType: n
   return writer.payload();
 }
 
-function buildEquipmentStatePacket({ instanceId, equipped }: { instanceId: number; equipped: boolean }): Buffer {
+export function buildEquipmentStatePacket({ instanceId, equipped }: { instanceId: number; equipped: boolean }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(0x03ee);
   writer.writeUint8(0x01);
@@ -539,7 +520,7 @@ function buildEquipmentStatePacket({ instanceId, equipped }: { instanceId: numbe
   return writer.payload();
 }
 
-function buildGameDialoguePacket({ speaker, message, subtype = GAME_DIALOG_MESSAGE_SUBCMD, flags = 0, extraText = null }: {
+export function buildGameDialoguePacket({ speaker, message, subtype = GAME_DIALOG_MESSAGE_SUBCMD, flags = 0, extraText = null }: {
   speaker: string;
   message: string;
   subtype?: number;
@@ -559,32 +540,3 @@ function buildGameDialoguePacket({ speaker, message, subtype = GAME_DIALOG_MESSA
   writer.writeUint8(0);
   return writer.payload();
 }
-
-module.exports = {
-  buildInventoryContainerBulkSyncPacket,
-  buildInventoryContainerQuantityPacket,
-  buildInventoryContainerPositionPacket,
-  buildGameDialoguePacket,
-  buildEquipmentStatePacket,
-  buildItemAddPacket,
-  buildItemRemovePacket,
-  buildQuestPacket,
-  buildPetPanelBindPacket,
-  buildPetActiveSelectPacket,
-  buildPetPanelClearPacket,
-  buildPetPanelRebindPacket,
-  buildPetPanelModePacket,
-  buildPetPanelNamePacket,
-  buildPetPanelPropertyPacket,
-  buildPetStatsSyncPacket,
-  buildPetSummonSyncPacket,
-  buildPetTreeRegistrationPacket,
-  buildPetCreateSyncPacket,
-  buildPetRosterSyncPacket,
-  buildNpcShopOpenPacket,
-  buildSceneEnterPacket,
-  buildSkillStateSyncPacket,
-  buildSelfStateAptitudeSyncPacket,
-  buildSelfStateValueUpdatePacket,
-  buildServerRunScriptPacket,
-};

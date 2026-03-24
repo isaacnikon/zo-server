@@ -1,86 +1,21 @@
-import type { GameSession, PrimaryAttributes, QuestSyncMode, SkillState } from './types';
+import type { CombatState, GameSession, PrimaryAttributes, QuestRecord, QuestSyncMode, SkillState } from './types.js';
 
-const { parsePingToken } = require('./protocol/inbound-packets');
-const { dispatchGamePacket } = require('./handlers/packet-dispatcher');
-const {
-  createIdleCombatState,
-  disposeCombatTimers: combatHandlerDisposeTimers,
-  handleCombatPacket: combatHandlerHandleCombatPacket,
-  sendCombatEncounterProbe: combatHandlerSendCombatEncounterProbe,
-  sendCombatExitProbe: combatHandlerSendCombatExitProbe,
-} = require('./handlers/combat-handler');
-const {
-  handleLogin: loginHandlerHandleLogin,
-  handleRolePacket: loginHandlerHandleRolePacket,
-} = require('./handlers/login-handler');
-const {
-  handleQuestPacket: questHandlerHandleQuestPacket,
-  applyQuestEvents: questHandlerApplyQuestEvents,
-  questEventHandler,
-  handleQuestMonsterDefeat: questHandlerHandleQuestMonsterDefeat,
-  syncQuestStateToClient: questHandlerSyncQuestStateToClient,
-  ensureQuestStateReady: questHandlerEnsureQuestStateReady,
-  refreshQuestStateForItemTemplates: questHandlerRefreshQuestStateForItemTemplates,
-} = require('./handlers/quest-handler');
-const {
-  scheduleEquipmentReplay: playerStateHandlerScheduleEquipmentReplay,
-  tryHandleAttributeAllocationPacket: playerStateHandlerTryHandleAttributeAllocationPacket,
-  tryHandleEquipmentStatePacket: playerStateHandlerTryHandleEquipmentStatePacket,
-  tryHandleFightResultItemActionProbe: playerStateHandlerTryHandleFightResultItemActionProbe,
-  tryHandleItemUsePacket: playerStateHandlerTryHandleItemUsePacket,
-} = require('./handlers/player-state-handler');
-const {
-  schedulePetReplay: petHandlerSchedulePetReplay,
-  sendPetStateSync: petHandlerSendPetStateSync,
-  tryHandlePetActionPacket: petHandlerTryHandlePetActionPacket,
-  disposePetTimers: petHandlerDisposeTimers,
-} = require('./handlers/pet-handler');
-const {
-  sendEnterGameOk: sessionBootstrapHandlerSendEnterGameOk,
-  sendMapNpcSpawns: sessionBootstrapHandlerSendMapNpcSpawns,
-} = require('./handlers/session-bootstrap-handler');
-const {
-  DEFAULT_FLAGS,
-  ENTITY_TYPE,
-  GAME_DIALOG_CMD,
-  GAME_DIALOG_MESSAGE_SUBCMD,
-  GAME_ITEM_CONTAINER_CMD,
-  GAME_ITEM_CMD,
-  GAME_SCENE_ENTER_CMD,
-  GAME_SELF_STATE_CMD,
-  HANDSHAKE_CMD,
-  MAP_ID,
-  PING_CMD,
-  PONG_CMD,
-  SCENE_ENTER_LOAD_SUBCMD,
-  SERVER_SCRIPT_DEFERRED_SUBCMD,
-  SERVER_SCRIPT_IMMEDIATE_SUBCMD,
-  SELF_STATE_APTITUDE_SUBCMD,
-  SPAWN_X,
-  SPAWN_Y,
-  SPECIAL_FLAGS,
-  VALID_FLAG_MASK,
-  VALID_FLAG_VALUE,
-} = require('./config');
-const { PacketWriter, buildPacket } = require('./protocol');
-const {
-  buildGameDialoguePacket,
-  buildSceneEnterPacket,
-  buildServerRunScriptPacket,
-  buildSelfStateAptitudeSyncPacket,
-} = require('./protocol/gameplay-packets');
-const { ObjectiveRegistry } = require('./objectives/objective-registry');
-const { questObjectiveSystem } = require('./objectives/quest-objective-system');
-const { CHARACTER_VITALS_BASELINE, resolveCurrentPlayerVitals } = require('./gameplay/session-flows');
-const { stopAutoMapRotation } = require('./scenes/map-rotation');
-const {
-  buildCharacterSnapshot: sessionHydrationBuildCharacterSnapshot,
-  getPersistedCharacter: sessionHydrationGetPersistedCharacter,
-  hydratePendingGameCharacter,
-  persistCurrentCharacter: sessionHydrationPersistCurrentCharacter,
-  saveCharacter: sessionHydrationSaveCharacter,
-} = require('./character/session-hydration');
-const { defaultBonusAttributes, defaultSkillState } = require('./character/normalize');
+import { dispatchGamePacket } from './handlers/packet-dispatcher.js';
+import { createIdleCombatState, disposeCombatTimers as combatHandlerDisposeTimers, sendCombatEncounterProbe as combatHandlerSendCombatEncounterProbe, sendCombatExitProbe as combatHandlerSendCombatExitProbe, } from './handlers/combat-handler.js';
+import { handleLogin as loginHandlerHandleLogin, } from './handlers/login-handler.js';
+import { applyQuestEvents as questHandlerApplyQuestEvents, questEventHandler, handleQuestMonsterDefeat as questHandlerHandleQuestMonsterDefeat, syncQuestStateToClient as questHandlerSyncQuestStateToClient, ensureQuestStateReady as questHandlerEnsureQuestStateReady, refreshQuestStateForItemTemplates as questHandlerRefreshQuestStateForItemTemplates, } from './handlers/quest-handler.js';
+import { scheduleEquipmentReplay as playerStateHandlerScheduleEquipmentReplay, } from './handlers/player-state-handler.js';
+import { schedulePetReplay as petHandlerSchedulePetReplay, sendPetStateSync as petHandlerSendPetStateSync, disposePetTimers as petHandlerDisposeTimers, } from './handlers/pet-handler.js';
+import { sendEnterGameOk as sessionBootstrapHandlerSendEnterGameOk, sendMapNpcSpawns as sessionBootstrapHandlerSendMapNpcSpawns, } from './handlers/session-bootstrap-handler.js';
+import { DEFAULT_FLAGS, ENTITY_TYPE, GAME_DIALOG_CMD, GAME_DIALOG_MESSAGE_SUBCMD, GAME_ITEM_CONTAINER_CMD, GAME_ITEM_CMD, GAME_SCENE_ENTER_CMD, GAME_SELF_STATE_CMD, HANDSHAKE_CMD, MAP_ID, PONG_CMD, SCENE_ENTER_LOAD_SUBCMD, SERVER_SCRIPT_DEFERRED_SUBCMD, SERVER_SCRIPT_IMMEDIATE_SUBCMD, SELF_STATE_APTITUDE_SUBCMD, SPAWN_X, SPAWN_Y, SPECIAL_FLAGS, VALID_FLAG_MASK, VALID_FLAG_VALUE, } from './config.js';
+import { PacketWriter, buildPacket } from './protocol.js';
+import { buildGameDialoguePacket, buildSceneEnterPacket, buildServerRunScriptPacket, buildSelfStateAptitudeSyncPacket, } from './protocol/gameplay-packets.js';
+import { ObjectiveRegistry } from './objectives/objective-registry.js';
+import { questObjectiveSystem } from './objectives/quest-objective-system.js';
+import { CHARACTER_VITALS_BASELINE, resolveCurrentPlayerVitals } from './gameplay/session-flows.js';
+import { stopAutoMapRotation } from './scenes/map-rotation.js';
+import { buildCharacterSnapshot as sessionHydrationBuildCharacterSnapshot, getPersistedCharacter as sessionHydrationGetPersistedCharacter, hydratePendingGameCharacter, persistCurrentCharacter as sessionHydrationPersistCurrentCharacter, saveCharacter as sessionHydrationSaveCharacter, } from './character/session-hydration.js';
+import { defaultBonusAttributes, defaultSkillState } from './character/normalize.js';
 
 type SharedState = Record<string, any>;
 type LoggerLike = {
@@ -134,7 +69,7 @@ class Session implements GameSession {
   bonusAttributes: PrimaryAttributes;
   skillState: SkillState;
   statusPoints: number;
-  activeQuests: any[];
+  activeQuests: QuestRecord[];
   completedQuests: number[];
   pets: any[];
   selectedPetRuntimeId: number | null;
@@ -152,8 +87,14 @@ class Session implements GameSession {
   hasAnnouncedQuestOverview: boolean;
   persistedCharacter: Record<string, unknown> | null;
   objectiveRegistry: any;
-  combatState: Record<string, unknown>;
+  combatState: CombatState;
   combatDefeatTimer: NodeJS.Timeout | null;
+  combatSkillResolutionTimer: NodeJS.Timeout | null;
+  activeNpcShop: any;
+  attackMin?: number;
+  attackMax?: number;
+  characterAttackMin?: number;
+  characterAttackMax?: number;
   mapRotationTimer: NodeJS.Timeout | null;
   mapRotationTargets: Array<{ mapId: number; mapName: string; x: number; y: number }>;
   mapRotationIndex: number;
@@ -227,6 +168,8 @@ class Session implements GameSession {
     this.objectiveRegistry = new ObjectiveRegistry();
     this.combatState = createIdleCombatState();
     this.combatDefeatTimer = null;
+    this.combatSkillResolutionTimer = null;
+    this.activeNpcShop = null;
     this.mapRotationTimer = null;
     this.mapRotationTargets = [];
     this.mapRotationIndex = 0;
@@ -326,44 +269,6 @@ class Session implements GameSession {
     this.log(`Unhandled game cmd8=0x${cmdByte.toString(16)} cmd16=0x${cmdWord.toString(16)}`);
   }
 
-  tryHandleEquipmentStatePacket(payload: Buffer): boolean {
-    return playerStateHandlerTryHandleEquipmentStatePacket(this, payload);
-  }
-
-  tryHandlePetActionPacket(payload: Buffer): boolean {
-    return petHandlerTryHandlePetActionPacket(this, payload);
-  }
-
-  tryHandleAttributeAllocationPacket(payload: Buffer): boolean {
-    return playerStateHandlerTryHandleAttributeAllocationPacket(this, payload);
-  }
-
-  tryHandleFightResultItemActionProbe(payload: Buffer): boolean {
-    return playerStateHandlerTryHandleFightResultItemActionProbe(this, payload);
-  }
-
-  tryHandleItemUsePacket(cmdWord: number, payload: Buffer): boolean {
-    return playerStateHandlerTryHandleItemUsePacket(this, cmdWord, payload);
-  }
-
-  handleCombatPacket(cmdWord: number, payload: Buffer): void {
-    combatHandlerHandleCombatPacket(this, cmdWord, payload);
-  }
-
-  handleSpecialPacket(cmdWord: number, payload: Buffer): void {
-    if (cmdWord === PING_CMD) {
-      const { token } = parsePingToken(payload);
-      this.sendPong(token);
-      return;
-    }
-
-    this.log(`Unhandled special cmd16=0x${cmdWord.toString(16)}`);
-  }
-
-  handleRolePacket(payload: Buffer): void {
-    loginHandlerHandleRolePacket(this, payload);
-  }
-
   sendHandshake(): void {
     const writer = new PacketWriter();
     writer.writeUint16(HANDSHAKE_CMD);
@@ -394,7 +299,7 @@ class Session implements GameSession {
     this.writePacket(writer.payload(), SPECIAL_FLAGS, `Sending pong token=0x${token.toString(16)}`);
   }
 
-  writePacket(payload: Buffer, flags = DEFAULT_FLAGS, message = ''): void {
+  writePacket(payload: Buffer, flags: number = DEFAULT_FLAGS, message = ''): void {
     const packet = buildPacket(payload, this.serverSeq, flags);
     if (payload.length >= 2) {
       const cmdWord = payload.readUInt16LE(0);
@@ -439,10 +344,6 @@ class Session implements GameSession {
 
   persistCurrentCharacter(overrides: CharacterOverrides = {}): void {
     sessionHydrationPersistCurrentCharacter(this, overrides);
-  }
-
-  handleQuestPacket(payload: Buffer): void {
-    questHandlerHandleQuestPacket(this, payload);
   }
 
   applyQuestEvents(events: any[], source = 'runtime', options: Record<string, unknown> = {}): void {

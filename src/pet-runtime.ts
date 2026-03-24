@@ -1,9 +1,6 @@
-'use strict';
-export {};
-
-const { getPetTemplateProfile, getRoleName } = require('./roleinfo');
-const { resolvePetMaxVitals } = require('./gameplay/max-vitals');
-type UnknownRecord = Record<string, any>;
+import { getPetTemplateProfile, getRoleName } from './roleinfo/index.js';
+import { resolvePetMaxVitals } from './gameplay/max-vitals.js';
+import { numberOrDefault, type UnknownRecord } from './utils.js';
 type PetStats = {
   strength: number;
   dexterity: number;
@@ -41,7 +38,7 @@ const DEFAULT_PET_STATS = Object.freeze({
   intelligence: 10,
 });
 
-function normalizePets(pets: unknown): PetRecord[] {
+export function normalizePets(pets: unknown): PetRecord[] {
   if (!Array.isArray(pets)) {
     return [];
   }
@@ -51,7 +48,7 @@ function normalizePets(pets: unknown): PetRecord[] {
     .filter((pet): pet is PetRecord => pet !== null);
 }
 
-function normalizePetRecord(pet: UnknownRecord | null | undefined, index = 0): PetRecord | null {
+export function normalizePetRecord(pet: UnknownRecord | null | undefined, index = 0): PetRecord | null {
   if (!pet || typeof pet !== 'object') {
     return null;
   }
@@ -119,7 +116,7 @@ function normalizePetRecord(pet: UnknownRecord | null | undefined, index = 0): P
   };
 }
 
-function createOwnedPet(templateId: number, overrides: UnknownRecord = {}, index = 0): PetRecord | null {
+export function createOwnedPet(templateId: number, overrides: UnknownRecord = {}, index = 0): PetRecord | null {
   return normalizePetRecord(
     {
       templateId,
@@ -130,7 +127,7 @@ function createOwnedPet(templateId: number, overrides: UnknownRecord = {}, index
   );
 }
 
-function getPrimaryPet(pets: unknown): PetRecord | null {
+export function getPrimaryPet(pets: unknown): PetRecord | null {
   const normalizedPets = normalizePets(pets);
   return normalizedPets.length > 0 ? normalizedPets[0] : null;
 }
@@ -186,14 +183,3 @@ function normalizePetSide(value: unknown): number {
   }
   return 1;
 }
-
-function numberOrDefault(value: unknown, fallback: number): number {
-  return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
-}
-
-module.exports = {
-  createOwnedPet,
-  getPrimaryPet,
-  normalizePetRecord,
-  normalizePets,
-};

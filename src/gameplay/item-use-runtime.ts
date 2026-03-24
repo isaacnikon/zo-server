@@ -1,23 +1,14 @@
-'use strict';
-export {};
+import { consumeBagItemByInstanceId, getBagItemByReference, getItemDefinition, } from '../inventory/index.js';
+import { sendConsumeResultPackets } from './inventory-runtime.js';
+import { learnSkillFromBook, sendSkillStateSync } from './skill-runtime.js';
+import { recomputeSessionMaxVitals } from './session-flows.js';
+import { resolvePetMaxVitals } from './max-vitals.js';
+import { sendSelfStateVitalsUpdate } from './stat-sync.js';
+import type { UnknownRecord } from '../utils.js';
+import type { GameSession } from '../types.js';
 
-const {
-  consumeBagItemByInstanceId,
-  getBagItemByReference,
-  getItemDefinition,
-} = require('../inventory');
-const { sendConsumeResultPackets } = require('./inventory-runtime');
-const { learnSkillFromBook, sendSkillStateSync } = require('./skill-runtime');
-const { recomputeSessionMaxVitals } = require('./session-flows');
-const { resolvePetMaxVitals } = require('./max-vitals');
-const { sendPetStateSync } = require('../handlers/pet-handler');
-const { sendSelfStateVitalsUpdate } = require('./stat-sync');
-
-type UnknownRecord = Record<string, any>;
-type SessionLike = Record<string, any>;
-
-function consumeUsableItemByInstanceId(
-  session: SessionLike,
+export function consumeUsableItemByInstanceId(
+  session: GameSession,
   instanceId: number,
   options: UnknownRecord = {}
 ): UnknownRecord {
@@ -150,13 +141,14 @@ function consumeUsableItemByInstanceId(
     consumeResult,
     targetKind: target.kind,
     targetEntityId: target.entityId,
+    petSyncNeeded: target.petSyncNeeded || false,
     previousVitals,
     nextVitals,
     gained,
   };
 }
 
-function resolveItemUseTarget(session: SessionLike, targetEntityId: unknown): UnknownRecord | null {
+function resolveItemUseTarget(session: GameSession, targetEntityId: unknown): UnknownRecord | null {
   const normalizedTargetEntityId =
     typeof targetEntityId === 'number' && Number.isInteger(targetEntityId) ? targetEntityId >>> 0 : 0;
   if (normalizedTargetEntityId === 0 || normalizedTargetEntityId === (session.entityType >>> 0)) {
@@ -205,9 +197,10 @@ function resolveItemUseTarget(session: SessionLike, targetEntityId: unknown): Un
     return null;
   }
 
-  return {
+  const target: UnknownRecord = {
     kind: 'pet',
     entityId: pet.runtimeId >>> 0,
+    petSyncNeeded: false,
     getVitals: () => ({
       health: Math.max(0, pet.currentHealth || 0),
       mana: Math.max(0, pet.currentMana || 0),
@@ -233,12 +226,9 @@ function resolveItemUseTarget(session: SessionLike, targetEntityId: unknown): Un
     sync: (options: UnknownRecord) => {
       if (options.suppressVitalSync !== true) {
         session.selectedPetRuntimeId = pet.runtimeId >>> 0;
-        sendPetStateSync(session, 'item-use');
+        target.petSyncNeeded = true;
       }
     },
   };
+  return target;
 }
-
-module.exports = {
-  consumeUsableItemByInstanceId,
-};

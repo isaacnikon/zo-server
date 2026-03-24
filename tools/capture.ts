@@ -5,8 +5,8 @@
  */
 export {};
 
-const net = require('net');
-const fs = require('fs');
+import net from 'node:net';
+import fs from 'node:fs';
 
 const LISTEN_PORT = 7777;
 const LOG_FILE = 'capture.log';

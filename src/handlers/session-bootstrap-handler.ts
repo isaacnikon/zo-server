@@ -1,15 +1,14 @@
-import type { GameSession, QuestSyncMode } from '../types';
+import type { GameSession, QuestSyncMode } from '../types.js';
 
-const { DEFAULT_FLAGS, LOGIN_CMD, LOGIN_SERVER_LIST_RESULT } = require('../config');
-const { PacketWriter } = require('../protocol');
-const { syncInventoryStateToClient } = require('../gameplay/inventory-runtime');
-const { sendSkillStateSync } = require('../gameplay/skill-runtime');
-const { getMapBootstrapSpawns } = require('../map-spawns');
-const { startAutoMapRotation } = require('../scenes/map-rotation');
+import { DEFAULT_FLAGS, LOGIN_CMD, LOGIN_SERVER_LIST_RESULT } from '../config.js';
+import { PacketWriter } from '../protocol.js';
+import { syncInventoryStateToClient } from '../gameplay/inventory-runtime.js';
+import { sendSkillStateSync } from '../gameplay/skill-runtime.js';
+import { getMapBootstrapSpawns } from '../map-spawns.js';
+import { startAutoMapRotation } from '../scenes/map-rotation.js';
 
-type SessionLike = GameSession & Record<string, any>;
 
-export function sendEnterGameOk(session: SessionLike, options: { syncMode?: QuestSyncMode } = {}): void {
+export function sendEnterGameOk(session: GameSession, options: { syncMode?: QuestSyncMode } = {}): void {
   const syncMode: QuestSyncMode = options.syncMode || 'login';
   session.ensureQuestStateReady();
 
@@ -40,7 +39,7 @@ export function sendEnterGameOk(session: SessionLike, options: { syncMode?: Ques
   startAutoMapRotation(session);
 }
 
-function sendStaticNpcSpawns(session: SessionLike, mapId: number): void {
+function sendStaticNpcSpawns(session: GameSession, mapId: number): void {
   const staticNpcs = getMapBootstrapSpawns(mapId);
   if (!Array.isArray(staticNpcs) || staticNpcs.length === 0) {
     return;
@@ -67,6 +66,6 @@ function sendStaticNpcSpawns(session: SessionLike, mapId: number): void {
   );
 }
 
-export function sendMapNpcSpawns(session: SessionLike, mapId: number): void {
+export function sendMapNpcSpawns(session: GameSession, mapId: number): void {
   sendStaticNpcSpawns(session, mapId);
 }

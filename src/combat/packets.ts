@@ -1,25 +1,13 @@
  'use strict';
  export {};
 
-const {
-  FIGHT_ACTIVE_STATE_SUBCMD,
-  FIGHT_CONTROL_INIT_SUBCMD,
-  FIGHT_CONTROL_RING_OPEN_SUBCMD,
-  FIGHT_CONTROL_SHOW_SUBCMD,
-  FIGHT_ENCOUNTER_PROBE_SUBCMD,
-  FIGHT_ENTITY_FLAG_HIDE_SUBCMD,
-  FIGHT_RESULT_DEFEAT_SUBCMD,
-  FIGHT_RESULT_VICTORY_SUBCMD,
-  FIGHT_STATE_MODE_SUBCMD,
-  GAME_FIGHT_STREAM_CMD,
-  GAME_FIGHT_TURN_CMD,
-} = require('../config');
-const { PacketWriter } = require('../protocol');
+import { FIGHT_ACTIVE_STATE_SUBCMD, FIGHT_CONTROL_INIT_SUBCMD, FIGHT_CONTROL_RING_OPEN_SUBCMD, FIGHT_CONTROL_SHOW_SUBCMD, FIGHT_ENCOUNTER_PROBE_SUBCMD, FIGHT_ENTITY_FLAG_HIDE_SUBCMD, FIGHT_RESULT_DEFEAT_SUBCMD, FIGHT_RESULT_VICTORY_SUBCMD, FIGHT_STATE_MODE_SUBCMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, } from '../config.js';
+import { PacketWriter } from '../protocol.js';
 
 const ABSENT_COMPANION_SENTINEL = 0xfffe7960;
 const GAME_PLAYER_ACTION_STATE_CMD = 0x040d;
 
-type UnknownRecord = Record<string, any>;
+import type { UnknownRecord } from '../utils.js';
 type TurnPromptRow = {
   commandId: number;
   levelIndex?: number;
@@ -75,7 +63,7 @@ function writeEntry(writer: InstanceType<typeof PacketWriter>, entry: UnknownRec
   writer.writeString(`${entry.name || 'Unknown'}\0`);
 }
 
-function buildEncounterPacket(player: UnknownRecord, enemies: UnknownRecord[] | UnknownRecord): Buffer {
+export function buildEncounterPacket(player: UnknownRecord, enemies: UnknownRecord[] | UnknownRecord): Buffer {
   const writer = new PacketWriter();
   const normalizedEnemies = Array.isArray(enemies) ? enemies : [enemies];
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
@@ -88,21 +76,21 @@ function buildEncounterPacket(player: UnknownRecord, enemies: UnknownRecord[] | 
   return writer.payload();
 }
 
-function buildRingOpenPacket(): Buffer {
+export function buildRingOpenPacket(): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(FIGHT_CONTROL_RING_OPEN_SUBCMD);
   return writer.payload();
 }
 
-function buildControlInitPacket(): Buffer {
+export function buildControlInitPacket(): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(FIGHT_CONTROL_INIT_SUBCMD);
   return writer.payload();
 }
 
-function buildStateModePacket(): Buffer {
+export function buildStateModePacket(): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(FIGHT_STATE_MODE_SUBCMD);
@@ -112,7 +100,7 @@ function buildStateModePacket(): Buffer {
   return writer.payload();
 }
 
-function buildActiveStatePacket(activeEntityId: number): Buffer {
+export function buildActiveStatePacket(activeEntityId: number): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(FIGHT_ACTIVE_STATE_SUBCMD);
@@ -125,7 +113,7 @@ function buildActiveStatePacket(activeEntityId: number): Buffer {
   return writer.payload();
 }
 
-function buildEntityHidePacket(activeEntityId: number): Buffer {
+export function buildEntityHidePacket(activeEntityId: number): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(FIGHT_ENTITY_FLAG_HIDE_SUBCMD);
@@ -133,7 +121,7 @@ function buildEntityHidePacket(activeEntityId: number): Buffer {
   return writer.payload();
 }
 
-function buildControlShowPacket(activeEntityId: number): Buffer {
+export function buildControlShowPacket(activeEntityId: number): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(FIGHT_CONTROL_SHOW_SUBCMD);
@@ -141,7 +129,7 @@ function buildControlShowPacket(activeEntityId: number): Buffer {
   return writer.payload();
 }
 
-function buildRoundStartPacket(round: number, activeEntityId: number, options: RoundStartOptions = {}): Buffer {
+export function buildRoundStartPacket(round: number, activeEntityId: number, options: RoundStartOptions = {}): Buffer {
   const writer = new PacketWriter();
   const fieldA = options.fieldA;
   const fieldB = options.fieldB;
@@ -171,7 +159,7 @@ function buildRoundStartPacket(round: number, activeEntityId: number, options: R
   return writer.payload();
 }
 
-function buildTurnPromptPacket(rows: TurnPromptRow[] = []): Buffer {
+export function buildTurnPromptPacket(rows: TurnPromptRow[] = []): Buffer {
   const writer = new PacketWriter();
   const normalizedRows = rows.length > 0
     ? rows
@@ -187,7 +175,7 @@ function buildTurnPromptPacket(rows: TurnPromptRow[] = []): Buffer {
   return writer.payload();
 }
 
-function buildAttackPlaybackPacket(
+export function buildAttackPlaybackPacket(
   attackerEntityId: number,
   targetEntityId: number,
   resultCode: number,
@@ -211,7 +199,7 @@ function buildAttackPlaybackPacket(
   return writer.payload();
 }
 
-function buildSkillCastPlaybackPacket(
+export function buildSkillCastPlaybackPacket(
   casterEntityId: number,
   skillId: number,
   skillLevelIndex: number,
@@ -245,7 +233,7 @@ function buildSkillCastPlaybackPacket(
   return writer.payload();
 }
 
-function buildActionStateResetPacket(entityId: number): Buffer {
+export function buildActionStateResetPacket(entityId: number): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_PLAYER_ACTION_STATE_CMD);
   writer.writeUint32(entityId >>> 0);
@@ -253,7 +241,7 @@ function buildActionStateResetPacket(entityId: number): Buffer {
   return writer.payload();
 }
 
-function buildActionStateTableResetPacket(entityId: number, values: number[] = []): Buffer {
+export function buildActionStateTableResetPacket(entityId: number, values: number[] = []): Buffer {
   const writer = new PacketWriter();
   const normalizedValues = Array.isArray(values) ? values.slice(0, 11) : [];
   while (normalizedValues.length < 11) {
@@ -268,7 +256,7 @@ function buildActionStateTableResetPacket(entityId: number, values: number[] = [
   return writer.payload();
 }
 
-function buildProtectPlaybackPacket(
+export function buildProtectPlaybackPacket(
   attackerEntityId: number,
   targetEntityId: number,
   reducedDamage: number,
@@ -290,7 +278,7 @@ function buildProtectPlaybackPacket(
   return writer.payload();
 }
 
-function buildVitalsPacket(subcommand: number, health: number, mana: number, rage: number): Buffer {
+export function buildVitalsPacket(subcommand: number, health: number, mana: number, rage: number): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(subcommand & 0xff);
@@ -301,7 +289,7 @@ function buildVitalsPacket(subcommand: number, health: number, mana: number, rag
   return writer.payload();
 }
 
-function buildVictoryPacket(
+export function buildVictoryPacket(
   health: number,
   mana: number,
   rage: number,
@@ -340,7 +328,7 @@ function buildVictoryPacket(
   return writer.payload();
 }
 
-function buildVictoryPointsPacket(currentPoints: number): Buffer {
+export function buildVictoryPointsPacket(currentPoints: number): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(0x6c);
@@ -348,7 +336,7 @@ function buildVictoryPointsPacket(currentPoints: number): Buffer {
   return writer.payload();
 }
 
-function buildVictoryRankPacket(rankCode: number): Buffer {
+export function buildVictoryRankPacket(rankCode: number): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(0x6d);
@@ -356,28 +344,6 @@ function buildVictoryRankPacket(rankCode: number): Buffer {
   return writer.payload();
 }
 
-function buildDefeatPacket(health: number, mana: number, rage: number): Buffer {
+export function buildDefeatPacket(health: number, mana: number, rage: number): Buffer {
   return buildVitalsPacket(FIGHT_RESULT_DEFEAT_SUBCMD, health, mana, rage);
 }
-
-module.exports = {
-  buildActiveStatePacket,
-  buildActionStateResetPacket,
-  buildActionStateTableResetPacket,
-  buildAttackPlaybackPacket,
-  buildSkillCastPlaybackPacket,
-  buildProtectPlaybackPacket,
-  buildControlInitPacket,
-  buildControlShowPacket,
-  buildRoundStartPacket,
-  buildDefeatPacket,
-  buildEncounterPacket,
-  buildEntityHidePacket,
-  buildRingOpenPacket,
-  buildStateModePacket,
-  buildTurnPromptPacket,
-  buildVictoryPacket,
-  buildVictoryPointsPacket,
-  buildVictoryRankPacket,
-  buildVitalsPacket,
-};

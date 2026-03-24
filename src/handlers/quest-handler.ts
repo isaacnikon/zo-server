@@ -1,29 +1,22 @@
-const { parseQuestPacket } = require('../protocol/inbound-packets');
-const { DEFAULT_FLAGS, GAME_QUEST_CMD } = require('../config');
-const {
-  abandonQuest,
-  buildQuestSyncState,
-  getQuestDefinition,
-  getQuestMarkerNpcId,
-  normalizeQuestState,
-} = require('../quest-engine');
-const { normalizeInventoryState } = require('../inventory');
-const { normalizePets } = require('../pet-runtime');
-const { buildQuestPacket } = require('../protocol/gameplay-packets');
-const { numberOrDefault } = require('../character/normalize');
-const { applyObjectiveEvents } = require('../objectives/objective-dispatcher');
-const { createQuestEventHandler } = require('../objectives/quest-event-handler');
-import type { QuestSyncMode } from '../types';
+import { parseQuestPacket } from '../protocol/inbound-packets.js';
+import { DEFAULT_FLAGS, GAME_QUEST_CMD } from '../config.js';
+import { abandonQuest, buildQuestSyncState, getQuestDefinition, getQuestMarkerNpcId, normalizeQuestState, } from '../quest-engine/index.js';
+import { normalizeInventoryState } from '../inventory/index.js';
+import { normalizePets } from '../pet-runtime.js';
+import { buildQuestPacket } from '../protocol/gameplay-packets.js';
+import { numberOrDefault } from '../character/normalize.js';
+import { applyObjectiveEvents } from '../objectives/objective-dispatcher.js';
+import { createQuestEventHandler } from '../objectives/quest-event-handler.js';
+import type { QuestSyncMode, GameSession } from '../types.js';
 
-type SessionLike = Record<string, any>;
-type UnknownRecord = Record<string, any>;
+import type { UnknownRecord } from '../utils.js';
 type QuestSyncState = UnknownRecord & { taskId: number };
 
 type QuestSyncOptions = {
   mode?: QuestSyncMode;
 };
 
-function sendQuestAccept(session: SessionLike, taskId: number): void {
+function sendQuestAccept(session: GameSession, taskId: number): void {
   session.writePacket(
     buildQuestPacket(0x03, taskId),
     DEFAULT_FLAGS,
@@ -31,7 +24,7 @@ function sendQuestAccept(session: SessionLike, taskId: number): void {
   );
 }
 
-function sendQuestUpdate(session: SessionLike, taskId: number, status: number): void {
+function sendQuestUpdate(session: GameSession, taskId: number, status: number): void {
   session.writePacket(
     buildQuestPacket(0x08, taskId, status, 'u16'),
     DEFAULT_FLAGS,
@@ -39,7 +32,7 @@ function sendQuestUpdate(session: SessionLike, taskId: number, status: number): 
   );
 }
 
-function sendQuestMarker(session: SessionLike, taskId: number, npcId: number): void {
+function sendQuestMarker(session: GameSession, taskId: number, npcId: number): void {
   session.writePacket(
     buildQuestPacket(0x0c, taskId, npcId, 'u32'),
     DEFAULT_FLAGS,
@@ -47,7 +40,7 @@ function sendQuestMarker(session: SessionLike, taskId: number, npcId: number): v
   );
 }
 
-function sendQuestProgress(session: SessionLike, objectiveId: number, status: number): void {
+function sendQuestProgress(session: GameSession, objectiveId: number, status: number): void {
   session.writePacket(
     buildQuestPacket(0x0b, objectiveId, status, 'u16'),
     DEFAULT_FLAGS,
@@ -55,7 +48,7 @@ function sendQuestProgress(session: SessionLike, objectiveId: number, status: nu
   );
 }
 
-function sendQuestComplete(session: SessionLike, taskId: number): void {
+function sendQuestComplete(session: GameSession, taskId: number): void {
   session.writePacket(
     buildQuestPacket(0x04, taskId),
     DEFAULT_FLAGS,
@@ -63,7 +56,7 @@ function sendQuestComplete(session: SessionLike, taskId: number): void {
   );
 }
 
-function sendQuestAbandon(session: SessionLike, taskId: number): void {
+function sendQuestAbandon(session: GameSession, taskId: number): void {
   session.writePacket(
     buildQuestPacket(0x05, taskId),
     DEFAULT_FLAGS,
@@ -71,7 +64,7 @@ function sendQuestAbandon(session: SessionLike, taskId: number): void {
   );
 }
 
-function sendQuestHistory(session: SessionLike, taskId: number, historyLevel = 0): void {
+function sendQuestHistory(session: GameSession, taskId: number, historyLevel = 0): void {
   session.writePacket(
     buildQuestPacket(0x0e, taskId, historyLevel & 0xff, 'u8'),
     DEFAULT_FLAGS,
@@ -79,7 +72,7 @@ function sendQuestHistory(session: SessionLike, taskId: number, historyLevel = 0
   );
 }
 
-function syncQuestStateToClient(session: SessionLike, options: QuestSyncOptions = {}): void {
+function syncQuestStateToClient(session: GameSession, options: QuestSyncOptions = {}): void {
   const mode: QuestSyncMode = options.mode || 'runtime';
   const replayTalkStepUpdates = mode === 'login';
   for (const taskId of session.completedQuests) {
@@ -128,7 +121,7 @@ function syncQuestStateToClient(session: SessionLike, options: QuestSyncOptions 
 }
 
 function applyQuestEvents(
-  session: SessionLike,
+  session: GameSession,
   events: UnknownRecord[],
   source = 'runtime',
   options: UnknownRecord = {}
@@ -136,7 +129,7 @@ function applyQuestEvents(
   applyObjectiveEvents(session, events, questEventHandler, source, options);
 }
 
-function handleQuestAbandonRequest(session: SessionLike, taskId: number, source = 'client-abandon'): boolean {
+function handleQuestAbandonRequest(session: GameSession, taskId: number, source = 'client-abandon'): boolean {
   if (!Number.isInteger(taskId) || taskId <= 0) {
     return false;
   }
@@ -155,7 +148,7 @@ function handleQuestAbandonRequest(session: SessionLike, taskId: number, source 
   return false;
 }
 
-function handleQuestPacket(session: SessionLike, payload: Buffer): void {
+function handleQuestPacket(session: GameSession, payload: Buffer): void {
   if (payload.length < 5) {
     session.log('Short 0x03ff payload');
     return;
@@ -178,11 +171,11 @@ function handleQuestPacket(session: SessionLike, payload: Buffer): void {
   session.log(`Unhandled quest subcmd=0x${subcmd.toString(16)} taskId=${taskId}`);
 }
 
-function handleQuestMonsterDefeat(session: SessionLike, monsterId: number, count = 1): void {
+function handleQuestMonsterDefeat(session: GameSession, monsterId: number, count = 1): void {
   session.dispatchObjectiveMonsterDefeat(monsterId, count, 'monster-defeat');
 }
 
-function ensureQuestStateReady(session: SessionLike): void {
+function ensureQuestStateReady(session: GameSession): void {
   const persisted = session.getPersistedCharacter();
   if (persisted) {
     const questState = normalizeQuestState(persisted);
@@ -219,7 +212,7 @@ const questEventHandler = createQuestEventHandler({
   syncQuestStateToClient,
 });
 
-function refreshQuestStateForItemTemplates(session: SessionLike, templateIds: number[]): void {
+function refreshQuestStateForItemTemplates(session: GameSession, templateIds: number[]): void {
   if (!Array.isArray(templateIds) || templateIds.length === 0) {
     return;
   }
@@ -233,7 +226,7 @@ function refreshQuestStateForItemTemplates(session: SessionLike, templateIds: nu
     buildQuestSyncState({
       activeQuests: session.activeQuests,
       completedQuests: session.completedQuests,
-    }).map((quest: QuestSyncState) => [quest.taskId, quest] as const)
+    }).map((quest: any) => [quest.taskId, quest] as [number, QuestSyncState])
   );
 
   for (const record of session.activeQuests) {

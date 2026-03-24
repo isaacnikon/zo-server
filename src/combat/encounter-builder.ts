@@ -1,12 +1,11 @@
  'use strict';
  export {};
 
-const { getRoleName, getRolePrimaryDrop } = require('../roleinfo');
+import { getRoleName, getRolePrimaryDrop } from '../roleinfo/index.js';
+import type { UnknownRecord } from '../utils.js';
 
-type UnknownRecord = Record<string, any>;
-
-const FORCE_MULTI_ENEMY_ENCOUNTERS = process.env.FORCE_MULTI_ENEMY_ENCOUNTERS === '1';
-const ENEMY_POSITIONS = [
+export const FORCE_MULTI_ENEMY_ENCOUNTERS = process.env.FORCE_MULTI_ENEMY_ENCOUNTERS === '1';
+export const ENEMY_POSITIONS = [
   { row: 0, col: 0 },
   { row: 0, col: 1 },
   { row: 0, col: 2 },
@@ -80,7 +79,7 @@ function buildEnemyFromTemplate(template: UnknownRecord, mapId: number, index: n
   };
 }
 
-function buildEncounterEnemies(action: UnknownRecord | null | undefined, mapId: number): UnknownRecord[] {
+export function buildEncounterEnemies(action: UnknownRecord | null | undefined, mapId: number): UnknownRecord[] {
   const profile = action?.encounterProfile || {};
   const pool = Array.isArray(profile.pool) ? profile.pool : [];
   if (pool.length === 0) {
@@ -105,13 +104,6 @@ function buildEncounterEnemies(action: UnknownRecord | null | undefined, mapId: 
   return enemies;
 }
 
-function buildEncounterEnemy(action: UnknownRecord | null | undefined, mapId: number): UnknownRecord {
+export function buildEncounterEnemy(action: UnknownRecord | null | undefined, mapId: number): UnknownRecord {
   return buildEncounterEnemies(action, mapId)[0];
 }
-
-module.exports = {
-  ENEMY_POSITIONS,
-  FORCE_MULTI_ENEMY_ENCOUNTERS,
-  buildEncounterEnemies,
-  buildEncounterEnemy,
-};

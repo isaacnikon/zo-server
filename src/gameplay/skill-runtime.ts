@@ -1,14 +1,11 @@
-'use strict';
-export {};
+import fs from 'node:fs';
 
-import fs from 'fs';
+import { resolveRepoPath } from '../runtime-paths.js';
+import { DEFAULT_FLAGS } from '../config.js';
+import { buildSkillStateSyncPacket } from '../protocol/gameplay-packets.js';
 
-const { resolveRepoPath } = require('../runtime-paths');
-const { DEFAULT_FLAGS } = require('../config');
-const { buildSkillStateSyncPacket } = require('../protocol/gameplay-packets');
-
+import type { GameSession } from '../types.js';
 type UnknownRecord = Record<string, any>;
-type SessionLike = Record<string, any>;
 type SkillAttribute = 'strength' | 'dexterity' | 'vitality' | 'intelligence' | null;
 
 interface SkillBookDefinition {
@@ -51,11 +48,11 @@ const SKILL_BOOK_OVERRIDES = new Map<number, Partial<SkillBookDefinition>>([
 const ITEMS_TABLE_FILE = resolveRepoPath('data', 'client-derived', 'items.json');
 const SKILL_BOOKS_BY_TEMPLATE_ID = loadSkillBookDefinitions();
 
-function getSkillBookDefinition(templateId: number): SkillBookDefinition | null {
+export function getSkillBookDefinition(templateId: number): SkillBookDefinition | null {
   return SKILL_BOOKS_BY_TEMPLATE_ID.get(templateId >>> 0) || null;
 }
 
-function ensureSkillState(session: SessionLike): UnknownRecord {
+export function ensureSkillState(session: GameSession): UnknownRecord {
   if (!session.skillState || typeof session.skillState !== 'object') {
     session.skillState = {
       learnedSkills: [],
@@ -74,7 +71,7 @@ function ensureSkillState(session: SessionLike): UnknownRecord {
   return session.skillState;
 }
 
-function learnSkillFromBook(session: SessionLike, bagItem: UnknownRecord): UnknownRecord {
+export function learnSkillFromBook(session: GameSession, bagItem: UnknownRecord): UnknownRecord {
   const book = getSkillBookDefinition(bagItem?.templateId || 0);
   if (!book) {
     return {
@@ -157,7 +154,7 @@ function learnSkillFromBook(session: SessionLike, bagItem: UnknownRecord): Unkno
   };
 }
 
-function sendSkillStateSync(session: SessionLike, reason = 'runtime'): void {
+export function sendSkillStateSync(session: GameSession, reason = 'runtime'): void {
   if (!session || typeof session.writePacket !== 'function') {
     return;
   }
@@ -295,10 +292,3 @@ function parseIncompatibleSkillNames(entry: UnknownRecord): string[] {
     .map((value) => value.trim())
     .filter((value) => value.length > 0);
 }
-
-module.exports = {
-  ensureSkillState,
-  getSkillBookDefinition,
-  learnSkillFromBook,
-  sendSkillStateSync,
-};

@@ -1,28 +1,16 @@
-import type { GameSession } from '../types';
+import type { GameSession } from '../types.js';
 
-const {
-  parseEquipmentState,
-  parseAttributeAllocation,
-  parseCombatItemUse,
-  parseFightResultItemActionProbe,
-  parseSharedItemUse,
-  parseTargetedItemUse,
-} = require('../protocol/inbound-packets');
-const { FIGHT_CLIENT_ITEM_USE_SUBCMD, GAME_FIGHT_ACTION_CMD } = require('../config');
-const { canEquipItem, getBagItemByReference, getItemDefinition, removeBagItemByInstanceId } = require('../inventory');
-const {
-  sendConsumeResultPackets,
-  sendEquipmentContainerSync,
-  sendInventoryFullSync,
-} = require('../gameplay/inventory-runtime');
-const { consumeUsableItemByInstanceId } = require('../gameplay/item-use-runtime');
-const { sendSkillStateSync } = require('../gameplay/skill-runtime');
-const { normalizePrimaryAttributes } = require('../character/normalize');
-const { recomputeSessionMaxVitals } = require('../gameplay/session-flows');
+import { parseEquipmentState, parseAttributeAllocation, parseCombatItemUse, parseFightResultItemActionProbe, parseSharedItemUse, parseTargetedItemUse, } from '../protocol/inbound-packets.js';
+import { FIGHT_CLIENT_ITEM_USE_SUBCMD, GAME_FIGHT_ACTION_CMD } from '../config.js';
+import { canEquipItem, getBagItemByReference, getItemDefinition, removeBagItemByInstanceId } from '../inventory/index.js';
+import { sendConsumeResultPackets, sendEquipmentContainerSync, sendInventoryFullSync, } from '../gameplay/inventory-runtime.js';
+import { consumeUsableItemByInstanceId } from '../gameplay/item-use-runtime.js';
+import { sendSkillStateSync } from '../gameplay/skill-runtime.js';
+import { normalizePrimaryAttributes } from '../character/normalize.js';
+import { recomputeSessionMaxVitals } from '../gameplay/session-flows.js';
+import { sendPetStateSync } from './pet-handler.js';
 
-type SessionLike = GameSession & Record<string, any>;
-
-export function tryHandleEquipmentStatePacket(session: SessionLike, payload: Buffer): boolean {
+export function tryHandleEquipmentStatePacket(session: GameSession, payload: Buffer): boolean {
   const parsed = parseEquipmentState(payload);
   if (!parsed) {
     return false;
@@ -91,7 +79,7 @@ export function tryHandleEquipmentStatePacket(session: SessionLike, payload: Buf
 }
 
 export function tryHandleAttributeAllocationPacket(
-  session: SessionLike,
+  session: GameSession,
   payload: Buffer
 ): boolean {
   const allocation = parseAttributeAllocation(payload);
@@ -153,7 +141,7 @@ export function tryHandleAttributeAllocationPacket(
 }
 
 export function tryHandleFightResultItemActionProbe(
-  session: SessionLike,
+  session: GameSession,
   payload: Buffer
 ): boolean {
   const parsed = parseFightResultItemActionProbe(payload);
@@ -193,7 +181,7 @@ export function tryHandleFightResultItemActionProbe(
   return true;
 }
 
-export function tryHandleItemUsePacket(session: SessionLike, cmdWord: number, payload: Buffer): boolean {
+export function tryHandleItemUsePacket(session: GameSession, cmdWord: number, payload: Buffer): boolean {
   const sharedItemUse = parseSharedItemUse(payload);
   if (cmdWord === 0x03ee && sharedItemUse) {
     const { instanceId } = sharedItemUse;
@@ -203,6 +191,9 @@ export function tryHandleItemUsePacket(session: SessionLike, cmdWord: number, pa
       return true;
     }
 
+    if (useResult.petSyncNeeded) {
+      sendPetStateSync(session, 'item-use');
+    }
     session.log(
       `Item use ok instanceId=${instanceId} templateId=${useResult.item?.templateId || 0} restored=${useResult.gained?.health || 0}/${useResult.gained?.mana || 0}/${useResult.gained?.rage || 0}`
     );
@@ -220,6 +211,9 @@ export function tryHandleItemUsePacket(session: SessionLike, cmdWord: number, pa
       return true;
     }
 
+    if (useResult.petSyncNeeded) {
+      sendPetStateSync(session, 'item-use');
+    }
     session.log(
       `Targeted item use ok instanceId=${instanceId} targetEntityId=${targetEntityId} targetKind=${useResult.targetKind || 'unknown'} templateId=${useResult.item?.templateId || 0} restored=${useResult.gained?.health || 0}/${useResult.gained?.mana || 0}/${useResult.gained?.rage || 0}`
     );
@@ -247,13 +241,16 @@ export function tryHandleItemUsePacket(session: SessionLike, cmdWord: number, pa
     return true;
   }
 
+  if (useResult.petSyncNeeded) {
+    sendPetStateSync(session, 'item-use');
+  }
   session.log(
     `Item use ok instanceId=${instanceId} targetEntityId=${targetEntityId} templateId=${useResult.item?.templateId || 0} restored=${useResult.gained?.health || 0}/${useResult.gained?.mana || 0}/${useResult.gained?.rage || 0}`
   );
   return true;
 }
 
-export function scheduleEquipmentReplay(session: SessionLike, delayMs = 300): void {
+export function scheduleEquipmentReplay(session: GameSession, delayMs = 300): void {
   if (session.equipmentReplayTimer) {
     clearTimeout(session.equipmentReplayTimer);
     session.equipmentReplayTimer = null;

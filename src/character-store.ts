@@ -1,9 +1,10 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import { numberOrDefault } from './utils.js';
 
 type CharacterRecord = Record<string, unknown>;
 
-class CharacterStore {
+export class CharacterStore {
   legacyFilePath: string;
   storeRoot: string;
   accountsRoot: string;
@@ -408,9 +409,6 @@ function sanitizePathSegment(value: string): string {
   return String(value).replace(/[^a-zA-Z0-9._-]+/g, '_');
 }
 
-function numberOrDefault(value: unknown, fallback: number): number {
-  return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
-}
 
 function numberOrNull(value: unknown): number | null {
   return typeof value === 'number' && Number.isFinite(value) ? value : null;
@@ -419,7 +417,3 @@ function numberOrNull(value: unknown): number | null {
 function cloneJson<T>(value: T): T {
   return JSON.parse(JSON.stringify(value));
 }
-
-module.exports = {
-  CharacterStore,
-};

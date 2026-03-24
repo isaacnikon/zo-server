@@ -9,7 +9,7 @@ type TriggerFilter = {
   stepStatus?: number;
 };
 
-type UnknownRecord = Record<string, any>;
+import type { UnknownRecord } from '../utils.js';
 
 function matchesTrigger(filter: TriggerFilter, event: UnknownRecord): boolean {
   for (const [field, expected] of Object.entries(filter)) {

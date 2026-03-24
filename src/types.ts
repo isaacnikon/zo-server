@@ -1,5 +1,3 @@
-'use strict';
-
 // --- Packet field types (used by declarative schemas) ---
 export interface PositionUpdate { x: number; y: number; mapId: number }
 export interface ServerRunRequestData {
@@ -133,49 +131,115 @@ export type GameEffect =
 
 // --- Session interface (what handlers receive) ---
 export interface GameSession {
+  // Core identity
   id: number;
+  state: string;
+  isGame: boolean;
+  accountName: string | null;
+  sharedState: Record<string, any>;
   charName: string;
   entityType: number;
   roleEntityType: number;
   roleData: number;
   selectedAptitude: number;
-  currentMapId: number;
-  currentX: number;
-  currentY: number;
+  // Character stats
   level: number;
   experience: number;
+  statusPoints: number;
+  primaryAttributes: PrimaryAttributes;
+  bonusAttributes: PrimaryAttributes;
+  // Vitals
   currentHealth: number;
   currentMana: number;
   currentRage: number;
-  statusPoints: number;
+  maxHealth: number;
+  maxMana: number;
+  maxRage: number;
+  // Currency
   gold: number;
   bankGold: number;
   boundGold: number;
   coins: number;
   renown: number;
-  primaryAttributes: PrimaryAttributes;
-  bonusAttributes?: PrimaryAttributes;
+  // Position
+  currentMapId: number;
+  currentX: number;
+  currentY: number;
+  // Skills
   skillState: SkillState;
+  // Inventory
+  bagItems: any[];
+  bagSize: number;
+  nextItemInstanceId: number;
+  nextBagSlot: number;
+  // Quests
   activeQuests: QuestRecord[];
   completedQuests: number[];
+  hasAnnouncedQuestOverview: boolean;
+  // Pets
+  pets: any[];
+  selectedPetRuntimeId: number | null;
+  petSummoned: boolean;
+  petReplayTimer: NodeJS.Timeout | null;
+  // Combat
+  combatState: CombatState;
+  combatDefeatTimer: NodeJS.Timeout | null;
+  combatSkillResolutionTimer: NodeJS.Timeout | null;
   defeatRespawnPending: boolean;
+  fieldCombatCooldownUntil: number | null;
+  lastFieldCombatProbeKey: string | null;
+  attackMin?: number;
+  attackMax?: number;
+  characterAttackMin?: number;
+  characterAttackMax?: number;
+  // Map rotation
+  mapRotationTimer: NodeJS.Timeout | null;
+  mapRotationTargets: Array<{ mapId: number; mapName: string; x: number; y: number }>;
+  mapRotationIndex: number;
+  mapRotationAwaitingMapId: number | null;
+  mapRotationLastSentAt: number | null;
+  // Scene/NPC state
+  pendingSceneNpcSpawnMapId: number | null;
+  activeNpcShop: any;
+  // Equipment
+  equipmentReplayTimer: NodeJS.Timeout | null;
+  // Persisted data
   persistedCharacter: CharacterRecord | null;
-  mapRotationTimer?: NodeJS.Timeout | null;
-  mapRotationTargets?: Array<{ mapId: number; mapName: string; x: number; y: number }>;
-  mapRotationIndex?: number;
-  mapRotationAwaitingMapId?: number | null;
-  mapRotationLastSentAt?: number | null;
-  pendingSceneNpcSpawnMapId?: number | null;
-  fieldCombatCooldownUntil?: number | null;
-  lastFieldCombatProbeKey?: string | null;
+  objectiveRegistry: any;
+  socket: { destroyed?: boolean; destroy(): void; write(data: Buffer): void };
   // I/O methods
   writePacket(payload: Buffer, flags?: number, message?: string): void;
   log(message: string): void;
+  sendPong(token: number): void;
+  // Persistence methods
   persistCurrentCharacter(overrides?: Record<string, unknown>): void;
-  sendMapNpcSpawns?(mapId: number): void;
-  sendSceneEnter?(mapId: number, x: number, y: number, subtype?: number): void;
-  dispatchObjectiveMonsterDefeat?(monsterId: number, count?: number, source?: string, options?: Record<string, unknown>): boolean;
-  reconcileObjectives?(source?: string, options?: Record<string, unknown>): boolean;
+  getPersistedCharacter(): Record<string, unknown> | null;
+  saveCharacter(character: Record<string, unknown>): void;
+  buildCharacterSnapshot(overrides?: Record<string, unknown>): Record<string, unknown>;
+  // Scene/map methods
+  sendMapNpcSpawns(mapId: number): void;
+  sendSceneEnter(mapId: number, x: number, y: number, subtype?: number): void;
+  sendEnterGameOk(options?: { syncMode?: QuestSyncMode }): void;
+  // Combat methods
+  sendCombatEncounterProbe(action: Record<string, unknown>): void;
+  sendCombatExitProbe(action: Record<string, unknown>): void;
+  // Stat/UI sync methods
+  sendSelfStateAptitudeSync(): void;
+  sendGameDialogue(speaker: string, message: string, subtype?: number, flags?: number, extraText?: string | null): void;
+  sendServerRunScriptImmediate(scriptId: number): void;
+  sendServerRunScriptDeferred(scriptId: number): void;
+  // Equipment/Pet sync methods
+  scheduleEquipmentReplay(delayMs?: number): void;
+  sendPetStateSync(reason?: string): void;
+  // Quest methods
+  ensureQuestStateReady(): void;
+  syncQuestStateToClient(options?: { mode?: QuestSyncMode }): void;
+  refreshQuestStateForItemTemplates(templateIds: number[]): void;
+  handleQuestMonsterDefeat(monsterId: number, count?: number): void;
+  applyQuestEvents(events: any[], source?: string, options?: Record<string, unknown>): void;
+  // Objective methods
+  dispatchObjectiveMonsterDefeat(monsterId: number, count?: number, source?: string, options?: Record<string, unknown>): boolean;
+  reconcileObjectives(source?: string, options?: Record<string, unknown>): boolean;
 }
 
 // --- Packet handler type (async for I/O) ---
@@ -185,7 +249,7 @@ export type PacketHandler = (session: GameSession, payload: Buffer) => Promise<v
 export interface PrimaryAttributes { intelligence: number; vitality: number; dexterity: number; strength: number }
 export interface PlayerVitals { health: number; mana: number; rage: number }
 export interface CharacterRecord { [key: string]: unknown }
-export interface QuestRecord { id: number; stepIndex: number; status: number; progress: Record<string, unknown> }
+export interface QuestRecord { id: number; stepIndex: number; status: number; progress: Record<string, unknown>; acceptedAt: number }
 export interface QuestDefinition { id: number; name: string; acceptMessage: string; completionMessage: string; [key: string]: unknown }
 export interface QuestReward { [key: string]: unknown }
 export interface DropEntry { templateId: number; chance: number; quantity?: number; source?: string }

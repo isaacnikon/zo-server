@@ -3,6 +3,8 @@ dist/
 server.log
 combat-probe-state.json
 data/save/
+data/runtime/
 runtime/
-scripts/__pycache__/
+__pycache__/
 *.pyc
+roleinfo.txt

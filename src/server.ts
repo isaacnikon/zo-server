@@ -1,15 +1,15 @@
-import net from 'net';
+import net from 'node:net';
 
-const { BIND_HOST, CHARACTER_STORE_FILE, LOG_FILE, PORT } = require('./config');
-const { CharacterStore } = require('./character-store');
-const { createLogger } = require('./logger');
-const { Session } = require('./session');
-const { createSessionState } = require('./session-state');
+import { BIND_HOST, CHARACTER_STORE_FILE, LOG_FILE, PORT } from './config.js';
+import { CharacterStore } from './character-store.js';
+import { createLogger } from './logger.js';
+import { Session } from './session.js';
+import { createSessionState } from './session-state.js';
 
 export function startServer() {
   const logger = createLogger(LOG_FILE);
   const sharedState = createSessionState();
-  sharedState.characterStore = new CharacterStore(CHARACTER_STORE_FILE);
+  sharedState.characterStore = new CharacterStore(CHARACTER_STORE_FILE) as any;
 
   const server = net.createServer((socket) => {
     const isGame = sharedState.nextSessionIsGame;
@@ -51,3 +51,5 @@ export function startServer() {
 
   return server;
 }
+
+startServer();

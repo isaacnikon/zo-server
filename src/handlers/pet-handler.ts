@@ -1,33 +1,16 @@
-import type { GameSession } from '../types';
+import type { GameSession } from '../types.js';
 
-const {
-  DEFAULT_FLAGS,
-  GAME_FIGHT_RESULT_CMD,
-  GAME_FIGHT_STREAM_CMD,
-  GAME_SELF_STATE_CMD,
-} = require('../config');
-const {
-  buildPetActiveSelectPacket,
-  buildPetPanelBindPacket,
-  buildPetPanelClearPacket,
-  buildPetPanelModePacket,
-  buildPetPanelNamePacket,
-  buildPetPanelPropertyPacket,
-  buildPetPanelRebindPacket,
-  buildPetRosterSyncPacket,
-  buildPetStatsSyncPacket,
-  buildPetTreeRegistrationPacket,
-} = require('../protocol/gameplay-packets');
-const { getPrimaryPet, normalizePets } = require('../pet-runtime');
+import { DEFAULT_FLAGS, GAME_FIGHT_RESULT_CMD, GAME_FIGHT_STREAM_CMD, GAME_SELF_STATE_CMD, } from '../config.js';
+import { buildPetActiveSelectPacket, buildPetPanelBindPacket, buildPetPanelClearPacket, buildPetPanelModePacket, buildPetPanelNamePacket, buildPetPanelPropertyPacket, buildPetPanelRebindPacket, buildPetRosterSyncPacket, buildPetStatsSyncPacket, buildPetTreeRegistrationPacket, } from '../protocol/gameplay-packets.js';
+import { getPrimaryPet, normalizePets } from '../pet-runtime.js';
 
-type SessionLike = GameSession & Record<string, any>;
 type PetRecord = Record<string, any>;
 
-function getPetOwnerRuntimeId(session: SessionLike): number {
+function getPetOwnerRuntimeId(session: GameSession): number {
   return session.entityType >>> 0;
 }
 
-export function tryHandlePetActionPacket(session: SessionLike, payload: Buffer): boolean {
+export function tryHandlePetActionPacket(session: GameSession, payload: Buffer): boolean {
   if (payload.length !== 7) {
     return false;
   }
@@ -85,7 +68,7 @@ export function tryHandlePetActionPacket(session: SessionLike, payload: Buffer):
   return true;
 }
 
-export function schedulePetReplay(session: SessionLike, delayMs = 500): void {
+export function schedulePetReplay(session: GameSession, delayMs = 500): void {
   if (session.petReplayTimer) {
     clearTimeout(session.petReplayTimer);
     session.petReplayTimer = null;
@@ -100,7 +83,7 @@ export function schedulePetReplay(session: SessionLike, delayMs = 500): void {
   }, Math.max(0, delayMs | 0));
 }
 
-export function sendPetStateSync(session: SessionLike, reason = 'runtime'): void {
+export function sendPetStateSync(session: GameSession, reason = 'runtime'): void {
   session.pets = normalizePets(session.pets);
   if (session.pets.length === 0) {
     return;
@@ -185,7 +168,7 @@ export function sendPetStateSync(session: SessionLike, reason = 'runtime'): void
 }
 
 function sendPetPropertySync(
-  session: SessionLike,
+  session: GameSession,
   ownerRuntimeId: number,
   pet: PetRecord,
   reason = 'runtime'
@@ -210,7 +193,7 @@ function sendPetPropertySync(
   });
 }
 
-export function disposePetTimers(session: SessionLike): void {
+export function disposePetTimers(session: GameSession): void {
   if (session.petReplayTimer) {
     clearTimeout(session.petReplayTimer);
     session.petReplayTimer = null;

@@ -1,6 +1,4 @@
-'use strict';
-export {};
-type UnknownRecord = Record<string, any>;
+import type { UnknownRecord } from '../utils.js';
 
 function writeAttributeValues(writer: UnknownRecord, item: UnknownRecord, count: number, startIndex = 0): void {
   const pairs = Array.isArray(item.attributePairs) ? item.attributePairs : [];
@@ -77,7 +75,7 @@ for (let family = 0x43; family <= 0x70; family += 1) {
 });
 FAMILY_SERIALIZERS.set(0x7a, serializeSingleWordFamily);
 
-function writeClientItemInstancePayload(writer: UnknownRecord, item: UnknownRecord): void {
+export function writeClientItemInstancePayload(writer: UnknownRecord, item: UnknownRecord): void {
   writeCommonItemFields(writer, item);
   const family = item.clientTemplateFamily;
   if (family != null) {
@@ -89,7 +87,3 @@ function writeClientItemInstancePayload(writer: UnknownRecord, item: UnknownReco
   }
   serializeNoTrailingFieldsFamily(writer, item);
 }
-
-module.exports = {
-  writeClientItemInstancePayload,
-};

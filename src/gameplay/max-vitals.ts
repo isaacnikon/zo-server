@@ -1,9 +1,6 @@
-'use strict';
-export {};
+import fs from 'node:fs';
 
-import fs from 'fs';
-
-const { resolveRepoPath } = require('../runtime-paths');
+import { resolveRepoPath } from '../runtime-paths.js';
 
 type UnknownRecord = Record<string, any>;
 type PrimaryAttributes = {
@@ -22,14 +19,14 @@ type PetStats = {
 };
 
 const ZIZHI_INFO_FILE = resolveRepoPath('data', 'client-derived', 'archive', '00007383__zizhiinfo.txt');
-const DEFAULT_MAX_VITALS = Object.freeze({
+export const DEFAULT_MAX_VITALS = Object.freeze({
   health: 432,
   mana: 630,
   rage: 100,
 });
 const GROWTH_ROWS = loadGrowthRows();
 
-function resolveCharacterMaxVitals(input: UnknownRecord | null | undefined = {}): Vitals {
+export function resolveCharacterMaxVitals(input: UnknownRecord | null | undefined = {}): Vitals {
   const selectedAptitude = numberOrDefault(input?.selectedAptitude, 0);
   const level = Math.max(1, numberOrDefault(input?.level, 1));
   const stats = normalizePrimaryAttributes(input?.primaryAttributes);
@@ -60,7 +57,7 @@ function resolveCharacterMaxVitals(input: UnknownRecord | null | undefined = {})
   };
 }
 
-function resolvePetMaxVitals(input: UnknownRecord | null | undefined = {}): Vitals {
+export function resolvePetMaxVitals(input: UnknownRecord | null | undefined = {}): Vitals {
   const level = Math.max(1, numberOrDefault(input?.level, 1));
   const currentStats = normalizePrimaryAttributes(input?.stats);
   const baseStats = normalizePrimaryAttributes(input?.baseStats);
@@ -105,7 +102,7 @@ function normalizePrimaryAttributes(primaryAttributes: UnknownRecord | null | un
   };
 }
 
-function resolveCharacterBonusAttributes(input: UnknownRecord | null | undefined): PrimaryAttributes {
+export function resolveCharacterBonusAttributes(input: UnknownRecord | null | undefined): PrimaryAttributes {
   const explicitBonuses = normalizePrimaryAttributes(input?.bonusAttributes);
   return {
     intelligence: explicitBonuses.intelligence,
@@ -162,10 +159,3 @@ function numberOrDefault(value: unknown, fallback: number): number {
   const parsed = typeof value === 'string' ? Number(value.replace(/\s+/g, '')) : Number(value);
   return Number.isFinite(parsed) ? parsed : fallback;
 }
-
-module.exports = {
-  DEFAULT_MAX_VITALS,
-  resolveCharacterBonusAttributes,
-  resolveCharacterMaxVitals,
-  resolvePetMaxVitals,
-};

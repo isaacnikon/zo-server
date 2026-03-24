@@ -1,14 +1,11 @@
-'use strict';
-export {};
-
-const fs = require('fs');
+import fs from 'node:fs';
 type LogWriter = {
   log: (message: string) => void;
   hexDump: (buf: Buffer, prefix?: string) => string;
   close: () => void;
 };
 
-function createLogger(logFile: string): LogWriter {
+export function createLogger(logFile: string): LogWriter {
   const logStream = fs.createWriteStream(logFile, { flags: 'w' });
 
   function log(message: string): void {
@@ -35,7 +32,3 @@ function createLogger(logFile: string): LogWriter {
 
   return { log, hexDump, close };
 }
-
-module.exports = {
-  createLogger,
-};

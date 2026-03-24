@@ -1,9 +1,8 @@
-import fs from 'fs';
-import type { GameSession, ServerRunRequestData } from '../types';
+import fs from 'node:fs';
+import type { GameSession, ServerRunRequestData } from '../types.js';
 
-const { resolveRepoPath } = require('../runtime-paths');
+import { resolveRepoPath } from '../runtime-paths.js';
 
-type SessionLike = GameSession & Record<string, any>;
 
 type Rect = {
   minX: number;
@@ -259,7 +258,7 @@ function buildSceneInteractions(): SceneInteraction[] {
 
 const SCENE_INTERACTIONS: SceneInteraction[] = buildSceneInteractions();
 
-function handleSceneInteractionRequest(session: SessionLike, request: ServerRunRequestData): boolean {
+function handleSceneInteractionRequest(session: GameSession, request: ServerRunRequestData): boolean {
   if (typeof session.sendSceneEnter !== 'function') {
     return false;
   }

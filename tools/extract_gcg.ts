@@ -1,6 +1,5 @@
-export {};
-const fs = require('fs');
-const zlib = require('zlib');
+import fs from 'node:fs';
+import zlib from 'node:zlib';
 
 const data = fs.readFileSync('/home/nikon/Data/Zodiac Online/gcg/attrres.rc');
 

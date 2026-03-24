@@ -1,9 +1,8 @@
-import type { GameSession } from '../types';
+import type { GameSession } from '../types.js';
 
-const { buildEncounterPoolForLocation } = require('../roleinfo');
-const { getMapEncounterLevelRange, getMapNpcs, getMapSummary } = require('../map-data');
+import { buildEncounterPoolForLocation } from '../roleinfo/index.js';
+import { getMapEncounterLevelRange, getMapNpcs, getMapSummary } from '../map-data.js';
 
-type SessionLike = GameSession & Record<string, any>;
 
 const FIELD_COMBAT_ENABLED = process.env.FIELD_COMBAT_ENABLED !== '0';
 const FIELD_COMBAT_COOLDOWN_MS = Number.isFinite(Number(process.env.FIELD_COMBAT_COOLDOWN_MS))
@@ -21,7 +20,7 @@ function mapHasFrogTeleporter(mapId: number): boolean {
   });
 }
 
-function shouldEnableFieldCombatForMap(session: SessionLike, mapId: number): boolean {
+function shouldEnableFieldCombatForMap(session: GameSession, mapId: number): boolean {
   if (!FIELD_COMBAT_ENABLED) {
     return false;
   }
@@ -34,7 +33,7 @@ function shouldEnableFieldCombatForMap(session: SessionLike, mapId: number): boo
   return true;
 }
 
-function maybeTriggerFieldCombat(session: SessionLike, mapId: number, x: number, y: number): boolean {
+function maybeTriggerFieldCombat(session: GameSession, mapId: number, x: number, y: number): boolean {
   if (!shouldEnableFieldCombatForMap(session, mapId)) {
     return false;
   }

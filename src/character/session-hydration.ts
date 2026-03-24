@@ -1,23 +1,15 @@
-import type { GameSession } from '../types';
+import type { GameSession } from '../types.js';
 
-const { normalizePets } = require('../pet-runtime');
-const { CHARACTER_VITALS_BASELINE } = require('../gameplay/session-flows');
-const { resolveCharacterMaxVitals } = require('../gameplay/max-vitals');
-const {
-  defaultBonusAttributes,
-  numberOrDefault,
-  normalizeBonusAttributes,
-  normalizePrimaryAttributes,
-  normalizeCharacterRecord,
-  normalizeSkillState,
-} = require('./normalize');
-const { normalizeQuestState } = require('../quest-engine');
-const { buildInventorySnapshot, normalizeInventoryState } = require('../inventory');
+import { normalizePets } from '../pet-runtime.js';
+import { CHARACTER_VITALS_BASELINE } from '../gameplay/session-flows.js';
+import { resolveCharacterMaxVitals } from '../gameplay/max-vitals.js';
+import { defaultBonusAttributes, numberOrDefault, normalizeBonusAttributes, normalizePrimaryAttributes, normalizeCharacterRecord, normalizeSkillState, } from './normalize.js';
+import { normalizeQuestState } from '../quest-engine/index.js';
+import { buildInventorySnapshot, normalizeInventoryState } from '../inventory/index.js';
 
-type SessionLike = GameSession & Record<string, any>;
 type CharacterOverrides = Record<string, unknown>;
 
-export function hydratePendingGameCharacter(session: SessionLike, sharedState: Record<string, any>): void {
+export function hydratePendingGameCharacter(session: GameSession, sharedState: Record<string, any>): void {
   const pendingCharacter = sharedState?.pendingGameCharacter;
   if (!session.isGame || !pendingCharacter) {
     return;
@@ -92,7 +84,7 @@ export function hydratePendingGameCharacter(session: SessionLike, sharedState: R
   sharedState.pendingGameCharacter = null;
 }
 
-export function getPersistedCharacter(session: SessionLike): Record<string, unknown> | null {
+export function getPersistedCharacter(session: GameSession): Record<string, unknown> | null {
   const character = session.sharedState.characterStore?.get(session.accountName) || null;
   if (!character) {
     return null;
@@ -100,7 +92,7 @@ export function getPersistedCharacter(session: SessionLike): Record<string, unkn
   return normalizeCharacterRecord(character);
 }
 
-export function saveCharacter(session: SessionLike, character: Record<string, unknown>): void {
+export function saveCharacter(session: GameSession, character: Record<string, unknown>): void {
   if (!session.accountName || !session.sharedState.characterStore) {
     return;
   }
@@ -112,7 +104,7 @@ export function saveCharacter(session: SessionLike, character: Record<string, un
 }
 
 export function buildCharacterSnapshot(
-  session: SessionLike,
+  session: GameSession,
   overrides: CharacterOverrides = {}
 ): Record<string, unknown> {
   const persisted = getPersistedCharacter(session) || {};
@@ -155,7 +147,7 @@ export function buildCharacterSnapshot(
 }
 
 export function persistCurrentCharacter(
-  session: SessionLike,
+  session: GameSession,
   overrides: CharacterOverrides = {}
 ): void {
   saveCharacter(session, buildCharacterSnapshot(session, overrides));

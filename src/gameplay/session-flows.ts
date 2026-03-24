@@ -1,16 +1,14 @@
-'use strict';
-export {};
-type UnknownRecord = Record<string, any>;
+import { DEFAULT_MAX_VITALS, resolveCharacterMaxVitals as resolveDerivedCharacterMaxVitals } from './max-vitals.js';
+import { numberOrDefault, type UnknownRecord } from '../utils.js';
 type Vitals = { health: number; mana: number; rage: number; companionHp?: number };
-const { DEFAULT_MAX_VITALS, resolveCharacterMaxVitals: resolveDerivedCharacterMaxVitals } = require('./max-vitals');
 
-const CHARACTER_VITALS_BASELINE = DEFAULT_MAX_VITALS;
+export const CHARACTER_VITALS_BASELINE = DEFAULT_MAX_VITALS;
 
-function resolveCharacterMaxVitals(currentVitals: UnknownRecord | null = null): Vitals {
+export function resolveCharacterMaxVitals(currentVitals: UnknownRecord | null = null): Vitals {
   return resolveDerivedCharacterMaxVitals(currentVitals);
 }
 
-function resolveInnRestVitals(currentVitals: UnknownRecord | null | undefined): Vitals {
+export function resolveInnRestVitals(currentVitals: UnknownRecord | null | undefined): Vitals {
   const maxVitals = resolveCharacterMaxVitals(currentVitals);
   return {
     health: maxVitals.health,
@@ -19,11 +17,7 @@ function resolveInnRestVitals(currentVitals: UnknownRecord | null | undefined): 
   };
 }
 
-function numberOrDefault(value: unknown, fallback: number): number {
-  return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
-}
-
-function buildDefeatRespawnState({
+export function buildDefeatRespawnState({
   persistedCharacter,
   currentMapId,
   currentX,
@@ -50,7 +44,7 @@ function buildDefeatRespawnState({
   };
 }
 
-function resolveCurrentPlayerVitals(session: UnknownRecord, player: UnknownRecord | null = null): Vitals {
+export function resolveCurrentPlayerVitals(session: UnknownRecord, player: UnknownRecord | null = null): Vitals {
   return {
     health: ((player?.hp || session.currentHealth) >>> 0) || 0,
     mana: ((player?.mp || session.currentMana) >>> 0) || 0,
@@ -67,7 +61,7 @@ function defaultBonusAttributes() {
   };
 }
 
-function recomputeSessionMaxVitals(session: UnknownRecord, overrides: UnknownRecord | null = null): Vitals {
+export function recomputeSessionMaxVitals(session: UnknownRecord, overrides: UnknownRecord | null = null): Vitals {
   const input = {
     roleEntityType: session?.roleEntityType,
     entityType: session?.entityType,
@@ -89,12 +83,3 @@ function recomputeSessionMaxVitals(session: UnknownRecord, overrides: UnknownRec
   session.maxRage = maxVitals.rage;
   return maxVitals;
 }
-
-module.exports = {
-  CHARACTER_VITALS_BASELINE,
-  buildDefeatRespawnState,
-  recomputeSessionMaxVitals,
-  resolveCharacterMaxVitals,
-  resolveCurrentPlayerVitals,
-  resolveInnRestVitals,
-};

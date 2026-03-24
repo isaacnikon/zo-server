@@ -1,23 +1,15 @@
-const { DEFAULT_FLAGS, GAME_ITEM_CMD, GAME_ITEM_CONTAINER_CMD } = require('../config');
-const {
-  buildInventoryContainerBulkSyncPacket,
-  buildInventoryContainerQuantityPacket,
-  buildItemAddPacket,
-  buildItemRemovePacket,
-} = require('../protocol/gameplay-packets');
-const {
-  BAG_CONTAINER_TYPE,
-  getItemDefinition,
-} = require('../inventory');
-const { applyEffects } = require('../effects/effect-executor');
+import { DEFAULT_FLAGS, GAME_ITEM_CMD, GAME_ITEM_CONTAINER_CMD } from '../config.js';
+import { buildInventoryContainerBulkSyncPacket, buildInventoryContainerQuantityPacket, buildItemAddPacket, buildItemRemovePacket, } from '../protocol/gameplay-packets.js';
+import { BAG_CONTAINER_TYPE, getItemDefinition, } from '../inventory/index.js';
+import { applyEffects } from '../effects/effect-executor.js';
 
 const EQUIPMENT_CONTAINER_TYPE = 0;
 
+import type { GameSession } from '../types.js';
 type UnknownRecord = Record<string, any>;
-type SessionLike = Record<string, any>;
 
 function sendItemAdd(
-  session: SessionLike,
+  session: GameSession,
   templateId: number,
   slot: number,
   quantity = 1,
@@ -30,7 +22,6 @@ function sendItemAdd(
   session.writePacket(
     buildItemAddPacket({
       containerType: BAG_CONTAINER_TYPE,
-      slot,
       templateId,
       instanceId,
       tradeState,
@@ -39,14 +30,14 @@ function sendItemAdd(
       quantity: encodedQuantity,
       extraValue: 0,
       clientTemplateFamily: definition?.clientTemplateFamily ?? null,
-      attributePairs: Array.isArray(definition?.defaultAttributePairs) ? definition.defaultAttributePairs : [],
+      attributePairs: Array.isArray(definition?.defaultAttributePairs) ? definition.defaultAttributePairs as Array<{ key: number; value: number }> : [],
     }),
     DEFAULT_FLAGS,
     `Sending item add cmd=0x${GAME_ITEM_CMD.toString(16)} templateId=${templateId} slot=${slot} qty=${quantity} instanceId=${instanceId}${definition ? ` name=${definition.name}` : ''}`
   );
 }
 
-function sendInventoryFullSync(session: SessionLike): void {
+function sendInventoryFullSync(session: GameSession): void {
   const bagItems = Array.isArray(session.bagItems)
     ? session.bagItems
         .filter((item: UnknownRecord) => item.equipped !== true)
@@ -55,7 +46,7 @@ function sendInventoryFullSync(session: SessionLike): void {
   session.writePacket(
     buildInventoryContainerBulkSyncPacket({
       containerType: BAG_CONTAINER_TYPE,
-      items: bagItems,
+      items: bagItems as any[],
     }),
     DEFAULT_FLAGS,
     `Sending inventory full sync cmd=0x${GAME_ITEM_CONTAINER_CMD.toString(16)} container=${BAG_CONTAINER_TYPE} items=${bagItems.length}`
@@ -88,7 +79,7 @@ function buildClientInventoryItem(item: UnknownRecord): UnknownRecord {
   };
 }
 
-function resolveClientItemQuantity(definition: UnknownRecord, quantity: number, durability?: number): number {
+function resolveClientItemQuantity(definition: UnknownRecord | null, quantity: number, durability?: number): number {
   const usesDurability = definition?.hasDurability === true;
   const normalizedDurability =
     typeof durability === 'number' && Number.isInteger(durability) ? durability : null;
@@ -98,13 +89,13 @@ function resolveClientItemQuantity(definition: UnknownRecord, quantity: number, 
   if (Number.isInteger(quantity) && (usesDurability ? quantity >= 0 : quantity > 0)) {
     return quantity;
   }
-  if (Number.isInteger(definition?.defaultQuantity) && definition.defaultQuantity > 0) {
-    return definition.defaultQuantity;
+  if (Number.isInteger(definition?.defaultQuantity) && definition!.defaultQuantity > 0) {
+    return definition!.defaultQuantity;
   }
   return usesDurability ? 0 : 1;
 }
 
-function sendEquipmentContainerSync(session: SessionLike): void {
+function sendEquipmentContainerSync(session: GameSession): void {
   const equippedItems = (Array.isArray(session.bagItems) ? session.bagItems : [])
     .filter((item: UnknownRecord) => item.equipped === true)
     .map((item: UnknownRecord) => buildClientInventoryItem(item));
@@ -112,14 +103,14 @@ function sendEquipmentContainerSync(session: SessionLike): void {
   session.writePacket(
     buildInventoryContainerBulkSyncPacket({
       containerType: EQUIPMENT_CONTAINER_TYPE,
-      items: equippedItems,
+      items: equippedItems as any[],
     }),
     DEFAULT_FLAGS,
     `Sending equipment container sync cmd=0x${GAME_ITEM_CONTAINER_CMD.toString(16)} container=${EQUIPMENT_CONTAINER_TYPE} items=${equippedItems.length}`
   );
 }
 
-function sendItemQuantityUpdate(session: SessionLike, instanceId: number, quantity: number): void {
+function sendItemQuantityUpdate(session: GameSession, instanceId: number, quantity: number): void {
   session.writePacket(
     buildInventoryContainerQuantityPacket({
       containerType: BAG_CONTAINER_TYPE,
@@ -131,7 +122,7 @@ function sendItemQuantityUpdate(session: SessionLike, instanceId: number, quanti
   );
 }
 
-function sendItemRemove(session: SessionLike, instanceId: number, containerType = BAG_CONTAINER_TYPE): void {
+function sendItemRemove(session: GameSession, instanceId: number, containerType = BAG_CONTAINER_TYPE): void {
   session.writePacket(
     buildItemRemovePacket({
       containerType,
@@ -142,12 +133,12 @@ function sendItemRemove(session: SessionLike, instanceId: number, containerType 
   );
 }
 
-function syncInventoryStateToClient(session: SessionLike): void {
+function syncInventoryStateToClient(session: GameSession): void {
   sendInventoryFullSync(session);
   sendEquipmentContainerSync(session);
 }
 
-function sendGrantResultPackets(session: SessionLike, grantResult: UnknownRecord): void {
+function sendGrantResultPackets(session: GameSession, grantResult: UnknownRecord): void {
   for (const change of grantResult.changes || []) {
     if (change.merged) {
       sendItemQuantityUpdate(session, change.item.instanceId, change.item.quantity);
@@ -165,7 +156,7 @@ function sendGrantResultPackets(session: SessionLike, grantResult: UnknownRecord
   }
 }
 
-function sendConsumeResultPackets(session: SessionLike, consumeResult: UnknownRecord): void {
+function sendConsumeResultPackets(session: GameSession, consumeResult: UnknownRecord): void {
   for (const change of consumeResult.changes || []) {
     if (change.removed) {
       sendItemRemove(
@@ -180,7 +171,7 @@ function sendConsumeResultPackets(session: SessionLike, consumeResult: UnknownRe
 }
 
 function applyInventoryQuestEvent(
-  session: SessionLike,
+  session: GameSession,
   event: UnknownRecord,
   options: UnknownRecord = {}
 ): UnknownRecord {

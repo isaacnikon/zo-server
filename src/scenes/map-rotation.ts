@@ -1,10 +1,9 @@
-import fs from 'fs';
-import type { GameSession } from '../types';
+import fs from 'node:fs';
+import type { GameSession } from '../types.js';
 
-const { getMapDetails } = require('../map-data');
-const { resolveRepoPath } = require('../runtime-paths');
+import { getMapDetails } from '../map-data.js';
+import { resolveRepoPath } from '../runtime-paths.js';
 
-type SessionLike = GameSession & Record<string, any>;
 
 type RotationTarget = {
   mapId: number;
@@ -89,20 +88,20 @@ function buildRotationTargets(): RotationTarget[] {
       return {
         mapId: record.mapId,
         mapName: record.mapName,
-        x: Number.isInteger(home?.x) ? home.x : 8,
-        y: Number.isInteger(home?.y) ? home.y : 8,
+        x: Number.isInteger(home?.x) ? home!.x : 8,
+        y: Number.isInteger(home?.y) ? home!.y : 8,
       };
     });
 }
 
-function clearRotationTimer(session: SessionLike): void {
+function clearRotationTimer(session: GameSession): void {
   if (session.mapRotationTimer) {
     clearTimeout(session.mapRotationTimer);
     session.mapRotationTimer = null;
   }
 }
 
-function stopAutoMapRotation(session: SessionLike): void {
+function stopAutoMapRotation(session: GameSession): void {
   clearRotationTimer(session);
   session.mapRotationTargets = [];
   session.mapRotationIndex = 0;
@@ -113,7 +112,7 @@ function stopAutoMapRotation(session: SessionLike): void {
   }
 }
 
-function scheduleRotationAdvance(session: SessionLike, delayMs: number): void {
+function scheduleRotationAdvance(session: GameSession, delayMs: number): void {
   clearRotationTimer(session);
   session.mapRotationTimer = setTimeout(() => {
     if (activeRotationSessionId !== session.id) {
@@ -144,7 +143,7 @@ function scheduleRotationAdvance(session: SessionLike, delayMs: number): void {
   }, delayMs);
 }
 
-function startAutoMapRotation(session: SessionLike): void {
+function startAutoMapRotation(session: GameSession): void {
   if (!AUTO_MAP_ROTATION_ENABLED) {
     return;
   }
@@ -174,7 +173,7 @@ function startAutoMapRotation(session: SessionLike): void {
   scheduleRotationAdvance(session, AUTO_MAP_ROTATION_START_DELAY_MS);
 }
 
-function notifyAutoMapRotationPosition(session: SessionLike, mapId: number): void {
+function notifyAutoMapRotationPosition(session: GameSession, mapId: number): void {
   if (activeRotationSessionId !== session.id) {
     return;
   }

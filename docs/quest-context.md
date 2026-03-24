@@ -7,7 +7,7 @@ This file tracks quest-system issues that were discovered while bringing live qu
 ### Quest accept from NPC did nothing
 - Issue: NPC talk packets reached the server, but some quests could never be accepted.
 - Root cause: normalized quest definitions dropped `acceptNpcId` and `acceptSubtype`, so NPC acceptance matching always failed.
-- Resolution: preserved accept metadata during quest normalization in `src/quest-engine.ts`.
+- Resolution: preserved accept metadata during quest normalization in `src/quest-engine/`.
 
 ### Quest turn-in via `server-run sub=0x08` did nothing
 - Issue: some NPC hand-ins used `GAME_SERVER_RUN_CMD` `sub=0x08` instead of the older quest-talk path and were ignored.
@@ -32,13 +32,13 @@ This file tracks quest-system issues that were discovered while bringing live qu
 ### Quest resets from save files did not show in UI
 - Issue: after manually resetting quests in save data, the quest did not appear after relog.
 - Root cause: saved quest records used `taskId`, but quest normalization only accepted `id`.
-- Resolution: `src/quest-engine.ts` now accepts both `id` and `taskId` when restoring active quests.
+- Resolution: `src/quest-engine/` now accepts both `id` and `taskId` when restoring active quests.
 
 ### Quest progress UI stayed at `0/1` after a kill
 - Issue: kill quests advanced internally but the client still showed `0/1`.
 - Root cause: the server's progress packets mixed step status and kill counter semantics, and used the wrong objective identifier for kill progress.
 - Resolution:
-- split quest step status from objective progress count in `src/quest-engine.ts`, `src/objectives/quest-event-handler.ts`, `src/handlers/quest-handler.ts`, and `src/types.ts`
+- split quest step status from objective progress count in `src/quest-engine/`, `src/objectives/quest-event-handler.ts`, `src/handlers/quest-handler.ts`, and `src/types.ts`
 - restored the expected update/marker packet sequence
 - used the monster id as the objective id for `0x03ff sub=0x0b`
 
@@ -59,9 +59,9 @@ This file tracks quest-system issues that were discovered while bringing live qu
 - the matcher was too strict about the flask template
 - stale consume items from the original server quest JSON were still present
 - Resolution:
-- recovered capture requirements from client-verified quest data in `src/quest-engine.ts`
+- recovered capture requirements from client-verified quest data in `src/quest-engine/`
 - matched capture hand-ins by captured monster id plus Mob Flask family item in `src/handlers/npc-interaction-handler.ts`
-- replaced stale consume lists for capture steps in `src/quest-engine.ts`
+- replaced stale consume lists for capture steps in `src/quest-engine/`
 
 ### Quest `4` `Evilelf` fight completed immediately on kill
 - Issue: killing `Evilelf` removed the quest instead of requiring the return talk shown by the client.

@@ -1,31 +1,21 @@
-const {
-  applyInventoryQuestEvent,
-  sendConsumeResultPackets,
-  sendInventoryFullSync,
-} = require('../gameplay/inventory-runtime');
-const {
-  consumeItemFromBag,
-  getBagQuantityByTemplateId,
-  getItemDefinition,
-} = require('../inventory');
-const { applyQuestCompletionReward } = require('../gameplay/reward-runtime');
-const { normalizePets } = require('../pet-runtime');
-const { numberOrDefault } = require('../character/normalize');
+import { applyInventoryQuestEvent, sendConsumeResultPackets, sendInventoryFullSync, } from '../gameplay/inventory-runtime.js';
+import { consumeItemFromBag, getBagQuantityByTemplateId, getItemDefinition, } from '../inventory/index.js';
+import { applyQuestCompletionReward } from '../gameplay/reward-runtime.js';
+import { normalizePets } from '../pet-runtime.js';
+import { numberOrDefault } from '../character/normalize.js';
 
-import type { DirtyFlags, DispatchOptions, ObjectiveEventHandler } from './objective-dispatcher';
-import type { QuestEvent, QuestSyncMode } from '../types';
-
-type SessionLike = Record<string, any>;
+import type { DirtyFlags, DispatchOptions, ObjectiveEventHandler } from './objective-dispatcher.js';
+import type { GameSession, QuestEvent, QuestSyncMode } from '../types.js';
 
 type QuestEventHandlerDeps = {
-  sendQuestAccept(session: SessionLike, taskId: number): void;
-  sendQuestUpdate(session: SessionLike, taskId: number, status: number): void;
-  sendQuestMarker(session: SessionLike, taskId: number, npcId: number): void;
-  sendQuestProgress(session: SessionLike, objectiveId: number, status: number): void;
-  sendQuestComplete(session: SessionLike, taskId: number): void;
-  sendQuestAbandon(session: SessionLike, taskId: number): void;
-  sendQuestHistory(session: SessionLike, taskId: number, historyLevel?: number): void;
-  syncQuestStateToClient(session: SessionLike, options?: { mode?: QuestSyncMode }): void;
+  sendQuestAccept(session: GameSession, taskId: number): void;
+  sendQuestUpdate(session: GameSession, taskId: number, status: number): void;
+  sendQuestMarker(session: GameSession, taskId: number, npcId: number): void;
+  sendQuestProgress(session: GameSession, objectiveId: number, status: number): void;
+  sendQuestComplete(session: GameSession, taskId: number): void;
+  sendQuestAbandon(session: GameSession, taskId: number): void;
+  sendQuestHistory(session: GameSession, taskId: number, historyLevel?: number): void;
+  syncQuestStateToClient(session: GameSession, options?: { mode?: QuestSyncMode }): void;
 };
 
 function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHandler<QuestEvent> {
@@ -36,7 +26,7 @@ function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHan
       return `Quest event source=${source} type=${event.type} taskId=${numberOrDefault(event.taskId, 0)}${statusText}${stepText}`;
     },
 
-    dispatch(session: SessionLike, event: QuestEvent, source: string, options: DispatchOptions): DirtyFlags {
+    dispatch(session: GameSession, event: QuestEvent, source: string, options: DispatchOptions): DirtyFlags {
       const suppressPackets = options.suppressPackets === true;
       const suppressDialogues = options.suppressDialogues === true;
 

@@ -1,12 +1,9 @@
-'use strict';
-export {};
-
-const { DEFAULT_FLAGS, GAME_SELF_STATE_CMD } = require('../config');
-const { buildSelfStateValueUpdatePacket } = require('../protocol/gameplay-packets');
-type SessionLike = Record<string, any>;
+import { DEFAULT_FLAGS, GAME_SELF_STATE_CMD } from '../config.js';
+import { buildSelfStateValueUpdatePacket } from '../protocol/gameplay-packets.js';
+import type { GameSession } from '../types.js';
 type ValueUpdateKind = 'gold' | 'coins' | 'renown' | 'experience' | 'health' | 'mana' | 'rage';
 
-const VALUE_UPDATE_DISCRIMINATORS = Object.freeze({
+export const VALUE_UPDATE_DISCRIMINATORS = Object.freeze({
   gold: '$',
   coins: 'N',
   renown: '-',
@@ -16,7 +13,7 @@ const VALUE_UPDATE_DISCRIMINATORS = Object.freeze({
   rage: 0x0d,
 });
 
-function sendSelfStateValueUpdate(session: SessionLike, kind: ValueUpdateKind, value: number): void {
+export function sendSelfStateValueUpdate(session: GameSession, kind: ValueUpdateKind, value: number): void {
   const discriminator = VALUE_UPDATE_DISCRIMINATORS[kind];
   if (discriminator == null) {
     return;
@@ -35,17 +32,11 @@ function sendSelfStateValueUpdate(session: SessionLike, kind: ValueUpdateKind, v
   );
 }
 
-function sendSelfStateVitalsUpdate(
-  session: SessionLike,
+export function sendSelfStateVitalsUpdate(
+  session: GameSession,
   vitals: { health: number; mana: number; rage: number }
 ): void {
   sendSelfStateValueUpdate(session, 'health', vitals.health);
   sendSelfStateValueUpdate(session, 'mana', vitals.mana);
   sendSelfStateValueUpdate(session, 'rage', vitals.rage);
 }
-
-module.exports = {
-  sendSelfStateVitalsUpdate,
-  sendSelfStateValueUpdate,
-  VALUE_UPDATE_DISCRIMINATORS,
-};

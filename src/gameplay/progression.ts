@@ -1,15 +1,12 @@
-'use strict';
-export {};
-
-const fs = require('fs');
-const { resolveRepoPath } = require('../runtime-paths');
-type UnknownRecord = Record<string, any>;
+import fs from 'node:fs';
+import { resolveRepoPath } from '../runtime-paths.js';
+import { numberOrDefault, type UnknownRecord } from '../utils.js';
 
 const PROGRESSION_DATA_FILE = resolveRepoPath('data', 'client-verified', 'progression', 'playlevelup.json');
 
-const STATUS_POINTS_PER_LEVEL = 4;
+export const STATUS_POINTS_PER_LEVEL = 4;
 const DEFAULT_REQUIRED_EXPERIENCE = 327000000;
-const PROGRESSION = loadProgressionTable();
+export const PROGRESSION = loadProgressionTable();
 
 function loadProgressionTable() {
   const parsed = JSON.parse(fs.readFileSync(PROGRESSION_DATA_FILE, 'utf8'));
@@ -31,14 +28,14 @@ function loadProgressionTable() {
   });
 }
 
-function getRequiredExperienceForNextLevel(level: number): number | null {
+export function getRequiredExperienceForNextLevel(level: number): number | null {
   if (level >= PROGRESSION.maxLevel) {
     return null;
   }
   return PROGRESSION.requiredExperienceByLevel.get(level) || DEFAULT_REQUIRED_EXPERIENCE;
 }
 
-function applyExperienceGain(character: UnknownRecord | null | undefined, gainedExperience: number) {
+export function applyExperienceGain(character: UnknownRecord | null | undefined, gainedExperience: number) {
   const currentLevel = Math.max(1, numberOrDefault(character?.level, 1));
   let level = currentLevel;
   let experience = Math.max(0, numberOrDefault(character?.experience, 0)) + Math.max(0, numberOrDefault(gainedExperience, 0));
@@ -70,14 +67,3 @@ function applyExperienceGain(character: UnknownRecord | null | undefined, gained
     requiredExperienceForNextLevel: getRequiredExperienceForNextLevel(level),
   };
 }
-
-function numberOrDefault(value: unknown, fallback: number): number {
-  return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
-}
-
-module.exports = {
-  PROGRESSION,
-  STATUS_POINTS_PER_LEVEL,
-  applyExperienceGain,
-  getRequiredExperienceForNextLevel,
-};

@@ -1,17 +1,14 @@
-import type { QuestEvent } from '../types';
-import type { ObjectiveSystem } from './objective-system';
+import type { QuestEvent } from '../types.js';
+import type { ObjectiveSystem } from './objective-system.js';
 
-const {
-  applyMonsterDefeat,
-  reconcileAutoAccept,
-} = require('../quest-engine');
+import { applyMonsterDefeat, reconcileAutoAccept, } from '../quest-engine/index.js';
 
 type QuestState = Record<string, any>;
 
 const questObjectiveSystem: ObjectiveSystem<QuestState, QuestEvent> = {
   name: 'quest',
-  onMonsterDefeat: (state: QuestState, monsterId: number, count: number) => applyMonsterDefeat(state, monsterId, count),
-  reconcile: (state: QuestState) => reconcileAutoAccept(state),
+  onMonsterDefeat: (state: QuestState, monsterId: number, count: number) => applyMonsterDefeat(state as any, monsterId, count),
+  reconcile: (state: QuestState) => reconcileAutoAccept(state as any),
 };
 
 export {

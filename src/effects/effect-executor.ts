@@ -1,17 +1,12 @@
-const { bagHasTemplateQuantity, grantItemToBag, consumeItemFromBag, getItemDefinition } = require('../inventory');
-const {
-  sendGrantResultPackets,
-  sendConsumeResultPackets,
-  sendInventoryFullSync,
-} = require('../gameplay/inventory-runtime');
-const { sendSelfStateValueUpdate } = require('../gameplay/stat-sync');
-const { applyExperienceGain } = require('../gameplay/progression');
-const { recomputeSessionMaxVitals } = require('../gameplay/session-flows');
+import { bagHasTemplateQuantity, grantItemToBag, consumeItemFromBag, getItemDefinition } from '../inventory/index.js';
+import { sendGrantResultPackets, sendConsumeResultPackets, sendInventoryFullSync, } from '../gameplay/inventory-runtime.js';
+import { sendSelfStateValueUpdate } from '../gameplay/stat-sync.js';
+import { applyExperienceGain } from '../gameplay/progression.js';
+import { recomputeSessionMaxVitals } from '../gameplay/session-flows.js';
+import type { UnknownRecord } from '../utils.js';
+import type { GameSession } from '../types.js';
 
-type UnknownRecord = Record<string, any>;
-type SessionLike = Record<string, any>;
-
-function applyEffects(session: SessionLike, effects: UnknownRecord[], options: UnknownRecord = {}): UnknownRecord {
+function applyEffects(session: GameSession, effects: UnknownRecord[], options: UnknownRecord = {}): UnknownRecord {
   const suppressPackets = options.suppressPackets === true;
   const suppressInventorySync = options.suppressInventorySync === true;
   const suppressStatSync = options.suppressStatSync === true;
@@ -47,7 +42,7 @@ function applyEffects(session: SessionLike, effects: UnknownRecord[], options: U
   return { statsDirty, inventoryDirty, messages };
 }
 
-function handleGrantItem(session: SessionLike, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
+function handleGrantItem(session: GameSession, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
   const quantity = Math.max(1, effect.quantity || 1);
   if (effect.idempotent === true && bagHasTemplateQuantity(session, effect.templateId, quantity)) {
     return { statsDirty: false, inventoryDirty: false };
@@ -79,7 +74,7 @@ function handleGrantItem(session: SessionLike, effect: UnknownRecord, opts: Unkn
   };
 }
 
-function handleRemoveItem(session: SessionLike, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
+function handleRemoveItem(session: GameSession, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
   const quantity = Math.max(1, effect.quantity || 1);
   const consumeResult = consumeItemFromBag(session, effect.templateId, quantity);
   if (!consumeResult.ok) {
@@ -103,7 +98,7 @@ function handleRemoveItem(session: SessionLike, effect: UnknownRecord, opts: Unk
   return { statsDirty: false, inventoryDirty: true };
 }
 
-function handleItemMissing(session: SessionLike, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
+function handleItemMissing(session: GameSession, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
   if (!opts.suppressDialogues && typeof session.sendGameDialogue === 'function' && effect.dialoguePrefix) {
     session.sendGameDialogue(
       effect.dialoguePrefix,
@@ -113,7 +108,7 @@ function handleItemMissing(session: SessionLike, effect: UnknownRecord, opts: Un
   return { statsDirty: false, inventoryDirty: false };
 }
 
-function handleUpdateStat(session: SessionLike, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
+function handleUpdateStat(session: GameSession, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
   const stat = effect.stat;
   const delta = effect.delta || 0;
   if (delta === 0) {
@@ -137,9 +132,10 @@ function handleUpdateStat(session: SessionLike, effect: UnknownRecord, opts: Unk
   }
 
   if (stat === 'gold' || stat === 'coins' || stat === 'renown') {
-    session[stat] = (session[stat] || 0) + delta;
+    const key = stat as 'gold' | 'coins' | 'renown';
+    session[key] = (session[key] || 0) + delta;
     if (!opts.suppressPackets) {
-      sendSelfStateValueUpdate(session, stat, session[stat]);
+      sendSelfStateValueUpdate(session, key, session[key]);
     }
     return {
       statsDirty: true,
@@ -151,14 +147,14 @@ function handleUpdateStat(session: SessionLike, effect: UnknownRecord, opts: Unk
   return { statsDirty: false, inventoryDirty: false };
 }
 
-function handleDialogue(session: SessionLike, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
+function handleDialogue(session: GameSession, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
   if (!opts.suppressDialogues && typeof session.sendGameDialogue === 'function') {
     session.sendGameDialogue(effect.title || 'System', effect.message || '');
   }
   return { statsDirty: false, inventoryDirty: false };
 }
 
-function handleSendScript(session: SessionLike, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
+function handleSendScript(session: GameSession, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
   if (opts.suppressPackets) {
     return { statsDirty: false, inventoryDirty: false };
   }
@@ -170,7 +166,7 @@ function handleSendScript(session: SessionLike, effect: UnknownRecord, opts: Unk
   return { statsDirty: false, inventoryDirty: false };
 }
 
-const EFFECT_HANDLERS: Record<string, (session: SessionLike, effect: UnknownRecord, opts: UnknownRecord) => UnknownRecord> = {
+const EFFECT_HANDLERS: Record<string, (session: GameSession, effect: UnknownRecord, opts: UnknownRecord) => UnknownRecord> = {
   'grant-item': handleGrantItem,
   'remove-item': handleRemoveItem,
   'item-missing': handleItemMissing,

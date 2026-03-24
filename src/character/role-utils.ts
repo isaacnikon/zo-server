@@ -1,12 +1,10 @@
-'use strict';
-export {};
-type UnknownRecord = Record<string, any>;
+import type { UnknownRecord } from '../utils.js';
 
-function packRoleData(extra1: number, extra2: number): number {
+export function packRoleData(extra1: number, extra2: number): number {
   return ((extra2 & 0xffff) << 16) | (extra1 & 0xffff);
 }
 
-function resolveRoleData(role: UnknownRecord): number {
+export function resolveRoleData(role: UnknownRecord): number {
   if (typeof role.extra1 === 'number' || typeof role.extra2 === 'number') {
     return packRoleData(role.extra1 || 0, role.extra2 || 0) >>> 0;
   }
@@ -16,31 +14,23 @@ function resolveRoleData(role: UnknownRecord): number {
   return 0;
 }
 
-function resolveRoleLevel(role: UnknownRecord): number {
+export function resolveRoleLevel(role: UnknownRecord): number {
   if (typeof role.level === 'number') {
     return role.level & 0xff;
   }
   return 1;
 }
 
-function resolveBirthMonth(role: UnknownRecord): number {
+export function resolveBirthMonth(role: UnknownRecord): number {
   if (typeof role.birthMonth === 'number') {
     return role.birthMonth & 0xff;
   }
   return (role.trait1 || 0) & 0xff;
 }
 
-function resolveBirthDay(role: UnknownRecord): number {
+export function resolveBirthDay(role: UnknownRecord): number {
   if (typeof role.birthDay === 'number') {
     return role.birthDay & 0xff;
   }
   return (role.trait2 || 0) & 0xff;
 }
-
-module.exports = {
-  packRoleData,
-  resolveRoleData,
-  resolveRoleLevel,
-  resolveBirthMonth,
-  resolveBirthDay,
-};

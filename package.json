@@ -1,11 +1,12 @@
 {
   "name": "zo-server",
   "version": "1.0.0",
-  "main": "dist/server.js",
+  "type": "module",
+  "main": "dist/src/server.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/server.js",
-    "dev": "tsc && node dist/server.js",
+    "start": "node dist/src/server.js",
+    "dev": "tsc && node dist/src/server.js",
     "test": "tsc",
     "reset:character": "tsc && node dist/scripts/reset-character.js"
   },

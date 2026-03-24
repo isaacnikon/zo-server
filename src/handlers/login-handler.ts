@@ -1,52 +1,24 @@
-const { parseCreateRole, parseLoginPacket } = require('../protocol/inbound-packets');
-const { PacketWriter } = require('../protocol');
-const {
-  AREA_ID,
-  DEFAULT_FLAGS,
-  ENTITY_TYPE,
-  LOGIN_CMD,
-  LOGIN_SERVER_LIST_RESULT,
-  LINE_SELECT_RESULT,
-  MAP_ID,
-  PORT,
-  REDIRECT_RESULT,
-  ROLE_CMD,
-  SERVER_HOST,
-  SPAWN_X,
-  SPAWN_Y,
-} = require('../config');
-const {
-  packRoleData,
-  resolveRoleData,
-  resolveRoleLevel,
-  resolveBirthMonth,
-  resolveBirthDay,
-} = require('../character/role-utils');
-const {
-  defaultBonusAttributes,
-  numberOrDefault,
-  defaultPrimaryAttributes,
-  normalizeBonusAttributes,
-  normalizePrimaryAttributes,
-  normalizeCharacterRecord,
-  normalizeSkillState,
-} = require('../character/normalize');
-const { normalizeQuestState } = require('../quest-engine');
-const { normalizeInventoryState } = require('../inventory');
-const { normalizePets } = require('../pet-runtime');
-const { CHARACTER_VITALS_BASELINE, recomputeSessionMaxVitals } = require('../gameplay/session-flows');
+import { parseCreateRole, parseLoginPacket } from '../protocol/inbound-packets.js';
+import { PacketWriter } from '../protocol.js';
+import { AREA_ID, DEFAULT_FLAGS, ENTITY_TYPE, LOGIN_CMD, LOGIN_SERVER_LIST_RESULT, LINE_SELECT_RESULT, MAP_ID, PORT, REDIRECT_RESULT, ROLE_CMD, SERVER_HOST, SPAWN_X, SPAWN_Y, } from '../config.js';
+import { packRoleData, resolveRoleData, resolveRoleLevel, resolveBirthMonth, resolveBirthDay, } from '../character/role-utils.js';
+import { defaultBonusAttributes, numberOrDefault, defaultPrimaryAttributes, normalizeBonusAttributes, normalizePrimaryAttributes, normalizeCharacterRecord, normalizeSkillState, } from '../character/normalize.js';
+import { normalizeQuestState } from '../quest-engine/index.js';
+import { normalizeInventoryState } from '../inventory/index.js';
+import { normalizePets } from '../pet-runtime.js';
+import { CHARACTER_VITALS_BASELINE, recomputeSessionMaxVitals } from '../gameplay/session-flows.js';
 
-type SessionLike = Record<string, any>;
-type UnknownRecord = Record<string, any>;
+import type { UnknownRecord } from '../utils.js';
+import type { GameSession } from '../types.js';
 
-function parseLoginPayload(_session: SessionLike, payload: Buffer): UnknownRecord | null {
+function parseLoginPayload(_session: GameSession, payload: Buffer): UnknownRecord | null {
   if (payload.length < 6 || payload.readUInt16LE(0) !== LOGIN_CMD) {
     return null;
   }
   return parseLoginPacket(payload);
 }
 
-function handleLogin(session: SessionLike, payload: Buffer): void {
+function handleLogin(session: GameSession, payload: Buffer): void {
   const cmdByte = payload[0];
   session.log(`Login packet cmd=0x${cmdByte.toString(16)} mode=${session.isGame ? 'GAME' : 'LOGIN'}`);
   session.log(`Full payload hex: ${payload.toString('hex')}`);
@@ -76,7 +48,7 @@ function handleLogin(session: SessionLike, payload: Buffer): void {
   }
 }
 
-function handleRolePacket(session: SessionLike, payload: Buffer): void {
+function handleRolePacket(session: GameSession, payload: Buffer): void {
   if (payload.length < 3) {
     session.log('Short 0x044c payload');
     return;
@@ -109,7 +81,7 @@ function handleRolePacket(session: SessionLike, payload: Buffer): void {
   }
 }
 
-function handleCreateRole(session: SessionLike, payload: Buffer): void {
+function handleCreateRole(session: GameSession, payload: Buffer): void {
   if (payload.length < 6) {
     session.log('Short create-role payload');
     return;
@@ -192,7 +164,7 @@ function handleCreateRole(session: SessionLike, payload: Buffer): void {
   });
 }
 
-function sendLoginServerList(session: SessionLike): void {
+function sendLoginServerList(session: GameSession): void {
   const writer = new PacketWriter();
   writer.writeUint16(LOGIN_CMD);
   writer.writeUint8(LOGIN_SERVER_LIST_RESULT);
@@ -213,7 +185,7 @@ function sendLoginServerList(session: SessionLike): void {
   session.writePacket(writer.payload(), DEFAULT_FLAGS, 'Sending login server-list response');
 }
 
-function sendLineSelectOk(session: SessionLike, lineNo: number): void {
+function sendLineSelectOk(session: GameSession, lineNo: number): void {
   const writer = new PacketWriter();
   writer.writeUint16(LOGIN_CMD);
   writer.writeUint8(LINE_SELECT_RESULT);
@@ -222,7 +194,7 @@ function sendLineSelectOk(session: SessionLike, lineNo: number): void {
   replayPersistedCharacter(session);
 }
 
-function sendCreateRoleOk(session: SessionLike, role: UnknownRecord): void {
+function sendCreateRoleOk(session: GameSession, role: UnknownRecord): void {
   const writer = new PacketWriter();
   writer.writeUint16(ROLE_CMD);
   writer.writeUint8(0x05);
@@ -240,7 +212,7 @@ function sendCreateRoleOk(session: SessionLike, role: UnknownRecord): void {
   );
 }
 
-function sendGameServerRedirect(session: SessionLike): void {
+function sendGameServerRedirect(session: GameSession): void {
   const persisted = session.getPersistedCharacter();
   const roleData = persisted ? resolveRoleData(persisted) : session.roleData;
   session.sharedState.pendingGameCharacter = {
@@ -291,7 +263,7 @@ function sendGameServerRedirect(session: SessionLike): void {
   session.sharedState.nextSessionIsGame = true;
 }
 
-function replayPersistedCharacter(session: SessionLike): void {
+function replayPersistedCharacter(session: GameSession): void {
   const character = session.getPersistedCharacter();
   if (!character) {
     session.log('No persisted role to replay');

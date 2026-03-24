@@ -1,11 +1,10 @@
-const { ENTITY_TYPE } = require('../config');
-const { isFemaleRole } = require('../roleinfo');
-const { createOwnedPet } = require('../pet-runtime');
-const { applyEffects } = require('../effects/effect-executor');
-const { sendSelfStateValueUpdate } = require('./stat-sync');
-
-type UnknownRecord = Record<string, any>;
-type SessionLike = Record<string, any>;
+import { ENTITY_TYPE } from '../config.js';
+import { isFemaleRole } from '../roleinfo/index.js';
+import { createOwnedPet } from '../pet-runtime.js';
+import { applyEffects } from '../effects/effect-executor.js';
+import { sendSelfStateValueUpdate } from './stat-sync.js';
+import { numberOrDefault, type UnknownRecord } from '../utils.js';
+import type { GameSession } from '../types.js';
 
 const BEHIND_CURTAIN_REWARD_ITEMS: Record<number, { templateId: number; name: string }[]> = {
   0: [
@@ -71,7 +70,7 @@ const BEHIND_CURTAIN_REWARD_ITEMS: Record<number, { templateId: number; name: st
 };
 
 function applyQuestCompletionReward(
-  session: SessionLike,
+  session: GameSession,
   reward: UnknownRecord,
   options: UnknownRecord = {}
 ): UnknownRecord {
@@ -154,7 +153,7 @@ function applyQuestCompletionReward(
 }
 
 function resolveQuestRewardForSession(
-  session: SessionLike,
+  session: GameSession,
   reward: UnknownRecord,
   taskId: number,
   selectedAwardId = 0
@@ -193,7 +192,7 @@ function resolveQuestRewardForSession(
 }
 
 function resolveBehindCurtainRewardForSession(
-  session: SessionLike,
+  session: GameSession,
   normalizedReward: UnknownRecord,
   selectedAwardId = 0
 ): UnknownRecord {
@@ -219,7 +218,7 @@ function resolveBehindCurtainRewardForSession(
 }
 
 function selectRewardChoiceGroupForSession(
-  session: SessionLike,
+  session: GameSession,
   choiceGroups: UnknownRecord[],
   selectedAwardId = 0
 ): UnknownRecord | null {
@@ -250,7 +249,7 @@ function selectRewardChoiceGroupForSession(
   return choiceGroups[0];
 }
 
-function normalizePetRewardList(session: SessionLike, pets: unknown[]): number[] {
+function normalizePetRewardList(session: GameSession, pets: unknown[]): number[] {
   if (!Array.isArray(pets) || pets.length === 0) {
     return [];
   }
@@ -260,7 +259,7 @@ function normalizePetRewardList(session: SessionLike, pets: unknown[]): number[]
     .filter((petTemplateId): petTemplateId is number => Number.isInteger(petTemplateId) && petTemplateId > 0);
 }
 
-function resolvePetTemplateId(session: SessionLike, pet: unknown): number {
+function resolvePetTemplateId(session: GameSession, pet: unknown): number {
   if (Number.isInteger(pet)) {
     return (pet as number) >>> 0;
   }
@@ -289,7 +288,7 @@ function resolvePetRewardName(petTemplateId: number): string {
   return zodiacPets[petTemplateId] || `pet ${petTemplateId}`;
 }
 
-function resolveSpinningStarterSet(session: SessionLike): UnknownRecord[] {
+function resolveSpinningStarterSet(session: GameSession): UnknownRecord[] {
   const roleEntityType = (session?.roleEntityType || session?.entityType || ENTITY_TYPE) >>> 0;
 
   if (isFemaleRole(roleEntityType) || isFemaleStarterRoleFallback(roleEntityType)) {
@@ -351,9 +350,6 @@ function normalizeReward(reward: UnknownRecord): UnknownRecord {
   };
 }
 
-function numberOrDefault(value: unknown, fallback: number): number {
-  return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
-}
 
 function clampAptitudeIndex(value: unknown): number {
   if (!Number.isInteger(value)) {

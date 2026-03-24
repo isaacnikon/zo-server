@@ -1,5 +1,5 @@
+import type { GameSession } from '../types.js';
 type UnknownRecord = Record<string, any>;
-type SessionLike = Record<string, any>;
 
 type DirtyFlags = {
   statsDirty?: boolean;
@@ -16,11 +16,11 @@ type DispatchOptions = {
 
 interface ObjectiveEventHandler<TEvent> {
   describeEvent?(event: TEvent, source: string): string | null;
-  dispatch(session: SessionLike, event: TEvent, source: string, options: DispatchOptions): DirtyFlags;
+  dispatch(session: GameSession, event: TEvent, source: string, options: DispatchOptions): DirtyFlags;
 }
 
 function applyObjectiveEvents<TEvent>(
-  session: SessionLike,
+  session: GameSession,
   events: TEvent[],
   handler: ObjectiveEventHandler<TEvent>,
   source: string,

@@ -1,13 +1,10 @@
-'use strict';
-export {};
-
-const { MAP_ID, SPAWN_X, SPAWN_Y } = require('../config');
-const { normalizeQuestState } = require('../quest-engine');
-const { normalizeInventoryState } = require('../inventory');
-const { normalizePets } = require('../pet-runtime');
-const { CHARACTER_VITALS_BASELINE } = require('../gameplay/session-flows');
-const { resolveCharacterMaxVitals } = require('../gameplay/max-vitals');
-type UnknownRecord = Record<string, any>;
+import { MAP_ID, SPAWN_X, SPAWN_Y } from '../config.js';
+import { normalizeQuestState } from '../quest-engine/index.js';
+import { normalizeInventoryState } from '../inventory/index.js';
+import { normalizePets } from '../pet-runtime.js';
+import { CHARACTER_VITALS_BASELINE } from '../gameplay/session-flows.js';
+import { resolveCharacterMaxVitals } from '../gameplay/max-vitals.js';
+import type { UnknownRecord } from '../utils.js';
 type PrimaryAttributes = {
   intelligence: number;
   vitality: number;
@@ -29,11 +26,11 @@ type SkillState = {
   hotbarSkillIds: number[];
 };
 
-function numberOrDefault(value: unknown, fallback: number): number {
+export function numberOrDefault(value: unknown, fallback: number): number {
   return typeof value === 'number' ? value : fallback;
 }
 
-function defaultPrimaryAttributes(): PrimaryAttributes {
+export function defaultPrimaryAttributes(): PrimaryAttributes {
   return {
     intelligence: 15,
     vitality: 15,
@@ -42,7 +39,7 @@ function defaultPrimaryAttributes(): PrimaryAttributes {
   };
 }
 
-function defaultBonusAttributes(): PrimaryAttributes {
+export function defaultBonusAttributes(): PrimaryAttributes {
   return {
     intelligence: 0,
     vitality: 0,
@@ -51,14 +48,14 @@ function defaultBonusAttributes(): PrimaryAttributes {
   };
 }
 
-function defaultSkillState(): SkillState {
+export function defaultSkillState(): SkillState {
   return {
     learnedSkills: [],
     hotbarSkillIds: Array.from({ length: 12 }, () => 0),
   };
 }
 
-function normalizePrimaryAttributes(primaryAttributes: UnknownRecord | null | undefined): PrimaryAttributes {
+export function normalizePrimaryAttributes(primaryAttributes: UnknownRecord | null | undefined): PrimaryAttributes {
   const defaults = defaultPrimaryAttributes();
   return {
     intelligence:
@@ -80,7 +77,7 @@ function normalizePrimaryAttributes(primaryAttributes: UnknownRecord | null | un
   };
 }
 
-function normalizeBonusAttributes(primaryAttributes: UnknownRecord | null | undefined): PrimaryAttributes {
+export function normalizeBonusAttributes(primaryAttributes: UnknownRecord | null | undefined): PrimaryAttributes {
   const defaults = defaultBonusAttributes();
   return {
     intelligence:
@@ -102,7 +99,7 @@ function normalizeBonusAttributes(primaryAttributes: UnknownRecord | null | unde
   };
 }
 
-function normalizeSkillState(skillState: UnknownRecord | null | undefined): SkillState {
+export function normalizeSkillState(skillState: UnknownRecord | null | undefined): SkillState {
   const defaults = defaultSkillState();
   const learnedSkills = Array.isArray(skillState?.learnedSkills)
     ? skillState.learnedSkills
@@ -138,7 +135,7 @@ function normalizeSkillState(skillState: UnknownRecord | null | undefined): Skil
   };
 }
 
-function normalizeCharacterRecord(character: UnknownRecord): UnknownRecord {
+export function normalizeCharacterRecord(character: UnknownRecord): UnknownRecord {
   const mapId = numberOrDefault(character.mapId, MAP_ID);
   const x = numberOrDefault(character.x, SPAWN_X);
   const y = numberOrDefault(character.y, SPAWN_Y);
@@ -199,14 +196,3 @@ function normalizeCharacterRecord(character: UnknownRecord): UnknownRecord {
     inventory: inventoryState.inventory,
   };
 }
-
-module.exports = {
-  numberOrDefault,
-  defaultBonusAttributes,
-  defaultPrimaryAttributes,
-  defaultSkillState,
-  normalizeBonusAttributes,
-  normalizePrimaryAttributes,
-  normalizeSkillState,
-  normalizeCharacterRecord,
-};

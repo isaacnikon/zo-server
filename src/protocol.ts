@@ -1,4 +1,4 @@
-const { DEFAULT_FLAGS } = require('./config');
+import { DEFAULT_FLAGS } from './config.js';
 
 class PacketWriter {
   private _buf: Buffer;
@@ -51,7 +51,7 @@ class PacketWriter {
   }
 }
 
-function buildPacket(payload: Buffer, seqNum: number, flags = DEFAULT_FLAGS): Buffer {
+function buildPacket(payload: Buffer, seqNum: number, flags: number = DEFAULT_FLAGS): Buffer {
   const pkt = Buffer.alloc(5 + payload.length);
   pkt[0] = flags;
   pkt.writeUInt16LE(payload.length, 1);

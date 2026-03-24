@@ -1,28 +1,15 @@
-'use strict';
-export {};
-
-const { GAME_ITEM_SERVICE_CMD } = require('../config');
-const {
-  getBagItemByInstanceId,
-  getItemDefinition,
-  grantItemToBag,
-  removeBagItemByInstanceId,
-} = require('../inventory');
-const {
-  sendGrantResultPackets,
-  sendInventoryFullSync,
-  sendConsumeResultPackets,
-} = require('./inventory-runtime');
-const { sendSelfStateValueUpdate } = require('./stat-sync');
-
-type UnknownRecord = Record<string, any>;
-type SessionLike = Record<string, any>;
+import { GAME_ITEM_SERVICE_CMD } from '../config.js';
+import { getBagItemByInstanceId, getItemDefinition, grantItemToBag, removeBagItemByInstanceId, } from '../inventory/index.js';
+import { sendGrantResultPackets, sendInventoryFullSync, sendConsumeResultPackets, } from './inventory-runtime.js';
+import { sendSelfStateValueUpdate } from './stat-sync.js';
+import type { UnknownRecord } from '../utils.js';
+import type { GameSession } from '../types.js';
 
 const SHOP_SERVICE_BUY_GOLD = 0x01;
 const SHOP_SERVICE_SELL = 0x02;
 const SHOP_SERVICE_BUY_COINS = 0x0b;
 
-function handleNpcShopServiceRequest(session: SessionLike, payload: Buffer): boolean {
+export function handleNpcShopServiceRequest(session: GameSession, payload: Buffer): boolean {
   if (!Buffer.isBuffer(payload) || payload.length < 9) {
     return false;
   }
@@ -85,7 +72,7 @@ function handleNpcShopServiceRequest(session: SessionLike, payload: Buffer): boo
 }
 
 function completeNpcShopPurchase(
-  session: SessionLike,
+  session: GameSession,
   activeShop: UnknownRecord,
   catalogItem: UnknownRecord,
   requestedCurrency: 'coins' | 'gold'
@@ -96,8 +83,8 @@ function completeNpcShopPurchase(
   const bindState = requestedCurrency === 'coins' ? 1 : 0;
   const tradeState = requestedCurrency === 'coins' ? -2 : 0;
   const grantQuantity =
-    Number.isInteger(definition?.maxStack) && definition.maxStack > 1
-      ? definition.maxStack
+    Number.isInteger(definition?.maxStack) && definition!.maxStack > 1
+      ? definition!.maxStack
       : 1;
 
   if (!Number.isInteger(price) || price <= 0) {
@@ -144,7 +131,7 @@ function completeNpcShopPurchase(
   return true;
 }
 
-function completeNpcShopSell(session: SessionLike, activeShop: UnknownRecord, instanceId: number): boolean {
+function completeNpcShopSell(session: GameSession, activeShop: UnknownRecord, instanceId: number): boolean {
   const bagItem = getBagItemByInstanceId(session, instanceId);
   if (!bagItem) {
     session.log(`Shop sell rejected key=${activeShop.key || 'unknown'} instanceId=${instanceId} reason=unknown-item`);
@@ -153,9 +140,9 @@ function completeNpcShopSell(session: SessionLike, activeShop: UnknownRecord, in
 
   const definition = getItemDefinition(bagItem.templateId);
   const itemName = definition?.name || `item ${bagItem.templateId}`;
-  const unitSellPrice = Number.isInteger(definition?.sellPrice) ? Math.max(1, definition.sellPrice) : 1;
+  const unitSellPrice = Number.isInteger(definition?.sellPrice) ? Math.max(1, definition!.sellPrice as number) : 1;
   const quantity =
-    Number.isInteger(definition?.maxStack) && definition.maxStack > 1
+    Number.isInteger(definition?.maxStack) && definition!.maxStack > 1
       ? Math.max(1, Number.isInteger(bagItem.quantity) ? bagItem.quantity : 1)
       : 1;
   const sellPrice = unitSellPrice * quantity;
@@ -210,7 +197,3 @@ function resolveDisplayPrice(catalogItem: UnknownRecord): number {
   const goldPrice = resolveCurrencyPrice(catalogItem, 'gold');
   return goldPrice !== null ? goldPrice : 1;
 }
-
-module.exports = {
-  handleNpcShopServiceRequest,
-};

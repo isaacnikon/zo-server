@@ -1,12 +1,12 @@
  'use strict';
  export {};
 
-const fs = require('fs');
-const { resolveRepoPath } = require('../runtime-paths');
-const { applyEffects } = require('../effects/effect-executor');
+import fs from 'node:fs';
+import { resolveRepoPath } from '../runtime-paths.js';
+import { applyEffects } from '../effects/effect-executor.js';
 
+import type { GameSession } from '../types.js';
 type UnknownRecord = Record<string, any>;
-type SessionLike = Record<string, any>;
 
 const CONDITIONAL_DROPS_PATH = resolveRepoPath('data', 'quests', 'conditional-drops.json');
 let CONDITIONAL_DROPS: UnknownRecord[] = [];
@@ -16,7 +16,7 @@ try {
   CONDITIONAL_DROPS = [];
 }
 
-function grantCombatDrops(session: SessionLike, enemy: UnknownRecord | null | undefined): UnknownRecord {
+export function grantCombatDrops(session: GameSession, enemy: UnknownRecord | null | undefined): UnknownRecord {
   if (!enemy) {
     return { granted: [], inventoryDirty: false };
   }
@@ -56,7 +56,7 @@ function grantCombatDrops(session: SessionLike, enemy: UnknownRecord | null | un
   };
 }
 
-function resolveDrops(session: SessionLike, enemy: UnknownRecord): UnknownRecord[] {
+function resolveDrops(session: GameSession, enemy: UnknownRecord): UnknownRecord[] {
   const enemyDrops = Array.isArray(enemy?.drops) ? enemy.drops.map((drop: UnknownRecord) => ({ ...drop })) : [];
   for (const conditional of CONDITIONAL_DROPS) {
     if ((conditional.enemyTypeId >>> 0) !== (enemy.typeId >>> 0)) {
@@ -74,7 +74,3 @@ function resolveDrops(session: SessionLike, enemy: UnknownRecord): UnknownRecord
   }
   return enemyDrops;
 }
-
-module.exports = {
-  grantCombatDrops,
-};

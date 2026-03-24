@@ -2,10 +2,10 @@
 'use strict';
 export {};
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'node:fs';
+import path from 'node:path';
 
-const projectRoot = path.resolve(__dirname, '..');
+const projectRoot = path.resolve(import.meta.dirname, '..');
 const saveRoot = path.join(projectRoot, 'data', 'save');
 const accountId = '0000001';
 const characterId = 'NeoE5F';

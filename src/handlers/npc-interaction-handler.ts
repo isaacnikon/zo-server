@@ -1,18 +1,17 @@
-import fs from 'fs';
-import type { GameSession, ServerRunRequestData } from '../types';
+import fs from 'node:fs';
+import type { GameSession, ServerRunRequestData } from '../types.js';
 
-const { DEFAULT_FLAGS, GAME_NPC_SHOP_CMD } = require('../config');
-const { getMapEncounterLevelRange, getMapNpcs, getMapSummary } = require('../map-data');
-const { getBagQuantityByTemplateId } = require('../inventory');
-const { interactWithNpc, getQuestDefinition } = require('../quest-engine');
-const { buildNpcShopOpenPacket } = require('../protocol/gameplay-packets');
-const { resolveRepoPath } = require('../runtime-paths');
-const { resolveInnRestVitals } = require('../gameplay/session-flows');
-const { sendSelfStateValueUpdate, sendSelfStateVitalsUpdate } = require('../gameplay/stat-sync');
-const { buildEncounterPoolEntry } = require('../roleinfo');
-const { applyQuestEvents } = require('./quest-handler');
+import { DEFAULT_FLAGS, GAME_NPC_SHOP_CMD } from '../config.js';
+import { getMapEncounterLevelRange, getMapNpcs, getMapSummary } from '../map-data.js';
+import { getBagQuantityByTemplateId } from '../inventory/index.js';
+import { interactWithNpc, getQuestDefinition } from '../quest-engine/index.js';
+import { buildNpcShopOpenPacket } from '../protocol/gameplay-packets.js';
+import { resolveRepoPath } from '../runtime-paths.js';
+import { resolveInnRestVitals } from '../gameplay/session-flows.js';
+import { sendSelfStateValueUpdate, sendSelfStateVitalsUpdate } from '../gameplay/stat-sync.js';
+import { buildEncounterPoolEntry } from '../roleinfo/index.js';
+import { applyQuestEvents } from './quest-handler.js';
 
-type SessionLike = GameSession & Record<string, any>;
 type MapNpcRecord = Record<string, any>;
 type ShopCatalogItem = { templateId: number; price: number };
 type ShopCatalogRecord = { speaker?: string; items?: ShopCatalogItem[] };
@@ -25,7 +24,7 @@ const NPC_SHOP_REGISTRY_FILE = resolveRepoPath('data', 'client-derived', 'npc-sh
 const NPC_SHOP_REGISTRY = loadNpcShopRegistry();
 const INN_REST_SCRIPT_ID = 5001;
 
-function handleNpcInteractionRequest(session: SessionLike, request: ServerRunRequestData): boolean {
+function handleNpcInteractionRequest(session: GameSession, request: ServerRunRequestData): boolean {
   if (
     request.subcmd !== 0x02 &&
     request.subcmd !== 0x03 &&
@@ -68,7 +67,7 @@ function handleNpcInteractionRequest(session: SessionLike, request: ServerRunReq
       level: session.level,
     };
     const events = interactWithNpc(
-      questState,
+      questState as any,
       resolvedNpcId,
       (templateId: number) => getBagQuantityByTemplateId(session, templateId),
       (item: { templateId: number; quantity: number; capturedMonsterId?: number }) =>
@@ -111,7 +110,7 @@ function handleNpcInteractionRequest(session: SessionLike, request: ServerRunReq
   return true;
 }
 
-function tryStartQuestKillCombat(session: SessionLike, npcId: number, request: ServerRunRequestData): boolean {
+function tryStartQuestKillCombat(session: GameSession, npcId: number, request: ServerRunRequestData): boolean {
   if (request.subcmd !== 0x02 || typeof session.sendCombatEncounterProbe !== 'function') {
     return false;
   }
@@ -128,7 +127,7 @@ function tryStartQuestKillCombat(session: SessionLike, npcId: number, request: S
     }
 
     const definition = getQuestDefinition(taskId);
-    const step = Array.isArray(definition?.steps) ? definition.steps[stepIndex] : null;
+    const step: any = Array.isArray(definition?.steps) ? definition!.steps[stepIndex] : null;
     const stepNpcId = Number.isInteger(step?.npcId) ? (step.npcId >>> 0) : 0;
     const monsterId = Number.isInteger(step?.monsterId) ? (step.monsterId >>> 0) : 0;
     if (!step || step.type !== 'kill' || stepNpcId !== (npcId >>> 0) || monsterId <= 0) {
@@ -159,7 +158,7 @@ function tryStartQuestKillCombat(session: SessionLike, npcId: number, request: S
 }
 
 function countMatchingQuestItems(
-  session: SessionLike,
+  session: GameSession,
   item: { templateId: number; quantity: number; capturedMonsterId?: number }
 ): number {
   const bagItems = Array.isArray(session.bagItems) ? session.bagItems : [];
@@ -196,7 +195,7 @@ function isMobFlaskTemplateId(templateId: number): boolean {
   return templateId >= 29000 && templateId <= 29011;
 }
 
-function handleInnRestRequest(session: SessionLike, npcId: number, request: ServerRunRequestData): boolean {
+function handleInnRestRequest(session: GameSession, npcId: number, request: ServerRunRequestData): boolean {
   if (
     request.subcmd !== 0x02 ||
     !Number.isInteger(request.scriptId) ||
@@ -228,17 +227,17 @@ function handleInnRestRequest(session: SessionLike, npcId: number, request: Serv
   return true;
 }
 
-function resolveInnRestPrice(session: SessionLike): number {
+function resolveInnRestPrice(session: GameSession): number {
   const level = Number.isInteger(session.level) ? session.level >>> 0 : 1;
   return level >= 10 ? 100 : 0;
 }
 
-function resolveInnRestSpeaker(session: SessionLike, npcId: number): string {
+function resolveInnRestSpeaker(session: GameSession, npcId: number): string {
   const name = resolveNpcNameForCurrentMap(session, npcId);
   return name || 'Inn';
 }
 
-function resolveNpcNameForCurrentMap(session: SessionLike, npcId: number): string {
+function resolveNpcNameForCurrentMap(session: GameSession, npcId: number): string {
   const mapNpcs = getMapNpcs(session.currentMapId);
   const npcs = Array.isArray(mapNpcs?.npcs) ? mapNpcs.npcs : [];
   const npc =
@@ -248,7 +247,7 @@ function resolveNpcNameForCurrentMap(session: SessionLike, npcId: number): strin
   return typeof npc?.name === 'string' && npc.name.length > 0 ? npc.name : '';
 }
 
-function resolveNpcInteractionTarget(session: SessionLike, request: ServerRunRequestData): MapNpcRecord | null {
+function resolveNpcInteractionTarget(session: GameSession, request: ServerRunRequestData): MapNpcRecord | null {
   const mapNpcs = getMapNpcs(session.currentMapId);
   const npcs = Array.isArray(mapNpcs?.npcs) ? mapNpcs.npcs : [];
   if (npcs.length === 0) {
@@ -293,7 +292,7 @@ function resolveNpcInteractionTarget(session: SessionLike, request: ServerRunReq
   return null;
 }
 
-function sendNpcShopOpen(session: SessionLike, npcId: number, request: ServerRunRequestData): void {
+function sendNpcShopOpen(session: GameSession, npcId: number, request: ServerRunRequestData): void {
   const npc = resolveNpcInteractionTarget(session, request);
   const catalog = resolveShopCatalog(session.currentMapId, npcId);
   if (!catalog || !Array.isArray(catalog.items) || catalog.items.length < 1) {

@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 
 function getProjectRootFrom(dirname: string): string {
   const parent = path.resolve(dirname, '..');
@@ -6,5 +6,5 @@ function getProjectRootFrom(dirname: string): string {
 }
 
 export function resolveRepoPath(...segments: string[]): string {
-  return path.resolve(getProjectRootFrom(__dirname), ...segments);
+  return path.resolve(getProjectRootFrom(import.meta.dirname), ...segments);
 }

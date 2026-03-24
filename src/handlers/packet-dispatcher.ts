@@ -1,29 +1,19 @@
-import type { GameSession } from '../types';
-import { parsePositionUpdate, parseServerRunRequest } from '../protocol/inbound-packets';
-import { appendFileSync, mkdirSync } from 'fs';
-import { dirname, resolve } from 'path';
-import { handleSceneInteractionRequest } from '../scenes/map-interactions';
-import { notifyAutoMapRotationPosition } from '../scenes/map-rotation';
-import { maybeTriggerFieldCombat } from '../scenes/field-combat';
-import { handleNpcInteractionRequest } from './npc-interaction-handler';
-const { handleQuestAbandonRequest } = require('./quest-handler');
-const { handleNpcShopServiceRequest } = require('../gameplay/shop-runtime');
+import { parsePositionUpdate, parsePingToken, parseServerRunRequest } from '../protocol/inbound-packets.js';
+import { appendFileSync, mkdirSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { handleSceneInteractionRequest } from '../scenes/map-interactions.js';
+import { notifyAutoMapRotationPosition } from '../scenes/map-rotation.js';
+import { maybeTriggerFieldCombat } from '../scenes/field-combat.js';
+import { handleNpcInteractionRequest } from './npc-interaction-handler.js';
+import { handleQuestAbandonRequest, handleQuestPacket } from './quest-handler.js';
+import { handleRolePacket } from './login-handler.js';
+import { handleCombatPacket } from './combat-handler.js';
+import { tryHandleEquipmentStatePacket, tryHandleFightResultItemActionProbe, tryHandleItemUsePacket, tryHandleAttributeAllocationPacket } from './player-state-handler.js';
+import { tryHandlePetActionPacket } from './pet-handler.js';
+import { handleNpcShopServiceRequest } from '../gameplay/shop-runtime.js';
 
-const {
-  GAME_POSITION_QUERY_CMD,
-  GAME_SERVER_RUN_CMD,
-  ROLE_CMD,
-  GAME_QUEST_CMD,
-  GAME_FIGHT_ACTION_CMD,
-  GAME_FIGHT_CLIENT_CMD,
-  GAME_FIGHT_MISC_CMD,
-  GAME_FIGHT_RESULT_CMD,
-  GAME_FIGHT_STATE_CMD,
-  GAME_FIGHT_STREAM_CMD,
-  GAME_FIGHT_TURN_CMD,
-} = require('../config');
-
-type SessionLike = GameSession & Record<string, any>;
+import { PING_CMD, GAME_POSITION_QUERY_CMD, GAME_SERVER_RUN_CMD, ROLE_CMD, GAME_QUEST_CMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_MISC_CMD, GAME_FIGHT_RESULT_CMD, GAME_FIGHT_STATE_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, } from '../config.js';
+import type { GameSession } from '../types.js';
 
 const TRIGGER_TRACE_PATH = resolve(process.cwd(), 'data/runtime/trigger-trace.jsonl');
 const SKILL_PACKET_TRACE_PATH = resolve(process.cwd(), 'data/runtime/skill-packet-trace.jsonl');
@@ -40,7 +30,7 @@ function appendSkillPacketTrace(event: Record<string, unknown>): void {
 }
 
 function traceSkillUiPacket(
-  session: SessionLike,
+  session: GameSession,
   cmdWord: number,
   payload: Buffer,
   phase: 'pre-dispatch' | 'post-unhandled'
@@ -66,15 +56,13 @@ function traceSkillUiPacket(
   });
 }
 
-function buildPacketDispatch(): Map<number, string> {
-  return new Map([
-    [ROLE_CMD, 'handleRolePacket'],
-    [GAME_QUEST_CMD, 'handleQuestPacket'],
-  ]);
-}
+const PACKET_HANDLERS = new Map<number, (session: GameSession, payload: Buffer) => void>([
+  [ROLE_CMD, handleRolePacket],
+  [GAME_QUEST_CMD, handleQuestPacket],
+]);
 
 function dispatchGamePacket(
-  session: SessionLike,
+  session: GameSession,
   cmdWord: number,
   flags: number,
   payload: Buffer
@@ -82,14 +70,18 @@ function dispatchGamePacket(
   traceSkillUiPacket(session, cmdWord, payload, 'pre-dispatch');
 
   if ((flags & 0x04) !== 0 && payload.length >= 6) {
-    session.handleSpecialPacket(cmdWord, payload);
+    if (cmdWord === PING_CMD) {
+      const { token } = parsePingToken(payload);
+      session.sendPong(token);
+    } else {
+      session.log(`Unhandled special cmd16=0x${cmdWord.toString(16)}`);
+    }
     return true;
   }
 
-  const dispatch = buildPacketDispatch();
-  const handlerName = dispatch.get(cmdWord);
-  if (handlerName && typeof session[handlerName] === 'function') {
-    session[handlerName](payload);
+  const handler = PACKET_HANDLERS.get(cmdWord);
+  if (handler) {
+    handler(session, payload);
     return true;
   }
 
@@ -140,7 +132,7 @@ function dispatchGamePacket(
           `Server-run request sub=0x${request.subcmd.toString(16)} npcId=${request.npcId} script=${request.scriptId} map=${session.currentMapId} pos=${session.currentX},${session.currentY}`
         );
       } else {
-        const argsText = request.rawArgs.map((value) => `0x${value.toString(16)}`).join(',');
+        const argsText = request.rawArgs.map((value: any) => `0x${value.toString(16)}`).join(',');
         session.log(
           `Server-run request sub=0x${request.subcmd.toString(16)} args=[${argsText}] map=${session.currentMapId} pos=${session.currentX},${session.currentY}`
         );
@@ -165,25 +157,25 @@ function dispatchGamePacket(
     return true;
   }
 
-  if (cmdWord === GAME_FIGHT_RESULT_CMD && session.tryHandleEquipmentStatePacket(payload)) {
+  if (cmdWord === GAME_FIGHT_RESULT_CMD && tryHandleEquipmentStatePacket(session, payload)) {
     return true;
   }
 
-  if (cmdWord === GAME_FIGHT_RESULT_CMD && session.tryHandleFightResultItemActionProbe(payload)) {
+  if (cmdWord === GAME_FIGHT_RESULT_CMD && tryHandleFightResultItemActionProbe(session, payload)) {
     return true;
   }
 
-  if (session.tryHandleItemUsePacket(cmdWord, payload)) {
+  if (tryHandleItemUsePacket(session, cmdWord, payload)) {
     return true;
   }
 
   if (cmdWord === 0x03f5) {
-    if (session.tryHandlePetActionPacket(payload)) {
+    if (tryHandlePetActionPacket(session, payload)) {
       return true;
     }
   }
 
-  if (cmdWord === 0x03ef && session.tryHandleAttributeAllocationPacket(payload)) {
+  if (cmdWord === 0x03ef && tryHandleAttributeAllocationPacket(session, payload)) {
     return true;
   }
 
@@ -216,7 +208,7 @@ function dispatchGamePacket(
     cmdWord === GAME_FIGHT_STREAM_CMD ||
     cmdWord === GAME_FIGHT_MISC_CMD
   ) {
-    session.handleCombatPacket(cmdWord, payload);
+    handleCombatPacket(session, cmdWord, payload);
     return true;
   }
 
@@ -225,7 +217,4 @@ function dispatchGamePacket(
   return false;
 }
 
-export {
-  buildPacketDispatch,
-  dispatchGamePacket,
-};
+export { dispatchGamePacket };

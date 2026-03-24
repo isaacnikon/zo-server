@@ -1,1 +1,1 @@
-module.exports = require('./map-data');
+export * from './map-data.js';

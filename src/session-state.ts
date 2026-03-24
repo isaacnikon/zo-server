@@ -1,6 +1,3 @@
-'use strict';
-export {};
-
 interface SessionState {
   sessionCount: number;
   nextSessionIsGame: boolean;
@@ -8,7 +5,7 @@ interface SessionState {
   characterStore: Record<string, unknown> | null;
 }
 
-function createSessionState(): SessionState {
+export function createSessionState(): SessionState {
   return {
     sessionCount: 0,
     nextSessionIsGame: false,
@@ -16,7 +13,3 @@ function createSessionState(): SessionState {
     characterStore: null,
   };
 }
-
-module.exports = {
-  createSessionState,
-};
