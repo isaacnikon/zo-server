@@ -1,8 +1,14 @@
 import { DEFAULT_FLAGS, GAME_FIGHT_ACTION_CMD } from '../config.js';
-import { buildSkillCastPlaybackPacket } from './packets.js';
+import { buildSkillCastPlaybackPacket, buildSlaughterCastPlaybackPacket } from './packets.js';
 import {
   resolveSkillTargets,
   FIREBALL_SKILL_ID,
+  SLAUGHTER_SKILL_ID,
+  SLAUGHTER_CONCENTRATION_CHANCE,
+  SLAUGHTER_PACKET_SKILL_ID_OVERRIDE,
+  SLAUGHTER_PACKET_STAGE2_ENABLED,
+  SLAUGHTER_PACKET_STAGE2_FLAG,
+  SLAUGHTER_PACKET_STAGE2_SPEC,
   DEFIANT_SKILL_ID,
   ENERVATE_SKILL_ID,
   CURE_SKILL_ID,
@@ -15,8 +21,10 @@ import {
   resolveEnervateDuration,
   resolveEnervateAttackPenalty,
   describeLivingEnemies,
+  resolveSlaughterTargetCount,
   buildSkillPacketProbeTargets,
   buildSkillPacketProbeStage2Entries,
+  buildSkillPacketProbeStage2EntriesForSpec,
   appendSkillPacketTrace,
   SKILL_PACKET_PROBE_STAGE2_ENABLED,
   SKILL_PACKET_PROBE_STAGE2_FLAG,
@@ -26,7 +34,7 @@ import {
   SKILL_PACKET_PROBE_TARGET_VALUE,
   MULTI_TARGET_ENTITY_SENTINEL,
 } from './combat-formulas.js';
-import { resendCombatCommandPrompt } from './combat-resolution.js';
+import { finalizeSkillResolutionAndEnemyTurn, resendCombatCommandPrompt } from './combat-resolution.js';
 import type { GameSession } from '../types.js';
 
 export function handleCombatSkillUse(session: GameSession, payload: Buffer): void {
@@ -62,12 +70,20 @@ export function resolveCombatSkillUse(
     return;
   }
 
-  const targetEnemies = resolveSkillTargets(session, skillId, targetEntityId);
+  const skillLevel = Math.max(1, Math.min(12, Number(learnedSkill?.level || 1) || 1));
+  const slaughterTargetCapacity = (skillId >>> 0) === SLAUGHTER_SKILL_ID
+    ? resolveSlaughterTargetCount(skillLevel)
+    : 0;
+  const slaughterFocused = (skillId >>> 0) === SLAUGHTER_SKILL_ID &&
+    slaughterTargetCapacity > 1 &&
+    Math.random() < SLAUGHTER_CONCENTRATION_CHANCE;
+  const targetEnemies = resolveSkillTargets(session, skillId, targetEntityId, skillLevel);
   const fireballExploded = (skillId >>> 0) === FIREBALL_SKILL_ID && targetEnemies.length > 1;
   session.log(
     `Combat skill request source=${sourceLabel} skillId=${skillId} rawTargetEntityId=${targetEntityId >>> 0} ` +
     `resolvedTargets=${targetEnemies.map((enemy) => `${enemy.entityId}[${enemy.row},${enemy.col}]`).join('|') || 'none'} ` +
     `fireballExploded=${fireballExploded ? 1 : 0} ` +
+    `slaughterFocused=${slaughterFocused ? 1 : 0} ` +
     `roster=${describeEnemyRoster(session.combatState?.enemies)}`
   );
   if ((skillId >>> 0) !== CURE_SKILL_ID && targetEnemies.length <= 0) {
@@ -78,8 +94,6 @@ export function resolveCombatSkillUse(
     return;
   }
   const primaryTarget = targetEnemies[0] || null;
-
-  const skillLevel = Math.max(1, Math.min(12, Number(learnedSkill?.level || 1) || 1));
   const manaCost = resolveSkillManaCost(skillId, skillLevel);
   if ((session.currentMana || 0) < manaCost) {
     session.log(
@@ -141,8 +155,13 @@ export function resolveCombatSkillUse(
   const castTargets: Array<{ entityId: number; actionCode: number; value: number }> = [];
   const pendingOutcomes: Array<{ skillId: number; targetEntityId: number; playerDamage: number; targetDied: boolean }> = [];
   let totalAppliedDamage = 0;
-  for (const targetEnemy of targetEnemies) {
-    const playerDamage = computeSkillDamage(session, skillId, skillLevel, targetEnemy);
+  const effectiveTargets = slaughterFocused && primaryTarget ? [primaryTarget] : targetEnemies;
+  const slaughterDamageMultiplier = slaughterFocused
+    ? Math.max(1, targetEnemies.length)
+    : 1;
+  for (const targetEnemy of effectiveTargets) {
+    const baseDamage = computeSkillDamage(session, skillId, skillLevel, targetEnemy);
+    const playerDamage = Math.max(1, baseDamage * slaughterDamageMultiplier);
     const appliedPlayerDamage = Math.max(0, Math.min(targetEnemy.hp, playerDamage));
     targetEnemy.hp = Math.max(0, targetEnemy.hp - playerDamage);
     const targetDied = targetEnemy.hp <= 0;
@@ -168,7 +187,7 @@ export function resolveCombatSkillUse(
   sendCombatSkillCastPlayback(session, skillId, skillLevel, castTargets);
   session.combatState.damageDealt = Math.max(0, (session.combatState.damageDealt || 0) + totalAppliedDamage);
   session.log(
-    `Combat skill use ok source=${sourceLabel} skillId=${skillId} targetCount=${pendingOutcomes.length} manaCost=${manaCost} totalDamage=${totalAppliedDamage} fireballExploded=${fireballExploded ? 1 : 0} remaining=${describeLivingEnemies(session.combatState.enemies)}`
+    `Combat skill use ok source=${sourceLabel} skillId=${skillId} targetCount=${pendingOutcomes.length} manaCost=${manaCost} totalDamage=${totalAppliedDamage} fireballExploded=${fireballExploded ? 1 : 0} slaughterFocused=${slaughterFocused ? 1 : 0} remaining=${describeLivingEnemies(session.combatState.enemies)}`
   );
   session.combatState.pendingSkillOutcomes = pendingOutcomes;
   queuePostSkillEnemyResponse(session);
@@ -180,57 +199,108 @@ export function sendCombatSkillCastPlayback(
   skillLevel: number,
   targets: Array<{ entityId: number; actionCode: number; value: number }>
 ): void {
+  const normalizedSkillId = skillId >>> 0;
   const skillLevelIndex = Math.max(1, Math.min(12, skillLevel));
+  const packetSkillId = (normalizedSkillId === SLAUGHTER_SKILL_ID && SLAUGHTER_PACKET_SKILL_ID_OVERRIDE > 0)
+    ? SLAUGHTER_PACKET_SKILL_ID_OVERRIDE >>> 0
+    : normalizedSkillId;
+  const useNativeSlaughterPacket = normalizedSkillId === SLAUGHTER_SKILL_ID && packetSkillId === SLAUGHTER_SKILL_ID;
+  const useSlaughterStage2 = (skillId >>> 0) === SLAUGHTER_SKILL_ID && SLAUGHTER_PACKET_STAGE2_ENABLED;
   const probedTargets = buildSkillPacketProbeTargets(
-    skillId >>> 0,
+    packetSkillId,
     skillLevel >>> 0,
     skillLevelIndex,
     session.entityType >>> 0,
     targets
   );
   const stage2Entries = buildSkillPacketProbeStage2Entries(
-    skillId >>> 0,
+    packetSkillId,
     skillLevel >>> 0,
     skillLevelIndex,
     session.entityType >>> 0,
     probedTargets
   );
-  const packet = buildSkillCastPlaybackPacket(
-    session.entityType >>> 0,
-    skillId >>> 0,
-    skillLevelIndex,
-    probedTargets,
-    SKILL_PACKET_PROBE_STAGE2_ENABLED
-      ? {
-          stage2Flag: SKILL_PACKET_PROBE_STAGE2_FLAG,
-          stage2Entries,
-        }
-      : {}
-  );
+  const slaughterStage2Entries = useSlaughterStage2
+    ? buildSkillPacketProbeStage2EntriesForSpec(
+        SLAUGHTER_PACKET_STAGE2_SPEC,
+        packetSkillId,
+        skillLevel >>> 0,
+        skillLevelIndex,
+        session.entityType >>> 0,
+        probedTargets
+      )
+    : [];
+  const effectiveStage2Entries = useSlaughterStage2 ? slaughterStage2Entries : stage2Entries;
+  const packet = useNativeSlaughterPacket
+    ? buildSlaughterCastPlaybackPacket(
+        session.entityType >>> 0,
+        packetSkillId,
+        skillLevelIndex,
+        [1152, 1153],
+        { leadingByte: 0 }
+      )
+    : buildSkillCastPlaybackPacket(
+        session.entityType >>> 0,
+        packetSkillId,
+        skillLevelIndex,
+        probedTargets,
+        (SKILL_PACKET_PROBE_STAGE2_ENABLED || useSlaughterStage2)
+          ? {
+              stage2Flag: useSlaughterStage2 ? SLAUGHTER_PACKET_STAGE2_FLAG : SKILL_PACKET_PROBE_STAGE2_FLAG,
+              stage2Entries: effectiveStage2Entries,
+            }
+          : {}
+      );
+  const delayedCastFallbackPacket = useNativeSlaughterPacket
+    ? buildSkillCastPlaybackPacket(
+        session.entityType >>> 0,
+        packetSkillId,
+        skillLevelIndex,
+        probedTargets
+      )
+    : null;
   appendSkillPacketTrace({
     kind: 'skill-cast-outbound',
     ts: new Date().toISOString(),
     sessionId: session.id,
     skillId: skillId >>> 0,
+    packetSkillId,
     skillLevel: skillLevel >>> 0,
     skillLevelIndex,
-    stage2Enabled: SKILL_PACKET_PROBE_STAGE2_ENABLED,
-    stage2Flag: SKILL_PACKET_PROBE_STAGE2_ENABLED ? (SKILL_PACKET_PROBE_STAGE2_FLAG & 0xff) : null,
-    stage2Spec: SKILL_PACKET_PROBE_STAGE2_ENABLED ? SKILL_PACKET_PROBE_STAGE2_SPEC : '',
+    stage2Enabled: SKILL_PACKET_PROBE_STAGE2_ENABLED || useSlaughterStage2,
+    stage2Flag: (SKILL_PACKET_PROBE_STAGE2_ENABLED || useSlaughterStage2)
+      ? ((useSlaughterStage2 ? SLAUGHTER_PACKET_STAGE2_FLAG : SKILL_PACKET_PROBE_STAGE2_FLAG) & 0xff)
+      : null,
+    stage2Spec: useSlaughterStage2 ? SLAUGHTER_PACKET_STAGE2_SPEC : (SKILL_PACKET_PROBE_STAGE2_ENABLED ? SKILL_PACKET_PROBE_STAGE2_SPEC : ''),
+    slaughterNativePacket: useNativeSlaughterPacket,
+    slaughterCleanupEffectIds: useNativeSlaughterPacket ? [1152, 1153] : [],
+    slaughterFallbackPacketHex: delayedCastFallbackPacket ? delayedCastFallbackPacket.toString('hex') : '',
     targetProbe: {
       entity: SKILL_PACKET_PROBE_TARGET_ENTITY,
       action: SKILL_PACKET_PROBE_TARGET_ACTION,
       value: SKILL_PACKET_PROBE_TARGET_VALUE,
     },
-    stage2Entries,
+    stage2Entries: effectiveStage2Entries,
     targets: probedTargets,
     packetHex: packet.toString('hex'),
   });
   session.writePacket(
     packet,
     DEFAULT_FLAGS,
-    `Sending combat skill cast attacker=${session.entityType} skillId=${skillId} levelIndex=${skillLevelIndex} targets=${probedTargets.map((target) => `${target.entityId}:${target.actionCode}:${target.value}`).join('|') || 'none'} stage2=${SKILL_PACKET_PROBE_STAGE2_ENABLED ? `${SKILL_PACKET_PROBE_STAGE2_FLAG}:${stage2Entries.map((entry) => `${entry.wordA}/${entry.wordB}/${entry.dwordC}`).join('|') || 'none'}` : 'off'}`
+    `Sending combat skill cast attacker=${session.entityType} skillId=${skillId} packetSkillId=${packetSkillId} levelIndex=${skillLevelIndex} targets=${probedTargets.map((target) => `${target.entityId}:${target.actionCode}:${target.value}`).join('|') || 'none'} stage2=${(SKILL_PACKET_PROBE_STAGE2_ENABLED || useSlaughterStage2) ? `${useSlaughterStage2 ? SLAUGHTER_PACKET_STAGE2_FLAG : SKILL_PACKET_PROBE_STAGE2_FLAG}:${effectiveStage2Entries.map((entry) => `${entry.wordA}/${entry.wordB}/${entry.dwordC}`).join('|') || 'none'}` : 'off'}`
   );
+  if (delayedCastFallbackPacket) {
+    session.combatState = {
+      ...session.combatState,
+      skillResolutionPhase: 'await-cast-ready',
+      skillResolutionReason: 'skill-post-resolution-delayed-cast',
+    };
+    session.writePacket(
+      delayedCastFallbackPacket,
+      DEFAULT_FLAGS,
+      `Sending delayed skill fallback cast probe attacker=${session.entityType} skillId=${skillId} packetSkillId=${packetSkillId} levelIndex=${skillLevelIndex} targets=${probedTargets.map((target) => `${target.entityId}:${target.actionCode}:${target.value}`).join('|') || 'none'}`
+    );
+  }
 }
 
 export function queuePostSkillEnemyResponse(session: GameSession): void {
@@ -239,7 +309,12 @@ export function queuePostSkillEnemyResponse(session: GameSession): void {
   }
   session.combatState.awaitingSkillResolution = true;
   session.combatState.skillResolutionStartedAt = Date.now();
-  session.combatState.skillResolutionReason = 'skill-post-resolution';
+  if (session.combatState.skillResolutionReason !== 'skill-post-resolution-delayed-cast') {
+    session.combatState.skillResolutionReason = 'skill-post-resolution';
+  }
+  if (!session.combatState.skillResolutionPhase) {
+    session.combatState.skillResolutionPhase = 'await-cast-ready';
+  }
   if (session.combatSkillResolutionTimer) {
     clearTimeout(session.combatSkillResolutionTimer);
     session.combatSkillResolutionTimer = null;

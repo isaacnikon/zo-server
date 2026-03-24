@@ -14,7 +14,7 @@ import { handleCombatSkillUse } from '../combat/skill-resolution.js';
 import {
   clearCombatState,
   disposeCombatTimers,
-  finalizeSkillResolutionAndEnemyTurn,
+  advanceSkillResolutionEvent,
   handleAttackSelection,
   processNextEnemyTurnAttack,
   resolveCombatItemUse,
@@ -54,6 +54,23 @@ export function handleCombatPacket(session: GameSession, cmdWord: number, payloa
     }
   }
 
+  if (isDelayedSkillImpactCompletionPacket(session, cmdWord, payload)) {
+    appendSkillPacketTrace({
+      kind: 'skill-resolution-event',
+      ts: new Date().toISOString(),
+      sessionId: session.id,
+      cmdWord,
+      subcmd: payload[2],
+      len: payload.length,
+      phase: session.combatState.phase || 'unknown',
+      awaitingPlayerAction: session.combatState.awaitingPlayerAction === true,
+      hex: payload.toString('hex'),
+      completionMode: 'delayed-skill-impact-complete',
+    });
+    advanceSkillResolutionEvent(session, 'delayed-skill-impact-complete');
+    return;
+  }
+
   if (
     cmdWord === GAME_FIGHT_ACTION_CMD &&
     payload.length >= 6 &&
@@ -83,12 +100,24 @@ export function handleCombatPacket(session: GameSession, cmdWord: number, payloa
   }
 
   if (cmdWord === GAME_FIGHT_CLIENT_CMD) {
+    const subcmd = payload.length >= 3 ? payload[2] : -1;
+    const decodedClientPacket = subcmd === 0x4f
+      ? {
+          byte3: payload.length >= 4 ? payload[3] & 0xff : -1,
+          byte4: payload.length >= 5 ? payload[4] & 0xff : -1,
+          byte5: payload.length >= 6 ? payload[5] & 0xff : -1,
+          byte6: payload.length >= 7 ? payload[6] & 0xff : -1,
+          u16At3: payload.length >= 5 ? payload.readUInt16LE(3) & 0xffff : 0,
+          u16At5: payload.length >= 7 ? payload.readUInt16LE(5) & 0xffff : 0,
+          u32At3: payload.length >= 7 ? payload.readUInt32LE(3) >>> 0 : 0,
+        }
+      : null;
     appendSkillPacketTrace({
       kind: 'fight-client-unhandled',
       ts: new Date().toISOString(),
       sessionId: session.id,
       cmdWord,
-      subcmd: payload.length >= 3 ? payload[2] : -1,
+      subcmd,
       len: payload.length,
       hex: payload.toString('hex'),
       phase: session.combatState?.phase || 'unknown',
@@ -97,7 +126,16 @@ export function handleCombatPacket(session: GameSession, cmdWord: number, payloa
         ? session.skillState.learnedSkills.map((entry: any) => Number(entry?.skillId || 0))
         : [],
       hotbarSkillIds: Array.isArray(session.skillState?.hotbarSkillIds) ? session.skillState.hotbarSkillIds : [],
+      decoded: decodedClientPacket,
     });
+    if (decodedClientPacket) {
+      session.log(
+        `Decoded combat client packet sub=0x4f phase=${session.combatState?.phase || 'unknown'} ` +
+        `awaitingPlayerAction=${session.combatState?.awaitingPlayerAction === true ? 1 : 0} ` +
+        `b3=${decodedClientPacket.byte3} b4=${decodedClientPacket.byte4} b5=${decodedClientPacket.byte5} b6=${decodedClientPacket.byte6} ` +
+        `u16@3=${decodedClientPacket.u16At3} u16@5=${decodedClientPacket.u16At5} u32@3=${decodedClientPacket.u32At3}`
+      );
+    }
     session.log(describeUnhandledCombatClientPacket(session, payload));
     return;
   }
@@ -137,7 +175,7 @@ function tryHandleCombatReady(session: GameSession): boolean {
   }
 
   if (session.combatState.awaitingSkillResolution) {
-    finalizeSkillResolutionAndEnemyTurn(session, 'client-ready-event');
+    advanceSkillResolutionEvent(session, 'client-ready-event');
     return true;
   }
 
@@ -150,6 +188,16 @@ function tryHandleCombatReady(session: GameSession): boolean {
   }
 
   return false;
+}
+
+function isDelayedSkillImpactCompletionPacket(session: GameSession, cmdWord: number, payload: Buffer): boolean {
+  return (
+    session.combatState?.awaitingSkillResolution === true &&
+    session.combatState?.skillResolutionPhase === 'await-impact-ready' &&
+    cmdWord === GAME_FIGHT_CLIENT_CMD &&
+    payload.length >= 3 &&
+    payload[2] === 0x4f
+  );
 }
 
 export function sendCombatEncounterProbe(session: GameSession, action: CombatAction): void {
@@ -187,6 +235,7 @@ export function sendCombatEncounterProbe(session: GameSession, action: CombatAct
     awaitingSkillResolution: false,
     skillResolutionStartedAt: 0,
     skillResolutionReason: null,
+    skillResolutionPhase: null,
     pendingSkillOutcomes: null,
     pendingEnemyTurnQueue: [],
     pendingPostKillCounterattack: false,

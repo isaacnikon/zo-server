@@ -9,8 +9,26 @@ export const ENEMY_POSITIONS = [
   { row: 0, col: 0 },
   { row: 0, col: 1 },
   { row: 0, col: 2 },
+  { row: 0, col: 3 },
+  { row: 0, col: 4 },
+  { row: 1, col: 0 },
+  { row: 1, col: 1 },
+  { row: 1, col: 2 },
+  { row: 1, col: 3 },
+  { row: 1, col: 4 },
 ];
 let nextCombatEnemyEntityId = 0x700001;
+
+function shufflePositions<T>(values: T[]): T[] {
+  const shuffled = values.slice();
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    const current = shuffled[index];
+    shuffled[index] = shuffled[swapIndex];
+    shuffled[swapIndex] = current;
+  }
+  return shuffled;
+}
 
 function allocateCombatEnemyEntityId(): number {
   const entityId = nextCombatEnemyEntityId >>> 0;
@@ -47,8 +65,7 @@ function randomIntInclusive(min: number, max: number): number {
   return low + Math.floor(Math.random() * ((high - low) + 1));
 }
 
-function buildEnemyFromTemplate(template: UnknownRecord, mapId: number, index: number): UnknownRecord {
-  const position = ENEMY_POSITIONS[index] || ENEMY_POSITIONS[ENEMY_POSITIONS.length - 1];
+function buildEnemyFromTemplate(template: UnknownRecord, mapId: number, position: { row: number; col: number }): UnknownRecord {
   const level = randomIntInclusive(template.levelMin || 1, template.levelMax || template.levelMin || 1);
   const baseHp = Math.max(1, Number(template.hpBase) || 40);
   const hpPerLevel = Math.max(0, Number(template.hpPerLevel) || 0);
@@ -92,13 +109,15 @@ export function buildEncounterEnemies(action: UnknownRecord | null | undefined, 
     : randomIntInclusive(minEnemies, maxEnemies);
   const enemyCount = Math.min(ENEMY_POSITIONS.length, Math.max(1, requestedCount));
   const enemies = [];
+  const availablePositions = shufflePositions(ENEMY_POSITIONS).slice(0, enemyCount);
 
   for (let index = 0; index < enemyCount; index += 1) {
     const template = chooseWeightedTemplate(pool);
+    const position = availablePositions[index] || ENEMY_POSITIONS[ENEMY_POSITIONS.length - 1];
     if (!template) {
       continue;
     }
-    enemies.push(buildEnemyFromTemplate(template, mapId, index));
+    enemies.push(buildEnemyFromTemplate(template, mapId, position));
   }
 
   return enemies;

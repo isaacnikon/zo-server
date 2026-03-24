@@ -233,6 +233,33 @@ export function buildSkillCastPlaybackPacket(
   return writer.payload();
 }
 
+export function buildSlaughterCastPlaybackPacket(
+  casterEntityId: number,
+  skillId: number,
+  skillLevelIndex: number,
+  cleanupEffectIds: number[] = [],
+  options: {
+    leadingByte?: number;
+  } = {}
+): Buffer {
+  const writer = new PacketWriter();
+  const normalizedEffectIds = Array.isArray(cleanupEffectIds) ? cleanupEffectIds : [];
+  writer.writeUint16(GAME_FIGHT_STREAM_CMD);
+  writer.writeUint8(0x04);
+  writer.writeUint32(casterEntityId >>> 0);
+  writer.writeUint16(skillId & 0xffff);
+  writer.writeUint8(skillLevelIndex & 0xff);
+  writer.writeUint8((options.leadingByte || 0) & 0xff);
+  for (const effectId of normalizedEffectIds) {
+    if (!Number.isFinite(effectId) || (effectId | 0) <= 0) {
+      continue;
+    }
+    writer.writeUint16(effectId & 0xffff);
+  }
+  writer.writeUint16(0);
+  return writer.payload();
+}
+
 export function buildActionStateResetPacket(entityId: number): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_PLAYER_ACTION_STATE_CMD);

@@ -32,6 +32,7 @@ import {
   resolveCaptureTargetEnemy,
   resolveSelectedEnemy,
   rollCapturedMonsterElementCode,
+  SLAUGHTER_SKILL_ID,
   SKILL_PACKET_HYBRID_IMPACT_ENABLED,
   tickCombatStatuses,
 } from './combat-formulas.js';
@@ -39,6 +40,7 @@ import { createIdleCombatState } from './combat-formulas.js';
 
 type CombatAction = Record<string, any>;
 type EnemyTurnReason = 'normal' | 'post-kill';
+const DELAYED_SKILL_COMPLETION_TIMEOUT_MS = 1200;
 
 function sendCombatActionStateReset(session: GameSession, reason: string): void {
   session.writePacket(
@@ -69,14 +71,16 @@ export function sendIntroSequence(session: GameSession): void {
 export function sendCommandPrompt(session: GameSession, reason: string): void {
   const entityId = session.entityType >>> 0;
   const roundStartProbeOptions = buildRoundStartProbeOptions(session.combatState.round, entityId);
+  const roundStartPacket = buildRoundStartPacket(session.combatState.round, entityId, roundStartProbeOptions || {});
   sendCombatActionStateReset(session, `command reason=${reason}`);
   sendSkillStateSync(session, `combat-command-${reason}`);
   session.writePacket(buildRingOpenPacket(), DEFAULT_FLAGS, `Sending combat ring-open refresh reason=${reason}`);
   session.writePacket(
-    buildRoundStartPacket(session.combatState.round, entityId, roundStartProbeOptions || {}),
+    roundStartPacket,
     DEFAULT_FLAGS,
     `Sending combat round start reason=${reason} round=${session.combatState.round} active=${entityId}` +
-    `${roundStartProbeOptions ? ` probe=${JSON.stringify(roundStartProbeOptions)}` : ''}`
+    `${roundStartProbeOptions ? ` probe=${JSON.stringify(roundStartProbeOptions)}` : ''}` +
+    ` hex=${roundStartPacket.toString('hex')}`
   );
   appendSkillPacketTrace({
     kind: 'round-start-outbound',
@@ -86,6 +90,7 @@ export function sendCommandPrompt(session: GameSession, reason: string): void {
     activeEntityId: entityId >>> 0,
     probeEnabled: roundStartProbeOptions !== null,
     probe: roundStartProbeOptions,
+    packetHex: roundStartPacket.toString('hex'),
   });
   session.writePacket(buildControlShowPacket(entityId), DEFAULT_FLAGS, `Sending combat control refresh reason=${reason} active=${entityId}`);
 }
@@ -634,6 +639,7 @@ export function finalizeSkillResolutionAndEnemyTurn(session: GameSession, source
   const elapsed = startedAt > 0 ? Math.max(0, Date.now() - startedAt) : 0;
   session.combatState.skillResolutionStartedAt = 0;
   session.combatState.skillResolutionReason = null;
+  session.combatState.skillResolutionPhase = null;
   if (session.combatSkillResolutionTimer) {
     clearTimeout(session.combatSkillResolutionTimer);
     session.combatSkillResolutionTimer = null;
@@ -647,7 +653,9 @@ export function finalizeSkillResolutionAndEnemyTurn(session: GameSession, source
     `Skill resolution complete source=${source} elapsedMs=${elapsed} pendingSkillCount=${pendingOutcomes.length}`
   );
 
-  if (SKILL_PACKET_HYBRID_IMPACT_ENABLED) {
+  const shouldSendSkillImpactPlayback = SKILL_PACKET_HYBRID_IMPACT_ENABLED;
+
+  if (shouldSendSkillImpactPlayback) {
     for (const pendingOutcome of pendingOutcomes) {
       if (!pendingOutcome?.targetEntityId || !pendingOutcome?.playerDamage) {
         continue;
@@ -708,4 +716,49 @@ export function finalizeSkillResolutionAndEnemyTurn(session: GameSession, source
   }
 
   resolveEnemyCounterattack(session, killedAny ? 'post-kill' : 'normal');
+}
+
+export function advanceSkillResolutionEvent(session: GameSession, source: string): void {
+  if (!session.combatState?.active || !session.combatState.awaitingSkillResolution) {
+    return;
+  }
+  const pendingOutcomes = Array.isArray(session.combatState.pendingSkillOutcomes)
+    ? session.combatState.pendingSkillOutcomes
+    : [];
+  const phase = session.combatState.skillResolutionPhase || 'await-cast-ready';
+  if (
+    session.combatState.skillResolutionReason === 'skill-post-resolution-delayed-cast' &&
+    phase === 'await-cast-ready' &&
+    pendingOutcomes.length > 0
+  ) {
+    sendSelfStateVitalsUpdate(session, {
+      health: Math.max(0, session.currentHealth || 0),
+      mana: Math.max(0, session.currentMana || 0),
+      rage: Math.max(0, session.currentRage || 0),
+    });
+    session.combatState.skillResolutionPhase = 'await-impact-ready';
+    session.combatState.skillResolutionReason = 'skill-impact-playback';
+    if (session.combatSkillResolutionTimer) {
+      clearTimeout(session.combatSkillResolutionTimer);
+      session.combatSkillResolutionTimer = null;
+    }
+    session.combatSkillResolutionTimer = setTimeout(() => {
+      session.combatSkillResolutionTimer = null;
+      if (!session.combatState?.active || !session.combatState.awaitingSkillResolution) {
+        return;
+      }
+      if (session.combatState.skillResolutionPhase !== 'await-impact-ready') {
+        return;
+      }
+      session.log(
+        `Delayed skill completion timeout reached; finalizing skill resolution timeoutMs=${DELAYED_SKILL_COMPLETION_TIMEOUT_MS}`
+      );
+      finalizeSkillResolutionAndEnemyTurn(session, 'delayed-skill-timeout');
+    }, DELAYED_SKILL_COMPLETION_TIMEOUT_MS);
+    session.log(
+      `Skill resolution advanced source=${source} phase=await-impact-ready mode=delayed-cast pendingSkillCount=${pendingOutcomes.length} timeoutMs=${DELAYED_SKILL_COMPLETION_TIMEOUT_MS}`
+    );
+    return;
+  }
+  finalizeSkillResolutionAndEnemyTurn(session, source);
 }

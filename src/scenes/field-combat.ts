@@ -76,7 +76,7 @@ function maybeTriggerFieldCombat(session: GameSession, mapId: number, x: number,
     probeId: `field:${mapId}:${x}:${y}`,
     encounterProfile: {
       minEnemies: 1,
-      maxEnemies: 2,
+      maxEnemies: 10,
       encounterChancePercent: FIELD_COMBAT_CHANCE_PERCENT,
       cooldownMs: FIELD_COMBAT_COOLDOWN_MS,
       locationName: mapName,

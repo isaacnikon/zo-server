@@ -331,6 +331,7 @@ export interface CombatState {
   awaitingSkillResolution?: boolean;
   skillResolutionStartedAt?: number;
   skillResolutionReason?: string | null;
+  skillResolutionPhase?: 'await-cast-ready' | 'await-impact-ready' | null;
   pendingSkillOutcomes?: PendingSkillOutcome[] | null;
   playerStatus: CombatPlayerStatus;
   enemyStatuses: Record<number, CombatEnemyStatus>;

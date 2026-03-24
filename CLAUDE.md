@@ -96,3 +96,9 @@ Layer 1: DOMAIN CORE         (types, config, protocol, combat/formulas, inventor
 - **Combat state** is typed as `CombatState` (defined in `types.ts`), not `Record<string, any>`.
 - **Quest events** use a discriminated union (`QuestEvent` in `types.ts`).
 - **Barrel re-exports**: `inventory/`, `quest-engine/`, `roleinfo/` each have an `index.ts` barrel. Import from the barrel (e.g., `from '../inventory/index.js'`).
+
+## Current Combat Notes
+
+- `Slaughter` (`1403`) uses a native class-13 cast packet plus a generic fallback cast probe for client animation playback.
+- Delayed-cast skills now use `skillResolutionPhase` to separate the first client-ready event from impact completion.
+- If a delayed-cast skill never sends a second completion packet, the server falls back to a short `await-impact-ready` timeout in `combat-resolution.ts` so combat does not hang indefinitely.

@@ -26,6 +26,9 @@ type SkillState = {
   hotbarSkillIds: number[];
 };
 
+const SLAUGHTER_SKILL_ID = 1403;
+const SLAUGHTER_DERIVED_VARIANT_SKILL_ID = 20000 + SLAUGHTER_SKILL_ID;
+
 export function numberOrDefault(value: unknown, fallback: number): number {
   return typeof value === 'number' ? value : fallback;
 }
@@ -103,7 +106,10 @@ export function normalizeSkillState(skillState: UnknownRecord | null | undefined
   const defaults = defaultSkillState();
   const learnedSkills = Array.isArray(skillState?.learnedSkills)
     ? skillState.learnedSkills
-        .filter((entry: UnknownRecord) => Number.isInteger(entry?.skillId))
+        .filter((entry: UnknownRecord) =>
+          Number.isInteger(entry?.skillId) &&
+          ((entry.skillId >>> 0) !== (SLAUGHTER_DERIVED_VARIANT_SKILL_ID >>> 0))
+        )
         .map((entry: UnknownRecord) => ({
           skillId: entry.skillId >>> 0,
           name: typeof entry.name === 'string' && entry.name.length > 0 ? entry.name : `Skill ${entry.skillId >>> 0}`,
@@ -126,7 +132,11 @@ export function normalizeSkillState(skillState: UnknownRecord | null | undefined
     : defaults.hotbarSkillIds;
   const hotbarSkillIds = Array.from({ length: defaults.hotbarSkillIds.length }, (_value, index) => {
     const candidate = hotbarSource[index];
-    return Number.isInteger(candidate) ? (candidate >>> 0) : 0;
+    if (!Number.isInteger(candidate)) {
+      return 0;
+    }
+    const normalizedCandidate = candidate >>> 0;
+    return normalizedCandidate === (SLAUGHTER_DERIVED_VARIANT_SKILL_ID >>> 0) ? 0 : normalizedCandidate;
   });
 
   return {

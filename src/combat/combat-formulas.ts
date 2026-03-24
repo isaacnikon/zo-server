@@ -10,6 +10,7 @@ export const CAPTURE_ELEMENT_CODE_MAX = 4;
 export const FIGHT_CLIENT_SKILL_USE_SUBCMD = 0x04;
 export const SKILL_PACKET_TRACE_PATH = resolve(process.cwd(), 'data/runtime/skill-packet-trace.jsonl');
 export const ENERVATE_SKILL_ID = 1101;
+export const SLAUGHTER_SKILL_ID = 1403;
 export const DEFIANT_SKILL_ID = 3103;
 export const FIREBALL_SKILL_ID = 4101;
 export const CURE_SKILL_ID = 4103;
@@ -22,6 +23,7 @@ export const FIREBALL_MP_COST_BY_LEVEL = [40, 55, 70, 85, 100, 120, 120, 120, 18
 export const FIREBALL_DAMAGE_SCALE_MIN_BY_LEVEL = [1.18, 1.2, 1.22, 1.24, 1.26, 1.28, 1.3, 1.32, 1.34, 1.36, 1.4, 1.46];
 export const FIREBALL_DAMAGE_SCALE_MAX_BY_LEVEL = [1.28, 1.3, 1.32, 1.34, 1.36, 1.38, 1.4, 1.42, 1.44, 1.46, 1.52, 1.58];
 export const FIREBALL_EXPLOSION_CHANCE = 0.1;
+export const SLAUGHTER_CONCENTRATION_CHANCE = 0.1;
 export const CURE_MP_COST_BY_LEVEL = [35, 42, 50, 58, 66, 75, 75, 75, 110, 110, 140, 180];
 export const CURE_HEAL_SCALE_BY_LEVEL = [1.15, 1.2, 1.25, 1.3, 1.35, 1.4, 1.45, 1.5, 1.55, 1.6, 1.68, 1.76];
 export const MULTI_TARGET_ENTITY_SENTINEL = 0xffffffff;
@@ -40,6 +42,15 @@ export const ROUND_START_PROBE_FIELD_B = String(process.env.ROUND_START_PROBE_FI
 export const ROUND_START_PROBE_FIELD_C = String(process.env.ROUND_START_PROBE_FIELD_C || '').trim();
 export const ROUND_START_PROBE_FIELD_D = String(process.env.ROUND_START_PROBE_FIELD_D || '').trim();
 export const ROUND_START_PROBE_FIELD_E = String(process.env.ROUND_START_PROBE_FIELD_E || '').trim();
+export const ROUND_START_PROBE_FIELD_A = String(process.env.ROUND_START_PROBE_FIELD_A || '').trim();
+export const SLAUGHTER_PACKET_SKILL_ID_OVERRIDE = Number.isFinite(Number(process.env.SLAUGHTER_PACKET_SKILL_ID_OVERRIDE))
+  ? (Number(process.env.SLAUGHTER_PACKET_SKILL_ID_OVERRIDE) >>> 0)
+  : 0;
+export const SLAUGHTER_PACKET_STAGE2_ENABLED = /^(1|true|yes)$/i.test(process.env.SLAUGHTER_PACKET_STAGE2_ENABLED || '');
+export const SLAUGHTER_PACKET_STAGE2_FLAG = Number.isFinite(Number(process.env.SLAUGHTER_PACKET_STAGE2_FLAG))
+  ? Number(process.env.SLAUGHTER_PACKET_STAGE2_FLAG)
+  : 0;
+export const SLAUGHTER_PACKET_STAGE2_SPEC = String(process.env.SLAUGHTER_PACKET_STAGE2_SPEC || '').trim();
 
 // --- Types ---
 export type SkillPacketProbeContext = {
@@ -93,6 +104,7 @@ export function createIdleCombatState(): CombatState {
     awaitingSkillResolution: false,
     skillResolutionStartedAt: 0,
     skillResolutionReason: null,
+    skillResolutionPhase: null,
     pendingSkillOutcomes: null,
     playerStatus: {},
     enemyStatuses: {},
@@ -189,14 +201,13 @@ export function buildRoundStartProbeOptions(round: number, activeEntityId: numbe
     round: Math.max(1, round) & 0xffff,
     activeEntityId: activeEntityId >>> 0,
   };
+  const fieldA = resolveRoundStartProbeToken(ROUND_START_PROBE_FIELD_A, context);
   const fieldB = resolveRoundStartProbeToken(ROUND_START_PROBE_FIELD_B, context);
   const fieldC = resolveRoundStartProbeToken(ROUND_START_PROBE_FIELD_C, context);
   const fieldD = resolveRoundStartProbeToken(ROUND_START_PROBE_FIELD_D, context);
   const fieldE = resolveRoundStartProbeToken(ROUND_START_PROBE_FIELD_E, context);
   return {
-    // The client renders the visible round banner directly from sub=0x06 fieldA.
-    // Keep it locked to the real round counter even while probing the other fields.
-    fieldA: context.round,
+    fieldA: fieldA === undefined ? context.round : fieldA,
     fieldB,
     fieldC,
     fieldD,
@@ -211,14 +222,31 @@ export function buildSkillPacketProbeStage2Entries(
   casterEntityId: number,
   targets: Array<{ entityId: number; actionCode: number; value: number }>
 ): SkillPacketProbeStage2Entry[] {
-  const spec = SKILL_PACKET_PROBE_STAGE2_SPEC;
-  if (!SKILL_PACKET_PROBE_STAGE2_ENABLED || spec.length === 0) {
+  return buildSkillPacketProbeStage2EntriesForSpec(
+    SKILL_PACKET_PROBE_STAGE2_SPEC,
+    skillId,
+    skillLevel,
+    skillLevelIndex,
+    casterEntityId,
+    targets
+  );
+}
+
+export function buildSkillPacketProbeStage2EntriesForSpec(
+  spec: string,
+  skillId: number,
+  skillLevel: number,
+  skillLevelIndex: number,
+  casterEntityId: number,
+  targets: Array<{ entityId: number; actionCode: number; value: number }>
+): SkillPacketProbeStage2Entry[] {
+  if (String(spec || '').trim().length === 0) {
     return [];
   }
 
   const sourceTargets = targets.length > 0 ? targets : [{ entityId: 0, actionCode: 0, value: 0 }];
   const entries: SkillPacketProbeStage2Entry[] = [];
-  const specs = spec
+  const specs = String(spec)
     .split(';')
     .map((entrySpec) => entrySpec.trim())
     .filter((entrySpec) => entrySpec.length > 0);
@@ -309,12 +337,15 @@ export function resolveCaptureTargetEnemy(session: GameSession, targetEntityId: 
   return living.length === 1 ? living[0] : null;
 }
 
-export function resolveSkillTargets(session: GameSession, skillId: number, targetEntityId: number): CombatEnemyInstance[] {
+export function resolveSkillTargets(session: GameSession, skillId: number, targetEntityId: number, skillLevel = 1): CombatEnemyInstance[] {
   if ((skillId >>> 0) === CURE_SKILL_ID) {
     return [];
   }
   if ((skillId >>> 0) === FIREBALL_SKILL_ID) {
     return resolveFireballTargets(session, targetEntityId);
+  }
+  if ((skillId >>> 0) === SLAUGHTER_SKILL_ID) {
+    return resolveSlaughterTargets(session, targetEntityId, skillLevel);
   }
   const living = listLivingEnemies(session.combatState?.enemies);
   if (living.length <= 0) {
@@ -349,6 +380,58 @@ export function resolveFireballTargets(session: GameSession, targetEntityId: num
     .sort((a, b) => a.col - b.col);
 
   return [primaryTarget, ...adjacentTargets];
+}
+
+export function resolveSlaughterTargetCount(skillLevel: number): number {
+  const normalizedLevel = Math.max(1, Math.min(12, skillLevel | 0));
+  if (normalizedLevel <= 1) {
+    return 1;
+  }
+  if (normalizedLevel === 2) {
+    return 2;
+  }
+  return 3;
+}
+
+export function resolveSlaughterTargets(
+  session: GameSession,
+  targetEntityId: number,
+  skillLevel: number
+): CombatEnemyInstance[] {
+  const living = listLivingEnemies(session.combatState?.enemies);
+  if (living.length <= 0) {
+    return [];
+  }
+
+  const primaryTarget = findEnemyByEntityId(session.combatState?.enemies, targetEntityId >>> 0) || living[0];
+  if (!primaryTarget || primaryTarget.hp <= 0) {
+    return [];
+  }
+
+  const targetCount = Math.max(1, Math.min(living.length, resolveSlaughterTargetCount(skillLevel)));
+  if (targetCount <= 1) {
+    return [primaryTarget];
+  }
+
+  const additionalTargets = living
+    .filter((enemy) => enemy.entityId !== primaryTarget.entityId)
+    .sort((a, b) => {
+      const distanceA = Math.abs((a.row || 0) - (primaryTarget.row || 0)) + Math.abs((a.col || 0) - (primaryTarget.col || 0));
+      const distanceB = Math.abs((b.row || 0) - (primaryTarget.row || 0)) + Math.abs((b.col || 0) - (primaryTarget.col || 0));
+      if (distanceA !== distanceB) {
+        return distanceA - distanceB;
+      }
+      if ((a.row || 0) !== (b.row || 0)) {
+        return (a.row || 0) - (b.row || 0);
+      }
+      if ((a.col || 0) !== (b.col || 0)) {
+        return (a.col || 0) - (b.col || 0);
+      }
+      return (a.entityId >>> 0) - (b.entityId >>> 0);
+    })
+    .slice(0, Math.max(0, targetCount - 1));
+
+  return [primaryTarget, ...additionalTargets];
 }
 
 export function isEnemyDying(enemy: CombatEnemyInstance | null | undefined): boolean {
@@ -537,6 +620,18 @@ export function computeSkillDamage(session: GameSession, skillId: number, skillL
     const scaledMax = Math.max(scaledMin, Math.round(attackMax * scaleMax));
     const baseDamage = scaledMin + Math.floor(Math.random() * Math.max(1, (scaledMax - scaledMin) + 1));
     const mitigation = Math.floor((enemy.level || 1) + Math.max(0, enemy.aptitude || 0));
+    return Math.max(1, baseDamage - mitigation);
+  }
+  if ((skillId >>> 0) === SLAUGHTER_SKILL_ID) {
+    const attackRange = resolvePlayerAttackRange(session);
+    const attackMin = Math.max(1, attackRange.min || 0);
+    const attackMax = Math.max(attackMin, attackRange.max || attackMin);
+    const levelBonusMin = 58 + ((Math.max(1, skillLevel) - 1) * 9);
+    const levelBonusMax = 70 + ((Math.max(1, skillLevel) - 1) * 26);
+    const scaledMin = Math.max(1, attackMin + levelBonusMin);
+    const scaledMax = Math.max(scaledMin, attackMax + levelBonusMax);
+    const baseDamage = scaledMin + Math.floor(Math.random() * Math.max(1, (scaledMax - scaledMin) + 1));
+    const mitigation = Math.floor(((enemy.level || 1) * 2) + Math.max(0, enemy.aptitude || 0));
     return Math.max(1, baseDamage - mitigation);
   }
   return computePlayerDamage(session, enemy);
