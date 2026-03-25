@@ -132,6 +132,28 @@ export function getPrimaryPet(pets: unknown): PetRecord | null {
   return normalizedPets.length > 0 ? normalizedPets[0] : null;
 }
 
+export function getPetByRuntimeId(pets: unknown, runtimeId: number | null | undefined): PetRecord | null {
+  if (!Number.isInteger(runtimeId)) {
+    return null;
+  }
+
+  const normalizedRuntimeId = (runtimeId as number) >>> 0;
+  const normalizedPets = normalizePets(pets);
+  return normalizedPets.find((pet) => (pet.runtimeId >>> 0) === normalizedRuntimeId) || null;
+}
+
+export function getActivePet(
+  pets: unknown,
+  selectedPetRuntimeId: number | null | undefined,
+  summoned = true
+): PetRecord | null {
+  if (!summoned) {
+    return null;
+  }
+
+  return getPetByRuntimeId(pets, selectedPetRuntimeId) || getPrimaryPet(pets);
+}
+
 function buildDefaultPetRuntimeId(templateId: number, awardedAt: number, index: number): number {
   const suffix = ((awardedAt >>> 0) + (index & 0xff)) & 0xffff;
   return (((templateId & 0xffff) << 16) | suffix) >>> 0;

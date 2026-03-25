@@ -11,6 +11,8 @@ import { buildDefeatRespawnState } from '../gameplay/session-flows.js';
 import { sendSelfStateVitalsUpdate } from '../gameplay/stat-sync.js';
 import { getCapturePetTemplateId } from '../roleinfo/index.js';
 import { getBagItemByReference, getItemDefinition } from '../inventory/index.js';
+import { buildPetCreateSyncPacket, buildPetSummonSyncPacket } from '../protocol/gameplay-packets.js';
+import { getActivePet } from '../pet-runtime.js';
 import {
   appendSkillPacketTrace,
   buildPlayerEntry,
@@ -55,10 +57,60 @@ function sendCombatActionStateReset(session: GameSession, reason: string): void 
   );
 }
 
+function getCombatPet(session: GameSession): Record<string, any> | null {
+  return getActivePet(session.pets, session.selectedPetRuntimeId, session.petSummoned === true);
+}
+
+function getCombatCompanionHp(session: GameSession): number | undefined {
+  const pet = getCombatPet(session);
+  if (!pet) {
+    return undefined;
+  }
+  return Math.max(0, pet.currentHealth || 0) >>> 0;
+}
+
+function sendCombatPetIntroSync(session: GameSession, reason: string): void {
+  const pet = getCombatPet(session);
+  if (!pet) {
+    return;
+  }
+
+  session.writePacket(
+    buildPetCreateSyncPacket({ pet }),
+    DEFAULT_FLAGS,
+    `Sending combat pet create cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x0f reason=${reason} runtimeId=${pet.runtimeId} owner=${session.entityType}`
+  );
+  session.writePacket(
+    buildPetSummonSyncPacket({
+      ownerRuntimeId: session.entityType >>> 0,
+      pet,
+    }),
+    DEFAULT_FLAGS,
+    `Sending combat pet summon cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x0a reason=${reason} runtimeId=${pet.runtimeId} owner=${session.entityType}`
+  );
+}
+
+function sendCombatPetVitalsSync(session: GameSession, reason: string): void {
+  const pet = getCombatPet(session);
+  if (!pet) {
+    return;
+  }
+
+  session.writePacket(
+    buildPetSummonSyncPacket({
+      ownerRuntimeId: session.entityType >>> 0,
+      pet,
+    }),
+    DEFAULT_FLAGS,
+    `Sending combat pet vitals cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x0a reason=${reason} runtimeId=${pet.runtimeId} hp=${pet.currentHealth} mp=${pet.currentMana}`
+  );
+}
+
 // --- Intro / Command prompt ---
 
 export function sendIntroSequence(session: GameSession): void {
   const entityId = session.entityType >>> 0;
+  sendCombatPetIntroSync(session, `intro trigger=${session.combatState.triggerId}`);
   sendCombatActionStateReset(session, `intro trigger=${session.combatState.triggerId}`);
   session.writePacket(buildRingOpenPacket(), DEFAULT_FLAGS, `Sending combat ring-open trigger=${session.combatState.triggerId}`);
   session.writePacket(buildStateModePacket(), DEFAULT_FLAGS, `Sending combat mode trigger=${session.combatState.triggerId}`);
@@ -201,7 +253,10 @@ export function resolveCombatItemUse(
 
   session.combatState.awaitingPlayerAction = false;
   session.combatState.phase = 'resolved';
-  sendCombatItemPlayback(session, useResult.gained || {});
+  sendCombatItemPlayback(session, (useResult.targetEntityId || session.entityType) >>> 0, useResult.gained || {});
+  if (useResult.targetKind === 'pet') {
+    sendCombatPetVitalsSync(session, 'combat-item-use');
+  }
   sendSelfStateVitalsUpdate(session, {
     health: Math.max(0, session.currentHealth || 0),
     mana: Math.max(0, session.currentMana || 0),
@@ -215,6 +270,7 @@ export function resolveCombatItemUse(
 
 function sendCombatItemPlayback(
   session: GameSession,
+  targetEntityId: number,
   gained: { health?: number; mana?: number; rage?: number }
 ): void {
   const primaryAmount = Math.max(
@@ -231,12 +287,12 @@ function sendCombatItemPlayback(
   session.writePacket(
     buildAttackPlaybackPacket(
       session.entityType >>> 0,
-      session.entityType >>> 0,
+      targetEntityId >>> 0,
       FIGHT_ACTIVE_STATE_SUBCMD,
       primaryAmount
     ),
     DEFAULT_FLAGS,
-    `Sending combat item playback active=${session.entityType} restored=${primaryAmount}`
+    `Sending combat item playback active=${session.entityType} target=${targetEntityId} restored=${primaryAmount}`
   );
 }
 
@@ -404,7 +460,13 @@ export function finishEnemyTurn(session: GameSession, reason: EnemyTurnReason): 
   tickCombatStatuses(session);
 
   session.writePacket(
-    buildVitalsPacket(FIGHT_CONTROL_RING_OPEN_SUBCMD, session.currentHealth, session.currentMana, session.currentRage),
+    buildVitalsPacket(
+      FIGHT_CONTROL_RING_OPEN_SUBCMD,
+      session.currentHealth,
+      session.currentMana,
+      session.currentRage,
+      getCombatCompanionHp(session)
+    ),
     DEFAULT_FLAGS,
     `Sending combat vitals refresh hp=${session.currentHealth} mp=${session.currentMana} rage=${session.currentRage}`
   );
@@ -470,6 +532,7 @@ export function resolveVictory(session: GameSession): void {
     buildVictoryPacket(session.currentHealth, session.currentMana, session.currentRage, {
       characterExperience: combatRewards.characterExperience,
       petExperience: 0,
+      companionHp: getCombatCompanionHp(session),
       coins: combatRewards.coins,
       items: dropResult.granted,
     }),
@@ -477,7 +540,7 @@ export function resolveVictory(session: GameSession): void {
     `Sending combat victory enemies=${defeatedEnemies.map((enemy: Record<string, any>) => `${enemy.typeId}@${enemy.entityId}`).join('|') || 'none'} exp=${combatRewards.characterExperience} petExp=0 coins=${combatRewards.coins} score=${combatRewards.totalScore}/${combatRewards.maxScore} drops=${dropResult.granted.length}`
   );
   session.log(`Combat victory trigger=${session.combatState.triggerId} enemies=${defeatedEnemies.map((enemy: Record<string, any>) => `${enemy.typeId}@${enemy.entityId}`).join('|') || 'none'} exp=${combatRewards.characterExperience} petExp=0 coins=${combatRewards.coins} score=${combatRewards.totalScore}/${combatRewards.maxScore} drops=${dropResult.granted.map((drop: Record<string, any>) => `${drop.templateId}x${drop.quantity}`).join(',') || 'none'}`);
-  clearCombatState(session, dropResult.inventoryDirty);
+  clearCombatState(session, true);
 }
 
 export function buildCombatVictoryRewards(
@@ -559,7 +622,7 @@ export function resolveDefeat(session: GameSession): void {
   });
 
   session.writePacket(
-    buildDefeatPacket(1, state.vitals.mana, state.vitals.rage),
+    buildDefeatPacket(1, state.vitals.mana, state.vitals.rage, getCombatCompanionHp(session)),
     DEFAULT_FLAGS,
     `Sending combat defeat respawnMap=${state.respawn.mapId} pos=${state.respawn.x},${state.respawn.y}`
   );
@@ -610,6 +673,9 @@ export function clearCombatState(session: GameSession, persist = false): void {
   }
   if (typeof session.scheduleEquipmentReplay === 'function') {
     session.scheduleEquipmentReplay(100);
+  }
+  if (typeof session.schedulePetReplay === 'function' && session.petSummoned) {
+    session.schedulePetReplay(100);
   }
 }
 

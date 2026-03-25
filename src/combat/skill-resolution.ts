@@ -1,8 +1,7 @@
 import { DEFAULT_FLAGS, GAME_FIGHT_ACTION_CMD } from '../config.js';
-import { buildSkillCastPlaybackPacket, buildSlaughterCastPlaybackPacket } from './packets.js';
+import { buildSkillCastPlaybackPacket, buildNativeCastPlaybackPacket } from './packets.js';
 import {
   resolveSkillTargets,
-  FIREBALL_SKILL_ID,
   SLAUGHTER_SKILL_ID,
   SLAUGHTER_CONCENTRATION_CHANCE,
   SLAUGHTER_PACKET_SKILL_ID_OVERRIDE,
@@ -21,7 +20,6 @@ import {
   resolveEnervateDuration,
   resolveEnervateAttackPenalty,
   describeLivingEnemies,
-  resolveSlaughterTargetCount,
   buildSkillPacketProbeTargets,
   buildSkillPacketProbeStage2Entries,
   buildSkillPacketProbeStage2EntriesForSpec,
@@ -36,6 +34,132 @@ import {
 } from './combat-formulas.js';
 import { finalizeSkillResolutionAndEnemyTurn, resendCombatCommandPrompt } from './combat-resolution.js';
 import type { GameSession } from '../types.js';
+
+interface SkillCastConfig {
+  /** Effect IDs for a native prelude packet sent before the main cast. */
+  preludeEffectIds?: number[];
+  /** Effect IDs for a native main cast packet. Omit to use the probe packet path. */
+  nativeEffectIds?: number[];
+  /** Send a probe fallback after the native main cast for delayed-cast flow. */
+  delayedCast?: boolean;
+  /** Skill can be used without a valid enemy target. Defaults to true. */
+  requiresTarget?: boolean;
+  /** Probability of concentration mode — single-target damage amplified by target count. */
+  concentrationChance?: number;
+  /** Apply a per-target status effect after each hit. */
+  applyTargetStatus?: (session: GameSession, targetEntityId: number, skillLevel: number) => void;
+}
+
+const SKILL_CAST_CONFIGS: Partial<Record<number, SkillCastConfig>> = {
+  [ENERVATE_SKILL_ID]: {
+    preludeEffectIds: [1001, 1002, 1004, 1003, 1005],
+    applyTargetStatus: (session, targetEntityId, skillLevel) => {
+      session.combatState.enemyStatuses[targetEntityId] = {
+        enervateRoundsRemaining: resolveEnervateDuration(skillLevel),
+        enervateAttackPenaltyPercent: resolveEnervateAttackPenalty(skillLevel),
+      };
+    },
+  },
+  [DEFIANT_SKILL_ID]: {
+    preludeEffectIds: [1001, 1002, 1004, 1003, 1005],
+  },
+  [SLAUGHTER_SKILL_ID]: {
+    nativeEffectIds: [1152, 1153],
+    delayedCast: true,
+    concentrationChance: SLAUGHTER_CONCENTRATION_CHANCE,
+  },
+  [CURE_SKILL_ID]: {
+    requiresTarget: false,
+  },
+};
+
+interface SkillEffectResult {
+  castTargets: Array<{ entityId: number; actionCode: number; value: number }>;
+  pendingOutcomes: Array<{ skillId: number; targetEntityId: number; playerDamage?: number; healAmount?: number; targetDied?: boolean }> | null;
+  additionalDamageDealt: number;
+  logSuffix: string;
+}
+
+function resolveDefiantEffect(session: GameSession, skillId: number, skillLevel: number, manaCost: number): SkillEffectResult {
+  const durationRounds = resolveDefiantDuration(skillLevel);
+  const defenseBonusPercent = DEFIANT_DEFENSE_BONUS_BY_LEVEL[Math.max(0, skillLevel - 1)] || 20;
+  session.combatState.playerStatus = {
+    ...session.combatState.playerStatus,
+    defiantRoundsRemaining: durationRounds,
+    defiantDefenseBonusPercent: defenseBonusPercent,
+    defiantAttackPenaltyPercent: 10,
+  };
+  return {
+    castTargets: [{ entityId: session.entityType >>> 0, actionCode: 1, value: 0 }],
+    pendingOutcomes: null,
+    additionalDamageDealt: 0,
+    logSuffix: `effect=defiant manaCost=${manaCost} rounds=${durationRounds} defenseBonus=${defenseBonusPercent}`,
+  };
+}
+
+function resolveCureEffect(session: GameSession, skillId: number, skillLevel: number, manaCost: number): SkillEffectResult {
+  const healAmount = resolveSkillHealing(session, skillId, skillLevel);
+  const previousHealth = Math.max(0, session.currentHealth || 0);
+  const maxHealth = Math.max(previousHealth, session.maxHealth || previousHealth || 1);
+  const appliedHeal = Math.max(0, Math.min(maxHealth - previousHealth, healAmount));
+  session.currentHealth = Math.max(0, Math.min(maxHealth, previousHealth + healAmount));
+  return {
+    castTargets: [{ entityId: session.entityType >>> 0, actionCode: 1, value: Math.max(1, appliedHeal || healAmount || 1) }],
+    pendingOutcomes: [{ skillId, targetEntityId: session.entityType >>> 0, healAmount: appliedHeal }],
+    additionalDamageDealt: 0,
+    logSuffix: `effect=cure manaCost=${manaCost} healed=${appliedHeal} hp=${session.currentHealth}/${maxHealth}`,
+  };
+}
+
+function resolveDamageEffect(
+  session: GameSession,
+  skillId: number,
+  skillLevel: number,
+  targetEnemies: Array<{ entityId: number; hp: number; row: number; col: number }>,
+  config: SkillCastConfig,
+  manaCost: number
+): SkillEffectResult {
+  const primaryTarget = targetEnemies[0] || null;
+  const concentrationActive = !!(config.concentrationChance) &&
+    targetEnemies.length > 1 &&
+    Math.random() < config.concentrationChance;
+  const damageMultiplier = concentrationActive ? Math.max(1, targetEnemies.length) : 1;
+  const effectiveTargets = concentrationActive && primaryTarget ? [primaryTarget] : targetEnemies;
+  const castTargets: Array<{ entityId: number; actionCode: number; value: number }> = [];
+  const pendingOutcomes: Array<{ skillId: number; targetEntityId: number; playerDamage: number; targetDied: boolean }> = [];
+  let totalAppliedDamage = 0;
+  for (const targetEnemy of effectiveTargets) {
+    const baseDamage = computeSkillDamage(session, skillId, skillLevel, targetEnemy);
+    const playerDamage = Math.max(1, baseDamage * damageMultiplier);
+    const appliedPlayerDamage = Math.max(0, Math.min(targetEnemy.hp, playerDamage));
+    targetEnemy.hp = Math.max(0, targetEnemy.hp - playerDamage);
+    const targetDied = targetEnemy.hp <= 0;
+    totalAppliedDamage += appliedPlayerDamage;
+    castTargets.push({ entityId: targetEnemy.entityId >>> 0, actionCode: targetDied ? 3 : 1, value: Math.max(1, playerDamage || 1) });
+    pendingOutcomes.push({ skillId, targetEntityId: targetEnemy.entityId >>> 0, playerDamage: Math.max(1, playerDamage || 1), targetDied });
+    config.applyTargetStatus?.(session, targetEnemy.entityId >>> 0, skillLevel);
+  }
+  return {
+    castTargets,
+    pendingOutcomes,
+    additionalDamageDealt: totalAppliedDamage,
+    logSuffix: `targetCount=${pendingOutcomes.length} manaCost=${manaCost} totalDamage=${totalAppliedDamage} multiHit=${targetEnemies.length > 1 ? 1 : 0} concentrated=${concentrationActive ? 1 : 0} remaining=${describeLivingEnemies(session.combatState.enemies)}`,
+  };
+}
+
+function resolveSkillEffect(
+  session: GameSession,
+  skillId: number,
+  skillLevel: number,
+  targetEnemies: Array<{ entityId: number; hp: number; row: number; col: number }>,
+  config: SkillCastConfig,
+  manaCost: number
+): SkillEffectResult {
+  const normalizedSkillId = skillId >>> 0;
+  if (normalizedSkillId === DEFIANT_SKILL_ID) return resolveDefiantEffect(session, skillId, skillLevel, manaCost);
+  if (normalizedSkillId === CURE_SKILL_ID) return resolveCureEffect(session, skillId, skillLevel, manaCost);
+  return resolveDamageEffect(session, skillId, skillLevel, targetEnemies, config, manaCost);
+}
 
 export function handleCombatSkillUse(session: GameSession, payload: Buffer): void {
   const skillId = payload.readUInt16LE(3) & 0xffff;
@@ -71,22 +195,15 @@ export function resolveCombatSkillUse(
   }
 
   const skillLevel = Math.max(1, Math.min(12, Number(learnedSkill?.level || 1) || 1));
-  const slaughterTargetCapacity = (skillId >>> 0) === SLAUGHTER_SKILL_ID
-    ? resolveSlaughterTargetCount(skillLevel)
-    : 0;
-  const slaughterFocused = (skillId >>> 0) === SLAUGHTER_SKILL_ID &&
-    slaughterTargetCapacity > 1 &&
-    Math.random() < SLAUGHTER_CONCENTRATION_CHANCE;
+  const config = SKILL_CAST_CONFIGS[skillId >>> 0] ?? {};
   const targetEnemies = resolveSkillTargets(session, skillId, targetEntityId, skillLevel);
-  const fireballExploded = (skillId >>> 0) === FIREBALL_SKILL_ID && targetEnemies.length > 1;
   session.log(
     `Combat skill request source=${sourceLabel} skillId=${skillId} rawTargetEntityId=${targetEntityId >>> 0} ` +
     `resolvedTargets=${targetEnemies.map((enemy) => `${enemy.entityId}[${enemy.row},${enemy.col}]`).join('|') || 'none'} ` +
-    `fireballExploded=${fireballExploded ? 1 : 0} ` +
-    `slaughterFocused=${slaughterFocused ? 1 : 0} ` +
+    `multiTarget=${targetEnemies.length > 1 ? 1 : 0} ` +
     `roster=${describeEnemyRoster(session.combatState?.enemies)}`
   );
-  if ((skillId >>> 0) !== CURE_SKILL_ID && targetEnemies.length <= 0) {
+  if (config.requiresTarget !== false && targetEnemies.length <= 0) {
     session.log(
       `Combat skill use rejected source=${sourceLabel} skillId=${skillId} targetEntityId=${targetEntityId} reason=missing-target`
     );
@@ -102,92 +219,18 @@ export function resolveCombatSkillUse(
     resendCombatCommandPrompt(session, 'skill-rejected-mana');
     return;
   }
-
   session.combatState.awaitingPlayerAction = false;
   session.combatState.phase = 'resolved';
   session.currentMana = Math.max(0, (session.currentMana || 0) - manaCost);
-
-  if ((skillId >>> 0) === DEFIANT_SKILL_ID) {
-    sendCombatSkillCastPlayback(session, skillId, skillLevel, [{
-      entityId: (primaryTarget?.entityId || session.entityType) >>> 0,
-      actionCode: 0,
-      value: 0,
-    }]);
-    const durationRounds = resolveDefiantDuration(skillLevel);
-    const defenseBonusPercent = DEFIANT_DEFENSE_BONUS_BY_LEVEL[Math.max(0, skillLevel - 1)] || 20;
-    session.combatState.playerStatus = {
-      ...session.combatState.playerStatus,
-      defiantRoundsRemaining: durationRounds,
-      defiantDefenseBonusPercent: defenseBonusPercent,
-      defiantAttackPenaltyPercent: 10,
-    };
-    session.log(
-      `Combat skill use ok source=${sourceLabel} skillId=${skillId} targetEntityId=${(primaryTarget?.entityId || session.entityType) >>> 0} effect=defiant manaCost=${manaCost} rounds=${durationRounds} defenseBonus=${defenseBonusPercent}`
-    );
-    session.combatState.pendingSkillOutcomes = null;
-    queuePostSkillEnemyResponse(session);
-    return;
-  }
-
-  if ((skillId >>> 0) === CURE_SKILL_ID) {
-    const healAmount = resolveSkillHealing(session, skillId, skillLevel);
-    const previousHealth = Math.max(0, session.currentHealth || 0);
-    const maxHealth = Math.max(previousHealth, session.maxHealth || previousHealth || 1);
-    const appliedHeal = Math.max(0, Math.min(maxHealth - previousHealth, healAmount));
-    session.currentHealth = Math.max(0, Math.min(maxHealth, previousHealth + healAmount));
-    sendCombatSkillCastPlayback(session, skillId, skillLevel, [{
-      entityId: session.entityType >>> 0,
-      actionCode: 1,
-      value: Math.max(1, appliedHeal || healAmount || 1),
-    }]);
-    session.log(
-      `Combat skill use ok source=${sourceLabel} skillId=${skillId} targetEntityId=${session.entityType} effect=cure manaCost=${manaCost} healed=${appliedHeal} hp=${session.currentHealth}/${maxHealth}`
-    );
-    session.combatState.pendingSkillOutcomes = [{
-      skillId,
-      targetEntityId: session.entityType >>> 0,
-      healAmount: appliedHeal,
-    }];
-    queuePostSkillEnemyResponse(session);
-    return;
-  }
-
-  const castTargets: Array<{ entityId: number; actionCode: number; value: number }> = [];
-  const pendingOutcomes: Array<{ skillId: number; targetEntityId: number; playerDamage: number; targetDied: boolean }> = [];
-  let totalAppliedDamage = 0;
-  const effectiveTargets = slaughterFocused && primaryTarget ? [primaryTarget] : targetEnemies;
-  const slaughterDamageMultiplier = slaughterFocused
-    ? Math.max(1, targetEnemies.length)
-    : 1;
-  for (const targetEnemy of effectiveTargets) {
-    const baseDamage = computeSkillDamage(session, skillId, skillLevel, targetEnemy);
-    const playerDamage = Math.max(1, baseDamage * slaughterDamageMultiplier);
-    const appliedPlayerDamage = Math.max(0, Math.min(targetEnemy.hp, playerDamage));
-    targetEnemy.hp = Math.max(0, targetEnemy.hp - playerDamage);
-    const targetDied = targetEnemy.hp <= 0;
-    totalAppliedDamage += appliedPlayerDamage;
-    castTargets.push({
-      entityId: targetEnemy.entityId >>> 0,
-      actionCode: targetDied ? 3 : 1,
-      value: Math.max(1, playerDamage || 1),
-    });
-    pendingOutcomes.push({
-      skillId,
-      targetEntityId: targetEnemy.entityId >>> 0,
-      playerDamage: Math.max(1, playerDamage || 1),
-      targetDied,
-    });
-    if ((skillId >>> 0) === ENERVATE_SKILL_ID) {
-      session.combatState.enemyStatuses[targetEnemy.entityId >>> 0] = {
-        enervateRoundsRemaining: resolveEnervateDuration(skillLevel),
-        enervateAttackPenaltyPercent: resolveEnervateAttackPenalty(skillLevel),
-      };
-    }
-  }
+  const { castTargets, pendingOutcomes, additionalDamageDealt, logSuffix } = resolveSkillEffect(
+    session, skillId, skillLevel, targetEnemies, config, manaCost
+  );
   sendCombatSkillCastPlayback(session, skillId, skillLevel, castTargets);
-  session.combatState.damageDealt = Math.max(0, (session.combatState.damageDealt || 0) + totalAppliedDamage);
+  if (additionalDamageDealt > 0) {
+    session.combatState.damageDealt = Math.max(0, (session.combatState.damageDealt || 0) + additionalDamageDealt);
+  }
   session.log(
-    `Combat skill use ok source=${sourceLabel} skillId=${skillId} targetCount=${pendingOutcomes.length} manaCost=${manaCost} totalDamage=${totalAppliedDamage} fireballExploded=${fireballExploded ? 1 : 0} slaughterFocused=${slaughterFocused ? 1 : 0} remaining=${describeLivingEnemies(session.combatState.enemies)}`
+    `Combat skill use ok source=${sourceLabel} skillId=${skillId} targetEntityId=${(primaryTarget?.entityId || session.entityType) >>> 0} ${logSuffix}`
   );
   session.combatState.pendingSkillOutcomes = pendingOutcomes;
   queuePostSkillEnemyResponse(session);
@@ -204,7 +247,9 @@ export function sendCombatSkillCastPlayback(
   const packetSkillId = (normalizedSkillId === SLAUGHTER_SKILL_ID && SLAUGHTER_PACKET_SKILL_ID_OVERRIDE > 0)
     ? SLAUGHTER_PACKET_SKILL_ID_OVERRIDE >>> 0
     : normalizedSkillId;
-  const useNativeSlaughterPacket = normalizedSkillId === SLAUGHTER_SKILL_ID && packetSkillId === SLAUGHTER_SKILL_ID;
+  const config = SKILL_CAST_CONFIGS[normalizedSkillId] ?? {};
+  const packetSkillIdOverridden = packetSkillId !== normalizedSkillId;
+  const useNativePacket = !packetSkillIdOverridden && !!(config.nativeEffectIds?.length);
   const useSlaughterStage2 = (skillId >>> 0) === SLAUGHTER_SKILL_ID && SLAUGHTER_PACKET_STAGE2_ENABLED;
   const probedTargets = buildSkillPacketProbeTargets(
     packetSkillId,
@@ -231,12 +276,21 @@ export function sendCombatSkillCastPlayback(
       )
     : [];
   const effectiveStage2Entries = useSlaughterStage2 ? slaughterStage2Entries : stage2Entries;
-  const packet = useNativeSlaughterPacket
-    ? buildSlaughterCastPlaybackPacket(
+  const preludePacket = config.preludeEffectIds
+    ? buildNativeCastPlaybackPacket(
         session.entityType >>> 0,
         packetSkillId,
         skillLevelIndex,
-        [1152, 1153],
+        config.preludeEffectIds,
+        { leadingByte: 0 }
+      )
+    : null;
+  const packet = useNativePacket
+    ? buildNativeCastPlaybackPacket(
+        session.entityType >>> 0,
+        packetSkillId,
+        skillLevelIndex,
+        config.nativeEffectIds!,
         { leadingByte: 0 }
       )
     : buildSkillCastPlaybackPacket(
@@ -251,7 +305,7 @@ export function sendCombatSkillCastPlayback(
             }
           : {}
       );
-  const delayedCastFallbackPacket = useNativeSlaughterPacket
+  const delayedCastFallbackPacket = (useNativePacket && config.delayedCast)
     ? buildSkillCastPlaybackPacket(
         session.entityType >>> 0,
         packetSkillId,
@@ -272,9 +326,10 @@ export function sendCombatSkillCastPlayback(
       ? ((useSlaughterStage2 ? SLAUGHTER_PACKET_STAGE2_FLAG : SKILL_PACKET_PROBE_STAGE2_FLAG) & 0xff)
       : null,
     stage2Spec: useSlaughterStage2 ? SLAUGHTER_PACKET_STAGE2_SPEC : (SKILL_PACKET_PROBE_STAGE2_ENABLED ? SKILL_PACKET_PROBE_STAGE2_SPEC : ''),
-    slaughterNativePacket: useNativeSlaughterPacket,
-    slaughterCleanupEffectIds: useNativeSlaughterPacket ? [1152, 1153] : [],
-    slaughterFallbackPacketHex: delayedCastFallbackPacket ? delayedCastFallbackPacket.toString('hex') : '',
+    nativePacket: useNativePacket,
+    nativeEffectIds: useNativePacket ? config.nativeEffectIds : [],
+    preludePacketHex: preludePacket ? preludePacket.toString('hex') : '',
+    delayedCastFallbackPacketHex: delayedCastFallbackPacket ? delayedCastFallbackPacket.toString('hex') : '',
     targetProbe: {
       entity: SKILL_PACKET_PROBE_TARGET_ENTITY,
       action: SKILL_PACKET_PROBE_TARGET_ACTION,
@@ -284,6 +339,13 @@ export function sendCombatSkillCastPlayback(
     targets: probedTargets,
     packetHex: packet.toString('hex'),
   });
+  if (preludePacket) {
+    session.writePacket(
+      preludePacket,
+      DEFAULT_FLAGS,
+      `Sending native-style prelude attacker=${session.entityType} skillId=${skillId} packetSkillId=${packetSkillId} levelIndex=${skillLevelIndex} effects=${config.preludeEffectIds!.join('|')}`
+    );
+  }
   session.writePacket(
     packet,
     DEFAULT_FLAGS,
