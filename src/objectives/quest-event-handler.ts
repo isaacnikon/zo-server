@@ -37,7 +37,9 @@ function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHan
 
       if (event.type === 'accepted') {
         if (!suppressPackets) {
+          deps.syncQuestStateToClient(session, { mode: 'runtime' });
           deps.sendQuestAccept(session, event.taskId);
+          deps.sendQuestUpdate(session, event.taskId, 1);
           if (numberOrDefault(event.markerNpcId, 0) > 0) {
             deps.sendQuestMarker(session, event.taskId, numberOrDefault(event.markerNpcId, 0));
           }

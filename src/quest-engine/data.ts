@@ -7,6 +7,16 @@ import { numberOrDefault, type UnknownRecord } from '../utils.js';
 const QUEST_DATA_FILE = resolveRepoPath('data', 'quests', 'main-story.json');
 const CLIENT_QUEST_METADATA_FILE = resolveRepoPath('data', 'client-derived', 'quests.json');
 const CLIENT_HELP_QUESTS_FILE = resolveRepoPath('data', 'client-verified', 'quests', 'client-help-quests.json');
+const CLIENT_TASK_STATE_CLUSTERS_FILE = resolveRepoPath(
+  'data',
+  'client-derived',
+  'task-state-clusters.json'
+);
+const CLIENT_TASK_STATE_MATCHES_FILE = resolveRepoPath(
+  'data',
+  'client-derived',
+  'task-state-matches.json'
+);
 
 interface GrantedItem {
   templateId: number;
@@ -39,6 +49,12 @@ interface QuestStep {
   completeOnTalkAfterKill: boolean;
   consumeItems?: GrantedItem[];
   grantItems?: GrantedItem[];
+  clientTaskType?: number;
+  overNpcId?: number;
+  escortNpcId?: number;
+  taskRoleNpcId?: number;
+  maxAward?: number;
+  taskStep?: number;
 }
 
 interface QuestRewards {
@@ -96,10 +112,41 @@ interface ClientHelpQuestMetadata {
   itemIds?: number[];
   targetNpcIds?: number[];
   blockPreview?: string;
+  goalText?: string;
+  briefText?: string;
+}
+
+interface ClientTaskStateCluster {
+  clusterIndex?: number;
+  taskType?: number;
+  overNpcId?: number;
+  maxAward?: number;
+  taskStep?: number;
+  rawSnippet?: string;
+}
+
+interface ClientTaskStateMatchEntry {
+  taskId?: number;
+  stepMatches?: Array<{
+    stepIndex?: number;
+    topCandidates?: Array<{
+      clusterIndex?: number;
+    }>;
+  }>;
+}
+
+interface ClientTaskStepMetadata {
+  taskType?: number;
+  overNpcId?: number;
+  escortNpcId?: number;
+  taskRoleNpcId?: number;
+  maxAward?: number;
+  taskStep?: number;
 }
 
 const CLIENT_QUEST_METADATA: Map<number, ClientQuestMetadata> = loadClientQuestMetadata();
 const CLIENT_HELP_QUEST_METADATA: Map<string, ClientHelpQuestMetadata> = loadClientHelpQuestMetadata();
+const CLIENT_TASK_STEP_METADATA: Map<string, ClientTaskStepMetadata> = loadClientTaskStepMetadata();
 const QUEST_DEFINITIONS: readonly QuestDefinitionRecord[] = Object.freeze(loadQuestDefinitions());
 const QUESTS_BY_ID = new Map<number, QuestDefinitionRecord>(
   QUEST_DEFINITIONS.map((quest) => [quest.id, quest])
@@ -145,6 +192,99 @@ function loadClientHelpQuestMetadata(): Map<string, ClientHelpQuestMetadata> {
   } catch {
     return new Map();
   }
+}
+
+function loadClientTaskStepMetadata(): Map<string, ClientTaskStepMetadata> {
+  try {
+    const rawClusters = fs.readFileSync(CLIENT_TASK_STATE_CLUSTERS_FILE, 'utf8');
+    const parsedClusters = JSON.parse(rawClusters) as UnknownRecord;
+    const clusters = Array.isArray(parsedClusters?.clusters) ? parsedClusters.clusters : [];
+    const clustersByIndex = new Map<number, ClientTaskStateCluster>();
+    for (const cluster of clusters) {
+      if (!Number.isInteger(cluster?.clusterIndex)) {
+        continue;
+      }
+      clustersByIndex.set(cluster.clusterIndex >>> 0, cluster as ClientTaskStateCluster);
+    }
+
+    const rawMatches = fs.readFileSync(CLIENT_TASK_STATE_MATCHES_FILE, 'utf8');
+    const parsedMatches = JSON.parse(rawMatches) as UnknownRecord;
+    const matches = Array.isArray(parsedMatches?.matches) ? parsedMatches.matches : [];
+    const metadata = new Map<string, ClientTaskStepMetadata>();
+
+    for (const entry of matches as ClientTaskStateMatchEntry[]) {
+      const rawTaskId = entry?.taskId;
+      const taskId =
+        typeof rawTaskId === 'number' && Number.isInteger(rawTaskId) ? (rawTaskId >>> 0) : 0;
+      if (taskId <= 0 || !Array.isArray(entry?.stepMatches)) {
+        continue;
+      }
+
+      for (const stepMatch of entry.stepMatches) {
+        const stepIndex = Number.isInteger(stepMatch?.stepIndex) ? (stepMatch!.stepIndex! >>> 0) : 0;
+        if (stepIndex <= 0 || !Array.isArray(stepMatch?.topCandidates)) {
+          continue;
+        }
+        const topCandidate = stepMatch.topCandidates.find((candidate) =>
+          Number.isInteger(candidate?.clusterIndex)
+        );
+        if (!topCandidate || !Number.isInteger(topCandidate.clusterIndex)) {
+          continue;
+        }
+        const clusterIndex = topCandidate.clusterIndex;
+        const cluster =
+          typeof clusterIndex === 'number' && Number.isInteger(clusterIndex)
+            ? clustersByIndex.get(clusterIndex >>> 0) || null
+            : null;
+        if (!cluster) {
+          continue;
+        }
+        const rawSnippet = typeof cluster.rawSnippet === 'string' ? cluster.rawSnippet : '';
+        const escortNpcId = extractClientTaskMacroValue(rawSnippet, 'macro_AddTaskCre');
+        const taskRoleNpcId = extractClientTaskMacroValue(rawSnippet, 'macro_SetTaskRole');
+        const rawTaskType = cluster.taskType;
+        const rawOverNpcId = cluster.overNpcId;
+        const rawMaxAward = cluster.maxAward;
+        const rawTaskStep = cluster.taskStep;
+        metadata.set(`${taskId}:${stepIndex}`, {
+          taskType:
+            typeof rawTaskType === 'number' && Number.isInteger(rawTaskType)
+              ? (rawTaskType >>> 0)
+              : undefined,
+          overNpcId:
+            typeof rawOverNpcId === 'number' && Number.isInteger(rawOverNpcId)
+              ? (rawOverNpcId >>> 0)
+              : undefined,
+          escortNpcId: escortNpcId > 0 ? escortNpcId : undefined,
+          taskRoleNpcId: taskRoleNpcId > 0 ? taskRoleNpcId : undefined,
+          maxAward:
+            typeof rawMaxAward === 'number' && Number.isInteger(rawMaxAward)
+              ? (rawMaxAward >>> 0)
+              : undefined,
+          taskStep:
+            typeof rawTaskStep === 'number' && Number.isInteger(rawTaskStep)
+              ? (rawTaskStep >>> 0)
+              : undefined,
+        });
+      }
+    }
+
+    return metadata;
+  } catch {
+    return new Map();
+  }
+}
+
+function extractClientTaskMacroValue(rawSnippet: string, macroName: string): number {
+  if (!rawSnippet || !macroName) {
+    return 0;
+  }
+  const match = rawSnippet.match(new RegExp(`${macroName}\\((\\d+)\\)`));
+  if (!match) {
+    return 0;
+  }
+  const value = Number.parseInt(match[1], 10);
+  return Number.isInteger(value) && value > 0 ? (value >>> 0) : 0;
 }
 
 function normalizeQuestDefinition(quest: UnknownRecord): QuestDefinitionRecord | null {
@@ -225,6 +365,7 @@ function normalizeQuestStep(taskId: number, stepIndex: number, step: UnknownReco
           },
         ]
       : normalizedConsumeItems;
+  const clientTaskMetadata = CLIENT_TASK_STEP_METADATA.get(`${taskId}:${stepIndex + 1}`) || null;
 
   return {
     type: step.type,
@@ -244,6 +385,24 @@ function normalizeQuestStep(taskId: number, stepIndex: number, step: UnknownReco
       ? step.grantItems
           .map((item: UnknownRecord) => normalizeGrantedItem(item))
           .filter((item: GrantedItem | null): item is GrantedItem => Boolean(item))
+      : undefined,
+    clientTaskType: Number.isInteger(clientTaskMetadata?.taskType)
+      ? (clientTaskMetadata!.taskType! >>> 0)
+      : undefined,
+    overNpcId: Number.isInteger(clientTaskMetadata?.overNpcId)
+      ? (clientTaskMetadata!.overNpcId! >>> 0)
+      : undefined,
+    escortNpcId: Number.isInteger(clientTaskMetadata?.escortNpcId)
+      ? (clientTaskMetadata!.escortNpcId! >>> 0)
+      : undefined,
+    taskRoleNpcId: Number.isInteger(clientTaskMetadata?.taskRoleNpcId)
+      ? (clientTaskMetadata!.taskRoleNpcId! >>> 0)
+      : undefined,
+    maxAward: Number.isInteger(clientTaskMetadata?.maxAward)
+      ? (clientTaskMetadata!.maxAward! >>> 0)
+      : undefined,
+    taskStep: Number.isInteger(clientTaskMetadata?.taskStep)
+      ? (clientTaskMetadata!.taskStep! >>> 0)
       : undefined,
   };
 }
@@ -419,13 +578,17 @@ export {
   QUEST_DATA_FILE,
   CLIENT_QUEST_METADATA_FILE,
   CLIENT_HELP_QUESTS_FILE,
+  CLIENT_TASK_STATE_CLUSTERS_FILE,
+  CLIENT_TASK_STATE_MATCHES_FILE,
   CLIENT_QUEST_METADATA,
   CLIENT_HELP_QUEST_METADATA,
+  CLIENT_TASK_STEP_METADATA,
   QUEST_DEFINITIONS,
   QUESTS_BY_ID,
   loadQuestDefinitions,
   loadClientQuestMetadata,
   loadClientHelpQuestMetadata,
+  loadClientTaskStepMetadata,
   normalizeQuestDefinition,
   normalizeQuestStep,
   normalizeGrantedItem,

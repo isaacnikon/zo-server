@@ -5,8 +5,18 @@ import { PacketWriter } from '../protocol.js';
 import { syncInventoryStateToClient } from '../gameplay/inventory-runtime.js';
 import { sendSkillStateSync } from '../gameplay/skill-runtime.js';
 import { getMapBootstrapSpawns } from '../map-spawns.js';
+import { getCurrentStep, getQuestDefinition } from '../quest-engine/index.js';
 import { startAutoMapRotation } from '../scenes/map-rotation.js';
+import { numberOrDefault } from '../character/normalize.js';
 
+type SpawnRecord = {
+  id: number;
+  entityType: number;
+  x: number;
+  y: number;
+  dir: number;
+  state: number;
+};
 
 export function sendEnterGameOk(session: GameSession, options: { syncMode?: QuestSyncMode } = {}): void {
   const syncMode: QuestSyncMode = options.syncMode || 'login';
@@ -33,24 +43,26 @@ export function sendEnterGameOk(session: GameSession, options: { syncMode?: Ques
   sendSkillStateSync(session, 'enter-game');
   syncInventoryStateToClient(session);
   session.scheduleEquipmentReplay();
-  session.syncQuestStateToClient({ mode: syncMode });
   session.sendPetStateSync('enter-game');
   sendStaticNpcSpawns(session, session.currentMapId);
+  session.syncQuestStateToClient({ mode: syncMode });
   startAutoMapRotation(session);
 }
 
 function sendStaticNpcSpawns(session: GameSession, mapId: number): void {
   const staticNpcs = getMapBootstrapSpawns(mapId);
-  if (!Array.isArray(staticNpcs) || staticNpcs.length === 0) {
+  const escortSpawns = buildEscortQuestRoleSpawns(session, mapId, staticNpcs.length);
+  const allSpawns = [...staticNpcs, ...escortSpawns];
+  if (!Array.isArray(allSpawns) || allSpawns.length === 0) {
     return;
   }
 
   const writer = new PacketWriter();
   writer.writeUint16(0x03eb);
   writer.writeUint8(0x15);
-  writer.writeUint16(staticNpcs.length & 0xffff);
+  writer.writeUint16(allSpawns.length & 0xffff);
 
-  for (const npc of staticNpcs) {
+  for (const npc of allSpawns) {
     writer.writeUint32((npc.id || 0) >>> 0);
     writer.writeUint16((npc.entityType || 0) & 0xffff);
     writer.writeUint16((npc.x || 0) & 0xffff);
@@ -62,8 +74,48 @@ function sendStaticNpcSpawns(session: GameSession, mapId: number): void {
   session.writePacket(
     writer.payload(),
     DEFAULT_FLAGS,
-    `Sending static NPC spawn batch cmd=0x03eb sub=0x15 map=${mapId} count=${staticNpcs.length}`
+    `Sending static NPC spawn batch cmd=0x03eb sub=0x15 map=${mapId} count=${allSpawns.length} base=${staticNpcs.length} escort=${escortSpawns.length}`
   );
+}
+
+function buildEscortQuestRoleSpawns(
+  session: GameSession,
+  mapId: number,
+  baseCount: number
+): SpawnRecord[] {
+  if (!Array.isArray(session.activeQuests) || session.activeQuests.length === 0) {
+    return [];
+  }
+
+  const escortRoleIds = new Set<number>();
+  for (const record of session.activeQuests) {
+    const definition = getQuestDefinition(numberOrDefault(record?.id, 0));
+    const step = getCurrentStep(definition, record as any);
+    if (
+      !step ||
+      numberOrDefault(step.clientTaskType, 0) !== 8 ||
+      numberOrDefault(step.mapId, 0) !== mapId
+    ) {
+      continue;
+    }
+    const roleId = numberOrDefault(step.taskRoleNpcId, 0);
+    if (roleId > 0) {
+      escortRoleIds.add(roleId);
+    }
+  }
+
+  let offset = 0;
+  return [...escortRoleIds].map((roleId) => {
+    offset += 1;
+    return {
+      id: (((mapId & 0xffff) << 16) | ((baseCount + offset) & 0xffff)) >>> 0,
+      entityType: roleId & 0xffff,
+      x: Math.max(0, (session.currentX + 1 + offset) & 0xffff),
+      y: Math.max(0, session.currentY & 0xffff),
+      dir: 0,
+      state: 0,
+    };
+  });
 }
 
 export function sendMapNpcSpawns(session: GameSession, mapId: number): void {

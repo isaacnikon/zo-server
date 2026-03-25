@@ -12,6 +12,7 @@ export type {
 
 export {
   QUEST_DEFINITIONS,
+  getCurrentStep,
   getQuestDefinition,
   getQuestProgressObjectiveId,
   getQuestMarkerNpcId,
@@ -22,6 +23,7 @@ export {
   normalizeQuestState,
   reconcileAutoAccept,
   interactWithNpc,
+  getQuestAcceptBlocker,
   applyMonsterDefeat,
   abandonQuest,
 } from './state.js';

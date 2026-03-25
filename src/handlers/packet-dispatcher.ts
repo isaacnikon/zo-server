@@ -18,6 +18,13 @@ import type { GameSession } from '../types.js';
 const TRIGGER_TRACE_PATH = resolve(process.cwd(), 'data/runtime/trigger-trace.jsonl');
 const SKILL_PACKET_TRACE_PATH = resolve(process.cwd(), 'data/runtime/skill-packet-trace.jsonl');
 const SKILL_UI_TRACE_COMMANDS = new Set([0x03f5, 0x0400, 0x040d, 0x0410]);
+const GLADYS_TRACE_MAP_ID = 112;
+const GLADYS_TRACE_BOUNDS = {
+  minX: 0,
+  maxX: 32,
+  minY: 360,
+  maxY: 400,
+} as const;
 
 function appendTriggerTrace(event: Record<string, unknown>): void {
   mkdirSync(dirname(TRIGGER_TRACE_PATH), { recursive: true });
@@ -56,6 +63,43 @@ function traceSkillUiPacket(
   });
 }
 
+function traceGladysInteractionWindow(
+  session: GameSession,
+  cmdWord: number,
+  payload: Buffer,
+  phase: 'pre-dispatch' | 'post-unhandled'
+): void {
+  if (session.currentMapId !== GLADYS_TRACE_MAP_ID) {
+    return;
+  }
+  if (
+    session.currentX < GLADYS_TRACE_BOUNDS.minX ||
+    session.currentX > GLADYS_TRACE_BOUNDS.maxX ||
+    session.currentY < GLADYS_TRACE_BOUNDS.minY ||
+    session.currentY > GLADYS_TRACE_BOUNDS.maxY
+  ) {
+    return;
+  }
+  if (cmdWord === GAME_POSITION_QUERY_CMD) {
+    return;
+  }
+
+  const subcmd = payload.length >= 3 ? payload[2] : -1;
+  appendTriggerTrace({
+    kind: 'gladys-trace',
+    phase,
+    ts: new Date().toISOString(),
+    sessionId: session.id,
+    cmdWord,
+    subcmd,
+    len: payload.length,
+    hex: payload.toString('hex'),
+    mapId: session.currentMapId,
+    x: session.currentX,
+    y: session.currentY,
+  });
+}
+
 const PACKET_HANDLERS = new Map<number, (session: GameSession, payload: Buffer) => void>([
   [ROLE_CMD, handleRolePacket],
   [GAME_QUEST_CMD, handleQuestPacket],
@@ -68,6 +112,7 @@ function dispatchGamePacket(
   payload: Buffer
 ): boolean {
   traceSkillUiPacket(session, cmdWord, payload, 'pre-dispatch');
+  traceGladysInteractionWindow(session, cmdWord, payload, 'pre-dispatch');
 
   if ((flags & 0x04) !== 0 && payload.length >= 6) {
     if (cmdWord === PING_CMD) {
@@ -87,6 +132,7 @@ function dispatchGamePacket(
 
   if (cmdWord === GAME_POSITION_QUERY_CMD && payload.length >= 8) {
     const position = parsePositionUpdate(payload);
+    const previousMapId = session.currentMapId;
     session.currentMapId = position.mapId;
     session.currentX = position.x;
     session.currentY = position.y;
@@ -98,7 +144,10 @@ function dispatchGamePacket(
     notifyAutoMapRotationPosition(session, position.mapId);
     if (session.pendingSceneNpcSpawnMapId === position.mapId) {
       session.sendMapNpcSpawns?.(position.mapId);
+      session.syncQuestStateToClient?.({ mode: 'runtime' });
       session.pendingSceneNpcSpawnMapId = null;
+    } else if (previousMapId !== position.mapId) {
+      session.syncQuestStateToClient?.({ mode: 'runtime' });
     }
     maybeTriggerFieldCombat(session, position.mapId, position.x, position.y);
     session.log(`Position update map=${position.mapId} pos=${position.x},${position.y}`);
@@ -213,6 +262,7 @@ function dispatchGamePacket(
   }
 
   traceSkillUiPacket(session, cmdWord, payload, 'post-unhandled');
+  traceGladysInteractionWindow(session, cmdWord, payload, 'post-unhandled');
 
   return false;
 }

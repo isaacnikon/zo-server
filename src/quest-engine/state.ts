@@ -279,6 +279,31 @@ function interactWithNpc(
   return events;
 }
 
+function getQuestAcceptBlocker(state: QuestState, npcId: number): string | null {
+  if (!Number.isInteger(npcId) || npcId <= 0) {
+    return null;
+  }
+  const playerLevel = numberOrDefault(state.level, 1);
+  for (const definition of QUEST_DEFINITIONS) {
+    if (numberOrDefault(definition?.acceptNpcId, 0) !== (npcId >>> 0)) {
+      continue;
+    }
+    if (state.completedQuests.includes(definition.id) || isQuestAccepted(state, definition.id)) {
+      continue;
+    }
+    const missingPrerequisites = definition.prerequisiteTaskIds.some(
+      (prereqId) => !state.completedQuests.includes(prereqId)
+    );
+    if (missingPrerequisites) {
+      continue;
+    }
+    if (playerLevel < definition.minLevel) {
+      return `You must be level ${definition.minLevel} to accept "${definition.name}".`;
+    }
+  }
+  return null;
+}
+
 function applyMonsterDefeat(state: QuestState, monsterId: number, count = 1): QuestEvent[] {
   const events: QuestEvent[] = [];
 
@@ -383,6 +408,7 @@ function buildQuestSyncState(state: QuestState): UnknownRecord[] {
       if (!definition) {
         return null;
       }
+      const step = definition.steps?.[record.stepIndex];
       return {
         taskId: definition.id,
         stepIndex: numberOrDefault(record.stepIndex, 0),
@@ -390,9 +416,14 @@ function buildQuestSyncState(state: QuestState): UnknownRecord[] {
         stepDescription: getQuestStepDescription(definition, record),
         progressObjectiveId: getQuestProgressObjectiveId(definition, record),
         progressCount: getQuestProgressCount(definition, record),
+        clientTaskType: numberOrDefault(step?.clientTaskType, 0),
+        overNpcId: numberOrDefault(step?.overNpcId, 0),
+        taskRoleNpcId: numberOrDefault(step?.taskRoleNpcId, 0),
+        maxAward: numberOrDefault(step?.maxAward, 0),
+        taskStep: numberOrDefault(step?.taskStep, numberOrDefault(record.stepIndex, 0) + 1),
         stepType:
-          typeof definition.steps?.[record.stepIndex]?.type === 'string'
-            ? definition.steps[record.stepIndex].type
+          typeof step?.type === 'string'
+            ? step.type
             : '',
       };
     })
@@ -411,6 +442,7 @@ export {
   advanceQuest,
   appendGrantedItemEvents,
   interactWithNpc,
+  getQuestAcceptBlocker,
   applyMonsterDefeat,
   abandonQuest,
   collectQuestResetItemTemplateIds,

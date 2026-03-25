@@ -198,6 +198,9 @@ export interface GameSession {
   mapRotationIndex: number;
   mapRotationAwaitingMapId: number | null;
   mapRotationLastSentAt: number | null;
+  // Gathering
+  gatheringNodes: Map<number, { nodeId: number; templateId: number; x: number; y: number; toolType: number; dropItemId: number }> | null;
+  activeGather: { runtimeId: number; startedAt: number } | null;
   // Scene/NPC state
   pendingSceneNpcSpawnMapId: number | null;
   activeNpcShop: any;

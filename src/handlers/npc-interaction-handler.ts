@@ -4,7 +4,7 @@ import type { GameSession, ServerRunRequestData } from '../types.js';
 import { DEFAULT_FLAGS, GAME_NPC_SHOP_CMD } from '../config.js';
 import { getMapEncounterLevelRange, getMapNpcs, getMapSummary } from '../map-data.js';
 import { getBagQuantityByTemplateId } from '../inventory/index.js';
-import { interactWithNpc, getQuestDefinition } from '../quest-engine/index.js';
+import { interactWithNpc, getQuestDefinition, getQuestAcceptBlocker } from '../quest-engine/index.js';
 import { buildNpcShopOpenPacket } from '../protocol/gameplay-packets.js';
 import { resolveRepoPath } from '../runtime-paths.js';
 import { resolveInnRestVitals } from '../gameplay/session-flows.js';
@@ -60,7 +60,7 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
   }
 
   let handledQuestEvents = false;
-  if (request.subcmd === 0x03 || request.subcmd === 0x04 || request.subcmd === 0x08) {
+  if (request.subcmd === 0x02 || request.subcmd === 0x03 || request.subcmd === 0x04 || request.subcmd === 0x08) {
     const questState = {
       activeQuests: session.activeQuests,
       completedQuests: session.completedQuests,
@@ -82,6 +82,11 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
       applyQuestEvents(session, events, 'npc-talk', {
         selectedAwardId: Number.isInteger(request.awardId) ? (request.awardId! >>> 0) : 0,
       });
+    } else {
+      const blocker = getQuestAcceptBlocker(questState as any, resolvedNpcId);
+      if (blocker) {
+        session.sendGameDialogue('Quest', blocker);
+      }
     }
   }
 

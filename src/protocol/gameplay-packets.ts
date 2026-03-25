@@ -1,4 +1,4 @@
-import { GAME_DIALOG_MESSAGE_SUBCMD, FIGHT_ACTIVE_STATE_SUBCMD, GAME_DIALOG_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, GAME_ITEM_CONTAINER_CMD, ITEM_CONTAINER_POSITION_SUBCMD, GAME_ITEM_CMD, GAME_NPC_SHOP_CMD, GAME_QUEST_CMD, GAME_SCENE_ENTER_CMD, GAME_SCRIPT_EVENT_CMD, SCENE_ENTER_LOAD_SUBCMD, GAME_SELF_STATE_CMD, SELF_STATE_APTITUDE_SUBCMD, SELF_STATE_VALUE_UPDATE_SUBCMD, } from '../config.js';
+import { GAME_DIALOG_MESSAGE_SUBCMD, FIGHT_ACTIVE_STATE_SUBCMD, GAME_DIALOG_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, GAME_ITEM_CONTAINER_CMD, ITEM_CONTAINER_POSITION_SUBCMD, GAME_ITEM_CMD, GAME_NPC_SHOP_CMD, GAME_QUEST_CMD, GAME_QUEST_TABLE_CMD, GAME_SCENE_ENTER_CMD, GAME_SCRIPT_EVENT_CMD, SCENE_ENTER_LOAD_SUBCMD, GAME_SELF_STATE_CMD, SELF_STATE_APTITUDE_SUBCMD, SELF_STATE_VALUE_UPDATE_SUBCMD, } from '../config.js';
 import { PacketWriter } from '../protocol.js';
 import { writeClientItemInstancePayload } from './item-serializer.js';
 
@@ -99,6 +99,29 @@ interface SkillSyncEntry {
   proficiency?: number;
 }
 
+interface QuestTableSyncEntry {
+  taskId: number;
+  step: number;
+  extraA?: number;
+  extraB?: number;
+}
+
+interface QuestTableHistoryEntry {
+  taskId: number;
+  state: number;
+}
+
+interface QuestAcceptStateParams {
+  subtype?: number;
+  taskId: number;
+  currentStep: number;
+  taskType: number;
+  maxStep: number;
+  overNpcId: number;
+  targetNpcId: number;
+  objectiveWords?: number[];
+}
+
 export function buildSelfStateAptitudeSyncPacket({
   selectedAptitude,
   level,
@@ -147,6 +170,73 @@ export function buildServerRunScriptPacket(scriptId: number, subtype: number): B
   writer.writeUint16(GAME_SCRIPT_EVENT_CMD);
   writer.writeUint8(subtype & 0xff);
   writer.writeUint16(scriptId & 0xffff);
+  return writer.payload();
+}
+
+export function buildQuestTableSyncPacket({
+  playerRuntimeId,
+  subtype = 0x08,
+  quests,
+  history = [],
+}: {
+  playerRuntimeId: number;
+  subtype?: number;
+  quests: QuestTableSyncEntry[];
+  history?: QuestTableHistoryEntry[];
+}): Buffer {
+  const writer = new PacketWriter();
+  const normalizedQuests = Array.isArray(quests) ? quests.slice(0, 0x10) : [];
+  const normalizedHistory = Array.isArray(history) ? history : [];
+
+  writer.writeUint16(GAME_QUEST_TABLE_CMD);
+  writer.writeUint8(subtype & 0xff);
+  writer.writeUint32(playerRuntimeId >>> 0);
+  writer.writeUint8(normalizedQuests.length & 0xff);
+
+  for (const quest of normalizedQuests) {
+    writer.writeUint16((quest?.taskId || 0) & 0xffff);
+    writer.writeUint16((quest?.step || 0) & 0xffff);
+    writer.writeUint16((quest?.extraA || 0) & 0xffff);
+    writer.writeUint16((quest?.extraB || 0) & 0xffff);
+  }
+
+  writer.writeUint16(normalizedHistory.length & 0xffff);
+  for (const entry of normalizedHistory) {
+    writer.writeUint16((entry?.taskId || 0) & 0xffff);
+    writer.writeUint8((entry?.state || 0) & 0xff);
+  }
+
+  return writer.payload();
+}
+
+export function buildQuestAcceptStatePacket({
+  subtype = 0x03,
+  taskId,
+  currentStep,
+  taskType,
+  maxStep,
+  overNpcId,
+  targetNpcId,
+  objectiveWords = [],
+}: QuestAcceptStateParams): Buffer {
+  const writer = new PacketWriter();
+  const normalizedObjectiveWords = Array.isArray(objectiveWords)
+    ? objectiveWords.slice(0, 10)
+    : [];
+
+  writer.writeUint16(GAME_QUEST_CMD);
+  writer.writeUint8(subtype & 0xff);
+  writer.writeUint16(taskId & 0xffff);
+  writer.writeUint8(currentStep & 0xff);
+  writer.writeUint8(taskType & 0xff);
+  writer.writeUint8(maxStep & 0xff);
+  writer.writeUint16(overNpcId & 0xffff);
+  writer.writeUint16(targetNpcId & 0xffff);
+
+  for (let index = 0; index < 10; index += 1) {
+    writer.writeUint16((normalizedObjectiveWords[index] || 0) & 0xffff);
+  }
+
   return writer.payload();
 }
 
