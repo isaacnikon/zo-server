@@ -1,0 +1,66 @@
+{
+  "_comment": "Gathering node placements per map. nodeId = roleinfo template (10001-10049). Positions are manually placed for accessible field maps.",
+  "maps": [
+    {
+      "mapId": 102,
+      "mapName": "Bling Alley",
+      "nodes": [
+        { "nodeId": 10001, "x": 45, "y": 60 },
+        { "nodeId": 10001, "x": 52, "y": 75 },
+        { "nodeId": 10011, "x": 30, "y": 80 },
+        { "nodeId": 10011, "x": 38, "y": 95 },
+        { "nodeId": 10021, "x": 60, "y": 50 },
+        { "nodeId": 10021, "x": 65, "y": 65 }
+      ]
+    },
+    {
+      "mapId": 103,
+      "mapName": "Bling Spring",
+      "nodes": [
+        { "nodeId": 10001, "x": 40, "y": 55 },
+        { "nodeId": 10001, "x": 50, "y": 70 },
+        { "nodeId": 10021, "x": 55, "y": 45 },
+        { "nodeId": 10021, "x": 62, "y": 60 }
+      ]
+    },
+    {
+      "mapId": 105,
+      "mapName": "Fall Alley",
+      "nodes": [
+        { "nodeId": 10002, "x": 42, "y": 58 },
+        { "nodeId": 10002, "x": 50, "y": 72 },
+        { "nodeId": 10012, "x": 35, "y": 85 },
+        { "nodeId": 10022, "x": 60, "y": 48 },
+        { "nodeId": 10022, "x": 68, "y": 62 }
+      ]
+    },
+    {
+      "mapId": 107,
+      "mapName": "Chill Suburb",
+      "nodes": [
+        { "nodeId": 10002, "x": 45, "y": 65 },
+        { "nodeId": 10012, "x": 38, "y": 80 },
+        { "nodeId": 10012, "x": 55, "y": 70 },
+        { "nodeId": 10022, "x": 62, "y": 55 }
+      ]
+    },
+    {
+      "mapId": 108,
+      "mapName": "Golden Path",
+      "nodes": [
+        { "nodeId": 10003, "x": 48, "y": 62 },
+        { "nodeId": 10013, "x": 40, "y": 78 },
+        { "nodeId": 10023, "x": 58, "y": 52 }
+      ]
+    },
+    {
+      "mapId": 109,
+      "mapName": "Spring Forest",
+      "nodes": [
+        { "nodeId": 10003, "x": 44, "y": 68 },
+        { "nodeId": 10013, "x": 52, "y": 75 },
+        { "nodeId": 10023, "x": 60, "y": 58 }
+      ]
+    }
+  ]
+}
