@@ -1,7 +1,7 @@
 import type { GameSession } from '../types.js';
 
 import { DEFAULT_FLAGS, GAME_FIGHT_RESULT_CMD, GAME_FIGHT_STREAM_CMD, GAME_SELF_STATE_CMD, } from '../config.js';
-import { buildPetActiveSelectPacket, buildPetPanelBindPacket, buildPetPanelClearPacket, buildPetPanelModePacket, buildPetPanelNamePacket, buildPetPanelPropertyPacket, buildPetPanelRebindPacket, buildPetRosterSyncPacket, buildPetStatsSyncPacket, buildPetTreeRegistrationPacket, } from '../protocol/gameplay-packets.js';
+import { buildPetActiveSelectPacket, buildPetPanelBindPacket, buildPetPanelClearPacket, buildPetPanelModePacket, buildPetPanelNamePacket, buildPetPanelPropertyPacket, buildPetPanelRebindPacket, buildPetPlacementSyncPacket, buildPetRosterSyncPacket, buildPetStatsSyncPacket, buildPetTreeRegistrationPacket, } from '../protocol/gameplay-packets.js';
 import { getPrimaryPet, normalizePets } from '../pet-runtime.js';
 
 type PetRecord = Record<string, any>;
@@ -11,11 +11,43 @@ function getPetOwnerRuntimeId(session: GameSession): number {
 }
 
 export function tryHandlePetActionPacket(session: GameSession, payload: Buffer): boolean {
+  const subcmd = payload[2];
+  const selectedPetRuntimeId =
+    typeof session.selectedPetRuntimeId === 'number' ? session.selectedPetRuntimeId : null;
+  const selectedPet = Array.isArray(session.pets)
+    ? (selectedPetRuntimeId !== null
+        ? session.pets.find(
+            (entry: PetRecord) => (entry?.runtimeId >>> 0) === (selectedPetRuntimeId >>> 0)
+          ) || null
+        : null) || getPrimaryPet(session.pets)
+    : null;
+
+  if (subcmd === 0x03 && payload.length >= 6) {
+    if (!selectedPet) {
+      session.log('Pet position request ignored reason=no-selected-pet');
+      return true;
+    }
+
+    selectedPet.stateFlags = {
+      ...(selectedPet.stateFlags || {}),
+      activeFlag: payload[3] & 0xff,
+      modeA: payload[4] & 0xff,
+      modeB: payload[5] & 0xff,
+    };
+    session.persistCurrentCharacter();
+    session.log(
+      `Pet position update runtimeId=${selectedPet.runtimeId >>> 0} side=${selectedPet.stateFlags.activeFlag} row=${selectedPet.stateFlags.modeA} col=${selectedPet.stateFlags.modeB}`
+    );
+    if (session.petSummoned) {
+      sendPetStateSync(session, 'client-03f5-03');
+    }
+    return true;
+  }
+
   if (payload.length !== 7) {
     return false;
   }
 
-  const subcmd = payload[2];
   const runtimeId = payload.readUInt32LE(3) >>> 0;
   const pet = Array.isArray(session.pets)
     ? session.pets.find((entry: PetRecord) => (entry?.runtimeId >>> 0) === runtimeId) || null
@@ -110,11 +142,13 @@ export function sendPetStateSync(session: GameSession, reason = 'runtime'): void
   const ownerRuntimeId = getPetOwnerRuntimeId(session);
   const isEnterGameSync = reason === 'enter-game';
 
-  session.writePacket(
-    buildPetTreeRegistrationPacket({ pet }),
-    DEFAULT_FLAGS,
-    `Sending pet tree registration cmd=0x03eb type=0x02 reason=${reason} runtimeId=${pet.runtimeId} templateId=${pet.templateId} name="${pet.name}"`
-  );
+  for (const rosterPet of session.pets) {
+    session.writePacket(
+      buildPetTreeRegistrationPacket({ pet: rosterPet }),
+      DEFAULT_FLAGS,
+      `Sending pet tree registration cmd=0x03eb type=0x02 reason=${reason} runtimeId=${rosterPet.runtimeId} templateId=${rosterPet.templateId} name="${rosterPet.name}"`
+    );
+  }
   session.writePacket(
     buildPetRosterSyncPacket({ pets: session.pets }),
     DEFAULT_FLAGS,
@@ -151,6 +185,13 @@ export function sendPetStateSync(session: GameSession, reason = 'runtime'): void
     DEFAULT_FLAGS,
     `Sending pet stat sync cmd=0x${GAME_SELF_STATE_CMD.toString(16)} sub=0x1f reason=${reason} runtimeId=${pet.runtimeId} stats=${pet.stats.strength}/${pet.stats.dexterity}/${pet.stats.vitality}/${pet.stats.intelligence} points=${pet.statPoints}`
   );
+  if (session.petSummoned) {
+    session.writePacket(
+      buildPetPlacementSyncPacket({ pet }),
+      DEFAULT_FLAGS,
+      `Sending pet placement sync cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x0f reason=${reason} runtimeId=${pet.runtimeId} row=${pet.stateFlags?.modeA ?? 0} col=${pet.stateFlags?.modeB ?? 0}`
+    );
+  }
   if (!isPanelSummonSync) {
     session.writePacket(
       buildPetPanelRebindPacket({ ownerRuntimeId }),

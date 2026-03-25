@@ -338,6 +338,16 @@ export function buildPetCreateSyncPacket({ pet }: { pet: PetData }): Buffer {
   return writer.payload();
 }
 
+export function buildPetPlacementSyncPacket({ pet }: { pet: PetData }): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_FIGHT_STREAM_CMD);
+  writer.writeUint8(0x0f);
+  writer.writeUint32((pet.runtimeId || 0) >>> 0);
+  writer.writeUint8((pet.stateFlags?.modeA || 0) & 0xff);
+  writer.writeUint8((pet.stateFlags?.modeB || 0) & 0xff);
+  return writer.payload();
+}
+
 export function buildPetRosterSyncPacket({ pets }: { pets: PetData[] }): Buffer {
   const writer = new PacketWriter();
   const normalizedPets = Array.isArray(pets) ? pets : [];
@@ -468,6 +478,7 @@ export function buildPetPanelModePacket({ ownerRuntimeId, enabled }: { ownerRunt
 export function buildPetActiveSelectPacket({ runtimeId }: { runtimeId: number }): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(0x03f5);
+  writer.writeUint8(0x51);
   writer.writeUint32((runtimeId || 0) >>> 0);
   return writer.payload();
 }
