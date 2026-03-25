@@ -26,8 +26,13 @@ const NPC_SHOP_REGISTRY_FILE = resolveRepoPath('data', 'client-derived', 'npc-sh
 const NPC_SHOP_REGISTRY = loadNpcShopRegistry();
 const INN_REST_SCRIPT_ID = 5001;
 const HOUSEWIFE_NPC_ID = 3089;
-const GATHERING_SKILL_IDS = [9006, 9007, 9008, 9009] as const;
-const GATHERING_SKILL_NAMES: Record<number, string> = {
+const HOUSEWIFE_LIFE_SKILL_IDS = [9001, 9002, 9003, 9004, 9005, 9006, 9007, 9008, 9009] as const;
+const HOUSEWIFE_LIFE_SKILL_NAMES: Record<number, string> = {
+  9001: 'Compose',
+  9002: 'Cooking',
+  9003: 'Decompose',
+  9004: 'Gem Machining',
+  9005: 'Alchemy',
   9006: 'Mining',
   9007: 'Lumbering',
   9008: 'Herbalism',
@@ -410,20 +415,20 @@ function handleHousewifeTeachingRequest(
     return false;
   }
 
-  const learnedGatheringSkillIds = GATHERING_SKILL_IDS.filter((skillId) =>
+  const learnedLifeSkillIds = HOUSEWIFE_LIFE_SKILL_IDS.filter((skillId) =>
     Array.isArray(session.skillState?.learnedSkills)
       ? session.skillState.learnedSkills.some((entry) => Number(entry?.skillId || 0) === skillId)
       : false
   );
-  const unlearnedSkillIds = GATHERING_SKILL_IDS.filter((skillId) => !learnedGatheringSkillIds.includes(skillId));
+  const unlearnedSkillIds = HOUSEWIFE_LIFE_SKILL_IDS.filter((skillId) => !learnedLifeSkillIds.includes(skillId));
   if (unlearnedSkillIds.length === 0) {
-    session.sendGameDialogue('Housewife', 'You already know every gathering skill I can teach.');
+    session.sendGameDialogue('Housewife', 'You already know every life skill I can teach.');
     return true;
   }
 
-  const renownCost = resolveHousewifeTeachingCost(learnedGatheringSkillIds.length);
+  const renownCost = resolveHousewifeTeachingCost(learnedLifeSkillIds.length);
   if ((session.renown || 0) < renownCost) {
-    session.sendGameDialogue('Housewife', `You need ${renownCost} renown for the next gathering lesson.`);
+    session.sendGameDialogue('Housewife', `You need ${renownCost} renown for the next life-skill lesson.`);
     return true;
   }
 
@@ -446,7 +451,7 @@ function handleHousewifeTeachingRequest(
   sendSkillStateSync(session, `housewife-teach skillId=${skillId}`);
   session.persistCurrentCharacter();
 
-  const skillName = GATHERING_SKILL_NAMES[skillId] || `skill ${skillId}`;
+  const skillName = HOUSEWIFE_LIFE_SKILL_NAMES[skillId] || `skill ${skillId}`;
   const costSuffix = renownCost > 0 ? ` Cost: ${renownCost} renown.` : ' Your first lesson is free.';
   session.sendGameDialogue('Housewife', `You learned ${skillName}.${costSuffix}`);
   return true;
