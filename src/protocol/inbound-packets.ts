@@ -124,27 +124,6 @@ function parseCombatItemUse(payload: Buffer): { instanceId: number; targetEntity
   };
 }
 
-function parseCombatPetSkillUse(payload: Buffer): { skillId: number; targetEntityId: number } | null {
-  if (payload.length < 9 || payload[2] !== 0x04) {
-    return null;
-  }
-  return {
-    skillId: payload.readUInt16LE(3) & 0xffff,
-    targetEntityId: payload.readUInt32LE(5) >>> 0,
-  };
-}
-
-function parseCombatPetAttackSelection(payload: Buffer): AttackSelectionData | null {
-  if (payload.length !== 6 || payload[2] !== 0x03) {
-    return null;
-  }
-  return {
-    attackMode: payload[3] & 0xff,
-    targetA: payload[4] & 0xff,
-    targetB: payload[5] & 0xff,
-  };
-}
-
 function parseFightResultItemActionProbe(payload: Buffer): { subcmd: number; rawValue: number } | null {
   if (payload.length !== 7 || payload[2] !== 0x02) {
     return null;
@@ -205,8 +184,6 @@ export {
   parseAttributeAllocation,
   parseAttackSelection,
   parseCombatItemUse,
-  parseCombatPetAttackSelection,
-  parseCombatPetSkillUse,
   parseFightResultItemActionProbe,
   parseSharedItemUse,
   parseTargetedItemUse,

@@ -104,7 +104,7 @@ export function normalizePetRecord(pet: UnknownRecord | null | undefined, index 
     experience: Math.max(0, numberOrDefault(pet.experience, 0)),
     stateFlags: {
       // 0x03fa pet create/summon expects a valid battlefield placement:
-      // modeA=row (0..2), modeB=col (0..4), activeFlag=ally side (0xff/-1).
+      // modeA=row (0..2), modeB=col (0..4), activeFlag=side (1 or 0xff/-1).
       modeA: normalizePetRow(pet?.stateFlags?.modeA),
       modeB: normalizePetCol(pet?.stateFlags?.modeB),
       activeFlag: normalizePetSide(pet?.stateFlags?.activeFlag),
@@ -199,9 +199,9 @@ function normalizePetCol(value: unknown): number {
 }
 
 function normalizePetSide(value: unknown): number {
-  const side = numberOrDefault(value, 0xff) | 0;
-  if (side === -1 || side === 0xff || side === 1) {
-    return 0xff;
+  const side = numberOrDefault(value, 1) | 0;
+  if (side === 1 || side === -1 || side === 0xff) {
+    return side & 0xff;
   }
-  return 0xff;
+  return 1;
 }

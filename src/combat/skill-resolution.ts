@@ -32,9 +32,7 @@ import {
   SKILL_PACKET_PROBE_TARGET_VALUE,
   MULTI_TARGET_ENTITY_SENTINEL,
 } from './combat-formulas.js';
-import { finalizeCombatRoundAfterAllyAction, finalizeSkillResolutionAndEnemyTurn, queueCombatAllyAction } from './combat-resolution.js';
-import { getActivePet } from '../pet-runtime.js';
-import { incrementSkillProficiency } from '../gameplay/skill-runtime.js';
+import { finalizeSkillResolutionAndEnemyTurn, resendCombatCommandPrompt } from './combat-resolution.js';
 import type { GameSession } from '../types.js';
 
 interface SkillCastConfig {
@@ -185,39 +183,6 @@ export function resolveCombatSkillUse(
     return;
   }
 
-  queueCombatAllyAction(session, {
-    actor: 'player',
-    kind: 'skill',
-    sourceLabel,
-    run: () => executeCombatSkillUseNow(session, skillId, targetEntityId, sourceLabel),
-  });
-}
-
-export function resolveCombatPetSkillUse(
-  session: GameSession,
-  skillId: number,
-  targetEntityId: number,
-  sourceLabel: string
-): void {
-  if (!session.combatState?.active || !session.combatState.awaitingPetAction) {
-    session.log(`Ignoring combat pet skill use without pet command prompt active=${session.combatState?.active ? 1 : 0}`);
-    return;
-  }
-
-  queueCombatAllyAction(session, {
-    actor: 'pet',
-    kind: 'skill',
-    sourceLabel,
-    run: () => executeCombatPetSkillUseNow(session, skillId, targetEntityId, sourceLabel),
-  });
-}
-
-function executeCombatSkillUseNow(
-  session: GameSession,
-  skillId: number,
-  targetEntityId: number,
-  sourceLabel: string
-): void {
   const learnedSkill = Array.isArray(session.skillState?.learnedSkills)
     ? session.skillState.learnedSkills.find((entry: Record<string, any>) => (Number(entry?.skillId || 0) >>> 0) === (skillId >>> 0))
     : null;
@@ -225,7 +190,7 @@ function executeCombatSkillUseNow(
     session.log(
       `Combat skill use rejected source=${sourceLabel} skillId=${skillId} targetEntityId=${targetEntityId} reason=not-learned`
     );
-    finalizeCombatRoundAfterAllyAction(session, 'player', 'skill-rejected-not-learned', session.combatState.pendingPostKillCounterattack ? 'post-kill' : 'normal');
+    resendCombatCommandPrompt(session, 'skill-rejected-not-learned');
     return;
   }
 
@@ -242,7 +207,7 @@ function executeCombatSkillUseNow(
     session.log(
       `Combat skill use rejected source=${sourceLabel} skillId=${skillId} targetEntityId=${targetEntityId} reason=missing-target`
     );
-    finalizeCombatRoundAfterAllyAction(session, 'player', 'skill-rejected-missing-target', session.combatState.pendingPostKillCounterattack ? 'post-kill' : 'normal');
+    resendCombatCommandPrompt(session, 'skill-rejected-missing-target');
     return;
   }
   const primaryTarget = targetEnemies[0] || null;
@@ -251,11 +216,12 @@ function executeCombatSkillUseNow(
     session.log(
       `Combat skill use rejected source=${sourceLabel} skillId=${skillId} targetEntityId=${targetEntityId} reason=insufficient-mana currentMana=${session.currentMana || 0} cost=${manaCost}`
     );
-    finalizeCombatRoundAfterAllyAction(session, 'player', 'skill-rejected-mana', session.combatState.pendingPostKillCounterattack ? 'post-kill' : 'normal');
+    resendCombatCommandPrompt(session, 'skill-rejected-mana');
     return;
   }
+  session.combatState.awaitingPlayerAction = false;
+  session.combatState.phase = 'resolved';
   session.currentMana = Math.max(0, (session.currentMana || 0) - manaCost);
-  incrementSkillProficiency(session, skillId);
   const { castTargets, pendingOutcomes, additionalDamageDealt, logSuffix } = resolveSkillEffect(
     session, skillId, skillLevel, targetEnemies, config, manaCost
   );
@@ -267,74 +233,14 @@ function executeCombatSkillUseNow(
     `Combat skill use ok source=${sourceLabel} skillId=${skillId} targetEntityId=${(primaryTarget?.entityId || session.entityType) >>> 0} ${logSuffix}`
   );
   session.combatState.pendingSkillOutcomes = pendingOutcomes;
-  queuePostSkillEnemyResponse(session, 'player');
-}
-
-function executeCombatPetSkillUseNow(
-  session: GameSession,
-  skillId: number,
-  targetEntityId: number,
-  sourceLabel: string
-): void {
-  const pet = getActivePet(session.pets, session.selectedPetRuntimeId, session.petSummoned === true);
-  if (!pet) {
-    session.log(
-      `Combat pet skill use rejected source=${sourceLabel} skillId=${skillId} targetEntityId=${targetEntityId} reason=no-active-pet`
-    );
-    finalizeCombatRoundAfterAllyAction(session, 'pet', 'pet-skill-rejected-no-pet', session.combatState.pendingPostKillCounterattack ? 'post-kill' : 'normal');
-    return;
-  }
-
-  const targetEnemies = resolveSkillTargets(session, skillId, targetEntityId, 1);
-  if (targetEnemies.length <= 0) {
-    session.log(
-      `Combat pet skill use rejected source=${sourceLabel} skillId=${skillId} targetEntityId=${targetEntityId} reason=missing-target`
-    );
-    finalizeCombatRoundAfterAllyAction(session, 'pet', 'pet-skill-rejected-missing-target', session.combatState.pendingPostKillCounterattack ? 'post-kill' : 'normal');
-    return;
-  }
-
-  const castTargets: Array<{ entityId: number; actionCode: number; value: number }> = [];
-  const pendingOutcomes: Array<{ skillId: number; targetEntityId: number; playerDamage: number; targetDied: boolean }> = [];
-  let totalAppliedDamage = 0;
-
-  for (const targetEnemy of targetEnemies) {
-    const petDamage = computePetSkillDamage(session, pet, skillId, targetEnemy);
-    const appliedDamage = Math.max(0, Math.min(targetEnemy.hp || 0, petDamage));
-    targetEnemy.hp = Math.max(0, (targetEnemy.hp || 0) - petDamage);
-    const targetDied = (targetEnemy.hp || 0) <= 0;
-    totalAppliedDamage += appliedDamage;
-    castTargets.push({
-      entityId: targetEnemy.entityId >>> 0,
-      actionCode: targetDied ? 3 : 1,
-      value: Math.max(1, petDamage),
-    });
-    pendingOutcomes.push({
-      skillId: skillId >>> 0,
-      targetEntityId: targetEnemy.entityId >>> 0,
-      playerDamage: Math.max(1, petDamage),
-      targetDied,
-    });
-  }
-
-  if (totalAppliedDamage > 0) {
-    session.combatState.damageDealt = Math.max(0, (session.combatState.damageDealt || 0) + totalAppliedDamage);
-  }
-
-  sendCombatSkillCastPlayback(session, skillId, 1, castTargets, pet.runtimeId >>> 0);
-  session.combatState.pendingSkillOutcomes = pendingOutcomes;
-  session.log(
-    `Combat pet skill use ok source=${sourceLabel} petRuntimeId=${pet.runtimeId} skillId=${skillId} targetEntityId=${targetEntityId >>> 0} resolvedTargets=${castTargets.map((target) => `${target.entityId}:${target.actionCode}:${target.value}`).join('|')} totalDamage=${totalAppliedDamage}`
-  );
-  queuePostSkillEnemyResponse(session, 'pet');
+  queuePostSkillEnemyResponse(session);
 }
 
 export function sendCombatSkillCastPlayback(
   session: GameSession,
   skillId: number,
   skillLevel: number,
-  targets: Array<{ entityId: number; actionCode: number; value: number }>,
-  casterEntityId = session.entityType >>> 0
+  targets: Array<{ entityId: number; actionCode: number; value: number }>
 ): void {
   const normalizedSkillId = skillId >>> 0;
   const skillLevelIndex = Math.max(1, Math.min(12, skillLevel));
@@ -349,14 +255,14 @@ export function sendCombatSkillCastPlayback(
     packetSkillId,
     skillLevel >>> 0,
     skillLevelIndex,
-    casterEntityId >>> 0,
+    session.entityType >>> 0,
     targets
   );
   const stage2Entries = buildSkillPacketProbeStage2Entries(
     packetSkillId,
     skillLevel >>> 0,
     skillLevelIndex,
-    casterEntityId >>> 0,
+    session.entityType >>> 0,
     probedTargets
   );
   const slaughterStage2Entries = useSlaughterStage2
@@ -365,14 +271,14 @@ export function sendCombatSkillCastPlayback(
         packetSkillId,
         skillLevel >>> 0,
         skillLevelIndex,
-        casterEntityId >>> 0,
+        session.entityType >>> 0,
         probedTargets
       )
     : [];
   const effectiveStage2Entries = useSlaughterStage2 ? slaughterStage2Entries : stage2Entries;
   const preludePacket = config.preludeEffectIds
     ? buildNativeCastPlaybackPacket(
-        casterEntityId >>> 0,
+        session.entityType >>> 0,
         packetSkillId,
         skillLevelIndex,
         config.preludeEffectIds,
@@ -381,14 +287,14 @@ export function sendCombatSkillCastPlayback(
     : null;
   const packet = useNativePacket
     ? buildNativeCastPlaybackPacket(
-        casterEntityId >>> 0,
+        session.entityType >>> 0,
         packetSkillId,
         skillLevelIndex,
         config.nativeEffectIds!,
         { leadingByte: 0 }
       )
     : buildSkillCastPlaybackPacket(
-        casterEntityId >>> 0,
+        session.entityType >>> 0,
         packetSkillId,
         skillLevelIndex,
         probedTargets,
@@ -401,7 +307,7 @@ export function sendCombatSkillCastPlayback(
       );
   const delayedCastFallbackPacket = (useNativePacket && config.delayedCast)
     ? buildSkillCastPlaybackPacket(
-        casterEntityId >>> 0,
+        session.entityType >>> 0,
         packetSkillId,
         skillLevelIndex,
         probedTargets
@@ -437,13 +343,13 @@ export function sendCombatSkillCastPlayback(
     session.writePacket(
       preludePacket,
       DEFAULT_FLAGS,
-      `Sending native-style prelude attacker=${casterEntityId} skillId=${skillId} packetSkillId=${packetSkillId} levelIndex=${skillLevelIndex} effects=${config.preludeEffectIds!.join('|')}`
+      `Sending native-style prelude attacker=${session.entityType} skillId=${skillId} packetSkillId=${packetSkillId} levelIndex=${skillLevelIndex} effects=${config.preludeEffectIds!.join('|')}`
     );
   }
   session.writePacket(
     packet,
     DEFAULT_FLAGS,
-    `Sending combat skill cast attacker=${casterEntityId} skillId=${skillId} packetSkillId=${packetSkillId} levelIndex=${skillLevelIndex} targets=${probedTargets.map((target) => `${target.entityId}:${target.actionCode}:${target.value}`).join('|') || 'none'} stage2=${(SKILL_PACKET_PROBE_STAGE2_ENABLED || useSlaughterStage2) ? `${useSlaughterStage2 ? SLAUGHTER_PACKET_STAGE2_FLAG : SKILL_PACKET_PROBE_STAGE2_FLAG}:${effectiveStage2Entries.map((entry) => `${entry.wordA}/${entry.wordB}/${entry.dwordC}`).join('|') || 'none'}` : 'off'}`
+    `Sending combat skill cast attacker=${session.entityType} skillId=${skillId} packetSkillId=${packetSkillId} levelIndex=${skillLevelIndex} targets=${probedTargets.map((target) => `${target.entityId}:${target.actionCode}:${target.value}`).join('|') || 'none'} stage2=${(SKILL_PACKET_PROBE_STAGE2_ENABLED || useSlaughterStage2) ? `${useSlaughterStage2 ? SLAUGHTER_PACKET_STAGE2_FLAG : SKILL_PACKET_PROBE_STAGE2_FLAG}:${effectiveStage2Entries.map((entry) => `${entry.wordA}/${entry.wordB}/${entry.dwordC}`).join('|') || 'none'}` : 'off'}`
   );
   if (delayedCastFallbackPacket) {
     session.combatState = {
@@ -454,36 +360,16 @@ export function sendCombatSkillCastPlayback(
     session.writePacket(
       delayedCastFallbackPacket,
       DEFAULT_FLAGS,
-      `Sending delayed skill fallback cast probe attacker=${casterEntityId} skillId=${skillId} packetSkillId=${packetSkillId} levelIndex=${skillLevelIndex} targets=${probedTargets.map((target) => `${target.entityId}:${target.actionCode}:${target.value}`).join('|') || 'none'}`
+      `Sending delayed skill fallback cast probe attacker=${session.entityType} skillId=${skillId} packetSkillId=${packetSkillId} levelIndex=${skillLevelIndex} targets=${probedTargets.map((target) => `${target.entityId}:${target.actionCode}:${target.value}`).join('|') || 'none'}`
     );
   }
 }
 
-function computePetSkillDamage(
-  session: GameSession,
-  pet: Record<string, any>,
-  skillId: number,
-  targetEnemy: { level?: number; aptitude?: number }
-): number {
-  const petLevel = Math.max(1, Number(pet?.level || 1));
-  const strength = Math.max(0, Number(pet?.stats?.strength || 0));
-  const dexterity = Math.max(0, Number(pet?.stats?.dexterity || 0));
-  const intelligence = Math.max(0, Number(pet?.stats?.intelligence || 0));
-  const targetLevel = Math.max(1, Number(targetEnemy?.level || 1));
-  const targetAptitude = Math.max(0, Number(targetEnemy?.aptitude || 0));
-  const skillBias = Math.max(1, (skillId >>> 0) & 0xff);
-  const base = petLevel * 4 + strength * 3 + dexterity * 2 + intelligence;
-  const spread = Math.max(1, petLevel + Math.floor(skillBias / 8));
-  const mitigation = Math.floor(targetLevel * 1.5) + targetAptitude;
-  return Math.max(1, base + Math.floor(Math.random() * spread) - mitigation);
-}
-
-export function queuePostSkillEnemyResponse(session: GameSession, owner: 'player' | 'pet'): void {
+export function queuePostSkillEnemyResponse(session: GameSession): void {
   if (!session.combatState?.active) {
     return;
   }
   session.combatState.awaitingSkillResolution = true;
-  session.combatState.skillResolutionOwner = owner;
   session.combatState.skillResolutionStartedAt = Date.now();
   if (session.combatState.skillResolutionReason !== 'skill-post-resolution-delayed-cast') {
     session.combatState.skillResolutionReason = 'skill-post-resolution';
@@ -495,5 +381,5 @@ export function queuePostSkillEnemyResponse(session: GameSession, owner: 'player
     clearTimeout(session.combatSkillResolutionTimer);
     session.combatSkillResolutionTimer = null;
   }
-  session.log(`Waiting for skill resolution client-ready event before enemy response owner=${owner}`);
+  session.log('Waiting for skill resolution client-ready event before enemy response');
 }

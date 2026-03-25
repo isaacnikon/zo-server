@@ -1,4 +1,4 @@
-import { parseCombatPetAttackSelection, parseCombatPetSkillUse, parsePositionUpdate, parsePingToken, parseServerRunRequest } from '../protocol/inbound-packets.js';
+import { parsePositionUpdate, parsePingToken, parseServerRunRequest } from '../protocol/inbound-packets.js';
 import { appendFileSync, mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { handleSceneInteractionRequest } from '../scenes/map-interactions.js';
@@ -11,8 +11,6 @@ import { handleCombatPacket } from './combat-handler.js';
 import { tryHandleEquipmentStatePacket, tryHandleFightResultItemActionProbe, tryHandleItemUsePacket, tryHandleAttributeAllocationPacket } from './player-state-handler.js';
 import { tryHandlePetActionPacket } from './pet-handler.js';
 import { handleNpcShopServiceRequest } from '../gameplay/shop-runtime.js';
-import { resolveCombatPetSkillUse } from '../combat/skill-resolution.js';
-import { resolveCombatPetAttackSelection } from '../combat/combat-resolution.js';
 
 import { PING_CMD, GAME_POSITION_QUERY_CMD, GAME_SERVER_RUN_CMD, ROLE_CMD, GAME_QUEST_CMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_MISC_CMD, GAME_FIGHT_RESULT_CMD, GAME_FIGHT_STATE_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, } from '../config.js';
 import type { GameSession } from '../types.js';
@@ -172,25 +170,6 @@ function dispatchGamePacket(
   }
 
   if (cmdWord === 0x03f5) {
-    const petAttackSelection = parseCombatPetAttackSelection(payload);
-    if (petAttackSelection && session.combatState?.active) {
-      resolveCombatPetAttackSelection(
-        session,
-        petAttackSelection,
-        `cmd=0x03f5 sub=0x${payload[2].toString(16)}`
-      );
-      return true;
-    }
-    const petSkillUse = parseCombatPetSkillUse(payload);
-    if (petSkillUse && session.combatState?.active) {
-      resolveCombatPetSkillUse(
-        session,
-        petSkillUse.skillId >>> 0,
-        petSkillUse.targetEntityId >>> 0,
-        `cmd=0x03f5 sub=0x${payload[2].toString(16)}`
-      );
-      return true;
-    }
     if (tryHandlePetActionPacket(session, payload)) {
       return true;
     }
@@ -234,17 +213,6 @@ function dispatchGamePacket(
   }
 
   traceSkillUiPacket(session, cmdWord, payload, 'post-unhandled');
-
-  appendTriggerTrace({
-    kind: 'unhandled-cmd',
-    ts: new Date().toISOString(),
-    sessionId: session.id,
-    cmdWord,
-    subcmd: payload.length >= 3 ? payload[2] : null,
-    len: payload.length,
-    hex: payload.toString('hex'),
-    combatActive: session.combatState?.active ?? false,
-  });
 
   return false;
 }

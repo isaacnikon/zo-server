@@ -335,6 +335,7 @@ export function buildVictoryPacket(
     petExperience?: number;
     coins?: number;
     petExperienceAuxiliary?: number;
+    companionHp?: number;
     items?: Array<{ templateId: number; quantity?: number }>;
   } = {}
 ): Buffer {
@@ -352,7 +353,11 @@ export function buildVictoryPacket(
   writer.writeUint32(Math.max(1, health) >>> 0);
   writer.writeUint32(Math.max(0, mana) >>> 0);
   writer.writeUint32(Math.max(0, rage) >>> 0);
-  writer.writeUint32(ABSENT_COMPANION_SENTINEL);
+  writer.writeUint32(
+    Number.isFinite(rewards.companionHp as number) && (rewards.companionHp as number) >= 0
+      ? Math.max(0, rewards.companionHp as number) >>> 0
+      : ABSENT_COMPANION_SENTINEL
+  );
   writer.writeUint32((rewards.characterExperience || 0) >>> 0);
   writer.writeUint32((rewards.coins || 0) >>> 0);
   writer.writeUint32((rewards.petExperience || 0) >>> 0);
