@@ -310,10 +310,23 @@ export interface PendingSkillOutcome {
   healAmount?: number;
   targetDied?: boolean;
 }
+export interface QueuedCombatAction {
+  actor: 'player' | 'pet';
+  kind: 'attack' | 'skill' | 'item';
+  sourceLabel: string;
+  run: () => void;
+}
+export interface PendingRoundTurnEntry {
+  actor: 'player' | 'pet' | 'enemy';
+  enemyEntityId?: number;
+}
 export interface CombatState {
   active: boolean;
   phase: CombatPhase;
   round: number;
+  petInitialized?: boolean;
+  activeAllyTurn?: 'player' | 'pet' | null;
+  pendingAllyTurnOrder?: Array<'player' | 'pet'>;
   triggerId: string | null;
   encounterAction: Record<string, unknown> | null;
   enemies: CombatEnemyInstance[];
@@ -322,6 +335,7 @@ export interface CombatState {
   enemyTurnReason?: 'normal' | 'post-kill' | null;
   awaitingClientReady: boolean;
   awaitingPlayerAction: boolean;
+  awaitingPetAction: boolean;
   startedAt: number;
   playerStartHealth: number;
   playerMaxHealthAtStart: number;
@@ -333,7 +347,11 @@ export interface CombatState {
   skillResolutionStartedAt?: number;
   skillResolutionReason?: string | null;
   skillResolutionPhase?: 'await-cast-ready' | 'await-impact-ready' | null;
+  skillResolutionOwner?: 'player' | 'pet' | null;
   pendingSkillOutcomes?: PendingSkillOutcome[] | null;
+  pendingPlayerActionCommand?: QueuedCombatAction | null;
+  pendingPetActionCommand?: QueuedCombatAction | null;
+  pendingRoundTurnQueue?: PendingRoundTurnEntry[] | null;
   playerStatus: CombatPlayerStatus;
   enemyStatuses: Record<number, CombatEnemyStatus>;
 }

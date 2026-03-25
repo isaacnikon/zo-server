@@ -24,6 +24,7 @@ export const FIREBALL_DAMAGE_SCALE_MIN_BY_LEVEL = [1.18, 1.2, 1.22, 1.24, 1.26, 
 export const FIREBALL_DAMAGE_SCALE_MAX_BY_LEVEL = [1.28, 1.3, 1.32, 1.34, 1.36, 1.38, 1.4, 1.42, 1.44, 1.46, 1.52, 1.58];
 export const FIREBALL_EXPLOSION_CHANCE = 0.1;
 export const SLAUGHTER_CONCENTRATION_CHANCE = 0.1;
+export const SLAUGHTER_MP_COST_BY_LEVEL = [60, 90, 120, 150, 190, 230, 230, 230, 310, 360, 405, 450];
 export const CURE_MP_COST_BY_LEVEL = [35, 42, 50, 58, 66, 75, 75, 75, 110, 110, 140, 180];
 export const CURE_HEAL_SCALE_BY_LEVEL = [1.15, 1.2, 1.25, 1.3, 1.35, 1.4, 1.45, 1.5, 1.55, 1.6, 1.68, 1.76];
 export const MULTI_TARGET_ENTITY_SENTINEL = 0xffffffff;
@@ -86,6 +87,9 @@ export function createIdleCombatState(): CombatState {
     active: false,
     phase: 'idle',
     round: 0,
+    petInitialized: false,
+    activeAllyTurn: null,
+    pendingAllyTurnOrder: [],
     triggerId: null,
     encounterAction: null,
     enemies: [] as CombatEnemyInstance[],
@@ -94,6 +98,7 @@ export function createIdleCombatState(): CombatState {
     enemyTurnReason: null,
     awaitingClientReady: false,
     awaitingPlayerAction: false,
+    awaitingPetAction: false,
     startedAt: 0,
     playerStartHealth: 0,
     playerMaxHealthAtStart: 0,
@@ -105,7 +110,11 @@ export function createIdleCombatState(): CombatState {
     skillResolutionStartedAt: 0,
     skillResolutionReason: null,
     skillResolutionPhase: null,
+    skillResolutionOwner: null,
     pendingSkillOutcomes: null,
+    pendingPlayerActionCommand: null,
+    pendingPetActionCommand: null,
+    pendingRoundTurnQueue: null,
     playerStatus: {},
     enemyStatuses: {},
   };
@@ -571,8 +580,12 @@ export function resolvePlayerAttackRange(session: GameSession): { min: number; m
   const dexterity = Math.max(0, stats.dexterity || 0);
   const level = Math.max(1, session.level || 1);
   // This range tracks the client-facing ATK panel more closely than per-hit combat roll math.
-  const base = weaponMin + (strength * 4) + level;
-  const spread = Math.max(1, (weaponMax - weaponMin) + Math.floor(dexterity / 6));
+  // Reverse-engineered from client ATK panel:
+  //   min = weaponMin + STR*4 + level*10 - floor(DEX*29/20)
+  //   spread = weaponSpread + floor(STR*3/5) - floor(DEX*2/5)
+  // DEX penalises ATK (it feeds dodge/hit instead).
+  const base = weaponMin + (strength * 4) + (level * 10) - Math.floor(dexterity * 29 / 20);
+  const spread = Math.max(1, (weaponMax - weaponMin) + Math.floor(strength * 3 / 5) - Math.floor(dexterity * 2 / 5));
   const defiantPenalty = Math.max(0, Math.min(90, session.combatState?.playerStatus?.defiantAttackPenaltyPercent || 0));
   const adjustedBase = Math.max(1, Math.round(base * (1 - (defiantPenalty / 100))));
   const adjustedMin = adjustedBase;
@@ -626,10 +639,9 @@ export function computeSkillDamage(session: GameSession, skillId: number, skillL
     const attackRange = resolvePlayerAttackRange(session);
     const attackMin = Math.max(1, attackRange.min || 0);
     const attackMax = Math.max(attackMin, attackRange.max || attackMin);
-    const levelBonusMin = 58 + ((Math.max(1, skillLevel) - 1) * 9);
-    const levelBonusMax = 70 + ((Math.max(1, skillLevel) - 1) * 26);
-    const scaledMin = Math.max(1, attackMin + levelBonusMin);
-    const scaledMax = Math.max(scaledMin, attackMax + levelBonusMax);
+    const levelBonus = 58 + ((Math.max(1, skillLevel) - 1) * 9);
+    const scaledMin = Math.max(1, attackMin + levelBonus);
+    const scaledMax = Math.max(scaledMin, attackMax + levelBonus);
     const baseDamage = scaledMin + Math.floor(Math.random() * Math.max(1, (scaledMax - scaledMin) + 1));
     const mitigation = Math.floor(((enemy.level || 1) * 2) + Math.max(0, enemy.aptitude || 0));
     return Math.max(1, baseDamage - mitigation);
@@ -649,6 +661,9 @@ export function resolveSkillManaCost(skillId: number, skillLevel: number): numbe
   }
   if ((skillId >>> 0) === CURE_SKILL_ID) {
     return CURE_MP_COST_BY_LEVEL[Math.max(0, skillLevel - 1)] || CURE_MP_COST_BY_LEVEL[0];
+  }
+  if ((skillId >>> 0) === SLAUGHTER_SKILL_ID) {
+    return SLAUGHTER_MP_COST_BY_LEVEL[Math.max(0, skillLevel - 1)] || SLAUGHTER_MP_COST_BY_LEVEL[0];
   }
   return 0;
 }

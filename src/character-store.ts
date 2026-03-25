@@ -362,12 +362,12 @@ function buildPetsDocument(characterId: string, character: any): Record<string, 
               ? {
                   modeA: numberOrDefault(pet.stateFlags.modeA, 0),
                   modeB: numberOrDefault(pet.stateFlags.modeB, 0),
-                  activeFlag: numberOrDefault(pet.stateFlags.activeFlag, 1),
+                  activeFlag: numberOrDefault(pet.stateFlags.activeFlag, 0xff),
                 }
               : {
                   modeA: 0,
                   modeB: 0,
-                  activeFlag: 1,
+                  activeFlag: 0xff,
                 },
             stats: pet?.stats && typeof pet.stats === 'object'
               ? {

@@ -44,21 +44,265 @@ type CombatAction = Record<string, any>;
 type EnemyTurnReason = 'normal' | 'post-kill';
 const DELAYED_SKILL_COMPLETION_TIMEOUT_MS = 1200;
 
-function sendCombatActionStateReset(session: GameSession, reason: string): void {
+function markCombatActorActionConsumed(session: GameSession, actor: 'player' | 'pet'): void {
+  if (actor === 'pet') {
+    session.combatState.awaitingPetAction = false;
+  } else {
+    session.combatState.awaitingPlayerAction = false;
+  }
+  session.combatState.phase =
+    session.combatState.awaitingPlayerAction || session.combatState.awaitingPetAction
+      ? 'command'
+      : 'resolved';
+}
+
+function computePlayerInitiative(session: GameSession): number {
+  const dexterity = Math.max(0, Number(session.primaryAttributes?.dexterity || 0));
+  const level = Math.max(1, Number(session.level || 1));
+  const vitality = Math.max(0, Number(session.primaryAttributes?.vitality || 0));
+  return (dexterity * 5) + (level * 2) + vitality;
+}
+
+function computePetInitiative(pet: Record<string, any>): number {
+  const dexterity = Math.max(0, Number(pet?.stats?.dexterity || 0));
+  const level = Math.max(1, Number(pet?.level || 1));
+  const vitality = Math.max(0, Number(pet?.stats?.vitality || 0));
+  return (dexterity * 2) + level + Math.floor(vitality / 2);
+}
+
+function buildAllyTurnOrder(session: GameSession): Array<'player' | 'pet'> {
+  const entries: Array<{ actor: 'player' | 'pet'; initiative: number; tieBreak: number }> = [
+    { actor: 'player', initiative: computePlayerInitiative(session), tieBreak: 0 },
+  ];
+  const pet = getCombatPet(session);
+  if (pet) {
+    entries.push({
+      actor: 'pet',
+      initiative: computePetInitiative(pet),
+      tieBreak: 1,
+    });
+  }
+  entries.sort((left, right) => {
+    if (right.initiative !== left.initiative) {
+      return right.initiative - left.initiative;
+    }
+    return left.tieBreak - right.tieBreak;
+  });
+  return entries.map((entry) => entry.actor);
+}
+
+function computeEnemyInitiative(enemy: Record<string, any>): number {
+  const level = Math.max(1, Number(enemy?.level || 1));
+  const aptitude = Math.max(0, Number(enemy?.aptitude || 0));
+  return (level * 5) + (aptitude * 8);
+}
+
+function getQueuedCombatAction(session: GameSession, actor: 'player' | 'pet') {
+  return actor === 'pet'
+    ? session.combatState.pendingPetActionCommand || null
+    : session.combatState.pendingPlayerActionCommand || null;
+}
+
+function takeQueuedCombatAction(session: GameSession, actor: 'player' | 'pet') {
+  const action = getQueuedCombatAction(session, actor);
+  if (actor === 'pet') {
+    session.combatState.pendingPetActionCommand = null;
+  } else {
+    session.combatState.pendingPlayerActionCommand = null;
+  }
+  return action;
+}
+
+function buildMixedRoundTurnQueue(session: GameSession): Array<{ actor: 'player' | 'pet' | 'enemy'; enemyEntityId?: number }> {
+  const entries: Array<{ actor: 'player' | 'pet' | 'enemy'; enemyEntityId?: number; initiative: number; tieBreak: number }> = [];
+
+  if (session.combatState.pendingPlayerActionCommand) {
+    entries.push({ actor: 'player', initiative: computePlayerInitiative(session), tieBreak: 0 });
+  }
+
+  const pet = getCombatPet(session);
+  if (pet && session.combatState.pendingPetActionCommand) {
+    entries.push({ actor: 'pet', initiative: computePetInitiative(pet), tieBreak: 2 });
+  }
+
+  for (const enemy of listLivingEnemies(session.combatState.enemies)) {
+    entries.push({
+      actor: 'enemy',
+      enemyEntityId: enemy.entityId >>> 0,
+      initiative: computeEnemyInitiative(enemy),
+      tieBreak: 1,
+    });
+  }
+
+  entries.sort((left, right) => {
+    if (right.initiative !== left.initiative) {
+      return right.initiative - left.initiative;
+    }
+    return left.tieBreak - right.tieBreak;
+  });
+
+  session.log(
+    `Built mixed round queue ` +
+    `${entries.map((entry) => entry.actor === 'enemy'
+      ? `enemy:${entry.enemyEntityId}:${entry.initiative}`
+      : `${entry.actor}:${entry.initiative}`).join('|')}`
+  );
+
+  return entries.map((entry) => ({
+    actor: entry.actor,
+    enemyEntityId: entry.enemyEntityId,
+  }));
+}
+
+function processNextRoundTurn(session: GameSession, reason: EnemyTurnReason): boolean {
+  if (!session.combatState?.active || session.combatState.awaitingSkillResolution || session.combatState.activeAllyTurn) {
+    return false;
+  }
+
+  if (session.combatState.awaitingPlayerAction || session.combatState.awaitingPetAction) {
+    return false;
+  }
+
+  let queue = Array.isArray(session.combatState.pendingRoundTurnQueue)
+    ? session.combatState.pendingRoundTurnQueue
+    : null;
+
+  if (!queue) {
+    queue = buildMixedRoundTurnQueue(session);
+    session.combatState.pendingRoundTurnQueue = queue;
+  }
+
+  if (queue.length <= 0) {
+    session.combatState.pendingRoundTurnQueue = [];
+    finishEnemyTurn(session, reason);
+    return true;
+  }
+
+  while (queue.length > 0) {
+    const nextTurn = queue.shift()!;
+    session.combatState.pendingRoundTurnQueue = queue;
+
+    if (nextTurn.actor === 'enemy') {
+      const enemy = findEnemyByEntityId(session.combatState.enemies, nextTurn.enemyEntityId || 0);
+      if (!enemy || enemy.hp <= 0) {
+        continue;
+      }
+      session.combatState.phase = 'enemy-turn';
+      session.combatState.enemyTurnReason = reason;
+      executeEnemyTurnAttack(session, enemy, reason);
+      return true;
+    }
+
+    const queuedAction = takeQueuedCombatAction(session, nextTurn.actor);
+    if (!queuedAction) {
+      continue;
+    }
+
+    session.combatState.activeAllyTurn = nextTurn.actor;
+    session.combatState.phase = 'resolved';
+    session.log(`Resolving queued round turn actor=${nextTurn.actor} kind=${queuedAction.kind} reason=${reason}`);
+    queuedAction.run();
+    return true;
+  }
+
+  session.combatState.pendingRoundTurnQueue = [];
+  finishEnemyTurn(session, reason);
+  return true;
+}
+
+function tryResolveQueuedAllyActions(session: GameSession, sourceLabel: string): boolean {
+  if (!session.combatState?.active || session.combatState.awaitingSkillResolution || session.combatState.activeAllyTurn) {
+    return false;
+  }
+
+  if (session.combatState.awaitingPlayerAction || session.combatState.awaitingPetAction) {
+    return false;
+  }
+
+  return processNextRoundTurn(session, session.combatState.pendingPostKillCounterattack ? 'post-kill' : 'normal');
+}
+
+export function queueCombatAllyAction(
+  session: GameSession,
+  action: { actor: 'player' | 'pet'; kind: 'attack' | 'skill' | 'item'; sourceLabel: string; run: () => void }
+): void {
+  if (!session.combatState?.active) {
+    return;
+  }
+
+  if (action.actor === 'pet') {
+    session.combatState.pendingPetActionCommand = action;
+  } else {
+    session.combatState.pendingPlayerActionCommand = action;
+  }
+
+  markCombatActorActionConsumed(session, action.actor);
+  session.combatState.pendingRoundTurnQueue = null;
+  session.log(
+    `Queued combat action actor=${action.actor} kind=${action.kind} source=${action.sourceLabel} playerPending=${session.combatState.pendingPlayerActionCommand ? 1 : 0} petPending=${session.combatState.pendingPetActionCommand ? 1 : 0} waitingPlayer=${session.combatState.awaitingPlayerAction ? 1 : 0} waitingPet=${session.combatState.awaitingPetAction ? 1 : 0}`
+  );
+  tryResolveQueuedAllyActions(session, action.sourceLabel);
+}
+
+export function finalizeCombatRoundAfterAllyAction(
+  session: GameSession,
+  actor: 'player' | 'pet',
+  sourceLabel: string,
+  enemyTurnReason: EnemyTurnReason
+): void {
+  if (!session.combatState?.active) {
+    return;
+  }
+
+  session.combatState.activeAllyTurn = null;
+
+  if (tryResolveQueuedAllyActions(session, `post-${actor}:${sourceLabel}`)) {
+    return;
+  }
+
+  if (session.combatState.awaitingPlayerAction || session.combatState.awaitingPetAction) {
+    session.log(
+      `Combat ${actor} action complete source=${sourceLabel} waitingForOtherAction player=${session.combatState.awaitingPlayerAction ? 1 : 0} pet=${session.combatState.awaitingPetAction ? 1 : 0}`
+    );
+    return;
+  }
+
+  session.combatState.pendingPostKillCounterattack = false;
+  resolveEnemyCounterattack(session, enemyTurnReason);
+}
+
+function sendCombatActionStateReset(session: GameSession, entityId: number, reason: string): void {
   session.writePacket(
-    buildActionStateResetPacket(session.entityType >>> 0),
+    buildActionStateResetPacket(entityId >>> 0),
     DEFAULT_FLAGS,
-    `Sending combat action-state reset cmd=0x040d entity=${session.entityType} reason=${reason}`
+    `Sending combat action-state reset cmd=0x040d entity=${entityId >>> 0} reason=${reason}`
   );
   session.writePacket(
-    buildActionStateTableResetPacket(session.entityType >>> 0),
+    buildActionStateTableResetPacket(entityId >>> 0),
     DEFAULT_FLAGS,
-    `Sending combat action-state table reset cmd=0x040d entity=${session.entityType} reason=${reason} entries=11`
+    `Sending combat action-state table reset cmd=0x040d entity=${entityId >>> 0} reason=${reason} entries=11`
   );
 }
 
 function getCombatPet(session: GameSession): Record<string, any> | null {
-  return getActivePet(session.pets, session.selectedPetRuntimeId, session.petSummoned === true);
+  const pet = getActivePet(session.pets, session.selectedPetRuntimeId, session.petSummoned === true);
+  if (!pet) {
+    return null;
+  }
+
+  const playerRow = 1;
+  const playerCol = 2;
+
+  return {
+    ...pet,
+    stateFlags: {
+      ...(pet.stateFlags || {}),
+      // Keep the pet aligned with the player's column and offset one row from the player.
+      modeA: Math.min(2, Math.max(0, playerRow - 1)),
+      modeB: playerCol,
+      activeFlag: 0xff,
+    },
+  };
 }
 
 function getCombatCompanionHp(session: GameSession): number | undefined {
@@ -110,8 +354,7 @@ function sendCombatPetVitalsSync(session: GameSession, reason: string): void {
 
 export function sendIntroSequence(session: GameSession): void {
   const entityId = session.entityType >>> 0;
-  sendCombatPetIntroSync(session, `intro trigger=${session.combatState.triggerId}`);
-  sendCombatActionStateReset(session, `intro trigger=${session.combatState.triggerId}`);
+  sendCombatActionStateReset(session, entityId, `intro trigger=${session.combatState.triggerId}`);
   session.writePacket(buildRingOpenPacket(), DEFAULT_FLAGS, `Sending combat ring-open trigger=${session.combatState.triggerId}`);
   session.writePacket(buildStateModePacket(), DEFAULT_FLAGS, `Sending combat mode trigger=${session.combatState.triggerId}`);
   session.writePacket(buildControlInitPacket(), DEFAULT_FLAGS, `Sending combat control init trigger=${session.combatState.triggerId}`);
@@ -124,7 +367,7 @@ export function sendCommandPrompt(session: GameSession, reason: string): void {
   const entityId = session.entityType >>> 0;
   const roundStartProbeOptions = buildRoundStartProbeOptions(session.combatState.round, entityId);
   const roundStartPacket = buildRoundStartPacket(session.combatState.round, entityId, roundStartProbeOptions || {});
-  sendCombatActionStateReset(session, `command reason=${reason}`);
+  sendCombatActionStateReset(session, entityId, `command reason=${reason}`);
   sendSkillStateSync(session, `combat-command-${reason}`);
   session.writePacket(buildRingOpenPacket(), DEFAULT_FLAGS, `Sending combat ring-open refresh reason=${reason}`);
   session.writePacket(
@@ -134,6 +377,10 @@ export function sendCommandPrompt(session: GameSession, reason: string): void {
     `${roundStartProbeOptions ? ` probe=${JSON.stringify(roundStartProbeOptions)}` : ''}` +
     ` hex=${roundStartPacket.toString('hex')}`
   );
+  if (!session.combatState.petInitialized) {
+    sendCombatPetIntroSync(session, `command reason=${reason} round=${session.combatState.round}`);
+    session.combatState.petInitialized = true;
+  }
   appendSkillPacketTrace({
     kind: 'round-start-outbound',
     ts: new Date().toISOString(),
@@ -150,8 +397,15 @@ export function sendCommandPrompt(session: GameSession, reason: string): void {
 export function transitionToCommandPhase(session: GameSession, reason: string): void {
   session.combatState.awaitingClientReady = false;
   session.combatState.awaitingPlayerAction = true;
+  session.combatState.awaitingPetAction = !!getCombatPet(session);
+  session.combatState.activeAllyTurn = null;
+  session.combatState.pendingAllyTurnOrder = buildAllyTurnOrder(session);
+  session.combatState.pendingPlayerActionCommand = null;
+  session.combatState.pendingPetActionCommand = null;
+  session.combatState.pendingRoundTurnQueue = null;
   session.combatState.phase = 'command';
   session.combatState.round = Math.max(1, (session.combatState.round || 0) + 1);
+  session.combatState.pendingPostKillCounterattack = false;
   sendCommandPrompt(session, reason);
 }
 
@@ -159,7 +413,6 @@ export function resendCombatCommandPrompt(session: GameSession, reason: string):
   if (!session.combatState?.active) {
     return;
   }
-  session.combatState.awaitingPlayerAction = true;
   session.combatState.phase = 'command';
   sendCommandPrompt(session, reason);
 }
@@ -179,10 +432,26 @@ export function handleAttackSelection(session: GameSession, payload: Buffer): vo
     return;
   }
 
-  session.combatState.awaitingPlayerAction = false;
-  session.combatState.phase = 'resolved';
-  session.log(`Combat attack selected mode=${selection.attackMode} target=${selection.targetA},${selection.targetB} enemy=${describeEnemy(enemy)} living=${describeLivingEnemies(session.combatState.enemies)}`);
+  queueCombatAllyAction(session, {
+    actor: 'player',
+    kind: 'attack',
+    sourceLabel: `basic-attack target=${selection.targetA},${selection.targetB}`,
+    run: () => executePlayerAttackSelection(session, selection),
+  });
+}
 
+function executePlayerAttackSelection(
+  session: GameSession,
+  selection: { attackMode: number; targetA: number; targetB: number }
+): void {
+  const enemy = resolveSelectedEnemy(session.combatState.enemies, selection);
+  if (!enemy || enemy.hp <= 0) {
+    session.log(`Combat queued player attack skipped reason=no-target selection=${selection.targetA},${selection.targetB}`);
+    finalizeCombatRoundAfterAllyAction(session, 'player', 'basic-attack-missing-target', session.combatState.pendingPostKillCounterattack ? 'post-kill' : 'normal');
+    return;
+  }
+
+  session.log(`Combat attack selected mode=${selection.attackMode} target=${selection.targetA},${selection.targetB} enemy=${describeEnemy(enemy)} living=${describeLivingEnemies(session.combatState.enemies)}`);
   const playerDamage = computePlayerDamage(session, enemy);
   const appliedPlayerDamage = Math.max(0, Math.min(enemy.hp, playerDamage));
   enemy.hp = Math.max(0, enemy.hp - playerDamage);
@@ -207,15 +476,14 @@ export function handleAttackSelection(session: GameSession, payload: Buffer): vo
     session.log(`Combat enemy defeated entity=${enemy.entityId} remaining=${describeLivingEnemies(session.combatState.enemies)}`);
     if (findFirstLivingEnemy(session.combatState.enemies)) {
       session.combatState.pendingPostKillCounterattack = true;
-      session.combatState.phase = 'resolved';
-      session.combatState.awaitingPlayerAction = false;
+      finalizeCombatRoundAfterAllyAction(session, 'player', 'basic-attack-kill', 'post-kill');
       return;
     }
     resolveVictory(session);
     return;
   }
 
-  resolveEnemyCounterattack(session, 'normal');
+  finalizeCombatRoundAfterAllyAction(session, 'player', 'basic-attack', 'normal');
 }
 
 // --- Item use ---
@@ -231,6 +499,20 @@ export function resolveCombatItemUse(
     return;
   }
 
+  queueCombatAllyAction(session, {
+    actor: 'player',
+    kind: 'item',
+    sourceLabel,
+    run: () => executeCombatItemUse(session, instanceId, targetEntityId, sourceLabel),
+  });
+}
+
+function executeCombatItemUse(
+  session: GameSession,
+  instanceId: number,
+  targetEntityId: number,
+  sourceLabel: string
+): void {
   const bagItem = getBagItemByReference(session, instanceId);
   const definition = getItemDefinition(bagItem?.templateId || 0);
   if (definition?.captureProfile && bagItem) {
@@ -247,12 +529,10 @@ export function resolveCombatItemUse(
     session.log(
       `Combat item use rejected source=${sourceLabel} instanceId=${instanceId} targetEntityId=${targetEntityId} reason=${useResult.reason}`
     );
-    resendCombatCommandPrompt(session, 'item-use-rejected');
+    finalizeCombatRoundAfterAllyAction(session, 'player', `${sourceLabel}-rejected`, session.combatState.pendingPostKillCounterattack ? 'post-kill' : 'normal');
     return;
   }
 
-  session.combatState.awaitingPlayerAction = false;
-  session.combatState.phase = 'resolved';
   sendCombatItemPlayback(session, (useResult.targetEntityId || session.entityType) >>> 0, useResult.gained || {});
   if (useResult.targetKind === 'pet') {
     sendCombatPetVitalsSync(session, 'combat-item-use');
@@ -265,7 +545,106 @@ export function resolveCombatItemUse(
   session.log(
     `Combat item use ok source=${sourceLabel} instanceId=${instanceId} targetEntityId=${targetEntityId} templateId=${useResult.item?.templateId || 0} restored=${useResult.gained?.health || 0}/${useResult.gained?.mana || 0}/${useResult.gained?.rage || 0} hp/mp/rage=${session.currentHealth}/${session.currentMana}/${session.currentRage}`
   );
-  resolveEnemyCounterattack(session, 'normal');
+  finalizeCombatRoundAfterAllyAction(session, 'player', sourceLabel, 'normal');
+}
+
+export function resolveCombatPetAttackSelection(
+  session: GameSession,
+  selection: { attackMode: number; targetA: number; targetB: number },
+  sourceLabel: string
+): void {
+  if (!session.combatState?.active || !session.combatState.awaitingPetAction) {
+    session.log(`Ignoring pet attack selection without pet command prompt active=${session.combatState?.active ? 1 : 0}`);
+    return;
+  }
+
+  const pet = getCombatPet(session);
+  if (!pet) {
+    session.log(`Combat pet attack rejected source=${sourceLabel} reason=no-active-pet`);
+    return;
+  }
+
+  const enemy = resolveSelectedEnemy(session.combatState.enemies, selection);
+  if (!enemy || enemy.hp <= 0) {
+    session.log(`Combat pet attack rejected source=${sourceLabel} reason=no-target selection=${selection.targetA},${selection.targetB}`);
+    return;
+  }
+
+  queueCombatAllyAction(session, {
+    actor: 'pet',
+    kind: 'attack',
+    sourceLabel,
+    run: () => executeCombatPetAttackSelection(session, selection, sourceLabel),
+  });
+}
+
+function executeCombatPetAttackSelection(
+  session: GameSession,
+  selection: { attackMode: number; targetA: number; targetB: number },
+  sourceLabel: string
+): void {
+  const pet = getCombatPet(session);
+  if (!pet) {
+    session.log(`Combat queued pet attack skipped source=${sourceLabel} reason=no-active-pet`);
+    finalizeCombatRoundAfterAllyAction(session, 'pet', `${sourceLabel}-no-pet`, session.combatState.pendingPostKillCounterattack ? 'post-kill' : 'normal');
+    return;
+  }
+
+  const enemy = resolveSelectedEnemy(session.combatState.enemies, selection);
+  if (!enemy || enemy.hp <= 0) {
+    session.log(`Combat queued pet attack skipped source=${sourceLabel} reason=no-target selection=${selection.targetA},${selection.targetB}`);
+    finalizeCombatRoundAfterAllyAction(session, 'pet', `${sourceLabel}-missing-target`, session.combatState.pendingPostKillCounterattack ? 'post-kill' : 'normal');
+    return;
+  }
+
+  const petDamage = computeCombatPetAttackDamage(pet, enemy);
+  const appliedDamage = Math.max(0, Math.min(enemy.hp, petDamage));
+  enemy.hp = Math.max(0, enemy.hp - petDamage);
+  session.combatState.damageDealt = Math.max(0, (session.combatState.damageDealt || 0) + appliedDamage);
+
+  session.writePacket(
+    buildAttackPlaybackPacket(
+      pet.runtimeId >>> 0,
+      enemy.entityId >>> 0,
+      enemy.hp === 0 ? FIGHT_ACTIVE_STATE_SUBCMD : FIGHT_CONTROL_RING_OPEN_SUBCMD,
+      petDamage
+    ),
+    DEFAULT_FLAGS,
+    `Sending combat pet attack playback attacker=${pet.runtimeId} target=${enemy.entityId} damage=${petDamage} enemyHp=${enemy.hp} source=${sourceLabel}`
+  );
+
+  session.log(
+    `Combat pet attack ok source=${sourceLabel} petRuntimeId=${pet.runtimeId} mode=${selection.attackMode} target=${selection.targetA},${selection.targetB} enemy=${describeEnemy(enemy)} damage=${petDamage} remaining=${describeLivingEnemies(session.combatState.enemies)}`
+  );
+
+  if (enemy.hp <= 0) {
+    session.writePacket(
+      buildEntityHidePacket(enemy.entityId >>> 0),
+      DEFAULT_FLAGS,
+      `Sending combat enemy hide entity=${enemy.entityId} reason=pet-attack`
+    );
+    if (findFirstLivingEnemy(session.combatState.enemies)) {
+      session.combatState.pendingPostKillCounterattack = true;
+      finalizeCombatRoundAfterAllyAction(session, 'pet', sourceLabel, 'post-kill');
+      return;
+    }
+    resolveVictory(session);
+    return;
+  }
+
+  finalizeCombatRoundAfterAllyAction(session, 'pet', sourceLabel, 'normal');
+}
+
+function computeCombatPetAttackDamage(pet: Record<string, any>, enemy: Record<string, any>): number {
+  const petLevel = Math.max(1, Number(pet?.level || 1));
+  const strength = Math.max(0, Number(pet?.stats?.strength || 0));
+  const dexterity = Math.max(0, Number(pet?.stats?.dexterity || 0));
+  const enemyLevel = Math.max(1, Number(enemy?.level || 1));
+  const enemyAptitude = Math.max(0, Number(enemy?.aptitude || 0));
+  const base = 6 + petLevel * 3 + strength * 2;
+  const spread = Math.max(2, 4 + Math.floor(dexterity / 2));
+  const mitigation = Math.floor(enemyLevel * 1.5) + enemyAptitude;
+  return Math.max(1, base + Math.floor(Math.random() * spread) - mitigation);
 }
 
 function sendCombatItemPlayback(
@@ -377,8 +756,7 @@ export function resolveCombatCaptureItemUse(
   sendInventoryFullSync(session);
 
   targetEnemy.hp = 0;
-  session.combatState.awaitingPlayerAction = false;
-  session.combatState.phase = 'resolved';
+  markCombatActorActionConsumed(session, 'player');
   session.writePacket(
     buildEntityHidePacket(targetEnemy.entityId >>> 0),
     DEFAULT_FLAGS,
@@ -398,7 +776,7 @@ export function resolveCombatCaptureItemUse(
   }
 
   session.persistCurrentCharacter();
-  resolveEnemyCounterattack(session, 'normal');
+  finalizeCombatRoundAfterAllyAction(session, 'player', sourceLabel, 'normal');
 }
 
 // --- Enemy turns ---
@@ -410,29 +788,22 @@ export function resolveEnemyCounterattack(session: GameSession, reason: EnemyTur
     return;
   }
 
-  session.combatState.phase = 'enemy-turn';
   session.combatState.awaitingPlayerAction = false;
+  session.combatState.awaitingPetAction = false;
   session.combatState.enemyTurnReason = reason;
   session.combatState.pendingEnemyTurnQueue = enemies.map((enemy) => enemy.entityId >>> 0);
-  processNextEnemyTurnAttack(session, reason);
+  session.combatState.pendingRoundTurnQueue = enemies.map((enemy) => ({
+    actor: 'enemy' as const,
+    enemyEntityId: enemy.entityId >>> 0,
+  }));
+  processNextRoundTurn(session, reason);
 }
 
 export function processNextEnemyTurnAttack(session: GameSession, reason: EnemyTurnReason): void {
-  const queue = Array.isArray(session.combatState?.pendingEnemyTurnQueue)
-    ? session.combatState.pendingEnemyTurnQueue
-    : [];
-  if (queue.length === 0) {
-    finishEnemyTurn(session, reason);
-    return;
-  }
+  processNextRoundTurn(session, reason);
+}
 
-  const enemyEntityId = queue.shift()!;
-  const enemy = findEnemyByEntityId(session.combatState.enemies, enemyEntityId);
-  if (!enemy || enemy.hp <= 0) {
-    processNextEnemyTurnAttack(session, reason);
-    return;
-  }
-
+function executeEnemyTurnAttack(session: GameSession, enemy: CombatEnemyInstance, reason: EnemyTurnReason): void {
   const enemyDamage = computeEnemyDamage(session, enemy);
   const appliedEnemyDamage = Math.max(0, Math.min(session.currentHealth, enemyDamage));
   session.currentHealth = Math.max(0, session.currentHealth - enemyDamage);
@@ -456,6 +827,7 @@ export function processNextEnemyTurnAttack(session: GameSession, reason: EnemyTu
 
 export function finishEnemyTurn(session: GameSession, reason: EnemyTurnReason): void {
   session.combatState.pendingEnemyTurnQueue = [];
+  session.combatState.pendingRoundTurnQueue = [];
   session.combatState.enemyTurnReason = null;
   tickCombatStatuses(session);
 
@@ -532,7 +904,6 @@ export function resolveVictory(session: GameSession): void {
     buildVictoryPacket(session.currentHealth, session.currentMana, session.currentRage, {
       characterExperience: combatRewards.characterExperience,
       petExperience: 0,
-      companionHp: getCombatCompanionHp(session),
       coins: combatRewards.coins,
       items: dropResult.granted,
     }),
@@ -665,7 +1036,7 @@ export function grantCombatDropsForEnemies(session: GameSession, enemies: Record
 export function clearCombatState(session: GameSession, persist = false): void {
   disposeCombatTimers(session);
   if (session.socket && !session.socket.destroyed) {
-    sendCombatActionStateReset(session, 'combat-clear');
+    sendCombatActionStateReset(session, session.entityType >>> 0, 'combat-clear');
   }
   session.combatState = createIdleCombatState();
   if (persist) {
@@ -696,6 +1067,7 @@ export function finalizeSkillResolutionAndEnemyTurn(session: GameSession, source
   if (!session.combatState?.active) {
     return;
   }
+  const skillOwner = session.combatState.skillResolutionOwner || 'player';
   const pendingOutcomes = Array.isArray(session.combatState.pendingSkillOutcomes)
     ? session.combatState.pendingSkillOutcomes
     : [];
@@ -706,6 +1078,7 @@ export function finalizeSkillResolutionAndEnemyTurn(session: GameSession, source
   session.combatState.skillResolutionStartedAt = 0;
   session.combatState.skillResolutionReason = null;
   session.combatState.skillResolutionPhase = null;
+  session.combatState.skillResolutionOwner = null;
   if (session.combatSkillResolutionTimer) {
     clearTimeout(session.combatSkillResolutionTimer);
     session.combatSkillResolutionTimer = null;
@@ -781,7 +1154,12 @@ export function finalizeSkillResolutionAndEnemyTurn(session: GameSession, source
     return;
   }
 
-  resolveEnemyCounterattack(session, killedAny ? 'post-kill' : 'normal');
+  if (killedAny) {
+    session.combatState.pendingPostKillCounterattack = true;
+  }
+
+  const enemyTurnReason = session.combatState.pendingPostKillCounterattack ? 'post-kill' : 'normal';
+  finalizeCombatRoundAfterAllyAction(session, skillOwner, source, enemyTurnReason);
 }
 
 export function advanceSkillResolutionEvent(session: GameSession, source: string): void {
