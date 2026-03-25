@@ -33,6 +33,13 @@ type SkillState = {
   hotbarSkillIds: number[];
 };
 
+const LEGACY_GATHERING_SKILL_ID_MAP: Record<number, number> = {
+  2001: 9006,
+  2002: 9007,
+  2003: 9008,
+  2004: 9009,
+};
+
 export function numberOrDefault(value: unknown, fallback: number): number {
   return typeof value === 'number' ? value : fallback;
 }
@@ -112,8 +119,8 @@ export function normalizeSkillState(skillState: UnknownRecord | null | undefined
     ? skillState.learnedSkills
         .filter((entry: UnknownRecord) => Number.isInteger(entry?.skillId))
         .map((entry: UnknownRecord) => ({
-          skillId: entry.skillId >>> 0,
-          name: typeof entry.name === 'string' && entry.name.length > 0 ? entry.name : `Skill ${entry.skillId >>> 0}`,
+          skillId: (LEGACY_GATHERING_SKILL_ID_MAP[entry.skillId >>> 0] || (entry.skillId >>> 0)) >>> 0,
+          name: typeof entry.name === 'string' && entry.name.length > 0 ? entry.name : `Skill ${(LEGACY_GATHERING_SKILL_ID_MAP[entry.skillId >>> 0] || (entry.skillId >>> 0)) >>> 0}`,
           ...(Number.isInteger(entry?.level) ? { level: entry.level >>> 0 } : {}),
           ...(Number.isInteger(entry?.proficiency) ? { proficiency: entry.proficiency >>> 0 } : {}),
           ...(Number.isInteger(entry?.sourceTemplateId) ? { sourceTemplateId: entry.sourceTemplateId >>> 0 } : {}),
@@ -128,13 +135,23 @@ export function normalizeSkillState(skillState: UnknownRecord | null | undefined
           ...(Number.isInteger(entry?.hotbarSlot) ? { hotbarSlot: entry.hotbarSlot | 0 } : {}),
         }))
     : defaults.learnedSkills;
+  const dedupedLearnedSkills: LearnedSkillRecord[] = [];
+  const seenSkillIds = new Set<number>();
+  for (const learnedSkill of learnedSkills) {
+    const skillId = learnedSkill.skillId >>> 0;
+    if (seenSkillIds.has(skillId)) {
+      continue;
+    }
+    seenSkillIds.add(skillId);
+    dedupedLearnedSkills.push(learnedSkill);
+  }
   // Backfill passive and aptitude skill variants for any active skill missing them.
-  const learnedSkillIds = new Set(learnedSkills.map((entry) => entry.skillId));
-  for (const activeSkill of learnedSkills.filter((entry) => isActiveSkillId(entry.skillId >>> 0))) {
+  const learnedSkillIds = new Set(dedupedLearnedSkills.map((entry) => entry.skillId));
+  for (const activeSkill of dedupedLearnedSkills.filter((entry) => isActiveSkillId(entry.skillId >>> 0))) {
     const passiveDefinition = getPassiveSkillDefinition(activeSkill.skillId >>> 0);
     const passiveSkillId = passiveDefinition?.skillId ? (passiveDefinition.skillId >>> 0) : 0;
     if (passiveSkillId > 0 && !learnedSkillIds.has(passiveSkillId)) {
-      learnedSkills.push({
+      dedupedLearnedSkills.push({
         skillId: passiveSkillId,
         name: passiveDefinition?.name || `${activeSkill.name} (Passive)`,
         level: 1,
@@ -149,7 +166,7 @@ export function normalizeSkillState(skillState: UnknownRecord | null | undefined
     const aptitudeDefinition = getAptitudeSkillDefinition(activeSkill.skillId >>> 0);
     const aptitudeSkillId = aptitudeDefinition?.skillId ? (aptitudeDefinition.skillId >>> 0) : 0;
     if (aptitudeSkillId > 0 && !learnedSkillIds.has(aptitudeSkillId)) {
-      learnedSkills.push({
+      dedupedLearnedSkills.push({
         skillId: aptitudeSkillId,
         name: aptitudeDefinition?.name || `${activeSkill.name} (Aptitude)`,
         level: 1,
@@ -175,7 +192,7 @@ export function normalizeSkillState(skillState: UnknownRecord | null | undefined
   });
 
   return {
-    learnedSkills,
+    learnedSkills: dedupedLearnedSkills,
     hotbarSkillIds,
   };
 }

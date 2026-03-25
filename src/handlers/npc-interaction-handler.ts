@@ -26,12 +26,12 @@ const NPC_SHOP_REGISTRY_FILE = resolveRepoPath('data', 'client-derived', 'npc-sh
 const NPC_SHOP_REGISTRY = loadNpcShopRegistry();
 const INN_REST_SCRIPT_ID = 5001;
 const HOUSEWIFE_NPC_ID = 3089;
-const GATHERING_SKILL_IDS = [2001, 2002, 2003, 2004] as const;
+const GATHERING_SKILL_IDS = [9006, 9007, 9008, 9009] as const;
 const GATHERING_SKILL_NAMES: Record<number, string> = {
-  2001: 'Mining',
-  2002: 'Lumbering',
-  2003: 'Herbalism',
-  2004: 'Fishing',
+  9006: 'Mining',
+  9007: 'Lumbering',
+  9008: 'Herbalism',
+  9009: 'Fishing',
 };
 
 function handleNpcInteractionRequest(session: GameSession, request: ServerRunRequestData): boolean {

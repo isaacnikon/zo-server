@@ -9,10 +9,10 @@ const DERIVED_GATHERING_NODES_FILE = resolveRepoPath('data', 'client-derived', '
 const ROLEINFO_FILE = resolveRepoPath('data', 'client-derived', 'archive', '0000136e__roleinfo.txt');
 
 const TOOL_TYPE_TO_SKILL_ID: Record<number, number> = {
-  9006: 2001,
-  9007: 2002,
-  9008: 2003,
-  9009: 2004,
+  9006: 9006,
+  9007: 9007,
+  9008: 9008,
+  9009: 9009,
 };
 
 type GatheringMaterial = {
