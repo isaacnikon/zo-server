@@ -42,7 +42,7 @@ import type { GameSession } from '../types.js';
 
 type CombatSkillPlan = {
   skillId: number;
-  behavior: 'direct_damage' | 'heal' | 'buff_self' | 'debuff_enemy' | 'unknown';
+  behavior: 'direct_damage' | 'heal' | 'buff_self' | 'debuff_enemy' | 'gather' | 'unknown';
   implementationClass: number | null;
   selectionMode: 'self' | 'enemy';
   followUpMode: 'none' | 'delayed_cast';

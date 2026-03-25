@@ -8,11 +8,12 @@ import { handleNpcInteractionRequest } from './npc-interaction-handler.js';
 import { handleQuestAbandonRequest, handleQuestPacket } from './quest-handler.js';
 import { handleRolePacket } from './login-handler.js';
 import { handleCombatPacket } from './combat-handler.js';
+import { handleGatheringRequest } from './gathering-handler.js';
 import { tryHandleEquipmentStatePacket, tryHandleFightResultItemActionProbe, tryHandleItemUsePacket, tryHandleAttributeAllocationPacket } from './player-state-handler.js';
 import { tryHandlePetActionPacket } from './pet-handler.js';
 import { handleNpcShopServiceRequest } from '../gameplay/shop-runtime.js';
 
-import { PING_CMD, GAME_POSITION_QUERY_CMD, GAME_SERVER_RUN_CMD, ROLE_CMD, GAME_QUEST_CMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_MISC_CMD, GAME_FIGHT_RESULT_CMD, GAME_FIGHT_STATE_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, } from '../config.js';
+import { PING_CMD, GAME_GATHER_REQUEST_CMD, GAME_POSITION_QUERY_CMD, GAME_SERVER_RUN_CMD, ROLE_CMD, GAME_QUEST_CMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_MISC_CMD, GAME_FIGHT_RESULT_CMD, GAME_FIGHT_STATE_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, } from '../config.js';
 import type { GameSession } from '../types.js';
 
 const TRIGGER_TRACE_PATH = resolve(process.cwd(), 'data/runtime/trigger-trace.jsonl');
@@ -103,6 +104,7 @@ function traceGladysInteractionWindow(
 const PACKET_HANDLERS = new Map<number, (session: GameSession, payload: Buffer) => void>([
   [ROLE_CMD, handleRolePacket],
   [GAME_QUEST_CMD, handleQuestPacket],
+  [GAME_GATHER_REQUEST_CMD, handleGatheringRequest],
 ]);
 
 function dispatchGamePacket(

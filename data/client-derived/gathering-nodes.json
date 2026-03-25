@@ -1,0 +1,499 @@
+{
+  "materials": [
+    {
+      "nodeTemplateId": 10001,
+      "name": "Iron Ore (Lv.1)",
+      "level": 1,
+      "toolType": 9006,
+      "dropItemId": 29101
+    },
+    {
+      "nodeTemplateId": 10002,
+      "name": "Silver Ore (Lv.2)",
+      "level": 2,
+      "toolType": 9006,
+      "dropItemId": 29102
+    },
+    {
+      "nodeTemplateId": 10003,
+      "name": "Gold Ore (Lv.3)",
+      "level": 3,
+      "toolType": 9006,
+      "dropItemId": 29103
+    },
+    {
+      "nodeTemplateId": 10004,
+      "name": "Jet Ore (Lv.4)",
+      "level": 4,
+      "toolType": 9006,
+      "dropItemId": 29104
+    },
+    {
+      "nodeTemplateId": 10005,
+      "name": "Jasper Ore (Lv.5)",
+      "level": 5,
+      "toolType": 9006,
+      "dropItemId": 29105
+    },
+    {
+      "nodeTemplateId": 10006,
+      "name": "Opal Ore (Lv.6)",
+      "level": 6,
+      "toolType": 9006,
+      "dropItemId": 29106
+    },
+    {
+      "nodeTemplateId": 10007,
+      "name": "Garnet Ore (Lv.7)",
+      "level": 7,
+      "toolType": 9006,
+      "dropItemId": 29107
+    },
+    {
+      "nodeTemplateId": 10008,
+      "name": "Ruby Ore (Lv.8)",
+      "level": 8,
+      "toolType": 9006,
+      "dropItemId": 29108
+    },
+    {
+      "nodeTemplateId": 10009,
+      "name": "Emerald Ore (Lv.9)",
+      "level": 9,
+      "toolType": 9006,
+      "dropItemId": 29109
+    },
+    {
+      "nodeTemplateId": 10010,
+      "name": "Diamond Ore (Lv.10)",
+      "level": 10,
+      "toolType": 9006,
+      "dropItemId": 29110
+    },
+    {
+      "nodeTemplateId": 10011,
+      "name": "Teak Timber (Lv.1)",
+      "level": 1,
+      "toolType": 9007,
+      "dropItemId": 29111
+    },
+    {
+      "nodeTemplateId": 10012,
+      "name": "Fir Timber (Lv.2)",
+      "level": 2,
+      "toolType": 9007,
+      "dropItemId": 29112
+    },
+    {
+      "nodeTemplateId": 10013,
+      "name": "Cedar Timber (Lv.3)",
+      "level": 3,
+      "toolType": 9007,
+      "dropItemId": 29113
+    },
+    {
+      "nodeTemplateId": 10014,
+      "name": "Pine Timber (Lv.4)",
+      "level": 4,
+      "toolType": 9007,
+      "dropItemId": 29114
+    },
+    {
+      "nodeTemplateId": 10015,
+      "name": "Ginkgo Timber (Lv.5)",
+      "level": 5,
+      "toolType": 9007,
+      "dropItemId": 29115
+    },
+    {
+      "nodeTemplateId": 10016,
+      "name": "Oak Timber (Lv.6)",
+      "level": 6,
+      "toolType": 9007,
+      "dropItemId": 29116
+    },
+    {
+      "nodeTemplateId": 10017,
+      "name": "Birch Timber (Lv.7)",
+      "level": 7,
+      "toolType": 9007,
+      "dropItemId": 29117
+    },
+    {
+      "nodeTemplateId": 10018,
+      "name": "Ebony Timber (Lv.8)",
+      "level": 8,
+      "toolType": 9007,
+      "dropItemId": 29118
+    },
+    {
+      "nodeTemplateId": 10019,
+      "name": "Sandal Timber (Lv.9)",
+      "level": 9,
+      "toolType": 9007,
+      "dropItemId": 29119
+    },
+    {
+      "nodeTemplateId": 10020,
+      "name": "Spruce Timber (Lv.10)",
+      "level": 10,
+      "toolType": 9007,
+      "dropItemId": 29120
+    },
+    {
+      "nodeTemplateId": 10021,
+      "name": "Parsley (Lv.1)",
+      "level": 1,
+      "toolType": 9008,
+      "dropItemId": 29121
+    },
+    {
+      "nodeTemplateId": 10022,
+      "name": "Sage (Lv.2)",
+      "level": 2,
+      "toolType": 9008,
+      "dropItemId": 29122
+    },
+    {
+      "nodeTemplateId": 10023,
+      "name": "Thyme (Lv.3)",
+      "level": 3,
+      "toolType": 9008,
+      "dropItemId": 29123
+    },
+    {
+      "nodeTemplateId": 10024,
+      "name": "Thymbra (Lv.4)",
+      "level": 4,
+      "toolType": 9008,
+      "dropItemId": 29124
+    },
+    {
+      "nodeTemplateId": 10025,
+      "name": "Ginseng (Lv.5)",
+      "level": 5,
+      "toolType": 9008,
+      "dropItemId": 29125
+    },
+    {
+      "nodeTemplateId": 10026,
+      "name": "Cordyceps (Lv.6)",
+      "level": 6,
+      "toolType": 9008,
+      "dropItemId": 29126
+    },
+    {
+      "nodeTemplateId": 10027,
+      "name": "Ganoderma (Lv.7)",
+      "level": 7,
+      "toolType": 9008,
+      "dropItemId": 29127
+    },
+    {
+      "nodeTemplateId": 10028,
+      "name": "Angelica (Lv.8)",
+      "level": 8,
+      "toolType": 9008,
+      "dropItemId": 29128
+    },
+    {
+      "nodeTemplateId": 10029,
+      "name": "Edelweiss (Lv.9)",
+      "level": 9,
+      "toolType": 9008,
+      "dropItemId": 29129
+    },
+    {
+      "nodeTemplateId": 10030,
+      "name": "Fairy Dew (Lv.10)",
+      "level": 10,
+      "toolType": 9008,
+      "dropItemId": 29130
+    },
+    {
+      "nodeTemplateId": 10031,
+      "name": "Jasper Ore (Lv.5)",
+      "level": 5,
+      "toolType": 9006,
+      "dropItemId": 29105
+    },
+    {
+      "nodeTemplateId": 10032,
+      "name": "Opal Ore (Lv.6)",
+      "level": 6,
+      "toolType": 9006,
+      "dropItemId": 29106
+    },
+    {
+      "nodeTemplateId": 10033,
+      "name": "Garnet Ore (Lv.7)",
+      "level": 7,
+      "toolType": 9006,
+      "dropItemId": 29107
+    },
+    {
+      "nodeTemplateId": 10034,
+      "name": "Ruby Ore (Lv.8)",
+      "level": 8,
+      "toolType": 9006,
+      "dropItemId": 29108
+    },
+    {
+      "nodeTemplateId": 10035,
+      "name": "Emerald Ore (Lv.9)",
+      "level": 9,
+      "toolType": 9006,
+      "dropItemId": 29109
+    },
+    {
+      "nodeTemplateId": 10036,
+      "name": "Diamond Ore (Lv.10)",
+      "level": 10,
+      "toolType": 9006,
+      "dropItemId": 29110
+    },
+    {
+      "nodeTemplateId": 10037,
+      "name": "Ginkgo Timber (Lv.5)",
+      "level": 5,
+      "toolType": 9007,
+      "dropItemId": 29115
+    },
+    {
+      "nodeTemplateId": 10038,
+      "name": "Oak Timber (Lv.6)",
+      "level": 6,
+      "toolType": 9007,
+      "dropItemId": 29116
+    },
+    {
+      "nodeTemplateId": 10039,
+      "name": "Birch Timber (Lv.7)",
+      "level": 7,
+      "toolType": 9007,
+      "dropItemId": 29117
+    },
+    {
+      "nodeTemplateId": 10040,
+      "name": "Ebony Timber (Lv.8)",
+      "level": 8,
+      "toolType": 9007,
+      "dropItemId": 29118
+    },
+    {
+      "nodeTemplateId": 10041,
+      "name": "Sandal Timber (Lv.9)",
+      "level": 9,
+      "toolType": 9007,
+      "dropItemId": 29119
+    },
+    {
+      "nodeTemplateId": 10042,
+      "name": "Spruce Timber (Lv.10)",
+      "level": 10,
+      "toolType": 9007,
+      "dropItemId": 29120
+    },
+    {
+      "nodeTemplateId": 10043,
+      "name": "Ginseng (Lv.5)",
+      "level": 5,
+      "toolType": 9008,
+      "dropItemId": 29125
+    },
+    {
+      "nodeTemplateId": 10044,
+      "name": "Cordyceps (Lv.6)",
+      "level": 6,
+      "toolType": 9008,
+      "dropItemId": 29126
+    },
+    {
+      "nodeTemplateId": 10045,
+      "name": "Ganoderma (Lv.7)",
+      "level": 7,
+      "toolType": 9008,
+      "dropItemId": 29127
+    },
+    {
+      "nodeTemplateId": 10046,
+      "name": "Angelica (Lv.8)",
+      "level": 8,
+      "toolType": 9008,
+      "dropItemId": 29128
+    },
+    {
+      "nodeTemplateId": 10047,
+      "name": "Edelweiss (Lv.9)",
+      "level": 9,
+      "toolType": 9008,
+      "dropItemId": 29129
+    },
+    {
+      "nodeTemplateId": 10048,
+      "name": "Fairy Dew (Lv.10)",
+      "level": 10,
+      "toolType": 9008,
+      "dropItemId": 29130
+    },
+    {
+      "nodeTemplateId": 10049,
+      "name": "Starry Grass",
+      "level": 1,
+      "toolType": 9008,
+      "dropItemId": 21341
+    }
+  ],
+  "mapNodes": [
+    {
+      "mapId": 102,
+      "nodeTemplateId": 10001,
+      "x": 45,
+      "y": 60
+    },
+    {
+      "mapId": 102,
+      "nodeTemplateId": 10001,
+      "x": 52,
+      "y": 75
+    },
+    {
+      "mapId": 102,
+      "nodeTemplateId": 10011,
+      "x": 30,
+      "y": 80
+    },
+    {
+      "mapId": 102,
+      "nodeTemplateId": 10011,
+      "x": 38,
+      "y": 95
+    },
+    {
+      "mapId": 102,
+      "nodeTemplateId": 10021,
+      "x": 60,
+      "y": 50
+    },
+    {
+      "mapId": 102,
+      "nodeTemplateId": 10021,
+      "x": 65,
+      "y": 65
+    },
+    {
+      "mapId": 103,
+      "nodeTemplateId": 10001,
+      "x": 40,
+      "y": 55
+    },
+    {
+      "mapId": 103,
+      "nodeTemplateId": 10001,
+      "x": 50,
+      "y": 70
+    },
+    {
+      "mapId": 103,
+      "nodeTemplateId": 10021,
+      "x": 55,
+      "y": 45
+    },
+    {
+      "mapId": 103,
+      "nodeTemplateId": 10021,
+      "x": 62,
+      "y": 60
+    },
+    {
+      "mapId": 105,
+      "nodeTemplateId": 10002,
+      "x": 42,
+      "y": 58
+    },
+    {
+      "mapId": 105,
+      "nodeTemplateId": 10002,
+      "x": 50,
+      "y": 72
+    },
+    {
+      "mapId": 105,
+      "nodeTemplateId": 10012,
+      "x": 35,
+      "y": 85
+    },
+    {
+      "mapId": 105,
+      "nodeTemplateId": 10022,
+      "x": 60,
+      "y": 48
+    },
+    {
+      "mapId": 105,
+      "nodeTemplateId": 10022,
+      "x": 68,
+      "y": 62
+    },
+    {
+      "mapId": 107,
+      "nodeTemplateId": 10002,
+      "x": 45,
+      "y": 65
+    },
+    {
+      "mapId": 107,
+      "nodeTemplateId": 10012,
+      "x": 38,
+      "y": 80
+    },
+    {
+      "mapId": 107,
+      "nodeTemplateId": 10012,
+      "x": 55,
+      "y": 70
+    },
+    {
+      "mapId": 107,
+      "nodeTemplateId": 10022,
+      "x": 62,
+      "y": 55
+    },
+    {
+      "mapId": 108,
+      "nodeTemplateId": 10003,
+      "x": 48,
+      "y": 62
+    },
+    {
+      "mapId": 108,
+      "nodeTemplateId": 10013,
+      "x": 40,
+      "y": 78
+    },
+    {
+      "mapId": 108,
+      "nodeTemplateId": 10023,
+      "x": 58,
+      "y": 52
+    },
+    {
+      "mapId": 109,
+      "nodeTemplateId": 10003,
+      "x": 44,
+      "y": 68
+    },
+    {
+      "mapId": 109,
+      "nodeTemplateId": 10013,
+      "x": 52,
+      "y": 75
+    },
+    {
+      "mapId": 109,
+      "nodeTemplateId": 10023,
+      "x": 60,
+      "y": 58
+    }
+  ]
+}

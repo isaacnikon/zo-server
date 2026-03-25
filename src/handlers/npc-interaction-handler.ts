@@ -10,6 +10,8 @@ import { resolveRepoPath } from '../runtime-paths.js';
 import { resolveInnRestVitals } from '../gameplay/session-flows.js';
 import { sendSelfStateValueUpdate, sendSelfStateVitalsUpdate } from '../gameplay/stat-sync.js';
 import { buildEncounterPoolEntry } from '../roleinfo/index.js';
+import { grantSkill, sendSkillStateSync } from '../gameplay/skill-runtime.js';
+import { applyEffects } from '../effects/effect-executor.js';
 import { applyQuestEvents } from './quest-handler.js';
 
 type MapNpcRecord = Record<string, any>;
@@ -23,6 +25,14 @@ type ShopRegistry = {
 const NPC_SHOP_REGISTRY_FILE = resolveRepoPath('data', 'client-derived', 'npc-shops.json');
 const NPC_SHOP_REGISTRY = loadNpcShopRegistry();
 const INN_REST_SCRIPT_ID = 5001;
+const HOUSEWIFE_NPC_ID = 3089;
+const GATHERING_SKILL_IDS = [2001, 2002, 2003, 2004] as const;
+const GATHERING_SKILL_NAMES: Record<number, string> = {
+  2001: 'Mining',
+  2002: 'Lumbering',
+  2003: 'Herbalism',
+  2004: 'Fishing',
+};
 
 function handleNpcInteractionRequest(session: GameSession, request: ServerRunRequestData): boolean {
   if (
@@ -51,6 +61,13 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
   if (handleInnRestRequest(session, resolvedNpcId, request)) {
     session.log(
       `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId}`
+    );
+    return true;
+  }
+
+  if (handleHousewifeTeachingRequest(session, resolvedNpcId, request)) {
+    session.log(
+      `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId} housewife=1`
     );
     return true;
   }
@@ -382,6 +399,70 @@ function normalizeShopCatalogRecord(source: ShopCatalogRecord | Record<string, a
     speaker: typeof source?.speaker === 'string' ? source.speaker : '',
     items,
   };
+}
+
+function handleHousewifeTeachingRequest(
+  session: GameSession,
+  npcId: number,
+  request: ServerRunRequestData
+): boolean {
+  if ((npcId >>> 0) !== HOUSEWIFE_NPC_ID || request.subcmd !== 0x02) {
+    return false;
+  }
+
+  const learnedGatheringSkillIds = GATHERING_SKILL_IDS.filter((skillId) =>
+    Array.isArray(session.skillState?.learnedSkills)
+      ? session.skillState.learnedSkills.some((entry) => Number(entry?.skillId || 0) === skillId)
+      : false
+  );
+  const unlearnedSkillIds = GATHERING_SKILL_IDS.filter((skillId) => !learnedGatheringSkillIds.includes(skillId));
+  if (unlearnedSkillIds.length === 0) {
+    session.sendGameDialogue('Housewife', 'You already know every gathering skill I can teach.');
+    return true;
+  }
+
+  const renownCost = resolveHousewifeTeachingCost(learnedGatheringSkillIds.length);
+  if ((session.renown || 0) < renownCost) {
+    session.sendGameDialogue('Housewife', `You need ${renownCost} renown for the next gathering lesson.`);
+    return true;
+  }
+
+  const skillId = unlearnedSkillIds[0];
+  const grantResult = grantSkill(session, skillId, {
+    autoAssignHotbar: false,
+    skipRequirementChecks: true,
+  });
+  if (!grantResult.ok) {
+    session.sendGameDialogue('Housewife', grantResult.reason || 'I cannot teach you that skill right now.');
+    return true;
+  }
+
+  if (renownCost > 0) {
+    applyEffects(session, [{ kind: 'update-stat', stat: 'renown', delta: -renownCost }], {
+      suppressDialogues: true,
+    });
+  }
+
+  sendSkillStateSync(session, `housewife-teach skillId=${skillId}`);
+  session.persistCurrentCharacter();
+
+  const skillName = GATHERING_SKILL_NAMES[skillId] || `skill ${skillId}`;
+  const costSuffix = renownCost > 0 ? ` Cost: ${renownCost} renown.` : ' Your first lesson is free.';
+  session.sendGameDialogue('Housewife', `You learned ${skillName}.${costSuffix}`);
+  return true;
+}
+
+function resolveHousewifeTeachingCost(learnedCount: number): number {
+  if (learnedCount <= 0) {
+    return 0;
+  }
+  if (learnedCount === 1) {
+    return 300;
+  }
+  if (learnedCount === 2) {
+    return 600;
+  }
+  return 900;
 }
 
 function loadNpcShopRegistry(): ShopRegistry {

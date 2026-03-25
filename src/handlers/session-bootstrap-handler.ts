@@ -4,6 +4,7 @@ import { DEFAULT_FLAGS, LOGIN_CMD, LOGIN_SERVER_LIST_RESULT } from '../config.js
 import { PacketWriter } from '../protocol.js';
 import { syncInventoryStateToClient } from '../gameplay/inventory-runtime.js';
 import { sendSkillStateSync } from '../gameplay/skill-runtime.js';
+import { buildMapGatheringNodes } from '../gameplay/gathering-runtime.js';
 import { getMapBootstrapSpawns } from '../map-spawns.js';
 import { getCurrentStep, getQuestDefinition } from '../quest-engine/index.js';
 import { startAutoMapRotation } from '../scenes/map-rotation.js';
@@ -52,7 +53,21 @@ export function sendEnterGameOk(session: GameSession, options: { syncMode?: Ques
 function sendStaticNpcSpawns(session: GameSession, mapId: number): void {
   const staticNpcs = getMapBootstrapSpawns(mapId);
   const escortSpawns = buildEscortQuestRoleSpawns(session, mapId, staticNpcs.length);
-  const allSpawns = [...staticNpcs, ...escortSpawns];
+
+  // Build gathering nodes for this map and store on session
+  const gatheringNodes = buildMapGatheringNodes(mapId);
+  session.gatheringNodes = gatheringNodes;
+  session.activeGather = null;
+  const gatheringSpawns: SpawnRecord[] = [...gatheringNodes.entries()].map(([runtimeId, node]) => ({
+    id: runtimeId,
+    entityType: node.templateId,
+    x: node.x,
+    y: node.y,
+    dir: 0,
+    state: 0,
+  }));
+
+  const allSpawns = [...staticNpcs, ...escortSpawns, ...gatheringSpawns];
   if (!Array.isArray(allSpawns) || allSpawns.length === 0) {
     return;
   }
@@ -74,7 +89,7 @@ function sendStaticNpcSpawns(session: GameSession, mapId: number): void {
   session.writePacket(
     writer.payload(),
     DEFAULT_FLAGS,
-    `Sending static NPC spawn batch cmd=0x03eb sub=0x15 map=${mapId} count=${allSpawns.length} base=${staticNpcs.length} escort=${escortSpawns.length}`
+    `Sending static NPC spawn batch cmd=0x03eb sub=0x15 map=${mapId} count=${allSpawns.length} base=${staticNpcs.length} escort=${escortSpawns.length} gather=${gatheringSpawns.length}`
   );
 }
 

@@ -100,7 +100,17 @@ class Session implements GameSession {
   mapRotationIndex: number;
   mapRotationAwaitingMapId: number | null;
   mapRotationLastSentAt: number | null;
-  gatheringNodes: Map<number, { nodeId: number; templateId: number; x: number; y: number; toolType: number; dropItemId: number }> | null;
+  gatheringNodes: Map<number, {
+    runtimeId: number;
+    nodeId: number;
+    templateId: number;
+    x: number;
+    y: number;
+    toolType: number;
+    dropItemId: number;
+    level: number;
+    name: string;
+  }> | null;
   activeGather: { runtimeId: number; startedAt: number } | null;
   pendingSceneNpcSpawnMapId: number | null;
   fieldCombatCooldownUntil: number | null;

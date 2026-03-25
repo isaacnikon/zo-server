@@ -176,3 +176,21 @@ This file tracks quest-system issues that were discovered while bringing live qu
 - Kill-step completion and objective progress are distinct client concepts and must not share one field.
 - Client reward UI does not imply a second reward packet; some reward selection data is embedded in the completion interaction itself.
 - Client-derived quest state in `data/client-derived/task-state-clusters.lua` has been the most reliable source for correcting bad server quest data.
+## Bonnie Quest Chain
+
+- `Soul of Bonnie` is NPC `3036`; `Franklin` is NPC `3118`.
+- Quest `7` (`Disenchanting`) is still active in `data/save/characters/NeoE5F/active-quests.json`.
+- Quest `8` (`Magical Adventure`) cannot be accepted yet because its prerequisite is quest `7`, and its actual `acceptNpcId` is `3118` (`Franklin`), not `3036` (`Soul of Bonnie`).
+- Current save state shows quest `7` active but quest `7` is not in completed quests, so the Bonnie click is not a valid accept path for `8`.
+- Server logs confirm the Bonnie click reaches the server on `0x03f1 sub=0x08`, but no accept event follows because there is no quest accept available from `3036` in the current state.
+- Root bug in our quest data: quest `7` was flattened into a single Franklin turn-in step and granted `Bonnie's Pendant` on accept.
+- Active quest flow for `7` should be:
+  1. accept from `3030` (`Hubbert`)
+  2. talk to `3118` (`Franklin`)
+  3. talk to `3036` (`Soul of Bonnie`) to receive `Bonnie's Pendant`
+  4. return to `3118` (`Franklin`) to complete
+- `data/quests/main-story.json` has been restored to that Franklin -> Bonnie -> Franklin progression.
+- Remaining runtime issue: Franklin's first-step click is not consistently reaching the server quest handler, so the quest can still appear stuck even with the corrected step order.
+- Additional runtime bug found: accepted quests were emitting the runtime sync and then a second direct `accept/update/marker` sequence from `quest-event-handler.ts`.
+- This produced duplicate `0x03ff sub=0x03` accept packets in logs for quest `7`, which is a likely source of the client showing the wrong active step.
+- The duplicate post-sync accept/update send was removed; accepted quests now rely on the runtime sync path only.

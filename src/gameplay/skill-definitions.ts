@@ -4,10 +4,10 @@ import { resolveRepoPath } from '../runtime-paths.js';
 
 type UnknownRecord = Record<string, any>;
 export type SkillAttribute = 'strength' | 'dexterity' | 'vitality' | 'intelligence' | null;
-export type SkillBehavior = 'direct_damage' | 'heal' | 'buff_self' | 'debuff_enemy' | 'unknown';
+export type SkillBehavior = 'direct_damage' | 'heal' | 'buff_self' | 'debuff_enemy' | 'gather' | 'unknown';
 export type SkillSelectionMode = 'self' | 'enemy';
 export type SkillFollowUpMode = 'none' | 'delayed_cast';
-export type SkillAcquisitionSource = 'skill_book' | 'npc_or_other';
+export type SkillAcquisitionSource = 'skill_book' | 'npc-teach' | 'npc_or_other';
 export type SkillTargetPatternHint = 'single' | 'line' | 'adjacent' | 'multi' | 'all';
 export type SkillVariantKind = 'active' | 'passive' | 'aptitude';
 export const PASSIVE_SKILL_ID_OFFSET = 10000;
@@ -31,6 +31,7 @@ export interface SkillDefinition {
   description?: string;
   isPassive?: boolean;
   acquisitionSource?: SkillAcquisitionSource;
+  gatherToolType?: number | null;
   maxTargetsHint?: number | null;
   targetPatternHint?: SkillTargetPatternHint | null;
   timedRoundsHint?: number | null;
@@ -164,6 +165,10 @@ function loadSkillDefinitions(): Map<number, SkillDefinition> {
       description: typeof entry?.description === 'string' ? entry.description : '',
       isPassive: entry?.isPassive === true,
       acquisitionSource: normalizeAcquisitionSource(entry?.acquisitionSource, Number(entry?.templateId || 0) > 0),
+      gatherToolType:
+        Number.isInteger(entry?.gatherToolType) && Number(entry.gatherToolType) > 0
+          ? (Number(entry.gatherToolType) >>> 0)
+          : null,
       ...inferSkillHints(typeof entry?.description === 'string' ? entry.description : '', entry?.isPassive === true),
     });
   }
@@ -218,6 +223,8 @@ function normalizeSkillBehavior(value: unknown): SkillBehavior {
       return 'buff_self';
     case 'debuff_enemy':
       return 'debuff_enemy';
+    case 'gather':
+      return 'gather';
     default:
       return 'unknown';
   }
@@ -235,6 +242,9 @@ function normalizeAcquisitionSource(value: unknown, hasTemplateId: boolean): Ski
   const normalized = String(value || '').trim().toLowerCase();
   if (normalized === 'skill_book') {
     return 'skill_book';
+  }
+  if (normalized === 'npc-teach') {
+    return 'npc-teach';
   }
   if (normalized === 'npc_or_other') {
     return 'npc_or_other';
