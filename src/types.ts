@@ -230,7 +230,6 @@ export interface GameSession {
   sendServerRunScriptDeferred(scriptId: number): void;
   // Equipment/Pet sync methods
   scheduleEquipmentReplay(delayMs?: number): void;
-  schedulePetReplay(delayMs?: number): void;
   sendPetStateSync(reason?: string): void;
   // Quest methods
   ensureQuestStateReady(): void;

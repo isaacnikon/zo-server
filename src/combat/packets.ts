@@ -233,7 +233,7 @@ export function buildSkillCastPlaybackPacket(
   return writer.payload();
 }
 
-export function buildNativeCastPlaybackPacket(
+export function buildSlaughterCastPlaybackPacket(
   casterEntityId: number,
   skillId: number,
   skillLevelIndex: number,
@@ -305,24 +305,14 @@ export function buildProtectPlaybackPacket(
   return writer.payload();
 }
 
-export function buildVitalsPacket(
-  subcommand: number,
-  health: number,
-  mana: number,
-  rage: number,
-  companionHp?: number
-): Buffer {
+export function buildVitalsPacket(subcommand: number, health: number, mana: number, rage: number): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(subcommand & 0xff);
   writer.writeUint32(Math.max(1, health) >>> 0);
   writer.writeUint32(Math.max(0, mana) >>> 0);
   writer.writeUint32(Math.max(0, rage) >>> 0);
-  writer.writeUint32(
-    Number.isFinite(companionHp as number) && (companionHp as number) >= 0
-      ? Math.max(0, companionHp as number) >>> 0
-      : ABSENT_COMPANION_SENTINEL
-  );
+  writer.writeUint32(ABSENT_COMPANION_SENTINEL);
   return writer.payload();
 }
 
@@ -335,7 +325,6 @@ export function buildVictoryPacket(
     petExperience?: number;
     coins?: number;
     petExperienceAuxiliary?: number;
-    companionHp?: number;
     items?: Array<{ templateId: number; quantity?: number }>;
   } = {}
 ): Buffer {
@@ -353,11 +342,7 @@ export function buildVictoryPacket(
   writer.writeUint32(Math.max(1, health) >>> 0);
   writer.writeUint32(Math.max(0, mana) >>> 0);
   writer.writeUint32(Math.max(0, rage) >>> 0);
-  writer.writeUint32(
-    Number.isFinite(rewards.companionHp as number) && (rewards.companionHp as number) >= 0
-      ? Math.max(0, rewards.companionHp as number) >>> 0
-      : ABSENT_COMPANION_SENTINEL
-  );
+  writer.writeUint32(ABSENT_COMPANION_SENTINEL);
   writer.writeUint32((rewards.characterExperience || 0) >>> 0);
   writer.writeUint32((rewards.coins || 0) >>> 0);
   writer.writeUint32((rewards.petExperience || 0) >>> 0);
@@ -386,6 +371,6 @@ export function buildVictoryRankPacket(rankCode: number): Buffer {
   return writer.payload();
 }
 
-export function buildDefeatPacket(health: number, mana: number, rage: number, companionHp?: number): Buffer {
-  return buildVitalsPacket(FIGHT_RESULT_DEFEAT_SUBCMD, health, mana, rage, companionHp);
+export function buildDefeatPacket(health: number, mana: number, rage: number): Buffer {
+  return buildVitalsPacket(FIGHT_RESULT_DEFEAT_SUBCMD, health, mana, rage);
 }
