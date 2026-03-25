@@ -1,5 +1,5 @@
 import type { CombatEnemyInstance, CombatState, GameSession } from '../types.js';
-import { DEFAULT_FLAGS, FIGHT_CLIENT_ATTACK_SELECTION_SUBCMD, FIGHT_CLIENT_ITEM_USE_SUBCMD, FIGHT_CLIENT_READY_SUBCMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_STREAM_CMD, } from '../config.js';
+import { DEFAULT_FLAGS, FIGHT_CLIENT_ATTACK_SELECTION_SUBCMD, FIGHT_CLIENT_FLEE_SUBCMD, FIGHT_CLIENT_ITEM_USE_SUBCMD, FIGHT_CLIENT_READY_SUBCMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_STREAM_CMD, } from '../config.js';
 import { parseCombatItemUse } from '../protocol/inbound-packets.js';
 import { buildEncounterEnemies } from '../combat/encounter-builder.js';
 import { buildEncounterPacket } from '../combat/packets.js';
@@ -17,6 +17,7 @@ import {
   advanceSkillResolutionEvent,
   handleAttackSelection,
   processNextEnemyTurnAttack,
+  resolveCombatFlee,
   resolveCombatItemUse,
   resolveEnemyCounterattack,
   sendIntroSequence,
@@ -77,6 +78,15 @@ export function handleCombatPacket(session: GameSession, cmdWord: number, payloa
     payload[2] === FIGHT_CLIENT_ATTACK_SELECTION_SUBCMD
   ) {
     handleAttackSelection(session, payload);
+    return;
+  }
+
+  if (
+    cmdWord === GAME_FIGHT_ACTION_CMD &&
+    payload.length >= 3 &&
+    payload[2] === FIGHT_CLIENT_FLEE_SUBCMD
+  ) {
+    resolveCombatFlee(session, `cmd=0x${cmdWord.toString(16)} sub=0x${payload[2].toString(16)}`);
     return;
   }
 

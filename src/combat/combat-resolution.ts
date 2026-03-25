@@ -1,5 +1,7 @@
+import fs from 'node:fs';
 import type { CombatEnemyInstance, CombatState, GameSession } from '../types.js';
 import { DEFAULT_FLAGS, FIGHT_ACTIVE_STATE_SUBCMD, FIGHT_CONTROL_RING_OPEN_SUBCMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_STREAM_CMD } from '../config.js';
+import { resolveRepoPath } from '../runtime-paths.js';
 import { parseAttackSelection, parseCombatItemUse } from '../protocol/inbound-packets.js';
 import { buildActionStateResetPacket, buildActionStateTableResetPacket, buildAttackPlaybackPacket, buildControlInitPacket, buildControlShowPacket, buildDefeatPacket, buildEntityHidePacket, buildRingOpenPacket, buildRoundStartPacket, buildStateModePacket, buildVictoryPacket, buildVictoryPointsPacket, buildVictoryRankPacket, buildVitalsPacket, buildActiveStatePacket } from './packets.js';
 import { grantCombatDrops } from '../gameplay/combat-drop-runtime.js';
@@ -43,6 +45,17 @@ type CombatAction = Record<string, any>;
 type EnemyTurnReason = 'normal' | 'post-kill';
 const DELAYED_SKILL_COMPLETION_TIMEOUT_MS = 1200;
 
+function loadCombatTips(): string[] {
+  try {
+    const raw = fs.readFileSync(resolveRepoPath('data', 'client-verified', 'combat-tips.json'), 'utf8');
+    const parsed = JSON.parse(raw) as { tips?: unknown };
+    return Array.isArray(parsed?.tips) ? parsed.tips.filter((t): t is string => typeof t === 'string') : [];
+  } catch {
+    return [];
+  }
+}
+const COMBAT_TIPS = loadCombatTips();
+
 function sendCombatActionStateReset(session: GameSession, reason: string): void {
   session.writePacket(
     buildActionStateResetPacket(session.entityType >>> 0),
@@ -60,6 +73,10 @@ function sendCombatActionStateReset(session: GameSession, reason: string): void 
 
 export function sendIntroSequence(session: GameSession): void {
   const entityId = session.entityType >>> 0;
+  if (COMBAT_TIPS.length > 0) {
+    const tip = COMBAT_TIPS[Math.floor(Math.random() * COMBAT_TIPS.length)];
+    session.sendGameDialogue('Tip', tip);
+  }
   sendCombatActionStateReset(session, `intro trigger=${session.combatState.triggerId}`);
   session.writePacket(buildRingOpenPacket(), DEFAULT_FLAGS, `Sending combat ring-open trigger=${session.combatState.triggerId}`);
   session.writePacket(buildStateModePacket(), DEFAULT_FLAGS, `Sending combat mode trigger=${session.combatState.triggerId}`);
@@ -111,6 +128,37 @@ export function resendCombatCommandPrompt(session: GameSession, reason: string):
   session.combatState.awaitingPlayerAction = true;
   session.combatState.phase = 'command';
   sendCommandPrompt(session, reason);
+}
+
+export function resolveCombatFlee(session: GameSession, sourceLabel: string): void {
+  if (!session.combatState?.active || !session.combatState.awaitingPlayerAction) {
+    session.log(`Ignoring combat flee without command prompt active=${session.combatState?.active ? 1 : 0}`);
+    return;
+  }
+
+  session.combatState.awaitingPlayerAction = false;
+  session.combatState.awaitingClientReady = false;
+  session.combatState.phase = 'resolved';
+  session.combatState.pendingEnemyTurnQueue = [];
+  session.combatState.pendingPostKillCounterattack = false;
+  session.combatState.pendingCounterattack = null;
+  session.combatState.enemyTurnReason = null;
+  session.combatState.awaitingSkillResolution = false;
+  session.combatState.skillResolutionPhase = null;
+  session.combatState.pendingSkillOutcomes = null;
+  session.combatState.pendingSkillContext = null;
+  session.log(`Combat flee source=${sourceLabel} trigger=${session.combatState.triggerId} round=${session.combatState.round}`);
+  session.writePacket(
+    buildVictoryPacket(session.currentHealth, session.currentMana, session.currentRage, {
+      characterExperience: 0,
+      petExperience: 0,
+      coins: 0,
+      items: [],
+    }),
+    DEFAULT_FLAGS,
+    `Sending combat flee result hp=${session.currentHealth} mp=${session.currentMana} rage=${session.currentRage}`
+  );
+  clearCombatState(session, false);
 }
 
 // --- Attack handling ---
