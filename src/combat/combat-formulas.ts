@@ -12,6 +12,7 @@ export const SKILL_PACKET_TRACE_PATH = resolve(process.cwd(), 'data/runtime/skil
 export const ENERVATE_SKILL_ID = 1101;
 export const SLAUGHTER_SKILL_ID = 1403;
 export const DEFIANT_SKILL_ID = 3103;
+export const COUNTERATTACK_SKILL_ID = 2203;
 export const FIREBALL_SKILL_ID = 4101;
 export const CURE_SKILL_ID = 4103;
 export const DEFIANT_MP_COST_BY_LEVEL = [50, 55, 65, 75, 90, 110, 110, 110, 200, 200, 250, 300];
@@ -22,6 +23,8 @@ export const ENERVATE_DAMAGE_SCALE_MAX_BY_LEVEL = [1.13, 1.132, 1.134, 1.136, 1.
 export const FIREBALL_MP_COST_BY_LEVEL = [40, 55, 70, 85, 100, 120, 120, 120, 180, 180, 220, 260];
 export const FIREBALL_DAMAGE_SCALE_MIN_BY_LEVEL = [1.18, 1.2, 1.22, 1.24, 1.26, 1.28, 1.3, 1.32, 1.34, 1.36, 1.4, 1.46];
 export const FIREBALL_DAMAGE_SCALE_MAX_BY_LEVEL = [1.28, 1.3, 1.32, 1.34, 1.36, 1.38, 1.4, 1.42, 1.44, 1.46, 1.52, 1.58];
+export const SLAUGHTER_DAMAGE_SCALE_MIN_BY_LEVEL = [1.68, 1.69, 1.7, 1.71, 1.72, 1.73, 1.74, 1.75, 1.76, 1.78, 1.8, 1.83];
+export const SLAUGHTER_DAMAGE_SCALE_MAX_BY_LEVEL = [1.74, 1.75, 1.76, 1.77, 1.78, 1.79, 1.8, 1.81, 1.82, 1.835, 1.85, 1.85];
 export const FIREBALL_EXPLOSION_CHANCE = 0.1;
 export const SLAUGHTER_CONCENTRATION_CHANCE = 0.1;
 export const CURE_MP_COST_BY_LEVEL = [35, 42, 50, 58, 66, 75, 75, 75, 110, 110, 140, 180];
@@ -106,6 +109,7 @@ export function createIdleCombatState(): CombatState {
     skillResolutionReason: null,
     skillResolutionPhase: null,
     pendingSkillOutcomes: null,
+    pendingCounterattack: null,
     playerStatus: {},
     enemyStatuses: {},
   };
@@ -511,16 +515,10 @@ export function buildPlayerEntry(session: GameSession): Record<string, any> {
 }
 
 export function computePlayerDamage(session: GameSession, enemy: Record<string, any>): number {
-  const stats = session.primaryAttributes || {};
-  const equipment = getEquipmentCombatBonuses(session);
-  const weaponMin = Math.max(0, equipment.attackMin || 0);
-  const weaponMax = Math.max(weaponMin, equipment.attackMax || weaponMin);
-  const base = 8 + ((stats.strength || 0) * 2) + (session.level || 1) + weaponMin;
-  const spread = 6 + (stats.dexterity || 0) + Math.max(0, weaponMax - weaponMin);
-  const mitigation = Math.floor(((enemy.level || 1) * 2) + (enemy.aptitude || 0));
-  const defiantPenalty = Math.max(0, Math.min(90, session.combatState?.playerStatus?.defiantAttackPenaltyPercent || 0));
-  const adjustedBase = Math.round(base * (1 - (defiantPenalty / 100)));
-  return Math.max(1, adjustedBase + Math.floor(Math.random() * Math.max(1, spread)) - mitigation);
+  const attackRange = resolvePlayerAttackRange(session);
+  const baseDamage = rollRangeDamage(attackRange.min, attackRange.max);
+  const mitigation = resolveEnemyPhysicalMitigation(session, enemy);
+  return Math.max(0, baseDamage - mitigation);
 }
 
 export function readExplicitCharacterAttackRange(session: GameSession): { min: number; max: number } | null {
@@ -580,21 +578,82 @@ export function resolvePlayerAttackRange(session: GameSession): { min: number; m
   return { min: adjustedMin, max: adjustedMax };
 }
 
-export function computeEnemyDamage(session: GameSession, enemy: Record<string, any>): number {
+export function rollRangeDamage(min: number, max: number): number {
+  const normalizedMin = Math.max(1, Math.round(min || 1));
+  const normalizedMax = Math.max(normalizedMin, Math.round(max || normalizedMin));
+  return normalizedMin + Math.floor(Math.random() * Math.max(1, (normalizedMax - normalizedMin) + 1));
+}
+
+export function resolveDerivedPlayerCombatStats(session: GameSession): {
+  defense: number;
+  hit: number;
+  dodge: number;
+  attackPower: number;
+  magicDefense: number;
+  magicAttackMin: number;
+  magicAttackMax: number;
+} {
   const stats = session.primaryAttributes || {};
-  const equipment = getEquipmentCombatBonuses(session);
-  const defenseBonusPercent = Math.max(0, Math.min(90, session.combatState?.playerStatus?.defiantDefenseBonusPercent || 0));
-  const defense = Math.floor(
-    ((stats.vitality || 0) * 0.8) +
-    ((stats.dexterity || 0) * 0.4) +
-    (session.level || 1) +
-    Math.max(0, equipment.defense || 0)
+  const dexterity = Math.max(0, Number(stats.dexterity) || 0);
+  const vitality = Math.max(0, Number(stats.vitality) || 0);
+  const intelligence = Math.max(0, Number(stats.intelligence) || 0);
+
+  // These coefficients were fit against the client panel snapshots for the current class/build.
+  const defense = Math.max(1, Math.round((4325 / 3) + ((31 * dexterity) / 40) + ((19 * vitality) / 18) + ((3 * intelligence) / 20)));
+  const hit = Math.max(1, Math.round((940 / 3) + (dexterity / 4) - (vitality / 18) + ((3 * intelligence) / 20)));
+  const dodge = Math.max(1, Math.round((2878 / 3) + ((27 * dexterity) / 40) + (vitality / 36) + ((9 * intelligence) / 20)));
+  const attackPower = Math.max(1, Math.round((490 / 3) + ((21 * dexterity) / 40) + (vitality / 18) + ((3 * intelligence) / 20)));
+  const magicDefense = Math.max(1, Math.round(1212 + (dexterity / 4) + ((5 * vitality) / 12) + ((21 * intelligence) / 20)));
+  const magicAttackMin = Math.max(1, Math.round(478 + ((33 * dexterity) / 40) + ((3 * vitality) / 4) + ((13 * intelligence) / 10)));
+  const magicAttackMax = Math.max(
+    magicAttackMin,
+    Math.round((2744 / 3) + ((19 * dexterity) / 40) + ((17 * vitality) / 36) + ((21 * intelligence) / 20))
   );
-  const adjustedDefense = Math.round(defense * (1 + (defenseBonusPercent / 100)));
+
+  return {
+    defense,
+    hit,
+    dodge,
+    attackPower,
+    magicDefense,
+    magicAttackMin,
+    magicAttackMax,
+  };
+}
+
+export function resolvePlayerArmorPenetration(session: GameSession): number {
+  const derived = resolveDerivedPlayerCombatStats(session);
+  return Math.max(0, Math.floor((derived.attackPower || 0) / 18));
+}
+
+export function resolveEnemyPhysicalMitigation(session: GameSession, enemy: Record<string, any>): number {
+  const baseMitigation = Math.floor(((enemy.level || 1) * 2) + Math.max(0, enemy.aptitude || 0));
+  const penetration = resolvePlayerArmorPenetration(session);
+  return Math.max(0, baseMitigation - penetration);
+}
+
+export function resolvePlayerCounterattackChance(session: GameSession): number {
+  const derived = resolveDerivedPlayerCombatStats(session);
+  const baseChance = 5;
+  const dodgeBonus = Math.floor((derived.dodge || 0) / 120);
+  const hitBonus = Math.floor((derived.hit || 0) / 200);
+  const attackPowerBonus = Math.floor((derived.attackPower || 0) / 80);
+  const learnedCounterattack = Array.isArray(session.skillState?.learnedSkills)
+    ? session.skillState.learnedSkills.find((entry: Record<string, any>) => (Number(entry?.skillId || 0) >>> 0) === COUNTERATTACK_SKILL_ID)
+    : null;
+  const counterattackLevel = Math.max(0, Number(learnedCounterattack?.level || 0) || 0);
+  const skillBonus = counterattackLevel <= 0 ? 0 : (4 + (counterattackLevel * 3));
+  return Math.max(0, Math.min(75, baseChance + dodgeBonus + hitBonus + attackPowerBonus + skillBonus));
+}
+
+export function computeEnemyDamage(session: GameSession, enemy: Record<string, any>): number {
+  const derived = resolveDerivedPlayerCombatStats(session);
+  const defenseBonusPercent = Math.max(0, Math.min(90, session.combatState?.playerStatus?.defiantDefenseBonusPercent || 0));
+  const adjustedDefense = Math.round(Math.max(1, derived.defense || 1) * (1 + (defenseBonusPercent / 100)));
   const base = 6 + ((enemy.level || 1) * 3) + (enemy.aptitude || 0);
   const enervatePenalty = Math.max(0, Math.min(90, session.combatState?.enemyStatuses?.[enemy?.entityId >>> 0]?.enervateAttackPenaltyPercent || 0));
   const adjustedBase = Math.round(base * (1 - (enervatePenalty / 100)));
-  return Math.max(1, adjustedBase + Math.floor(Math.random() * 5) - adjustedDefense);
+  return Math.max(0, adjustedBase + Math.floor(Math.random() * 5) - adjustedDefense);
 }
 
 export function computeSkillDamage(session: GameSession, skillId: number, skillLevel: number, enemy: Record<string, any>): number {
@@ -606,9 +665,9 @@ export function computeSkillDamage(session: GameSession, skillId: number, skillL
     const scaleMax = ENERVATE_DAMAGE_SCALE_MAX_BY_LEVEL[Math.max(0, skillLevel - 1)] || ENERVATE_DAMAGE_SCALE_MAX_BY_LEVEL[0];
     const scaledMin = Math.max(1, Math.round(attackMin * scaleMin));
     const scaledMax = Math.max(scaledMin, Math.round(attackMax * scaleMax));
-    const baseDamage = scaledMin + Math.floor(Math.random() * Math.max(1, (scaledMax - scaledMin) + 1));
-    const mitigation = Math.floor(((enemy.level || 1) * 2) + (enemy.aptitude || 0));
-    return Math.max(1, baseDamage - mitigation);
+    const baseDamage = rollRangeDamage(scaledMin, scaledMax);
+    const mitigation = resolveEnemyPhysicalMitigation(session, enemy);
+    return Math.max(0, baseDamage - mitigation);
   }
   if ((skillId >>> 0) === FIREBALL_SKILL_ID) {
     const attackRange = resolvePlayerMagicAttackRange(session);
@@ -618,21 +677,21 @@ export function computeSkillDamage(session: GameSession, skillId: number, skillL
     const scaleMax = FIREBALL_DAMAGE_SCALE_MAX_BY_LEVEL[Math.max(0, skillLevel - 1)] || FIREBALL_DAMAGE_SCALE_MAX_BY_LEVEL[0];
     const scaledMin = Math.max(1, Math.round(attackMin * scaleMin));
     const scaledMax = Math.max(scaledMin, Math.round(attackMax * scaleMax));
-    const baseDamage = scaledMin + Math.floor(Math.random() * Math.max(1, (scaledMax - scaledMin) + 1));
+    const baseDamage = rollRangeDamage(scaledMin, scaledMax);
     const mitigation = Math.floor((enemy.level || 1) + Math.max(0, enemy.aptitude || 0));
-    return Math.max(1, baseDamage - mitigation);
+    return Math.max(0, baseDamage - mitigation);
   }
   if ((skillId >>> 0) === SLAUGHTER_SKILL_ID) {
     const attackRange = resolvePlayerAttackRange(session);
     const attackMin = Math.max(1, attackRange.min || 0);
     const attackMax = Math.max(attackMin, attackRange.max || attackMin);
-    const levelBonusMin = 58 + ((Math.max(1, skillLevel) - 1) * 9);
-    const levelBonusMax = 70 + ((Math.max(1, skillLevel) - 1) * 26);
-    const scaledMin = Math.max(1, attackMin + levelBonusMin);
-    const scaledMax = Math.max(scaledMin, attackMax + levelBonusMax);
-    const baseDamage = scaledMin + Math.floor(Math.random() * Math.max(1, (scaledMax - scaledMin) + 1));
-    const mitigation = Math.floor(((enemy.level || 1) * 2) + Math.max(0, enemy.aptitude || 0));
-    return Math.max(1, baseDamage - mitigation);
+    const scaleMin = SLAUGHTER_DAMAGE_SCALE_MIN_BY_LEVEL[Math.max(0, skillLevel - 1)] || SLAUGHTER_DAMAGE_SCALE_MIN_BY_LEVEL[0];
+    const scaleMax = SLAUGHTER_DAMAGE_SCALE_MAX_BY_LEVEL[Math.max(0, skillLevel - 1)] || SLAUGHTER_DAMAGE_SCALE_MAX_BY_LEVEL[0];
+    const scaledMin = Math.max(1, Math.round(attackMin * scaleMin));
+    const scaledMax = Math.max(scaledMin, Math.round(attackMax * scaleMax));
+    const baseDamage = rollRangeDamage(scaledMin, scaledMax);
+    const mitigation = resolveEnemyPhysicalMitigation(session, enemy);
+    return Math.max(0, baseDamage - mitigation);
   }
   return computePlayerDamage(session, enemy);
 }
@@ -685,18 +744,10 @@ export function resolveEnervateAttackPenalty(skillLevel: number): number {
 }
 
 export function resolvePlayerMagicAttackRange(session: GameSession): { min: number; max: number } {
-  const stats = session.primaryAttributes || {};
-  const equipment = getEquipmentCombatBonuses(session);
-  const weaponMin = Math.max(0, equipment.magicAttackMin || 0);
-  const weaponMax = Math.max(weaponMin, equipment.magicAttackMax || weaponMin);
-  const intelligence = Math.max(0, stats.intelligence || 0);
-  const vitality = Math.max(0, stats.vitality || 0);
-  const level = Math.max(1, session.level || 1);
-  const base = weaponMin + (intelligence * 4) + level;
-  const spread = Math.max(1, (weaponMax - weaponMin) + Math.floor(vitality / 8));
+  const derived = resolveDerivedPlayerCombatStats(session);
   return {
-    min: Math.max(1, base),
-    max: Math.max(1, base + spread),
+    min: derived.magicAttackMin,
+    max: derived.magicAttackMax,
   };
 }
 

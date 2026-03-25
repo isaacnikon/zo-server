@@ -30,6 +30,7 @@ import {
   isEnemyDying,
   listLivingEnemies,
   resolveCaptureTargetEnemy,
+  resolvePlayerCounterattackChance,
   resolveSelectedEnemy,
   rollCapturedMonsterElementCode,
   SLAUGHTER_SKILL_ID,
@@ -362,6 +363,15 @@ export function resolveEnemyCounterattack(session: GameSession, reason: EnemyTur
 }
 
 export function processNextEnemyTurnAttack(session: GameSession, reason: EnemyTurnReason): void {
+  if (session.combatState?.pendingCounterattack) {
+    if (session.combatState.pendingCounterattack.played) {
+      session.combatState.pendingCounterattack = null;
+    } else {
+      playPendingPlayerCounterattack(session);
+      return;
+    }
+  }
+
   const queue = Array.isArray(session.combatState?.pendingEnemyTurnQueue)
     ? session.combatState.pendingEnemyTurnQueue
     : [];
@@ -395,6 +405,75 @@ export function processNextEnemyTurnAttack(session: GameSession, reason: EnemyTu
   if (session.currentHealth <= 0) {
     resolveDefeat(session);
     return;
+  }
+
+  if (enemyDamage === 0) {
+    queuePlayerCounterattack(session, enemy, reason);
+  }
+}
+
+function queuePlayerCounterattack(session: GameSession, enemy: Record<string, any>, reason: EnemyTurnReason): void {
+  const chancePercent = resolvePlayerCounterattackChance(session);
+  const roll = Math.floor(Math.random() * 100);
+  if (roll >= chancePercent) {
+    session.log(
+      `Combat counterattack skipped attacker=${enemy.entityId} chance=${chancePercent}% roll=${roll} reason=${reason}`
+    );
+    return;
+  }
+
+  session.combatState.pendingCounterattack = {
+    enemyEntityId: enemy.entityId >>> 0,
+    reason,
+    played: false,
+  };
+  session.log(
+    `Combat counterattack queued attacker=${session.entityType} target=${enemy.entityId} chance=${chancePercent}% roll=${roll} reason=${reason}`
+  );
+}
+
+function playPendingPlayerCounterattack(session: GameSession): void {
+  const pending = session.combatState?.pendingCounterattack;
+  if (!pending) {
+    return;
+  }
+
+  const enemy = findEnemyByEntityId(session.combatState.enemies, pending.enemyEntityId >>> 0);
+  if (!enemy || enemy.hp <= 0) {
+    session.combatState.pendingCounterattack = null;
+    return;
+  }
+
+  const playerDamage = computePlayerDamage(session, enemy);
+  const appliedPlayerDamage = Math.max(0, Math.min(enemy.hp, playerDamage));
+  enemy.hp = Math.max(0, enemy.hp - playerDamage);
+  session.combatState.damageDealt = Math.max(0, (session.combatState.damageDealt || 0) + appliedPlayerDamage);
+  session.writePacket(
+    buildAttackPlaybackPacket(
+      session.entityType >>> 0,
+      enemy.entityId >>> 0,
+      enemy.hp === 0 ? FIGHT_ACTIVE_STATE_SUBCMD : FIGHT_CONTROL_RING_OPEN_SUBCMD,
+      playerDamage
+    ),
+    DEFAULT_FLAGS,
+    `Sending player counterattack playback attacker=${session.entityType} target=${enemy.entityId} damage=${playerDamage} enemyHp=${enemy.hp} reason=${pending.reason}`
+  );
+  session.combatState.pendingCounterattack = {
+    ...pending,
+    played: true,
+  };
+
+  if (enemy.hp <= 0) {
+    session.writePacket(
+      buildEntityHidePacket(enemy.entityId >>> 0),
+      DEFAULT_FLAGS,
+      `Sending combat enemy hide entity=${enemy.entityId} reason=counterattack`
+    );
+    session.log(`Combat enemy defeated by counterattack entity=${enemy.entityId} remaining=${describeLivingEnemies(session.combatState.enemies)}`);
+    if (!findFirstLivingEnemy(session.combatState.enemies)) {
+      session.combatState.pendingCounterattack = null;
+      resolveVictory(session);
+    }
   }
 }
 

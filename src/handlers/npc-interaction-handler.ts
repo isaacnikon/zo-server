@@ -229,7 +229,7 @@ function handleInnRestRequest(session: GameSession, npcId: number, request: Serv
 
 function resolveInnRestPrice(session: GameSession): number {
   const level = Number.isInteger(session.level) ? session.level >>> 0 : 1;
-  return level >= 10 ? 100 : 0;
+  return level < 10 ? 0 : level * 10;
 }
 
 function resolveInnRestSpeaker(session: GameSession, npcId: number): string {

@@ -169,6 +169,11 @@ function tryHandleCombatReady(session: GameSession): boolean {
     return true;
   }
 
+  if (session.combatState.pendingCounterattack) {
+    processNextEnemyTurnAttack(session, session.combatState.enemyTurnReason || 'normal');
+    return true;
+  }
+
   if (session.combatState.phase === 'enemy-turn') {
     processNextEnemyTurnAttack(session, session.combatState.enemyTurnReason || 'normal');
     return true;

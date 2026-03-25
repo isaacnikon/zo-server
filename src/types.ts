@@ -309,6 +309,11 @@ export interface PendingSkillOutcome {
   healAmount?: number;
   targetDied?: boolean;
 }
+export interface PendingCounterattack {
+  enemyEntityId: number;
+  reason: 'normal' | 'post-kill';
+  played: boolean;
+}
 export interface CombatState {
   active: boolean;
   phase: CombatPhase;
@@ -333,6 +338,7 @@ export interface CombatState {
   skillResolutionReason?: string | null;
   skillResolutionPhase?: 'await-cast-ready' | 'await-impact-ready' | null;
   pendingSkillOutcomes?: PendingSkillOutcome[] | null;
+  pendingCounterattack?: PendingCounterattack | null;
   playerStatus: CombatPlayerStatus;
   enemyStatuses: Record<number, CombatEnemyStatus>;
 }
