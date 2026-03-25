@@ -4,6 +4,11 @@ import { normalizeInventoryState } from '../inventory/index.js';
 import { normalizePets } from '../pet-runtime.js';
 import { CHARACTER_VITALS_BASELINE } from '../gameplay/session-flows.js';
 import { resolveCharacterMaxVitals } from '../gameplay/max-vitals.js';
+import {
+  getAptitudeSkillDefinition,
+  getPassiveSkillDefinition,
+  isActiveSkillId,
+} from '../gameplay/skill-definitions.js';
 import type { UnknownRecord } from '../utils.js';
 type PrimaryAttributes = {
   intelligence: number;
@@ -14,6 +19,8 @@ type PrimaryAttributes = {
 type LearnedSkillRecord = {
   skillId: number;
   name: string;
+  level?: number;
+  proficiency?: number;
   sourceTemplateId?: number;
   learnedAt: number;
   requiredLevel?: number;
@@ -25,9 +32,6 @@ type SkillState = {
   learnedSkills: LearnedSkillRecord[];
   hotbarSkillIds: number[];
 };
-
-const SLAUGHTER_SKILL_ID = 1403;
-const SLAUGHTER_DERIVED_VARIANT_SKILL_ID = 20000 + SLAUGHTER_SKILL_ID;
 
 export function numberOrDefault(value: unknown, fallback: number): number {
   return typeof value === 'number' ? value : fallback;
@@ -106,10 +110,7 @@ export function normalizeSkillState(skillState: UnknownRecord | null | undefined
   const defaults = defaultSkillState();
   const learnedSkills = Array.isArray(skillState?.learnedSkills)
     ? skillState.learnedSkills
-        .filter((entry: UnknownRecord) =>
-          Number.isInteger(entry?.skillId) &&
-          ((entry.skillId >>> 0) !== (SLAUGHTER_DERIVED_VARIANT_SKILL_ID >>> 0))
-        )
+        .filter((entry: UnknownRecord) => Number.isInteger(entry?.skillId))
         .map((entry: UnknownRecord) => ({
           skillId: entry.skillId >>> 0,
           name: typeof entry.name === 'string' && entry.name.length > 0 ? entry.name : `Skill ${entry.skillId >>> 0}`,
@@ -127,6 +128,40 @@ export function normalizeSkillState(skillState: UnknownRecord | null | undefined
           ...(Number.isInteger(entry?.hotbarSlot) ? { hotbarSlot: entry.hotbarSlot | 0 } : {}),
         }))
     : defaults.learnedSkills;
+  // Backfill passive and aptitude skill variants for any active skill missing them.
+  const learnedSkillIds = new Set(learnedSkills.map((entry) => entry.skillId));
+  for (const activeSkill of learnedSkills.filter((entry) => isActiveSkillId(entry.skillId >>> 0))) {
+    const passiveDefinition = getPassiveSkillDefinition(activeSkill.skillId >>> 0);
+    const passiveSkillId = passiveDefinition?.skillId ? (passiveDefinition.skillId >>> 0) : 0;
+    if (passiveSkillId > 0 && !learnedSkillIds.has(passiveSkillId)) {
+      learnedSkills.push({
+        skillId: passiveSkillId,
+        name: passiveDefinition?.name || `${activeSkill.name} (Passive)`,
+        level: 1,
+        proficiency: 0,
+        ...(activeSkill.sourceTemplateId ? { sourceTemplateId: activeSkill.sourceTemplateId } : {}),
+        learnedAt: activeSkill.learnedAt,
+        hotbarSlot: null,
+      });
+      learnedSkillIds.add(passiveSkillId);
+    }
+
+    const aptitudeDefinition = getAptitudeSkillDefinition(activeSkill.skillId >>> 0);
+    const aptitudeSkillId = aptitudeDefinition?.skillId ? (aptitudeDefinition.skillId >>> 0) : 0;
+    if (aptitudeSkillId > 0 && !learnedSkillIds.has(aptitudeSkillId)) {
+      learnedSkills.push({
+        skillId: aptitudeSkillId,
+        name: aptitudeDefinition?.name || `${activeSkill.name} (Aptitude)`,
+        level: 1,
+        proficiency: 0,
+        ...(activeSkill.sourceTemplateId ? { sourceTemplateId: activeSkill.sourceTemplateId } : {}),
+        learnedAt: activeSkill.learnedAt,
+        hotbarSlot: null,
+      });
+      learnedSkillIds.add(aptitudeSkillId);
+    }
+  }
+
   const hotbarSource = Array.isArray(skillState?.hotbarSkillIds)
     ? skillState.hotbarSkillIds
     : defaults.hotbarSkillIds;
@@ -136,7 +171,7 @@ export function normalizeSkillState(skillState: UnknownRecord | null | undefined
       return 0;
     }
     const normalizedCandidate = candidate >>> 0;
-    return normalizedCandidate === (SLAUGHTER_DERIVED_VARIANT_SKILL_ID >>> 0) ? 0 : normalizedCandidate;
+    return isActiveSkillId(normalizedCandidate) ? normalizedCandidate : 0;
   });
 
   return {

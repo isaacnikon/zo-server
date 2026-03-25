@@ -1,56 +1,19 @@
-import fs from 'node:fs';
-
-import { resolveRepoPath } from '../runtime-paths.js';
 import { DEFAULT_FLAGS } from '../config.js';
 import { buildSkillStateSyncPacket } from '../protocol/gameplay-packets.js';
+import {
+  getSkillDefinition,
+  getAptitudeSkillDefinition,
+  getPassiveSkillDefinition,
+  getSkillBookDefinition,
+  getSkillVariantKind,
+  isActiveSkillId,
+  resolveAptitudeSkillId,
+  resolveBaseSkillId,
+} from './skill-definitions.js';
 
 import type { GameSession } from '../types.js';
 type UnknownRecord = Record<string, any>;
-type SkillAttribute = 'strength' | 'dexterity' | 'vitality' | 'intelligence' | null;
-
-interface SkillBookDefinition {
-  templateId: number;
-  skillId: number;
-  name: string;
-  requiredLevel: number;
-  requiredAttribute: SkillAttribute;
-  requiredAttributeValue: number;
-  incompatibleSkillIds: number[];
-}
-
-const SKILL_BOOK_OVERRIDES = new Map<number, Partial<SkillBookDefinition>>([
-  [27010, {
-    skillId: 4101,
-    name: 'Fire Ball',
-    requiredLevel: 10,
-    requiredAttribute: 'intelligence',
-    requiredAttributeValue: 20,
-    incompatibleSkillIds: [4102, 4103],
-  }],
-  [27011, {
-    skillId: 4102,
-    name: 'Frost Bolt',
-    requiredLevel: 10,
-    requiredAttribute: 'intelligence',
-    requiredAttributeValue: 20,
-    incompatibleSkillIds: [4101, 4103],
-  }],
-  [27012, {
-    skillId: 4103,
-    name: 'Cure',
-    requiredLevel: 10,
-    requiredAttribute: 'intelligence',
-    requiredAttributeValue: 20,
-    incompatibleSkillIds: [4101, 4102],
-  }],
-]);
-
-const ITEMS_TABLE_FILE = resolveRepoPath('data', 'client-derived', 'items.json');
-const SKILL_BOOKS_BY_TEMPLATE_ID = loadSkillBookDefinitions();
-
-export function getSkillBookDefinition(templateId: number): SkillBookDefinition | null {
-  return SKILL_BOOKS_BY_TEMPLATE_ID.get(templateId >>> 0) || null;
-}
+const DEFAULT_SKILL_PROFICIENCY_THRESHOLD = 10000;
 
 export function ensureSkillState(session: GameSession): UnknownRecord {
   if (!session.skillState || typeof session.skillState !== 'object') {
@@ -71,6 +34,346 @@ export function ensureSkillState(session: GameSession): UnknownRecord {
   return session.skillState;
 }
 
+export function findLearnedSkill(session: GameSession, skillId: number): UnknownRecord | null {
+  const normalizedSkillId = skillId >>> 0;
+  const learnedSkills = Array.isArray(session.skillState?.learnedSkills) ? session.skillState.learnedSkills : [];
+  return learnedSkills.find((entry: UnknownRecord) => (Number(entry?.skillId || 0) >>> 0) === normalizedSkillId) || null;
+}
+
+export function resolveStoredSkillLevel(session: GameSession, skillId: number): number {
+  const learned = findLearnedSkill(session, skillId);
+  return Math.max(0, Number(learned?.level || 0) || 0);
+}
+
+export function resolveEffectiveSkillLevel(session: GameSession, skillId: number): number {
+  const normalizedSkillId = skillId >>> 0;
+  const variantKind = getSkillVariantKind(normalizedSkillId);
+  if (variantKind === 'passive') {
+    const baseSkillId = resolveBaseSkillId(normalizedSkillId);
+    const baseSkillLevel = Math.max(1, resolveEffectiveSkillLevel(session, baseSkillId));
+    return Math.max(1, Math.min(5, Math.floor(baseSkillLevel / 2)));
+  }
+  if (variantKind !== 'active') {
+    return Math.max(1, resolveStoredSkillLevel(session, normalizedSkillId) || 1);
+  }
+
+  const activeLevel = Math.max(1, resolveStoredSkillLevel(session, normalizedSkillId) || 1);
+  if (activeLevel >= 11) {
+    return Math.min(12, activeLevel);
+  }
+
+  const aptitudeLevel = Math.max(0, resolveStoredSkillLevel(session, resolveAptitudeSkillId(normalizedSkillId)));
+  if (aptitudeLevel <= 0) {
+    return Math.min(10, activeLevel);
+  }
+
+  return Math.max(activeLevel, Math.min(12, 10 + Math.min(2, aptitudeLevel)));
+}
+
+export function resolveSkillMaxLevel(skillId: number): number {
+  const normalizedSkillId = skillId >>> 0;
+  const variantKind = getSkillVariantKind(normalizedSkillId);
+  if (variantKind === 'aptitude') {
+    return 2;
+  }
+  if (variantKind === 'passive') {
+    return 5;
+  }
+  return getAptitudeSkillDefinition(normalizedSkillId) ? 10 : 12;
+}
+
+type SkillUpgradeEligibility = {
+  ok: boolean;
+  reason?: string;
+  skillId: number;
+  currentLevel: number;
+  nextLevel: number;
+  maxLevel: number;
+};
+
+export function canUpgradeSkill(session: GameSession, skillId: number): SkillUpgradeEligibility {
+  const normalizedSkillId = skillId >>> 0;
+  const definition = getSkillDefinition(normalizedSkillId);
+  if (!definition) {
+    return {
+      ok: false,
+      reason: `Unknown skillId=${normalizedSkillId}`,
+      skillId: normalizedSkillId,
+      currentLevel: 0,
+      nextLevel: 0,
+      maxLevel: 0,
+    };
+  }
+
+  const learned = findLearnedSkill(session, normalizedSkillId);
+  const currentLevel = Math.max(0, Number(learned?.level || 0) || 0);
+  if (!learned) {
+    return {
+      ok: false,
+      reason: `${definition.name} is not learned`,
+      skillId: normalizedSkillId,
+      currentLevel: 0,
+      nextLevel: 0,
+      maxLevel: resolveSkillMaxLevel(normalizedSkillId),
+    };
+  }
+
+  const maxLevel = resolveSkillMaxLevel(normalizedSkillId);
+  if (currentLevel >= maxLevel) {
+    return {
+      ok: false,
+      reason: `${definition.name} is already at max level ${maxLevel}`,
+      skillId: normalizedSkillId,
+      currentLevel,
+      nextLevel: currentLevel,
+      maxLevel,
+    };
+  }
+
+  const variantKind = getSkillVariantKind(normalizedSkillId);
+  if (variantKind === 'aptitude') {
+    const baseSkillId = resolveBaseSkillId(normalizedSkillId);
+    const baseSkillLevel = resolveStoredSkillLevel(session, baseSkillId);
+    if (baseSkillLevel < 10) {
+      return {
+        ok: false,
+        reason: `${definition.name} requires base skill level 10`,
+        skillId: normalizedSkillId,
+        currentLevel,
+        nextLevel: currentLevel + 1,
+        maxLevel,
+      };
+    }
+    if ((session.selectedAptitude || 0) <= 0) {
+      return {
+        ok: false,
+        reason: `${definition.name} requires a selected aptitude`,
+        skillId: normalizedSkillId,
+        currentLevel,
+        nextLevel: currentLevel + 1,
+        maxLevel,
+      };
+    }
+  } else if (variantKind === 'passive') {
+    const baseSkillId = resolveBaseSkillId(normalizedSkillId);
+    const effectiveBaseLevel = Math.max(1, resolveEffectiveSkillLevel(session, baseSkillId));
+    const derivedPassiveLevel = Math.max(1, Math.min(5, Math.floor(effectiveBaseLevel / 2)));
+    return {
+      ok: false,
+      reason: `${definition.name} is derived from base skill level (${derivedPassiveLevel} = floor(${effectiveBaseLevel}/2))`,
+      skillId: normalizedSkillId,
+      currentLevel,
+      nextLevel: derivedPassiveLevel,
+      maxLevel,
+    };
+  }
+
+  return {
+    ok: true,
+    skillId: normalizedSkillId,
+    currentLevel,
+    nextLevel: currentLevel + 1,
+    maxLevel,
+  };
+}
+
+export function upgradeSkill(session: GameSession, skillId: number, options: { sendSync?: boolean } = {}): UnknownRecord {
+  const eligibility = canUpgradeSkill(session, skillId);
+  if (!eligibility.ok) {
+    return {
+      ok: false,
+      reason: eligibility.reason || `skillId=${eligibility.skillId} cannot be upgraded`,
+      skillId: eligibility.skillId,
+      currentLevel: eligibility.currentLevel,
+      maxLevel: eligibility.maxLevel,
+    };
+  }
+
+  const learned = findLearnedSkill(session, eligibility.skillId);
+  if (!learned) {
+    return {
+      ok: false,
+      reason: `skillId=${eligibility.skillId} is not learned`,
+      skillId: eligibility.skillId,
+      currentLevel: 0,
+      maxLevel: eligibility.maxLevel,
+    };
+  }
+
+  learned.level = eligibility.nextLevel;
+  if (options.sendSync !== false) {
+    sendSkillStateSync(session, `skill-upgrade skillId=${eligibility.skillId} level=${eligibility.nextLevel}`);
+  }
+  return {
+    ok: true,
+    skillId: eligibility.skillId,
+    currentLevel: eligibility.currentLevel,
+    upgradedLevel: eligibility.nextLevel,
+    maxLevel: eligibility.maxLevel,
+    learnedSkill: learned,
+  };
+}
+
+function resolveSkillProficiencyThreshold(session: GameSession, skillId: number): number {
+  const normalizedSkillId = skillId >>> 0;
+  const definition = getSkillDefinition(normalizedSkillId);
+  const currentLevel = Math.max(1, resolveStoredSkillLevel(session, normalizedSkillId) || 1);
+  const thresholds = Array.isArray(definition?.proficiencyThresholds) ? definition.proficiencyThresholds : [];
+  const threshold = thresholds[Math.max(0, currentLevel - 1)] || thresholds[thresholds.length - 1] || 0;
+  return Math.max(1, threshold || DEFAULT_SKILL_PROFICIENCY_THRESHOLD);
+}
+
+function resolveNextProficiencyUpgradeTarget(session: GameSession, skillId: number): UnknownRecord | null {
+  const normalizedSkillId = skillId >>> 0;
+  const activeSkill = findLearnedSkill(session, normalizedSkillId);
+  if (!activeSkill) {
+    return null;
+  }
+
+  const activeMaxLevel = resolveSkillMaxLevel(normalizedSkillId);
+  const activeLevel = Math.max(0, Number(activeSkill.level || 0) || 0);
+  if (activeLevel < activeMaxLevel) {
+    return activeSkill;
+  }
+
+  const aptitudeDefinition = getAptitudeSkillDefinition(normalizedSkillId);
+  if (!aptitudeDefinition?.skillId) {
+    return activeSkill;
+  }
+
+  return findLearnedSkill(session, aptitudeDefinition.skillId >>> 0) || null;
+}
+
+type GrantSkillOptions = {
+  sourceTemplateId?: number;
+  learnedAt?: number;
+  autoAssignHotbar?: boolean;
+  skipRequirementChecks?: boolean;
+};
+
+type GrantSkillResult = {
+  ok: boolean;
+  reason?: string;
+  learnedSkill?: UnknownRecord;
+  grantedSkillIds?: number[];
+  autoAssignedHotbarSlot?: number | null;
+};
+
+export function grantSkill(session: GameSession, skillId: number, options: GrantSkillOptions = {}): GrantSkillResult {
+  const normalizedSkillId = skillId >>> 0;
+  const definition = getSkillDefinition(normalizedSkillId);
+  if (!definition) {
+    return {
+      ok: false,
+      reason: `Unknown skillId=${normalizedSkillId}`,
+    };
+  }
+
+  const skillState = ensureSkillState(session);
+  const learnedSkills = Array.isArray(skillState.learnedSkills) ? skillState.learnedSkills : [];
+  const existing = findLearnedSkill(session, normalizedSkillId);
+  if (existing) {
+    return {
+      ok: false,
+      reason: `${definition.name} is already learned`,
+      learnedSkill: existing,
+      grantedSkillIds: [normalizedSkillId],
+      autoAssignedHotbarSlot: Number.isInteger(existing?.hotbarSlot) ? (existing.hotbarSlot | 0) : null,
+    };
+  }
+
+  if (!options.skipRequirementChecks) {
+    const requiredLevel = Math.max(1, Number(definition.requiredLevel || 1) || 1);
+    if ((session.level || 0) < requiredLevel) {
+      return {
+        ok: false,
+        reason: `${definition.name} requires level ${requiredLevel}`,
+      };
+    }
+
+    if (definition.requiredAttribute && Number(definition.requiredAttributeValue || 0) > 0) {
+      const currentValue = Math.max(0, Number(session?.primaryAttributes?.[definition.requiredAttribute] || 0));
+      if (currentValue < Number(definition.requiredAttributeValue || 0)) {
+        return {
+          ok: false,
+          reason: `${definition.name} requires ${definition.requiredAttribute} ${Number(definition.requiredAttributeValue || 0)}`,
+        };
+      }
+    }
+
+    const incompatibleSkillIds = Array.isArray(definition.incompatibleSkillIds) ? definition.incompatibleSkillIds : [];
+    const conflictingSkill = learnedSkills.find((entry: UnknownRecord) =>
+      incompatibleSkillIds.includes(Number(entry?.skillId || 0) >>> 0)
+    );
+    if (conflictingSkill) {
+      return {
+        ok: false,
+        reason: `${definition.name} is incompatible with ${conflictingSkill.name || `skill ${conflictingSkill.skillId}`}`,
+      };
+    }
+  }
+
+  const hotbarSkillIds = Array.isArray(skillState.hotbarSkillIds) ? skillState.hotbarSkillIds : [];
+  const shouldAssignHotbar = options.autoAssignHotbar !== false && isActiveSkillId(normalizedSkillId);
+  const emptyHotbarIndex = shouldAssignHotbar ? hotbarSkillIds.findIndex((value: unknown) => !Number(value)) : -1;
+  const hotbarSlot = emptyHotbarIndex >= 0 ? emptyHotbarIndex : null;
+  if (hotbarSlot !== null) {
+    hotbarSkillIds[hotbarSlot] = normalizedSkillId;
+  }
+
+  const learnedAt = Number.isInteger(options.learnedAt) ? (options.learnedAt as number) : Date.now();
+  const normalizedRequiredLevel = Number.isInteger(definition.requiredLevel)
+    ? (Number(definition.requiredLevel) >>> 0)
+    : null;
+  const normalizedRequiredAttributeValue = Number.isInteger(definition.requiredAttributeValue)
+    ? (Number(definition.requiredAttributeValue) >>> 0)
+    : null;
+  const learnedSkill = {
+    skillId: normalizedSkillId,
+    name: definition.name,
+    level: 1,
+    proficiency: 0,
+    ...(Number.isInteger(options.sourceTemplateId) ? { sourceTemplateId: (options.sourceTemplateId as number) >>> 0 } : {}),
+    learnedAt,
+    ...(normalizedRequiredLevel !== null ? { requiredLevel: normalizedRequiredLevel } : {}),
+    ...(definition.requiredAttribute ? { requiredAttribute: definition.requiredAttribute } : {}),
+    ...(normalizedRequiredAttributeValue !== null ? { requiredAttributeValue: normalizedRequiredAttributeValue } : {}),
+    hotbarSlot,
+  };
+  learnedSkills.push(learnedSkill);
+
+  const grantedSkillIds = [normalizedSkillId];
+  if (isActiveSkillId(normalizedSkillId)) {
+    for (const linkedDefinition of [getPassiveSkillDefinition(normalizedSkillId), getAptitudeSkillDefinition(normalizedSkillId)]) {
+      const linkedSkillId = linkedDefinition?.skillId ? (linkedDefinition.skillId >>> 0) : 0;
+      if (linkedSkillId <= 0 || findLearnedSkill(session, linkedSkillId)) {
+        continue;
+      }
+      const linkedResult = grantSkill(session, linkedSkillId, {
+        sourceTemplateId: Number.isInteger(options.sourceTemplateId) ? (options.sourceTemplateId as number) >>> 0 : undefined,
+        learnedAt,
+        autoAssignHotbar: false,
+        skipRequirementChecks: true,
+      });
+      if (linkedResult.ok && Array.isArray(linkedResult.grantedSkillIds)) {
+        grantedSkillIds.push(...linkedResult.grantedSkillIds);
+      }
+    }
+  }
+
+  session.skillState = {
+    learnedSkills,
+    hotbarSkillIds,
+  };
+
+  return {
+    ok: true,
+    learnedSkill,
+    grantedSkillIds,
+    autoAssignedHotbarSlot: hotbarSlot,
+  };
+}
+
 export function learnSkillFromBook(session: GameSession, bagItem: UnknownRecord): UnknownRecord {
   const book = getSkillBookDefinition(bagItem?.templateId || 0);
   if (!book) {
@@ -80,77 +383,107 @@ export function learnSkillFromBook(session: GameSession, bagItem: UnknownRecord)
     };
   }
 
-  const skillState = ensureSkillState(session);
-  const learnedSkills = Array.isArray(skillState.learnedSkills) ? skillState.learnedSkills : [];
-  const alreadyLearned = learnedSkills.find((entry: UnknownRecord) => (entry?.skillId >>> 0) === (book.skillId >>> 0));
-  if (alreadyLearned) {
-    return {
-      ok: false,
-      reason: `${book.name} is already learned`,
-      skillBook: book,
-    };
-  }
-
-  if ((session.level || 0) < book.requiredLevel) {
-    return {
-      ok: false,
-      reason: `${book.name} requires level ${book.requiredLevel}`,
-      skillBook: book,
-    };
-  }
-
-  if (book.requiredAttribute && book.requiredAttributeValue > 0) {
-    const currentValue = Math.max(0, Number(session?.primaryAttributes?.[book.requiredAttribute] || 0));
-    if (currentValue < book.requiredAttributeValue) {
-      return {
-        ok: false,
-        reason: `${book.name} requires ${book.requiredAttribute} ${book.requiredAttributeValue}`,
-        skillBook: book,
-      };
-    }
-  }
-
-  const conflictingSkill = learnedSkills.find((entry: UnknownRecord) =>
-    book.incompatibleSkillIds.includes(entry?.skillId >>> 0)
-  );
-  if (conflictingSkill) {
-    return {
-      ok: false,
-      reason: `${book.name} is incompatible with ${conflictingSkill.name || `skill ${conflictingSkill.skillId}`}`,
-      skillBook: book,
-    };
-  }
-
-  const hotbarSkillIds = Array.isArray(skillState.hotbarSkillIds) ? skillState.hotbarSkillIds : [];
-  const emptyHotbarIndex = hotbarSkillIds.findIndex((value: unknown) => !Number(value));
-  const hotbarSlot = emptyHotbarIndex >= 0 ? emptyHotbarIndex : null;
-  if (hotbarSlot !== null) {
-    hotbarSkillIds[hotbarSlot] = book.skillId >>> 0;
-  }
-
-  const learnedSkill = {
-    skillId: book.skillId >>> 0,
-    name: book.name,
-    level: 1,
-    proficiency: 0,
+  const grantResult = grantSkill(session, book.skillId >>> 0, {
     sourceTemplateId: book.templateId >>> 0,
-    learnedAt: Date.now(),
-    requiredLevel: book.requiredLevel >>> 0,
-    requiredAttribute: book.requiredAttribute,
-    requiredAttributeValue: book.requiredAttributeValue >>> 0,
-    hotbarSlot,
-  };
-  learnedSkills.push(learnedSkill);
-  session.skillState = {
-    learnedSkills,
-    hotbarSkillIds,
-  };
+    autoAssignHotbar: true,
+  });
+  if (!grantResult.ok) {
+    return {
+      ok: false,
+      reason: grantResult.reason || `${book.name} could not be learned`,
+      skillBook: book,
+    };
+  }
 
   return {
     ok: true,
-    learnedSkill,
+    learnedSkill: grantResult.learnedSkill,
     skillBook: book,
-    autoAssignedHotbarSlot: hotbarSlot,
+    grantedSkillIds: grantResult.grantedSkillIds || [resolveBaseSkillId(book.skillId >>> 0)],
+    autoAssignedHotbarSlot: grantResult.autoAssignedHotbarSlot ?? null,
+  };
+}
+
+export function incrementSkillProficiency(session: GameSession, skillId: number): void {
+  addSkillProficiency(session, skillId, 1, 'proficiency-increment');
+}
+
+export function addSkillProficiency(
+  session: GameSession,
+  skillId: number,
+  amount: number,
+  reason = 'proficiency-grant'
+): UnknownRecord {
+  const normalizedSkillId = skillId >>> 0;
+  const normalizedAmount = Math.max(0, Math.floor(amount));
+  if (normalizedAmount <= 0) {
+    return {
+      ok: false,
+      reason: 'amount must be positive',
+      skillId: normalizedSkillId,
+      amount: normalizedAmount,
+    };
+  }
+
+  const skillState = ensureSkillState(session);
+  const learnedSkills = Array.isArray(skillState.learnedSkills) ? skillState.learnedSkills : [];
+  const activeEntry = learnedSkills.find((s: UnknownRecord) => (Number(s?.skillId || 0) >>> 0) === normalizedSkillId);
+  if (!activeEntry) {
+    return {
+      ok: false,
+      reason: `skillId=${normalizedSkillId} is not learned`,
+      skillId: normalizedSkillId,
+      amount: normalizedAmount,
+    };
+  }
+
+  let progressionEntry: UnknownRecord = resolveNextProficiencyUpgradeTarget(session, normalizedSkillId) || activeEntry;
+  let threshold = Math.max(1, resolveSkillProficiencyThreshold(session, Number(progressionEntry.skillId || 0) >>> 0));
+  progressionEntry.proficiency = Math.max(0, (Number(progressionEntry.proficiency) || 0) + normalizedAmount);
+  let upgradedSkillIds: number[] = [];
+
+  while ((Number(progressionEntry.proficiency) || 0) >= threshold && threshold > 0) {
+    const upgradeResult = upgradeSkill(session, Number(progressionEntry.skillId || 0) >>> 0, { sendSync: false });
+    if (!upgradeResult.ok) {
+      break;
+    }
+    progressionEntry.proficiency = Math.max(0, (Number(progressionEntry.proficiency) || 0) - threshold);
+    upgradedSkillIds.push(Number(upgradeResult.skillId || 0) >>> 0);
+    const nextTarget = resolveNextProficiencyUpgradeTarget(session, normalizedSkillId);
+    if (!nextTarget) {
+      break;
+    }
+    progressionEntry = nextTarget;
+    threshold = Math.max(1, resolveSkillProficiencyThreshold(session, Number(progressionEntry.skillId || 0) >>> 0));
+  }
+
+  const progressionSkillId = Number(progressionEntry.skillId || 0) >>> 0;
+  const effectiveLevel = resolveEffectiveSkillLevel(session, normalizedSkillId);
+  const proficiencyValue = Math.max(0, Number(progressionEntry.proficiency) || 0);
+  const progressionTarget = getSkillVariantKind(progressionSkillId) === 'aptitude' ? 'aptitude' : 'active';
+  const passiveSkillId = resolveBaseSkillId(normalizedSkillId) + 10000;
+  const passiveLevel = findLearnedSkill(session, passiveSkillId)
+    ? resolveEffectiveSkillLevel(session, passiveSkillId)
+    : 0;
+  const passiveEntry = findLearnedSkill(session, passiveSkillId);
+  if (passiveEntry) {
+    passiveEntry.level = passiveLevel;
+  }
+  sendSkillStateSync(
+    session,
+    `${reason} skillId=${normalizedSkillId} progressionTarget=${progressionTarget} progressionSkillId=${progressionSkillId} effectiveLevel=${effectiveLevel} passiveLevel=${passiveLevel} proficiency=${proficiencyValue}/${threshold}${upgradedSkillIds.length > 0 ? ` upgraded=${upgradedSkillIds.join(',')}` : ''}`
+  );
+
+  return {
+    ok: true,
+    skillId: normalizedSkillId,
+    amount: normalizedAmount,
+    progressionSkillId,
+    effectiveLevel,
+    passiveLevel,
+    proficiency: proficiencyValue,
+    threshold,
+    upgradedSkillIds,
   };
 }
 
@@ -177,118 +510,4 @@ export function sendSkillStateSync(session: GameSession, reason = 'runtime'): vo
       .map((entry: { skillId: number; level: number; proficiency: number }) => `${entry.skillId}:${entry.level}:${entry.proficiency}`)
       .join(',')}`
   );
-}
-
-function loadSkillBookDefinitions(): Map<number, SkillBookDefinition> {
-  const byTemplateId = new Map<number, SkillBookDefinition>();
-  let raw: UnknownRecord = {};
-  try {
-    raw = JSON.parse(fs.readFileSync(ITEMS_TABLE_FILE, 'utf8')) as UnknownRecord;
-  } catch (_err) {
-    return byTemplateId;
-  }
-
-  const entries = Array.isArray(raw?.entries) ? raw.entries : [];
-  const nameToSkillId = new Map<string, number>();
-  for (const entry of entries) {
-    if (!Number.isInteger(entry?.templateId)) {
-      continue;
-    }
-    const skillId = resolveSkillId(entry);
-    if (skillId === null || skillId <= 0) {
-      continue;
-    }
-    const name = typeof entry?.name === 'string' ? entry.name.trim() : '';
-    if (name) {
-      const normalizedSkillId = skillId >>> 0;
-      nameToSkillId.set(name.toLowerCase(), normalizedSkillId);
-    }
-  }
-
-  for (const entry of entries) {
-    if (!Number.isInteger(entry?.templateId)) {
-      continue;
-    }
-    const skillId = resolveSkillId(entry);
-    if (skillId === null || skillId <= 0 || !looksLikeSkillBook(entry)) {
-      continue;
-    }
-
-    const normalizedSkillId = skillId >>> 0;
-    const name = typeof entry?.name === 'string' && entry.name.length > 0 ? entry.name : `Skill ${normalizedSkillId}`;
-    const requiredAttribute = resolveRequiredAttribute(entry);
-    const requiredAttributeValue = resolveRequiredAttributeValue(entry);
-    const incompatibleNames = parseIncompatibleSkillNames(entry);
-    const override = SKILL_BOOK_OVERRIDES.get(entry.templateId >>> 0) || {};
-    byTemplateId.set(entry.templateId >>> 0, {
-      templateId: entry.templateId >>> 0,
-      skillId: typeof override.skillId === 'number' && Number.isInteger(override.skillId)
-        ? (override.skillId >>> 0)
-        : normalizedSkillId,
-      name: typeof override.name === 'string' && override.name.length > 0 ? override.name : name,
-      requiredLevel: typeof override.requiredLevel === 'number' && Number.isInteger(override.requiredLevel)
-        ? Math.max(1, override.requiredLevel) >>> 0
-        : (Math.max(1, Number(entry?.templateTierField || 1)) >>> 0),
-      requiredAttribute: override.requiredAttribute ?? requiredAttribute,
-      requiredAttributeValue: typeof override.requiredAttributeValue === 'number' && Number.isInteger(override.requiredAttributeValue)
-        ? (override.requiredAttributeValue >>> 0)
-        : requiredAttributeValue,
-      incompatibleSkillIds: Array.isArray(override.incompatibleSkillIds)
-        ? override.incompatibleSkillIds.map((value) => value >>> 0)
-        : incompatibleNames
-            .map((skillName) => nameToSkillId.get(skillName.toLowerCase()) || 0)
-            .filter((value) => value > 0),
-    });
-  }
-
-  return byTemplateId;
-}
-
-function looksLikeSkillBook(entry: UnknownRecord): boolean {
-  const tooltip = `${typeof entry?.tooltipMarkup === 'string' ? entry.tooltipMarkup : ''} ${typeof entry?.description === 'string' ? entry.description : ''}`;
-  return /skill book/i.test(tooltip);
-}
-
-function resolveSkillId(entry: UnknownRecord): number | null {
-  const valueFields = Array.isArray(entry?.valueFields) ? entry.valueFields : [];
-  const candidate = valueFields.length > 2 ? valueFields[2] : null;
-  return Number.isInteger(candidate) ? (candidate >>> 0) : null;
-}
-
-function resolveRequiredAttribute(entry: UnknownRecord): SkillAttribute {
-  const tooltip = `${typeof entry?.tooltipMarkup === 'string' ? entry.tooltipMarkup : ''}`.toLowerCase();
-  if (tooltip.includes('strength')) {
-    return 'strength';
-  }
-  if (tooltip.includes('dexterity')) {
-    return 'dexterity';
-  }
-  if (tooltip.includes('vitality')) {
-    return 'vitality';
-  }
-  if (tooltip.includes('intelligence')) {
-    return 'intelligence';
-  }
-  return null;
-}
-
-function resolveRequiredAttributeValue(entry: UnknownRecord): number {
-  const valueFields = Array.isArray(entry?.valueFields) ? entry.valueFields : [];
-  const candidate = valueFields.length > 1 ? Number(valueFields[1] || 0) : 0;
-  if (!Number.isFinite(candidate) || candidate <= 0) {
-    return 0;
-  }
-  return Math.max(0, Math.floor(candidate / 10));
-}
-
-function parseIncompatibleSkillNames(entry: UnknownRecord): string[] {
-  const tooltip = `${typeof entry?.tooltipMarkup === 'string' ? entry.tooltipMarkup : ''}`;
-  const match = tooltip.match(/incompatible with\s+([^.;]+)/i);
-  if (!match) {
-    return [];
-  }
-  return match[1]
-    .split(/\s+and\s+|,/i)
-    .map((value) => value.trim())
-    .filter((value) => value.length > 0);
 }

@@ -712,7 +712,9 @@ export function finalizeSkillResolutionAndEnemyTurn(session: GameSession, source
   const pendingOutcomes = Array.isArray(session.combatState.pendingSkillOutcomes)
     ? session.combatState.pendingSkillOutcomes
     : [];
+  const pendingSkillContext = session.combatState.pendingSkillContext || null;
   session.combatState.pendingSkillOutcomes = null;
+  session.combatState.pendingSkillContext = null;
   session.combatState.awaitingSkillResolution = false;
   const startedAt = session.combatState.skillResolutionStartedAt || 0;
   const elapsed = startedAt > 0 ? Math.max(0, Date.now() - startedAt) : 0;
@@ -791,6 +793,11 @@ export function finalizeSkillResolutionAndEnemyTurn(session: GameSession, source
 
   if (!findFirstLivingEnemy(session.combatState.enemies)) {
     resolveVictory(session);
+    return;
+  }
+
+  if (pendingSkillContext?.allowEnemyCounterattack === false) {
+    transitionToCommandPhase(session, `skill-complete-no-counterattack source=${source}`);
     return;
   }
 

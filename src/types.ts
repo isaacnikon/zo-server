@@ -309,6 +309,12 @@ export interface PendingSkillOutcome {
   healAmount?: number;
   targetDied?: boolean;
 }
+export interface PendingSkillContext {
+  skillId: number;
+  implementationClass?: number | null;
+  followUpMode?: 'none' | 'delayed_cast';
+  allowEnemyCounterattack?: boolean;
+}
 export interface PendingCounterattack {
   enemyEntityId: number;
   reason: 'normal' | 'post-kill';
@@ -338,6 +344,7 @@ export interface CombatState {
   skillResolutionReason?: string | null;
   skillResolutionPhase?: 'await-cast-ready' | 'await-impact-ready' | null;
   pendingSkillOutcomes?: PendingSkillOutcome[] | null;
+  pendingSkillContext?: PendingSkillContext | null;
   pendingCounterattack?: PendingCounterattack | null;
   playerStatus: CombatPlayerStatus;
   enemyStatuses: Record<number, CombatEnemyStatus>;

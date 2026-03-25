@@ -242,6 +242,7 @@ export function sendCombatEncounterProbe(session: GameSession, action: CombatAct
     skillResolutionReason: null,
     skillResolutionPhase: null,
     pendingSkillOutcomes: null,
+    pendingSkillContext: null,
     pendingEnemyTurnQueue: [],
     pendingPostKillCounterattack: false,
     enemyTurnReason: null,

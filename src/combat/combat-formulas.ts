@@ -2,6 +2,9 @@ import type { CombatEnemyInstance, CombatState, GameSession } from '../types.js'
 import { appendFileSync, mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { getEquipmentCombatBonuses } from '../inventory/index.js';
+import { resolveSkillManaCostFromDefinition } from '../gameplay/skill-definitions.js';
+import { getSkillDefinition } from '../gameplay/skill-definitions.js';
+import { resolveEffectiveSkillLevel } from '../gameplay/skill-runtime.js';
 
 
 // --- Constants ---
@@ -15,19 +18,15 @@ export const DEFIANT_SKILL_ID = 3103;
 export const COUNTERATTACK_SKILL_ID = 2203;
 export const FIREBALL_SKILL_ID = 4101;
 export const CURE_SKILL_ID = 4103;
-export const DEFIANT_MP_COST_BY_LEVEL = [50, 55, 65, 75, 90, 110, 110, 110, 200, 200, 250, 300];
 export const DEFIANT_DEFENSE_BONUS_BY_LEVEL = [20, 20, 20, 20, 20, 30, 32, 34, 36, 48, 75, 75];
-export const ENERVATE_MP_COST_BY_LEVEL = [40, 59, 80, 100, 120, 140, 140, 140, 200, 200, 250, 300];
 export const ENERVATE_DAMAGE_SCALE_MIN_BY_LEVEL = [1.12, 1.122, 1.124, 1.126, 1.128, 1.13, 1.132, 1.134, 1.136, 1.138, 1.16, 1.2];
 export const ENERVATE_DAMAGE_SCALE_MAX_BY_LEVEL = [1.13, 1.132, 1.134, 1.136, 1.138, 1.14, 1.142, 1.144, 1.146, 1.148, 1.18, 1.22];
-export const FIREBALL_MP_COST_BY_LEVEL = [40, 55, 70, 85, 100, 120, 120, 120, 180, 180, 220, 260];
 export const FIREBALL_DAMAGE_SCALE_MIN_BY_LEVEL = [1.18, 1.2, 1.22, 1.24, 1.26, 1.28, 1.3, 1.32, 1.34, 1.36, 1.4, 1.46];
 export const FIREBALL_DAMAGE_SCALE_MAX_BY_LEVEL = [1.28, 1.3, 1.32, 1.34, 1.36, 1.38, 1.4, 1.42, 1.44, 1.46, 1.52, 1.58];
 export const SLAUGHTER_DAMAGE_SCALE_MIN_BY_LEVEL = [1.68, 1.69, 1.7, 1.71, 1.72, 1.73, 1.74, 1.75, 1.76, 1.78, 1.8, 1.83];
 export const SLAUGHTER_DAMAGE_SCALE_MAX_BY_LEVEL = [1.74, 1.75, 1.76, 1.77, 1.78, 1.79, 1.8, 1.81, 1.82, 1.835, 1.85, 1.85];
 export const FIREBALL_EXPLOSION_CHANCE = 0.1;
 export const SLAUGHTER_CONCENTRATION_CHANCE = 0.1;
-export const CURE_MP_COST_BY_LEVEL = [35, 42, 50, 58, 66, 75, 75, 75, 110, 110, 140, 180];
 export const CURE_HEAL_SCALE_BY_LEVEL = [1.15, 1.2, 1.25, 1.3, 1.35, 1.4, 1.45, 1.5, 1.55, 1.6, 1.68, 1.76];
 export const MULTI_TARGET_ENTITY_SENTINEL = 0xffffffff;
 export const MULTI_TARGET_SKILL_IDS = new Set<number>([]);
@@ -109,6 +108,7 @@ export function createIdleCombatState(): CombatState {
     skillResolutionReason: null,
     skillResolutionPhase: null,
     pendingSkillOutcomes: null,
+    pendingSkillContext: null,
     pendingCounterattack: null,
     playerStatus: {},
     enemyStatuses: {},
@@ -355,14 +355,53 @@ export function resolveSkillTargets(session: GameSession, skillId: number, targe
   if (living.length <= 0) {
     return [];
   }
+  const definition = getSkillDefinition(skillId >>> 0);
+  const hintedTargetCount = Math.max(1, Math.min(living.length, Number(definition?.maxTargetsHint || 1) || 1));
   if ((targetEntityId >>> 0) === MULTI_TARGET_ENTITY_SENTINEL || MULTI_TARGET_SKILL_IDS.has(skillId >>> 0)) {
     return living;
   }
   const explicitTarget = findEnemyByEntityId(session.combatState?.enemies, targetEntityId >>> 0);
   if (explicitTarget && explicitTarget.hp > 0) {
+    if (hintedTargetCount > 1) {
+      return resolveGenericHintedTargets(living, explicitTarget, hintedTargetCount, definition?.targetPatternHint || null);
+    }
     return [explicitTarget];
   }
   return [];
+}
+
+function resolveGenericHintedTargets(
+  living: CombatEnemyInstance[],
+  primaryTarget: CombatEnemyInstance,
+  targetCount: number,
+  pattern: string | null
+): CombatEnemyInstance[] {
+  if (targetCount <= 1) {
+    return [primaryTarget];
+  }
+
+  const remaining = living.filter((enemy) => enemy.entityId !== primaryTarget.entityId);
+  if (pattern === 'all') {
+    return [primaryTarget, ...remaining];
+  }
+
+  const sorted = remaining.sort((a, b) => {
+    if (pattern === 'line') {
+      const sameRowA = a.row === primaryTarget.row ? 0 : 1;
+      const sameRowB = b.row === primaryTarget.row ? 0 : 1;
+      if (sameRowA !== sameRowB) {
+        return sameRowA - sameRowB;
+      }
+    }
+    const distanceA = Math.abs((a.row || 0) - (primaryTarget.row || 0)) + Math.abs((a.col || 0) - (primaryTarget.col || 0));
+    const distanceB = Math.abs((b.row || 0) - (primaryTarget.row || 0)) + Math.abs((b.col || 0) - (primaryTarget.col || 0));
+    if (distanceA !== distanceB) {
+      return distanceA - distanceB;
+    }
+    return (a.entityId >>> 0) - (b.entityId >>> 0);
+  });
+
+  return [primaryTarget, ...sorted.slice(0, Math.max(0, targetCount - 1))];
 }
 
 export function resolveFireballTargets(session: GameSession, targetEntityId: number): CombatEnemyInstance[] {
@@ -638,10 +677,7 @@ export function resolvePlayerCounterattackChance(session: GameSession): number {
   const dodgeBonus = Math.floor((derived.dodge || 0) / 120);
   const hitBonus = Math.floor((derived.hit || 0) / 200);
   const attackPowerBonus = Math.floor((derived.attackPower || 0) / 80);
-  const learnedCounterattack = Array.isArray(session.skillState?.learnedSkills)
-    ? session.skillState.learnedSkills.find((entry: Record<string, any>) => (Number(entry?.skillId || 0) >>> 0) === COUNTERATTACK_SKILL_ID)
-    : null;
-  const counterattackLevel = Math.max(0, Number(learnedCounterattack?.level || 0) || 0);
+  const counterattackLevel = Math.max(0, resolveEffectiveSkillLevel(session, COUNTERATTACK_SKILL_ID));
   const skillBonus = counterattackLevel <= 0 ? 0 : (4 + (counterattackLevel * 3));
   return Math.max(0, Math.min(75, baseChance + dodgeBonus + hitBonus + attackPowerBonus + skillBonus));
 }
@@ -697,19 +733,7 @@ export function computeSkillDamage(session: GameSession, skillId: number, skillL
 }
 
 export function resolveSkillManaCost(skillId: number, skillLevel: number): number {
-  if ((skillId >>> 0) === DEFIANT_SKILL_ID) {
-    return DEFIANT_MP_COST_BY_LEVEL[Math.max(0, skillLevel - 1)] || DEFIANT_MP_COST_BY_LEVEL[0];
-  }
-  if ((skillId >>> 0) === ENERVATE_SKILL_ID) {
-    return ENERVATE_MP_COST_BY_LEVEL[Math.max(0, skillLevel - 1)] || ENERVATE_MP_COST_BY_LEVEL[0];
-  }
-  if ((skillId >>> 0) === FIREBALL_SKILL_ID) {
-    return FIREBALL_MP_COST_BY_LEVEL[Math.max(0, skillLevel - 1)] || FIREBALL_MP_COST_BY_LEVEL[0];
-  }
-  if ((skillId >>> 0) === CURE_SKILL_ID) {
-    return CURE_MP_COST_BY_LEVEL[Math.max(0, skillLevel - 1)] || CURE_MP_COST_BY_LEVEL[0];
-  }
-  return 0;
+  return resolveSkillManaCostFromDefinition(skillId, skillLevel);
 }
 
 export function resolveSkillHealing(session: GameSession, skillId: number, skillLevel: number): number {
