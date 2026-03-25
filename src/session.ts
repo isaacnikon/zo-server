@@ -100,6 +100,8 @@ class Session implements GameSession {
   mapRotationIndex: number;
   mapRotationAwaitingMapId: number | null;
   mapRotationLastSentAt: number | null;
+  gatheringNodes: Map<number, { nodeId: number; templateId: number; x: number; y: number; toolType: number; dropItemId: number }> | null;
+  activeGather: { runtimeId: number; startedAt: number } | null;
   pendingSceneNpcSpawnMapId: number | null;
   fieldCombatCooldownUntil: number | null;
   lastFieldCombatProbeKey: string | null;
@@ -175,6 +177,8 @@ class Session implements GameSession {
     this.mapRotationIndex = 0;
     this.mapRotationAwaitingMapId = null;
     this.mapRotationLastSentAt = null;
+    this.gatheringNodes = null;
+    this.activeGather = null;
     this.pendingSceneNpcSpawnMapId = null;
     this.fieldCombatCooldownUntil = null;
     this.lastFieldCombatProbeKey = null;
