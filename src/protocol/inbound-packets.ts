@@ -157,7 +157,7 @@ function parsePingToken(payload: Buffer): { token: number } {
   return { token: payload.readUInt32LE(2) };
 }
 
-function parseLoginPacket(payload: Buffer): { username: string } | null {
+function parseLoginPacket(payload: Buffer): { username: string; accountKey: string } | null {
   if (payload.length < 6) {
     return null;
   }
@@ -168,7 +168,29 @@ function parseLoginPacket(payload: Buffer): { username: string } | null {
     return null;
   }
   const username = payload.slice(usernameStart, usernameEnd).toString('latin1').replace(/\0.*$/, '');
-  return username ? { username } : null;
+  if (!username) {
+    return null;
+  }
+
+  const printableTokens: string[] = [];
+  let cursor = 0;
+  while (cursor < payload.length) {
+    while (cursor < payload.length && !(payload[cursor] >= 0x20 && payload[cursor] < 0x7f)) {
+      cursor += 1;
+    }
+    const start = cursor;
+    while (cursor < payload.length && payload[cursor] >= 0x20 && payload[cursor] < 0x7f) {
+      cursor += 1;
+    }
+    if (cursor - start >= 4) {
+      printableTokens.push(payload.slice(start, cursor).toString('latin1').replace(/\0.*$/, ''));
+    }
+  }
+
+  const dedupedTokens = printableTokens.filter((token, index) => token && printableTokens.indexOf(token) === index);
+  const identityParts = dedupedTokens.length > 0 ? dedupedTokens.slice(0, 2) : [username];
+  const accountKey = identityParts.join('|');
+  return { username, accountKey };
 }
 
 function parseRoleSubcommand(payload: Buffer): { subcmd: number } {

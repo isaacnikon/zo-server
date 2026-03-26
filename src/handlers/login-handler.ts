@@ -7,6 +7,8 @@ import { normalizeQuestState } from '../quest-engine/index.js';
 import { normalizeInventoryState } from '../inventory/index.js';
 import { normalizePets } from '../pet-runtime.js';
 import { CHARACTER_VITALS_BASELINE, recomputeSessionMaxVitals } from '../gameplay/session-flows.js';
+import { hasActiveWorldAccount } from '../world-state.js';
+import { hydratePendingGameCharacter } from '../character/session-hydration.js';
 
 import type { UnknownRecord } from '../utils.js';
 import type { GameSession } from '../types.js';
@@ -37,11 +39,21 @@ function handleLogin(session: GameSession, payload: Buffer): void {
   const login = parseLoginPayload(session, payload);
   if (login) {
     session.accountName = login.username;
+    session.accountKey = login.accountKey;
     session.log(`Parsed account="${login.username}"`);
+    if (hasActiveWorldAccount(session.sharedState, session.accountKey || login.username, session.id)) {
+      session.log(`Rejecting duplicate login for account="${login.username}" key="${session.accountKey}"`);
+      session.socket.destroy();
+      return;
+    }
+    session.isGame =
+      session.sharedState?.pendingGameCharacters instanceof Map &&
+      session.sharedState.pendingGameCharacters.has(session.accountKey || login.username);
   }
 
   session.state = 'LOGGED_IN';
   if (session.isGame) {
+    hydratePendingGameCharacter(session, session.sharedState);
     session.sendEnterGameOk();
   } else {
     sendLoginServerList(session);
@@ -94,6 +106,7 @@ function handleCreateRole(session: GameSession, payload: Buffer): void {
   );
 
   session.charName = roleName || 'Hero';
+  session.runtimeId = ENTITY_TYPE;
   session.entityType = ENTITY_TYPE;
   session.roleEntityType = ENTITY_TYPE + templateIndex;
   session.roleData = packRoleData(extra1, extra2);
@@ -133,6 +146,7 @@ function handleCreateRole(session: GameSession, payload: Buffer): void {
     requestedTemplateIndex: templateIndex,
     entityType: session.entityType,
     roleEntityType: session.roleEntityType,
+    runtimeId: 0,
     roleData: session.roleData,
     experience: session.experience,
     currentHealth: session.currentHealth,
@@ -215,9 +229,17 @@ function sendCreateRoleOk(session: GameSession, role: UnknownRecord): void {
 function sendGameServerRedirect(session: GameSession): void {
   const persisted = session.getPersistedCharacter();
   const roleData = persisted ? resolveRoleData(persisted) : session.roleData;
-  session.sharedState.pendingGameCharacter = {
+  const accountKey = typeof session.accountKey === 'string' ? session.accountKey.trim() : '';
+  if (!accountKey) {
+    session.log('Cannot prepare game-server redirect without account name');
+    session.socket.destroy();
+    return;
+  }
+  session.sharedState.pendingGameCharacters.set(accountKey, {
     accountName: session.accountName,
+    accountKey,
     charName: persisted?.charName || persisted?.roleName || session.charName,
+    runtimeId: 0,
     entityType: persisted?.roleEntityType || session.roleEntityType || session.entityType,
     roleEntityType: persisted?.roleEntityType || session.roleEntityType,
     roleData,
@@ -251,7 +273,7 @@ function sendGameServerRedirect(session: GameSession): void {
     mapId: typeof persisted?.mapId === 'number' ? persisted.mapId : session.currentMapId,
     x: typeof persisted?.x === 'number' ? persisted.x : session.currentX,
     y: typeof persisted?.y === 'number' ? persisted.y : session.currentY,
-  };
+  });
 
   const writer = new PacketWriter();
   writer.writeUint16(LOGIN_CMD);
@@ -260,7 +282,6 @@ function sendGameServerRedirect(session: GameSession): void {
   writer.writeUint16(PORT);
   writer.writeUint32(0);
   session.writePacket(writer.payload(), DEFAULT_FLAGS, `Sending 0x0d game-server redirect to ${SERVER_HOST}:${PORT}`);
-  session.sharedState.nextSessionIsGame = true;
 }
 
 function replayPersistedCharacter(session: GameSession): void {

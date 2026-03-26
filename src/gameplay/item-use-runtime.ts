@@ -151,10 +151,10 @@ export function consumeUsableItemByInstanceId(
 function resolveItemUseTarget(session: GameSession, targetEntityId: unknown): UnknownRecord | null {
   const normalizedTargetEntityId =
     typeof targetEntityId === 'number' && Number.isInteger(targetEntityId) ? targetEntityId >>> 0 : 0;
-  if (normalizedTargetEntityId === 0 || normalizedTargetEntityId === (session.entityType >>> 0)) {
+  if (normalizedTargetEntityId === 0 || normalizedTargetEntityId === (session.runtimeId >>> 0)) {
     return {
       kind: 'player',
-      entityId: session.entityType >>> 0,
+      entityId: session.runtimeId >>> 0,
       getVitals: () => ({
         health: Math.max(0, session.currentHealth || 0),
         mana: Math.max(0, session.currentMana || 0),

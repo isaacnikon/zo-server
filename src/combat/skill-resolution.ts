@@ -164,14 +164,14 @@ export function sendCombatSkillCastPlayback(
     packetSkillId,
     skillLevel >>> 0,
     skillLevelIndex,
-    session.entityType >>> 0,
+    session.runtimeId >>> 0,
     targets
   );
   const stage2Entries = buildSkillPacketProbeStage2Entries(
     packetSkillId,
     skillLevel >>> 0,
     skillLevelIndex,
-    session.entityType >>> 0,
+    session.runtimeId >>> 0,
     probedTargets
   );
   const slaughterStage2Entries = useSlaughterStage2
@@ -180,21 +180,21 @@ export function sendCombatSkillCastPlayback(
         packetSkillId,
         skillLevel >>> 0,
         skillLevelIndex,
-        session.entityType >>> 0,
+        session.runtimeId >>> 0,
         probedTargets
       )
     : [];
   const effectiveStage2Entries = useSlaughterStage2 ? slaughterStage2Entries : stage2Entries;
   const packet = useNativeSlaughterPacket
     ? buildSlaughterCastPlaybackPacket(
-        session.entityType >>> 0,
+        session.runtimeId >>> 0,
         packetSkillId,
         skillLevelIndex,
         [1152, 1153],
         { leadingByte: 0 }
       )
     : buildSkillCastPlaybackPacket(
-        session.entityType >>> 0,
+        session.runtimeId >>> 0,
         packetSkillId,
         skillLevelIndex,
         probedTargets,
@@ -207,7 +207,7 @@ export function sendCombatSkillCastPlayback(
       );
   const delayedCastFallbackPacket = useNativeSlaughterPacket
     ? buildSkillCastPlaybackPacket(
-        session.entityType >>> 0,
+        session.runtimeId >>> 0,
         packetSkillId,
         skillLevelIndex,
         probedTargets
@@ -243,7 +243,7 @@ export function sendCombatSkillCastPlayback(
   session.writePacket(
     packet,
     DEFAULT_FLAGS,
-    `Sending combat skill cast attacker=${session.entityType} skillId=${normalizedSkillId} packetSkillId=${packetSkillId} implClass=${skillPlan.implementationClass || 0} levelIndex=${skillLevelIndex} targets=${probedTargets.map((target) => `${target.entityId}:${target.actionCode}:${target.value}`).join('|') || 'none'} stage2=${(SKILL_PACKET_PROBE_STAGE2_ENABLED || useSlaughterStage2) ? `${useSlaughterStage2 ? SLAUGHTER_PACKET_STAGE2_FLAG : SKILL_PACKET_PROBE_STAGE2_FLAG}:${effectiveStage2Entries.map((entry) => `${entry.wordA}/${entry.wordB}/${entry.dwordC}`).join('|') || 'none'}` : 'off'}`
+    `Sending combat skill cast attacker=${session.runtimeId} skillId=${normalizedSkillId} packetSkillId=${packetSkillId} implClass=${skillPlan.implementationClass || 0} levelIndex=${skillLevelIndex} targets=${probedTargets.map((target) => `${target.entityId}:${target.actionCode}:${target.value}`).join('|') || 'none'} stage2=${(SKILL_PACKET_PROBE_STAGE2_ENABLED || useSlaughterStage2) ? `${useSlaughterStage2 ? SLAUGHTER_PACKET_STAGE2_FLAG : SKILL_PACKET_PROBE_STAGE2_FLAG}:${effectiveStage2Entries.map((entry) => `${entry.wordA}/${entry.wordB}/${entry.dwordC}`).join('|') || 'none'}` : 'off'}`
   );
   if (delayedCastFallbackPacket && skillPlan.followUpMode === 'delayed_cast') {
     session.combatState = {
@@ -254,7 +254,7 @@ export function sendCombatSkillCastPlayback(
     session.writePacket(
       delayedCastFallbackPacket,
       DEFAULT_FLAGS,
-      `Sending delayed skill follow-up cast attacker=${session.entityType} skillId=${normalizedSkillId} packetSkillId=${packetSkillId} implClass=${skillPlan.implementationClass || 0} levelIndex=${skillLevelIndex} targets=${probedTargets.map((target) => `${target.entityId}:${target.actionCode}:${target.value}`).join('|') || 'none'}`
+      `Sending delayed skill follow-up cast attacker=${session.runtimeId} skillId=${normalizedSkillId} packetSkillId=${packetSkillId} implClass=${skillPlan.implementationClass || 0} levelIndex=${skillLevelIndex} targets=${probedTargets.map((target) => `${target.entityId}:${target.actionCode}:${target.value}`).join('|') || 'none'}`
     );
   }
 }
@@ -388,7 +388,7 @@ function handleCombatBuffSkillUse(
   sourceLabel: string
 ): void {
   sendCombatSkillCastPlayback(session, skillPlan, skillLevel, [{
-    entityId: session.entityType >>> 0,
+    entityId: session.runtimeId >>> 0,
     actionCode: 0,
     value: 0,
   }]);
@@ -403,11 +403,11 @@ function handleCombatBuffSkillUse(
       defiantAttackPenaltyPercent: 10,
     };
     session.log(
-      `Combat skill use ok source=${sourceLabel} skillId=${skillPlan.skillId} targetEntityId=${session.entityType} effect=defiant rounds=${durationRounds} defenseBonus=${defenseBonusPercent}`
+      `Combat skill use ok source=${sourceLabel} skillId=${skillPlan.skillId} targetEntityId=${session.runtimeId} effect=defiant rounds=${durationRounds} defenseBonus=${defenseBonusPercent}`
     );
   } else {
     session.log(
-      `Combat skill use ok source=${sourceLabel} skillId=${skillPlan.skillId} targetEntityId=${session.entityType} effect=generic-buff implClass=${skillPlan.implementationClass || 0}`
+      `Combat skill use ok source=${sourceLabel} skillId=${skillPlan.skillId} targetEntityId=${session.runtimeId} effect=generic-buff implClass=${skillPlan.implementationClass || 0}`
     );
   }
 
@@ -427,16 +427,16 @@ function handleCombatHealSkillUse(
   const appliedHeal = Math.max(0, Math.min(maxHealth - previousHealth, healAmount));
   session.currentHealth = Math.max(0, Math.min(maxHealth, previousHealth + healAmount));
   sendCombatSkillCastPlayback(session, skillPlan, skillLevel, [{
-    entityId: session.entityType >>> 0,
+    entityId: session.runtimeId >>> 0,
     actionCode: 1,
     value: Math.max(1, appliedHeal || healAmount || 1),
   }]);
   session.log(
-    `Combat skill use ok source=${sourceLabel} skillId=${skillPlan.skillId} targetEntityId=${session.entityType} effect=generic-heal healed=${appliedHeal} hp=${session.currentHealth}/${maxHealth}`
+    `Combat skill use ok source=${sourceLabel} skillId=${skillPlan.skillId} targetEntityId=${session.runtimeId} effect=generic-heal healed=${appliedHeal} hp=${session.currentHealth}/${maxHealth}`
   );
   session.combatState.pendingSkillOutcomes = [{
     skillId: skillPlan.skillId >>> 0,
-    targetEntityId: session.entityType >>> 0,
+    targetEntityId: session.runtimeId >>> 0,
     healAmount: appliedHeal,
   }];
   queuePostSkillEnemyResponse(session, skillPlan);

@@ -58,21 +58,21 @@ const COMBAT_TIPS = loadCombatTips();
 
 function sendCombatActionStateReset(session: GameSession, reason: string): void {
   session.writePacket(
-    buildActionStateResetPacket(session.entityType >>> 0),
+    buildActionStateResetPacket(session.runtimeId >>> 0),
     DEFAULT_FLAGS,
-    `Sending combat action-state reset cmd=0x040d entity=${session.entityType} reason=${reason}`
+    `Sending combat action-state reset cmd=0x040d entity=${session.runtimeId} reason=${reason}`
   );
   session.writePacket(
-    buildActionStateTableResetPacket(session.entityType >>> 0),
+    buildActionStateTableResetPacket(session.runtimeId >>> 0),
     DEFAULT_FLAGS,
-    `Sending combat action-state table reset cmd=0x040d entity=${session.entityType} reason=${reason} entries=11`
+    `Sending combat action-state table reset cmd=0x040d entity=${session.runtimeId} reason=${reason} entries=11`
   );
 }
 
 // --- Intro / Command prompt ---
 
 export function sendIntroSequence(session: GameSession): void {
-  const entityId = session.entityType >>> 0;
+  const entityId = session.runtimeId >>> 0;
   if (COMBAT_TIPS.length > 0) {
     const tip = COMBAT_TIPS[Math.floor(Math.random() * COMBAT_TIPS.length)];
     session.sendGameDialogue('Tip', tip);
@@ -87,7 +87,7 @@ export function sendIntroSequence(session: GameSession): void {
 }
 
 export function sendCommandPrompt(session: GameSession, reason: string): void {
-  const entityId = session.entityType >>> 0;
+  const entityId = session.runtimeId >>> 0;
   const roundStartProbeOptions = buildRoundStartProbeOptions(session.combatState.round, entityId);
   const roundStartPacket = buildRoundStartPacket(session.combatState.round, entityId, roundStartProbeOptions || {});
   sendCombatActionStateReset(session, `command reason=${reason}`);
@@ -186,13 +186,13 @@ export function handleAttackSelection(session: GameSession, payload: Buffer): vo
   session.combatState.damageDealt = Math.max(0, (session.combatState.damageDealt || 0) + appliedPlayerDamage);
   session.writePacket(
     buildAttackPlaybackPacket(
-      session.entityType >>> 0,
+      session.runtimeId >>> 0,
       enemy.entityId >>> 0,
       enemy.hp === 0 ? FIGHT_ACTIVE_STATE_SUBCMD : FIGHT_CONTROL_RING_OPEN_SUBCMD,
       playerDamage
     ),
     DEFAULT_FLAGS,
-    `Sending combat attack playback attacker=${session.entityType} target=${enemy.entityId} damage=${playerDamage} enemyHp=${enemy.hp}`
+    `Sending combat attack playback attacker=${session.runtimeId} target=${enemy.entityId} damage=${playerDamage} enemyHp=${enemy.hp}`
   );
 
   if (enemy.hp <= 0) {
@@ -279,13 +279,13 @@ function sendCombatItemPlayback(
 
   session.writePacket(
     buildAttackPlaybackPacket(
-      session.entityType >>> 0,
-      session.entityType >>> 0,
+      session.runtimeId >>> 0,
+      session.runtimeId >>> 0,
       FIGHT_ACTIVE_STATE_SUBCMD,
       primaryAmount
     ),
     DEFAULT_FLAGS,
-    `Sending combat item playback active=${session.entityType} restored=${primaryAmount}`
+    `Sending combat item playback active=${session.runtimeId} restored=${primaryAmount}`
   );
 }
 
@@ -442,12 +442,12 @@ export function processNextEnemyTurnAttack(session: GameSession, reason: EnemyTu
   session.writePacket(
     buildAttackPlaybackPacket(
       enemy.entityId >>> 0,
-      session.entityType >>> 0,
+      session.runtimeId >>> 0,
       FIGHT_CONTROL_RING_OPEN_SUBCMD,
       enemyDamage
     ),
     DEFAULT_FLAGS,
-    `Sending combat counterattack playback attacker=${enemy.entityId} target=${session.entityType} damage=${enemyDamage} playerHp=${session.currentHealth} remaining=${describeLivingEnemies(session.combatState.enemies)} reason=${reason}`
+    `Sending combat counterattack playback attacker=${enemy.entityId} target=${session.runtimeId} damage=${enemyDamage} playerHp=${session.currentHealth} remaining=${describeLivingEnemies(session.combatState.enemies)} reason=${reason}`
   );
 
   if (session.currentHealth <= 0) {
@@ -476,7 +476,7 @@ function queuePlayerCounterattack(session: GameSession, enemy: Record<string, an
     played: false,
   };
   session.log(
-    `Combat counterattack queued attacker=${session.entityType} target=${enemy.entityId} chance=${chancePercent}% roll=${roll} reason=${reason}`
+    `Combat counterattack queued attacker=${session.runtimeId} target=${enemy.entityId} chance=${chancePercent}% roll=${roll} reason=${reason}`
   );
 }
 
@@ -498,13 +498,13 @@ function playPendingPlayerCounterattack(session: GameSession): void {
   session.combatState.damageDealt = Math.max(0, (session.combatState.damageDealt || 0) + appliedPlayerDamage);
   session.writePacket(
     buildAttackPlaybackPacket(
-      session.entityType >>> 0,
+      session.runtimeId >>> 0,
       enemy.entityId >>> 0,
       enemy.hp === 0 ? FIGHT_ACTIVE_STATE_SUBCMD : FIGHT_CONTROL_RING_OPEN_SUBCMD,
       playerDamage
     ),
     DEFAULT_FLAGS,
-    `Sending player counterattack playback attacker=${session.entityType} target=${enemy.entityId} damage=${playerDamage} enemyHp=${enemy.hp} reason=${pending.reason}`
+    `Sending player counterattack playback attacker=${session.runtimeId} target=${enemy.entityId} damage=${playerDamage} enemyHp=${enemy.hp} reason=${pending.reason}`
   );
   session.combatState.pendingCounterattack = {
     ...pending,
@@ -791,7 +791,7 @@ export function finalizeSkillResolutionAndEnemyTurn(session: GameSession, source
       }
       const resultCode = pendingOutcome.targetDied ? 3 : 1;
       const impactPacket = buildAttackPlaybackPacket(
-        session.entityType >>> 0,
+        session.runtimeId >>> 0,
         pendingOutcome.targetEntityId >>> 0,
         resultCode,
         Math.max(1, pendingOutcome.playerDamage || 1)
@@ -801,7 +801,7 @@ export function finalizeSkillResolutionAndEnemyTurn(session: GameSession, source
         ts: new Date().toISOString(),
         sessionId: session.id,
         source,
-        attackerEntityId: session.entityType >>> 0,
+        attackerEntityId: session.runtimeId >>> 0,
         targetEntityId: pendingOutcome.targetEntityId >>> 0,
         resultCode,
         damage: Math.max(1, pendingOutcome.playerDamage || 1),
@@ -810,7 +810,7 @@ export function finalizeSkillResolutionAndEnemyTurn(session: GameSession, source
       session.writePacket(
         impactPacket,
         DEFAULT_FLAGS,
-        `Sending hybrid combat skill impact attacker=${session.entityType} target=${pendingOutcome.targetEntityId} result=${resultCode} damage=${Math.max(1, pendingOutcome.playerDamage || 1)} source=${source}`
+        `Sending hybrid combat skill impact attacker=${session.runtimeId} target=${pendingOutcome.targetEntityId} result=${resultCode} damage=${Math.max(1, pendingOutcome.playerDamage || 1)} source=${source}`
       );
     }
   }

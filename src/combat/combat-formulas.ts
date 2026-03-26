@@ -539,7 +539,7 @@ export function describeEnemyRoster(enemies: CombatEnemyInstance[] | null | unde
 export function buildPlayerEntry(session: GameSession): Record<string, any> {
   return {
     side: 0xff,
-    entityId: session.entityType >>> 0,
+    entityId: session.runtimeId >>> 0,
     typeId: (session.roleEntityType || session.entityType) & 0xffff,
     row: 1,
     col: 2,

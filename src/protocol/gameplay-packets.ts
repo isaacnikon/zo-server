@@ -122,6 +122,15 @@ interface QuestAcceptStateParams {
   objectiveWords?: number[];
 }
 
+interface SceneSpawnRecord {
+  id: number;
+  entityType: number;
+  x: number;
+  y: number;
+  dir: number;
+  state: number;
+}
+
 export function buildSelfStateAptitudeSyncPacket({
   selectedAptitude,
   level,
@@ -263,6 +272,25 @@ export function buildSceneEnterPacket(mapId: number, x: number, y: number, subty
   writer.writeUint16(mapId & 0xffff);
   writer.writeUint16(x & 0xffff);
   writer.writeUint16(y & 0xffff);
+  return writer.payload();
+}
+
+export function buildSceneSpawnBatchPacket(spawns: SceneSpawnRecord[]): Buffer {
+  const writer = new PacketWriter();
+  const normalizedSpawns = Array.isArray(spawns) ? spawns : [];
+  writer.writeUint16(0x03eb);
+  writer.writeUint8(0x15);
+  writer.writeUint16(normalizedSpawns.length & 0xffff);
+
+  for (const spawn of normalizedSpawns) {
+    writer.writeUint32((spawn.id || 0) >>> 0);
+    writer.writeUint16((spawn.entityType || 0) & 0xffff);
+    writer.writeUint16((spawn.x || 0) & 0xffff);
+    writer.writeUint16((spawn.y || 0) & 0xffff);
+    writer.writeUint16((spawn.dir || 0) & 0xffff);
+    writer.writeUint16((spawn.state || 0) & 0xffff);
+  }
+
   return writer.payload();
 }
 

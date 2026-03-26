@@ -12,14 +12,12 @@ export function startServer() {
   sharedState.characterStore = new CharacterStore(CHARACTER_STORE_FILE) as any;
 
   const server = net.createServer((socket) => {
-    const isGame = sharedState.nextSessionIsGame;
-    sharedState.nextSessionIsGame = false;
     sharedState.sessionCount += 1;
 
-    const session = new Session(socket, sharedState.sessionCount, isGame, sharedState, logger);
+    const session = new Session(socket, sharedState.sessionCount, false, sharedState, logger);
     const addr = `${socket.remoteAddress}:${socket.remotePort}`;
     logger.log(
-      `\n=== SESSION ${session.id} CONNECTED from ${addr} mode=${isGame ? 'GAME' : 'LOGIN'} ===`
+      `\n=== SESSION ${session.id} CONNECTED from ${addr} mode=UNKNOWN ===`
     );
     session.sendHandshake();
 

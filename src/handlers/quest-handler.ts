@@ -267,17 +267,25 @@ function sendQuestTableStateSync(session: GameSession, syncState: QuestSyncState
         extraB: numberOrDefault(quest.taskStep, numberOrDefault(step?.taskStep, 0)),
       };
     });
+  const supportedHistory = (Array.isArray(session.completedQuests) ? session.completedQuests : [])
+    .map((taskId) => numberOrDefault(taskId, 0))
+    .filter((taskId) => taskId > 0 && taskId < 0x10000)
+    .slice(0, 0xffff)
+    .map((taskId) => ({
+      taskId,
+      state: 0,
+    }));
 
   const skippedCount = Math.max(0, syncState.length - supportedQuests.length);
   session.writePacket(
     buildQuestTableSyncPacket({
-      playerRuntimeId: session.entityType >>> 0,
+      playerRuntimeId: session.runtimeId >>> 0,
       subtype: 0x08,
       quests: supportedQuests,
-      history: [],
+      history: supportedHistory,
     }),
     DEFAULT_FLAGS,
-    `Sending quest table sync cmd=0x${GAME_QUEST_TABLE_CMD.toString(16)} sub=0x08 player=0x${(session.entityType >>> 0).toString(16)} quests=${supportedQuests.length} skipped=${skippedCount}`
+    `Sending quest table sync cmd=0x${GAME_QUEST_TABLE_CMD.toString(16)} sub=0x08 player=0x${(session.runtimeId >>> 0).toString(16)} quests=${supportedQuests.length} history=${supportedHistory.length} skipped=${skippedCount}`
   );
 }
 

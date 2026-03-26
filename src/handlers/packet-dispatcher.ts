@@ -12,6 +12,7 @@ import { handleGatheringRequest } from './gathering-handler.js';
 import { tryHandleEquipmentStatePacket, tryHandleFightResultItemActionProbe, tryHandleItemUsePacket, tryHandleAttributeAllocationPacket } from './player-state-handler.js';
 import { tryHandlePetActionPacket } from './pet-handler.js';
 import { handleNpcShopServiceRequest } from '../gameplay/shop-runtime.js';
+import { syncWorldPresence } from '../world-state.js';
 
 import { PING_CMD, GAME_GATHER_REQUEST_CMD, GAME_POSITION_QUERY_CMD, GAME_SERVER_RUN_CMD, ROLE_CMD, GAME_QUEST_CMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_MISC_CMD, GAME_FIGHT_RESULT_CMD, GAME_FIGHT_STATE_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, } from '../config.js';
 import type { GameSession } from '../types.js';
@@ -152,6 +153,10 @@ function dispatchGamePacket(
       session.syncQuestStateToClient?.({ mode: 'runtime' });
     }
     maybeTriggerFieldCombat(session, position.mapId, position.x, position.y);
+    syncWorldPresence(
+      session,
+      previousMapId === position.mapId ? 'position-update' : `map-change:${previousMapId}->${position.mapId}`
+    );
     session.log(`Position update map=${position.mapId} pos=${position.x},${position.y}`);
     appendTriggerTrace({
       kind: 'position',

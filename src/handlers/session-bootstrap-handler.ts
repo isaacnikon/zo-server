@@ -7,8 +7,10 @@ import { sendSkillStateSync } from '../gameplay/skill-runtime.js';
 import { buildMapGatheringNodes } from '../gameplay/gathering-runtime.js';
 import { getMapBootstrapSpawns } from '../map-spawns.js';
 import { getCurrentStep, getQuestDefinition } from '../quest-engine/index.js';
+import { buildSceneSpawnBatchPacket } from '../protocol/gameplay-packets.js';
 import { startAutoMapRotation } from '../scenes/map-rotation.js';
 import { numberOrDefault } from '../character/normalize.js';
+import { ensureWorldPresence, syncWorldPresence } from '../world-state.js';
 
 type SpawnRecord = {
   id: number;
@@ -22,12 +24,13 @@ type SpawnRecord = {
 export function sendEnterGameOk(session: GameSession, options: { syncMode?: QuestSyncMode } = {}): void {
   const syncMode: QuestSyncMode = options.syncMode || 'login';
   session.ensureQuestStateReady();
+  ensureWorldPresence(session);
 
   const writer = new PacketWriter();
   writer.writeUint16(LOGIN_CMD);
   writer.writeUint8(LOGIN_SERVER_LIST_RESULT);
-  writer.writeUint32(session.entityType >>> 0);
-  writer.writeUint16(session.entityType);
+  writer.writeUint32(session.runtimeId >>> 0);
+  writer.writeUint16(session.entityType & 0xffff);
   writer.writeUint32(session.roleData);
   writer.writeUint16(session.currentX);
   writer.writeUint16(session.currentY);
@@ -38,7 +41,7 @@ export function sendEnterGameOk(session: GameSession, options: { syncMode?: Ques
   session.writePacket(
     writer.payload(),
     DEFAULT_FLAGS,
-    `Sending enter-game success char="${session.charName}" runtimeId=0x${session.entityType.toString(16)} entity=0x${session.entityType.toString(16)} roleEntity=0x${session.roleEntityType.toString(16)} aptitude=${session.selectedAptitude} map=${session.currentMapId} pos=${session.currentX},${session.currentY}`
+    `Sending enter-game success char="${session.charName}" runtimeId=0x${session.runtimeId.toString(16)} entity=0x${session.entityType.toString(16)} roleEntity=0x${session.roleEntityType.toString(16)} aptitude=${session.selectedAptitude} map=${session.currentMapId} pos=${session.currentX},${session.currentY}`
   );
   session.sendSelfStateAptitudeSync();
   sendSkillStateSync(session, 'enter-game');
@@ -47,6 +50,7 @@ export function sendEnterGameOk(session: GameSession, options: { syncMode?: Ques
   session.sendPetStateSync('enter-game');
   sendStaticNpcSpawns(session, session.currentMapId);
   session.syncQuestStateToClient({ mode: syncMode });
+  syncWorldPresence(session, 'enter-game');
   startAutoMapRotation(session);
 }
 
@@ -72,22 +76,8 @@ function sendStaticNpcSpawns(session: GameSession, mapId: number): void {
     return;
   }
 
-  const writer = new PacketWriter();
-  writer.writeUint16(0x03eb);
-  writer.writeUint8(0x15);
-  writer.writeUint16(allSpawns.length & 0xffff);
-
-  for (const npc of allSpawns) {
-    writer.writeUint32((npc.id || 0) >>> 0);
-    writer.writeUint16((npc.entityType || 0) & 0xffff);
-    writer.writeUint16((npc.x || 0) & 0xffff);
-    writer.writeUint16((npc.y || 0) & 0xffff);
-    writer.writeUint16((npc.dir || 0) & 0xffff);
-    writer.writeUint16((npc.state || 0) & 0xffff);
-  }
-
   session.writePacket(
-    writer.payload(),
+    buildSceneSpawnBatchPacket(allSpawns),
     DEFAULT_FLAGS,
     `Sending static NPC spawn batch cmd=0x03eb sub=0x15 map=${mapId} count=${allSpawns.length} base=${staticNpcs.length} escort=${escortSpawns.length} gather=${gatheringSpawns.length}`
   );

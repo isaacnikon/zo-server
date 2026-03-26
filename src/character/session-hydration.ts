@@ -10,12 +10,18 @@ import { buildInventorySnapshot, normalizeInventoryState } from '../inventory/in
 type CharacterOverrides = Record<string, unknown>;
 
 export function hydratePendingGameCharacter(session: GameSession, sharedState: Record<string, any>): void {
-  const pendingCharacter = sharedState?.pendingGameCharacter;
+  const accountKey = typeof session.accountKey === 'string' ? session.accountKey.trim() : '';
+  const pendingCharacter =
+    accountKey && sharedState?.pendingGameCharacters instanceof Map
+      ? sharedState.pendingGameCharacters.get(accountKey) || null
+      : null;
   if (!session.isGame || !pendingCharacter) {
     return;
   }
 
+  session.accountKey = typeof pendingCharacter.accountKey === 'string' ? pendingCharacter.accountKey : session.accountKey;
   session.charName = pendingCharacter.charName;
+  session.runtimeId = numberOrDefault(pendingCharacter.runtimeId, pendingCharacter.entityType);
   session.entityType = pendingCharacter.entityType;
   session.roleEntityType = pendingCharacter.roleEntityType || session.entityType;
   session.roleData = pendingCharacter.roleData || 0;
@@ -81,11 +87,14 @@ export function hydratePendingGameCharacter(session: GameSession, sharedState: R
     session.attackMin = Math.max(1, Number(pendingCharacter.attackMin) | 0);
     session.attackMax = Math.max(session.attackMin, Number(pendingCharacter.attackMax) | 0);
   }
-  sharedState.pendingGameCharacter = null;
+  if (accountKey && sharedState?.pendingGameCharacters instanceof Map) {
+    sharedState.pendingGameCharacters.delete(accountKey);
+  }
 }
 
 export function getPersistedCharacter(session: GameSession): Record<string, unknown> | null {
-  const character = session.sharedState.characterStore?.get(session.accountName) || null;
+  const storageKey = session.accountName;
+  const character = session.sharedState.characterStore?.get(storageKey) || null;
   if (!character) {
     return null;
   }
@@ -93,13 +102,14 @@ export function getPersistedCharacter(session: GameSession): Record<string, unkn
 }
 
 export function saveCharacter(session: GameSession, character: Record<string, unknown>): void {
-  if (!session.accountName || !session.sharedState.characterStore) {
+  const storageKey = session.accountName;
+  if (!storageKey || !session.sharedState.characterStore) {
     return;
   }
   const normalized = normalizeCharacterRecord(character);
-  session.sharedState.characterStore.set(session.accountName, normalized);
+  session.sharedState.characterStore.set(storageKey, normalized);
   session.log(
-    `Persisted character "${normalized.charName || normalized.roleName || 'Hero'}" for account "${session.accountName}"`
+    `Persisted character "${normalized.charName || normalized.roleName || 'Hero'}" for account "${session.accountName}" key="${storageKey}"`
   );
 }
 
@@ -112,7 +122,8 @@ export function buildCharacterSnapshot(
     ...persisted,
     roleName: session.charName,
     roleData: session.roleData,
-    entityType: session.entityType,
+    runtimeId: session.runtimeId,
+    entityType: session.roleEntityType,
     roleEntityType: session.roleEntityType,
     selectedAptitude: session.selectedAptitude,
     level: session.level,

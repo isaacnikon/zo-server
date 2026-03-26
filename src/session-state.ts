@@ -1,15 +1,17 @@
+import { createWorldState } from './world-state.js';
+
 interface SessionState {
   sessionCount: number;
-  nextSessionIsGame: boolean;
-  pendingGameCharacter: Record<string, unknown> | null;
+  pendingGameCharacters: Map<string, Record<string, unknown>>;
   characterStore: Record<string, unknown> | null;
+  worldState: ReturnType<typeof createWorldState>;
 }
 
 export function createSessionState(): SessionState {
   return {
     sessionCount: 0,
-    nextSessionIsGame: false,
-    pendingGameCharacter: null,
+    pendingGameCharacters: new Map(),
     characterStore: null,
+    worldState: createWorldState(),
   };
 }

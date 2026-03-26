@@ -14,6 +14,7 @@ import { ObjectiveRegistry } from './objectives/objective-registry.js';
 import { questObjectiveSystem } from './objectives/quest-objective-system.js';
 import { CHARACTER_VITALS_BASELINE, resolveCurrentPlayerVitals } from './gameplay/session-flows.js';
 import { stopAutoMapRotation } from './scenes/map-rotation.js';
+import { removeWorldPresence } from './world-state.js';
 import { buildCharacterSnapshot as sessionHydrationBuildCharacterSnapshot, getPersistedCharacter as sessionHydrationGetPersistedCharacter, hydratePendingGameCharacter, persistCurrentCharacter as sessionHydrationPersistCurrentCharacter, saveCharacter as sessionHydrationSaveCharacter, } from './character/session-hydration.js';
 import { defaultBonusAttributes, defaultSkillState } from './character/normalize.js';
 
@@ -47,7 +48,9 @@ class Session implements GameSession {
   clientSeq: number;
   state: string;
   accountName: string | null;
+  accountKey: string | null;
   charName: string;
+  runtimeId: number;
   entityType: number;
   roleEntityType: number;
   roleData: number;
@@ -115,6 +118,8 @@ class Session implements GameSession {
   pendingSceneNpcSpawnMapId: number | null;
   fieldCombatCooldownUntil: number | null;
   lastFieldCombatProbeKey: string | null;
+  worldRegistered: boolean;
+  visiblePlayerRuntimeIds: Set<number>;
 
   constructor(
     socket: SocketLike,
@@ -133,7 +138,9 @@ class Session implements GameSession {
     this.clientSeq = 0;
     this.state = 'CONNECTED';
     this.accountName = null;
+    this.accountKey = null;
     this.charName = 'Hero';
+    this.runtimeId = ENTITY_TYPE;
     this.entityType = ENTITY_TYPE;
     this.roleEntityType = ENTITY_TYPE;
     this.roleData = 0;
@@ -192,6 +199,8 @@ class Session implements GameSession {
     this.pendingSceneNpcSpawnMapId = null;
     this.fieldCombatCooldownUntil = null;
     this.lastFieldCombatProbeKey = null;
+    this.worldRegistered = false;
+    this.visiblePlayerRuntimeIds = new Set<number>();
     this.objectiveRegistry.register({
       system: questObjectiveSystem,
       handler: questEventHandler,
@@ -202,7 +211,6 @@ class Session implements GameSession {
       }),
     });
 
-    hydratePendingGameCharacter(this, sharedState);
   }
 
   feed(data: Buffer): void {
@@ -446,6 +454,7 @@ class Session implements GameSession {
   }
 
   dispose(): void {
+    removeWorldPresence(this, 'session-dispose');
     combatHandlerDisposeTimers(this);
     petHandlerDisposeTimers(this);
     stopAutoMapRotation(this);

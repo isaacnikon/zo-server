@@ -7,7 +7,7 @@ import { getPrimaryPet, normalizePets } from '../pet-runtime.js';
 type PetRecord = Record<string, any>;
 
 function getPetOwnerRuntimeId(session: GameSession): number {
-  return session.entityType >>> 0;
+  return session.runtimeId >>> 0;
 }
 
 export function tryHandlePetActionPacket(session: GameSession, payload: Buffer): boolean {

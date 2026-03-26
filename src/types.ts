@@ -136,8 +136,10 @@ export interface GameSession {
   state: string;
   isGame: boolean;
   accountName: string | null;
+  accountKey: string | null;
   sharedState: Record<string, any>;
   charName: string;
+  runtimeId: number;
   entityType: number;
   roleEntityType: number;
   roleData: number;
@@ -220,6 +222,8 @@ export interface GameSession {
   persistedCharacter: CharacterRecord | null;
   objectiveRegistry: any;
   socket: { destroyed?: boolean; destroy(): void; write(data: Buffer): void };
+  worldRegistered: boolean;
+  visiblePlayerRuntimeIds: Set<number>;
   // I/O methods
   writePacket(payload: Buffer, flags?: number, message?: string): void;
   log(message: string): void;
