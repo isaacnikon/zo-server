@@ -55,6 +55,23 @@ interface QuestStep {
   taskRoleNpcId?: number;
   maxAward?: number;
   taskStep?: number;
+  requiredProgressFlag?: string;
+}
+
+interface QuestAuxiliaryAction {
+  type: string;
+  stepStatus?: number;
+  subtype?: number;
+  npcId?: number;
+  scriptId?: number;
+  mapId?: number;
+  contextId?: number;
+  monsterId?: number;
+  count?: number;
+  onlyIfMissingTemplateId?: number;
+  consumeItems?: GrantedItem[];
+  grantItems?: GrantedItem[];
+  setProgressFlag?: string;
 }
 
 interface QuestRewards {
@@ -81,6 +98,7 @@ interface QuestDefinitionRecord {
   acceptGrantItems?: GrantedItem[];
   nextQuestId?: number;
   rewards: QuestRewards;
+  auxiliaryActions?: QuestAuxiliaryAction[];
   steps: QuestStep[];
   [key: string]: unknown;
 }
@@ -337,6 +355,11 @@ function normalizeQuestDefinition(quest: UnknownRecord): QuestDefinitionRecord |
             .filter((item: GrantedItem | null): item is GrantedItem => Boolean(item))
         : [],
     },
+    auxiliaryActions: Array.isArray(quest.auxiliaryActions)
+      ? quest.auxiliaryActions
+          .map((action: UnknownRecord) => normalizeQuestAuxiliaryAction(action))
+          .filter((action: QuestAuxiliaryAction | null): action is QuestAuxiliaryAction => Boolean(action))
+      : [],
     steps: quest.steps
       .map((step: UnknownRecord, index: number) => normalizeQuestStep(quest.id >>> 0, index, step))
       .filter((step: QuestStep | null): step is QuestStep => Boolean(step)),
@@ -404,6 +427,44 @@ function normalizeQuestStep(taskId: number, stepIndex: number, step: UnknownReco
     taskStep: Number.isInteger(clientTaskMetadata?.taskStep)
       ? (clientTaskMetadata!.taskStep! >>> 0)
       : undefined,
+    requiredProgressFlag:
+      typeof step.requiredProgressFlag === 'string' && step.requiredProgressFlag.length > 0
+        ? step.requiredProgressFlag
+        : undefined,
+  };
+}
+
+function normalizeQuestAuxiliaryAction(action: UnknownRecord): QuestAuxiliaryAction | null {
+  if (typeof action?.type !== 'string' || action.type.length < 1) {
+    return null;
+  }
+  return {
+    type: action.type,
+    stepStatus: Number.isInteger(action?.stepStatus) ? (action.stepStatus >>> 0) : undefined,
+    subtype: Number.isInteger(action?.subtype) ? (action.subtype >>> 0) : undefined,
+    npcId: Number.isInteger(action?.npcId) ? (action.npcId >>> 0) : undefined,
+    scriptId: Number.isInteger(action?.scriptId) ? (action.scriptId >>> 0) : undefined,
+    mapId: Number.isInteger(action?.mapId) ? (action.mapId >>> 0) : undefined,
+    contextId: Number.isInteger(action?.contextId) ? (action.contextId >>> 0) : undefined,
+    monsterId: Number.isInteger(action?.monsterId) ? (action.monsterId >>> 0) : undefined,
+    count: Number.isInteger(action?.count) ? Math.max(1, action.count) : undefined,
+    onlyIfMissingTemplateId: Number.isInteger(action?.onlyIfMissingTemplateId)
+      ? (action.onlyIfMissingTemplateId >>> 0)
+      : undefined,
+    consumeItems: Array.isArray(action?.consumeItems)
+      ? action.consumeItems
+          .map((item: UnknownRecord) => normalizeGrantedItem(item))
+          .filter((item: GrantedItem | null): item is GrantedItem => Boolean(item))
+      : undefined,
+    grantItems: Array.isArray(action?.grantItems)
+      ? action.grantItems
+          .map((item: UnknownRecord) => normalizeGrantedItem(item))
+          .filter((item: GrantedItem | null): item is GrantedItem => Boolean(item))
+      : undefined,
+    setProgressFlag:
+      typeof action?.setProgressFlag === 'string' && action.setProgressFlag.length > 0
+        ? action.setProgressFlag
+        : undefined,
   };
 }
 

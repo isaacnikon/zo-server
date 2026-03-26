@@ -72,6 +72,61 @@ This file tracks quest-system issues that were discovered while bringing live qu
 - `completionMapId: 102`
 - a return-to-`Evilelf` completion description
 
+### Quest `1` `Back to Earth` used the wrong blacksmith identity in Rainbow Valley
+- Issue: the Rainbow Valley blacksmith could render or resolve as the Cloud City blacksmith alias, which broke the intended quest interaction path.
+- Root cause: map bootstrap spawn generation and NPC interaction resolution both preferred `resolvedSpawnEntityType` for alias-mismatch NPCs, while the quest data and client help data for `Back to Earth` are keyed to Rainbow Valley map NPC `3276`.
+- Resolution:
+- `src/map-data.ts` now spawns `validationStatus === "alias-id-mismatch"` NPCs with their map-local `npcId` instead of the alias entity type
+- `src/handlers/npc-interaction-handler.ts` now applies the same rule when resolving an NPC click, so Rainbow Valley blacksmith stays on `3276` end-to-end
+
+### Quest `1` `Back to Earth` auto-progressed incorrectly from item possession
+- Issue: once the blacksmith identity was fixed, the quest could still advance too easily because the server treated step 2 as a normal talk hand-in gated only by having `Timber` (`21116`) in the bag.
+- Root cause: the server quest record only stored generic step/progress state and did not model the client-side intermediate requirement that the player must talk to Matt before Blacksmith accepts the second step.
+- Resolution:
+- `data/quests/main-story.json` now marks Matt's `grant_on_server_run` action with `setProgressFlag: "mattTalked"`
+- quest `1` step 2 now requires `requiredProgressFlag: "mattTalked"` in addition to the timber item
+- `src/quest-engine/data.ts` now preserves quest `auxiliaryActions` and `requiredProgressFlag`
+- `src/quest-engine/state.ts` now blocks talk-step advancement until the required progress flag is present
+- `src/handlers/npc-interaction-handler.ts` now applies quest auxiliary `grant_on_server_run` actions at runtime, including persisting flag-only progress updates
+
+### Quest `1` `Back to Earth` still appeared to auto-progress on relog
+- Observation: persisted quest state for the live save stayed clean (`stepIndex: 0`, `status: 0`, empty `progress`), so the relog behavior was not explained by saved quest progress or a persisted Matt flag.
+- Current likely root cause: the login quest sync path replayed both full accept-state and full update-state packets for active talk quests, which appears to give the client enough state to locally treat the talk step as already updated.
+- Resolution:
+- `src/handlers/quest-handler.ts` now sends the login-time full `0x03ff sub=0x08` update-state packet only for kill quests, not active talk quests
+- active talk quests still receive login accept-state, markers, history, and normal quest-table sync
+- Follow-up: if quest `1` still auto-progresses after relog, add a targeted trace for task `1` during login sync to identify which outbound packet changes the client-local state
+
+### Quest `51` `Pet` skipped Scholar's item swap
+- Issue: talking to Scholar advanced the quest toward Idler, but `Candy's Recommendation` (`21123`) stayed in the bag and `Scholar's Letter` (`21001`) was never granted.
+- Runtime evidence:
+- fresh trigger trace showed the Scholar click arriving as `server-run sub=0x08 rawArgs=[4,101,51] scriptId=51` on map `101`
+- current save state for `NeoE5F0` showed quest `51` already at `stepIndex: 1`, `status: 2`, while inventory still contained `21123` and not `21001`
+- Root cause:
+- the `sub=0x08` parser previously left `scriptId` unset, which could block auxiliary quest action matching
+- more importantly, `src/handlers/npc-interaction-handler.ts` only applied quest `auxiliaryActions` when normal `interactWithNpc(...)` returned no events
+- Scholar's click produces a normal talk-step advancement event, so the auxiliary `consume 21123 / grant 21001` action for quest `51` was skipped entirely
+- Resolution:
+- `src/protocol/inbound-packets.ts` now parses `scriptId` for `GAME_SERVER_RUN_CMD sub=0x08`
+- `src/handlers/npc-interaction-handler.ts` now converts auxiliary `consumeItems` into quest inventory events
+- `src/handlers/npc-interaction-handler.ts` now merges auxiliary quest events with normal NPC quest events on the same click instead of treating them as mutually exclusive
+- Operational note: if a character save already advanced past Scholar before the fix, the side-effect will not replay automatically; reset quest `51` to step `1` or retest on a fresh character path
+
+### Quest `51` `Pet` could not enter Little Boar combat
+- Issue: after reaching the `Kill "Little Boar"` step on map `103`, clicking Little Boar (`3007`, script `10001`) only replayed the NPC script and never opened combat.
+- Runtime evidence:
+- the live log showed `NPC interaction sub=0x2 resolvedNpcId=3007 ... scriptId=10001 map=103` followed immediately by `Sending script-event immediate ... script=10001`
+- the active quest state at login was already `stepIndex=3`, `status=4`, which is the Little Boar kill step for quest `51`
+- Root cause:
+- quest `51` models the fight as an auxiliary `combat_on_server_run` action rather than a plain kill-step NPC match
+- `src/handlers/npc-interaction-handler.ts` did not support `combat_on_server_run`, so the click fell through to ordinary script replay
+- `src/quest-engine/data.ts` also normalized auxiliary actions without preserving `monsterId` and `count`, which meant the combat trigger payload was lost even after adding runtime support
+- Resolution:
+- `src/handlers/npc-interaction-handler.ts` now recognizes quest auxiliary `combat_on_server_run` actions and starts the configured encounter when the NPC/script/map match
+- `src/quest-engine/data.ts` now preserves `monsterId` and `count` on normalized auxiliary actions so NPC-triggered quest combat retains its encounter definition
+- Scope check:
+- current quest data contains exactly one `combat_on_server_run` action, the Little Boar fight in quest `51`, so the runtime change does not broaden behavior for unrelated quests
+
 ### Quest `353` `Behind the Curtain` had wrong step flow
 - Issue: step progression did not match the client quest UI and Piggy fight trigger was wrong.
 - Root cause:
@@ -167,6 +222,35 @@ This file tracks quest-system issues that were discovered while bringing live qu
 - `Sending quest accept cmd=0x3ff sub=0x03 taskId=356 ... overNpc=3070 targetNpc=3055`
 - `Sending quest update cmd=0x3ff sub=0x08 taskId=356 ... overNpc=3070 targetNpc=3055`
 - `Sending quest marker cmd=0x3ff sub=0x0c questId=356 trackedNpc=3055 trackedRuntime=... markerNpc=3070`
+
+### Stale quest UI persisted across account switch / relog
+- Issue: after switching accounts or relogging, the quest window could still show old quest rows from the previous session even when the current server login only sent a much smaller active/completed set.
+- Runtime evidence:
+- `server.log` showed correct per-account quest sync with distinct runtime ids and only the expected active/history payload for each account
+- the visible stale rows exceeded what the current account save contained, proving the extra rows were client-retained UI state
+- `RefreshTaskListWindow` at `0x556ce0` is the function that renders the quest window, and it reads quest data from local player quest memory plus the quest window cache
+- Authoritative client findings:
+- the quest window cache object is global `DAT_006436ec`; `FUN_00440a90` / `FUN_0043ffa0` clear it
+- the global teardown path `FUN_00414980` / `FUN_00414a8e` does clear `DAT_006436ec`, but the relog/account-switch path being exercised does not reach that teardown
+- the active quest rebuild handler is `FUN_00504460` (`0x07d2`) and it calls `FUN_0044f7b0`
+- the completed/history quest handler is `HandleQuestPacket_03FF` (`0x03ff`) and it routes through `0x504c90` / `0x502670`
+- live debugger repro showed that on relog none of these fired:
+- `0x504460` (`0x07d2` dispatcher)
+- `0x504c90` (`0x03ff` wrapper)
+- `0x504cd0` (`0x03ff` core)
+- `0x44f7b0` (quest-table rebuild)
+- `0x44cd00` / `FUN_0044cbf0` (player quest-state reset)
+- Root cause:
+- the stale quest rows are not primarily caused by the quest window list widget itself
+- the relog path being used by the live client is bypassing the client quest packet dispatch/rebuild path entirely; `0x07d2` and `0x03ff` are only registered in a secondary packet table, but the relog path dispatches from the main table
+- Previous failed patch attempts:
+- forcing quest-window cache clear from the `0x44f7b7` rebuild hook did not help because the relog path never entered that hook
+- mirroring quest handlers into both packet tables at startup was attempted as a blind startup-registration patch, but it crashed the client on launch and was fully reverted; `gc12.exe` was restored to stock after those experiments
+- Resolution: `scripts/patch/patch-client-quest-ui-reset.py` applies the following changes to `gc12.exe`:
+- `quest-table-runtime-gate` (`0x5044E7`): NOPs the `JNZ` that blocked `0x07d2 sub=0x08` table rebuild when runtimeIds differ — unblocks the relog case where runtime ids are reset
+- `quest-history-reset` (`0x44CD5C`): retargets quest-history clear from `FUN_00449d50` to `FUN_00449d90`
+- `quest-full-reset-on-table-rebuild` (`0x44F7B7`): retargets the call inside the rebuild path to a new wrapper (stage 1–3, written into `0xCC` caves at `0x4013A1`, `0x401732`, `0x401755`) that runs the full quest reset and then clears the UI cache object (`DAT_006436ec`)
+- `quest-dual-stream-registration-hook` (`0x514EDA`): redirects the last secondary-table registration call through a stub (stages 1–5, at `0x403191`–`0x403401`) that registers `0x07d2` in the main packet table and `0x03ff` in the secondary table; this uses the original call's existing stack arguments so there is no blind startup crash
 
 ## Notes
 
