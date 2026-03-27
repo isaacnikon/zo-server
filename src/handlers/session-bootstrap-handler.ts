@@ -6,7 +6,7 @@ import { syncInventoryStateToClient } from '../gameplay/inventory-runtime.js';
 import { sendSkillStateSync } from '../gameplay/skill-runtime.js';
 import { buildMapGatheringNodes } from '../gameplay/gathering-runtime.js';
 import { getMapBootstrapSpawns } from '../map-spawns.js';
-import { getCurrentStep, getQuestDefinition } from '../quest-engine/index.js';
+import { getCurrentStep, getCurrentStepUi, getQuestDefinition } from '../quest-engine/index.js';
 import { buildSceneSpawnBatchPacket } from '../protocol/gameplay-packets.js';
 import { startAutoMapRotation } from '../scenes/map-rotation.js';
 import { numberOrDefault } from '../character/normalize.js';
@@ -23,6 +23,11 @@ type SpawnRecord = {
 
 export function sendEnterGameOk(session: GameSession, options: { syncMode?: QuestSyncMode } = {}): void {
   const syncMode: QuestSyncMode = options.syncMode || 'login';
+  const deferLoginQuestSync = syncMode === 'login';
+  if (session.pendingLoginQuestSyncTimer) {
+    clearTimeout(session.pendingLoginQuestSyncTimer);
+    session.pendingLoginQuestSyncTimer = null;
+  }
   session.ensureQuestStateReady();
   ensureWorldPresence(session);
 
@@ -49,7 +54,21 @@ export function sendEnterGameOk(session: GameSession, options: { syncMode?: Ques
   session.scheduleEquipmentReplay();
   session.sendPetStateSync('enter-game');
   sendStaticNpcSpawns(session, session.currentMapId);
-  session.syncQuestStateToClient({ mode: syncMode });
+  if (deferLoginQuestSync) {
+    session.pendingLoginQuestSyncMapId = session.currentMapId;
+    session.pendingLoginQuestSyncTimer = setTimeout(() => {
+      session.pendingLoginQuestSyncTimer = null;
+      if (session.socket.destroyed || session.pendingLoginQuestSyncMapId === null) {
+        return;
+      }
+      session.syncQuestStateToClient({ mode: 'login' });
+      session.pendingLoginQuestSyncMapId = null;
+    }, 250);
+  } else {
+    session.pendingLoginQuestSyncMapId = null;
+    session.pendingLoginQuestSyncTimer = null;
+    session.syncQuestStateToClient({ mode: syncMode });
+  }
   syncWorldPresence(session, 'enter-game');
   startAutoMapRotation(session);
 }
@@ -96,14 +115,15 @@ function buildEscortQuestRoleSpawns(
   for (const record of session.activeQuests) {
     const definition = getQuestDefinition(numberOrDefault(record?.id, 0));
     const step = getCurrentStep(definition, record as any);
+    const ui = getCurrentStepUi(definition, record as any);
     if (
       !step ||
-      numberOrDefault(step.clientTaskType, 0) !== 8 ||
+      numberOrDefault(ui?.taskType, 0) !== 8 ||
       numberOrDefault(step.mapId, 0) !== mapId
     ) {
       continue;
     }
-    const roleId = numberOrDefault(step.taskRoleNpcId, 0);
+    const roleId = numberOrDefault(ui?.taskRoleNpcId, numberOrDefault(ui?.escortNpcId, 0));
     if (roleId > 0) {
       escortRoleIds.add(roleId);
     }

@@ -1,3 +1,5 @@
+import type { GameSession } from './types.js';
+
 import { createWorldState } from './world-state.js';
 
 interface SessionState {
@@ -5,6 +7,7 @@ interface SessionState {
   pendingGameCharacters: Map<string, Record<string, unknown>>;
   characterStore: Record<string, unknown> | null;
   worldState: ReturnType<typeof createWorldState>;
+  sessionsById: Map<number, GameSession>;
 }
 
 export function createSessionState(): SessionState {
@@ -13,5 +16,6 @@ export function createSessionState(): SessionState {
     pendingGameCharacters: new Map(),
     characterStore: null,
     worldState: createWorldState(),
+    sessionsById: new Map(),
   };
 }

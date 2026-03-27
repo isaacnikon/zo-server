@@ -2,7 +2,7 @@ import type { GameSession } from './types.js';
 
 import { DEFAULT_FLAGS } from './config.js';
 import { buildEntityHidePacket } from './combat/packets.js';
-import { buildSceneSpawnBatchPacket } from './protocol/gameplay-packets.js';
+import { buildEntityPositionSyncPacket, buildSceneSpawnBatchPacket } from './protocol/gameplay-packets.js';
 
 export interface WorldPlayerPresence {
   runtimeId: number;
@@ -10,6 +10,9 @@ export interface WorldPlayerPresence {
   accountName: string | null;
   charName: string;
   roleEntityType: number;
+  roleData: number;
+  level: number;
+  selectedAptitude: number;
   mapId: number;
   x: number;
   y: number;
@@ -71,10 +74,6 @@ function allocateRuntimeId(world: WorldState, accountName: string | null): numbe
   let candidate = start;
 
   while (world.playersByRuntimeId.has(candidate >>> 0)) {
-    const occupant = world.playersByRuntimeId.get(candidate >>> 0) || null;
-    if (occupant && normalizeAccountName(occupant.accountName) === normalizedAccountName) {
-      return candidate >>> 0;
-    }
     candidate += 1;
     if (candidate > WORLD_RUNTIME_ID_LIMIT) {
       candidate = WORLD_RUNTIME_ID_BASE;
@@ -109,6 +108,43 @@ export function hasActiveWorldAccount(
   return excludeSessionId === null || normalizedSessionId !== (excludeSessionId >>> 0);
 }
 
+export function replaceExistingWorldSessionsForRemote(
+  sharedState: Record<string, any>,
+  remoteAddress: string | null,
+  excludeSessionId: number
+): number {
+  const normalizedRemoteAddress = typeof remoteAddress === 'string' ? remoteAddress.trim() : '';
+  if (!normalizedRemoteAddress) {
+    return 0;
+  }
+
+  const sessionsById =
+    sharedState?.sessionsById instanceof Map ? sharedState.sessionsById as Map<number, GameSession> : null;
+  if (!sessionsById) {
+    return 0;
+  }
+
+  let replacedCount = 0;
+  for (const candidate of sessionsById.values()) {
+    if (!candidate || (candidate.id >>> 0) === (excludeSessionId >>> 0)) {
+      continue;
+    }
+    if ((candidate.remoteAddress || '').trim() !== normalizedRemoteAddress) {
+      continue;
+    }
+    if (candidate.state !== 'LOGGED_IN' || candidate.isGame !== true) {
+      continue;
+    }
+    candidate.log(`Replacing live world session due to new login from remote=${normalizedRemoteAddress}`);
+    removeWorldPresence(candidate, 'replaced-live-session');
+    if (!candidate.socket.destroyed) {
+      candidate.socket.destroy();
+    }
+    replacedCount += 1;
+  }
+  return replacedCount;
+}
+
 function getOrCreateMapOccupancy(world: WorldState, mapId: number): Set<number> {
   const normalizedMapId = mapId >>> 0;
   let occupancy = world.mapOccupancy.get(normalizedMapId);
@@ -137,6 +173,15 @@ function toSpawnRecord(presence: WorldPlayerPresence): {
   y: number;
   dir: number;
   state: number;
+  playerData: {
+    roleData: number;
+    level: number;
+    name: string;
+    appearanceWords: [number, number, number];
+    appearanceFlags: [number, number, number];
+    extraFlags: number;
+    trailingState: number;
+  };
 } {
   return {
     id: presence.runtimeId >>> 0,
@@ -145,6 +190,19 @@ function toSpawnRecord(presence: WorldPlayerPresence): {
     y: presence.y >>> 0,
     dir: presence.dir >>> 0,
     state: presence.state >>> 0,
+    playerData: {
+      roleData: presence.roleData >>> 0,
+      level: presence.level >>> 0,
+      name: presence.charName || '',
+      appearanceWords: [
+        Math.max(0, presence.selectedAptitude | 0) & 0xffff,
+        0,
+        0,
+      ],
+      appearanceFlags: [0, 0, 0],
+      extraFlags: 0,
+      trailingState: 0,
+    },
   };
 }
 
@@ -167,6 +225,14 @@ function sendPresenceHide(targetSession: GameSession, runtimeId: number, reason:
   );
 }
 
+function sendPresenceMove(targetSession: GameSession, presence: WorldPlayerPresence, reason: string): void {
+  targetSession.writePacket(
+    buildEntityPositionSyncPacket(presence.runtimeId >>> 0, presence.x >>> 0, presence.y >>> 0),
+    DEFAULT_FLAGS,
+    `Sending player move sync reason=${reason} runtimeId=${presence.runtimeId >>> 0} pos=${presence.x >>> 0},${presence.y >>> 0}`
+  );
+}
+
 function shouldSessionsSeeEachOther(
   a: WorldPlayerPresence,
   b: WorldPlayerPresence,
@@ -184,6 +250,9 @@ function updatePresenceFromSession(presence: WorldPlayerPresence, session: GameS
   presence.accountName = session.accountKey || session.accountName;
   presence.charName = session.charName;
   presence.roleEntityType = session.roleEntityType >>> 0;
+  presence.roleData = session.roleData >>> 0;
+  presence.level = session.level >>> 0;
+  presence.selectedAptitude = session.selectedAptitude >>> 0;
   presence.mapId = session.currentMapId >>> 0;
   presence.x = session.currentX >>> 0;
   presence.y = session.currentY >>> 0;
@@ -220,6 +289,9 @@ export function ensureWorldPresence(session: GameSession): WorldPlayerPresence {
     accountName: session.accountKey || session.accountName,
     charName: session.charName,
     roleEntityType: session.roleEntityType >>> 0,
+    roleData: session.roleData >>> 0,
+    level: session.level >>> 0,
+    selectedAptitude: session.selectedAptitude >>> 0,
     mapId: session.currentMapId >>> 0,
     x: session.currentX >>> 0,
     y: session.currentY >>> 0,
@@ -282,7 +354,7 @@ export function syncWorldPresence(session: GameSession, reason: string): void {
         sendPresenceSpawn(other.session, [source], `${reason}:peer-add`);
         other.session.visiblePlayerRuntimeIds.add(source.runtimeId >>> 0);
       } else {
-        sendPresenceSpawn(other.session, [source], `${reason}:peer-update`);
+        sendPresenceMove(other.session, source, `${reason}:peer-move`);
       }
       continue;
     }

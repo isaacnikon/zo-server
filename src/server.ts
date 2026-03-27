@@ -15,6 +15,7 @@ export function startServer() {
     sharedState.sessionCount += 1;
 
     const session = new Session(socket, sharedState.sessionCount, false, sharedState, logger);
+    sharedState.sessionsById.set(session.id, session);
     const addr = `${socket.remoteAddress}:${socket.remotePort}`;
     logger.log(
       `\n=== SESSION ${session.id} CONNECTED from ${addr} mode=UNKNOWN ===`
@@ -32,6 +33,7 @@ export function startServer() {
 
     socket.on('close', () => {
       session.dispose();
+      sharedState.sessionsById.delete(session.id);
       logger.log(`[S${session.id}] Disconnected`);
     });
     socket.on('error', (err: Error) => logger.log(`[S${session.id}] Socket error: ${err.message}`));

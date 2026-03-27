@@ -7,7 +7,7 @@ import { normalizeQuestState } from '../quest-engine/index.js';
 import { normalizeInventoryState } from '../inventory/index.js';
 import { normalizePets } from '../pet-runtime.js';
 import { CHARACTER_VITALS_BASELINE, recomputeSessionMaxVitals } from '../gameplay/session-flows.js';
-import { hasActiveWorldAccount } from '../world-state.js';
+import { hasActiveWorldAccount, replaceExistingWorldSessionsForRemote } from '../world-state.js';
 import { hydratePendingGameCharacter } from '../character/session-hydration.js';
 
 import type { UnknownRecord } from '../utils.js';
@@ -53,6 +53,16 @@ function handleLogin(session: GameSession, payload: Buffer): void {
 
   session.state = 'LOGGED_IN';
   if (session.isGame) {
+    const replacedCount = replaceExistingWorldSessionsForRemote(
+      session.sharedState,
+      session.remoteAddress,
+      session.id
+    );
+    if (replacedCount > 0) {
+      session.log(
+        `Replaced ${replacedCount} existing live session(s) for remote=${session.remoteAddress || 'unknown'}`
+      );
+    }
     hydratePendingGameCharacter(session, session.sharedState);
     session.sendEnterGameOk();
   } else {

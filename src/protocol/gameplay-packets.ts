@@ -129,6 +129,15 @@ interface SceneSpawnRecord {
   y: number;
   dir: number;
   state: number;
+  playerData?: {
+    roleData: number;
+    level: number;
+    name: string;
+    appearanceWords?: [number, number, number] | number[];
+    appearanceFlags?: [number, number, number] | number[];
+    extraFlags?: number;
+    trailingState?: number;
+  } | null;
 }
 
 export function buildSelfStateAptitudeSyncPacket({
@@ -289,8 +298,34 @@ export function buildSceneSpawnBatchPacket(spawns: SceneSpawnRecord[]): Buffer {
     writer.writeUint16((spawn.y || 0) & 0xffff);
     writer.writeUint16((spawn.dir || 0) & 0xffff);
     writer.writeUint16((spawn.state || 0) & 0xffff);
+
+    const playerData = spawn.playerData;
+    if (playerData) {
+      const appearanceWords = Array.isArray(playerData.appearanceWords) ? playerData.appearanceWords : [];
+      const appearanceFlags = Array.isArray(playerData.appearanceFlags) ? playerData.appearanceFlags : [];
+      writer.writeUint32((playerData.roleData || 0) >>> 0);
+      writer.writeUint16((playerData.level || 0) & 0xffff);
+      writer.writeString(`${playerData.name || ''}\0`);
+
+      for (let index = 0; index < 3; index += 1) {
+        writer.writeUint16((appearanceWords[index] || 0) & 0xffff);
+        writer.writeUint8((appearanceFlags[index] || 0) & 0xff);
+      }
+
+      writer.writeUint16((playerData.extraFlags || 0) & 0xffff);
+      writer.writeUint8((playerData.trailingState || 0) & 0xff);
+    }
   }
 
+  return writer.payload();
+}
+
+export function buildEntityPositionSyncPacket(entityId: number, x: number, y: number): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(0x03f9);
+  writer.writeUint32(entityId >>> 0);
+  writer.writeUint16(x & 0xffff);
+  writer.writeUint16(y & 0xffff);
   return writer.payload();
 }
 

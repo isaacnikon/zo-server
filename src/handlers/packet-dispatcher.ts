@@ -162,7 +162,14 @@ function dispatchGamePacket(
     } else if (previousMapId !== position.mapId) {
       session.syncQuestStateToClient?.({ mode: 'runtime' });
     }
-    maybeTriggerFieldCombat(session, position.mapId, position.x, position.y);
+    if (session.pendingLoginQuestSyncMapId === position.mapId) {
+      if (session.pendingLoginQuestSyncTimer) {
+        clearTimeout(session.pendingLoginQuestSyncTimer);
+        session.pendingLoginQuestSyncTimer = null;
+      }
+      session.syncQuestStateToClient?.({ mode: 'login' });
+      session.pendingLoginQuestSyncMapId = null;
+    }
     syncWorldPresence(
       session,
       previousMapId === position.mapId ? 'position-update' : `map-change:${previousMapId}->${position.mapId}`
@@ -176,6 +183,7 @@ function dispatchGamePacket(
       x: position.x,
       y: position.y,
     });
+    maybeTriggerFieldCombat(session, position.mapId, position.x, position.y);
     return true;
   }
 
