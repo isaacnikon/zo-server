@@ -315,7 +315,7 @@ function dispatchCombatSkillByImplementationClass(
       handleImplementationClass2(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
       return;
     case 3:
-      handleImplementationClass3(session, skillPlan, skillLevel, sourceLabel);
+      handleImplementationClass3(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
       return;
     case 4:
       handleImplementationClass4(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
@@ -525,8 +525,16 @@ function handleImplementationClass2(
   dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
 }
 
-function handleImplementationClass3(session: GameSession, skillPlan: CombatSkillPlan, skillLevel: number, sourceLabel: string): void {
-  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, [], false, false);
+function handleImplementationClass3(
+  session: GameSession,
+  skillPlan: CombatSkillPlan,
+  skillLevel: number,
+  sourceLabel: string,
+  targetEnemies: Array<Record<string, any>>,
+  slaughterFocused: boolean,
+  fireballExploded: boolean
+): void {
+  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
 }
 
 function handleImplementationClass4(
