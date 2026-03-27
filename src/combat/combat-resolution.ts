@@ -437,13 +437,15 @@ export function processNextEnemyTurnAttack(session: GameSession, reason: EnemyTu
 
   const enemyDamage = computeEnemyDamage(session, enemy);
   const appliedEnemyDamage = Math.max(0, Math.min(session.currentHealth, enemyDamage));
-  session.currentHealth = Math.max(0, session.currentHealth - enemyDamage);
+  const nextHealth = Math.max(0, session.currentHealth - enemyDamage);
+  const lethalHit = nextHealth <= 0;
+  session.currentHealth = nextHealth;
   session.combatState.damageTaken = Math.max(0, (session.combatState.damageTaken || 0) + appliedEnemyDamage);
   session.writePacket(
     buildAttackPlaybackPacket(
       enemy.entityId >>> 0,
       session.runtimeId >>> 0,
-      FIGHT_CONTROL_RING_OPEN_SUBCMD,
+      lethalHit ? FIGHT_ACTIVE_STATE_SUBCMD : FIGHT_CONTROL_RING_OPEN_SUBCMD,
       enemyDamage
     ),
     DEFAULT_FLAGS,
@@ -678,11 +680,6 @@ export function resolveDefeat(session: GameSession): void {
     player: { maxHp: session.maxHealth, mp: session.currentMana, rage: session.currentRage },
     currentMana: session.currentMana,
     currentRage: session.currentRage,
-    resolveTownRespawn: (character: Record<string, any>) => ({
-      mapId: typeof character?.mapId === 'number' ? character.mapId : session.currentMapId,
-      x: typeof character?.x === 'number' ? character.x : session.currentX,
-      y: typeof character?.y === 'number' ? character.y : session.currentY,
-    }),
   });
 
   session.writePacket(

@@ -11,6 +11,7 @@ import { handleCombatPacket } from './combat-handler.js';
 import { handleGatheringRequest } from './gathering-handler.js';
 import { tryHandleClientMaxVitalsSyncPacket, tryHandleEquipmentStatePacket, tryHandleFightResultItemActionProbe, tryHandleItemUsePacket, tryHandleAttributeAllocationPacket } from './player-state-handler.js';
 import { tryHandlePetActionPacket } from './pet-handler.js';
+import { resolveTownCheckpoint } from '../gameplay/session-flows.js';
 import { handleNpcShopServiceRequest } from '../gameplay/shop-runtime.js';
 import { syncWorldPresence } from '../world-state.js';
 
@@ -136,6 +137,12 @@ function dispatchGamePacket(
   if (cmdWord === GAME_POSITION_QUERY_CMD && payload.length >= 8) {
     const position = parsePositionUpdate(payload);
     const previousMapId = session.currentMapId;
+    const checkpoint = resolveTownCheckpoint({
+      persistedCharacter: session.getPersistedCharacter?.() || null,
+      currentMapId: position.mapId,
+      currentX: position.x,
+      currentY: position.y,
+    });
     session.currentMapId = position.mapId;
     session.currentX = position.x;
     session.currentY = position.y;
@@ -143,6 +150,9 @@ function dispatchGamePacket(
       mapId: position.mapId,
       x: position.x,
       y: position.y,
+      lastTownMapId: checkpoint.mapId,
+      lastTownX: checkpoint.x,
+      lastTownY: checkpoint.y,
     });
     notifyAutoMapRotationPosition(session, position.mapId);
     if (session.pendingSceneNpcSpawnMapId === position.mapId) {

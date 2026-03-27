@@ -1,6 +1,8 @@
 import { DEFAULT_MAX_VITALS, resolveCharacterMaxVitals as resolveDerivedCharacterMaxVitals } from './max-vitals.js';
+import { getMapDetails } from '../map-data.js';
 import { numberOrDefault, type UnknownRecord } from '../utils.js';
 type Vitals = { health: number; mana: number; rage: number; companionHp?: number };
+type Position = { mapId: number; x: number; y: number };
 
 export const CHARACTER_VITALS_BASELINE = DEFAULT_MAX_VITALS;
 
@@ -17,6 +19,63 @@ export function resolveInnRestVitals(currentVitals: UnknownRecord | null | undef
   };
 }
 
+function isValidPosition(position: UnknownRecord | null | undefined): position is Position {
+  return (
+    typeof position?.mapId === 'number' &&
+    Number.isFinite(position.mapId) &&
+    typeof position?.x === 'number' &&
+    Number.isFinite(position.x) &&
+    typeof position?.y === 'number' &&
+    Number.isFinite(position.y)
+  );
+}
+
+function resolvePersistedTownRespawn(persistedCharacter: UnknownRecord | null | undefined): Position | null {
+  const lastTown = {
+    mapId: persistedCharacter?.lastTownMapId,
+    x: persistedCharacter?.lastTownX,
+    y: persistedCharacter?.lastTownY,
+  };
+  return isValidPosition(lastTown) ? lastTown : null;
+}
+
+export function resolveTownCheckpoint({
+  persistedCharacter,
+  currentMapId,
+  currentX,
+  currentY,
+}: UnknownRecord): Position {
+  const currentPosition = {
+    mapId: numberOrDefault(currentMapId, 0),
+    x: numberOrDefault(currentX, 0),
+    y: numberOrDefault(currentY, 0),
+  };
+  const home = getMapDetails(currentPosition.mapId)?.homeInfo;
+  if (isValidPosition(home)) {
+    if ((home.mapId >>> 0) === (currentPosition.mapId >>> 0)) {
+      return currentPosition;
+    }
+    return {
+      mapId: home.mapId >>> 0,
+      x: home.x >>> 0,
+      y: home.y >>> 0,
+    };
+  }
+  return resolvePersistedTownRespawn(persistedCharacter) || currentPosition;
+}
+
+export function resolveTownRespawn({
+  persistedCharacter,
+  currentMapId,
+  currentX,
+  currentY,
+}: UnknownRecord): Position {
+  return (
+    resolvePersistedTownRespawn(persistedCharacter) ||
+    resolveTownCheckpoint({ persistedCharacter, currentMapId, currentX, currentY })
+  );
+}
+
 export function buildDefeatRespawnState({
   persistedCharacter,
   currentMapId,
@@ -25,13 +84,12 @@ export function buildDefeatRespawnState({
   player,
   currentMana,
   currentRage,
-  resolveTownRespawn,
 }: UnknownRecord) {
   const respawn = resolveTownRespawn({
-    ...(persistedCharacter || {}),
-    mapId: currentMapId,
-    x: currentX,
-    y: currentY,
+    persistedCharacter,
+    currentMapId,
+    currentX,
+    currentY,
   });
 
   return {
