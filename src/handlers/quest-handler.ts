@@ -186,11 +186,6 @@ function sendQuestAccept(session: GameSession, taskId: number): void {
 }
 
 function sendQuestUpdate(session: GameSession, taskId: number, status: number): void {
-  const { definition, record } = getQuestSyncRecord(session, taskId);
-  if (status > 0 && definition && record) {
-    sendQuestUpdateWithState(session, taskId, definition, record);
-    return;
-  }
   session.writePacket(
     buildQuestPacket(0x08, taskId, status, 'u16'),
     DEFAULT_FLAGS,

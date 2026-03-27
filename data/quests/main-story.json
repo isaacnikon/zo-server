@@ -2447,32 +2447,13 @@
         }
       ],
       "rewards": {
-        "gold": 800,
-        "experience": 3300,
+        "gold": 500,
+        "experience": 1000,
         "coins": 0,
         "renown": 0,
         "pets": [],
         "items": [],
-        "choiceGroups": [
-          {
-            "awardId": 1,
-            "gold": 800,
-            "experience": 3300,
-            "coins": 0,
-            "renown": 0,
-            "pets": [],
-            "items": []
-          },
-          {
-            "awardId": 1,
-            "gold": 500,
-            "experience": 1000,
-            "coins": 0,
-            "renown": 0,
-            "pets": [],
-            "items": []
-          }
-        ]
+        "choiceGroups": []
       },
       "auxiliaryActions": [],
       "steps": [
@@ -2495,13 +2476,13 @@
           "npcId": 3025,
           "status": 2,
           "description": "Travel to East Gate to speak with \"Corey\"",
-          "mapId": 228
+          "mapId": 112
         },
         {
           "type": "talk",
           "npcId": 3118,
           "status": 3,
-          "description": "Quest step 3",
+          "description": "Pay a visit to \"Franklin\" at south of the town",
           "mapId": 112
         }
       ],

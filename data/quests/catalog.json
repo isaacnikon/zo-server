@@ -6239,8 +6239,8 @@
     },
     {
       "id": 71,
-      "name": "Quest 71",
-      "category": "unknown",
+      "name": "Knowing your ways around",
+      "category": "main",
       "acceptNpcId": 3110,
       "acceptSubtype": 3,
       "acceptMessage": "It seems M/A Manager has nothing to teach you now. When he saw your pet, he remembered that there is a Pet Curer in the city. He thought you may need to learn some pet knowledge. Go to pay a visit to the pet curer.  Tip :Complete",
@@ -6258,30 +6258,11 @@
       ],
       "nextQuestId": null,
       "rewards": {
-        "gold": 800,
-        "experience": 3300,
+        "gold": 500,
+        "experience": 1000,
         "coins": 0,
         "renown": 0,
-        "choiceGroups": [
-          {
-            "awardId": 1,
-            "gold": 800,
-            "experience": 3300,
-            "coins": 0,
-            "renown": 0,
-            "pets": [],
-            "items": []
-          },
-          {
-            "awardId": 1,
-            "gold": 500,
-            "experience": 1000,
-            "coins": 0,
-            "renown": 0,
-            "pets": [],
-            "items": []
-          }
-        ],
+        "choiceGroups": [],
         "items": []
       },
       "interactionTriggers": [],
@@ -6337,8 +6318,8 @@
         },
         {
           "id": 2,
-          "mapId": 228,
-          "description": "Travel to East Gate to speak with \"Corey\"",
+            "mapId": 112,
+            "description": "Travel to East Gate to speak with \"Corey\"",
           "completionDescription": "",
           "objective": {
             "kind": "npc-interaction",
@@ -6372,7 +6353,7 @@
         {
           "id": 3,
           "mapId": 112,
-          "description": "Quest step 3",
+            "description": "Pay a visit to \"Franklin\" at south of the town",
           "completionDescription": "",
           "objective": {
             "kind": "npc-interaction",
