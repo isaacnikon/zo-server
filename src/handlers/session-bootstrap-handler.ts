@@ -35,7 +35,7 @@ export function sendEnterGameOk(session: GameSession, options: { syncMode?: Ques
   writer.writeUint16(LOGIN_CMD);
   writer.writeUint8(LOGIN_SERVER_LIST_RESULT);
   writer.writeUint32(session.runtimeId >>> 0);
-  writer.writeUint16(session.entityType & 0xffff);
+  writer.writeUint16((session.roleEntityType || session.entityType) & 0xffff);
   writer.writeUint32(session.roleData);
   writer.writeUint16(session.currentX);
   writer.writeUint16(session.currentY);
@@ -69,7 +69,7 @@ export function sendEnterGameOk(session: GameSession, options: { syncMode?: Ques
     session.pendingLoginQuestSyncTimer = null;
     session.syncQuestStateToClient({ mode: syncMode });
   }
-  syncWorldPresence(session, 'enter-game');
+  syncWorldPresence(session, 'enter-game', { skipSourceViewerAdd: true });
   startAutoMapRotation(session);
 }
 

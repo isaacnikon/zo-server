@@ -2,13 +2,18 @@ import type { GameSession } from './types.js';
 
 import { DEFAULT_FLAGS } from './config.js';
 import { buildEntityHidePacket } from './combat/packets.js';
-import { buildEntityPositionSyncPacket, buildSceneSpawnBatchPacket } from './protocol/gameplay-packets.js';
+import {
+  buildEntityPositionSyncPacket,
+  buildEntityWalkSyncPacket,
+  buildSceneSpawnBatchPacket,
+} from './protocol/gameplay-packets.js';
 
 export interface WorldPlayerPresence {
   runtimeId: number;
   sessionId: number;
   accountName: string | null;
   charName: string;
+  entityType: number;
   roleEntityType: number;
   roleData: number;
   level: number;
@@ -19,6 +24,16 @@ export interface WorldPlayerPresence {
   dir: number;
   state: number;
   session: GameSession;
+}
+
+interface WorldPetPresence {
+  runtimeId: number;
+  ownerRuntimeId: number;
+  entityType: number;
+  x: number;
+  y: number;
+  dir: number;
+  state: number;
 }
 
 export interface WorldState {
@@ -32,6 +47,7 @@ export interface WorldState {
 const PLAYER_VISIBILITY_RADIUS = Number.isFinite(Number(process.env.PLAYER_VISIBILITY_RADIUS))
   ? Math.max(8, Number(process.env.PLAYER_VISIBILITY_RADIUS) | 0)
   : 40;
+const PLAYER_MOVE_SMOOTH_DISTANCE_LIMIT = 12;
 const WORLD_RUNTIME_ID_BASE = 0x5000;
 const WORLD_RUNTIME_ID_LIMIT = 0xffef;
 
@@ -166,9 +182,71 @@ function removeFromMapOccupancy(world: WorldState, mapId: number, runtimeId: num
   }
 }
 
+function resolvePlayerAppearanceWord(roleEntityType: number, selectedAptitude: number): number {
+  const normalizedRoleEntityType = Number(roleEntityType);
+  if (Number.isFinite(normalizedRoleEntityType) && normalizedRoleEntityType > 0) {
+    return normalizedRoleEntityType & 0xffff;
+  }
+
+  const normalizedAptitude = Number(selectedAptitude);
+  if (!Number.isFinite(normalizedAptitude)) {
+    return 1;
+  }
+  return Math.max(1, normalizedAptitude | 0) & 0xffff;
+}
+
+function getSelectedPetRecord(session: GameSession): Record<string, any> | null {
+  if (!session.petSummoned || !Array.isArray(session.pets) || session.pets.length === 0) {
+    return null;
+  }
+
+  if (typeof session.selectedPetRuntimeId === 'number') {
+    const selectedPetRuntimeId = session.selectedPetRuntimeId >>> 0;
+    const selected = session.pets.find(
+      (entry: Record<string, any>) => (entry?.runtimeId >>> 0) === selectedPetRuntimeId
+    );
+    if (selected) {
+      return selected;
+    }
+  }
+
+  return session.pets[0] || null;
+}
+
+function resolveWorldPetPosition(ownerX: number, ownerY: number): { x: number; y: number } {
+  const x = ownerX >= 0xffff ? Math.max(0, ownerX - 1) : ownerX + 1;
+  return {
+    x: x & 0xffff,
+    y: ownerY & 0xffff,
+  };
+}
+
+function resolveWorldPetPresence(owner: WorldPlayerPresence): WorldPetPresence | null {
+  const pet = getSelectedPetRecord(owner.session);
+  if (!pet) {
+    return null;
+  }
+
+  const entityType = Number(pet.templateId) >>> 0;
+  if (!entityType) {
+    return null;
+  }
+
+  const position = resolveWorldPetPosition(owner.x >>> 0, owner.y >>> 0);
+  return {
+    runtimeId: (Number(pet.runtimeId) >>> 0),
+    ownerRuntimeId: owner.runtimeId >>> 0,
+    entityType,
+    x: position.x >>> 0,
+    y: position.y >>> 0,
+    dir: 0,
+    state: 0,
+  };
+}
+
 function toSpawnRecord(presence: WorldPlayerPresence): {
-  id: number;
-  entityType: number;
+    id: number;
+    entityType: number;
   x: number;
   y: number;
   dir: number;
@@ -185,7 +263,7 @@ function toSpawnRecord(presence: WorldPlayerPresence): {
 } {
   return {
     id: presence.runtimeId >>> 0,
-    entityType: presence.roleEntityType >>> 0,
+    entityType: presence.entityType >>> 0,
     x: presence.x >>> 0,
     y: presence.y >>> 0,
     dir: presence.dir >>> 0,
@@ -195,7 +273,7 @@ function toSpawnRecord(presence: WorldPlayerPresence): {
       level: presence.level >>> 0,
       name: presence.charName || '',
       appearanceWords: [
-        Math.max(0, presence.selectedAptitude | 0) & 0xffff,
+        resolvePlayerAppearanceWord(presence.roleEntityType, presence.selectedAptitude),
         0,
         0,
       ],
@@ -210,6 +288,12 @@ function sendPresenceSpawn(targetSession: GameSession, presences: WorldPlayerPre
   if (!Array.isArray(presences) || presences.length === 0) {
     return;
   }
+  for (const presence of presences) {
+    targetSession.observedPlayerPositions.set(presence.runtimeId >>> 0, {
+      x: presence.x >>> 0,
+      y: presence.y >>> 0,
+    });
+  }
   targetSession.writePacket(
     buildSceneSpawnBatchPacket(presences.map(toSpawnRecord)),
     DEFAULT_FLAGS,
@@ -217,7 +301,31 @@ function sendPresenceSpawn(targetSession: GameSession, presences: WorldPlayerPre
   );
 }
 
+function sendPetSpawn(targetSession: GameSession, pet: WorldPetPresence, reason: string): void {
+  targetSession.observedPetStates.set(pet.runtimeId >>> 0, {
+    ownerRuntimeId: pet.ownerRuntimeId >>> 0,
+    x: pet.x >>> 0,
+    y: pet.y >>> 0,
+    entityType: pet.entityType >>> 0,
+  });
+  targetSession.writePacket(
+    buildSceneSpawnBatchPacket([
+      {
+        id: pet.runtimeId >>> 0,
+        entityType: pet.entityType >>> 0,
+        x: pet.x >>> 0,
+        y: pet.y >>> 0,
+        dir: pet.dir >>> 0,
+        state: pet.state >>> 0,
+      },
+    ]),
+    DEFAULT_FLAGS,
+    `Sending pet spawn sync reason=${reason} ownerRuntimeId=${pet.ownerRuntimeId >>> 0} runtimeId=${pet.runtimeId >>> 0} entityType=0x${(pet.entityType >>> 0).toString(16)} pos=${pet.x >>> 0},${pet.y >>> 0}`
+  );
+}
+
 function sendPresenceHide(targetSession: GameSession, runtimeId: number, reason: string): void {
+  targetSession.observedPlayerPositions.delete(runtimeId >>> 0);
   targetSession.writePacket(
     buildEntityHidePacket(runtimeId >>> 0),
     DEFAULT_FLAGS,
@@ -225,12 +333,202 @@ function sendPresenceHide(targetSession: GameSession, runtimeId: number, reason:
   );
 }
 
-function sendPresenceMove(targetSession: GameSession, presence: WorldPlayerPresence, reason: string): void {
+function sendPetHide(targetSession: GameSession, runtimeId: number, reason: string): void {
+  targetSession.observedPetStates.delete(runtimeId >>> 0);
   targetSession.writePacket(
-    buildEntityPositionSyncPacket(presence.runtimeId >>> 0, presence.x >>> 0, presence.y >>> 0),
+    buildEntityHidePacket(runtimeId >>> 0),
     DEFAULT_FLAGS,
-    `Sending player move sync reason=${reason} runtimeId=${presence.runtimeId >>> 0} pos=${presence.x >>> 0},${presence.y >>> 0}`
+    `Sending pet hide sync reason=${reason} runtimeId=${runtimeId >>> 0}`
   );
+}
+
+function sendPresenceMoveDirect(
+  targetSession: GameSession,
+  runtimeId: number,
+  x: number,
+  y: number,
+  reason: string
+): void {
+  targetSession.observedPlayerPositions.set(runtimeId >>> 0, {
+    x: x >>> 0,
+    y: y >>> 0,
+  });
+  targetSession.writePacket(
+    buildEntityPositionSyncPacket(runtimeId >>> 0, x >>> 0, y >>> 0),
+    DEFAULT_FLAGS,
+    `Sending player move sync reason=${reason} runtimeId=${runtimeId >>> 0} pos=${x >>> 0},${y >>> 0}`
+  );
+}
+
+function sendPresenceMoveSmooth(
+  targetSession: GameSession,
+  runtimeId: number,
+  x: number,
+  y: number,
+  reason: string
+): void {
+  targetSession.observedPlayerPositions.set(runtimeId >>> 0, {
+    x: x >>> 0,
+    y: y >>> 0,
+  });
+  targetSession.writePacket(
+    buildEntityWalkSyncPacket(runtimeId >>> 0, x >>> 0, y >>> 0),
+    DEFAULT_FLAGS,
+    `Sending player walk sync reason=${reason} runtimeId=${runtimeId >>> 0} pos=${x >>> 0},${y >>> 0}`
+  );
+}
+
+function sendPresenceMove(targetSession: GameSession, presence: WorldPlayerPresence, reason: string): void {
+  const runtimeId = presence.runtimeId >>> 0;
+  const targetX = presence.x >>> 0;
+  const targetY = presence.y >>> 0;
+  const previous = targetSession.observedPlayerPositions.get(runtimeId) || null;
+
+  if (!previous) {
+    sendPresenceMoveDirect(targetSession, runtimeId, targetX, targetY, `${reason}:direct-initial`);
+    return;
+  }
+
+  const dx = targetX - (previous.x >>> 0);
+  const dy = targetY - (previous.y >>> 0);
+  const distance = Math.max(Math.abs(dx), Math.abs(dy));
+
+  if (distance === 0) {
+    return;
+  }
+
+  if (distance === 1) {
+    sendPresenceMoveSmooth(targetSession, runtimeId, targetX, targetY, reason);
+    return;
+  }
+
+  if (distance > PLAYER_MOVE_SMOOTH_DISTANCE_LIMIT) {
+    sendPresenceMoveDirect(targetSession, runtimeId, targetX, targetY, `${reason}:direct-large-jump`);
+    return;
+  }
+
+  sendPresenceMoveSmooth(targetSession, runtimeId, targetX, targetY, reason);
+}
+
+function sendPetMoveDirect(
+  targetSession: GameSession,
+  pet: WorldPetPresence,
+  reason: string
+): void {
+  updateObservedPetState(targetSession, pet);
+  targetSession.writePacket(
+    buildEntityPositionSyncPacket(pet.runtimeId >>> 0, pet.x >>> 0, pet.y >>> 0),
+    DEFAULT_FLAGS,
+    `Sending pet move sync reason=${reason} runtimeId=${pet.runtimeId >>> 0} pos=${pet.x >>> 0},${pet.y >>> 0}`
+  );
+}
+
+function sendPetMoveSmooth(
+  targetSession: GameSession,
+  pet: WorldPetPresence,
+  reason: string
+): void {
+  updateObservedPetState(targetSession, pet);
+  targetSession.writePacket(
+    buildEntityWalkSyncPacket(pet.runtimeId >>> 0, pet.x >>> 0, pet.y >>> 0),
+    DEFAULT_FLAGS,
+    `Sending pet walk sync reason=${reason} runtimeId=${pet.runtimeId >>> 0} pos=${pet.x >>> 0},${pet.y >>> 0}`
+  );
+}
+
+function updateObservedPetState(
+  targetSession: GameSession,
+  pet: WorldPetPresence
+): void {
+  targetSession.observedPetStates.set(pet.runtimeId >>> 0, {
+    ownerRuntimeId: pet.ownerRuntimeId >>> 0,
+    x: pet.x >>> 0,
+    y: pet.y >>> 0,
+    entityType: pet.entityType >>> 0,
+  });
+}
+
+function sendPetMove(targetSession: GameSession, pet: WorldPetPresence, reason: string): void {
+  const runtimeId = pet.runtimeId >>> 0;
+  const targetX = pet.x >>> 0;
+  const targetY = pet.y >>> 0;
+  const previous = targetSession.observedPetStates.get(runtimeId) || null;
+
+  if (!previous) {
+    sendPetMoveDirect(targetSession, pet, `${reason}:direct-initial`);
+    return;
+  }
+
+  const dx = targetX - (previous.x >>> 0);
+  const dy = targetY - (previous.y >>> 0);
+  const distance = Math.max(Math.abs(dx), Math.abs(dy));
+
+  if (distance === 0) {
+    return;
+  }
+
+  if (distance > PLAYER_MOVE_SMOOTH_DISTANCE_LIMIT) {
+    sendPetMoveDirect(targetSession, pet, `${reason}:direct-large-jump`);
+    return;
+  }
+
+  sendPetMoveSmooth(targetSession, pet, reason);
+}
+
+function hideStaleOwnedPets(
+  viewerSession: GameSession,
+  ownerRuntimeId: number,
+  keepRuntimeId: number | null,
+  reason: string
+): void {
+  for (const [runtimeId, observed] of [...viewerSession.observedPetStates.entries()]) {
+    if ((observed?.ownerRuntimeId >>> 0) !== (ownerRuntimeId >>> 0)) {
+      continue;
+    }
+    if (keepRuntimeId !== null && (runtimeId >>> 0) === (keepRuntimeId >>> 0)) {
+      continue;
+    }
+    sendPetHide(viewerSession, runtimeId >>> 0, reason);
+  }
+}
+
+function syncOwnedPetForViewer(
+  viewerSession: GameSession,
+  owner: WorldPlayerPresence,
+  reason: string,
+  ownerVisibleToViewer: boolean
+): void {
+  if (!ownerVisibleToViewer) {
+    hideStaleOwnedPets(viewerSession, owner.runtimeId >>> 0, null, `${reason}:owner-hidden`);
+    return;
+  }
+
+  const pet = resolveWorldPetPresence(owner);
+  if (!pet) {
+    hideStaleOwnedPets(viewerSession, owner.runtimeId >>> 0, null, `${reason}:unsummoned`);
+    return;
+  }
+
+  hideStaleOwnedPets(
+    viewerSession,
+    owner.runtimeId >>> 0,
+    pet.runtimeId >>> 0,
+    `${reason}:active-switch`
+  );
+
+  const previous = viewerSession.observedPetStates.get(pet.runtimeId >>> 0) || null;
+  if (!previous) {
+    sendPetSpawn(viewerSession, pet, `${reason}:spawn`);
+    return;
+  }
+
+  if ((previous.entityType >>> 0) !== (pet.entityType >>> 0)) {
+    sendPetHide(viewerSession, pet.runtimeId, `${reason}:template-reset`);
+    sendPetSpawn(viewerSession, pet, `${reason}:template-reset`);
+    return;
+  }
+
+  sendPetMove(viewerSession, pet, reason);
 }
 
 function shouldSessionsSeeEachOther(
@@ -249,6 +547,7 @@ function shouldSessionsSeeEachOther(
 function updatePresenceFromSession(presence: WorldPlayerPresence, session: GameSession): void {
   presence.accountName = session.accountKey || session.accountName;
   presence.charName = session.charName;
+  presence.entityType = session.entityType >>> 0;
   presence.roleEntityType = session.roleEntityType >>> 0;
   presence.roleData = session.roleData >>> 0;
   presence.level = session.level >>> 0;
@@ -288,6 +587,7 @@ export function ensureWorldPresence(session: GameSession): WorldPlayerPresence {
     sessionId: session.id,
     accountName: session.accountKey || session.accountName,
     charName: session.charName,
+    entityType: session.entityType >>> 0,
     roleEntityType: session.roleEntityType >>> 0,
     roleData: session.roleData >>> 0,
     level: session.level >>> 0,
@@ -311,10 +611,15 @@ export function ensureWorldPresence(session: GameSession): WorldPlayerPresence {
   return presence;
 }
 
-export function syncWorldPresence(session: GameSession, reason: string): void {
+export function syncWorldPresence(
+  session: GameSession,
+  reason: string,
+  options: { skipSourceViewerAdd?: boolean } = {}
+): void {
   const world = getWorldState(session.sharedState);
   const source = ensureWorldPresence(session);
   updatePresenceFromSession(source, session);
+  const skipSourceViewerAdd = options.skipSourceViewerAdd === true;
 
   for (const visibleRuntimeId of [...session.visiblePlayerRuntimeIds]) {
     if ((visibleRuntimeId >>> 0) === (source.runtimeId >>> 0)) {
@@ -346,8 +651,10 @@ export function syncWorldPresence(session: GameSession, reason: string): void {
 
     if (shouldSee) {
       if (!sourceSeesOther) {
-        sendPresenceSpawn(session, [other], `${reason}:viewer-add`);
-        session.visiblePlayerRuntimeIds.add(runtimeId >>> 0);
+        if (!skipSourceViewerAdd) {
+          sendPresenceSpawn(session, [other], `${reason}:viewer-add`);
+          session.visiblePlayerRuntimeIds.add(runtimeId >>> 0);
+        }
       }
 
       if (!otherSeesSource) {
@@ -356,6 +663,19 @@ export function syncWorldPresence(session: GameSession, reason: string): void {
       } else {
         sendPresenceMove(other.session, source, `${reason}:peer-move`);
       }
+
+      syncOwnedPetForViewer(
+        session,
+        other,
+        `${reason}:viewer-pet`,
+        session.visiblePlayerRuntimeIds.has(other.runtimeId >>> 0)
+      );
+      syncOwnedPetForViewer(
+        other.session,
+        source,
+        `${reason}:peer-pet`,
+        other.session.visiblePlayerRuntimeIds.has(source.runtimeId >>> 0)
+      );
       continue;
     }
 
@@ -367,6 +687,29 @@ export function syncWorldPresence(session: GameSession, reason: string): void {
       sendPresenceHide(other.session, source.runtimeId, `${reason}:peer-remove`);
       other.session.visiblePlayerRuntimeIds.delete(source.runtimeId >>> 0);
     }
+    syncOwnedPetForViewer(session, other, `${reason}:viewer-pet`, false);
+    syncOwnedPetForViewer(other.session, source, `${reason}:peer-pet`, false);
+  }
+}
+
+export function syncWorldPetState(session: GameSession, reason: string): void {
+  const world = getWorldState(session.sharedState);
+  const owner = world.playersBySessionId.get(session.id);
+  if (!owner) {
+    return;
+  }
+
+  for (const other of world.playersByRuntimeId.values()) {
+    if (!other || other.session.id === session.id) {
+      continue;
+    }
+
+    syncOwnedPetForViewer(
+      other.session,
+      owner,
+      reason,
+      other.session.visiblePlayerRuntimeIds.has(owner.runtimeId >>> 0)
+    );
   }
 }
 
@@ -390,6 +733,7 @@ export function removeWorldPresence(session: GameSession, reason: string): void 
       sendPresenceHide(other.session, presence.runtimeId, `${reason}:disconnect`);
       other.session.visiblePlayerRuntimeIds.delete(presence.runtimeId >>> 0);
     }
+    syncOwnedPetForViewer(other.session, presence, `${reason}:pet-disconnect`, false);
   }
 
   removeFromMapOccupancy(world, presence.mapId, presence.runtimeId);
@@ -408,4 +752,5 @@ export function removeWorldPresence(session: GameSession, reason: string): void 
   }
   session.visiblePlayerRuntimeIds.clear();
   session.worldRegistered = false;
+  session.observedPetStates.clear();
 }

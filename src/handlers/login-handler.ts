@@ -1,6 +1,6 @@
 import { parseCreateRole, parseLoginPacket } from '../protocol/inbound-packets.js';
 import { PacketWriter } from '../protocol.js';
-import { AREA_ID, DEFAULT_FLAGS, ENTITY_TYPE, LOGIN_CMD, LOGIN_SERVER_LIST_RESULT, LINE_SELECT_RESULT, MAP_ID, PORT, REDIRECT_RESULT, ROLE_CMD, SERVER_HOST, SPAWN_X, SPAWN_Y, } from '../config.js';
+import { AREA_ID, DEFAULT_FLAGS, ENTITY_TYPE, LOGIN_CMD, LOGIN_SERVER_LIST_RESULT, LINE_SELECT_RESULT, MAP_ID, PORT, REDIRECT_RESULT, ROLE_CMD, SERVER_HOST, SINGLE_WORLD_SESSION_PER_REMOTE, SPAWN_X, SPAWN_Y, } from '../config.js';
 import { packRoleData, resolveRoleData, resolveRoleLevel, resolveBirthMonth, resolveBirthDay, } from '../character/role-utils.js';
 import { defaultBonusAttributes, numberOrDefault, defaultPrimaryAttributes, normalizeBonusAttributes, normalizePrimaryAttributes, normalizeCharacterRecord, normalizeSkillState, } from '../character/normalize.js';
 import { normalizeQuestState } from '../quest-engine/index.js';
@@ -53,14 +53,20 @@ function handleLogin(session: GameSession, payload: Buffer): void {
 
   session.state = 'LOGGED_IN';
   if (session.isGame) {
-    const replacedCount = replaceExistingWorldSessionsForRemote(
-      session.sharedState,
-      session.remoteAddress,
-      session.id
-    );
-    if (replacedCount > 0) {
+    if (SINGLE_WORLD_SESSION_PER_REMOTE) {
+      const replacedCount = replaceExistingWorldSessionsForRemote(
+        session.sharedState,
+        session.remoteAddress,
+        session.id
+      );
+      if (replacedCount > 0) {
+        session.log(
+          `Replaced ${replacedCount} existing live session(s) for remote=${session.remoteAddress || 'unknown'}`
+        );
+      }
+    } else {
       session.log(
-        `Replaced ${replacedCount} existing live session(s) for remote=${session.remoteAddress || 'unknown'}`
+        `Allowing concurrent live sessions for remote=${session.remoteAddress || 'unknown'}`
       );
     }
     hydratePendingGameCharacter(session, session.sharedState);
@@ -250,7 +256,7 @@ function sendGameServerRedirect(session: GameSession): void {
     accountKey,
     charName: persisted?.charName || persisted?.roleName || session.charName,
     runtimeId: 0,
-    entityType: persisted?.roleEntityType || session.roleEntityType || session.entityType,
+    entityType: session.entityType || ENTITY_TYPE,
     roleEntityType: persisted?.roleEntityType || session.roleEntityType,
     roleData,
     selectedAptitude: persisted?.selectedAptitude || session.selectedAptitude || 0,

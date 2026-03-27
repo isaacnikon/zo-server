@@ -3,6 +3,7 @@ import type { GameSession } from '../types.js';
 import { DEFAULT_FLAGS, GAME_FIGHT_RESULT_CMD, GAME_FIGHT_STREAM_CMD, GAME_SELF_STATE_CMD, } from '../config.js';
 import { buildPetActiveSelectPacket, buildPetPanelBindPacket, buildPetPanelClearPacket, buildPetPanelModePacket, buildPetPanelNamePacket, buildPetPanelPropertyPacket, buildPetPanelRebindPacket, buildPetPlacementSyncPacket, buildPetRosterSyncPacket, buildPetStatsSyncPacket, buildPetTreeRegistrationPacket, } from '../protocol/gameplay-packets.js';
 import { getPrimaryPet, normalizePets } from '../pet-runtime.js';
+import { syncWorldPetState } from '../world-state.js';
 
 type PetRecord = Record<string, any>;
 
@@ -94,6 +95,7 @@ export function tryHandlePetActionPacket(session: GameSession, payload: Buffer):
       DEFAULT_FLAGS,
       `Sending pet panel clear cmd=0x${GAME_FIGHT_RESULT_CMD.toString(16)} sub=0x58 reason=client-03f5-58 ownerRuntimeId=${ownerRuntimeId}`
     );
+    syncWorldPetState(session, 'client-03f5-58');
     return true;
   }
 
@@ -118,6 +120,7 @@ export function schedulePetReplay(session: GameSession, delayMs = 500): void {
 export function sendPetStateSync(session: GameSession, reason = 'runtime'): void {
   session.pets = normalizePets(session.pets);
   if (session.pets.length === 0) {
+    syncWorldPetState(session, `${reason}:no-pets`);
     return;
   }
   const selectedPet =
@@ -206,6 +209,7 @@ export function sendPetStateSync(session: GameSession, reason = 'runtime'): void
       `Sending pet active select cmd=0x03f5 reason=${reason} runtimeId=${pet.runtimeId}`
     );
   }
+  syncWorldPetState(session, reason);
 }
 
 function sendPetPropertySync(

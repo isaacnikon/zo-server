@@ -329,6 +329,21 @@ export function buildEntityPositionSyncPacket(entityId: number, x: number, y: nu
   return writer.payload();
 }
 
+export function buildEntityWalkSyncPacket(
+  entityId: number,
+  x: number,
+  y: number,
+  movementFlags = 0
+): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(0x03ed);
+  writer.writeUint32(entityId >>> 0);
+  writer.writeUint16(x & 0xffff);
+  writer.writeUint16(y & 0xffff);
+  writer.writeUint32(movementFlags >>> 0);
+  return writer.payload();
+}
+
 export function buildSelfStateValueUpdatePacket({ discriminator, value }: ValueUpdateParams): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_SELF_STATE_CMD);

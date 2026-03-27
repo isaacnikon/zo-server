@@ -228,6 +228,8 @@ export interface GameSession {
   socket: { destroyed?: boolean; destroy(): void; write(data: Buffer): void };
   worldRegistered: boolean;
   visiblePlayerRuntimeIds: Set<number>;
+  observedPlayerPositions: Map<number, { x: number; y: number }>;
+  observedPetStates: Map<number, { ownerRuntimeId: number; x: number; y: number; entityType: number }>;
   // I/O methods
   writePacket(payload: Buffer, flags?: number, message?: string): void;
   log(message: string): void;

@@ -124,6 +124,8 @@ class Session implements GameSession {
   lastFieldCombatProbeKey: string | null;
   worldRegistered: boolean;
   visiblePlayerRuntimeIds: Set<number>;
+  observedPlayerPositions: Map<number, { x: number; y: number }>;
+  observedPetStates: Map<number, { ownerRuntimeId: number; x: number; y: number; entityType: number }>;
 
   constructor(
     socket: SocketLike,
@@ -209,6 +211,8 @@ class Session implements GameSession {
     this.lastFieldCombatProbeKey = null;
     this.worldRegistered = false;
     this.visiblePlayerRuntimeIds = new Set<number>();
+    this.observedPlayerPositions = new Map<number, { x: number; y: number }>();
+    this.observedPetStates = new Map<number, { ownerRuntimeId: number; x: number; y: number; entityType: number }>();
     this.objectiveRegistry.register({
       system: questObjectiveSystem,
       handler: questEventHandler,
@@ -474,6 +478,8 @@ class Session implements GameSession {
       clearTimeout(this.equipmentReplayTimer);
       this.equipmentReplayTimer = null;
     }
+    this.observedPlayerPositions.clear();
+    this.observedPetStates.clear();
   }
 
   sendGameDialogue(

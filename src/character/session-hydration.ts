@@ -146,7 +146,7 @@ export function buildCharacterSnapshot(
     roleName: session.charName,
     roleData: session.roleData,
     runtimeId: session.runtimeId,
-    entityType: session.roleEntityType,
+    entityType: session.entityType,
     roleEntityType: session.roleEntityType,
     selectedAptitude: session.selectedAptitude,
     level: session.level,
