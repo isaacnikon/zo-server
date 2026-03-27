@@ -322,6 +322,7 @@ function normalizeReward(reward: UnknownRecord): UnknownRecord {
     pets: Array.isArray(reward?.pets) ? reward.pets.slice() : [],
     choiceGroups: Array.isArray(reward?.choiceGroups)
       ? reward.choiceGroups.map((group: UnknownRecord) => ({
+          awardId: numberOrDefault(group?.awardId, 0),
           gold: numberOrDefault(group?.gold, 0),
           experience: numberOrDefault(group?.experience, 0),
           coins: numberOrDefault(group?.coins, 0),
