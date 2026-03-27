@@ -1,6 +1,6 @@
 import { DEFAULT_FLAGS, GAME_ITEM_CMD, GAME_ITEM_CONTAINER_CMD } from '../config.js';
 import { buildInventoryContainerBulkSyncPacket, buildInventoryContainerQuantityPacket, buildItemAddPacket, buildItemRemovePacket, } from '../protocol/gameplay-packets.js';
-import { BAG_CONTAINER_TYPE, getItemDefinition, } from '../inventory/index.js';
+import { BAG_CONTAINER_TYPE, getItemDefinition, isEquipmentDefinition, } from '../inventory/index.js';
 import { applyEffects } from '../effects/effect-executor.js';
 
 const EQUIPMENT_CONTAINER_TYPE = 0;
@@ -55,6 +55,10 @@ function sendInventoryFullSync(session: GameSession): void {
 
 function buildClientInventoryItem(item: UnknownRecord): UnknownRecord {
   const definition = getItemDefinition(item.templateId);
+  const payloadBindState =
+    definition && isEquipmentDefinition(definition) && Number.isInteger(item.bindState)
+      ? (item.bindState & 0xff)
+      : 0;
   const itemAttributePairs = Array.isArray(item.attributePairs)
     ? item.attributePairs
         .map((pair: UnknownRecord) => ({
@@ -62,21 +66,79 @@ function buildClientInventoryItem(item: UnknownRecord): UnknownRecord {
         }))
         .filter((pair: UnknownRecord) => pair.value !== 0)
     : [];
+  const baseAttributePairs =
+    itemAttributePairs.length > 0
+      ? itemAttributePairs
+      : Array.isArray(definition?.defaultAttributePairs)
+        ? definition.defaultAttributePairs
+        : [];
+  const payloadStateCode = resolveEquipmentPayloadStateCode(definition, item, payloadBindState);
+  const enhancementWords = buildEquipmentEnhancementWords(definition, payloadStateCode, payloadBindState, baseAttributePairs);
   return {
     ...item,
     tradeState: Number.isInteger(item.tradeState) ? (item.tradeState | 0) : 0,
-    stateCode: Number.isInteger(item.stateCode) ? (item.stateCode & 0xff) : 0,
+    stateCode: payloadStateCode,
     quantity: resolveClientItemQuantity(definition, item.quantity, item.durability),
-    bindState: 0,
+    bindState: payloadBindState,
     extraValue: Number.isInteger(item.extraValue) ? (item.extraValue & 0xffff) : 0,
     clientTemplateFamily: definition?.clientTemplateFamily ?? null,
-    attributePairs:
-      itemAttributePairs.length > 0
-        ? itemAttributePairs
-        : Array.isArray(definition?.defaultAttributePairs)
-          ? definition.defaultAttributePairs
-          : [],
+    attributePairs: baseAttributePairs,
+    enhancementWords,
   };
+}
+
+function resolveEquipmentPayloadStateCode(
+  definition: UnknownRecord | null,
+  item: UnknownRecord,
+  payloadBindState: number
+): number {
+  const storedStateCode = Number.isInteger(item.stateCode) ? (item.stateCode & 0xff) : 0;
+  if (
+    definition &&
+    isEquipmentDefinition(definition as any) &&
+    payloadBindState > 0 &&
+    Number.isInteger((definition as any).itemSetId) &&
+    ((definition as any).itemSetId as number) > 0
+  ) {
+    return 6;
+  }
+  return storedStateCode;
+}
+
+function buildEquipmentEnhancementWords(
+  definition: UnknownRecord | null,
+  payloadStateCode: number,
+  payloadBindState: number,
+  attributePairs: Array<{ value: number }>
+): number[] | undefined {
+  if (
+    !definition ||
+    !isEquipmentDefinition(definition as any) ||
+    payloadStateCode !== 6 ||
+    payloadBindState <= 0
+  ) {
+    return undefined;
+  }
+
+  const words = new Array<number>(13).fill(0);
+  words[0] = payloadBindState & 0xffff;
+  words[1] = payloadStateCode & 0xffff;
+
+  const family = Number.isInteger((definition as any).clientTemplateFamily)
+    ? (((definition as any).clientTemplateFamily as number) & 0xff)
+    : 0;
+  if (family > 0 && family < 0x20) {
+    for (let index = 0; index < 4; index += 1) {
+      words[2 + index] = Number.isInteger(attributePairs[index]?.value) ? (attributePairs[index]!.value & 0xffff) : 0;
+    }
+  } else if (family >= 0x20 && family < 0x40) {
+    words[6] = Number.isInteger(attributePairs[0]?.value) ? (attributePairs[0]!.value & 0xffff) : 0;
+    words[7] = Number.isInteger(attributePairs[1]?.value) ? (attributePairs[1]!.value & 0xffff) : 0;
+  }
+
+  const itemSetId = Number.isInteger((definition as any).itemSetId) ? (((definition as any).itemSetId as number) & 0xffff) : 0;
+  words[10] = itemSetId;
+  return words;
 }
 
 function resolveClientItemQuantity(definition: UnknownRecord | null, quantity: number, durability?: number): number {

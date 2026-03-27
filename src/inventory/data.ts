@@ -32,6 +32,7 @@ interface ItemDefinition {
   containerType: number;
   maxStack: number;
   clientTemplateFamily: number | null;
+  itemSetId?: number | null;
   isQuestItem?: boolean;
   captureProfile?: {
     maxTargetLevel: number;
@@ -178,6 +179,10 @@ function loadClientEquipmentDefinitions(filePath: string, kind: 'armor' | 'weapo
     const defaultQuantity =
       Number.isInteger(durabilityBase) && durabilityBase > 0 ? durabilityBase * 300 : 0;
     const defaultAttributePairs = resolveEquipmentDefaultAttributePairs(entry, kind);
+    const baseRestrictions =
+      entry?.restrictions && typeof entry.restrictions === 'object' ? { ...entry.restrictions } : {};
+    const restrictions = normalizeEquipmentRestrictions(baseRestrictions, entry, kind);
+    const itemSetId = resolveEquipmentSetId(entry, kind);
 
     rows.push({
       templateId: entry.templateId,
@@ -185,13 +190,14 @@ function loadClientEquipmentDefinitions(filePath: string, kind: 'armor' | 'weapo
       containerType: BAG_CONTAINER_TYPE,
       maxStack: 1,
       clientTemplateFamily: entry.clientTemplateFamily,
+      itemSetId: itemSetId > 0 ? itemSetId : null,
       isQuestItem: isQuestItemEntry(entry),
       hasDurability: true,
       sellPrice: resolveClientSellPrice(entry, kind),
       defaultQuantity,
       defaultAttributePairs,
       equipSlotField: Number.isInteger(entry?.equipSlotField) ? entry.equipSlotField : null,
-      restrictions: entry?.restrictions && typeof entry.restrictions === 'object' ? entry.restrictions : undefined,
+      restrictions,
       combatStats: entry?.combatStats && typeof entry.combatStats === 'object' ? entry.combatStats : undefined,
       iconPath: typeof entry.iconPath === 'string' ? entry.iconPath : '',
       clientEvidence:
@@ -200,6 +206,34 @@ function loadClientEquipmentDefinitions(filePath: string, kind: 'armor' | 'weapo
   }
 
   return rows;
+}
+
+function normalizeEquipmentRestrictions(
+  baseRestrictions: UnknownRecord,
+  entry: UnknownRecord,
+  kind: 'armor' | 'weapon'
+): UnknownRecord | undefined {
+  const normalized = { ...baseRestrictions };
+
+  const templateLevel = positiveIntOrZero(entry?.templateLevelField);
+  if (templateLevel > 0) {
+    normalized.requiredLevel = templateLevel;
+  }
+
+  if (kind === 'armor' || kind === 'weapon') {
+    const raw = Array.isArray(entry?.restrictionFields) ? entry.restrictionFields : [];
+    const attributeOrder = ['strength', 'dexterity', 'vitality', 'intelligence'] as const;
+    for (let index = 0; index < attributeOrder.length; index += 1) {
+      const value = positiveIntOrZero(raw[7 + index]);
+      if (value > 0) {
+        normalized.requiredAttribute = attributeOrder[index];
+        normalized.requiredAttributeValue = value;
+        break;
+      }
+    }
+  }
+
+  return Object.keys(normalized).length > 0 ? normalized : undefined;
 }
 
 function resolveEquipmentDefaultAttributePairs(entry: UnknownRecord, kind: 'armor' | 'weapon'): AttributePair[] {
@@ -221,6 +255,13 @@ function resolveEquipmentDefaultAttributePairs(entry: UnknownRecord, kind: 'armo
     { value: 0 },
     { value: 0 },
   ];
+}
+
+function resolveEquipmentSetId(entry: UnknownRecord, kind: 'armor' | 'weapon'): number {
+  const combatFields = Array.isArray(entry?.combatFields) ? entry.combatFields : [];
+  const candidateIndex = kind === 'weapon' ? 10 : 2;
+  const candidate = Number.isInteger(combatFields[candidateIndex]) ? combatFields[candidateIndex] : 0;
+  return candidate > 0 && candidate < 0x100 ? candidate : 0;
 }
 
 function loadClientDerivedEntries(filePath: string): UnknownRecord[] {
@@ -431,6 +472,15 @@ function canEquipItem(session: UnknownRecord, item: BagItem): UnknownRecord {
   const requiredLevel = positiveIntOrZero(restrictions.requiredLevel);
   if (requiredLevel > 0 && Math.max(1, session?.level || 1) < requiredLevel) {
     return { ok: false, reason: `Requires level ${requiredLevel}` };
+  }
+
+  const requiredAttribute = typeof restrictions.requiredAttribute === 'string' ? restrictions.requiredAttribute : null;
+  const requiredAttributeValue = positiveIntOrZero(restrictions.requiredAttributeValue);
+  if (requiredAttribute && requiredAttributeValue > 0) {
+    const currentValue = positiveIntOrZero(session?.primaryAttributes?.[requiredAttribute]);
+    if (currentValue < requiredAttributeValue) {
+      return { ok: false, reason: `Requires ${requiredAttribute} ${requiredAttributeValue}` };
+    }
   }
 
   const requiredGenderCode = positiveIntOrZero(restrictions.genderCode);

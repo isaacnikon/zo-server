@@ -17,6 +17,14 @@ function writeCommonItemFields(writer: UnknownRecord, item: UnknownRecord): void
   writer.writeUint16((item.extraValue ?? 0) & 0xffff);
 }
 
+function serializeEnhancedEquipmentFamily(writer: UnknownRecord, item: UnknownRecord): void {
+  const words = Array.isArray(item.enhancementWords) ? item.enhancementWords : [];
+  for (let index = 0; index < 13; index += 1) {
+    writer.writeUint16((words[index] ?? 0) & 0xffff);
+  }
+  writer.writeUint8(0);
+}
+
 function serializeConsumableFamily(writer: UnknownRecord, _item: UnknownRecord): void {
   writer.writeUint8(0);
 }
@@ -77,6 +85,10 @@ FAMILY_SERIALIZERS.set(0x7a, serializeSingleWordFamily);
 
 export function writeClientItemInstancePayload(writer: UnknownRecord, item: UnknownRecord): void {
   writeCommonItemFields(writer, item);
+  if ((item.stateCode ?? 0) === 6) {
+    serializeEnhancedEquipmentFamily(writer, item);
+    return;
+  }
   const family = item.clientTemplateFamily;
   if (family != null) {
     const serializer = FAMILY_SERIALIZERS.get(family);
