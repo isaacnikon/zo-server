@@ -1,8 +1,8 @@
 import type { GameSession } from './types.js';
 
 import { DEFAULT_FLAGS } from './config.js';
-import { buildEntityHidePacket } from './combat/packets.js';
 import {
+  buildEntityRemovePacket,
   buildEntityPositionSyncPacket,
   buildEntityWalkSyncPacket,
   buildSceneSpawnBatchPacket,
@@ -327,18 +327,18 @@ function sendPetSpawn(targetSession: GameSession, pet: WorldPetPresence, reason:
 function sendPresenceHide(targetSession: GameSession, runtimeId: number, reason: string): void {
   targetSession.observedPlayerPositions.delete(runtimeId >>> 0);
   targetSession.writePacket(
-    buildEntityHidePacket(runtimeId >>> 0),
+    buildEntityRemovePacket(runtimeId >>> 0),
     DEFAULT_FLAGS,
-    `Sending player hide sync reason=${reason} runtimeId=${runtimeId >>> 0}`
+    `Sending player remove sync reason=${reason} runtimeId=${runtimeId >>> 0}`
   );
 }
 
 function sendPetHide(targetSession: GameSession, runtimeId: number, reason: string): void {
   targetSession.observedPetStates.delete(runtimeId >>> 0);
   targetSession.writePacket(
-    buildEntityHidePacket(runtimeId >>> 0),
+    buildEntityRemovePacket(runtimeId >>> 0),
     DEFAULT_FLAGS,
-    `Sending pet hide sync reason=${reason} runtimeId=${runtimeId >>> 0}`
+    `Sending pet remove sync reason=${reason} runtimeId=${runtimeId >>> 0}`
   );
 }
 

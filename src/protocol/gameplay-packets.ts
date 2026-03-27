@@ -344,6 +344,14 @@ export function buildEntityWalkSyncPacket(
   return writer.payload();
 }
 
+export function buildEntityRemovePacket(entityId: number): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(0x03ec);
+  writer.writeUint8(0x01);
+  writer.writeUint32(entityId >>> 0);
+  return writer.payload();
+}
+
 export function buildSelfStateValueUpdatePacket({ discriminator, value }: ValueUpdateParams): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_SELF_STATE_CMD);
