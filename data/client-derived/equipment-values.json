@@ -1,0 +1,8320 @@
+{
+  "source": {
+    "armorFile": "/home/nikon/projects/zo-server/data/client-derived/archive/000005bb__is_armor.txt",
+    "weaponFile": "/home/nikon/projects/zo-server/data/client-derived/archive/000006c3__is_weapon.txt"
+  },
+  "generatedAt": "2026-03-27T18:15:49.331182+00:00",
+  "count": 1662,
+  "entries": [
+    {
+      "templateId": 10001,
+      "kind": "armor",
+      "clientValueField": 10
+    },
+    {
+      "templateId": 15001,
+      "kind": "armor",
+      "clientValueField": 10
+    },
+    {
+      "templateId": 11001,
+      "kind": "armor",
+      "clientValueField": 10
+    },
+    {
+      "templateId": 16001,
+      "kind": "armor",
+      "clientValueField": 10
+    },
+    {
+      "templateId": 12001,
+      "kind": "armor",
+      "clientValueField": 10
+    },
+    {
+      "templateId": 17001,
+      "kind": "armor",
+      "clientValueField": 10
+    },
+    {
+      "templateId": 13001,
+      "kind": "armor",
+      "clientValueField": 10
+    },
+    {
+      "templateId": 18001,
+      "kind": "armor",
+      "clientValueField": 10
+    },
+    {
+      "templateId": 10002,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 10003,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 10004,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 10005,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 10006,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 10007,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 10008,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 10009,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 10010,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 15002,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 15003,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 15004,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 15005,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 15006,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 15007,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 15008,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 15009,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 15010,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 11002,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 11003,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 11004,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 11005,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 11006,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 11007,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 11008,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 11009,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 11010,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 16002,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 16003,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 16004,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 16005,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 16006,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 16007,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 16008,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 16009,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 16010,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 12002,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 12003,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 12004,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 12005,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 12006,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 12007,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 12008,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 12009,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 12010,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 17002,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 17003,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 17004,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 17005,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 17006,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 17007,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 17008,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 17009,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 17010,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 13002,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 13003,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 13004,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 13005,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 13006,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 13007,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 13008,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 13009,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 13010,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 18002,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 18003,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 18004,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 18005,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 18006,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 18007,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 18008,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 18009,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 18010,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 10100,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 10101,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 10102,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 10103,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 10104,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 10105,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 10106,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 10107,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 10108,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 15100,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 15101,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 15102,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 15103,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 15104,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 15105,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 15106,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 15107,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 15108,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 11100,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 11101,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 11102,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 11103,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 11104,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 11105,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 11106,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 11107,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 11108,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 16100,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 16101,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 16102,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 16103,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 16104,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 16105,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 16106,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 16107,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 16108,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 12100,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 12101,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 12102,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 12103,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 12104,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 12105,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 12106,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 12107,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 12108,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 17100,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 17101,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 17102,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 17103,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 17104,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 17105,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 17106,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 17107,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 17108,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 13100,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 13101,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 13102,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 13103,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 13104,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 13105,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 13106,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 13107,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 13108,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 18100,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 18101,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 18102,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 18103,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 18104,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 18105,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 18106,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 18107,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 18108,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 10200,
+      "kind": "armor",
+      "clientValueField": 864
+    },
+    {
+      "templateId": 10201,
+      "kind": "armor",
+      "clientValueField": 864
+    },
+    {
+      "templateId": 10202,
+      "kind": "armor",
+      "clientValueField": 864
+    },
+    {
+      "templateId": 10203,
+      "kind": "armor",
+      "clientValueField": 864
+    },
+    {
+      "templateId": 10204,
+      "kind": "armor",
+      "clientValueField": 864
+    },
+    {
+      "templateId": 10205,
+      "kind": "armor",
+      "clientValueField": 864
+    },
+    {
+      "templateId": 10206,
+      "kind": "armor",
+      "clientValueField": 864
+    },
+    {
+      "templateId": 10207,
+      "kind": "armor",
+      "clientValueField": 864
+    },
+    {
+      "templateId": 10208,
+      "kind": "armor",
+      "clientValueField": 864
+    },
+    {
+      "templateId": 15200,
+      "kind": "armor",
+      "clientValueField": 864
+    },
+    {
+      "templateId": 15201,
+      "kind": "armor",
+      "clientValueField": 864
+    },
+    {
+      "templateId": 15202,
+      "kind": "armor",
+      "clientValueField": 864
+    },
+    {
+      "templateId": 15203,
+      "kind": "armor",
+      "clientValueField": 864
+    },
+    {
+      "templateId": 15204,
+      "kind": "armor",
+      "clientValueField": 864
+    },
+    {
+      "templateId": 15205,
+      "kind": "armor",
+      "clientValueField": 864
+    },
+    {
+      "templateId": 15206,
+      "kind": "armor",
+      "clientValueField": 864
+    },
+    {
+      "templateId": 15207,
+      "kind": "armor",
+      "clientValueField": 864
+    },
+    {
+      "templateId": 15208,
+      "kind": "armor",
+      "clientValueField": 864
+    },
+    {
+      "templateId": 11200,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 11201,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 11202,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 11203,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 11204,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 11205,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 11206,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 11207,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 11208,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 16200,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 16201,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 16202,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 16203,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 16204,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 16205,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 16206,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 16207,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 16208,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 12200,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 12201,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 12202,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 12203,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 12204,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 12205,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 12206,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 12207,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 12208,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 17200,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 17201,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 17202,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 17203,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 17204,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 17205,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 17206,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 17207,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 17208,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 13200,
+      "kind": "armor",
+      "clientValueField": 576
+    },
+    {
+      "templateId": 13201,
+      "kind": "armor",
+      "clientValueField": 576
+    },
+    {
+      "templateId": 13202,
+      "kind": "armor",
+      "clientValueField": 576
+    },
+    {
+      "templateId": 13203,
+      "kind": "armor",
+      "clientValueField": 576
+    },
+    {
+      "templateId": 13204,
+      "kind": "armor",
+      "clientValueField": 576
+    },
+    {
+      "templateId": 13205,
+      "kind": "armor",
+      "clientValueField": 576
+    },
+    {
+      "templateId": 13206,
+      "kind": "armor",
+      "clientValueField": 576
+    },
+    {
+      "templateId": 13207,
+      "kind": "armor",
+      "clientValueField": 576
+    },
+    {
+      "templateId": 13208,
+      "kind": "armor",
+      "clientValueField": 576
+    },
+    {
+      "templateId": 18200,
+      "kind": "armor",
+      "clientValueField": 576
+    },
+    {
+      "templateId": 18201,
+      "kind": "armor",
+      "clientValueField": 576
+    },
+    {
+      "templateId": 18202,
+      "kind": "armor",
+      "clientValueField": 576
+    },
+    {
+      "templateId": 18203,
+      "kind": "armor",
+      "clientValueField": 576
+    },
+    {
+      "templateId": 18204,
+      "kind": "armor",
+      "clientValueField": 576
+    },
+    {
+      "templateId": 18205,
+      "kind": "armor",
+      "clientValueField": 576
+    },
+    {
+      "templateId": 18206,
+      "kind": "armor",
+      "clientValueField": 576
+    },
+    {
+      "templateId": 18207,
+      "kind": "armor",
+      "clientValueField": 576
+    },
+    {
+      "templateId": 18208,
+      "kind": "armor",
+      "clientValueField": 576
+    },
+    {
+      "templateId": 10300,
+      "kind": "armor",
+      "clientValueField": 1380
+    },
+    {
+      "templateId": 10301,
+      "kind": "armor",
+      "clientValueField": 1380
+    },
+    {
+      "templateId": 10302,
+      "kind": "armor",
+      "clientValueField": 1380
+    },
+    {
+      "templateId": 10303,
+      "kind": "armor",
+      "clientValueField": 1380
+    },
+    {
+      "templateId": 10304,
+      "kind": "armor",
+      "clientValueField": 1380
+    },
+    {
+      "templateId": 10305,
+      "kind": "armor",
+      "clientValueField": 1380
+    },
+    {
+      "templateId": 10306,
+      "kind": "armor",
+      "clientValueField": 1380
+    },
+    {
+      "templateId": 10307,
+      "kind": "armor",
+      "clientValueField": 1380
+    },
+    {
+      "templateId": 10308,
+      "kind": "armor",
+      "clientValueField": 1380
+    },
+    {
+      "templateId": 15300,
+      "kind": "armor",
+      "clientValueField": 1380
+    },
+    {
+      "templateId": 15301,
+      "kind": "armor",
+      "clientValueField": 1380
+    },
+    {
+      "templateId": 15302,
+      "kind": "armor",
+      "clientValueField": 1380
+    },
+    {
+      "templateId": 15303,
+      "kind": "armor",
+      "clientValueField": 1380
+    },
+    {
+      "templateId": 15304,
+      "kind": "armor",
+      "clientValueField": 1380
+    },
+    {
+      "templateId": 15305,
+      "kind": "armor",
+      "clientValueField": 1380
+    },
+    {
+      "templateId": 15306,
+      "kind": "armor",
+      "clientValueField": 1380
+    },
+    {
+      "templateId": 15307,
+      "kind": "armor",
+      "clientValueField": 1380
+    },
+    {
+      "templateId": 15308,
+      "kind": "armor",
+      "clientValueField": 1380
+    },
+    {
+      "templateId": 11300,
+      "kind": "armor",
+      "clientValueField": 1612
+    },
+    {
+      "templateId": 11301,
+      "kind": "armor",
+      "clientValueField": 1612
+    },
+    {
+      "templateId": 11302,
+      "kind": "armor",
+      "clientValueField": 1612
+    },
+    {
+      "templateId": 11303,
+      "kind": "armor",
+      "clientValueField": 1612
+    },
+    {
+      "templateId": 11304,
+      "kind": "armor",
+      "clientValueField": 1612
+    },
+    {
+      "templateId": 11305,
+      "kind": "armor",
+      "clientValueField": 1612
+    },
+    {
+      "templateId": 11306,
+      "kind": "armor",
+      "clientValueField": 1612
+    },
+    {
+      "templateId": 11307,
+      "kind": "armor",
+      "clientValueField": 1612
+    },
+    {
+      "templateId": 11308,
+      "kind": "armor",
+      "clientValueField": 1612
+    },
+    {
+      "templateId": 16300,
+      "kind": "armor",
+      "clientValueField": 1612
+    },
+    {
+      "templateId": 16301,
+      "kind": "armor",
+      "clientValueField": 1612
+    },
+    {
+      "templateId": 16302,
+      "kind": "armor",
+      "clientValueField": 1612
+    },
+    {
+      "templateId": 16303,
+      "kind": "armor",
+      "clientValueField": 1612
+    },
+    {
+      "templateId": 16304,
+      "kind": "armor",
+      "clientValueField": 1612
+    },
+    {
+      "templateId": 16305,
+      "kind": "armor",
+      "clientValueField": 1612
+    },
+    {
+      "templateId": 16306,
+      "kind": "armor",
+      "clientValueField": 1612
+    },
+    {
+      "templateId": 16307,
+      "kind": "armor",
+      "clientValueField": 1612
+    },
+    {
+      "templateId": 16308,
+      "kind": "armor",
+      "clientValueField": 1612
+    },
+    {
+      "templateId": 12300,
+      "kind": "armor",
+      "clientValueField": 692
+    },
+    {
+      "templateId": 12301,
+      "kind": "armor",
+      "clientValueField": 692
+    },
+    {
+      "templateId": 12302,
+      "kind": "armor",
+      "clientValueField": 692
+    },
+    {
+      "templateId": 12303,
+      "kind": "armor",
+      "clientValueField": 692
+    },
+    {
+      "templateId": 12304,
+      "kind": "armor",
+      "clientValueField": 692
+    },
+    {
+      "templateId": 12305,
+      "kind": "armor",
+      "clientValueField": 692
+    },
+    {
+      "templateId": 12306,
+      "kind": "armor",
+      "clientValueField": 692
+    },
+    {
+      "templateId": 12307,
+      "kind": "armor",
+      "clientValueField": 692
+    },
+    {
+      "templateId": 12308,
+      "kind": "armor",
+      "clientValueField": 692
+    },
+    {
+      "templateId": 17300,
+      "kind": "armor",
+      "clientValueField": 692
+    },
+    {
+      "templateId": 17301,
+      "kind": "armor",
+      "clientValueField": 692
+    },
+    {
+      "templateId": 17302,
+      "kind": "armor",
+      "clientValueField": 692
+    },
+    {
+      "templateId": 17303,
+      "kind": "armor",
+      "clientValueField": 692
+    },
+    {
+      "templateId": 17304,
+      "kind": "armor",
+      "clientValueField": 692
+    },
+    {
+      "templateId": 17305,
+      "kind": "armor",
+      "clientValueField": 692
+    },
+    {
+      "templateId": 17306,
+      "kind": "armor",
+      "clientValueField": 692
+    },
+    {
+      "templateId": 17307,
+      "kind": "armor",
+      "clientValueField": 692
+    },
+    {
+      "templateId": 17308,
+      "kind": "armor",
+      "clientValueField": 692
+    },
+    {
+      "templateId": 13300,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 13301,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 13302,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 13303,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 13304,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 13305,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 13306,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 13307,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 13308,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 18300,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 18301,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 18302,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 18303,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 18304,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 18305,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 18306,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 18307,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 18308,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 10400,
+      "kind": "armor",
+      "clientValueField": 1936
+    },
+    {
+      "templateId": 10401,
+      "kind": "armor",
+      "clientValueField": 1936
+    },
+    {
+      "templateId": 10402,
+      "kind": "armor",
+      "clientValueField": 1936
+    },
+    {
+      "templateId": 10403,
+      "kind": "armor",
+      "clientValueField": 1936
+    },
+    {
+      "templateId": 10404,
+      "kind": "armor",
+      "clientValueField": 1936
+    },
+    {
+      "templateId": 10405,
+      "kind": "armor",
+      "clientValueField": 1936
+    },
+    {
+      "templateId": 10406,
+      "kind": "armor",
+      "clientValueField": 1936
+    },
+    {
+      "templateId": 10407,
+      "kind": "armor",
+      "clientValueField": 1936
+    },
+    {
+      "templateId": 10408,
+      "kind": "armor",
+      "clientValueField": 1936
+    },
+    {
+      "templateId": 15400,
+      "kind": "armor",
+      "clientValueField": 1936
+    },
+    {
+      "templateId": 15401,
+      "kind": "armor",
+      "clientValueField": 1936
+    },
+    {
+      "templateId": 15402,
+      "kind": "armor",
+      "clientValueField": 1936
+    },
+    {
+      "templateId": 15403,
+      "kind": "armor",
+      "clientValueField": 1936
+    },
+    {
+      "templateId": 15404,
+      "kind": "armor",
+      "clientValueField": 1936
+    },
+    {
+      "templateId": 15405,
+      "kind": "armor",
+      "clientValueField": 1936
+    },
+    {
+      "templateId": 15406,
+      "kind": "armor",
+      "clientValueField": 1936
+    },
+    {
+      "templateId": 15407,
+      "kind": "armor",
+      "clientValueField": 1936
+    },
+    {
+      "templateId": 15408,
+      "kind": "armor",
+      "clientValueField": 1936
+    },
+    {
+      "templateId": 11400,
+      "kind": "armor",
+      "clientValueField": 2256
+    },
+    {
+      "templateId": 11401,
+      "kind": "armor",
+      "clientValueField": 2256
+    },
+    {
+      "templateId": 11402,
+      "kind": "armor",
+      "clientValueField": 2256
+    },
+    {
+      "templateId": 11403,
+      "kind": "armor",
+      "clientValueField": 2256
+    },
+    {
+      "templateId": 11404,
+      "kind": "armor",
+      "clientValueField": 2256
+    },
+    {
+      "templateId": 11405,
+      "kind": "armor",
+      "clientValueField": 2256
+    },
+    {
+      "templateId": 11406,
+      "kind": "armor",
+      "clientValueField": 2256
+    },
+    {
+      "templateId": 11407,
+      "kind": "armor",
+      "clientValueField": 2256
+    },
+    {
+      "templateId": 11408,
+      "kind": "armor",
+      "clientValueField": 2256
+    },
+    {
+      "templateId": 16400,
+      "kind": "armor",
+      "clientValueField": 2256
+    },
+    {
+      "templateId": 16401,
+      "kind": "armor",
+      "clientValueField": 2256
+    },
+    {
+      "templateId": 16402,
+      "kind": "armor",
+      "clientValueField": 2256
+    },
+    {
+      "templateId": 16403,
+      "kind": "armor",
+      "clientValueField": 2256
+    },
+    {
+      "templateId": 16404,
+      "kind": "armor",
+      "clientValueField": 2256
+    },
+    {
+      "templateId": 16405,
+      "kind": "armor",
+      "clientValueField": 2256
+    },
+    {
+      "templateId": 16406,
+      "kind": "armor",
+      "clientValueField": 2256
+    },
+    {
+      "templateId": 16407,
+      "kind": "armor",
+      "clientValueField": 2256
+    },
+    {
+      "templateId": 16408,
+      "kind": "armor",
+      "clientValueField": 2256
+    },
+    {
+      "templateId": 12400,
+      "kind": "armor",
+      "clientValueField": 968
+    },
+    {
+      "templateId": 12401,
+      "kind": "armor",
+      "clientValueField": 968
+    },
+    {
+      "templateId": 12402,
+      "kind": "armor",
+      "clientValueField": 968
+    },
+    {
+      "templateId": 12403,
+      "kind": "armor",
+      "clientValueField": 968
+    },
+    {
+      "templateId": 12404,
+      "kind": "armor",
+      "clientValueField": 968
+    },
+    {
+      "templateId": 12405,
+      "kind": "armor",
+      "clientValueField": 968
+    },
+    {
+      "templateId": 12406,
+      "kind": "armor",
+      "clientValueField": 968
+    },
+    {
+      "templateId": 12407,
+      "kind": "armor",
+      "clientValueField": 968
+    },
+    {
+      "templateId": 12408,
+      "kind": "armor",
+      "clientValueField": 968
+    },
+    {
+      "templateId": 17400,
+      "kind": "armor",
+      "clientValueField": 968
+    },
+    {
+      "templateId": 17401,
+      "kind": "armor",
+      "clientValueField": 968
+    },
+    {
+      "templateId": 17402,
+      "kind": "armor",
+      "clientValueField": 968
+    },
+    {
+      "templateId": 17403,
+      "kind": "armor",
+      "clientValueField": 968
+    },
+    {
+      "templateId": 17404,
+      "kind": "armor",
+      "clientValueField": 968
+    },
+    {
+      "templateId": 17405,
+      "kind": "armor",
+      "clientValueField": 968
+    },
+    {
+      "templateId": 17406,
+      "kind": "armor",
+      "clientValueField": 968
+    },
+    {
+      "templateId": 17407,
+      "kind": "armor",
+      "clientValueField": 968
+    },
+    {
+      "templateId": 17408,
+      "kind": "armor",
+      "clientValueField": 968
+    },
+    {
+      "templateId": 13400,
+      "kind": "armor",
+      "clientValueField": 1292
+    },
+    {
+      "templateId": 13401,
+      "kind": "armor",
+      "clientValueField": 1292
+    },
+    {
+      "templateId": 13402,
+      "kind": "armor",
+      "clientValueField": 1292
+    },
+    {
+      "templateId": 13403,
+      "kind": "armor",
+      "clientValueField": 1292
+    },
+    {
+      "templateId": 13404,
+      "kind": "armor",
+      "clientValueField": 1292
+    },
+    {
+      "templateId": 13405,
+      "kind": "armor",
+      "clientValueField": 1292
+    },
+    {
+      "templateId": 13406,
+      "kind": "armor",
+      "clientValueField": 1292
+    },
+    {
+      "templateId": 13407,
+      "kind": "armor",
+      "clientValueField": 1292
+    },
+    {
+      "templateId": 13408,
+      "kind": "armor",
+      "clientValueField": 1292
+    },
+    {
+      "templateId": 18400,
+      "kind": "armor",
+      "clientValueField": 1292
+    },
+    {
+      "templateId": 18401,
+      "kind": "armor",
+      "clientValueField": 1292
+    },
+    {
+      "templateId": 18402,
+      "kind": "armor",
+      "clientValueField": 1292
+    },
+    {
+      "templateId": 18403,
+      "kind": "armor",
+      "clientValueField": 1292
+    },
+    {
+      "templateId": 18404,
+      "kind": "armor",
+      "clientValueField": 1292
+    },
+    {
+      "templateId": 18405,
+      "kind": "armor",
+      "clientValueField": 1292
+    },
+    {
+      "templateId": 18406,
+      "kind": "armor",
+      "clientValueField": 1292
+    },
+    {
+      "templateId": 18407,
+      "kind": "armor",
+      "clientValueField": 1292
+    },
+    {
+      "templateId": 18408,
+      "kind": "armor",
+      "clientValueField": 1292
+    },
+    {
+      "templateId": 10500,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 10501,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 10502,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 10503,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 10504,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 10505,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 10506,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 10507,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 10508,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 15500,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 15501,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 15502,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 15503,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 15504,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 15505,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 15506,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 15507,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 15508,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 11500,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 11501,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 11502,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 11503,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 11504,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 11505,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 11506,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 11507,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 11508,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 16500,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 16501,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 16502,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 16503,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 16504,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 16505,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 16506,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 16507,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 16508,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 12500,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 12501,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 12502,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 12503,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 12504,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 12505,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 12506,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 12507,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 12508,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 17500,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 17501,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 17502,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 17503,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 17504,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 17505,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 17506,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 17507,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 17508,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 13500,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 13501,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 13502,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 13503,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 13504,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 13505,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 13506,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 13507,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 13508,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 18500,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 18501,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 18502,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 18503,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 18504,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 18505,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 18506,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 18507,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 18508,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 18509,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 10600,
+      "kind": "armor",
+      "clientValueField": 2788
+    },
+    {
+      "templateId": 10601,
+      "kind": "armor",
+      "clientValueField": 2788
+    },
+    {
+      "templateId": 10602,
+      "kind": "armor",
+      "clientValueField": 2788
+    },
+    {
+      "templateId": 10603,
+      "kind": "armor",
+      "clientValueField": 2788
+    },
+    {
+      "templateId": 10604,
+      "kind": "armor",
+      "clientValueField": 2788
+    },
+    {
+      "templateId": 10605,
+      "kind": "armor",
+      "clientValueField": 2788
+    },
+    {
+      "templateId": 10606,
+      "kind": "armor",
+      "clientValueField": 2788
+    },
+    {
+      "templateId": 10607,
+      "kind": "armor",
+      "clientValueField": 2788
+    },
+    {
+      "templateId": 10608,
+      "kind": "armor",
+      "clientValueField": 2788
+    },
+    {
+      "templateId": 15600,
+      "kind": "armor",
+      "clientValueField": 2788
+    },
+    {
+      "templateId": 15601,
+      "kind": "armor",
+      "clientValueField": 2788
+    },
+    {
+      "templateId": 15602,
+      "kind": "armor",
+      "clientValueField": 2788
+    },
+    {
+      "templateId": 15603,
+      "kind": "armor",
+      "clientValueField": 2788
+    },
+    {
+      "templateId": 15604,
+      "kind": "armor",
+      "clientValueField": 2788
+    },
+    {
+      "templateId": 15605,
+      "kind": "armor",
+      "clientValueField": 2788
+    },
+    {
+      "templateId": 15606,
+      "kind": "armor",
+      "clientValueField": 2788
+    },
+    {
+      "templateId": 15607,
+      "kind": "armor",
+      "clientValueField": 2788
+    },
+    {
+      "templateId": 15608,
+      "kind": "armor",
+      "clientValueField": 2788
+    },
+    {
+      "templateId": 11600,
+      "kind": "armor",
+      "clientValueField": 3252
+    },
+    {
+      "templateId": 11601,
+      "kind": "armor",
+      "clientValueField": 3252
+    },
+    {
+      "templateId": 11602,
+      "kind": "armor",
+      "clientValueField": 3252
+    },
+    {
+      "templateId": 11603,
+      "kind": "armor",
+      "clientValueField": 3252
+    },
+    {
+      "templateId": 11604,
+      "kind": "armor",
+      "clientValueField": 3252
+    },
+    {
+      "templateId": 11605,
+      "kind": "armor",
+      "clientValueField": 3252
+    },
+    {
+      "templateId": 11606,
+      "kind": "armor",
+      "clientValueField": 3252
+    },
+    {
+      "templateId": 11607,
+      "kind": "armor",
+      "clientValueField": 3252
+    },
+    {
+      "templateId": 11608,
+      "kind": "armor",
+      "clientValueField": 3252
+    },
+    {
+      "templateId": 16600,
+      "kind": "armor",
+      "clientValueField": 3252
+    },
+    {
+      "templateId": 16601,
+      "kind": "armor",
+      "clientValueField": 3252
+    },
+    {
+      "templateId": 16602,
+      "kind": "armor",
+      "clientValueField": 3252
+    },
+    {
+      "templateId": 16603,
+      "kind": "armor",
+      "clientValueField": 3252
+    },
+    {
+      "templateId": 16604,
+      "kind": "armor",
+      "clientValueField": 3252
+    },
+    {
+      "templateId": 16605,
+      "kind": "armor",
+      "clientValueField": 3252
+    },
+    {
+      "templateId": 16606,
+      "kind": "armor",
+      "clientValueField": 3252
+    },
+    {
+      "templateId": 16607,
+      "kind": "armor",
+      "clientValueField": 3252
+    },
+    {
+      "templateId": 16608,
+      "kind": "armor",
+      "clientValueField": 3252
+    },
+    {
+      "templateId": 12600,
+      "kind": "armor",
+      "clientValueField": 1392
+    },
+    {
+      "templateId": 12601,
+      "kind": "armor",
+      "clientValueField": 1392
+    },
+    {
+      "templateId": 12602,
+      "kind": "armor",
+      "clientValueField": 1392
+    },
+    {
+      "templateId": 12603,
+      "kind": "armor",
+      "clientValueField": 1392
+    },
+    {
+      "templateId": 12604,
+      "kind": "armor",
+      "clientValueField": 1392
+    },
+    {
+      "templateId": 12605,
+      "kind": "armor",
+      "clientValueField": 1392
+    },
+    {
+      "templateId": 12606,
+      "kind": "armor",
+      "clientValueField": 1392
+    },
+    {
+      "templateId": 12607,
+      "kind": "armor",
+      "clientValueField": 1392
+    },
+    {
+      "templateId": 12608,
+      "kind": "armor",
+      "clientValueField": 1392
+    },
+    {
+      "templateId": 17600,
+      "kind": "armor",
+      "clientValueField": 1392
+    },
+    {
+      "templateId": 17601,
+      "kind": "armor",
+      "clientValueField": 1392
+    },
+    {
+      "templateId": 17602,
+      "kind": "armor",
+      "clientValueField": 1392
+    },
+    {
+      "templateId": 17603,
+      "kind": "armor",
+      "clientValueField": 1392
+    },
+    {
+      "templateId": 17604,
+      "kind": "armor",
+      "clientValueField": 1392
+    },
+    {
+      "templateId": 17605,
+      "kind": "armor",
+      "clientValueField": 1392
+    },
+    {
+      "templateId": 17606,
+      "kind": "armor",
+      "clientValueField": 1392
+    },
+    {
+      "templateId": 17607,
+      "kind": "armor",
+      "clientValueField": 1392
+    },
+    {
+      "templateId": 17608,
+      "kind": "armor",
+      "clientValueField": 1392
+    },
+    {
+      "templateId": 13600,
+      "kind": "armor",
+      "clientValueField": 1856
+    },
+    {
+      "templateId": 13601,
+      "kind": "armor",
+      "clientValueField": 1856
+    },
+    {
+      "templateId": 13602,
+      "kind": "armor",
+      "clientValueField": 1856
+    },
+    {
+      "templateId": 13603,
+      "kind": "armor",
+      "clientValueField": 1856
+    },
+    {
+      "templateId": 13604,
+      "kind": "armor",
+      "clientValueField": 1856
+    },
+    {
+      "templateId": 13605,
+      "kind": "armor",
+      "clientValueField": 1856
+    },
+    {
+      "templateId": 13606,
+      "kind": "armor",
+      "clientValueField": 1856
+    },
+    {
+      "templateId": 13607,
+      "kind": "armor",
+      "clientValueField": 1856
+    },
+    {
+      "templateId": 13608,
+      "kind": "armor",
+      "clientValueField": 1856
+    },
+    {
+      "templateId": 18600,
+      "kind": "armor",
+      "clientValueField": 1856
+    },
+    {
+      "templateId": 18601,
+      "kind": "armor",
+      "clientValueField": 1856
+    },
+    {
+      "templateId": 18602,
+      "kind": "armor",
+      "clientValueField": 1856
+    },
+    {
+      "templateId": 18603,
+      "kind": "armor",
+      "clientValueField": 1856
+    },
+    {
+      "templateId": 18604,
+      "kind": "armor",
+      "clientValueField": 1856
+    },
+    {
+      "templateId": 18605,
+      "kind": "armor",
+      "clientValueField": 1856
+    },
+    {
+      "templateId": 18606,
+      "kind": "armor",
+      "clientValueField": 1856
+    },
+    {
+      "templateId": 18607,
+      "kind": "armor",
+      "clientValueField": 1856
+    },
+    {
+      "templateId": 18608,
+      "kind": "armor",
+      "clientValueField": 1856
+    },
+    {
+      "templateId": 10700,
+      "kind": "armor",
+      "clientValueField": 3344
+    },
+    {
+      "templateId": 10701,
+      "kind": "armor",
+      "clientValueField": 3344
+    },
+    {
+      "templateId": 10702,
+      "kind": "armor",
+      "clientValueField": 3344
+    },
+    {
+      "templateId": 10703,
+      "kind": "armor",
+      "clientValueField": 3344
+    },
+    {
+      "templateId": 10704,
+      "kind": "armor",
+      "clientValueField": 3344
+    },
+    {
+      "templateId": 10705,
+      "kind": "armor",
+      "clientValueField": 3344
+    },
+    {
+      "templateId": 10706,
+      "kind": "armor",
+      "clientValueField": 3344
+    },
+    {
+      "templateId": 10707,
+      "kind": "armor",
+      "clientValueField": 3344
+    },
+    {
+      "templateId": 10708,
+      "kind": "armor",
+      "clientValueField": 3344
+    },
+    {
+      "templateId": 15700,
+      "kind": "armor",
+      "clientValueField": 3344
+    },
+    {
+      "templateId": 15701,
+      "kind": "armor",
+      "clientValueField": 3344
+    },
+    {
+      "templateId": 15702,
+      "kind": "armor",
+      "clientValueField": 3344
+    },
+    {
+      "templateId": 15703,
+      "kind": "armor",
+      "clientValueField": 3344
+    },
+    {
+      "templateId": 15704,
+      "kind": "armor",
+      "clientValueField": 3344
+    },
+    {
+      "templateId": 15705,
+      "kind": "armor",
+      "clientValueField": 3344
+    },
+    {
+      "templateId": 15706,
+      "kind": "armor",
+      "clientValueField": 3344
+    },
+    {
+      "templateId": 15707,
+      "kind": "armor",
+      "clientValueField": 3344
+    },
+    {
+      "templateId": 15708,
+      "kind": "armor",
+      "clientValueField": 3344
+    },
+    {
+      "templateId": 11700,
+      "kind": "armor",
+      "clientValueField": 3900
+    },
+    {
+      "templateId": 11701,
+      "kind": "armor",
+      "clientValueField": 3900
+    },
+    {
+      "templateId": 11702,
+      "kind": "armor",
+      "clientValueField": 3900
+    },
+    {
+      "templateId": 11703,
+      "kind": "armor",
+      "clientValueField": 3900
+    },
+    {
+      "templateId": 11704,
+      "kind": "armor",
+      "clientValueField": 3900
+    },
+    {
+      "templateId": 11705,
+      "kind": "armor",
+      "clientValueField": 3900
+    },
+    {
+      "templateId": 11706,
+      "kind": "armor",
+      "clientValueField": 3900
+    },
+    {
+      "templateId": 11707,
+      "kind": "armor",
+      "clientValueField": 3900
+    },
+    {
+      "templateId": 11708,
+      "kind": "armor",
+      "clientValueField": 3900
+    },
+    {
+      "templateId": 16700,
+      "kind": "armor",
+      "clientValueField": 3900
+    },
+    {
+      "templateId": 16701,
+      "kind": "armor",
+      "clientValueField": 3900
+    },
+    {
+      "templateId": 16702,
+      "kind": "armor",
+      "clientValueField": 3900
+    },
+    {
+      "templateId": 16703,
+      "kind": "armor",
+      "clientValueField": 3900
+    },
+    {
+      "templateId": 16704,
+      "kind": "armor",
+      "clientValueField": 3900
+    },
+    {
+      "templateId": 16705,
+      "kind": "armor",
+      "clientValueField": 3900
+    },
+    {
+      "templateId": 16706,
+      "kind": "armor",
+      "clientValueField": 3900
+    },
+    {
+      "templateId": 16707,
+      "kind": "armor",
+      "clientValueField": 3900
+    },
+    {
+      "templateId": 16708,
+      "kind": "armor",
+      "clientValueField": 3900
+    },
+    {
+      "templateId": 12700,
+      "kind": "armor",
+      "clientValueField": 1672
+    },
+    {
+      "templateId": 12701,
+      "kind": "armor",
+      "clientValueField": 1672
+    },
+    {
+      "templateId": 12702,
+      "kind": "armor",
+      "clientValueField": 1672
+    },
+    {
+      "templateId": 12703,
+      "kind": "armor",
+      "clientValueField": 1672
+    },
+    {
+      "templateId": 12704,
+      "kind": "armor",
+      "clientValueField": 1672
+    },
+    {
+      "templateId": 12705,
+      "kind": "armor",
+      "clientValueField": 1672
+    },
+    {
+      "templateId": 12706,
+      "kind": "armor",
+      "clientValueField": 1672
+    },
+    {
+      "templateId": 12707,
+      "kind": "armor",
+      "clientValueField": 1672
+    },
+    {
+      "templateId": 12708,
+      "kind": "armor",
+      "clientValueField": 1672
+    },
+    {
+      "templateId": 17700,
+      "kind": "armor",
+      "clientValueField": 1672
+    },
+    {
+      "templateId": 17701,
+      "kind": "armor",
+      "clientValueField": 1672
+    },
+    {
+      "templateId": 17702,
+      "kind": "armor",
+      "clientValueField": 1672
+    },
+    {
+      "templateId": 17703,
+      "kind": "armor",
+      "clientValueField": 1672
+    },
+    {
+      "templateId": 17704,
+      "kind": "armor",
+      "clientValueField": 1672
+    },
+    {
+      "templateId": 17705,
+      "kind": "armor",
+      "clientValueField": 1672
+    },
+    {
+      "templateId": 17706,
+      "kind": "armor",
+      "clientValueField": 1672
+    },
+    {
+      "templateId": 17707,
+      "kind": "armor",
+      "clientValueField": 1672
+    },
+    {
+      "templateId": 17708,
+      "kind": "armor",
+      "clientValueField": 1672
+    },
+    {
+      "templateId": 13700,
+      "kind": "armor",
+      "clientValueField": 2228
+    },
+    {
+      "templateId": 13701,
+      "kind": "armor",
+      "clientValueField": 2228
+    },
+    {
+      "templateId": 13702,
+      "kind": "armor",
+      "clientValueField": 2228
+    },
+    {
+      "templateId": 13703,
+      "kind": "armor",
+      "clientValueField": 2228
+    },
+    {
+      "templateId": 13704,
+      "kind": "armor",
+      "clientValueField": 2228
+    },
+    {
+      "templateId": 13705,
+      "kind": "armor",
+      "clientValueField": 2228
+    },
+    {
+      "templateId": 13706,
+      "kind": "armor",
+      "clientValueField": 2228
+    },
+    {
+      "templateId": 13707,
+      "kind": "armor",
+      "clientValueField": 2228
+    },
+    {
+      "templateId": 13708,
+      "kind": "armor",
+      "clientValueField": 2228
+    },
+    {
+      "templateId": 18700,
+      "kind": "armor",
+      "clientValueField": 2228
+    },
+    {
+      "templateId": 18701,
+      "kind": "armor",
+      "clientValueField": 2228
+    },
+    {
+      "templateId": 18702,
+      "kind": "armor",
+      "clientValueField": 2228
+    },
+    {
+      "templateId": 18703,
+      "kind": "armor",
+      "clientValueField": 2228
+    },
+    {
+      "templateId": 18704,
+      "kind": "armor",
+      "clientValueField": 2228
+    },
+    {
+      "templateId": 18705,
+      "kind": "armor",
+      "clientValueField": 2228
+    },
+    {
+      "templateId": 18706,
+      "kind": "armor",
+      "clientValueField": 2228
+    },
+    {
+      "templateId": 18707,
+      "kind": "armor",
+      "clientValueField": 2228
+    },
+    {
+      "templateId": 18708,
+      "kind": "armor",
+      "clientValueField": 2228
+    },
+    {
+      "templateId": 10800,
+      "kind": "armor",
+      "clientValueField": 4012
+    },
+    {
+      "templateId": 10801,
+      "kind": "armor",
+      "clientValueField": 4012
+    },
+    {
+      "templateId": 10802,
+      "kind": "armor",
+      "clientValueField": 4012
+    },
+    {
+      "templateId": 10803,
+      "kind": "armor",
+      "clientValueField": 4012
+    },
+    {
+      "templateId": 10804,
+      "kind": "armor",
+      "clientValueField": 4012
+    },
+    {
+      "templateId": 10805,
+      "kind": "armor",
+      "clientValueField": 4012
+    },
+    {
+      "templateId": 10806,
+      "kind": "armor",
+      "clientValueField": 4012
+    },
+    {
+      "templateId": 10807,
+      "kind": "armor",
+      "clientValueField": 4012
+    },
+    {
+      "templateId": 10808,
+      "kind": "armor",
+      "clientValueField": 4012
+    },
+    {
+      "templateId": 15800,
+      "kind": "armor",
+      "clientValueField": 4012
+    },
+    {
+      "templateId": 15801,
+      "kind": "armor",
+      "clientValueField": 4012
+    },
+    {
+      "templateId": 15802,
+      "kind": "armor",
+      "clientValueField": 4012
+    },
+    {
+      "templateId": 15803,
+      "kind": "armor",
+      "clientValueField": 4012
+    },
+    {
+      "templateId": 15804,
+      "kind": "armor",
+      "clientValueField": 4012
+    },
+    {
+      "templateId": 15805,
+      "kind": "armor",
+      "clientValueField": 4012
+    },
+    {
+      "templateId": 15806,
+      "kind": "armor",
+      "clientValueField": 4012
+    },
+    {
+      "templateId": 15807,
+      "kind": "armor",
+      "clientValueField": 4012
+    },
+    {
+      "templateId": 15808,
+      "kind": "armor",
+      "clientValueField": 4012
+    },
+    {
+      "templateId": 11800,
+      "kind": "armor",
+      "clientValueField": 4680
+    },
+    {
+      "templateId": 11801,
+      "kind": "armor",
+      "clientValueField": 4680
+    },
+    {
+      "templateId": 11802,
+      "kind": "armor",
+      "clientValueField": 4680
+    },
+    {
+      "templateId": 11803,
+      "kind": "armor",
+      "clientValueField": 4680
+    },
+    {
+      "templateId": 11804,
+      "kind": "armor",
+      "clientValueField": 4680
+    },
+    {
+      "templateId": 11805,
+      "kind": "armor",
+      "clientValueField": 4680
+    },
+    {
+      "templateId": 11806,
+      "kind": "armor",
+      "clientValueField": 4680
+    },
+    {
+      "templateId": 11807,
+      "kind": "armor",
+      "clientValueField": 4680
+    },
+    {
+      "templateId": 11808,
+      "kind": "armor",
+      "clientValueField": 4680
+    },
+    {
+      "templateId": 16800,
+      "kind": "armor",
+      "clientValueField": 4680
+    },
+    {
+      "templateId": 16801,
+      "kind": "armor",
+      "clientValueField": 4680
+    },
+    {
+      "templateId": 16802,
+      "kind": "armor",
+      "clientValueField": 4680
+    },
+    {
+      "templateId": 16803,
+      "kind": "armor",
+      "clientValueField": 4680
+    },
+    {
+      "templateId": 16804,
+      "kind": "armor",
+      "clientValueField": 4680
+    },
+    {
+      "templateId": 16805,
+      "kind": "armor",
+      "clientValueField": 4680
+    },
+    {
+      "templateId": 16806,
+      "kind": "armor",
+      "clientValueField": 4680
+    },
+    {
+      "templateId": 16807,
+      "kind": "armor",
+      "clientValueField": 4680
+    },
+    {
+      "templateId": 16808,
+      "kind": "armor",
+      "clientValueField": 4680
+    },
+    {
+      "templateId": 12800,
+      "kind": "armor",
+      "clientValueField": 2008
+    },
+    {
+      "templateId": 12801,
+      "kind": "armor",
+      "clientValueField": 2008
+    },
+    {
+      "templateId": 12802,
+      "kind": "armor",
+      "clientValueField": 2008
+    },
+    {
+      "templateId": 12803,
+      "kind": "armor",
+      "clientValueField": 2008
+    },
+    {
+      "templateId": 12804,
+      "kind": "armor",
+      "clientValueField": 2008
+    },
+    {
+      "templateId": 12805,
+      "kind": "armor",
+      "clientValueField": 2008
+    },
+    {
+      "templateId": 12806,
+      "kind": "armor",
+      "clientValueField": 2008
+    },
+    {
+      "templateId": 12807,
+      "kind": "armor",
+      "clientValueField": 2008
+    },
+    {
+      "templateId": 12808,
+      "kind": "armor",
+      "clientValueField": 2008
+    },
+    {
+      "templateId": 17800,
+      "kind": "armor",
+      "clientValueField": 2008
+    },
+    {
+      "templateId": 17801,
+      "kind": "armor",
+      "clientValueField": 2008
+    },
+    {
+      "templateId": 17802,
+      "kind": "armor",
+      "clientValueField": 2008
+    },
+    {
+      "templateId": 17803,
+      "kind": "armor",
+      "clientValueField": 2008
+    },
+    {
+      "templateId": 17804,
+      "kind": "armor",
+      "clientValueField": 2008
+    },
+    {
+      "templateId": 17805,
+      "kind": "armor",
+      "clientValueField": 2008
+    },
+    {
+      "templateId": 17806,
+      "kind": "armor",
+      "clientValueField": 2008
+    },
+    {
+      "templateId": 17807,
+      "kind": "armor",
+      "clientValueField": 2008
+    },
+    {
+      "templateId": 17808,
+      "kind": "armor",
+      "clientValueField": 2008
+    },
+    {
+      "templateId": 13800,
+      "kind": "armor",
+      "clientValueField": 2676
+    },
+    {
+      "templateId": 13801,
+      "kind": "armor",
+      "clientValueField": 2676
+    },
+    {
+      "templateId": 13802,
+      "kind": "armor",
+      "clientValueField": 2676
+    },
+    {
+      "templateId": 13803,
+      "kind": "armor",
+      "clientValueField": 2676
+    },
+    {
+      "templateId": 13804,
+      "kind": "armor",
+      "clientValueField": 2676
+    },
+    {
+      "templateId": 13805,
+      "kind": "armor",
+      "clientValueField": 2676
+    },
+    {
+      "templateId": 13806,
+      "kind": "armor",
+      "clientValueField": 2676
+    },
+    {
+      "templateId": 13807,
+      "kind": "armor",
+      "clientValueField": 2676
+    },
+    {
+      "templateId": 13808,
+      "kind": "armor",
+      "clientValueField": 2676
+    },
+    {
+      "templateId": 18800,
+      "kind": "armor",
+      "clientValueField": 2676
+    },
+    {
+      "templateId": 18801,
+      "kind": "armor",
+      "clientValueField": 2676
+    },
+    {
+      "templateId": 18802,
+      "kind": "armor",
+      "clientValueField": 2676
+    },
+    {
+      "templateId": 18803,
+      "kind": "armor",
+      "clientValueField": 2676
+    },
+    {
+      "templateId": 18804,
+      "kind": "armor",
+      "clientValueField": 2676
+    },
+    {
+      "templateId": 18805,
+      "kind": "armor",
+      "clientValueField": 2676
+    },
+    {
+      "templateId": 18806,
+      "kind": "armor",
+      "clientValueField": 2676
+    },
+    {
+      "templateId": 18807,
+      "kind": "armor",
+      "clientValueField": 2676
+    },
+    {
+      "templateId": 18808,
+      "kind": "armor",
+      "clientValueField": 2676
+    },
+    {
+      "templateId": 10900,
+      "kind": "armor",
+      "clientValueField": 4816
+    },
+    {
+      "templateId": 10901,
+      "kind": "armor",
+      "clientValueField": 4816
+    },
+    {
+      "templateId": 10902,
+      "kind": "armor",
+      "clientValueField": 4816
+    },
+    {
+      "templateId": 10903,
+      "kind": "armor",
+      "clientValueField": 4816
+    },
+    {
+      "templateId": 10904,
+      "kind": "armor",
+      "clientValueField": 4816
+    },
+    {
+      "templateId": 10905,
+      "kind": "armor",
+      "clientValueField": 4816
+    },
+    {
+      "templateId": 10906,
+      "kind": "armor",
+      "clientValueField": 4816
+    },
+    {
+      "templateId": 10907,
+      "kind": "armor",
+      "clientValueField": 4816
+    },
+    {
+      "templateId": 10908,
+      "kind": "armor",
+      "clientValueField": 4816
+    },
+    {
+      "templateId": 15900,
+      "kind": "armor",
+      "clientValueField": 4816
+    },
+    {
+      "templateId": 15901,
+      "kind": "armor",
+      "clientValueField": 4816
+    },
+    {
+      "templateId": 15902,
+      "kind": "armor",
+      "clientValueField": 4816
+    },
+    {
+      "templateId": 15903,
+      "kind": "armor",
+      "clientValueField": 4816
+    },
+    {
+      "templateId": 15904,
+      "kind": "armor",
+      "clientValueField": 4816
+    },
+    {
+      "templateId": 15905,
+      "kind": "armor",
+      "clientValueField": 4816
+    },
+    {
+      "templateId": 15906,
+      "kind": "armor",
+      "clientValueField": 4816
+    },
+    {
+      "templateId": 15907,
+      "kind": "armor",
+      "clientValueField": 4816
+    },
+    {
+      "templateId": 15908,
+      "kind": "armor",
+      "clientValueField": 4816
+    },
+    {
+      "templateId": 11900,
+      "kind": "armor",
+      "clientValueField": 5620
+    },
+    {
+      "templateId": 11901,
+      "kind": "armor",
+      "clientValueField": 5620
+    },
+    {
+      "templateId": 11902,
+      "kind": "armor",
+      "clientValueField": 5620
+    },
+    {
+      "templateId": 11903,
+      "kind": "armor",
+      "clientValueField": 5620
+    },
+    {
+      "templateId": 11904,
+      "kind": "armor",
+      "clientValueField": 5620
+    },
+    {
+      "templateId": 11905,
+      "kind": "armor",
+      "clientValueField": 5620
+    },
+    {
+      "templateId": 11906,
+      "kind": "armor",
+      "clientValueField": 5620
+    },
+    {
+      "templateId": 11907,
+      "kind": "armor",
+      "clientValueField": 5620
+    },
+    {
+      "templateId": 11908,
+      "kind": "armor",
+      "clientValueField": 5620
+    },
+    {
+      "templateId": 16900,
+      "kind": "armor",
+      "clientValueField": 5620
+    },
+    {
+      "templateId": 16901,
+      "kind": "armor",
+      "clientValueField": 5620
+    },
+    {
+      "templateId": 16902,
+      "kind": "armor",
+      "clientValueField": 5620
+    },
+    {
+      "templateId": 16903,
+      "kind": "armor",
+      "clientValueField": 5620
+    },
+    {
+      "templateId": 16904,
+      "kind": "armor",
+      "clientValueField": 5620
+    },
+    {
+      "templateId": 16905,
+      "kind": "armor",
+      "clientValueField": 5620
+    },
+    {
+      "templateId": 16906,
+      "kind": "armor",
+      "clientValueField": 5620
+    },
+    {
+      "templateId": 16907,
+      "kind": "armor",
+      "clientValueField": 5620
+    },
+    {
+      "templateId": 16908,
+      "kind": "armor",
+      "clientValueField": 5620
+    },
+    {
+      "templateId": 12900,
+      "kind": "armor",
+      "clientValueField": 2408
+    },
+    {
+      "templateId": 12901,
+      "kind": "armor",
+      "clientValueField": 2408
+    },
+    {
+      "templateId": 12902,
+      "kind": "armor",
+      "clientValueField": 2408
+    },
+    {
+      "templateId": 12903,
+      "kind": "armor",
+      "clientValueField": 2408
+    },
+    {
+      "templateId": 12904,
+      "kind": "armor",
+      "clientValueField": 2408
+    },
+    {
+      "templateId": 12905,
+      "kind": "armor",
+      "clientValueField": 2408
+    },
+    {
+      "templateId": 12906,
+      "kind": "armor",
+      "clientValueField": 2408
+    },
+    {
+      "templateId": 12907,
+      "kind": "armor",
+      "clientValueField": 2408
+    },
+    {
+      "templateId": 12908,
+      "kind": "armor",
+      "clientValueField": 2408
+    },
+    {
+      "templateId": 17900,
+      "kind": "armor",
+      "clientValueField": 2408
+    },
+    {
+      "templateId": 17901,
+      "kind": "armor",
+      "clientValueField": 2408
+    },
+    {
+      "templateId": 17902,
+      "kind": "armor",
+      "clientValueField": 2408
+    },
+    {
+      "templateId": 17903,
+      "kind": "armor",
+      "clientValueField": 2408
+    },
+    {
+      "templateId": 17904,
+      "kind": "armor",
+      "clientValueField": 2408
+    },
+    {
+      "templateId": 17905,
+      "kind": "armor",
+      "clientValueField": 2408
+    },
+    {
+      "templateId": 17906,
+      "kind": "armor",
+      "clientValueField": 2408
+    },
+    {
+      "templateId": 17907,
+      "kind": "armor",
+      "clientValueField": 2408
+    },
+    {
+      "templateId": 17908,
+      "kind": "armor",
+      "clientValueField": 2408
+    },
+    {
+      "templateId": 13900,
+      "kind": "armor",
+      "clientValueField": 3212
+    },
+    {
+      "templateId": 13901,
+      "kind": "armor",
+      "clientValueField": 3212
+    },
+    {
+      "templateId": 13902,
+      "kind": "armor",
+      "clientValueField": 3212
+    },
+    {
+      "templateId": 13903,
+      "kind": "armor",
+      "clientValueField": 3212
+    },
+    {
+      "templateId": 13904,
+      "kind": "armor",
+      "clientValueField": 3212
+    },
+    {
+      "templateId": 13905,
+      "kind": "armor",
+      "clientValueField": 3212
+    },
+    {
+      "templateId": 13906,
+      "kind": "armor",
+      "clientValueField": 3212
+    },
+    {
+      "templateId": 13907,
+      "kind": "armor",
+      "clientValueField": 3212
+    },
+    {
+      "templateId": 13908,
+      "kind": "armor",
+      "clientValueField": 3212
+    },
+    {
+      "templateId": 18900,
+      "kind": "armor",
+      "clientValueField": 3212
+    },
+    {
+      "templateId": 18901,
+      "kind": "armor",
+      "clientValueField": 3212
+    },
+    {
+      "templateId": 18902,
+      "kind": "armor",
+      "clientValueField": 3212
+    },
+    {
+      "templateId": 18903,
+      "kind": "armor",
+      "clientValueField": 3212
+    },
+    {
+      "templateId": 18904,
+      "kind": "armor",
+      "clientValueField": 3212
+    },
+    {
+      "templateId": 18905,
+      "kind": "armor",
+      "clientValueField": 3212
+    },
+    {
+      "templateId": 18906,
+      "kind": "armor",
+      "clientValueField": 3212
+    },
+    {
+      "templateId": 18907,
+      "kind": "armor",
+      "clientValueField": 3212
+    },
+    {
+      "templateId": 18908,
+      "kind": "armor",
+      "clientValueField": 3212
+    },
+    {
+      "templateId": 19001,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 19002,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 19003,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 19004,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 19005,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 19006,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 19007,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 19008,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 19101,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 19102,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 19103,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 19104,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 19105,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 19106,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 19107,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 19108,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 19201,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 19202,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 19203,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 19204,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 19205,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 19206,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 19207,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 19208,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 19301,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 19302,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 19303,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 19304,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 19305,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 19306,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 19307,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 19308,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 19009,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 19010,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 19011,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 19012,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 19013,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 19014,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 19015,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 19016,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 19109,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 19110,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 19111,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 19112,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 19113,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 19114,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 19115,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 19116,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 19209,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 19210,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 19211,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 19212,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 19213,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 19214,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 19215,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 19216,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 19309,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 19310,
+      "kind": "armor",
+      "clientValueField": 2324
+    },
+    {
+      "templateId": 19311,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 19312,
+      "kind": "armor",
+      "clientValueField": 2708
+    },
+    {
+      "templateId": 19313,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 19314,
+      "kind": "armor",
+      "clientValueField": 1160
+    },
+    {
+      "templateId": 19315,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 19316,
+      "kind": "armor",
+      "clientValueField": 1548
+    },
+    {
+      "templateId": 8001,
+      "kind": "armor",
+      "clientValueField": 600
+    },
+    {
+      "templateId": 8002,
+      "kind": "armor",
+      "clientValueField": 1120
+    },
+    {
+      "templateId": 8003,
+      "kind": "armor",
+      "clientValueField": 1872
+    },
+    {
+      "templateId": 8004,
+      "kind": "armor",
+      "clientValueField": 2764
+    },
+    {
+      "templateId": 8005,
+      "kind": "armor",
+      "clientValueField": 3500
+    },
+    {
+      "templateId": 8006,
+      "kind": "armor",
+      "clientValueField": 4200
+    },
+    {
+      "templateId": 8007,
+      "kind": "armor",
+      "clientValueField": 5000
+    },
+    {
+      "templateId": 8008,
+      "kind": "armor",
+      "clientValueField": 6052
+    },
+    {
+      "templateId": 8009,
+      "kind": "armor",
+      "clientValueField": 7300
+    },
+    {
+      "templateId": 8010,
+      "kind": "armor",
+      "clientValueField": 8800
+    },
+    {
+      "templateId": 9001,
+      "kind": "armor",
+      "clientValueField": 600
+    },
+    {
+      "templateId": 9002,
+      "kind": "armor",
+      "clientValueField": 1120
+    },
+    {
+      "templateId": 9003,
+      "kind": "armor",
+      "clientValueField": 1872
+    },
+    {
+      "templateId": 9004,
+      "kind": "armor",
+      "clientValueField": 2764
+    },
+    {
+      "templateId": 9005,
+      "kind": "armor",
+      "clientValueField": 3500
+    },
+    {
+      "templateId": 9006,
+      "kind": "armor",
+      "clientValueField": 4200
+    },
+    {
+      "templateId": 9007,
+      "kind": "armor",
+      "clientValueField": 5000
+    },
+    {
+      "templateId": 9008,
+      "kind": "armor",
+      "clientValueField": 6052
+    },
+    {
+      "templateId": 9009,
+      "kind": "armor",
+      "clientValueField": 7300
+    },
+    {
+      "templateId": 9010,
+      "kind": "armor",
+      "clientValueField": 8800
+    },
+    {
+      "templateId": 101,
+      "kind": "armor",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 102,
+      "kind": "armor",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 103,
+      "kind": "armor",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 104,
+      "kind": "armor",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 105,
+      "kind": "armor",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 106,
+      "kind": "armor",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 107,
+      "kind": "armor",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 108,
+      "kind": "armor",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 201,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 202,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 203,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 204,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 205,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 206,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 207,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 208,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 209,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 210,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 211,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 212,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 213,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 214,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 215,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 216,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 217,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 218,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 219,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 220,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 221,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 222,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 223,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 224,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 301,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 302,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 303,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 304,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 305,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 306,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 307,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 308,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 309,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 310,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 311,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 312,
+      "kind": "armor",
+      "clientValueField": 160
+    },
+    {
+      "templateId": 313,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 314,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 315,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 316,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 317,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 318,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 319,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 320,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 321,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 322,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 323,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 324,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 325,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 326,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 327,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 328,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 329,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 330,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 331,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 332,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 333,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 334,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 335,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 336,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 337,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 338,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 339,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 340,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 341,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 342,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 343,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 344,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 345,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 346,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 347,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 348,
+      "kind": "armor",
+      "clientValueField": 432
+    },
+    {
+      "templateId": 349,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 350,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 351,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 352,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 353,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 354,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 355,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 356,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 357,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 358,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 359,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 360,
+      "kind": "armor",
+      "clientValueField": 920
+    },
+    {
+      "templateId": 361,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 362,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 363,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 364,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 365,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 366,
+      "kind": "armor",
+      "clientValueField": 280
+    },
+    {
+      "templateId": 367,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 368,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 369,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 370,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 371,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 372,
+      "kind": "armor",
+      "clientValueField": 120
+    },
+    {
+      "templateId": 373,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 374,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 375,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 376,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 377,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 378,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 379,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 380,
+      "kind": "armor",
+      "clientValueField": 480
+    },
+    {
+      "templateId": 381,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 382,
+      "kind": "armor",
+      "clientValueField": 560
+    },
+    {
+      "templateId": 383,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 384,
+      "kind": "armor",
+      "clientValueField": 240
+    },
+    {
+      "templateId": 385,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 386,
+      "kind": "armor",
+      "clientValueField": 320
+    },
+    {
+      "templateId": 387,
+      "kind": "armor",
+      "clientValueField": 864
+    },
+    {
+      "templateId": 388,
+      "kind": "armor",
+      "clientValueField": 864
+    },
+    {
+      "templateId": 389,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 390,
+      "kind": "armor",
+      "clientValueField": 1008
+    },
+    {
+      "templateId": 391,
+      "kind": "armor",
+      "clientValueField": 576
+    },
+    {
+      "templateId": 392,
+      "kind": "armor",
+      "clientValueField": 576
+    },
+    {
+      "templateId": 25007,
+      "kind": "armor",
+      "clientValueField": 100
+    },
+    {
+      "templateId": 25037,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25038,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25039,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25040,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25041,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25042,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25043,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25044,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25045,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25046,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25047,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25048,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25049,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25050,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25051,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25052,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25053,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25054,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25055,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25056,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25057,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25058,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25059,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25060,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25061,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25062,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25063,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25064,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25065,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25066,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25067,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25068,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25069,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25070,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25071,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25072,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25073,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25074,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25075,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25076,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25077,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25078,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25079,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25080,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25081,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25082,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25083,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25084,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25085,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25086,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25087,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25088,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25089,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25090,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25091,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25092,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25093,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25094,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25095,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25096,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25097,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25098,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25099,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25100,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25101,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25102,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25103,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25104,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25105,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25106,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25107,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25108,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25109,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25110,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25111,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25112,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25113,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25114,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25115,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25116,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25117,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25118,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25119,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25120,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25121,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25122,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25123,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25124,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25125,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25126,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25127,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25128,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25129,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25130,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25131,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25132,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25133,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25134,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25135,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25136,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25137,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25138,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25139,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25140,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25141,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25142,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25143,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25144,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25145,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25146,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25147,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25148,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25149,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25150,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25151,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25152,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25153,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25154,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25155,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25156,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25157,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25158,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25159,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25160,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25161,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25162,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25163,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25164,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25165,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25166,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25167,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25168,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25169,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25170,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25171,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25172,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25173,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25174,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25175,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25176,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25177,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25178,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25179,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25180,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25181,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25182,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25183,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25184,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25185,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25186,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25187,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25188,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25189,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25190,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25191,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25192,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25193,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25194,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25195,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25196,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25197,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25198,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25199,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25200,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25201,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25202,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25203,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25204,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25205,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25206,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25207,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25208,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25209,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25210,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25211,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25212,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25213,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25214,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25215,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25216,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25217,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25218,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25219,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25220,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25221,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25222,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25223,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25224,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25225,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25226,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25227,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25228,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25229,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25230,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25231,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25232,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25233,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25234,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25235,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25236,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25237,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25238,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25239,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25240,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25241,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25242,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25243,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25244,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25245,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25246,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25247,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25248,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25249,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25250,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25251,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25252,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25253,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25254,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25255,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25256,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25257,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25258,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25259,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25260,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25261,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25262,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25263,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25264,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25265,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25266,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25267,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25268,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25269,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25270,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25271,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25272,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25273,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25274,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25275,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25276,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25277,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25278,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25279,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25280,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25281,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25282,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25283,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25284,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25285,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25286,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25287,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25288,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25289,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25290,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25291,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25292,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25293,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25294,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25295,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25296,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25297,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25298,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25299,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25300,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25301,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25302,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25303,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25304,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25305,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25306,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25307,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25308,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25309,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25310,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25311,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25312,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25313,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25314,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25315,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25316,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25317,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25318,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25319,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25320,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25321,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25322,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25323,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25324,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25325,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25326,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25327,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25328,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25329,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25330,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25331,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25332,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25333,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25334,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25335,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25336,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25337,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25338,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25339,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25340,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25341,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25342,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25343,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25344,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25345,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25346,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25347,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25348,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25349,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25350,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25351,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25352,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25353,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25354,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25355,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25356,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25357,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25358,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25359,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25360,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25361,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25362,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25363,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25364,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25365,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25366,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25367,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25368,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25369,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25370,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25371,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25372,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25373,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25374,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25375,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25376,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25377,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25378,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25379,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25380,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25381,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25382,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25383,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25384,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25385,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25386,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25387,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25388,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25389,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25390,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25391,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25392,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25393,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25394,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25395,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25396,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25397,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25398,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25399,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25400,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25401,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25402,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25403,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25416,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25417,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25418,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25419,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25420,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25421,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25422,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25423,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25424,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25425,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25426,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25427,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25428,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25429,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25430,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25431,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25432,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25433,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25434,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25435,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25436,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25437,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25438,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25439,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25440,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25441,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25442,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25443,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25444,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25445,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25446,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25447,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25448,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25449,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25450,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25451,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25452,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25453,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25454,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25455,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25456,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25457,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25458,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25459,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25460,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25461,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25462,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25463,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25464,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25465,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25466,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25467,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25468,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25469,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25470,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25471,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25472,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25473,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25474,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25475,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25476,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25477,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25478,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25479,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25480,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25481,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25482,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25483,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25484,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25485,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25486,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25487,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25488,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25489,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25490,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25491,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 600,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 601,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 602,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 603,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 604,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 605,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 606,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 607,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 608,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 609,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 610,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 611,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 612,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 613,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 614,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 615,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 616,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 617,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 618,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 619,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 620,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 621,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 622,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 623,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 624,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 625,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 626,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 627,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 628,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 629,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 630,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 631,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 632,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 633,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 634,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 635,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 636,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 637,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25501,
+      "kind": "armor",
+      "clientValueField": 150000
+    },
+    {
+      "templateId": 25601,
+      "kind": "armor",
+      "clientValueField": 150000
+    },
+    {
+      "templateId": 25701,
+      "kind": "armor",
+      "clientValueField": 150000
+    },
+    {
+      "templateId": 25781,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 25801,
+      "kind": "armor",
+      "clientValueField": 20000
+    },
+    {
+      "templateId": 25802,
+      "kind": "armor",
+      "clientValueField": 20000
+    },
+    {
+      "templateId": 25803,
+      "kind": "armor",
+      "clientValueField": 20000
+    },
+    {
+      "templateId": 25804,
+      "kind": "armor",
+      "clientValueField": 20000
+    },
+    {
+      "templateId": 25805,
+      "kind": "armor",
+      "clientValueField": 20000
+    },
+    {
+      "templateId": 25806,
+      "kind": "armor",
+      "clientValueField": 20000
+    },
+    {
+      "templateId": 25807,
+      "kind": "armor",
+      "clientValueField": 20000
+    },
+    {
+      "templateId": 25808,
+      "kind": "armor",
+      "clientValueField": 20000
+    },
+    {
+      "templateId": 25809,
+      "kind": "armor",
+      "clientValueField": 20000
+    },
+    {
+      "templateId": 4000,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4001,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4002,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4003,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4004,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4005,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4006,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4007,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4008,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4009,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4010,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4011,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4012,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4013,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4014,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4015,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4016,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4017,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4018,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4019,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4020,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4021,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4022,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4023,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4024,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4025,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4026,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4027,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4028,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4029,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4030,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4031,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4032,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4033,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4034,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4035,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4036,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4037,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4038,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4039,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4040,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4041,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4042,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4043,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4044,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4045,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4046,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4047,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4048,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4049,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4050,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4051,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4052,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4053,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4054,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4055,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4056,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4057,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4058,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4059,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4060,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4061,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4062,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4063,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4064,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4065,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4066,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4067,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4068,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4069,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4070,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 4071,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30001,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30002,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30003,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30004,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30005,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30006,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30007,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30008,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30009,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30010,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30011,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30012,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30015,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30016,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30017,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30018,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30019,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30020,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30021,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30022,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30023,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30024,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30026,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 30027,
+      "kind": "armor",
+      "clientValueField": 1
+    },
+    {
+      "templateId": 5001,
+      "kind": "weapon",
+      "clientValueField": 10
+    },
+    {
+      "templateId": 5002,
+      "kind": "weapon",
+      "clientValueField": 400
+    },
+    {
+      "templateId": 5003,
+      "kind": "weapon",
+      "clientValueField": 400
+    },
+    {
+      "templateId": 5004,
+      "kind": "weapon",
+      "clientValueField": 400
+    },
+    {
+      "templateId": 5005,
+      "kind": "weapon",
+      "clientValueField": 400
+    },
+    {
+      "templateId": 5006,
+      "kind": "weapon",
+      "clientValueField": 400
+    },
+    {
+      "templateId": 5007,
+      "kind": "weapon",
+      "clientValueField": 400
+    },
+    {
+      "templateId": 5008,
+      "kind": "weapon",
+      "clientValueField": 400
+    },
+    {
+      "templateId": 5009,
+      "kind": "weapon",
+      "clientValueField": 400
+    },
+    {
+      "templateId": 5010,
+      "kind": "weapon",
+      "clientValueField": 400
+    },
+    {
+      "templateId": 5011,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 5012,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 5013,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 5014,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 5015,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 5016,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 5017,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 5018,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 5019,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 5020,
+      "kind": "weapon",
+      "clientValueField": 1440
+    },
+    {
+      "templateId": 5021,
+      "kind": "weapon",
+      "clientValueField": 1440
+    },
+    {
+      "templateId": 5022,
+      "kind": "weapon",
+      "clientValueField": 1440
+    },
+    {
+      "templateId": 5023,
+      "kind": "weapon",
+      "clientValueField": 1440
+    },
+    {
+      "templateId": 5024,
+      "kind": "weapon",
+      "clientValueField": 1440
+    },
+    {
+      "templateId": 5025,
+      "kind": "weapon",
+      "clientValueField": 1440
+    },
+    {
+      "templateId": 5026,
+      "kind": "weapon",
+      "clientValueField": 1440
+    },
+    {
+      "templateId": 5027,
+      "kind": "weapon",
+      "clientValueField": 1440
+    },
+    {
+      "templateId": 5028,
+      "kind": "weapon",
+      "clientValueField": 1440
+    },
+    {
+      "templateId": 5029,
+      "kind": "weapon",
+      "clientValueField": 2304
+    },
+    {
+      "templateId": 5030,
+      "kind": "weapon",
+      "clientValueField": 2304
+    },
+    {
+      "templateId": 5031,
+      "kind": "weapon",
+      "clientValueField": 2304
+    },
+    {
+      "templateId": 5032,
+      "kind": "weapon",
+      "clientValueField": 2304
+    },
+    {
+      "templateId": 5033,
+      "kind": "weapon",
+      "clientValueField": 2304
+    },
+    {
+      "templateId": 5034,
+      "kind": "weapon",
+      "clientValueField": 2304
+    },
+    {
+      "templateId": 5035,
+      "kind": "weapon",
+      "clientValueField": 2304
+    },
+    {
+      "templateId": 5036,
+      "kind": "weapon",
+      "clientValueField": 2304
+    },
+    {
+      "templateId": 5037,
+      "kind": "weapon",
+      "clientValueField": 2304
+    },
+    {
+      "templateId": 5038,
+      "kind": "weapon",
+      "clientValueField": 3224
+    },
+    {
+      "templateId": 5039,
+      "kind": "weapon",
+      "clientValueField": 3224
+    },
+    {
+      "templateId": 5040,
+      "kind": "weapon",
+      "clientValueField": 3224
+    },
+    {
+      "templateId": 5041,
+      "kind": "weapon",
+      "clientValueField": 3224
+    },
+    {
+      "templateId": 5042,
+      "kind": "weapon",
+      "clientValueField": 3224
+    },
+    {
+      "templateId": 5043,
+      "kind": "weapon",
+      "clientValueField": 3224
+    },
+    {
+      "templateId": 5044,
+      "kind": "weapon",
+      "clientValueField": 3224
+    },
+    {
+      "templateId": 5045,
+      "kind": "weapon",
+      "clientValueField": 3224
+    },
+    {
+      "templateId": 5046,
+      "kind": "weapon",
+      "clientValueField": 3224
+    },
+    {
+      "templateId": 5047,
+      "kind": "weapon",
+      "clientValueField": 3872
+    },
+    {
+      "templateId": 5048,
+      "kind": "weapon",
+      "clientValueField": 3872
+    },
+    {
+      "templateId": 5049,
+      "kind": "weapon",
+      "clientValueField": 3872
+    },
+    {
+      "templateId": 5050,
+      "kind": "weapon",
+      "clientValueField": 3872
+    },
+    {
+      "templateId": 5051,
+      "kind": "weapon",
+      "clientValueField": 3872
+    },
+    {
+      "templateId": 5052,
+      "kind": "weapon",
+      "clientValueField": 3872
+    },
+    {
+      "templateId": 5053,
+      "kind": "weapon",
+      "clientValueField": 3872
+    },
+    {
+      "templateId": 5054,
+      "kind": "weapon",
+      "clientValueField": 3872
+    },
+    {
+      "templateId": 5055,
+      "kind": "weapon",
+      "clientValueField": 3872
+    },
+    {
+      "templateId": 5056,
+      "kind": "weapon",
+      "clientValueField": 4644
+    },
+    {
+      "templateId": 5057,
+      "kind": "weapon",
+      "clientValueField": 4644
+    },
+    {
+      "templateId": 5058,
+      "kind": "weapon",
+      "clientValueField": 4644
+    },
+    {
+      "templateId": 5059,
+      "kind": "weapon",
+      "clientValueField": 4644
+    },
+    {
+      "templateId": 5060,
+      "kind": "weapon",
+      "clientValueField": 4644
+    },
+    {
+      "templateId": 5061,
+      "kind": "weapon",
+      "clientValueField": 4644
+    },
+    {
+      "templateId": 5062,
+      "kind": "weapon",
+      "clientValueField": 4644
+    },
+    {
+      "templateId": 5063,
+      "kind": "weapon",
+      "clientValueField": 4644
+    },
+    {
+      "templateId": 5064,
+      "kind": "weapon",
+      "clientValueField": 4644
+    },
+    {
+      "templateId": 5065,
+      "kind": "weapon",
+      "clientValueField": 5572
+    },
+    {
+      "templateId": 5066,
+      "kind": "weapon",
+      "clientValueField": 5572
+    },
+    {
+      "templateId": 5067,
+      "kind": "weapon",
+      "clientValueField": 5572
+    },
+    {
+      "templateId": 5068,
+      "kind": "weapon",
+      "clientValueField": 5572
+    },
+    {
+      "templateId": 5069,
+      "kind": "weapon",
+      "clientValueField": 5572
+    },
+    {
+      "templateId": 5070,
+      "kind": "weapon",
+      "clientValueField": 5572
+    },
+    {
+      "templateId": 5071,
+      "kind": "weapon",
+      "clientValueField": 5572
+    },
+    {
+      "templateId": 5072,
+      "kind": "weapon",
+      "clientValueField": 5572
+    },
+    {
+      "templateId": 5073,
+      "kind": "weapon",
+      "clientValueField": 5572
+    },
+    {
+      "templateId": 5074,
+      "kind": "weapon",
+      "clientValueField": 6688
+    },
+    {
+      "templateId": 5075,
+      "kind": "weapon",
+      "clientValueField": 6688
+    },
+    {
+      "templateId": 5076,
+      "kind": "weapon",
+      "clientValueField": 6688
+    },
+    {
+      "templateId": 5077,
+      "kind": "weapon",
+      "clientValueField": 6688
+    },
+    {
+      "templateId": 5078,
+      "kind": "weapon",
+      "clientValueField": 6688
+    },
+    {
+      "templateId": 5079,
+      "kind": "weapon",
+      "clientValueField": 6688
+    },
+    {
+      "templateId": 5080,
+      "kind": "weapon",
+      "clientValueField": 6688
+    },
+    {
+      "templateId": 5081,
+      "kind": "weapon",
+      "clientValueField": 6688
+    },
+    {
+      "templateId": 5082,
+      "kind": "weapon",
+      "clientValueField": 6688
+    },
+    {
+      "templateId": 5083,
+      "kind": "weapon",
+      "clientValueField": 8028
+    },
+    {
+      "templateId": 5084,
+      "kind": "weapon",
+      "clientValueField": 8028
+    },
+    {
+      "templateId": 5085,
+      "kind": "weapon",
+      "clientValueField": 8028
+    },
+    {
+      "templateId": 5086,
+      "kind": "weapon",
+      "clientValueField": 8028
+    },
+    {
+      "templateId": 5087,
+      "kind": "weapon",
+      "clientValueField": 8028
+    },
+    {
+      "templateId": 5088,
+      "kind": "weapon",
+      "clientValueField": 8028
+    },
+    {
+      "templateId": 5089,
+      "kind": "weapon",
+      "clientValueField": 8028
+    },
+    {
+      "templateId": 5090,
+      "kind": "weapon",
+      "clientValueField": 8028
+    },
+    {
+      "templateId": 5091,
+      "kind": "weapon",
+      "clientValueField": 8028
+    },
+    {
+      "templateId": 5101,
+      "kind": "weapon",
+      "clientValueField": 60
+    },
+    {
+      "templateId": 5102,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 5103,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 5104,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 5105,
+      "kind": "weapon",
+      "clientValueField": 200
+    },
+    {
+      "templateId": 5106,
+      "kind": "weapon",
+      "clientValueField": 200
+    },
+    {
+      "templateId": 5107,
+      "kind": "weapon",
+      "clientValueField": 200
+    },
+    {
+      "templateId": 5108,
+      "kind": "weapon",
+      "clientValueField": 200
+    },
+    {
+      "templateId": 5109,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 5110,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 5111,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 5112,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 5113,
+      "kind": "weapon",
+      "clientValueField": 2304
+    },
+    {
+      "templateId": 5114,
+      "kind": "weapon",
+      "clientValueField": 3224
+    },
+    {
+      "templateId": 5115,
+      "kind": "weapon",
+      "clientValueField": 3872
+    },
+    {
+      "templateId": 5116,
+      "kind": "weapon",
+      "clientValueField": 4644
+    },
+    {
+      "templateId": 5119,
+      "kind": "weapon",
+      "clientValueField": 3872
+    },
+    {
+      "templateId": 5120,
+      "kind": "weapon",
+      "clientValueField": 3872
+    },
+    {
+      "templateId": 5121,
+      "kind": "weapon",
+      "clientValueField": 3872
+    },
+    {
+      "templateId": 5122,
+      "kind": "weapon",
+      "clientValueField": 3872
+    },
+    {
+      "templateId": 5127,
+      "kind": "weapon",
+      "clientValueField": 3872
+    },
+    {
+      "templateId": 5128,
+      "kind": "weapon",
+      "clientValueField": 3872
+    },
+    {
+      "templateId": 5129,
+      "kind": "weapon",
+      "clientValueField": 3872
+    },
+    {
+      "templateId": 5130,
+      "kind": "weapon",
+      "clientValueField": 3872
+    },
+    {
+      "templateId": 1,
+      "kind": "weapon",
+      "clientValueField": 1200
+    },
+    {
+      "templateId": 2,
+      "kind": "weapon",
+      "clientValueField": 1200
+    },
+    {
+      "templateId": 5,
+      "kind": "weapon",
+      "clientValueField": 400
+    },
+    {
+      "templateId": 6,
+      "kind": "weapon",
+      "clientValueField": 400
+    },
+    {
+      "templateId": 7,
+      "kind": "weapon",
+      "clientValueField": 400
+    },
+    {
+      "templateId": 8,
+      "kind": "weapon",
+      "clientValueField": 2304
+    },
+    {
+      "templateId": 9,
+      "kind": "weapon",
+      "clientValueField": 2304
+    },
+    {
+      "templateId": 10,
+      "kind": "weapon",
+      "clientValueField": 2304
+    },
+    {
+      "templateId": 11,
+      "kind": "weapon",
+      "clientValueField": 2304
+    },
+    {
+      "templateId": 12,
+      "kind": "weapon",
+      "clientValueField": 2304
+    },
+    {
+      "templateId": 13,
+      "kind": "weapon",
+      "clientValueField": 2304
+    },
+    {
+      "templateId": 14,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 15,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 16,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 17,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 18,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 19,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 20,
+      "kind": "weapon",
+      "clientValueField": 800
+    },
+    {
+      "templateId": 21,
+      "kind": "weapon",
+      "clientValueField": 1440
+    }
+  ]
+}

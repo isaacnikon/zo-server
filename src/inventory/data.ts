@@ -13,8 +13,7 @@ const GENERAL_ITEM_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'items.json');
 const POTION_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'potions.json');
 const STUFF_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'stuff.json');
 const ITEMINFO_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'iteminfo.json');
-const RAW_ARMOR_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'raw', 'is_armor.txt');
-const RAW_WEAPON_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'raw', 'is_weapon.txt');
+const EQUIPMENT_VALUE_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'equipment-values.json');
 
 type UnknownRecord = Record<string, any>;
 
@@ -33,6 +32,7 @@ interface ItemDefinition {
   maxStack: number;
   clientTemplateFamily: number | null;
   itemSetId?: number | null;
+  enhancementGrowthId?: number | null;
   isQuestItem?: boolean;
   captureProfile?: {
     maxTargetLevel: number;
@@ -183,6 +183,7 @@ function loadClientEquipmentDefinitions(filePath: string, kind: 'armor' | 'weapo
       entry?.restrictions && typeof entry.restrictions === 'object' ? { ...entry.restrictions } : {};
     const restrictions = normalizeEquipmentRestrictions(baseRestrictions, entry, kind);
     const itemSetId = resolveEquipmentSetId(entry, kind);
+    const enhancementGrowthId = resolveEquipmentEnhancementGrowthId(entry, kind);
 
     rows.push({
       templateId: entry.templateId,
@@ -191,6 +192,7 @@ function loadClientEquipmentDefinitions(filePath: string, kind: 'armor' | 'weapo
       maxStack: 1,
       clientTemplateFamily: entry.clientTemplateFamily,
       itemSetId: itemSetId > 0 ? itemSetId : null,
+      enhancementGrowthId: enhancementGrowthId > 0 ? enhancementGrowthId : null,
       isQuestItem: isQuestItemEntry(entry),
       hasDurability: true,
       sellPrice: resolveClientSellPrice(entry, kind),
@@ -260,6 +262,13 @@ function resolveEquipmentDefaultAttributePairs(entry: UnknownRecord, kind: 'armo
 function resolveEquipmentSetId(entry: UnknownRecord, kind: 'armor' | 'weapon'): number {
   const combatFields = Array.isArray(entry?.combatFields) ? entry.combatFields : [];
   const candidateIndex = kind === 'weapon' ? 10 : 2;
+  const candidate = Number.isInteger(combatFields[candidateIndex]) ? combatFields[candidateIndex] : 0;
+  return candidate > 0 && candidate < 0x100 ? candidate : 0;
+}
+
+function resolveEquipmentEnhancementGrowthId(entry: UnknownRecord, kind: 'armor' | 'weapon'): number {
+  const combatFields = Array.isArray(entry?.combatFields) ? entry.combatFields : [];
+  const candidateIndex = kind === 'weapon' ? 11 : 5;
   const candidate = Number.isInteger(combatFields[candidateIndex]) ? combatFields[candidateIndex] : 0;
   return candidate > 0 && candidate < 0x100 ? candidate : 0;
 }
@@ -356,67 +365,12 @@ function loadItemInfoMap(): Map<number, ItemInfoEntry> {
 }
 
 function loadEquipmentValueMap(): Map<number, number> {
-  const rows = [
-    ...loadRawEquipmentValueRows(RAW_ARMOR_TABLE_FILE),
-    ...loadRawEquipmentValueRows(RAW_WEAPON_TABLE_FILE),
-  ];
-  return new Map(rows);
-}
-
-function loadRawEquipmentValueRows(filePath: string): Array<[number, number]> {
-  let rawText = '';
-  try {
-    rawText = fs.readFileSync(filePath, 'utf8');
-  } catch (_err) {
-    return [];
-  }
-
-  const rows: Array<[number, number]> = [];
-  for (const line of rawText.split(/\r?\n/)) {
-    const columns = splitCsvColumns(line);
-    if (columns.length < 11) {
-      continue;
-    }
-    const templateId = parseInt(columns[0] || '', 10);
-    const baseValue = parseInt(columns[9] || '', 10);
-    if (!Number.isInteger(templateId) || templateId <= 0) {
-      continue;
-    }
-    if (!Number.isInteger(baseValue) || baseValue <= 0) {
-      continue;
-    }
-    rows.push([templateId, baseValue]);
-  }
-  return rows;
-}
-
-function splitCsvColumns(line: string): string[] {
-  if (typeof line !== 'string' || line.length === 0) {
-    return [];
-  }
-  const columns: string[] = [];
-  let current = '';
-  let inQuotes = false;
-  for (let index = 0; index < line.length; index += 1) {
-    const char = line[index];
-    if (char === '"') {
-      if (inQuotes && line[index + 1] === '"') {
-        current += '"';
-        index += 1;
-      } else {
-        inQuotes = !inQuotes;
-      }
-      continue;
-    }
-    if (char === ',' && !inQuotes) {
-      columns.push(current);
-      current = '';
-      continue;
-    }
-    current += char;
-  }
-  columns.push(current);
-  return columns;
+  const payload = loadClientDerivedEntries(EQUIPMENT_VALUE_TABLE_FILE);
+  return new Map(
+    payload
+      .filter((entry) => Number.isInteger(entry?.templateId) && Number.isInteger(entry?.clientValueField))
+      .map((entry) => [entry.templateId, entry.clientValueField])
+  );
 }
 
 function isEquipmentDefinition(definition: ItemDefinition): boolean {

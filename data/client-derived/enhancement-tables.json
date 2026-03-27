@@ -1,0 +1,2195 @@
+{
+  "source": {
+    "growthFile": "/home/nikon/projects/zo-server/data/client-derived/archive/00000557__chengzhang.txt",
+    "setBonusFile": "/home/nikon/projects/zo-server/data/client-derived/archive/000007a5__taozhuang.txt",
+    "washFile": "/home/nikon/projects/zo-server/data/client-derived/archive/000007e5__xishou.txt"
+  },
+  "generatedAt": "2026-03-27T18:15:49.332859+00:00",
+  "growth": {
+    "sourceFile": "/home/nikon/projects/zo-server/data/client-derived/archive/00000557__chengzhang.txt",
+    "header": {
+      "format": "goldcool",
+      "rowCount": 20,
+      "columnCount": 24
+    },
+    "count": 20,
+    "entries": [
+      {
+        "growthId": 1,
+        "familyField": 19,
+        "refineValues": [
+          0,
+          3,
+          7,
+          12,
+          18,
+          25,
+          33,
+          42,
+          52,
+          63,
+          75,
+          88,
+          102,
+          117,
+          133,
+          150,
+          168,
+          187,
+          207,
+          228,
+          250,
+          250
+        ],
+        "rawValues": [
+          1,
+          19,
+          0,
+          3,
+          7,
+          12,
+          18,
+          25,
+          33,
+          42,
+          52,
+          63,
+          75,
+          88,
+          102,
+          117,
+          133,
+          150,
+          168,
+          187,
+          207,
+          228,
+          250,
+          250
+        ]
+      },
+      {
+        "growthId": 2,
+        "familyField": 21,
+        "refineValues": [
+          0,
+          3,
+          7,
+          12,
+          18,
+          25,
+          33,
+          42,
+          52,
+          63,
+          75,
+          88,
+          102,
+          117,
+          133,
+          150,
+          168,
+          187,
+          207,
+          228,
+          250,
+          250
+        ],
+        "rawValues": [
+          2,
+          21,
+          0,
+          3,
+          7,
+          12,
+          18,
+          25,
+          33,
+          42,
+          52,
+          63,
+          75,
+          88,
+          102,
+          117,
+          133,
+          150,
+          168,
+          187,
+          207,
+          228,
+          250,
+          250
+        ]
+      },
+      {
+        "growthId": 3,
+        "familyField": 19,
+        "refineValues": [
+          0,
+          3,
+          7,
+          12,
+          18,
+          25,
+          33,
+          42,
+          52,
+          63,
+          75,
+          88,
+          102,
+          117,
+          133,
+          150,
+          168,
+          187,
+          207,
+          228,
+          250,
+          250
+        ],
+        "rawValues": [
+          3,
+          19,
+          0,
+          3,
+          7,
+          12,
+          18,
+          25,
+          33,
+          42,
+          52,
+          63,
+          75,
+          88,
+          102,
+          117,
+          133,
+          150,
+          168,
+          187,
+          207,
+          228,
+          250,
+          250
+        ]
+      },
+      {
+        "growthId": 4,
+        "familyField": 21,
+        "refineValues": [
+          0,
+          3,
+          7,
+          12,
+          18,
+          25,
+          33,
+          42,
+          52,
+          63,
+          75,
+          88,
+          102,
+          117,
+          133,
+          150,
+          168,
+          187,
+          207,
+          228,
+          250,
+          250
+        ],
+        "rawValues": [
+          4,
+          21,
+          0,
+          3,
+          7,
+          12,
+          18,
+          25,
+          33,
+          42,
+          52,
+          63,
+          75,
+          88,
+          102,
+          117,
+          133,
+          150,
+          168,
+          187,
+          207,
+          228,
+          250,
+          250
+        ]
+      },
+      {
+        "growthId": 101,
+        "familyField": 8,
+        "refineValues": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ],
+        "rawValues": [
+          101,
+          8,
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ]
+      },
+      {
+        "growthId": 102,
+        "familyField": 10,
+        "refineValues": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ],
+        "rawValues": [
+          102,
+          10,
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ]
+      },
+      {
+        "growthId": 103,
+        "familyField": 8,
+        "refineValues": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ],
+        "rawValues": [
+          103,
+          8,
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ]
+      },
+      {
+        "growthId": 104,
+        "familyField": 10,
+        "refineValues": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ],
+        "rawValues": [
+          104,
+          10,
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ]
+      },
+      {
+        "growthId": 105,
+        "familyField": 8,
+        "refineValues": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ],
+        "rawValues": [
+          105,
+          8,
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ]
+      },
+      {
+        "growthId": 106,
+        "familyField": 10,
+        "refineValues": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ],
+        "rawValues": [
+          106,
+          10,
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ]
+      },
+      {
+        "growthId": 107,
+        "familyField": 8,
+        "refineValues": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ],
+        "rawValues": [
+          107,
+          8,
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ]
+      },
+      {
+        "growthId": 108,
+        "familyField": 10,
+        "refineValues": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ],
+        "rawValues": [
+          108,
+          10,
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ]
+      },
+      {
+        "growthId": 109,
+        "familyField": 8,
+        "refineValues": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ],
+        "rawValues": [
+          109,
+          8,
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ]
+      },
+      {
+        "growthId": 110,
+        "familyField": 10,
+        "refineValues": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ],
+        "rawValues": [
+          110,
+          10,
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ]
+      },
+      {
+        "growthId": 111,
+        "familyField": 8,
+        "refineValues": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ],
+        "rawValues": [
+          111,
+          8,
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ]
+      },
+      {
+        "growthId": 112,
+        "familyField": 10,
+        "refineValues": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ],
+        "rawValues": [
+          112,
+          10,
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ]
+      },
+      {
+        "growthId": 113,
+        "familyField": 8,
+        "refineValues": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ],
+        "rawValues": [
+          113,
+          8,
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ]
+      },
+      {
+        "growthId": 114,
+        "familyField": 10,
+        "refineValues": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ],
+        "rawValues": [
+          114,
+          10,
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ]
+      },
+      {
+        "growthId": 115,
+        "familyField": 8,
+        "refineValues": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ],
+        "rawValues": [
+          115,
+          8,
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ]
+      },
+      {
+        "growthId": 116,
+        "familyField": 10,
+        "refineValues": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ],
+        "rawValues": [
+          116,
+          10,
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          32,
+          36,
+          40,
+          45,
+          50,
+          55,
+          65,
+          75,
+          85,
+          85
+        ]
+      }
+    ]
+  },
+  "setBonuses": {
+    "sourceFile": "/home/nikon/projects/zo-server/data/client-derived/archive/000007a5__taozhuang.txt",
+    "header": {
+      "format": "goldcool",
+      "rowCount": 22,
+      "columnCount": 13
+    },
+    "count": 22,
+    "entries": [
+      {
+        "setBonusId": 1,
+        "bonusPairs": [
+          {
+            "attributeId": 2230,
+            "value": 30
+          },
+          {
+            "attributeId": 2231,
+            "value": 30
+          },
+          {
+            "attributeId": 2234,
+            "value": 3
+          }
+        ],
+        "rawValues": [
+          1,
+          2230,
+          30,
+          2231,
+          30,
+          2234,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "setBonusId": 2,
+        "bonusPairs": [
+          {
+            "attributeId": 2230,
+            "value": 50
+          },
+          {
+            "attributeId": 2231,
+            "value": 50
+          },
+          {
+            "attributeId": 2234,
+            "value": 5
+          }
+        ],
+        "rawValues": [
+          2,
+          2230,
+          50,
+          2231,
+          50,
+          2234,
+          5,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "setBonusId": 3,
+        "bonusPairs": [
+          {
+            "attributeId": 2230,
+            "value": 30
+          },
+          {
+            "attributeId": 2231,
+            "value": 30
+          },
+          {
+            "attributeId": 2234,
+            "value": 3
+          }
+        ],
+        "rawValues": [
+          3,
+          2230,
+          30,
+          2231,
+          30,
+          2234,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "setBonusId": 4,
+        "bonusPairs": [
+          {
+            "attributeId": 2230,
+            "value": 50
+          },
+          {
+            "attributeId": 2231,
+            "value": 50
+          },
+          {
+            "attributeId": 2234,
+            "value": 5
+          }
+        ],
+        "rawValues": [
+          4,
+          2230,
+          50,
+          2231,
+          50,
+          2234,
+          5,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "setBonusId": 5,
+        "bonusPairs": [
+          {
+            "attributeId": 2232,
+            "value": 30
+          },
+          {
+            "attributeId": 2233,
+            "value": 30
+          },
+          {
+            "attributeId": 2234,
+            "value": 3
+          }
+        ],
+        "rawValues": [
+          5,
+          2232,
+          30,
+          2233,
+          30,
+          2234,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "setBonusId": 6,
+        "bonusPairs": [
+          {
+            "attributeId": 2232,
+            "value": 50
+          },
+          {
+            "attributeId": 2233,
+            "value": 50
+          },
+          {
+            "attributeId": 2234,
+            "value": 5
+          }
+        ],
+        "rawValues": [
+          6,
+          2232,
+          50,
+          2233,
+          50,
+          2234,
+          5,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "setBonusId": 7,
+        "bonusPairs": [
+          {
+            "attributeId": 2232,
+            "value": 30
+          },
+          {
+            "attributeId": 2233,
+            "value": 30
+          },
+          {
+            "attributeId": 2234,
+            "value": 3
+          }
+        ],
+        "rawValues": [
+          7,
+          2232,
+          30,
+          2233,
+          30,
+          2234,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "setBonusId": 8,
+        "bonusPairs": [
+          {
+            "attributeId": 2232,
+            "value": 50
+          },
+          {
+            "attributeId": 2233,
+            "value": 50
+          },
+          {
+            "attributeId": 2234,
+            "value": 5
+          }
+        ],
+        "rawValues": [
+          8,
+          2232,
+          50,
+          2233,
+          50,
+          2234,
+          5,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "setBonusId": 9,
+        "bonusPairs": [
+          {
+            "attributeId": 2249,
+            "value": 50
+          },
+          {
+            "attributeId": 2244,
+            "value": 60
+          },
+          {
+            "attributeId": 2245,
+            "value": 60
+          },
+          {
+            "attributeId": 2248,
+            "value": 4
+          }
+        ],
+        "rawValues": [
+          9,
+          2249,
+          50,
+          2244,
+          60,
+          2245,
+          60,
+          0,
+          0,
+          0,
+          0,
+          2248,
+          4
+        ]
+      },
+      {
+        "setBonusId": 10,
+        "bonusPairs": [
+          {
+            "attributeId": 2253,
+            "value": 50
+          },
+          {
+            "attributeId": 2244,
+            "value": 50
+          },
+          {
+            "attributeId": 2245,
+            "value": 50
+          },
+          {
+            "attributeId": 2248,
+            "value": 4
+          }
+        ],
+        "rawValues": [
+          10,
+          2253,
+          50,
+          2244,
+          50,
+          2245,
+          50,
+          0,
+          0,
+          0,
+          0,
+          2248,
+          4
+        ]
+      },
+      {
+        "setBonusId": 11,
+        "bonusPairs": [
+          {
+            "attributeId": 2250,
+            "value": 200
+          },
+          {
+            "attributeId": 2251,
+            "value": 200
+          },
+          {
+            "attributeId": 2252,
+            "value": 400
+          },
+          {
+            "attributeId": 2254,
+            "value": 10
+          }
+        ],
+        "rawValues": [
+          11,
+          2250,
+          200,
+          2251,
+          200,
+          2252,
+          400,
+          0,
+          0,
+          0,
+          0,
+          2254,
+          10
+        ]
+      },
+      {
+        "setBonusId": 12,
+        "bonusPairs": [
+          {
+            "attributeId": 2249,
+            "value": 50
+          },
+          {
+            "attributeId": 2246,
+            "value": 60
+          },
+          {
+            "attributeId": 2247,
+            "value": 60
+          },
+          {
+            "attributeId": 2248,
+            "value": 4
+          }
+        ],
+        "rawValues": [
+          12,
+          2249,
+          50,
+          2246,
+          60,
+          2247,
+          60,
+          0,
+          0,
+          0,
+          0,
+          2248,
+          4
+        ]
+      },
+      {
+        "setBonusId": 13,
+        "bonusPairs": [
+          {
+            "attributeId": 2230,
+            "value": 100
+          },
+          {
+            "attributeId": 2231,
+            "value": 100
+          },
+          {
+            "attributeId": 2234,
+            "value": 7
+          }
+        ],
+        "rawValues": [
+          13,
+          2230,
+          100,
+          2231,
+          100,
+          2234,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "setBonusId": 14,
+        "bonusPairs": [
+          {
+            "attributeId": 2232,
+            "value": 100
+          },
+          {
+            "attributeId": 2233,
+            "value": 100
+          },
+          {
+            "attributeId": 2234,
+            "value": 7
+          }
+        ],
+        "rawValues": [
+          14,
+          2232,
+          100,
+          2233,
+          100,
+          2234,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "setBonusId": 15,
+        "bonusPairs": [
+          {
+            "attributeId": 2249,
+            "value": 100
+          },
+          {
+            "attributeId": 2244,
+            "value": 100
+          },
+          {
+            "attributeId": 2245,
+            "value": 100
+          },
+          {
+            "attributeId": 2248,
+            "value": 6
+          }
+        ],
+        "rawValues": [
+          15,
+          2249,
+          100,
+          2244,
+          100,
+          2245,
+          100,
+          0,
+          0,
+          0,
+          0,
+          2248,
+          6
+        ]
+      },
+      {
+        "setBonusId": 16,
+        "bonusPairs": [
+          {
+            "attributeId": 2253,
+            "value": 100
+          },
+          {
+            "attributeId": 2244,
+            "value": 90
+          },
+          {
+            "attributeId": 2245,
+            "value": 90
+          },
+          {
+            "attributeId": 2248,
+            "value": 6
+          }
+        ],
+        "rawValues": [
+          16,
+          2253,
+          100,
+          2244,
+          90,
+          2245,
+          90,
+          0,
+          0,
+          0,
+          0,
+          2248,
+          6
+        ]
+      },
+      {
+        "setBonusId": 17,
+        "bonusPairs": [
+          {
+            "attributeId": 2250,
+            "value": 400
+          },
+          {
+            "attributeId": 2251,
+            "value": 400
+          },
+          {
+            "attributeId": 2252,
+            "value": 600
+          },
+          {
+            "attributeId": 2254,
+            "value": 20
+          }
+        ],
+        "rawValues": [
+          17,
+          2250,
+          400,
+          2251,
+          400,
+          2252,
+          600,
+          0,
+          0,
+          0,
+          0,
+          2254,
+          20
+        ]
+      },
+      {
+        "setBonusId": 18,
+        "bonusPairs": [
+          {
+            "attributeId": 2249,
+            "value": 100
+          },
+          {
+            "attributeId": 2246,
+            "value": 100
+          },
+          {
+            "attributeId": 2247,
+            "value": 100
+          },
+          {
+            "attributeId": 2248,
+            "value": 6
+          }
+        ],
+        "rawValues": [
+          18,
+          2249,
+          100,
+          2246,
+          100,
+          2247,
+          100,
+          0,
+          0,
+          0,
+          0,
+          2248,
+          6
+        ]
+      },
+      {
+        "setBonusId": 19,
+        "bonusPairs": [
+          {
+            "attributeId": 2249,
+            "value": 150
+          },
+          {
+            "attributeId": 2244,
+            "value": 150
+          },
+          {
+            "attributeId": 2245,
+            "value": 150
+          },
+          {
+            "attributeId": 2248,
+            "value": 10
+          }
+        ],
+        "rawValues": [
+          19,
+          2249,
+          150,
+          2244,
+          150,
+          2245,
+          150,
+          0,
+          0,
+          0,
+          0,
+          2248,
+          10
+        ]
+      },
+      {
+        "setBonusId": 20,
+        "bonusPairs": [
+          {
+            "attributeId": 2253,
+            "value": 100
+          },
+          {
+            "attributeId": 2244,
+            "value": 135
+          },
+          {
+            "attributeId": 2245,
+            "value": 135
+          },
+          {
+            "attributeId": 2248,
+            "value": 10
+          }
+        ],
+        "rawValues": [
+          20,
+          2253,
+          100,
+          2244,
+          135,
+          2245,
+          135,
+          0,
+          0,
+          0,
+          0,
+          2248,
+          10
+        ]
+      },
+      {
+        "setBonusId": 21,
+        "bonusPairs": [
+          {
+            "attributeId": 2250,
+            "value": 600
+          },
+          {
+            "attributeId": 2251,
+            "value": 600
+          },
+          {
+            "attributeId": 2252,
+            "value": 1000
+          },
+          {
+            "attributeId": 2254,
+            "value": 40
+          }
+        ],
+        "rawValues": [
+          21,
+          2250,
+          600,
+          2251,
+          600,
+          2252,
+          1000,
+          0,
+          0,
+          0,
+          0,
+          2254,
+          40
+        ]
+      },
+      {
+        "setBonusId": 22,
+        "bonusPairs": [
+          {
+            "attributeId": 2249,
+            "value": 150
+          },
+          {
+            "attributeId": 2246,
+            "value": 150
+          },
+          {
+            "attributeId": 2247,
+            "value": 150
+          },
+          {
+            "attributeId": 2248,
+            "value": 10
+          }
+        ],
+        "rawValues": [
+          22,
+          2249,
+          150,
+          2246,
+          150,
+          2247,
+          150,
+          0,
+          0,
+          0,
+          0,
+          2248,
+          10
+        ]
+      }
+    ]
+  },
+  "wash": {
+    "sourceFile": "/home/nikon/projects/zo-server/data/client-derived/archive/000007e5__xishou.txt",
+    "header": {
+      "format": "goldcool",
+      "rowCount": 23,
+      "columnCount": 5
+    },
+    "count": 23,
+    "entries": [
+      {
+        "rowId": 0,
+        "tierField": 0,
+        "costField": 10000,
+        "rateField": 8400,
+        "valueField": 84,
+        "rawValues": [
+          0,
+          0,
+          10000,
+          8400,
+          84
+        ]
+      },
+      {
+        "rowId": 1,
+        "tierField": 0,
+        "costField": 20000,
+        "rateField": 8400,
+        "valueField": 84,
+        "rawValues": [
+          1,
+          0,
+          20000,
+          8400,
+          84
+        ]
+      },
+      {
+        "rowId": 2,
+        "tierField": 0,
+        "costField": 40000,
+        "rateField": 8400,
+        "valueField": 84,
+        "rawValues": [
+          2,
+          0,
+          40000,
+          8400,
+          84
+        ]
+      },
+      {
+        "rowId": 3,
+        "tierField": 1,
+        "costField": 100000,
+        "rateField": 8400,
+        "valueField": 84,
+        "rawValues": [
+          3,
+          1,
+          100000,
+          8400,
+          84
+        ]
+      },
+      {
+        "rowId": 4,
+        "tierField": 1,
+        "costField": 150000,
+        "rateField": 8400,
+        "valueField": 120,
+        "rawValues": [
+          4,
+          1,
+          150000,
+          8400,
+          120
+        ]
+      },
+      {
+        "rowId": 5,
+        "tierField": 1,
+        "costField": 200000,
+        "rateField": 8400,
+        "valueField": 168,
+        "rawValues": [
+          5,
+          1,
+          200000,
+          8400,
+          168
+        ]
+      },
+      {
+        "rowId": 6,
+        "tierField": 2,
+        "costField": 300000,
+        "rateField": 8400,
+        "valueField": 240,
+        "rawValues": [
+          6,
+          2,
+          300000,
+          8400,
+          240
+        ]
+      },
+      {
+        "rowId": 7,
+        "tierField": 2,
+        "costField": 500000,
+        "rateField": 8400,
+        "valueField": 300,
+        "rawValues": [
+          7,
+          2,
+          500000,
+          8400,
+          300
+        ]
+      },
+      {
+        "rowId": 8,
+        "tierField": 2,
+        "costField": 1000000,
+        "rateField": 8400,
+        "valueField": 336,
+        "rawValues": [
+          8,
+          2,
+          1000000,
+          8400,
+          336
+        ]
+      },
+      {
+        "rowId": 9,
+        "tierField": 3,
+        "costField": 1500000,
+        "rateField": 8400,
+        "valueField": 420,
+        "rawValues": [
+          9,
+          3,
+          1500000,
+          8400,
+          420
+        ]
+      },
+      {
+        "rowId": 10,
+        "tierField": 3,
+        "costField": 2000000,
+        "rateField": 8400,
+        "valueField": 560,
+        "rawValues": [
+          10,
+          3,
+          2000000,
+          8400,
+          560
+        ]
+      },
+      {
+        "rowId": 11,
+        "tierField": 3,
+        "costField": 2500000,
+        "rateField": 8400,
+        "valueField": 1050,
+        "rawValues": [
+          11,
+          3,
+          2500000,
+          8400,
+          1050
+        ]
+      },
+      {
+        "rowId": 12,
+        "tierField": 4,
+        "costField": 3000000,
+        "rateField": 8400,
+        "valueField": 1680,
+        "rawValues": [
+          12,
+          4,
+          3000000,
+          8400,
+          1680
+        ]
+      },
+      {
+        "rowId": 13,
+        "tierField": 4,
+        "costField": 3500000,
+        "rateField": 8400,
+        "valueField": 2800,
+        "rawValues": [
+          13,
+          4,
+          3500000,
+          8400,
+          2800
+        ]
+      },
+      {
+        "rowId": 14,
+        "tierField": 4,
+        "costField": 4000000,
+        "rateField": 8400,
+        "valueField": 5600,
+        "rawValues": [
+          14,
+          4,
+          4000000,
+          8400,
+          5600
+        ]
+      },
+      {
+        "rowId": 15,
+        "tierField": 4,
+        "costField": 4500000,
+        "rateField": 8400,
+        "valueField": 8400,
+        "rawValues": [
+          15,
+          4,
+          4500000,
+          8400,
+          8400
+        ]
+      },
+      {
+        "rowId": 16,
+        "tierField": 4,
+        "costField": 5000000,
+        "rateField": 8400,
+        "valueField": 11200,
+        "rawValues": [
+          16,
+          4,
+          5000000,
+          8400,
+          11200
+        ]
+      },
+      {
+        "rowId": 17,
+        "tierField": 4,
+        "costField": 5500000,
+        "rateField": 8400,
+        "valueField": 16800,
+        "rawValues": [
+          17,
+          4,
+          5500000,
+          8400,
+          16800
+        ]
+      },
+      {
+        "rowId": 18,
+        "tierField": 4,
+        "costField": 6000000,
+        "rateField": 8400,
+        "valueField": 22400,
+        "rawValues": [
+          18,
+          4,
+          6000000,
+          8400,
+          22400
+        ]
+      },
+      {
+        "rowId": 19,
+        "tierField": 4,
+        "costField": 6500000,
+        "rateField": 8400,
+        "valueField": 33600,
+        "rawValues": [
+          19,
+          4,
+          6500000,
+          8400,
+          33600
+        ]
+      },
+      {
+        "rowId": 20,
+        "tierField": 4,
+        "costField": 7000000,
+        "rateField": 8400,
+        "valueField": 56000,
+        "rawValues": [
+          20,
+          4,
+          7000000,
+          8400,
+          56000
+        ]
+      },
+      {
+        "rowId": 21,
+        "tierField": 4,
+        "costField": 7500000,
+        "rateField": 8400,
+        "valueField": 56000,
+        "rawValues": [
+          21,
+          4,
+          7500000,
+          8400,
+          56000
+        ]
+      },
+      {
+        "rowId": 22,
+        "tierField": 4,
+        "costField": 8000000,
+        "rateField": 8400,
+        "valueField": 56000,
+        "rawValues": [
+          22,
+          4,
+          8000000,
+          8400,
+          56000
+        ]
+      }
+    ]
+  }
+}

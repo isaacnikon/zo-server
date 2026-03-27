@@ -136,8 +136,10 @@ function buildEquipmentEnhancementWords(
     words[7] = Number.isInteger(attributePairs[1]?.value) ? (attributePairs[1]!.value & 0xffff) : 0;
   }
 
-  const itemSetId = Number.isInteger((definition as any).itemSetId) ? (((definition as any).itemSetId as number) & 0xffff) : 0;
-  words[10] = itemSetId;
+  const enhancementGrowthId = Number.isInteger((definition as any).enhancementGrowthId)
+    ? (((definition as any).enhancementGrowthId as number) & 0xffff)
+    : 0;
+  words[10] = enhancementGrowthId;
   return words;
 }
 

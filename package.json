@@ -8,6 +8,7 @@
     "start": "node dist/src/server.js",
     "dev": "tsc && node dist/src/server.js",
     "test": "tsc",
+    "generate:client-runtime-json": "python3 scripts/generate/generate-client-runtime-json.py",
     "reset:character": "tsc && node dist/scripts/reset-character.js"
   },
   "keywords": [],
