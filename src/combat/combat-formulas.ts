@@ -623,6 +623,24 @@ export function rollRangeDamage(min: number, max: number): number {
   return normalizedMin + Math.floor(Math.random() * Math.max(1, (normalizedMax - normalizedMin) + 1));
 }
 
+function resolveDerivedPlayerMagicAttackValues(session: GameSession): { min: number; max: number } {
+  const stats = session.primaryAttributes || {};
+  const equipment = getEquipmentCombatBonuses(session);
+  const intelligence = Math.max(0, Number(stats.intelligence) || 0);
+  const vitality = Math.max(0, Number(stats.vitality) || 0);
+  const dexterity = Math.max(0, Number(stats.dexterity) || 0);
+  const weaponMin = Math.max(0, Number(equipment.magicAttackMin) || 0);
+  const weaponMax = Math.max(weaponMin, Number(equipment.magicAttackMax) || weaponMin);
+
+  // MATK should remain attribute/equipment driven so spell damage stays aligned with the client tooltip basis.
+  const base = weaponMin + (intelligence * 2) + (vitality * 2) + dexterity;
+  const peak = weaponMax + (intelligence * 12) + (vitality * 5) + (dexterity * 2);
+  return {
+    min: Math.max(1, base),
+    max: Math.max(1, peak),
+  };
+}
+
 export function resolveDerivedPlayerCombatStats(session: GameSession): {
   defense: number;
   hit: number;
@@ -643,11 +661,9 @@ export function resolveDerivedPlayerCombatStats(session: GameSession): {
   const dodge = Math.max(1, Math.round((2878 / 3) + ((27 * dexterity) / 40) + (vitality / 36) + ((9 * intelligence) / 20)));
   const attackPower = Math.max(1, Math.round((490 / 3) + ((21 * dexterity) / 40) + (vitality / 18) + ((3 * intelligence) / 20)));
   const magicDefense = Math.max(1, Math.round(1212 + (dexterity / 4) + ((5 * vitality) / 12) + ((21 * intelligence) / 20)));
-  const magicAttackMin = Math.max(1, Math.round(478 + ((33 * dexterity) / 40) + ((3 * vitality) / 4) + ((13 * intelligence) / 10)));
-  const magicAttackMax = Math.max(
-    magicAttackMin,
-    Math.round((2744 / 3) + ((19 * dexterity) / 40) + ((17 * vitality) / 36) + ((21 * intelligence) / 20))
-  );
+  const magicAttackRange = resolveDerivedPlayerMagicAttackValues(session);
+  const magicAttackMin = magicAttackRange.min;
+  const magicAttackMax = magicAttackRange.max;
 
   return {
     defense,
