@@ -64,6 +64,8 @@ function resolveFieldCombatEnemyCount(
   session: GameSession,
   encounterPool: Array<Record<string, any>>
 ): { enemyCount: number; summary: Record<string, number> } {
+  const playerLevel = Math.max(1, Number(session.level) || 1);
+  const levelBasedMaxEnemies = clampNumber((Math.floor(playerLevel / 10) + 1) * 3, FIELD_COMBAT_MIN_ENEMIES, FIELD_COMBAT_MAX_ENEMIES);
   const poolSummary = summarizeEncounterPool(encounterPool);
   const averageEnemyLevel = Math.max(1, poolSummary.level);
   const averageEnemyHp = Math.max(1, poolSummary.hp);
@@ -93,7 +95,7 @@ function resolveFieldCombatEnemyCount(
   const currentHealth = Math.max(1, Number(session.currentHealth) || 1);
   const maxHealth = Math.max(currentHealth, Number(session.maxHealth) || currentHealth);
   const effectiveHealth = Math.max(1, Math.round((currentHealth * 0.8) + (maxHealth * 0.2)));
-  const levelAdvantageFactor = clampNumber(1 + ((Math.max(1, session.level || 1) - averageEnemyLevel) * 0.08), 0.55, 1.75);
+  const levelAdvantageFactor = clampNumber(1 + ((playerLevel - averageEnemyLevel) * 0.08), 0.55, 1.75);
   const combatCapacity =
     (effectiveHealth * playerDamagePerRound * levelAdvantageFactor * 0.9) /
     Math.max(1, enemyDamagePerRound * averageEnemyHp);
@@ -101,12 +103,14 @@ function resolveFieldCombatEnemyCount(
   const enemyCount = clampNumber(
     Math.floor((Math.sqrt(1 + (8 * Math.max(0.5, combatCapacity))) - 1) / 2),
     FIELD_COMBAT_MIN_ENEMIES,
-    FIELD_COMBAT_MAX_ENEMIES
+    levelBasedMaxEnemies
   );
 
   return {
     enemyCount,
     summary: {
+      playerLevel,
+      levelBasedMaxEnemies,
       averageEnemyLevel,
       averageEnemyHp,
       averageEnemyAptitude,

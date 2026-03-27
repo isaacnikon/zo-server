@@ -36,16 +36,12 @@ export function resolveCharacterMaxVitals(input: UnknownRecord | null | undefine
   const explicitHealth = Math.max(
     0,
     numberOrDefault(input?.maxHealth, 0),
-    numberOrDefault(input?.maxHp, 0),
-    numberOrDefault(input?.currentHealth, 0),
-    numberOrDefault(input?.hp, 0)
+    numberOrDefault(input?.maxHp, 0)
   );
   const explicitMana = Math.max(
     0,
     numberOrDefault(input?.maxMana, 0),
-    numberOrDefault(input?.maxMp, 0),
-    numberOrDefault(input?.currentMana, 0),
-    numberOrDefault(input?.mp, 0)
+    numberOrDefault(input?.maxMp, 0)
   );
 
   const strength = stats.strength + bonuses.strength + baseAttributes.strength;

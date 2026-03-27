@@ -125,6 +125,36 @@ function getRequiredItems(step: ReturnType<typeof getCurrentStep>): GrantedItem[
     : [];
 }
 
+function getTurnInRequiredItems(step: ReturnType<typeof getCurrentStep>): GrantedItem[] {
+  const objectiveItems = getRequiredItems(step);
+  if (objectiveItems.length > 0) {
+    return objectiveItems;
+  }
+  return (Array.isArray(step?.actions) ? step.actions : [])
+    .filter((action) => action?.kind === 'consume-item' && action.item)
+    .map((action) => action.item!) as GrantedItem[];
+}
+
+function getOwnedQuestItemQuantity(
+  item: GrantedItem,
+  getItemQuantity?: (templateId: number) => number,
+  matchItemRequirement?: (item: GrantedItem) => number
+): number {
+  return typeof matchItemRequirement === 'function'
+    ? Math.max(0, numberOrDefault(matchItemRequirement(item), 0))
+    : typeof getItemQuantity === 'function'
+    ? Math.max(0, numberOrDefault(getItemQuantity(item.templateId >>> 0), 0))
+    : 0;
+}
+
+function hasRequiredQuestItems(
+  items: GrantedItem[],
+  getItemQuantity?: (templateId: number) => number,
+  matchItemRequirement?: (item: GrantedItem) => number
+): boolean {
+  return items.every((item) => getOwnedQuestItemQuantity(item, getItemQuantity, matchItemRequirement) >= Math.max(1, numberOrDefault(item.quantity, 1)));
+}
+
 function objectiveRequiresNpcTurnIn(objective: ReturnType<typeof getCurrentObjective>): boolean {
   if (!objective) {
     return false;
@@ -284,9 +314,40 @@ function interactWithNpc(
       definition &&
       step &&
       objectiveRequiresNpcTurnIn(objective) &&
-      numberOrDefault(objective?.handInNpcId, numberOrDefault(ui?.overNpcId, 0)) === (npcId >>> 0) &&
-      objectiveProgress >= objectiveTargetCount
+      numberOrDefault(objective?.handInNpcId, numberOrDefault(ui?.overNpcId, 0)) === (npcId >>> 0)
     ) {
+      const turnInRequiredItems = getTurnInRequiredItems(step);
+      const hasTurnInItems = hasRequiredQuestItems(turnInRequiredItems, getItemQuantity, matchItemRequirement);
+      const canTurnInByProgress = objectiveProgress >= objectiveTargetCount;
+      const canTurnIn =
+        objective?.kind === 'item-collect'
+          ? hasTurnInItems
+          : canTurnInByProgress;
+      if (!canTurnIn) {
+        continue;
+      }
+      if (objective?.kind === 'item-collect' && hasTurnInItems && !canTurnInByProgress) {
+        record.progress = {
+          ...cloneProgress(record.progress),
+          [objective.progressKey]: objectiveTargetCount,
+        };
+      }
+      for (const item of turnInRequiredItems) {
+        const quantity = Math.max(1, numberOrDefault(item.quantity, 1));
+        const ownedQuantity = getOwnedQuestItemQuantity(item, getItemQuantity, matchItemRequirement);
+        if (ownedQuantity < quantity) {
+          events.push({
+            type: 'item-missing',
+            taskId: definition.id,
+            definition,
+            templateId: item.templateId >>> 0,
+            quantity,
+            itemName: item.name || '',
+            reason: 'turn-in-missing-item',
+          });
+          return events;
+        }
+      }
       appendStepActionEvents(events, definition, step.actions, `${objective!.kind}-turn-in`);
       advanceQuest(state, record, definition, events, 'kill-turn-in');
       return events;

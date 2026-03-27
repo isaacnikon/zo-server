@@ -13,11 +13,35 @@ export const CAPTURE_ELEMENT_CODE_MAX = 4;
 export const FIGHT_CLIENT_SKILL_USE_SUBCMD = 0x04;
 export const SKILL_PACKET_TRACE_PATH = resolve(process.cwd(), 'data/runtime/skill-packet-trace.jsonl');
 export const ENERVATE_SKILL_ID = 1101;
+export const BLEED_SKILL_ID = 1103;
+export const BLOOD_DRAIN_SKILL_ID = 1402;
+export const CONFUSE_SKILL_ID = 1203;
+export const UTMOST_STRIKE_SKILL_ID = 1301;
 export const SLAUGHTER_SKILL_ID = 1403;
 export const DEFIANT_SKILL_ID = 3103;
+export const SLOW_DOWN_SKILL_ID = 2401;
+export const CONCEAL_SKILL_ID = 2303;
+export const PUZZLE_SKILL_ID = 2202;
+export const DEDICATE_SKILL_ID = 2301;
+export const DISPEL_SKILL_ID = 3303;
+export const SOUL_FIRE_SKILL_ID = 3202;
+export const LIONS_ROAR_SKILL_ID = 3203;
+export const PET_HEALING_SKILL_ID = 3101;
+export const DIVINE_BLESS_SKILL_ID = 3301;
+export const REVIVE_SKILL_ID = 3302;
+export const HASTE_SKILL_ID = 3401;
+export const STUN_SKILL_ID = 3402;
+export const SACRIFICE_SKILL_ID = 3403;
 export const COUNTERATTACK_SKILL_ID = 2203;
 export const FIREBALL_SKILL_ID = 4101;
+export const FROST_BOLT_SKILL_ID = 4102;
 export const CURE_SKILL_ID = 4103;
+export const REGENERATE_SKILL_ID = 4201;
+export const CRASH_SKILL_ID = 4203;
+export const SEAL_SKILL_ID = 4301;
+export const HYPNOSIS_SKILL_ID = 4302;
+export const BLIZZARD_SKILL_ID = 4402;
+export const GOSPEL_SKILL_ID = 4403;
 export const DEFIANT_DEFENSE_BONUS_BY_LEVEL = [20, 20, 20, 20, 20, 30, 32, 34, 36, 48, 75, 75];
 export const ENERVATE_DAMAGE_SCALE_MIN_BY_LEVEL = [1.12, 1.122, 1.124, 1.126, 1.128, 1.13, 1.132, 1.134, 1.136, 1.138, 1.16, 1.2];
 export const ENERVATE_DAMAGE_SCALE_MAX_BY_LEVEL = [1.13, 1.132, 1.134, 1.136, 1.138, 1.14, 1.142, 1.144, 1.146, 1.148, 1.18, 1.22];
@@ -598,23 +622,26 @@ export function readExplicitCharacterAttackRange(session: GameSession): { min: n
 
 export function resolvePlayerAttackRange(session: GameSession): { min: number; max: number } {
   const explicitRange = readExplicitCharacterAttackRange(session);
-  if (explicitRange) {
-    return explicitRange;
+  let base = explicitRange?.min || 0;
+  let peak = explicitRange?.max || 0;
+  if (!explicitRange) {
+    const stats = session.primaryAttributes || {};
+    const equipment = getEquipmentCombatBonuses(session);
+    const weaponMin = Math.max(0, equipment.attackMin || 0);
+    const weaponMax = Math.max(weaponMin, equipment.attackMax || weaponMin);
+    const strength = Math.max(0, stats.strength || 0);
+    const dexterity = Math.max(0, stats.dexterity || 0);
+    const level = Math.max(1, session.level || 1);
+    // This range tracks the client-facing ATK panel more closely than per-hit combat roll math.
+    base = weaponMin + (strength * 4) + level;
+    const spread = Math.max(1, (weaponMax - weaponMin) + Math.floor(dexterity / 6));
+    peak = base + spread;
   }
-  const stats = session.primaryAttributes || {};
-  const equipment = getEquipmentCombatBonuses(session);
-  const weaponMin = Math.max(0, equipment.attackMin || 0);
-  const weaponMax = Math.max(weaponMin, equipment.attackMax || weaponMin);
-  const strength = Math.max(0, stats.strength || 0);
-  const dexterity = Math.max(0, stats.dexterity || 0);
-  const level = Math.max(1, session.level || 1);
-  // This range tracks the client-facing ATK panel more closely than per-hit combat roll math.
-  const base = weaponMin + (strength * 4) + level;
-  const spread = Math.max(1, (weaponMax - weaponMin) + Math.floor(dexterity / 6));
+  const attackBonusPercent = Math.max(0, Math.min(120, session.combatState?.playerStatus?.lionsRoarAttackBonusPercent || 0));
   const defiantPenalty = Math.max(0, Math.min(90, session.combatState?.playerStatus?.defiantAttackPenaltyPercent || 0));
-  const adjustedBase = Math.max(1, Math.round(base * (1 - (defiantPenalty / 100))));
+  const adjustedBase = Math.max(1, Math.round(base * (1 + (attackBonusPercent / 100)) * (1 - (defiantPenalty / 100))));
   const adjustedMin = adjustedBase;
-  const adjustedMax = Math.max(adjustedMin, adjustedBase + spread);
+  const adjustedMax = Math.max(adjustedMin, Math.round(peak * (1 + (attackBonusPercent / 100)) * (1 - (defiantPenalty / 100))));
   return { min: adjustedMin, max: adjustedMax };
 }
 
@@ -657,14 +684,19 @@ export function resolveDerivedPlayerCombatStats(session: GameSession): {
   const intelligence = Math.max(0, Number(stats.intelligence) || 0);
 
   // These coefficients were fit against the client panel snapshots for the current class/build.
-  const defense = Math.max(1, Math.round((4325 / 3) + ((31 * dexterity) / 40) + ((19 * vitality) / 18) + ((3 * intelligence) / 20)));
+  const lionsRoarDefenseBonus = Math.max(0, Math.min(120, session.combatState?.playerStatus?.lionsRoarDefenseBonusPercent || 0));
+  const divineBlessMagicAttackBonus = Math.max(0, Math.min(120, session.combatState?.playerStatus?.divineBlessMagicAttackBonusPercent || 0));
+  const divineBlessMagicDefenseBonus = Math.max(0, Math.min(120, session.combatState?.playerStatus?.divineBlessMagicDefenseBonusPercent || 0));
+  const defenseBase = Math.max(1, Math.round((4325 / 3) + ((31 * dexterity) / 40) + ((19 * vitality) / 18) + ((3 * intelligence) / 20)));
+  const defense = Math.max(1, Math.round(defenseBase * (1 + (lionsRoarDefenseBonus / 100))));
   const hit = Math.max(1, Math.round((940 / 3) + (dexterity / 4) - (vitality / 18) + ((3 * intelligence) / 20)));
   const dodge = Math.max(1, Math.round((2878 / 3) + ((27 * dexterity) / 40) + (vitality / 36) + ((9 * intelligence) / 20)));
   const attackPower = Math.max(1, Math.round((490 / 3) + ((21 * dexterity) / 40) + (vitality / 18) + ((3 * intelligence) / 20)));
-  const magicDefense = Math.max(1, Math.round(1212 + (dexterity / 4) + ((5 * vitality) / 12) + ((21 * intelligence) / 20)));
+  const magicDefenseBase = Math.max(1, Math.round(1212 + (dexterity / 4) + ((5 * vitality) / 12) + ((21 * intelligence) / 20)));
+  const magicDefense = Math.max(1, Math.round(magicDefenseBase * (1 + (divineBlessMagicDefenseBonus / 100))));
   const magicAttackRange = resolveDerivedPlayerMagicAttackValues(session);
-  const magicAttackMin = magicAttackRange.min;
-  const magicAttackMax = magicAttackRange.max;
+  const magicAttackMin = Math.max(1, Math.round(magicAttackRange.min * (1 + (divineBlessMagicAttackBonus / 100))));
+  const magicAttackMax = Math.max(magicAttackMin, Math.round(magicAttackRange.max * (1 + (divineBlessMagicAttackBonus / 100))));
 
   return {
     defense,
@@ -788,6 +820,100 @@ export function resolveEnervateAttackPenalty(skillLevel: number): number {
   return Math.min(40, 18 + ((Math.max(1, skillLevel) - 1) * 2));
 }
 
+export function resolvePuzzleManaCostReduction(skillLevel: number): number {
+  const normalizedLevel = Math.max(1, Math.min(12, skillLevel | 0));
+  return Math.min(45, 14 + (normalizedLevel * 2));
+}
+
+export function resolveBleedDuration(skillLevel: number): number {
+  if (skillLevel >= 10) {
+    return 4;
+  }
+  if (skillLevel >= 6) {
+    return 3;
+  }
+  return 2;
+}
+
+export function resolveBleedDamagePerRound(session: GameSession, skillLevel: number): number {
+  const attackRange = resolvePlayerAttackRange(session);
+  const averageAttack = Math.max(1, Math.round((attackRange.min + attackRange.max) / 2));
+  return Math.max(1, Math.round((averageAttack * 0.3) + (skillLevel * 6)));
+}
+
+export function resolveConcealDuration(skillLevel: number): number {
+  if (skillLevel >= 11) {
+    return 5;
+  }
+  if (skillLevel >= 6) {
+    return 3;
+  }
+  return 2;
+}
+
+export function resolveLionRoarDuration(skillLevel: number): number {
+  if (skillLevel >= 12) {
+    return 3;
+  }
+  if (skillLevel >= 9) {
+    return 2;
+  }
+  return 1;
+}
+
+export function resolveLionRoarAttackBonus(skillLevel: number): number {
+  return Math.min(45, 10 + (Math.max(1, skillLevel) * 2));
+}
+
+export function resolveLionRoarDefenseBonus(skillLevel: number): number {
+  return Math.min(55, 14 + (Math.max(1, skillLevel) * 2));
+}
+
+export function resolveDivineBlessDuration(skillLevel: number): number {
+  if (skillLevel >= 12) {
+    return 3;
+  }
+  if (skillLevel >= 9) {
+    return 2;
+  }
+  return 1;
+}
+
+export function resolveDivineBlessMagicAttackBonus(skillLevel: number): number {
+  return Math.min(50, 12 + (Math.max(1, skillLevel) * 2));
+}
+
+export function resolveDivineBlessMagicDefenseBonus(skillLevel: number): number {
+  return Math.min(50, 10 + (Math.max(1, skillLevel) * 2));
+}
+
+export function resolveHasteDuration(skillLevel: number): number {
+  return skillLevel >= 8 ? 2 : 1;
+}
+
+export function resolveRegenerateDuration(): number {
+  return 3;
+}
+
+export function resolveRegenerateHealAmount(session: GameSession, skillLevel: number): number {
+  const magicRange = resolvePlayerMagicAttackRange(session);
+  return Math.max(1, Math.round((magicRange.min * 0.4) + (skillLevel * 8)));
+}
+
+export function resolveGospelDuration(): number {
+  return 2;
+}
+
+export function resolveGospelHealAmount(session: GameSession, skillLevel: number): number {
+  const magicRange = resolvePlayerMagicAttackRange(session);
+  return Math.max(1, Math.round((magicRange.min * 0.55) + (skillLevel * 10)));
+}
+
+export function resolveBloodDrainHealAmount(skillLevel: number, appliedDamage: number): number {
+  const drainScale = 0.45 + (Math.max(1, skillLevel) * 0.03);
+  return Math.max(1, Math.round(appliedDamage * drainScale));
+}
+
 export function resolvePlayerMagicAttackRange(session: GameSession): { min: number; max: number } {
   const derived = resolveDerivedPlayerCombatStats(session);
   return {
@@ -806,16 +932,87 @@ export function tickCombatStatuses(session: GameSession): void {
       delete nextPlayerStatus.defiantAttackPenaltyPercent;
     }
   }
+  if ((nextPlayerStatus.lionsRoarRoundsRemaining || 0) > 0) {
+    nextPlayerStatus.lionsRoarRoundsRemaining = Math.max(0, (nextPlayerStatus.lionsRoarRoundsRemaining || 0) - 1);
+    if ((nextPlayerStatus.lionsRoarRoundsRemaining || 0) <= 0) {
+      delete nextPlayerStatus.lionsRoarRoundsRemaining;
+      delete nextPlayerStatus.lionsRoarAttackBonusPercent;
+      delete nextPlayerStatus.lionsRoarDefenseBonusPercent;
+    }
+  }
+  if ((nextPlayerStatus.divineBlessRoundsRemaining || 0) > 0) {
+    nextPlayerStatus.divineBlessRoundsRemaining = Math.max(0, (nextPlayerStatus.divineBlessRoundsRemaining || 0) - 1);
+    if ((nextPlayerStatus.divineBlessRoundsRemaining || 0) <= 0) {
+      delete nextPlayerStatus.divineBlessRoundsRemaining;
+      delete nextPlayerStatus.divineBlessMagicAttackBonusPercent;
+      delete nextPlayerStatus.divineBlessMagicDefenseBonusPercent;
+    }
+  }
+  if ((nextPlayerStatus.hasteRoundsRemaining || 0) > 0) {
+    nextPlayerStatus.hasteRoundsRemaining = Math.max(0, (nextPlayerStatus.hasteRoundsRemaining || 0) - 1);
+    if ((nextPlayerStatus.hasteRoundsRemaining || 0) <= 0) {
+      delete nextPlayerStatus.hasteRoundsRemaining;
+    }
+  }
+  if ((nextPlayerStatus.puzzleRoundsRemaining || 0) > 0) {
+    nextPlayerStatus.puzzleRoundsRemaining = Math.max(0, (nextPlayerStatus.puzzleRoundsRemaining || 0) - 1);
+    if ((nextPlayerStatus.puzzleRoundsRemaining || 0) <= 0) {
+      delete nextPlayerStatus.puzzleRoundsRemaining;
+      delete nextPlayerStatus.puzzleManaCostReductionPercent;
+    }
+  }
+  if ((nextPlayerStatus.concealRoundsRemaining || 0) > 0) {
+    nextPlayerStatus.concealRoundsRemaining = Math.max(0, (nextPlayerStatus.concealRoundsRemaining || 0) - 1);
+    if ((nextPlayerStatus.concealRoundsRemaining || 0) <= 0) {
+      delete nextPlayerStatus.concealRoundsRemaining;
+    }
+  }
+  if ((nextPlayerStatus.regenerateRoundsRemaining || 0) > 0) {
+    const healAmount = Math.max(0, Number(nextPlayerStatus.regenerateHealAmount) || 0);
+    if (healAmount > 0) {
+      const maxHealth = Math.max(1, Number(session.maxHealth) || 1);
+      session.currentHealth = Math.max(0, Math.min(maxHealth, (session.currentHealth || 0) + healAmount));
+    }
+    nextPlayerStatus.regenerateRoundsRemaining = Math.max(0, (nextPlayerStatus.regenerateRoundsRemaining || 0) - 1);
+    if ((nextPlayerStatus.regenerateRoundsRemaining || 0) <= 0) {
+      delete nextPlayerStatus.regenerateRoundsRemaining;
+      delete nextPlayerStatus.regenerateHealAmount;
+    }
+  }
   session.combatState.playerStatus = nextPlayerStatus;
 
   const nextEnemyStatuses: Record<number, Record<string, any>> = {};
   for (const [rawEntityId, status] of Object.entries(session.combatState?.enemyStatuses || {})) {
+    const enemyEntityId = Number(rawEntityId) >>> 0;
+    const enemy = Array.isArray(session.combatState?.enemies)
+      ? session.combatState.enemies.find((entry) => (entry?.entityId >>> 0) === enemyEntityId)
+      : null;
     const nextStatus: Record<string, any> = { ...(status || {}) };
+    if ((nextStatus.bleedRoundsRemaining || 0) > 0 && enemy && (enemy.hp || 0) > 0) {
+      const bleedDamage = Math.max(1, Number(nextStatus.bleedDamagePerRound) || 1);
+      enemy.hp = Math.max(0, (enemy.hp || 0) - bleedDamage);
+      nextStatus.bleedRoundsRemaining = Math.max(0, (nextStatus.bleedRoundsRemaining || 0) - 1);
+      if ((nextStatus.bleedRoundsRemaining || 0) <= 0) {
+        delete nextStatus.bleedRoundsRemaining;
+        delete nextStatus.bleedDamagePerRound;
+      }
+    }
     if ((nextStatus.enervateRoundsRemaining || 0) > 0) {
       nextStatus.enervateRoundsRemaining = Math.max(0, (nextStatus.enervateRoundsRemaining || 0) - 1);
     }
-    if ((nextStatus.enervateRoundsRemaining || 0) > 0) {
-      nextEnemyStatuses[Number(rawEntityId) >>> 0] = nextStatus;
+    if ((nextStatus.actionDisabledRoundsRemaining || 0) > 0) {
+      nextStatus.actionDisabledRoundsRemaining = Math.max(0, (nextStatus.actionDisabledRoundsRemaining || 0) - 1);
+      if ((nextStatus.actionDisabledRoundsRemaining || 0) <= 0) {
+        delete nextStatus.actionDisabledRoundsRemaining;
+        delete nextStatus.actionDisabledReason;
+      }
+    }
+    if (
+      (nextStatus.enervateRoundsRemaining || 0) > 0 ||
+      (nextStatus.actionDisabledRoundsRemaining || 0) > 0 ||
+      (nextStatus.bleedRoundsRemaining || 0) > 0
+    ) {
+      nextEnemyStatuses[enemyEntityId] = nextStatus;
     }
   }
   session.combatState.enemyStatuses = nextEnemyStatuses;

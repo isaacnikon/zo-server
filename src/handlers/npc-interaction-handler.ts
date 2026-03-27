@@ -14,7 +14,7 @@ import {
 } from '../quest-engine/index.js';
 import { buildNpcShopOpenPacket } from '../protocol/gameplay-packets.js';
 import { resolveRepoPath } from '../runtime-paths.js';
-import { resolveInnRestVitals } from '../gameplay/session-flows.js';
+import { recomputeSessionMaxVitals, resolveInnRestVitals } from '../gameplay/session-flows.js';
 import { sendSelfStateValueUpdate, sendSelfStateVitalsUpdate } from '../gameplay/stat-sync.js';
 import { buildEncounterPoolEntry } from '../roleinfo/index.js';
 import { grantSkill, sendSkillStateSync } from '../gameplay/skill-runtime.js';
@@ -451,6 +451,7 @@ function handleInnRestRequest(session: GameSession, npcId: number, request: Serv
     return true;
   }
 
+  recomputeSessionMaxVitals(session);
   const nextVitals = resolveInnRestVitals(session);
   session.coins = currentCoins - price;
   session.currentHealth = nextVitals.health;

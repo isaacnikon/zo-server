@@ -205,6 +205,9 @@ export function normalizeCharacterRecord(character: UnknownRecord): UnknownRecor
   const inventoryState = normalizeInventoryState(character);
   const bonusAttributes = normalizeBonusAttributes(character.bonusAttributes);
   const skillState = normalizeSkillState(character.skillState);
+  const currentHealth = numberOrDefault(character.currentHealth, CHARACTER_VITALS_BASELINE.health);
+  const currentMana = numberOrDefault(character.currentMana, CHARACTER_VITALS_BASELINE.mana);
+  const currentRage = numberOrDefault(character.currentRage, 100);
   const maxVitals = resolveCharacterMaxVitals({
     roleEntityType: numberOrDefault(
       character.roleEntityType,
@@ -215,13 +218,16 @@ export function normalizeCharacterRecord(character: UnknownRecord): UnknownRecor
     level: numberOrDefault(character.level, 1),
     primaryAttributes: normalizePrimaryAttributes(character.primaryAttributes),
     bonusAttributes,
-    currentHealth: numberOrDefault(character.currentHealth, CHARACTER_VITALS_BASELINE.health),
-    currentMana: numberOrDefault(character.currentMana, CHARACTER_VITALS_BASELINE.mana),
-    currentRage: numberOrDefault(character.currentRage, 100),
+    currentHealth,
+    currentMana,
+    currentRage,
     maxHealth: numberOrDefault(character.maxHealth, 0),
     maxMana: numberOrDefault(character.maxMana, 0),
     maxRage: numberOrDefault(character.maxRage, 0),
   });
+  const clampedHealth = Math.max(0, Math.min(currentHealth, maxVitals.health));
+  const clampedMana = Math.max(0, Math.min(currentMana, maxVitals.mana));
+  const clampedRage = Math.max(0, Math.min(currentRage, maxVitals.rage));
   return {
     ...character,
     charName: character.charName || character.roleName || 'Hero',
@@ -232,9 +238,9 @@ export function normalizeCharacterRecord(character: UnknownRecord): UnknownRecor
     level: numberOrDefault(character.level, 1),
     selectedAptitude: numberOrDefault(character.selectedAptitude, 0),
     experience: numberOrDefault(character.experience, 0),
-    currentHealth: numberOrDefault(character.currentHealth, CHARACTER_VITALS_BASELINE.health),
-    currentMana: numberOrDefault(character.currentMana, CHARACTER_VITALS_BASELINE.mana),
-    currentRage: numberOrDefault(character.currentRage, 100),
+    currentHealth: clampedHealth,
+    currentMana: clampedMana,
+    currentRage: clampedRage,
     maxHealth: maxVitals.health,
     maxMana: maxVitals.mana,
     maxRage: maxVitals.rage,

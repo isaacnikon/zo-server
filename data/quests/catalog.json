@@ -8965,13 +8965,7 @@
         355
       ],
       "exclusiveTaskIds": [],
-      "acceptGrantItems": [
-        {
-          "templateId": 21109,
-          "quantity": 1,
-          "name": "Boar Meat"
-        }
-      ],
+      "acceptGrantItems": [],
       "nextQuestId": null,
       "rewards": {
         "gold": 1550,
@@ -8997,15 +8991,15 @@
           "id": 1,
           "mapId": 102,
           "description": "Gather some \"Boar Meat\" for the baby wolves.",
-          "completionDescription": "",
+          "completionDescription": "Return to \"Injured Wolf\" with enough \"Boar Meat\"",
           "objective": {
-            "kind": "npc-interaction",
-            "triggerEvent": "npc-interact",
+            "kind": "item-collect",
+            "triggerEvent": "monster-defeat",
             "targetNpcId": 3174,
-            "targetMonsterId": 0,
+            "targetMonsterId": 5003,
             "targetCount": 1,
             "handInNpcId": 3174,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21109,
@@ -9015,7 +9009,11 @@
             ],
             "requiredProgressFlag": "",
             "progressKey": "count",
-            "grantItem": null,
+            "grantItem": {
+              "templateId": 21109,
+              "quantity": 1,
+              "name": "Boar Meat"
+            },
             "escortNpcId": 0
           },
           "actions": [
@@ -9024,13 +9022,13 @@
               "item": {
                 "templateId": 21109,
                 "quantity": 3,
-                "name": ""
+                "name": "Boar Meat"
               }
             }
           ],
           "tracker": {
             "status": 1,
-            "progressObjectiveId": 0,
+            "progressObjectiveId": 5003,
             "markerNpcId": 3174
           },
           "ui": {

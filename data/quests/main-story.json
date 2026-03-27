@@ -3698,13 +3698,7 @@
       "prerequisiteTaskIds": [
         355
       ],
-      "acceptGrantItems": [
-        {
-          "templateId": 21109,
-          "quantity": 1,
-          "name": "Boar Meat"
-        }
-      ],
+      "acceptGrantItems": [],
       "rewards": {
         "gold": 1550,
         "experience": 0,

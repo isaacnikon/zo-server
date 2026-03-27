@@ -6,6 +6,7 @@ import { canEquipItem, getBagItemByReference, getItemDefinition, removeBagItemBy
 import { sendConsumeResultPackets, sendEquipmentContainerSync, sendInventoryFullSync, } from '../gameplay/inventory-runtime.js';
 import { consumeUsableItemByInstanceId } from '../gameplay/item-use-runtime.js';
 import { sendSkillStateSync } from '../gameplay/skill-runtime.js';
+import { sendSelfStateVitalsUpdate } from '../gameplay/stat-sync.js';
 import { normalizePrimaryAttributes } from '../character/normalize.js';
 import { recomputeSessionMaxVitals } from '../gameplay/session-flows.js';
 import { sendPetStateSync } from './pet-handler.js';
@@ -151,13 +152,29 @@ export function tryHandleClientMaxVitalsSyncPacket(
 
   const maxHealth = Math.max(1, vitals.maxHealth >>> 0);
   const maxMana = Math.max(0, vitals.maxMana >>> 0);
-  session.maxHealth = Math.max(session.currentHealth || 0, maxHealth);
-  session.maxMana = Math.max(session.currentMana || 0, maxMana);
+  session.maxHealth = maxHealth;
+  session.maxMana = maxMana;
+  const clampedHealth = Math.max(0, Math.min(Math.max(0, session.currentHealth || 0), session.maxHealth));
+  const clampedMana = Math.max(0, Math.min(Math.max(0, session.currentMana || 0), session.maxMana));
+  const clampedVitals =
+    clampedHealth !== Math.max(0, session.currentHealth || 0) ||
+    clampedMana !== Math.max(0, session.currentMana || 0);
+  session.currentHealth = clampedHealth;
+  session.currentMana = clampedMana;
 
   session.persistCurrentCharacter({
+    currentHealth: session.currentHealth,
+    currentMana: session.currentMana,
     maxHealth: session.maxHealth,
     maxMana: session.maxMana,
   });
+  if (clampedVitals) {
+    sendSelfStateVitalsUpdate(session, {
+      health: session.currentHealth,
+      mana: session.currentMana,
+      rage: Math.max(0, session.currentRage || 0),
+    });
+  }
   session.log(
     `Client max-vitals sync sub=0x2f hp=${session.maxHealth} mp=${session.maxMana} current=${session.currentHealth}/${session.currentMana}`
   );

@@ -317,10 +317,26 @@ export interface CombatPlayerStatus {
   defiantRoundsRemaining?: number;
   defiantDefenseBonusPercent?: number;
   defiantAttackPenaltyPercent?: number;
+  lionsRoarRoundsRemaining?: number;
+  lionsRoarAttackBonusPercent?: number;
+  lionsRoarDefenseBonusPercent?: number;
+  divineBlessRoundsRemaining?: number;
+  divineBlessMagicAttackBonusPercent?: number;
+  divineBlessMagicDefenseBonusPercent?: number;
+  hasteRoundsRemaining?: number;
+  puzzleRoundsRemaining?: number;
+  puzzleManaCostReductionPercent?: number;
+  concealRoundsRemaining?: number;
+  regenerateRoundsRemaining?: number;
+  regenerateHealAmount?: number;
 }
 export interface CombatEnemyStatus {
   enervateRoundsRemaining?: number;
   enervateAttackPenaltyPercent?: number;
+  actionDisabledRoundsRemaining?: number;
+  actionDisabledReason?: 'confuse' | 'freeze' | 'seal' | 'sleep' | 'slow' | 'stun';
+  bleedRoundsRemaining?: number;
+  bleedDamagePerRound?: number;
 }
 export interface PendingSkillOutcome {
   skillId: number;

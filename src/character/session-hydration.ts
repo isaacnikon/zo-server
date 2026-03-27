@@ -63,6 +63,16 @@ export function hydratePendingGameCharacter(session: GameSession, sharedState: R
   session.maxHealth = maxVitals.health;
   session.maxMana = maxVitals.mana;
   session.maxRage = maxVitals.rage;
+  const clampedHealth = Math.max(0, Math.min(session.currentHealth, session.maxHealth));
+  const clampedMana = Math.max(0, Math.min(session.currentMana, session.maxMana));
+  const clampedRage = Math.max(0, Math.min(session.currentRage, session.maxRage));
+  const correctedVitals =
+    clampedHealth !== session.currentHealth ||
+    clampedMana !== session.currentMana ||
+    clampedRage !== session.currentRage;
+  session.currentHealth = clampedHealth;
+  session.currentMana = clampedMana;
+  session.currentRage = clampedRage;
 
   const questState = normalizeQuestState(pendingCharacter);
   session.activeQuests = questState.activeQuests;
@@ -89,6 +99,19 @@ export function hydratePendingGameCharacter(session: GameSession, sharedState: R
   }
   if (accountKey && sharedState?.pendingGameCharacters instanceof Map) {
     sharedState.pendingGameCharacters.delete(accountKey);
+  }
+  if (correctedVitals) {
+    session.persistCurrentCharacter({
+      currentHealth: session.currentHealth,
+      currentMana: session.currentMana,
+      currentRage: session.currentRage,
+      maxHealth: session.maxHealth,
+      maxMana: session.maxMana,
+      maxRage: session.maxRage,
+    });
+    session.log(
+      `Clamped persisted vitals on login hp=${session.currentHealth}/${session.maxHealth} mp=${session.currentMana}/${session.maxMana}`
+    );
   }
 }
 

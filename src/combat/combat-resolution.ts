@@ -417,6 +417,20 @@ export function resolveEnemyCounterattack(session: GameSession, reason: EnemyTur
     resolveVictory(session);
     return;
   }
+  if ((session.combatState?.playerStatus?.hasteRoundsRemaining || 0) > 0) {
+    session.log(
+      `Combat enemy turn skipped reason=haste roundsRemaining=${session.combatState.playerStatus?.hasteRoundsRemaining || 0}`
+    );
+    finishEnemyTurn(session, reason);
+    return;
+  }
+  if ((session.combatState?.playerStatus?.concealRoundsRemaining || 0) > 0) {
+    session.log(
+      `Combat enemy turn skipped reason=conceal roundsRemaining=${session.combatState.playerStatus?.concealRoundsRemaining || 0}`
+    );
+    finishEnemyTurn(session, reason);
+    return;
+  }
 
   session.combatState.awaitingClientReady = false;
   session.combatState.pendingActionResolution = null;
@@ -448,6 +462,14 @@ export function processNextEnemyTurnAttack(session: GameSession, reason: EnemyTu
   const enemyEntityId = queue.shift()!;
   const enemy = findEnemyByEntityId(session.combatState.enemies, enemyEntityId);
   if (!enemy || enemy.hp <= 0) {
+    processNextEnemyTurnAttack(session, reason);
+    return;
+  }
+  const enemyStatus = session.combatState?.enemyStatuses?.[enemy.entityId >>> 0] || null;
+  if ((enemyStatus?.actionDisabledRoundsRemaining || 0) > 0) {
+    session.log(
+      `Combat enemy action skipped entity=${enemy.entityId} reason=${enemyStatus?.actionDisabledReason || 'disabled'} roundsRemaining=${enemyStatus?.actionDisabledRoundsRemaining || 0}`
+    );
     processNextEnemyTurnAttack(session, reason);
     return;
   }
@@ -547,7 +569,33 @@ function playPendingPlayerCounterattack(session: GameSession): void {
 export function finishEnemyTurn(session: GameSession, reason: EnemyTurnReason): void {
   session.combatState.pendingEnemyTurnQueue = [];
   session.combatState.enemyTurnReason = null;
+  const livingBeforeTick = new Set(
+    Array.isArray(session.combatState?.enemies)
+      ? session.combatState.enemies
+          .filter((enemy) => (enemy?.hp || 0) > 0)
+          .map((enemy) => enemy.entityId >>> 0)
+      : []
+  );
   tickCombatStatuses(session);
+  const defeatedByStatus = Array.isArray(session.combatState?.enemies)
+    ? session.combatState.enemies.filter((enemy) => (enemy?.hp || 0) <= 0 && livingBeforeTick.has(enemy.entityId >>> 0))
+    : [];
+  for (const enemy of defeatedByStatus) {
+    session.writePacket(
+      buildEntityHidePacket(enemy.entityId >>> 0),
+      DEFAULT_FLAGS,
+      `Sending combat enemy hide entity=${enemy.entityId} reason=status-tick`
+    );
+  }
+  if (defeatedByStatus.length > 0) {
+    session.log(
+      `Combat status tick resolved hidden=${defeatedByStatus.map((enemy) => enemy.entityId >>> 0).join(',')} remaining=${describeLivingEnemies(session.combatState.enemies)}`
+    );
+  }
+  if (!findFirstLivingEnemy(session.combatState.enemies)) {
+    resolveVictory(session);
+    return;
+  }
 
   session.writePacket(
     buildVitalsPacket(FIGHT_CONTROL_RING_OPEN_SUBCMD, session.currentHealth, session.currentMana, session.currentRage),
