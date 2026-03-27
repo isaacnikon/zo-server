@@ -219,6 +219,7 @@ export interface GameSession {
   pendingLoginQuestSyncMapId: number | null;
   pendingLoginQuestSyncTimer: NodeJS.Timeout | null;
   activeNpcShop: any;
+  activeNpcService: any;
   // Equipment
   equipmentReplayTimer: NodeJS.Timeout | null;
   // Persisted data

@@ -95,6 +95,7 @@ class Session implements GameSession {
   combatDefeatTimer: NodeJS.Timeout | null;
   combatSkillResolutionTimer: NodeJS.Timeout | null;
   activeNpcShop: any;
+  activeNpcService: any;
   attackMin?: number;
   attackMax?: number;
   characterAttackMin?: number;
@@ -193,6 +194,7 @@ class Session implements GameSession {
     this.combatDefeatTimer = null;
     this.combatSkillResolutionTimer = null;
     this.activeNpcShop = null;
+    this.activeNpcService = null;
     this.mapRotationTimer = null;
     this.mapRotationTargets = [];
     this.mapRotationIndex = 0;
@@ -414,7 +416,7 @@ class Session implements GameSession {
       currentHealth: vitals.health,
       currentMana: vitals.mana,
       currentRage: vitals.rage,
-      petCapacity: Array.isArray(this.pets) && this.pets.length > 0 ? Math.max(1, this.pets.length) : 0,
+      petCapacity: 3,
       probeFieldA: SELF_STATE_PROBE_FIELD_A,
       probeFieldB: SELF_STATE_PROBE_FIELD_B,
     });

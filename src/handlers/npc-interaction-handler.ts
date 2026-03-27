@@ -15,6 +15,7 @@ import {
 import { buildNpcShopOpenPacket } from '../protocol/gameplay-packets.js';
 import { resolveRepoPath } from '../runtime-paths.js';
 import { recomputeSessionMaxVitals, resolveInnRestVitals } from '../gameplay/session-flows.js';
+import { primeNpcServiceContext } from '../gameplay/npc-service-runtime.js';
 import { sendSelfStateValueUpdate, sendSelfStateVitalsUpdate } from '../gameplay/stat-sync.js';
 import { buildEncounterPoolEntry } from '../roleinfo/index.js';
 import { grantSkill, sendSkillStateSync } from '../gameplay/skill-runtime.js';
@@ -105,6 +106,11 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
   }
 
   if (request.subcmd === 0x0f) {
+    primeNpcServiceContext(
+      session,
+      resolvedNpcId,
+      Number.isInteger(request.rawArgs?.[0]) ? (request.rawArgs[0] >>> 0) : 0
+    );
     sendNpcShopOpen(session, resolvedNpcId, request);
   }
 

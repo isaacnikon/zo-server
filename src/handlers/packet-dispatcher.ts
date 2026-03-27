@@ -12,6 +12,7 @@ import { handleGatheringRequest } from './gathering-handler.js';
 import { tryHandleClientMaxVitalsSyncPacket, tryHandleEquipmentStatePacket, tryHandleFightResultItemActionProbe, tryHandleItemUsePacket, tryHandleAttributeAllocationPacket } from './player-state-handler.js';
 import { tryHandlePetActionPacket } from './pet-handler.js';
 import { resolveTownCheckpoint } from '../gameplay/session-flows.js';
+import { tryHandleNpcServicePacket } from '../gameplay/npc-service-runtime.js';
 import { handleNpcShopServiceRequest } from '../gameplay/shop-runtime.js';
 import { syncWorldPresence } from '../world-state.js';
 
@@ -228,6 +229,10 @@ function dispatchGamePacket(
   }
 
   if (handleNpcShopServiceRequest(session, payload)) {
+    return true;
+  }
+
+  if (tryHandleNpcServicePacket(session, payload)) {
     return true;
   }
 
