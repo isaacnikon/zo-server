@@ -109,6 +109,16 @@ function parseAttributeAllocation(payload: Buffer): AttributeAllocationData | nu
   };
 }
 
+function parseClientMaxVitalsSync(payload: Buffer): { maxHealth: number; maxMana: number } | null {
+  if (payload.length !== 11 || payload[2] !== 0x2f) {
+    return null;
+  }
+  return {
+    maxHealth: payload.readUInt32LE(3),
+    maxMana: payload.readUInt32LE(7),
+  };
+}
+
 function parseAttackSelection(payload: Buffer): AttackSelectionData {
   return {
     attackMode: payload[3] & 0xff,
@@ -204,6 +214,7 @@ export {
   parseQuestPacket,
   parseEquipmentState,
   parseAttributeAllocation,
+  parseClientMaxVitalsSync,
   parseAttackSelection,
   parseCombatItemUse,
   parseFightResultItemActionProbe,

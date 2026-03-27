@@ -1,6 +1,6 @@
 import type { GameSession } from '../types.js';
 
-import { parseEquipmentState, parseAttributeAllocation, parseCombatItemUse, parseFightResultItemActionProbe, parseSharedItemUse, parseTargetedItemUse, } from '../protocol/inbound-packets.js';
+import { parseEquipmentState, parseAttributeAllocation, parseClientMaxVitalsSync, parseCombatItemUse, parseFightResultItemActionProbe, parseSharedItemUse, parseTargetedItemUse, } from '../protocol/inbound-packets.js';
 import { FIGHT_CLIENT_ITEM_USE_SUBCMD, GAME_FIGHT_ACTION_CMD } from '../config.js';
 import { canEquipItem, getBagItemByReference, getItemDefinition, removeBagItemByInstanceId } from '../inventory/index.js';
 import { sendConsumeResultPackets, sendEquipmentContainerSync, sendInventoryFullSync, } from '../gameplay/inventory-runtime.js';
@@ -137,6 +137,30 @@ export function tryHandleAttributeAllocationPacket(
     statusPoints: session.statusPoints,
   });
   session.sendSelfStateAptitudeSync();
+  return true;
+}
+
+export function tryHandleClientMaxVitalsSyncPacket(
+  session: GameSession,
+  payload: Buffer
+): boolean {
+  const vitals = parseClientMaxVitalsSync(payload);
+  if (!vitals) {
+    return false;
+  }
+
+  const maxHealth = Math.max(1, vitals.maxHealth >>> 0);
+  const maxMana = Math.max(0, vitals.maxMana >>> 0);
+  session.maxHealth = Math.max(session.currentHealth || 0, maxHealth);
+  session.maxMana = Math.max(session.currentMana || 0, maxMana);
+
+  session.persistCurrentCharacter({
+    maxHealth: session.maxHealth,
+    maxMana: session.maxMana,
+  });
+  session.log(
+    `Client max-vitals sync sub=0x2f hp=${session.maxHealth} mp=${session.maxMana} current=${session.currentHealth}/${session.currentMana}`
+  );
   return true;
 }
 

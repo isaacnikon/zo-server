@@ -33,6 +33,20 @@ export function resolveCharacterMaxVitals(input: UnknownRecord | null | undefine
   const bonuses = resolveCharacterBonusAttributes(input);
   const baseAttributes = resolveCharacterBaseAttributes(input);
   const growth = GROWTH_ROWS.get(selectedAptitude) || GROWTH_ROWS.get(0) || { hpGrowth: 950, mpGrowth: 1040 };
+  const explicitHealth = Math.max(
+    0,
+    numberOrDefault(input?.maxHealth, 0),
+    numberOrDefault(input?.maxHp, 0),
+    numberOrDefault(input?.currentHealth, 0),
+    numberOrDefault(input?.hp, 0)
+  );
+  const explicitMana = Math.max(
+    0,
+    numberOrDefault(input?.maxMana, 0),
+    numberOrDefault(input?.maxMp, 0),
+    numberOrDefault(input?.currentMana, 0),
+    numberOrDefault(input?.mp, 0)
+  );
 
   const strength = stats.strength + bonuses.strength + baseAttributes.strength;
   const dexterity = stats.dexterity + bonuses.dexterity + baseAttributes.dexterity;
@@ -47,12 +61,13 @@ export function resolveCharacterMaxVitals(input: UnknownRecord | null | undefine
   );
 
   return {
-    health: Math.max(DEFAULT_MAX_VITALS.health, computedHealth),
-    mana: Math.max(DEFAULT_MAX_VITALS.mana, computedMana),
+    health: Math.max(DEFAULT_MAX_VITALS.health, computedHealth, explicitHealth),
+    mana: Math.max(DEFAULT_MAX_VITALS.mana, computedMana, explicitMana),
     rage: Math.max(
       DEFAULT_MAX_VITALS.rage,
       numberOrDefault(input?.maxRage, 0),
-      numberOrDefault(input?.currentRage, 0)
+      numberOrDefault(input?.currentRage, 0),
+      numberOrDefault(input?.rage, 0)
     ),
   };
 }

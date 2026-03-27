@@ -9,7 +9,7 @@ import { handleQuestAbandonRequest, handleQuestPacket } from './quest-handler.js
 import { handleRolePacket } from './login-handler.js';
 import { handleCombatPacket } from './combat-handler.js';
 import { handleGatheringRequest } from './gathering-handler.js';
-import { tryHandleEquipmentStatePacket, tryHandleFightResultItemActionProbe, tryHandleItemUsePacket, tryHandleAttributeAllocationPacket } from './player-state-handler.js';
+import { tryHandleClientMaxVitalsSyncPacket, tryHandleEquipmentStatePacket, tryHandleFightResultItemActionProbe, tryHandleItemUsePacket, tryHandleAttributeAllocationPacket } from './player-state-handler.js';
 import { tryHandlePetActionPacket } from './pet-handler.js';
 import { handleNpcShopServiceRequest } from '../gameplay/shop-runtime.js';
 import { syncWorldPresence } from '../world-state.js';
@@ -229,6 +229,10 @@ function dispatchGamePacket(
     if (tryHandlePetActionPacket(session, payload)) {
       return true;
     }
+  }
+
+  if (cmdWord === 0x03ef && tryHandleClientMaxVitalsSyncPacket(session, payload)) {
+    return true;
   }
 
   if (cmdWord === 0x03ef && tryHandleAttributeAllocationPacket(session, payload)) {
