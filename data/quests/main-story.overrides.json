@@ -1,4 +1,63 @@
 {
   "source": "runtime-only quest corrections that are still required after switching main-story generation to client-derived runtime candidates",
-  "quests": []
+  "quests": [
+    {
+      "id": 811,
+      "name": "Renown Task",
+      "category": "daily",
+      "acceptNpcId": 3534,
+      "acceptSubtype": 3,
+      "acceptMessage": "Parents are your backup at home and friends are your support when you are going around! Come to me if you wanna a high renown! Renown Task accepted.",
+      "completionMessage": "Renown Task completed.",
+      "autoAccept": false,
+      "minLevel": 10,
+      "repeatable": true,
+      "prerequisiteTaskIds": [],
+      "exclusiveTaskIds": [],
+      "acceptGrantItems": [],
+      "nextQuestId": null,
+      "rewards": {
+        "gold": 500,
+        "experience": 1000,
+        "coins": 800,
+        "renown": 20,
+        "choiceGroups": [],
+        "items": []
+      },
+      "interactionTriggers": [],
+      "steps": [
+        {
+          "id": 1,
+          "mapId": 128,
+          "description": "Defeat \"Outcast\" in Dusk Forest",
+          "completionDescription": "Return to \"Outcast\" after winning the renown challenge",
+          "objective": {
+            "kind": "monster-defeat",
+            "triggerEvent": "monster-defeat",
+            "targetNpcId": 3073,
+            "targetMonsterId": 5027,
+            "targetCount": 1,
+            "handInNpcId": 3073,
+            "autoAdvance": false,
+            "requiredItems": [],
+            "progressKey": "count"
+          },
+          "actions": [],
+          "tracker": {
+            "status": 2,
+            "progressObjectiveId": 5027,
+            "markerNpcId": 3073
+          },
+          "ui": {
+            "taskType": 1,
+            "overNpcId": 3073,
+            "escortNpcId": 0,
+            "taskRoleNpcId": 0,
+            "maxAward": 1,
+            "taskStep": 1
+          }
+        }
+      ]
+    }
+  ]
 }

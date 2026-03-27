@@ -3,6 +3,7 @@ import { numberOrDefault, type UnknownRecord } from '../utils.js';
 
 import type {
   GrantedItem,
+  QuestActionRecord,
   QuestDefinitionRecord,
   QuestRecord,
   QuestState,
@@ -12,6 +13,8 @@ import {
   QUEST_DEFINITIONS,
   getQuestDefinition,
   getCurrentStep,
+  getCurrentObjective,
+  getCurrentStepUi,
   getQuestStatus,
   getQuestStepDescription,
   getQuestProgressObjectiveId,
@@ -75,13 +78,20 @@ function canAcceptQuest(state: QuestState, definition: QuestDefinitionRecord | n
   if (!definition) {
     return false;
   }
-  if (state.completedQuests.includes(definition.id) || isQuestAccepted(state, definition.id)) {
+  const isRepeatable = definition.repeatable === true;
+  if ((!isRepeatable && state.completedQuests.includes(definition.id)) || isQuestAccepted(state, definition.id)) {
     return false;
   }
   const missingPrerequisites = definition.prerequisiteTaskIds.some(
     (prerequisiteTaskId) => !state.completedQuests.includes(prerequisiteTaskId)
   );
   if (missingPrerequisites || numberOrDefault(state.level, 1) < definition.minLevel) {
+    return false;
+  }
+  const blockedByExclusiveQuest = definition.exclusiveTaskIds.some(
+    (taskId) => state.completedQuests.includes(taskId) || isQuestAccepted(state, taskId)
+  );
+  if (blockedByExclusiveQuest) {
     return false;
   }
   return true;
@@ -106,6 +116,55 @@ function appendGrantedItemEvents(
       itemName: item.name || '',
       reason,
     });
+  }
+}
+
+function getRequiredItems(step: ReturnType<typeof getCurrentStep>): GrantedItem[] {
+  return Array.isArray(step?.objective?.requiredItems)
+    ? step!.objective!.requiredItems
+    : [];
+}
+
+function objectiveRequiresNpcTurnIn(objective: ReturnType<typeof getCurrentObjective>): boolean {
+  if (!objective) {
+    return false;
+  }
+  if (objective.kind === 'monster-defeat' || objective.kind === 'item-collect') {
+    return objective.autoAdvance !== true && numberOrDefault(objective.handInNpcId, 0) > 0;
+  }
+  return false;
+}
+
+function appendStepActionEvents(
+  events: QuestEvent[],
+  definition: QuestDefinitionRecord,
+  actions: QuestActionRecord[] | undefined,
+  reasonPrefix: string
+): void {
+  for (const action of Array.isArray(actions) ? actions : []) {
+    if (action?.kind === 'consume-item' && action.item) {
+      events.push({
+        type: 'item-consumed',
+        taskId: definition.id,
+        definition,
+        templateId: action.item.templateId >>> 0,
+        quantity: Math.max(1, numberOrDefault(action.item.quantity, 1)),
+        itemName: action.item.name || '',
+        reason: `${reasonPrefix}-consume-item`,
+      });
+      continue;
+    }
+    if (action?.kind === 'grant-item' && action.item) {
+      events.push({
+        type: 'item-granted',
+        taskId: definition.id,
+        definition,
+        templateId: action.item.templateId >>> 0,
+        quantity: Math.max(1, numberOrDefault(action.item.quantity, 1)),
+        itemName: action.item.name || '',
+        reason: `${reasonPrefix}-grant-item`,
+      });
+    }
   }
 }
 
@@ -147,7 +206,7 @@ function acceptQuest(state: QuestState, taskId: number, events: QuestEvent[], re
 
 function completeQuest(state: QuestState, record: QuestRecord, definition: QuestDefinitionRecord, events: QuestEvent[], reason: string): void {
   removeActiveQuest(state, definition.id);
-  if (!state.completedQuests.includes(definition.id)) {
+  if (definition.repeatable !== true && !state.completedQuests.includes(definition.id)) {
     state.completedQuests.push(definition.id);
   }
   events.push({
@@ -213,22 +272,42 @@ function interactWithNpc(
   for (const record of activeRecords) {
     const definition = getQuestDefinition(record.id);
     const step = getCurrentStep(definition, record);
+    const ui = getCurrentStepUi(definition, record);
+    const objective = getCurrentObjective(definition, record);
+    const objectiveProgress = objective
+      ? numberOrDefault(record.progress?.[objective.progressKey], 0)
+      : 0;
+    const objectiveTargetCount = objective
+      ? Math.max(1, numberOrDefault(objective.targetCount, 1))
+      : 0;
     if (
       definition &&
       step &&
-      step.type === 'kill' &&
-      step.completeOnTalkAfterKill === true &&
-      numberOrDefault(step.completionNpcId, numberOrDefault(step.npcId, 0)) === (npcId >>> 0) &&
-      numberOrDefault(record.progress?.count, 0) >= Math.max(1, numberOrDefault(step.count, 1))
+      objectiveRequiresNpcTurnIn(objective) &&
+      numberOrDefault(objective?.handInNpcId, numberOrDefault(ui?.overNpcId, 0)) === (npcId >>> 0) &&
+      objectiveProgress >= objectiveTargetCount
     ) {
+      appendStepActionEvents(events, definition, step.actions, `${objective!.kind}-turn-in`);
       advanceQuest(state, record, definition, events, 'kill-turn-in');
       return events;
     }
-    if (!definition || !step || step.type !== 'talk' || numberOrDefault(step.npcId, 0) !== (npcId >>> 0)) {
+    if (
+      !definition ||
+      !step ||
+      (objective?.kind !== 'npc-interaction' && objective?.kind !== 'escort') ||
+      numberOrDefault(objective.targetNpcId, numberOrDefault(ui?.overNpcId, 0)) !== (npcId >>> 0)
+    ) {
+      continue;
+    }
+    if (
+      typeof objective.requiredProgressFlag === 'string' &&
+      objective.requiredProgressFlag.length > 0 &&
+      record.progress?.[objective.requiredProgressFlag] !== true
+    ) {
       continue;
     }
 
-    for (const item of Array.isArray(step.consumeItems) ? step.consumeItems : []) {
+    for (const item of getRequiredItems(step)) {
       const quantity = Math.max(1, numberOrDefault(item.quantity, 1));
       const ownedQuantity =
         typeof matchItemRequirement === 'function'
@@ -250,19 +329,7 @@ function interactWithNpc(
       }
     }
 
-    for (const item of Array.isArray(step.consumeItems) ? step.consumeItems : []) {
-      events.push({
-        type: 'item-consumed',
-        taskId: definition.id,
-        definition,
-        templateId: item.templateId >>> 0,
-        quantity: Math.max(1, numberOrDefault(item.quantity, 1)),
-        itemName: item.name || '',
-        reason: 'talk-consume-item',
-      });
-    }
-
-    appendGrantedItemEvents(events, definition, step.grantItems, 'talk-step-grant');
+    appendStepActionEvents(events, definition, step.actions, 'talk-step');
     advanceQuest(state, record, definition, events, 'talk');
     return events;
   }
@@ -288,7 +355,9 @@ function getQuestAcceptBlocker(state: QuestState, npcId: number): string | null 
     if (numberOrDefault(definition?.acceptNpcId, 0) !== (npcId >>> 0)) {
       continue;
     }
-    if (state.completedQuests.includes(definition.id) || isQuestAccepted(state, definition.id)) {
+    const accepted = isQuestAccepted(state, definition.id);
+    const completed = state.completedQuests.includes(definition.id);
+    if (accepted || (definition.repeatable !== true && completed)) {
       continue;
     }
     const missingPrerequisites = definition.prerequisiteTaskIds.some(
@@ -310,19 +379,40 @@ function applyMonsterDefeat(state: QuestState, monsterId: number, count = 1): Qu
   for (const record of [...state.activeQuests]) {
     const definition = getQuestDefinition(record.id);
     const step = getCurrentStep(definition, record);
-    if (!step || step.type !== 'kill' || numberOrDefault(step.monsterId, 0) !== monsterId) {
+    const objective = getCurrentObjective(definition, record);
+    if (
+      !step ||
+      !objective ||
+      (objective.kind !== 'monster-defeat' && objective.kind !== 'item-collect') ||
+      numberOrDefault(objective.targetMonsterId, 0) !== monsterId
+    ) {
       continue;
     }
 
-    const targetCount = Math.max(1, numberOrDefault(step.count, 1));
-    const nextCount = Math.min(targetCount, numberOrDefault(record.progress?.count, 0) + Math.max(1, count));
+    const targetCount = Math.max(1, numberOrDefault(objective.targetCount, 1));
+    const nextCount = Math.min(
+      targetCount,
+      numberOrDefault(record.progress?.[objective.progressKey], 0) + Math.max(1, count)
+    );
     record.progress = {
       ...cloneProgress(record.progress),
-      count: nextCount,
+      [objective.progressKey]: nextCount,
     };
     record.status = getQuestStatus(definition, record);
 
-    if (nextCount >= targetCount && step.completeOnTalkAfterKill === true) {
+    if (objective.kind === 'item-collect' && objective.grantItem) {
+      events.push({
+        type: 'item-granted',
+        taskId: definition!.id,
+        definition: definition!,
+        templateId: objective.grantItem.templateId >>> 0,
+        quantity: Math.max(1, numberOrDefault(objective.grantItem.quantity, 1) * Math.max(1, count)),
+        itemName: objective.grantItem.name || '',
+        reason: 'defeat-collect',
+      });
+    }
+
+    if (nextCount >= targetCount && objectiveRequiresNpcTurnIn(objective)) {
       events.push({
         type: 'progress',
         taskId: definition!.id,
@@ -341,6 +431,7 @@ function applyMonsterDefeat(state: QuestState, monsterId: number, count = 1): Qu
     }
 
     if (nextCount >= targetCount) {
+      appendStepActionEvents(events, definition!, step.actions, `${objective.kind}-complete`);
       advanceQuest(state, record, definition!, events, 'kill-complete');
       continue;
     }
@@ -391,7 +482,20 @@ function collectQuestResetItemTemplateIds(definition: QuestDefinitionRecord | nu
   }
 
   for (const step of Array.isArray(definition?.steps) ? definition!.steps : []) {
-    for (const item of Array.isArray(step?.grantItems) ? step.grantItems : []) {
+    const objectiveGrantItem = step?.objective?.grantItem;
+    if (objectiveGrantItem && Number.isInteger(objectiveGrantItem.templateId) && objectiveGrantItem.templateId > 0) {
+      templateIds.add(objectiveGrantItem.templateId >>> 0);
+    }
+    for (const action of Array.isArray(step?.actions) ? step.actions : []) {
+      const actionItem = action?.item;
+      if (action?.kind === 'grant-item' && actionItem && Number.isInteger(actionItem.templateId) && actionItem.templateId > 0) {
+        templateIds.add(actionItem.templateId >>> 0);
+      }
+    }
+  }
+
+  for (const trigger of Array.isArray(definition?.interactionTriggers) ? definition!.interactionTriggers : []) {
+    for (const item of Array.isArray(trigger?.grantItems) ? trigger.grantItems : []) {
       if (Number.isInteger(item?.templateId) && item.templateId > 0) {
         templateIds.add(item.templateId >>> 0);
       }
@@ -409,6 +513,12 @@ function buildQuestSyncState(state: QuestState): UnknownRecord[] {
         return null;
       }
       const step = definition.steps?.[record.stepIndex];
+      const objective = step?.objective || null;
+      const ui = step?.ui || null;
+      const stepMode =
+        objective?.kind === 'monster-defeat' || objective?.kind === 'item-collect'
+          ? 'kill'
+          : 'talk';
       return {
         taskId: definition.id,
         stepIndex: numberOrDefault(record.stepIndex, 0),
@@ -416,15 +526,12 @@ function buildQuestSyncState(state: QuestState): UnknownRecord[] {
         stepDescription: getQuestStepDescription(definition, record),
         progressObjectiveId: getQuestProgressObjectiveId(definition, record),
         progressCount: getQuestProgressCount(definition, record),
-        clientTaskType: numberOrDefault(step?.clientTaskType, 0),
-        overNpcId: numberOrDefault(step?.overNpcId, 0),
-        taskRoleNpcId: numberOrDefault(step?.taskRoleNpcId, 0),
-        maxAward: numberOrDefault(step?.maxAward, 0),
-        taskStep: numberOrDefault(step?.taskStep, numberOrDefault(record.stepIndex, 0) + 1),
-        stepType:
-          typeof step?.type === 'string'
-            ? step.type
-            : '',
+        taskType: numberOrDefault(ui?.taskType, 0),
+        overNpcId: numberOrDefault(ui?.overNpcId, 0),
+        taskRoleNpcId: numberOrDefault(ui?.taskRoleNpcId, 0),
+        maxAward: numberOrDefault(ui?.maxAward, 0),
+        taskStep: numberOrDefault(ui?.taskStep, numberOrDefault(record.stepIndex, 0) + 1),
+        stepMode,
       };
     })
     .filter(Boolean) as UnknownRecord[];

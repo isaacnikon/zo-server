@@ -1,6 +1,16 @@
 import { parseQuestPacket } from '../protocol/inbound-packets.js';
 import { DEFAULT_FLAGS, GAME_QUEST_CMD, GAME_QUEST_TABLE_CMD } from '../config.js';
-import { abandonQuest, buildQuestSyncState, getCurrentStep, getQuestDefinition, getQuestMarkerNpcId, normalizeQuestState, } from '../quest-engine/index.js';
+import {
+  abandonQuest,
+  applyMonsterDefeat,
+  buildQuestSyncState,
+  getCurrentObjective,
+  getCurrentStep,
+  getCurrentStepUi,
+  getQuestDefinition,
+  getQuestMarkerNpcId,
+  normalizeQuestState,
+} from '../quest-engine/index.js';
 import { normalizeInventoryState } from '../inventory/index.js';
 import { normalizePets } from '../pet-runtime.js';
 import { buildQuestAcceptStatePacket, buildQuestPacket, buildQuestTableSyncPacket } from '../protocol/gameplay-packets.js';
@@ -22,15 +32,26 @@ type SpawnRecord = {
   entityType: number;
 };
 
+type QuestMonsterDefeatResult = {
+  handled: boolean;
+  grantedItems: Array<{ templateId: number; quantity: number }>;
+};
+
+function supportsQuestTableTaskId(taskId: number): boolean {
+  const normalizedTaskId = numberOrDefault(taskId, 0);
+  return normalizedTaskId > 0 && (normalizedTaskId < 0x321 || normalizedTaskId === 811);
+}
+
 function buildQuestAcceptObjectiveWords(step: UnknownRecord | null): number[] {
   if (!step) {
     return new Array(10).fill(0);
   }
 
   const words = new Array(10).fill(0);
-  const killTargetId = numberOrDefault(step?.monsterId, numberOrDefault(step?.killTargetId, 0));
-  const killCount = numberOrDefault(step?.requiredCount, numberOrDefault(step?.killCount, 0));
-  const consumeItems = Array.isArray(step?.consumeItems) ? step.consumeItems : [];
+  const objective = step?.objective && typeof step.objective === 'object' ? step.objective : null;
+  const requiredItems = Array.isArray(objective?.requiredItems) ? objective.requiredItems : [];
+  const killTargetId = numberOrDefault(objective?.targetMonsterId, 0);
+  const killCount = numberOrDefault(objective?.targetCount, 0);
 
   if (killTargetId > 0) {
     words[0] = killTargetId & 0xffff;
@@ -39,14 +60,14 @@ function buildQuestAcceptObjectiveWords(step: UnknownRecord | null): number[] {
     words[2] = killCount & 0xffff;
   }
 
-  if (consumeItems.length > 0) {
-    const firstItem = consumeItems[0] as UnknownRecord;
+  if (requiredItems.length > 0) {
+    const firstItem = requiredItems[0] as UnknownRecord;
     words[4] = numberOrDefault(firstItem?.templateId, 0) & 0xffff;
     words[6] = numberOrDefault(firstItem?.quantity, 0) & 0xffff;
   }
 
-  if (consumeItems.length > 1) {
-    const secondItem = consumeItems[1] as UnknownRecord;
+  if (requiredItems.length > 1) {
+    const secondItem = requiredItems[1] as UnknownRecord;
     words[5] = numberOrDefault(secondItem?.templateId, 0) & 0xffff;
     words[7] = numberOrDefault(secondItem?.quantity, 0) & 0xffff;
   }
@@ -62,6 +83,18 @@ function getQuestSyncRecord(session: GameSession, taskId: number): { definition:
   return { definition, record };
 }
 
+function resolveQuestPacketTargetNpcId(step: UnknownRecord | null): number {
+  const objective = step?.objective && typeof step.objective === 'object' ? step.objective : null;
+  const ui = step?.ui && typeof step.ui === 'object' ? step.ui : null;
+  return numberOrDefault(
+    ui?.taskRoleNpcId,
+    numberOrDefault(
+      objective?.handInNpcId,
+      numberOrDefault(objective?.targetNpcId, numberOrDefault(ui?.overNpcId, 0))
+    )
+  );
+}
+
 function buildEscortRuntimeSpawns(session: GameSession, mapId: number, baseCount: number): SpawnRecord[] {
   if (!Array.isArray(session.activeQuests) || session.activeQuests.length === 0) {
     return [];
@@ -71,14 +104,15 @@ function buildEscortRuntimeSpawns(session: GameSession, mapId: number, baseCount
   for (const record of session.activeQuests) {
     const definition = getQuestDefinition(numberOrDefault(record?.id, 0));
     const step = getCurrentStep(definition as any, record as any) as UnknownRecord | null;
+    const ui = getCurrentStepUi(definition as any, record as any) as UnknownRecord | null;
     if (
       !step ||
-      numberOrDefault(step?.clientTaskType, 0) !== 8 ||
+      numberOrDefault(ui?.taskType, 0) !== 8 ||
       numberOrDefault(step?.mapId, 0) !== mapId
     ) {
       continue;
     }
-    const roleId = numberOrDefault(step?.taskRoleNpcId, 0);
+    const roleId = numberOrDefault(ui?.taskRoleNpcId, numberOrDefault(ui?.escortNpcId, 0));
     if (roleId > 0) {
       escortRoleIds.add(roleId >>> 0);
     }
@@ -112,14 +146,12 @@ function sendQuestAcceptWithState(
   record: UnknownRecord | null
 ): void {
   const step = getCurrentStep(definition as any, record as any) as UnknownRecord | null;
+  const ui = getCurrentStepUi(definition as any, record as any) as UnknownRecord | null;
   const stepIndex = Math.max(0, numberOrDefault(record?.stepIndex, 0));
   const markerNpcId = getQuestMarkerNpcId(definition as any, record as any);
-  const overNpcId = numberOrDefault(step?.overNpcId, markerNpcId);
-  const taskType = numberOrDefault(step?.clientTaskType, 0);
-  const targetNpcId = numberOrDefault(
-    (taskType & 0x08) !== 0 ? step?.taskRoleNpcId : step?.taskRoleNpcId,
-    numberOrDefault(step?.completionNpcId, numberOrDefault(step?.overNpcId, markerNpcId))
-  );
+  const overNpcId = numberOrDefault(ui?.overNpcId, markerNpcId);
+  const taskType = numberOrDefault(ui?.taskType, 0);
+  const targetNpcId = resolveQuestPacketTargetNpcId(step) || overNpcId;
   const maxStep = Array.isArray((definition as UnknownRecord | null)?.steps)
     ? (definition as UnknownRecord).steps.length
     : 0;
@@ -173,14 +205,12 @@ function sendQuestUpdateWithState(
   record: UnknownRecord | null
 ): void {
   const step = getCurrentStep(definition as any, record as any) as UnknownRecord | null;
+  const ui = getCurrentStepUi(definition as any, record as any) as UnknownRecord | null;
   const stepIndex = Math.max(0, numberOrDefault(record?.stepIndex, 0));
   const markerNpcId = getQuestMarkerNpcId(definition as any, record as any);
-  const overNpcId = numberOrDefault(step?.overNpcId, markerNpcId);
-  const taskType = numberOrDefault(step?.clientTaskType, 0);
-  const targetNpcId = numberOrDefault(
-    (taskType & 0x08) !== 0 ? step?.taskRoleNpcId : step?.taskRoleNpcId,
-    numberOrDefault(step?.completionNpcId, numberOrDefault(step?.overNpcId, markerNpcId))
-  );
+  const overNpcId = numberOrDefault(ui?.overNpcId, markerNpcId);
+  const taskType = numberOrDefault(ui?.taskType, 0);
+  const targetNpcId = resolveQuestPacketTargetNpcId(step) || overNpcId;
   const maxStep = Array.isArray((definition as UnknownRecord | null)?.steps)
     ? (definition as UnknownRecord).steps.length
     : 0;
@@ -203,11 +233,11 @@ function sendQuestUpdateWithState(
 
 function sendQuestMarker(session: GameSession, taskId: number, npcId: number): void {
   const { definition, record } = getQuestSyncRecord(session, taskId);
-  const step = getCurrentStep(definition as any, record as any) as UnknownRecord | null;
-  const taskType = numberOrDefault(step?.clientTaskType, 0);
+  const ui = getCurrentStepUi(definition as any, record as any) as UnknownRecord | null;
+  const taskType = numberOrDefault(ui?.taskType, 0);
   const trackedNpcId = numberOrDefault(
-    (taskType & 0x08) !== 0 ? step?.taskRoleNpcId : 0,
-    taskId
+    (taskType & 0x08) !== 0 ? ui?.taskRoleNpcId : 0,
+    0
   );
   const trackedRuntimeId = numberOrDefault(
     (taskType & 0x08) !== 0 ? resolveTrackedNpcRuntimeId(session, session.currentMapId >>> 0, trackedNpcId) : 0,
@@ -255,26 +285,26 @@ function sendQuestHistory(session: GameSession, taskId: number, historyLevel = 0
 
 function sendQuestTableStateSync(session: GameSession, syncState: QuestSyncState[]): void {
   const supportedQuests = syncState
-    .filter((quest) => numberOrDefault(quest.taskId, 0) > 0 && numberOrDefault(quest.taskId, 0) < 0x321)
+    .filter((quest) => supportsQuestTableTaskId(numberOrDefault(quest.taskId, 0)))
     .slice(0, 0x10)
     .map((quest) => {
       const { definition, record } = getQuestSyncRecord(session, numberOrDefault(quest.taskId, 0));
-      const step = getCurrentStep(definition as any, record as any) as UnknownRecord | null;
+      const ui = getCurrentStepUi(definition as any, record as any) as UnknownRecord | null;
       return {
         taskId: numberOrDefault(quest.taskId, 0),
         step: Math.max(1, numberOrDefault(quest.stepIndex, 0) + 1),
-        extraA: numberOrDefault(quest.maxAward, numberOrDefault(step?.maxAward, 0)),
-        extraB: numberOrDefault(quest.taskStep, numberOrDefault(step?.taskStep, 0)),
+        extraA: numberOrDefault(quest.maxAward, numberOrDefault(ui?.maxAward, 0)),
+        extraB: numberOrDefault(quest.taskStep, numberOrDefault(ui?.taskStep, 0)),
       };
     });
-  const supportedHistory = (Array.isArray(session.completedQuests) ? session.completedQuests : [])
-    .map((taskId) => numberOrDefault(taskId, 0))
-    .filter((taskId) => taskId > 0 && taskId < 0x10000)
-    .slice(0, 0xffff)
-    .map((taskId) => ({
-      taskId,
-      state: 0,
-    }));
+  const historyEntries = Array.isArray(session.completedQuests)
+    ? session.completedQuests
+        .filter((taskId) => supportsQuestTableTaskId(numberOrDefault(taskId, 0)))
+        .map((taskId) => ({
+          taskId: numberOrDefault(taskId, 0),
+          state: 0,
+        }))
+    : [];
 
   const skippedCount = Math.max(0, syncState.length - supportedQuests.length);
   session.writePacket(
@@ -282,36 +312,29 @@ function sendQuestTableStateSync(session: GameSession, syncState: QuestSyncState
       playerRuntimeId: session.runtimeId >>> 0,
       subtype: 0x08,
       quests: supportedQuests,
-      history: supportedHistory,
+      history: historyEntries,
     }),
     DEFAULT_FLAGS,
-    `Sending quest table sync cmd=0x${GAME_QUEST_TABLE_CMD.toString(16)} sub=0x08 player=0x${(session.runtimeId >>> 0).toString(16)} quests=${supportedQuests.length} history=${supportedHistory.length} skipped=${skippedCount}`
+    `Sending quest table sync cmd=0x${GAME_QUEST_TABLE_CMD.toString(16)} sub=0x08 player=0x${(session.runtimeId >>> 0).toString(16)} quests=${supportedQuests.length} history=${historyEntries.length} skipped=${skippedCount}`
   );
-}
-
-function buildQuestScriptReplayIds(taskId: number): number[] {
-  const ids = new Set<number>();
-  if (Number.isInteger(taskId) && taskId > 0) {
-    ids.add(taskId >>> 0);
-  }
-  if (taskId > 300) {
-    ids.add((taskId - 300) >>> 0);
-  }
-  return [...ids].filter((id) => id > 0);
 }
 
 function replayQuestTrackerScripts(
   session: GameSession,
-  taskId: number,
+  _taskId: number,
   definition: UnknownRecord | null,
   record: UnknownRecord | null
 ): void {
   const step = getCurrentStep(definition as any, record as any) as UnknownRecord | null;
-  if (numberOrDefault(step?.clientTaskType, 0) !== 8) {
+  const ui = getCurrentStepUi(definition as any, record as any) as UnknownRecord | null;
+  if (numberOrDefault(ui?.taskType, 0) !== 8) {
     return;
   }
 
-  for (const scriptId of buildQuestScriptReplayIds(taskId)) {
+  const trackerScriptIds = Array.isArray(ui?.trackerScriptIds)
+    ? ui.trackerScriptIds.filter(Number.isInteger).map((scriptId: number) => scriptId >>> 0)
+    : [];
+  for (const scriptId of trackerScriptIds) {
     session.sendServerRunScriptImmediate?.(scriptId);
     session.sendServerRunScriptDeferred?.(scriptId);
   }
@@ -327,7 +350,6 @@ function syncQuestStateToClient(session: GameSession, options: QuestSyncOptions 
   }) as QuestSyncState[];
 
   sendQuestTableStateSync(session, syncState);
-
   for (const taskId of session.completedQuests) {
     sendQuestHistory(session, taskId, 0);
   }
@@ -336,21 +358,23 @@ function syncQuestStateToClient(session: GameSession, options: QuestSyncOptions 
     const { definition, record } = getQuestSyncRecord(session, quest.taskId);
     if (mode === 'login') {
       sendQuestAcceptWithState(session, quest.taskId, definition, record);
-      sendQuestUpdateWithState(session, quest.taskId, definition, record);
+      if (quest.stepMode === 'kill') {
+        sendQuestUpdateWithState(session, quest.taskId, definition, record);
+      }
     } else {
       sendQuestAccept(session, quest.taskId);
     }
     // Talk-step replay is mode-dependent: full login needs it so the client
     // reconstructs the current stage, while runtime refreshes stay minimal.
-    if (quest.stepType === 'kill' || (replayTalkStepUpdates && quest.stepType === 'talk')) {
+    if (quest.stepMode === 'kill' || (replayTalkStepUpdates && quest.stepMode === 'talk')) {
       for (let index = 0; index < numberOrDefault(quest.stepIndex, 0); index += 1) {
         sendQuestUpdate(session, quest.taskId, index + 1);
       }
     }
-    if (quest.stepType === 'kill' && numberOrDefault(quest.status, 0) > 0) {
+    if (quest.stepMode === 'kill' && numberOrDefault(quest.status, 0) > 0) {
       sendQuestUpdate(session, quest.taskId, numberOrDefault(quest.status, 0));
     }
-    if (quest.stepType === 'kill' && numberOrDefault(quest.progressCount, 0) > 0) {
+    if (quest.stepMode === 'kill' && numberOrDefault(quest.progressCount, 0) > 0) {
       sendQuestProgress(
         session,
         numberOrDefault(quest.progressObjectiveId, quest.taskId),
@@ -422,8 +446,30 @@ function handleQuestPacket(session: GameSession, payload: Buffer): void {
   session.log(`Unhandled quest subcmd=0x${subcmd.toString(16)} taskId=${taskId}`);
 }
 
-function handleQuestMonsterDefeat(session: GameSession, monsterId: number, count = 1): void {
-  session.dispatchObjectiveMonsterDefeat(monsterId, count, 'monster-defeat');
+function handleQuestMonsterDefeat(session: GameSession, monsterId: number, count = 1): QuestMonsterDefeatResult {
+  const questState = {
+    activeQuests: session.activeQuests,
+    completedQuests: session.completedQuests,
+    level: session.level,
+  };
+  const events = applyMonsterDefeat(questState as any, monsterId, count);
+  session.activeQuests = questState.activeQuests;
+  session.completedQuests = questState.completedQuests;
+
+  if (events.length > 0) {
+    applyQuestEvents(session, events as UnknownRecord[], 'monster-defeat');
+  }
+
+  return {
+    handled: events.length > 0,
+    grantedItems: events
+      .filter((event: UnknownRecord) => event?.type === 'item-granted' && event?.reason === 'defeat-collect')
+      .map((event: UnknownRecord) => ({
+        templateId: numberOrDefault(event?.templateId, 0),
+        quantity: Math.max(1, numberOrDefault(event?.quantity, 1)),
+      }))
+      .filter((item) => item.templateId > 0),
+  };
 }
 
 function ensureQuestStateReady(session: GameSession): void {
@@ -482,12 +528,18 @@ function refreshQuestStateForItemTemplates(session: GameSession, templateIds: nu
 
   for (const record of session.activeQuests) {
     const definition = getQuestDefinition(record?.id);
-    const step = definition?.steps?.[record?.stepIndex];
-    if (!step || !Array.isArray(step.consumeItems) || step.consumeItems.length === 0) {
+    if (!definition) {
+      continue;
+    }
+    const objective = getCurrentObjective(definition as any, record as any) as UnknownRecord | null;
+    const requiredItems = Array.isArray(objective?.requiredItems) ? objective.requiredItems : [];
+    if (requiredItems.length === 0) {
       continue;
     }
 
-    const matchesGrantedItem = step.consumeItems.some((item: UnknownRecord) => interestingTemplates.has(item.templateId >>> 0));
+    const matchesGrantedItem = requiredItems.some((item: UnknownRecord) =>
+      interestingTemplates.has(numberOrDefault(item?.templateId, 0) >>> 0)
+    );
     if (!matchesGrantedItem) {
       continue;
     }
