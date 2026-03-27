@@ -92,7 +92,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3276,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21098,
@@ -141,7 +141,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3276,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21116,
@@ -265,7 +265,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3277,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21099,
@@ -417,7 +417,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3234,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21118,
@@ -466,7 +466,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3234,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 29000,
@@ -561,7 +561,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3175,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21128,
@@ -618,7 +618,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3004,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21117,
@@ -675,7 +675,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3054,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21029,
@@ -794,7 +794,7 @@
             "targetMonsterId": 5098,
             "targetCount": 1,
             "handInNpcId": 3033,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -864,7 +864,7 @@
             "targetMonsterId": 5098,
             "targetCount": 1,
             "handInNpcId": 3034,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -934,7 +934,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3118,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -968,7 +968,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3036,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -1011,7 +1011,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3118,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21006,
@@ -1079,7 +1079,7 @@
         {
           "id": 1,
           "mapId": 112,
-          "description": "Locate Bonnie at Orchid Temple at night. Quest reward: None Quest Description: After getting back to consciousness, Franklin told you his love story in Orchid Temple. He met Bonnie in the temple. He is just a mortal who has no magic power. He can not save Ahriman-possessed Bonnie. But he hopes that there are someone who can help him to save his beloved in Orchid Temple. Tip: Complete \"Task 7\" \u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1Soul of Bonnie will appear at night. \u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1 <204000><0>Previous \u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1 <200001><0>Back",
+          "description": "Locate Bonnie at Orchid Temple at night. Quest reward: None Quest Description: After getting back to consciousness, Franklin told you his love story in Orchid Temple. He met Bonnie in the temple. He is just a mortal who has no magic power. He can not save Ahriman-possessed Bonnie. But he hopes that there are someone who can help him to save his beloved in Orchid Temple. Tip: Complete \"Task 7\" ¡¡¡¡¡¡¡¡¡¡Soul of Bonnie will appear at night. ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ <204000><0>Previous ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ <200001><0>Back",
           "completionDescription": "",
           "objective": {
             "kind": "npc-interaction",
@@ -1088,7 +1088,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3036,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -1122,7 +1122,7 @@
             "targetMonsterId": 5099,
             "targetCount": 1,
             "handInNpcId": 3036,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -1182,7 +1182,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3078,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21012,
@@ -1265,7 +1265,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3120,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21011,
@@ -1340,7 +1340,7 @@
             "targetMonsterId": 0,
             "targetCount": 2,
             "handInNpcId": 3078,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 29001,
@@ -1419,7 +1419,7 @@
             "targetMonsterId": 5104,
             "targetCount": 1,
             "handInNpcId": 3120,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -1472,7 +1472,7 @@
         {
           "id": 1,
           "mapId": 146,
-          "description": "Kill \"Giant Willow\"\u00a3\u00adWillow Forest(32.473)",
+          "description": "Kill \"Giant Willow\"£­Willow Forest(32.473)",
           "completionDescription": "",
           "objective": {
             "kind": "monster-defeat",
@@ -1481,7 +1481,7 @@
             "targetMonsterId": 5039,
             "targetCount": 1,
             "handInNpcId": 3218,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -1534,7 +1534,7 @@
         {
           "id": 1,
           "mapId": 146,
-          "description": "Kill \"Giant Peach\"\u00a3\u00adWillow Forest(228.46)",
+          "description": "Kill \"Giant Peach\"£­Willow Forest(228.46)",
           "completionDescription": "",
           "objective": {
             "kind": "monster-defeat",
@@ -1543,7 +1543,7 @@
             "targetMonsterId": 5040,
             "targetCount": 1,
             "handInNpcId": 3218,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -1596,7 +1596,7 @@
         {
           "id": 1,
           "mapId": 120,
-          "description": "Kill vicious \"Spider Overlord\"\u00a3\u00adCobweb Woods(60.229)",
+          "description": "Kill vicious \"Spider Overlord\"£­Cobweb Woods(60.229)",
           "completionDescription": "",
           "objective": {
             "kind": "monster-defeat",
@@ -1605,7 +1605,7 @@
             "targetMonsterId": 5059,
             "targetCount": 1,
             "handInNpcId": 3162,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -1639,7 +1639,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3042,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -1682,7 +1682,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3162,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21101,
@@ -1769,7 +1769,7 @@
             "targetMonsterId": 5043,
             "targetCount": 1,
             "handInNpcId": 3042,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -1851,7 +1851,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3163,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21030,
@@ -1944,7 +1944,7 @@
             "targetMonsterId": 5022,
             "targetCount": 1,
             "handInNpcId": 3022,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -2017,7 +2017,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3092,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -2124,7 +2124,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3044,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -2158,7 +2158,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3044,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21138,
@@ -2207,7 +2207,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3120,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21019,
@@ -2256,7 +2256,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3220,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -2430,7 +2430,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3053,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21142,
@@ -2487,7 +2487,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3044,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21019,
@@ -2594,7 +2594,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3044,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21041,
@@ -2671,7 +2671,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3311,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21313,
@@ -2772,7 +2772,7 @@
             "targetMonsterId": 5013,
             "targetCount": 1,
             "handInNpcId": 3033,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -2858,7 +2858,7 @@
             "targetMonsterId": 5014,
             "targetCount": 1,
             "handInNpcId": 3034,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -2926,7 +2926,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3118,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -2960,7 +2960,7 @@
         {
           "id": 2,
           "mapId": 112,
-          "description": "Ar you 18 level, go to speak with \"Commander\" Quest reward: Experience: 2000 Gold: 400 Coin: 800 Item: \"Bonnie's Pendant\" Quest Description: After getting back to consciousness, Franklin told you his love story in Orchid Temple. He met Bonnie in the temple. He is just a mortal who has no magic power. He can not save Ahriman-possessed Bonnie. But he hopes that there are someone who can help him to save his beloved in Orchid Temple. Tip: Complete \"Task 7\" \u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1Soul of Bonnie will appear at night. \u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1 <204000><0>Previous \u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1 <200001><0>Back",
+          "description": "Ar you 18 level, go to speak with \"Commander\" Quest reward: Experience: 2000 Gold: 400 Coin: 800 Item: \"Bonnie's Pendant\" Quest Description: After getting back to consciousness, Franklin told you his love story in Orchid Temple. He met Bonnie in the temple. He is just a mortal who has no magic power. He can not save Ahriman-possessed Bonnie. But he hopes that there are someone who can help him to save his beloved in Orchid Temple. Tip: Complete \"Task 7\" ¡¡¡¡¡¡¡¡¡¡Soul of Bonnie will appear at night. ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ <204000><0>Previous ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ <200001><0>Back",
           "completionDescription": "",
           "objective": {
             "kind": "npc-interaction",
@@ -2969,7 +2969,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3022,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 8011,
@@ -3114,7 +3114,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3042,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -3148,7 +3148,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3042,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21138,
@@ -3241,7 +3241,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3042,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21133,
@@ -3290,7 +3290,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3218,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -3358,7 +3358,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3044,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21152,
@@ -3435,7 +3435,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3044,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21016,
@@ -3518,7 +3518,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3044,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -3552,7 +3552,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3044,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -3586,7 +3586,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3044,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -3677,7 +3677,7 @@
             "targetMonsterId": 5007,
             "targetCount": 1,
             "handInNpcId": 3033,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -3768,7 +3768,7 @@
             "targetMonsterId": 5008,
             "targetCount": 1,
             "handInNpcId": 3034,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -3902,7 +3902,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3138,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21144,
@@ -3990,7 +3990,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3312,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -4052,7 +4052,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3219,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21146,
@@ -4197,7 +4197,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3184,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21172,
@@ -4274,7 +4274,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3187,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -4457,7 +4457,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3004,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -4491,7 +4491,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3005,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21001,
@@ -4548,7 +4548,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3023,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21124,
@@ -4588,7 +4588,7 @@
         {
           "id": 4,
           "mapId": 103,
-          "description": "Kill \"Little Boar\" \"Map 103\"\u00a3\u00ba\" \".\" \"",
+          "description": "Kill \"Little Boar\" \"Map 103\"£º\" \".\" \"",
           "completionDescription": "Return to \"Grandpa\" after defeating \"Little Boar\"",
           "objective": {
             "kind": "monster-defeat",
@@ -4665,7 +4665,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3138,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21176,
@@ -4936,7 +4936,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3120,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21173,
@@ -5019,7 +5019,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3187,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21174,
@@ -5102,7 +5102,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3187,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21177,
@@ -5180,7 +5180,7 @@
         {
           "id": 1,
           "mapId": 213,
-          "description": "At your 70 Level, go to speak with \"Governor\" Quest Description:With the help of Zodiac Eudemon, you have successfully run out of the gate. But from Night Owl and Soul Judge's face told you that something unexpected happened. Go to check on Jessica at the Governor's. She may need your help. \u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1 <210000><0>Previous \u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1\u00a1 <200001><0>Back",
+          "description": "At your 70 Level, go to speak with \"Governor\" Quest Description:With the help of Zodiac Eudemon, you have successfully run out of the gate. But from Night Owl and Soul Judge's face told you that something unexpected happened. Go to check on Jessica at the Governor's. She may need your help. ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ <210000><0>Previous ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ <200001><0>Back",
           "completionDescription": "",
           "objective": {
             "kind": "escort",
@@ -5189,7 +5189,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3135,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -5264,7 +5264,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3452,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21286,
@@ -5341,7 +5341,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3453,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -5375,7 +5375,7 @@
             "targetMonsterId": 5301,
             "targetCount": 1,
             "handInNpcId": 3453,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -5409,7 +5409,7 @@
             "targetMonsterId": 5304,
             "targetCount": 1,
             "handInNpcId": 3453,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -5471,7 +5471,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3097,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -5505,7 +5505,7 @@
             "targetMonsterId": 5471,
             "targetCount": 1,
             "handInNpcId": 3097,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -5539,7 +5539,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3452,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -5610,7 +5610,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3454,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -5644,7 +5644,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3454,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21380,
@@ -5693,7 +5693,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3454,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21381,
@@ -5742,7 +5742,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3457,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -5802,7 +5802,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3211,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -5864,7 +5864,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3135,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -5984,7 +5984,7 @@
             "targetMonsterId": 5470,
             "targetCount": 1,
             "handInNpcId": 3492,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -6027,22 +6027,13 @@
           "name": "Commander's Letter"
         }
       ],
-      "nextQuestId": null,
+      "nextQuestId": 71,
       "rewards": {
         "gold": 500,
         "experience": 1500,
         "coins": 1000,
         "renown": 0,
         "choiceGroups": [
-          {
-            "awardId": 1,
-            "gold": 712,
-            "experience": 560,
-            "coins": 0,
-            "renown": 0,
-            "pets": [],
-            "items": []
-          },
           {
             "awardId": 1,
             "gold": 500,
@@ -6105,7 +6096,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3080,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21034,
@@ -6154,7 +6145,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3089,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -6188,7 +6179,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3110,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -6213,8 +6204,8 @@
         {
           "id": 4,
           "mapId": 112,
-          "description": "Kill \"Lizard\"\u00a1\u00c110",
-          "completionDescription": "",
+          "description": "Kill \"Lizard\"¡Á10",
+          "completionDescription": "Return to \"M/A Manager\" after defeating 10 \"Lizard\"",
           "objective": {
             "kind": "monster-defeat",
             "triggerEvent": "monster-defeat",
@@ -6222,7 +6213,7 @@
             "targetMonsterId": 5036,
             "targetCount": 10,
             "handInNpcId": 3110,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -6307,7 +6298,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3013,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21102,
@@ -6356,7 +6347,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3025,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -6390,7 +6381,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3118,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -6452,7 +6443,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3162,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -6486,7 +6477,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3042,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -6520,7 +6511,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3042,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21291,
@@ -6603,7 +6594,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3218,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21013,
@@ -6680,7 +6671,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3283,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -6742,7 +6733,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3414,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -6776,7 +6767,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3751,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -6838,7 +6829,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3751,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -6872,7 +6863,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3751,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -6915,7 +6906,7 @@
             "targetMonsterId": 5584,
             "targetCount": 1,
             "handInNpcId": 3757,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -6949,7 +6940,7 @@
             "targetMonsterId": 5584,
             "targetCount": 1,
             "handInNpcId": 3757,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -7011,7 +7002,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3751,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -7045,7 +7036,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3754,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -7079,7 +7070,7 @@
             "targetMonsterId": 5585,
             "targetCount": 1,
             "handInNpcId": 3754,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -7113,7 +7104,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3751,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -7175,7 +7166,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3754,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -7209,7 +7200,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3754,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -7243,7 +7234,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3764,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -7277,7 +7268,7 @@
             "targetMonsterId": 5588,
             "targetCount": 1,
             "handInNpcId": 3764,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -7339,7 +7330,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3751,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -7373,7 +7364,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3774,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -7407,7 +7398,7 @@
             "targetMonsterId": 5589,
             "targetCount": 1,
             "handInNpcId": 3775,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -7477,7 +7468,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3224,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -7539,7 +7530,7 @@
             "targetMonsterId": 5340,
             "targetCount": 1,
             "handInNpcId": 3224,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -7620,7 +7611,7 @@
             "targetMonsterId": 5001,
             "targetCount": 2,
             "handInNpcId": 3651,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -7701,7 +7692,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3651,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -7788,7 +7779,7 @@
             "targetMonsterId": 5062,
             "targetCount": 10,
             "handInNpcId": 3651,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -7870,7 +7861,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3651,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21315,
@@ -7963,7 +7954,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3651,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 5118,
@@ -8169,7 +8160,7 @@
             "targetMonsterId": 5026,
             "targetCount": 2,
             "handInNpcId": 3651,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -8229,7 +8220,7 @@
             "targetMonsterId": 5188,
             "targetCount": 2,
             "handInNpcId": 3651,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -8299,7 +8290,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3156,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 29001,
@@ -8378,7 +8369,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3004,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -8412,7 +8403,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3023,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -8530,7 +8521,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3028,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21051,
@@ -8587,7 +8578,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3030,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21002,
@@ -8780,7 +8771,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3070,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -8852,7 +8843,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3183,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21047,
@@ -8927,7 +8918,7 @@
             "targetMonsterId": 5126,
             "targetCount": 1,
             "handInNpcId": 3059,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -9115,7 +9106,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3010,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21003,
@@ -9172,7 +9163,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3009,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21004,
@@ -9229,7 +9220,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3015,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21005,
@@ -9286,7 +9277,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3022,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21181,
@@ -9364,7 +9355,7 @@
         {
           "id": 1,
           "mapId": 112,
-          "description": "Kill \"Cateran\"\u00a1\u00c120",
+          "description": "Kill \"Cateran\"¡Á20",
           "completionDescription": "",
           "objective": {
             "kind": "monster-defeat",
@@ -9373,7 +9364,7 @@
             "targetMonsterId": 5017,
             "targetCount": 20,
             "handInNpcId": 3022,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -9436,7 +9427,7 @@
         {
           "id": 1,
           "mapId": 112,
-          "description": "Kill \"Bandit\"\u00a1\u00c120",
+          "description": "Kill \"Bandit\"¡Á20",
           "completionDescription": "",
           "objective": {
             "kind": "monster-defeat",
@@ -9445,7 +9436,7 @@
             "targetMonsterId": 5026,
             "targetCount": 20,
             "handInNpcId": 3022,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -9515,7 +9506,7 @@
             "targetMonsterId": 5181,
             "targetCount": 2,
             "handInNpcId": 3022,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -9576,7 +9567,7 @@
         {
           "id": 1,
           "mapId": 112,
-          "description": "\u00cf\u00fb\u00c3\u00f0 \u00b6\u00fe\u00b8\u00f6\"Ringleader of Bandit\"",
+          "description": "ÏûÃð ¶þ¸ö\"Ringleader of Bandit\"",
           "completionDescription": "",
           "objective": {
             "kind": "npc-interaction",
@@ -9585,7 +9576,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3022,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -9645,7 +9636,7 @@
             "targetMonsterId": 5063,
             "targetCount": 10,
             "handInNpcId": 3022,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -9715,7 +9706,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3181,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 29001,
@@ -9808,7 +9799,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3009,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21110,
@@ -9901,7 +9892,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3008,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21020,
@@ -9984,7 +9975,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3070,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21059,
@@ -10033,7 +10024,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3073,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21023,
@@ -10118,7 +10109,7 @@
             "targetMonsterId": 0,
             "targetCount": 2,
             "handInNpcId": 3079,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 29001,
@@ -10205,7 +10196,7 @@
             "targetMonsterId": 5035,
             "targetCount": 20,
             "handInNpcId": 3183,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -10271,7 +10262,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3058,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21186,
@@ -10320,7 +10311,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3058,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 20009,
@@ -10416,7 +10407,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3191,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21047,
@@ -10509,7 +10500,7 @@
             "targetMonsterId": 5127,
             "targetCount": 1,
             "handInNpcId": 3183,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -10631,7 +10622,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3185,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -10755,7 +10746,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3188,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -10837,7 +10828,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3188,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -11009,7 +11000,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3077,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -11071,7 +11062,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3022,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -11100,7 +11091,7 @@
         {
           "id": 2,
           "mapId": 112,
-          "description": "In \"Commander\" 's name, go to arrest \u00a1\u00b0Dollary\u00a1\u00b1",
+          "description": "In \"Commander\" 's name, go to arrest ¡°Dollary¡±",
           "completionDescription": "",
           "objective": {
             "kind": "npc-interaction",
@@ -11109,7 +11100,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3022,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -11172,7 +11163,7 @@
         {
           "id": 1,
           "mapId": 128,
-          "description": "\u00b4\u00f2\u00b0\u00dc \"Ninja\"",
+          "description": "´ò°Ü \"Ninja\"",
           "completionDescription": "",
           "objective": {
             "kind": "npc-interaction",
@@ -11181,7 +11172,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3073,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -11265,7 +11256,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3022,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21053,
@@ -11348,7 +11339,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3191,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21182,
@@ -11425,7 +11416,7 @@
             "targetMonsterId": 5132,
             "targetCount": 1,
             "handInNpcId": 3193,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -11459,7 +11450,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3193,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 23029,
@@ -11508,7 +11499,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3193,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21026,
@@ -11565,7 +11556,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3191,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21027,
@@ -11658,7 +11649,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3013,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21049,
@@ -11707,7 +11698,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3013,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 23032,
@@ -11777,7 +11768,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3191,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21028,
@@ -11852,7 +11843,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3195,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21031,
@@ -11901,7 +11892,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3195,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 29001,
@@ -11978,7 +11969,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3083,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21050,
@@ -12080,7 +12071,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3300,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21033,
@@ -12169,7 +12160,7 @@
             "targetMonsterId": 5081,
             "targetCount": 1,
             "handInNpcId": 3083,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -12231,7 +12222,7 @@
             "targetMonsterId": 5217,
             "targetCount": 1,
             "handInNpcId": 3084,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -12366,7 +12357,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3199,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21183,
@@ -12520,7 +12511,7 @@
             "targetMonsterId": 5092,
             "targetCount": 20,
             "handInNpcId": 3204,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -12596,7 +12587,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3018,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21056,
@@ -12693,7 +12684,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3019,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -12736,7 +12727,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3093,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21035,
@@ -12871,7 +12862,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3208,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21036,
@@ -12956,7 +12947,7 @@
             "targetMonsterId": 5090,
             "targetCount": 10,
             "handInNpcId": 3100,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -13017,7 +13008,7 @@
         {
           "id": 1,
           "mapId": 164,
-          "description": "\u00b4\u00f2\u00b0\u00dc 10\u00b8\u00f6\"Hill Patroller\"\u00a1\u00a210\u00b8\u00f6\"Hill Roamer\"",
+          "description": "´ò°Ü 10¸ö\"Hill Patroller\"¡¢10¸ö\"Hill Roamer\"",
           "completionDescription": "",
           "objective": {
             "kind": "npc-interaction",
@@ -13026,7 +13017,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3098,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -13108,7 +13099,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3125,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -13187,7 +13178,7 @@
             "targetMonsterId": 5096,
             "targetCount": 20,
             "handInNpcId": 3052,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -13263,7 +13254,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3256,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21071,
@@ -13312,7 +13303,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3256,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -13388,7 +13379,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3031,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -13473,7 +13464,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3263,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21076,
@@ -13530,7 +13521,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3124,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21074,
@@ -13615,7 +13606,7 @@
             "targetMonsterId": 0,
             "targetCount": 5,
             "handInNpcId": 3263,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 29001,
@@ -13666,7 +13657,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3263,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21078,
@@ -13757,7 +13748,7 @@
             "targetMonsterId": 5170,
             "targetCount": 3,
             "handInNpcId": 3265,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -13835,7 +13826,7 @@
             "targetMonsterId": 5171,
             "targetCount": 1,
             "handInNpcId": 3265,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -13901,7 +13892,7 @@
             "targetMonsterId": 5237,
             "targetCount": 1,
             "handInNpcId": 3353,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -13969,7 +13960,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3343,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -14032,7 +14023,7 @@
         {
           "id": 1,
           "mapId": 169,
-          "description": "Kill \"Maneating Flower\" and get \"Large Petal\"\u00a1\u00c110",
+          "description": "Kill \"Maneating Flower\" and get \"Large Petal\"¡Á10",
           "completionDescription": "",
           "objective": {
             "kind": "item-collect",
@@ -14128,7 +14119,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3353,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21231,
@@ -14387,7 +14378,7 @@
         {
           "id": 1,
           "mapId": 169,
-          "description": "Kill \"Locust\"\u00a1\u00c120 and report to \"Guardian\"",
+          "description": "Kill \"Locust\"¡Á20 and report to \"Guardian\"",
           "completionDescription": "",
           "objective": {
             "kind": "monster-defeat",
@@ -14396,7 +14387,7 @@
             "targetMonsterId": 5240,
             "targetCount": 20,
             "handInNpcId": 3344,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -14456,7 +14447,7 @@
             "targetMonsterId": 5280,
             "targetCount": 1,
             "handInNpcId": 3361,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -14490,7 +14481,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3355,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -14571,7 +14562,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3347,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21236,
@@ -14628,7 +14619,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3356,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21237,
@@ -14677,7 +14668,7 @@
             "targetMonsterId": 5236,
             "targetCount": 1,
             "handInNpcId": 3356,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -14759,7 +14750,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3356,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 29001,
@@ -14839,7 +14830,7 @@
         {
           "id": 1,
           "mapId": 240,
-          "description": "\u00b4\u00f2\u00b0\u00dc \"Beatle Soldier\" Bring 15 \"Fragile Wings\" to \"White Dragon\"",
+          "description": "´ò°Ü \"Beatle Soldier\" Bring 15 \"Fragile Wings\" to \"White Dragon\"",
           "completionDescription": "",
           "objective": {
             "kind": "npc-interaction",
@@ -14848,7 +14839,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3356,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21239,
@@ -14897,7 +14888,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3361,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -15064,7 +15055,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3345,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21240,
@@ -15113,7 +15104,7 @@
             "targetMonsterId": 5241,
             "targetCount": 15,
             "handInNpcId": 3345,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -15258,7 +15249,7 @@
             "targetMonsterId": 5241,
             "targetCount": 15,
             "handInNpcId": 3365,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -15292,7 +15283,7 @@
             "targetMonsterId": 5241,
             "targetCount": 15,
             "handInNpcId": 3365,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -15352,7 +15343,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3366,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 29001,
@@ -15429,7 +15420,7 @@
             "targetMonsterId": 5243,
             "targetCount": 15,
             "handInNpcId": 3363,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -15574,7 +15565,7 @@
             "targetMonsterId": 5247,
             "targetCount": 10,
             "handInNpcId": 3380,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -15640,7 +15631,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3381,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21242,
@@ -15689,7 +15680,7 @@
             "targetMonsterId": 5282,
             "targetCount": 1,
             "handInNpcId": 3381,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -15755,7 +15746,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3370,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21382,
@@ -15836,7 +15827,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3374,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21247,
@@ -15917,7 +15908,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3376,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21248,
@@ -15966,7 +15957,7 @@
             "targetMonsterId": 5248,
             "targetCount": 15,
             "handInNpcId": 3376,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -16032,7 +16023,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3330,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 29001,
@@ -16109,7 +16100,7 @@
             "targetMonsterId": 5257,
             "targetCount": 10,
             "handInNpcId": 3391,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -16254,7 +16245,7 @@
             "targetMonsterId": 5253,
             "targetCount": 10,
             "handInNpcId": 3393,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -16320,7 +16311,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3394,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21249,
@@ -16377,7 +16368,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3382,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21249,
@@ -16452,7 +16443,7 @@
             "targetMonsterId": 5255,
             "targetCount": 20,
             "handInNpcId": 3382,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -16518,7 +16509,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3394,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21250,
@@ -16567,7 +16558,7 @@
             "targetMonsterId": 5283,
             "targetCount": 1,
             "handInNpcId": 3394,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -16633,7 +16624,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3394,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21251,
@@ -16714,7 +16705,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3438,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 23095,
@@ -16771,7 +16762,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3383,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21285,
@@ -16852,7 +16843,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3439,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21252,
@@ -16901,7 +16892,7 @@
             "targetMonsterId": 5103,
             "targetCount": 1,
             "handInNpcId": 3439,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -16967,7 +16958,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3383,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21253,
@@ -17016,7 +17007,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3383,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21254,
@@ -17176,7 +17167,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3395,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -17219,7 +17210,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3396,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21256,
@@ -17300,7 +17291,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3395,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21257,
@@ -17357,7 +17348,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3397,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21258,
@@ -17438,7 +17429,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3379,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21258,
@@ -17487,7 +17478,7 @@
             "targetMonsterId": 5276,
             "targetCount": 1,
             "handInNpcId": 3378,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -17521,7 +17512,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3397,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -17596,7 +17587,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3401,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21260,
@@ -17677,7 +17668,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3398,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21261,
@@ -17726,7 +17717,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3398,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -17801,7 +17792,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3401,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21262,
@@ -17876,7 +17867,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3402,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 29001,
@@ -17963,7 +17954,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3403,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21263,
@@ -18012,7 +18003,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3404,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 20063,
@@ -18074,7 +18065,7 @@
             "targetMonsterId": 5259,
             "targetCount": 10,
             "handInNpcId": 3404,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -18225,7 +18216,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3404,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21263,
@@ -18302,7 +18293,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3404,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21266,
@@ -18377,7 +18368,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3405,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 29001,
@@ -18456,7 +18447,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3405,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -18516,7 +18507,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3414,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -18582,7 +18573,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3418,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21268,
@@ -18631,7 +18622,7 @@
             "targetMonsterId": 5264,
             "targetCount": 15,
             "handInNpcId": 3418,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -18699,7 +18690,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3418,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21394,
@@ -18774,7 +18765,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3406,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21271,
@@ -18865,7 +18856,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3433,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 20023,
@@ -18935,7 +18926,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3414,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21273,
@@ -19010,7 +19001,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3406,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -19076,7 +19067,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3407,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 23104,
@@ -19125,7 +19116,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3407,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21274,
@@ -19206,7 +19197,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3409,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21275,
@@ -19457,7 +19448,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3409,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21278,
@@ -19538,7 +19529,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3409,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21278,
@@ -19595,7 +19586,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3414,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21273,
@@ -19676,7 +19667,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3412,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
@@ -19719,7 +19710,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3421,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21280,
@@ -19800,7 +19791,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3421,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21281,
@@ -19881,7 +19872,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3412,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 20023,
@@ -19943,7 +19934,7 @@
             "targetMonsterId": 0,
             "targetCount": 1,
             "handInNpcId": 3421,
-            "autoAdvance": true,
+            "autoAdvance": false,
             "requiredItems": [
               {
                 "templateId": 21280,

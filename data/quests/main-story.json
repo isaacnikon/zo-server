@@ -2341,15 +2341,6 @@
         "choiceGroups": [
           {
             "awardId": 1,
-            "gold": 712,
-            "experience": 560,
-            "coins": 0,
-            "renown": 0,
-            "pets": [],
-            "items": []
-          },
-          {
-            "awardId": 1,
             "gold": 500,
             "experience": 1500,
             "coins": 1000,
@@ -2430,6 +2421,8 @@
           "npcId": 3110,
           "status": 4,
           "description": "Kill \"Lizard\"¡Á10",
+          "completionDescription": "Return to \"M/A Manager\" after defeating 10 \"Lizard\"",
+          "autoAdvance": false,
           "mapId": 112,
           "monsterId": 5036,
           "count": 10
