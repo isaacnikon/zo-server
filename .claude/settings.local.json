@@ -71,7 +71,19 @@
       "Bash(done)",
       "Bash(du -sh /home/nikon/projects/zo-server/data/*)",
       "Bash(do echo:*)",
-      "Read(//home/nikon/projects/zo-server/**)"
+      "Read(//home/nikon/projects/zo-server/**)",
+      "Bash(git mv:*)",
+      "Bash(git rm:*)",
+      "Bash(head -10 python3 -c \"import sys; sys.path.insert\\(0, ''''/home/nikon/projects/zo-server/scripts''''\\); import extract_gcg; print\\(''''found''''\\)\")",
+      "Bash(jq:*)",
+      "mcp__ghidra-mcp__check_connection",
+      "Bash(awk:*)",
+      "Bash(timeout 10 wine gc12.exe)",
+      "Bash(echo \"exit code: $?\")",
+      "Bash(echo \"exit: $?\")",
+      "Bash(timeout 8 wine gc12.exe)",
+      "mcp__ghidra-mcp__list_open_programs",
+      "mcp__ghidra-mcp__get_xrefs_from"
     ]
   },
   "enableAllProjectMcpServers": true,
