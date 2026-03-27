@@ -191,11 +191,12 @@ function applyInventoryQuestEvent(
 
 function mapInventoryQuestEventToEffect(event: UnknownRecord): UnknownRecord | null {
   if (event.type === 'item-granted') {
+    const isIdempotent = event.reason !== 'defeat-collect';
     return {
       kind: 'grant-item',
       templateId: event.templateId,
       quantity: event.quantity,
-      idempotent: true,
+      idempotent: isIdempotent,
       dialoguePrefix: 'Quest',
       itemName: event.itemName,
       successMessage: `${event.itemName || 'Quest item'} was added to your pack.`,

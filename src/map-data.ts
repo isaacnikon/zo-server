@@ -57,6 +57,7 @@ type MapNpcRecord = {
   npcTypeId?: number;
   name?: string;
   resolvedSpawnEntityType?: number;
+  validationStatus?: string;
   x: number;
   y: number;
 };
@@ -204,6 +205,9 @@ export function getMapNpcs(mapId: number): MapNpcFile | null {
 }
 
 function resolveSpawnEntityType(npc: MapNpcRecord): number {
+  if (typeof npc.validationStatus === 'string' && npc.validationStatus === 'alias-id-mismatch') {
+    return npc.npcId & 0xffff;
+  }
   if (Number.isInteger(npc.resolvedSpawnEntityType)) {
     return (npc.resolvedSpawnEntityType || npc.npcId) & 0xffff;
   }

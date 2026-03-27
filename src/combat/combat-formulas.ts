@@ -110,6 +110,7 @@ export function createIdleCombatState(): CombatState {
     pendingSkillOutcomes: null,
     pendingSkillContext: null,
     pendingCounterattack: null,
+    pendingActionResolution: null,
     playerStatus: {},
     enemyStatuses: {},
   };
@@ -702,10 +703,14 @@ export function computeEnemyDamage(session: GameSession, enemy: Record<string, a
   const derived = resolveDerivedPlayerCombatStats(session);
   const defenseBonusPercent = Math.max(0, Math.min(90, session.combatState?.playerStatus?.defiantDefenseBonusPercent || 0));
   const adjustedDefense = Math.round(Math.max(1, derived.defense || 1) * (1 + (defenseBonusPercent / 100)));
-  const base = 6 + ((enemy.level || 1) * 3) + (enemy.aptitude || 0);
+  const defenseMitigation = Math.max(0, Math.floor(adjustedDefense / 120));
+  const baseMin = 18 + ((enemy.level || 1) * 4) + ((enemy.aptitude || 0) * 2);
+  const baseMax = Math.max(baseMin, baseMin + 8 + Math.floor((enemy.level || 1) / 2));
   const enervatePenalty = Math.max(0, Math.min(90, session.combatState?.enemyStatuses?.[enemy?.entityId >>> 0]?.enervateAttackPenaltyPercent || 0));
-  const adjustedBase = Math.round(base * (1 - (enervatePenalty / 100)));
-  return Math.max(0, adjustedBase + Math.floor(Math.random() * 5) - adjustedDefense);
+  const adjustedMin = Math.max(1, Math.round(baseMin * (1 - (enervatePenalty / 100))));
+  const adjustedMax = Math.max(adjustedMin, Math.round(baseMax * (1 - (enervatePenalty / 100))));
+  const rolledBase = rollRangeDamage(adjustedMin, adjustedMax);
+  return Math.max(1, rolledBase - defenseMitigation);
 }
 
 export function computeSkillDamage(session: GameSession, skillId: number, skillLevel: number, enemy: Record<string, any>): number {

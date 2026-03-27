@@ -20,6 +20,7 @@ import {
   resolveCombatFlee,
   resolveCombatItemUse,
   resolveEnemyCounterattack,
+  resolveVictory,
   sendIntroSequence,
   transitionToCommandPhase,
 } from '../combat/combat-resolution.js';
@@ -174,6 +175,18 @@ function isClientReadyPacket(cmdWord: number, payload: Buffer): boolean {
 }
 
 function tryHandleCombatReady(session: GameSession): boolean {
+  if (session.combatState.pendingActionResolution) {
+    const pending = session.combatState.pendingActionResolution;
+    session.combatState.pendingActionResolution = null;
+    session.combatState.awaitingClientReady = false;
+    if (pending.reason === 'victory') {
+      resolveVictory(session);
+      return true;
+    }
+    resolveEnemyCounterattack(session, pending.reason);
+    return true;
+  }
+
   if (session.combatState.awaitingClientReady) {
     transitionToCommandPhase(session, 'client-ready');
     return true;
@@ -256,6 +269,7 @@ export function sendCombatEncounterProbe(session: GameSession, action: CombatAct
     pendingEnemyTurnQueue: [],
     pendingPostKillCounterattack: false,
     enemyTurnReason: null,
+    pendingActionResolution: null,
     playerStatus: {},
     enemyStatuses: {},
   };

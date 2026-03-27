@@ -54,6 +54,18 @@ function parseServerRunRequest(payload: Buffer): ServerRunRequestData | null {
     };
   }
 
+  if (subcmd === 0x08 && payload.length >= 9) {
+    return {
+      subcmd,
+      scriptId: payload.readUInt16LE(7),
+      rawArgs: [
+        payload.readUInt16LE(3),
+        payload.readUInt16LE(5),
+        payload.readUInt16LE(7),
+      ],
+    };
+  }
+
   const rawArgs: number[] = [];
   for (let offset = 3; offset + 1 < payload.length; offset += 2) {
     rawArgs.push(payload.readUInt16LE(offset));

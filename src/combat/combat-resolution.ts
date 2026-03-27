@@ -117,6 +117,7 @@ export function transitionToCommandPhase(session: GameSession, reason: string): 
   session.combatState.awaitingClientReady = false;
   session.combatState.awaitingPlayerAction = true;
   session.combatState.phase = 'command';
+  session.combatState.pendingActionResolution = null;
   session.combatState.round = Math.max(1, (session.combatState.round || 0) + 1);
   sendCommandPrompt(session, reason);
 }
@@ -142,6 +143,7 @@ export function resolveCombatFlee(session: GameSession, sourceLabel: string): vo
   session.combatState.pendingEnemyTurnQueue = [];
   session.combatState.pendingPostKillCounterattack = false;
   session.combatState.pendingCounterattack = null;
+  session.combatState.pendingActionResolution = null;
   session.combatState.enemyTurnReason = null;
   session.combatState.awaitingSkillResolution = false;
   session.combatState.skillResolutionPhase = null;
@@ -203,16 +205,24 @@ export function handleAttackSelection(session: GameSession, payload: Buffer): vo
     );
     session.log(`Combat enemy defeated entity=${enemy.entityId} remaining=${describeLivingEnemies(session.combatState.enemies)}`);
     if (findFirstLivingEnemy(session.combatState.enemies)) {
-      session.combatState.pendingPostKillCounterattack = true;
+      session.combatState.pendingPostKillCounterattack = false;
+      session.combatState.pendingActionResolution = { reason: 'post-kill' };
       session.combatState.phase = 'resolved';
       session.combatState.awaitingPlayerAction = false;
+      session.combatState.awaitingClientReady = true;
       return;
     }
-    resolveVictory(session);
+    session.combatState.pendingActionResolution = { reason: 'victory' };
+    session.combatState.phase = 'resolved';
+    session.combatState.awaitingPlayerAction = false;
+    session.combatState.awaitingClientReady = true;
     return;
   }
 
-  resolveEnemyCounterattack(session, 'normal');
+  session.combatState.pendingActionResolution = { reason: 'normal' };
+  session.combatState.phase = 'resolved';
+  session.combatState.awaitingPlayerAction = false;
+  session.combatState.awaitingClientReady = true;
 }
 
 // --- Item use ---
@@ -259,7 +269,8 @@ export function resolveCombatItemUse(
   session.log(
     `Combat item use ok source=${sourceLabel} instanceId=${instanceId} targetEntityId=${targetEntityId} templateId=${useResult.item?.templateId || 0} restored=${useResult.gained?.health || 0}/${useResult.gained?.mana || 0}/${useResult.gained?.rage || 0} hp/mp/rage=${session.currentHealth}/${session.currentMana}/${session.currentRage}`
   );
-  resolveEnemyCounterattack(session, 'normal');
+  session.combatState.pendingActionResolution = { reason: 'normal' };
+  session.combatState.awaitingClientReady = true;
 }
 
 function sendCombatItemPlayback(
@@ -386,11 +397,15 @@ export function resolveCombatCaptureItemUse(
 
   if (!findFirstLivingEnemy(session.combatState.enemies)) {
     session.persistCurrentCharacter();
+    session.combatState.pendingActionResolution = null;
+    session.combatState.awaitingClientReady = false;
     resolveVictory(session);
     return;
   }
 
   session.persistCurrentCharacter();
+  session.combatState.pendingActionResolution = null;
+  session.combatState.awaitingClientReady = false;
   resolveEnemyCounterattack(session, 'normal');
 }
 
@@ -403,6 +418,8 @@ export function resolveEnemyCounterattack(session: GameSession, reason: EnemyTur
     return;
   }
 
+  session.combatState.awaitingClientReady = false;
+  session.combatState.pendingActionResolution = null;
   session.combatState.phase = 'enemy-turn';
   session.combatState.awaitingPlayerAction = false;
   session.combatState.enemyTurnReason = reason;
@@ -546,8 +563,19 @@ export function resolveVictory(session: GameSession): void {
   const defeatedEnemies = Array.isArray(session.combatState?.enemies)
     ? session.combatState.enemies.filter((enemy: Record<string, any>) => (enemy.maxHp || 0) > 0)
     : [];
+  const questGrantedItems: Record<number, { templateId: number; quantity: number }> = {};
   for (const enemy of defeatedEnemies) {
-    session.handleQuestMonsterDefeat(enemy.typeId, 1);
+    const questResult = session.handleQuestMonsterDefeat(enemy.typeId, 1);
+    for (const item of Array.isArray(questResult?.grantedItems) ? questResult.grantedItems : []) {
+      const templateId = Number.isInteger(item?.templateId) ? (item.templateId >>> 0) : 0;
+      const quantity = Math.max(1, Number.isInteger(item?.quantity) ? item.quantity : 1);
+      if (templateId <= 0) {
+        continue;
+      }
+      const existing = questGrantedItems[templateId] || { templateId, quantity: 0 };
+      existing.quantity += quantity;
+      questGrantedItems[templateId] = existing;
+    }
   }
   const combatRewards = buildCombatVictoryRewards(
     defeatedEnemies,
@@ -581,6 +609,15 @@ export function resolveVictory(session: GameSession): void {
       dropResult.granted.map((drop: Record<string, any>) => drop.templateId).filter(Number.isInteger)
     );
   }
+  const combinedDrops = [...dropResult.granted];
+  for (const item of Object.values(questGrantedItems)) {
+    const existing = combinedDrops.find((drop: Record<string, any>) => Number.isInteger(drop?.templateId) && (drop.templateId >>> 0) === (item.templateId >>> 0));
+    if (existing) {
+      existing.quantity = Math.max(1, Number(existing.quantity) || 1) + item.quantity;
+      continue;
+    }
+    combinedDrops.push({ templateId: item.templateId >>> 0, quantity: item.quantity });
+  }
 
   const rankCode = deriveCombatResultRankCode(combatRewards.totalScore, combatRewards.maxScore);
 
@@ -600,12 +637,12 @@ export function resolveVictory(session: GameSession): void {
       characterExperience: combatRewards.characterExperience,
       petExperience: 0,
       coins: combatRewards.coins,
-      items: dropResult.granted,
+      items: combinedDrops,
     }),
     DEFAULT_FLAGS,
-    `Sending combat victory enemies=${defeatedEnemies.map((enemy: Record<string, any>) => `${enemy.typeId}@${enemy.entityId}`).join('|') || 'none'} exp=${combatRewards.characterExperience} petExp=0 coins=${combatRewards.coins} score=${combatRewards.totalScore}/${combatRewards.maxScore} drops=${dropResult.granted.length}`
+    `Sending combat victory enemies=${defeatedEnemies.map((enemy: Record<string, any>) => `${enemy.typeId}@${enemy.entityId}`).join('|') || 'none'} exp=${combatRewards.characterExperience} petExp=0 coins=${combatRewards.coins} score=${combatRewards.totalScore}/${combatRewards.maxScore} drops=${combinedDrops.length}`
   );
-  session.log(`Combat victory trigger=${session.combatState.triggerId} enemies=${defeatedEnemies.map((enemy: Record<string, any>) => `${enemy.typeId}@${enemy.entityId}`).join('|') || 'none'} exp=${combatRewards.characterExperience} petExp=0 coins=${combatRewards.coins} score=${combatRewards.totalScore}/${combatRewards.maxScore} drops=${dropResult.granted.map((drop: Record<string, any>) => `${drop.templateId}x${drop.quantity}`).join(',') || 'none'}`);
+  session.log(`Combat victory trigger=${session.combatState.triggerId} enemies=${defeatedEnemies.map((enemy: Record<string, any>) => `${enemy.typeId}@${enemy.entityId}`).join('|') || 'none'} exp=${combatRewards.characterExperience} petExp=0 coins=${combatRewards.coins} score=${combatRewards.totalScore}/${combatRewards.maxScore} drops=${combinedDrops.map((drop: Record<string, any>) => `${drop.templateId}x${drop.quantity}`).join(',') || 'none'}`);
   clearCombatState(session, dropResult.inventoryDirty);
 }
 

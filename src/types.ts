@@ -135,6 +135,7 @@ export interface GameSession {
   id: number;
   state: string;
   isGame: boolean;
+  remoteAddress: string | null;
   accountName: string | null;
   accountKey: string | null;
   sharedState: Record<string, any>;
@@ -215,6 +216,8 @@ export interface GameSession {
   activeGather: { runtimeId: number; startedAt: number } | null;
   // Scene/NPC state
   pendingSceneNpcSpawnMapId: number | null;
+  pendingLoginQuestSyncMapId: number | null;
+  pendingLoginQuestSyncTimer: NodeJS.Timeout | null;
   activeNpcShop: any;
   // Equipment
   equipmentReplayTimer: NodeJS.Timeout | null;
@@ -252,7 +255,7 @@ export interface GameSession {
   ensureQuestStateReady(): void;
   syncQuestStateToClient(options?: { mode?: QuestSyncMode }): void;
   refreshQuestStateForItemTemplates(templateIds: number[]): void;
-  handleQuestMonsterDefeat(monsterId: number, count?: number): void;
+  handleQuestMonsterDefeat(monsterId: number, count?: number): { handled: boolean; grantedItems: Array<{ templateId: number; quantity: number }> };
   applyQuestEvents(events: any[], source?: string, options?: Record<string, unknown>): void;
   // Objective methods
   dispatchObjectiveMonsterDefeat(monsterId: number, count?: number, source?: string, options?: Record<string, unknown>): boolean;
@@ -337,6 +340,9 @@ export interface PendingCounterattack {
   reason: 'normal' | 'post-kill';
   played: boolean;
 }
+export interface PendingActionResolution {
+  reason: 'normal' | 'post-kill' | 'victory';
+}
 export interface CombatState {
   active: boolean;
   phase: CombatPhase;
@@ -363,6 +369,7 @@ export interface CombatState {
   pendingSkillOutcomes?: PendingSkillOutcome[] | null;
   pendingSkillContext?: PendingSkillContext | null;
   pendingCounterattack?: PendingCounterattack | null;
+  pendingActionResolution?: PendingActionResolution | null;
   playerStatus: CombatPlayerStatus;
   enemyStatuses: Record<number, CombatEnemyStatus>;
 }

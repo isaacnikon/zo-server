@@ -4,7 +4,14 @@ import type { GameSession, ServerRunRequestData } from '../types.js';
 import { DEFAULT_FLAGS, GAME_NPC_SHOP_CMD } from '../config.js';
 import { getMapEncounterLevelRange, getMapNpcs, getMapSummary } from '../map-data.js';
 import { getBagQuantityByTemplateId } from '../inventory/index.js';
-import { interactWithNpc, getQuestDefinition, getQuestAcceptBlocker } from '../quest-engine/index.js';
+import {
+  getCurrentObjective,
+  getCurrentStep,
+  getCurrentStepUi,
+  interactWithNpc,
+  getQuestDefinition,
+  getQuestAcceptBlocker,
+} from '../quest-engine/index.js';
 import { buildNpcShopOpenPacket } from '../protocol/gameplay-packets.js';
 import { resolveRepoPath } from '../runtime-paths.js';
 import { resolveInnRestVitals } from '../gameplay/session-flows.js';
@@ -12,6 +19,7 @@ import { sendSelfStateValueUpdate, sendSelfStateVitalsUpdate } from '../gameplay
 import { buildEncounterPoolEntry } from '../roleinfo/index.js';
 import { grantSkill, sendSkillStateSync } from '../gameplay/skill-runtime.js';
 import { applyEffects } from '../effects/effect-executor.js';
+import { matchesTrigger } from '../triggers/trigger-matcher.js';
 import { applyQuestEvents } from './quest-handler.js';
 
 type MapNpcRecord = Record<string, any>;
@@ -50,34 +58,6 @@ const HOUSEWIFE_LIFE_SKILL_NAMES: Record<number, string> = {
   9008: 'Herbalism',
   9009: 'Fishing',
 };
-
-function describeQuest51Record(activeQuests: unknown): string {
-  const records = Array.isArray(activeQuests) ? activeQuests : [];
-  const record = records.find((entry: any) => Number.isInteger(entry?.id) && (entry.id >>> 0) === 51) as Record<string, any> | undefined;
-  if (!record) {
-    return 'q51=inactive';
-  }
-  const stepIndex = Number.isInteger(record.stepIndex) ? (record.stepIndex >>> 0) : 0;
-  const status = Number.isInteger(record.status) ? (record.status >>> 0) : 0;
-  const progress = record.progress && typeof record.progress === 'object' ? JSON.stringify(record.progress) : '{}';
-  return `q51=active stepIndex=${stepIndex} status=${status} progress=${progress}`;
-}
-
-function describeQuestEvents(events: unknown): string {
-  if (!Array.isArray(events) || events.length < 1) {
-    return 'none';
-  }
-  return events
-    .map((event: any) => {
-      const type = typeof event?.type === 'string' ? event.type : 'unknown';
-      const taskId = Number.isInteger(event?.taskId) ? (event.taskId >>> 0) : 0;
-      const status = Number.isInteger(event?.status) ? (event.status >>> 0) : 0;
-      const templateId = Number.isInteger(event?.templateId) ? (event.templateId >>> 0) : 0;
-      const quantity = Number.isInteger(event?.quantity) ? event.quantity : 0;
-      return `type=${type} taskId=${taskId} status=${status} templateId=${templateId} qty=${quantity}`;
-    })
-    .join('; ');
-}
 
 function handleNpcInteractionRequest(session: GameSession, request: ServerRunRequestData): boolean {
   if (
@@ -135,12 +115,6 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
       completedQuests: session.completedQuests,
       level: session.level,
     };
-    const logQuest51 = resolvedNpcId === 3004 || resolvedNpcId === 3005 || request.scriptId === 51;
-    if (logQuest51) {
-      session.log(
-        `[quest51] npc-pre sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} ${describeQuest51Record(questState.activeQuests)} bag21123=${getBagQuantityByTemplateId(session, 21123)} bag21001=${getBagQuantityByTemplateId(session, 21001)}`
-      );
-    }
     const auxiliaryResult = applyQuestNpcAuxiliaryActions(session, questState as any, resolvedNpcId, request);
     const events = interactWithNpc(
       questState as any,
@@ -151,11 +125,6 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
     );
     const combinedEvents =
       auxiliaryResult && auxiliaryResult.events.length > 0 ? [...auxiliaryResult.events, ...events] : events;
-    if (logQuest51) {
-      session.log(
-        `[quest51] npc-post auxEvents=${describeQuestEvents(auxiliaryResult?.events)} normalEvents=${describeQuestEvents(events)} combined=${describeQuestEvents(combinedEvents)} ${describeQuest51Record(questState.activeQuests)}`
-      );
-    }
 
     session.activeQuests = questState.activeQuests;
     session.completedQuests = questState.completedQuests;
@@ -245,10 +214,18 @@ function tryStartQuestKillCombat(session: GameSession, npcId: number, request: S
     }
 
     const definition = getQuestDefinition(taskId);
-    const step: any = Array.isArray(definition?.steps) ? definition!.steps[stepIndex] : null;
-    const stepNpcId = Number.isInteger(step?.npcId) ? (step.npcId >>> 0) : 0;
-    const monsterId = Number.isInteger(step?.monsterId) ? (step.monsterId >>> 0) : 0;
-    if (!step || step.type !== 'kill' || stepNpcId !== (npcId >>> 0) || monsterId <= 0) {
+    const recordForStep = { ...record, stepIndex };
+    const step: any = getCurrentStep(definition as any, recordForStep as any);
+    const ui: any = getCurrentStepUi(definition as any, recordForStep as any);
+    const objective: any = getCurrentObjective(definition as any, recordForStep as any);
+    const stepNpcId = Number.isInteger(objective?.targetNpcId)
+      ? (objective.targetNpcId >>> 0)
+      : (Number.isInteger(ui?.overNpcId) ? (ui.overNpcId >>> 0) : 0);
+    const monsterId = Number.isInteger(objective?.targetMonsterId) ? (objective.targetMonsterId >>> 0) : 0;
+    const isCombatObjective =
+      objective?.triggerEvent === 'monster-defeat' &&
+      (objective?.kind === 'monster-defeat' || objective?.kind === 'item-collect');
+    if (!step || !isCombatObjective || stepNpcId !== (npcId >>> 0) || monsterId <= 0) {
       continue;
     }
 
@@ -299,36 +276,43 @@ function applyQuestNpcAuxiliaryActions(
       continue;
     }
     const definition = getQuestDefinition(taskId) as Record<string, any> | null;
-    const stepIndex = Math.max(0, Number.isInteger(record?.stepIndex) ? (record.stepIndex >>> 0) : 0);
-    const step = Array.isArray(definition?.steps) ? (definition!.steps[stepIndex] as Record<string, any>) : null;
-    const stepStatus = Number.isInteger(step?.status)
-      ? (step!.status! >>> 0)
+    const step = getCurrentStep(definition as any, record as any) as Record<string, any> | null;
+    const stepStatus = Number.isInteger(step?.tracker?.status)
+      ? (step?.tracker?.status >>> 0)
       : (Number.isInteger(record?.status) ? (record.status >>> 0) : 0);
-    const auxiliaryActions = Array.isArray(definition?.auxiliaryActions)
-      ? (definition!.auxiliaryActions as Array<Record<string, any>>)
+    const interactionTriggers = Array.isArray(definition?.interactionTriggers)
+      ? (definition!.interactionTriggers as Array<Record<string, any>>)
       : [];
 
-    for (const action of auxiliaryActions) {
-      if (action?.type === 'combat_on_server_run') {
-        if (Number.isInteger(action?.stepStatus) && (action.stepStatus >>> 0) !== stepStatus) {
-          continue;
-        }
-        if (Number.isInteger(action?.subtype) && (action.subtype >>> 0) !== requestSubtype) {
-          continue;
-        }
-        if (Number.isInteger(action?.npcId) && (action.npcId >>> 0) !== (npcId >>> 0)) {
-          continue;
-        }
-        if (Number.isInteger(action?.scriptId) && (action.scriptId >>> 0) !== requestScriptId) {
-          continue;
-        }
-        if (Number.isInteger(action?.mapId) && (action.mapId >>> 0) !== mapId) {
-          continue;
-        }
-        if (Number.isInteger(action?.contextId) && (action.contextId >>> 0) !== requestContextId) {
-          continue;
-        }
-        const monsterId = Number.isInteger(action?.monsterId) ? (action.monsterId >>> 0) : 0;
+    for (const trigger of interactionTriggers) {
+      if (trigger?.kind !== 'server-run') {
+        continue;
+      }
+      if (
+        !matchesTrigger(
+          {
+            stepStatus: Number.isInteger(trigger?.stepStatus) ? (trigger.stepStatus >>> 0) : undefined,
+            subtype: Number.isInteger(trigger?.subtype) ? (trigger.subtype >>> 0) : undefined,
+            npcId: Number.isInteger(trigger?.npcId) ? (trigger.npcId >>> 0) : undefined,
+            scriptId: Number.isInteger(trigger?.scriptId) ? (trigger.scriptId >>> 0) : undefined,
+            mapId: Number.isInteger(trigger?.mapId) ? (trigger.mapId >>> 0) : undefined,
+            contextId: Number.isInteger(trigger?.contextId) ? (trigger.contextId >>> 0) : undefined,
+          },
+          {
+            stepStatus,
+            subtype: requestSubtype,
+            npcId: npcId >>> 0,
+            scriptId: requestScriptId,
+            mapId,
+            contextId: requestContextId,
+          }
+        )
+      ) {
+        continue;
+      }
+
+      if (trigger?.combat) {
+        const monsterId = Number.isInteger(trigger.combat?.monsterId) ? (trigger.combat.monsterId >>> 0) : 0;
         if (monsterId <= 0) {
           continue;
         }
@@ -338,44 +322,22 @@ function applyQuestNpcAuxiliaryActions(
           combatTrigger: {
             taskId,
             monsterId,
-            count: Math.max(1, Number.isInteger(action?.count) ? action.count : 1),
+            count: Math.max(1, Number.isInteger(trigger.combat?.count) ? trigger.combat.count : 1),
           },
         };
       }
 
-      if (action?.type !== 'grant_on_server_run') {
-        continue;
-      }
-      if (Number.isInteger(action?.stepStatus) && (action.stepStatus >>> 0) !== stepStatus) {
-        continue;
-      }
-      if (Number.isInteger(action?.subtype) && (action.subtype >>> 0) !== requestSubtype) {
-        continue;
-      }
-      if (Number.isInteger(action?.npcId) && (action.npcId >>> 0) !== (npcId >>> 0)) {
-        continue;
-      }
-      if (Number.isInteger(action?.scriptId) && (action.scriptId >>> 0) !== requestScriptId) {
-        continue;
-      }
-      if (Number.isInteger(action?.mapId) && (action.mapId >>> 0) !== mapId) {
-        continue;
-      }
-      if (Number.isInteger(action?.contextId) && (action.contextId >>> 0) !== requestContextId) {
-        continue;
-      }
-
-      if (typeof action?.setProgressFlag === 'string' && action.setProgressFlag.length > 0) {
-        const hadFlag = record.progress?.[action.setProgressFlag] === true;
+      if (typeof trigger?.setProgressFlag === 'string' && trigger.setProgressFlag.length > 0) {
+        const hadFlag = record.progress?.[trigger.setProgressFlag] === true;
         record.progress = {
           ...(record.progress && typeof record.progress === 'object' ? record.progress : {}),
-          [action.setProgressFlag]: true,
+          [trigger.setProgressFlag]: true,
         };
         stateChanged = stateChanged || !hadFlag;
       }
 
       const events: any[] = [];
-      for (const item of Array.isArray(action?.consumeItems) ? action.consumeItems : []) {
+      for (const item of Array.isArray(trigger?.consumeItems) ? trigger.consumeItems : []) {
         const templateId = Number.isInteger(item?.templateId) ? (item.templateId >>> 0) : 0;
         const quantity = Math.max(1, Number.isInteger(item?.quantity) ? item.quantity : 1);
         if (templateId <= 0) {
@@ -404,15 +366,15 @@ function applyQuestNpcAuxiliaryActions(
         });
       }
 
-      for (const item of Array.isArray(action?.grantItems) ? action.grantItems : []) {
+      for (const item of Array.isArray(trigger?.grantItems) ? trigger.grantItems : []) {
         const templateId = Number.isInteger(item?.templateId) ? (item.templateId >>> 0) : 0;
         const quantity = Math.max(1, Number.isInteger(item?.quantity) ? item.quantity : 1);
         if (templateId <= 0) {
           continue;
         }
         if (
-          Number.isInteger(action?.onlyIfMissingTemplateId) &&
-          (action.onlyIfMissingTemplateId >>> 0) === templateId &&
+          Number.isInteger(trigger?.onlyIfMissingTemplateId) &&
+          (trigger.onlyIfMissingTemplateId >>> 0) === templateId &&
           getBagQuantityByTemplateId(session, templateId) > 0
         ) {
           continue;

@@ -146,6 +146,7 @@ export function buildRoundStartPacket(round: number, activeEntityId: number, opt
   ) {
     writer.writeUint16(Math.max(1, round) & 0xffff);
     writer.writeUint32(activeEntityId >>> 0);
+    writer.writeUint16(0);
     writer.writeUint8(0x0c);
     return writer.payload();
   }

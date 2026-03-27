@@ -47,6 +47,7 @@ class Session implements GameSession {
   serverSeq: number;
   clientSeq: number;
   state: string;
+  remoteAddress: string | null;
   accountName: string | null;
   accountKey: string | null;
   charName: string;
@@ -116,6 +117,8 @@ class Session implements GameSession {
   }> | null;
   activeGather: { runtimeId: number; startedAt: number } | null;
   pendingSceneNpcSpawnMapId: number | null;
+  pendingLoginQuestSyncMapId: number | null;
+  pendingLoginQuestSyncTimer: NodeJS.Timeout | null;
   fieldCombatCooldownUntil: number | null;
   lastFieldCombatProbeKey: string | null;
   worldRegistered: boolean;
@@ -137,6 +140,7 @@ class Session implements GameSession {
     this.serverSeq = 0;
     this.clientSeq = 0;
     this.state = 'CONNECTED';
+    this.remoteAddress = typeof (socket as any)?.remoteAddress === 'string' ? (socket as any).remoteAddress : null;
     this.accountName = null;
     this.accountKey = null;
     this.charName = 'Hero';
@@ -197,6 +201,8 @@ class Session implements GameSession {
     this.gatheringNodes = null;
     this.activeGather = null;
     this.pendingSceneNpcSpawnMapId = null;
+    this.pendingLoginQuestSyncMapId = null;
+    this.pendingLoginQuestSyncTimer = null;
     this.fieldCombatCooldownUntil = null;
     this.lastFieldCombatProbeKey = null;
     this.worldRegistered = false;
@@ -380,8 +386,8 @@ class Session implements GameSession {
     return this.objectiveRegistry.reconcileAll(this, source, options);
   }
 
-  handleQuestMonsterDefeat(monsterId: number, count = 1): void {
-    questHandlerHandleQuestMonsterDefeat(this, monsterId, count);
+  handleQuestMonsterDefeat(monsterId: number, count = 1): { handled: boolean; grantedItems: Array<{ templateId: number; quantity: number }> } {
+    return questHandlerHandleQuestMonsterDefeat(this, monsterId, count);
   }
 
   syncQuestStateToClient(options: { mode?: QuestSyncMode } = {}): void {
@@ -454,6 +460,10 @@ class Session implements GameSession {
   }
 
   dispose(): void {
+    if (this.pendingLoginQuestSyncTimer) {
+      clearTimeout(this.pendingLoginQuestSyncTimer);
+      this.pendingLoginQuestSyncTimer = null;
+    }
     removeWorldPresence(this, 'session-dispose');
     combatHandlerDisposeTimers(this);
     petHandlerDisposeTimers(this);

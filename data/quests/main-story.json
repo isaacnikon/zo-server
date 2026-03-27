@@ -56,8 +56,10 @@
           "type": "grant_on_server_run",
           "stepStatus": 2,
           "subtype": 2,
-          "contextId": 11,
+          "npcId": 3029,
+          "mapId": 101,
           "scriptId": 10000,
+          "setProgressFlag": "mattTalked",
           "onlyIfMissingTemplateId": 21116,
           "consumeItems": [],
           "grantItems": [
@@ -90,6 +92,7 @@
           "status": 2,
           "description": "Bring some \"Timberto Blacksmith from Woodman \"",
           "mapId": 101,
+          "requiredProgressFlag": "mattTalked",
           "consumeItems": [
             {
               "templateId": 21116,
@@ -239,7 +242,7 @@
             "items": [
               {
                 "templateId": 29001,
-                "quantity": 1,
+                "quantity": 3,
                 "name": "Mob Flask Lv.1"
               }
             ]
