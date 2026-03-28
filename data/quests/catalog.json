@@ -8895,7 +8895,7 @@
           "objective": {
             "kind": "monster-defeat",
             "triggerEvent": "monster-defeat",
-            "targetNpcId": 0,
+            "targetNpcId": 3168,
             "targetMonsterId": 5126,
             "targetCount": 1,
             "handInNpcId": 3059,
