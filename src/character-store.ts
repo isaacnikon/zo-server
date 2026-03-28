@@ -292,8 +292,24 @@ function buildInventoryItemsDocument(characterId: string, character: any): Recor
           ...(Number.isInteger(item?.durability) ? { durability: item.durability } : {}),
           ...(Number.isInteger(item?.tradeState) ? { tradeState: item.tradeState | 0 } : {}),
           ...(Number.isInteger(item?.bindState) ? { bindState: item.bindState & 0xff } : {}),
+          ...(Number.isInteger(item?.refineLevel) ? { refineLevel: item.refineLevel & 0xff } : {}),
           ...(Number.isInteger(item?.stateCode) ? { stateCode: item.stateCode & 0xff } : {}),
           ...(Number.isInteger(item?.extraValue) ? { extraValue: item.extraValue & 0xffff } : {}),
+          ...(Number.isInteger(item?.enhancementGrowthId)
+            ? { enhancementGrowthId: item.enhancementGrowthId & 0xffff }
+            : {}),
+          ...(Number.isInteger(item?.enhancementCurrentExp)
+            ? { enhancementCurrentExp: item.enhancementCurrentExp & 0xffff }
+            : {}),
+          ...(Number.isInteger(item?.enhancementSoulPoints)
+            ? { enhancementSoulPoints: item.enhancementSoulPoints & 0xffff }
+            : {}),
+          ...(Number.isInteger(item?.enhancementAptitudeGrowth)
+            ? { enhancementAptitudeGrowth: item.enhancementAptitudeGrowth & 0xffff }
+            : {}),
+          ...(Number.isInteger(item?.enhancementUnknown13)
+            ? { enhancementUnknown13: item.enhancementUnknown13 & 0xffff }
+            : {}),
           ...(Array.isArray(item?.attributePairs) && item.attributePairs.length > 0
             ? {
                 attributePairs: item.attributePairs

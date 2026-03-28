@@ -4,9 +4,9 @@
     "generator": "scripts/generate-scene-script-area-index.py"
   },
   "summary": {
-    "capturedCount": 136,
+    "capturedCount": 137,
     "missingCount": 0,
-    "totalMaps": 136
+    "totalMaps": 137
   },
   "captured": [
     {
@@ -82,6 +82,15 @@
       "mapName": "Spring Forest",
       "path": "data/client-derived/maps/109-spring-forest.scene-script-areas.json",
       "componentCount": 3,
+      "focusSceneScriptId": null,
+      "focusTileCount": null,
+      "focusBbox": null
+    },
+    {
+      "mapId": 111,
+      "mapName": "Chill Pass",
+      "path": "data/client-derived/maps/111-chill-pass.scene-script-areas.json",
+      "componentCount": 5,
       "focusSceneScriptId": null,
       "focusTileCount": null,
       "focusBbox": null

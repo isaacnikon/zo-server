@@ -1,5 +1,5 @@
 import type { CombatEnemyInstance, CombatState, GameSession } from '../types.js';
-import { DEFAULT_FLAGS, FIGHT_CLIENT_ATTACK_SELECTION_SUBCMD, FIGHT_CLIENT_FLEE_SUBCMD, FIGHT_CLIENT_ITEM_USE_SUBCMD, FIGHT_CLIENT_READY_SUBCMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_STREAM_CMD, } from '../config.js';
+import { COMBAT_ENABLED, DEFAULT_FLAGS, FIGHT_CLIENT_ATTACK_SELECTION_SUBCMD, FIGHT_CLIENT_FLEE_SUBCMD, FIGHT_CLIENT_ITEM_USE_SUBCMD, FIGHT_CLIENT_READY_SUBCMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_STREAM_CMD, } from '../config.js';
 import { parseCombatItemUse } from '../protocol/inbound-packets.js';
 import { buildEncounterEnemies } from '../combat/encounter-builder.js';
 import { buildEncounterPacket } from '../combat/packets.js';
@@ -229,6 +229,10 @@ function isDelayedSkillImpactCompletionPacket(session: GameSession, cmdWord: num
 }
 
 export function sendCombatEncounterProbe(session: GameSession, action: CombatAction): void {
+  if (!COMBAT_ENABLED) {
+    session.log(`Ignoring encounter trigger while combat is disabled trigger=${action?.probeId || 'unknown'}`);
+    return;
+  }
   if (session.combatState?.active) {
     session.log(`Ignoring encounter trigger while combat is already active trigger=${session.combatState.triggerId}`);
     return;

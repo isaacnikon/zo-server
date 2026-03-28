@@ -70,11 +70,17 @@ def load_map_ids(path: Path) -> dict[str, int]:
 
 
 def find_map_chunk(script_text: str, map_name: str) -> tuple[str, int, int]:
-    anchor = f'macro_SetBigText("¡ï{map_name}¡ï"'
-    anchor_index = script_text.find(anchor)
-    if anchor_index == -1:
-        anchor = f'macro_SetBigText("��{map_name}��"'
-        anchor_index = script_text.find(anchor)
+    anchor_patterns = [
+        re.compile(rf'macro_SetBigText\("¡ï\s*{re.escape(map_name)}\s*¡ï"'),
+        re.compile(rf'macro_SetBigText\("��\s*{re.escape(map_name)}\s*��"'),
+    ]
+    anchor_index = -1
+    for pattern in anchor_patterns:
+        match = pattern.search(script_text)
+        if match is None:
+            continue
+        anchor_index = match.start()
+        break
     if anchor_index == -1:
         raise ValueError(f"could not find map anchor for {map_name!r}")
 

@@ -44,6 +44,22 @@ import { createIdleCombatState } from './combat-formulas.js';
 type CombatAction = Record<string, any>;
 type EnemyTurnReason = 'normal' | 'post-kill';
 const DELAYED_SKILL_COMPLETION_TIMEOUT_MS = 1200;
+const CRANE_PASS_GUARDIAN_VICTORY_TRIGGER_PREFIX = 'npc-fight:3229:10001:';
+const CRANE_PASS_GUARDIAN_VICTORY_MAP_ID = 138;
+const CRANE_PASS_GUARDIAN_VICTORY_X = 80;
+const CRANE_PASS_GUARDIAN_VICTORY_Y = 90;
+const CRANE_PASS_GUARDIAN_RETURN_X = 90;
+const CRANE_PASS_GUARDIAN_RETURN_Y = 107;
+const SWAN_PASS_GUARDIAN_VICTORY_TRIGGER_PREFIX = 'npc-fight:3230:10001:';
+const SWAN_PASS_GUARDIAN_VICTORY_MAP_ID = 230;
+const SWAN_PASS_GUARDIAN_VICTORY_X = 75;
+const SWAN_PASS_GUARDIAN_VICTORY_Y = 75;
+const SWAN_PASS_GUARDIAN_RETURN_X = 55;
+const SWAN_PASS_GUARDIAN_RETURN_Y = 49;
+const LION_CAPTAIN_VICTORY_TRIGGER_PREFIX = 'npc-fight:3085:3001:';
+const LION_CAPTAIN_VICTORY_MAP_ID = 134;
+const LION_CAPTAIN_VICTORY_X = 67;
+const LION_CAPTAIN_VICTORY_Y = 20;
 
 function loadCombatTips(): string[] {
   try {
@@ -690,8 +706,79 @@ export function resolveVictory(session: GameSession): void {
     DEFAULT_FLAGS,
     `Sending combat victory enemies=${defeatedEnemies.map((enemy: Record<string, any>) => `${enemy.typeId}@${enemy.entityId}`).join('|') || 'none'} exp=${combatRewards.characterExperience} petExp=0 coins=${combatRewards.coins} score=${combatRewards.totalScore}/${combatRewards.maxScore} drops=${combinedDrops.length}`
   );
+  const triggerId = typeof session.combatState?.triggerId === 'string' ? session.combatState.triggerId : '';
+  const isCranePassGuardianVictory = triggerId.startsWith(CRANE_PASS_GUARDIAN_VICTORY_TRIGGER_PREFIX);
+  const isSwanPassGuardianVictory = triggerId.startsWith(SWAN_PASS_GUARDIAN_VICTORY_TRIGGER_PREFIX);
+  const isLionCaptainVictory = triggerId.startsWith(LION_CAPTAIN_VICTORY_TRIGGER_PREFIX);
+  const shouldRepositionAfterVictory = isCranePassGuardianVictory || isSwanPassGuardianVictory || isLionCaptainVictory;
+  const encounterAction = session.combatState?.encounterAction || null;
   session.log(`Combat victory trigger=${session.combatState.triggerId} enemies=${defeatedEnemies.map((enemy: Record<string, any>) => `${enemy.typeId}@${enemy.entityId}`).join('|') || 'none'} exp=${combatRewards.characterExperience} petExp=0 coins=${combatRewards.coins} score=${combatRewards.totalScore}/${combatRewards.maxScore} drops=${combinedDrops.map((drop: Record<string, any>) => `${drop.templateId}x${drop.quantity}`).join(',') || 'none'}`);
   clearCombatState(session, dropResult.inventoryDirty);
+  if (
+    !shouldRepositionAfterVictory ||
+    (!isLionCaptainVictory && typeof session.sendEnterGameOk !== 'function') ||
+    (isLionCaptainVictory && typeof session.sendSceneEnter !== 'function')
+  ) {
+    return;
+  }
+
+  if (isLionCaptainVictory) {
+    session.log(
+      `Sending Lion Captain victory scene-enter map=${LION_CAPTAIN_VICTORY_MAP_ID} pos=${LION_CAPTAIN_VICTORY_X},${LION_CAPTAIN_VICTORY_Y}`
+    );
+    session.sendSceneEnter(LION_CAPTAIN_VICTORY_MAP_ID, LION_CAPTAIN_VICTORY_X, LION_CAPTAIN_VICTORY_Y);
+    return;
+  }
+
+  if (isSwanPassGuardianVictory) {
+    const guardianApproachSide = typeof encounterAction?.guardianApproachSide === 'string'
+      ? encounterAction.guardianApproachSide
+      : 'swan-pass';
+    const targetX = guardianApproachSide === 'za2' ? SWAN_PASS_GUARDIAN_RETURN_X : SWAN_PASS_GUARDIAN_VICTORY_X;
+    const targetY = guardianApproachSide === 'za2' ? SWAN_PASS_GUARDIAN_RETURN_Y : SWAN_PASS_GUARDIAN_VICTORY_Y;
+    session.currentMapId = SWAN_PASS_GUARDIAN_VICTORY_MAP_ID;
+    session.currentX = targetX;
+    session.currentY = targetY;
+    session.log(
+      `Sending Swan Pass Guardian victory reposition side=${guardianApproachSide} map=${SWAN_PASS_GUARDIAN_VICTORY_MAP_ID} pos=${targetX},${targetY}`
+    );
+    session.sendEnterGameOk({ syncMode: 'runtime' });
+    session.persistCurrentCharacter({
+      mapId: SWAN_PASS_GUARDIAN_VICTORY_MAP_ID,
+      x: targetX,
+      y: targetY,
+    });
+    return;
+  }
+
+  const originMapId = Number.isInteger(encounterAction?.originMapId)
+    ? ((encounterAction!.originMapId as number) >>> 0)
+    : CRANE_PASS_GUARDIAN_VICTORY_MAP_ID;
+  const originX = Number.isInteger(encounterAction?.originX)
+    ? ((encounterAction!.originX as number) >>> 0)
+    : session.currentX;
+  const originY = Number.isInteger(encounterAction?.originY)
+    ? ((encounterAction!.originY as number) >>> 0)
+    : session.currentY;
+  const guardianApproachSide = typeof encounterAction?.guardianApproachSide === 'string'
+    ? encounterAction.guardianApproachSide
+    : 'crane-pass';
+  const targetMapId = CRANE_PASS_GUARDIAN_VICTORY_MAP_ID;
+  const targetX = guardianApproachSide === 'za2' ? CRANE_PASS_GUARDIAN_RETURN_X : CRANE_PASS_GUARDIAN_VICTORY_X;
+  const targetY = guardianApproachSide === 'za2' ? CRANE_PASS_GUARDIAN_RETURN_Y : CRANE_PASS_GUARDIAN_VICTORY_Y;
+
+  session.currentMapId = targetMapId;
+  session.currentX = targetX;
+  session.currentY = targetY;
+  session.log(
+    `Sending Crane Pass Guardian victory reposition side=${guardianApproachSide} map=${targetMapId} pos=${targetX},${targetY}`
+  );
+  session.sendEnterGameOk({ syncMode: 'runtime' });
+  session.persistCurrentCharacter({
+    mapId: targetMapId,
+    x: targetX,
+    y: targetY,
+  });
 }
 
 export function buildCombatVictoryRewards(

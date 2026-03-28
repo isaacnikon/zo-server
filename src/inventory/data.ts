@@ -68,8 +68,14 @@ interface BagItem {
   durability?: number;
   tradeState?: number;
   bindState?: number;
+  refineLevel?: number;
   stateCode?: number;
   extraValue?: number;
+  enhancementGrowthId?: number;
+  enhancementCurrentExp?: number;
+  enhancementSoulPoints?: number;
+  enhancementAptitudeGrowth?: number;
+  enhancementUnknown13?: number;
   attributePairs?: ItemInstanceAttributePair[];
   equipped: boolean;
   slot: number;

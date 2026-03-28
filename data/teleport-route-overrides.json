@@ -1,0 +1,1182 @@
+{
+  "routeTargets": [
+    {
+      "sourceMapId": 102,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 112,
+      "targetMapName": "Cloud City",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 105,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 112,
+      "targetMapName": "Cloud City",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 105,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 128,
+      "targetMapName": "Dusk Forest",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 112,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 102,
+      "targetMapName": "Bling Alley",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 112,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 105,
+      "targetMapName": "Fall Alley",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 112,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 117,
+      "targetMapName": "Limon District",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 117,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 112,
+      "targetMapName": "Cloud City",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 128,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 127,
+      "targetMapName": "Devil Dock",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 128,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 160,
+      "targetMapName": "Soul Valley",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 128,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 105,
+      "targetMapName": "Fall Alley",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 131,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 127,
+      "targetMapName": "Devil Dock",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 131,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 146,
+      "targetMapName": "Maple Valley",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 131,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 108,
+      "targetMapName": "Golden Path",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 146,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 120,
+      "targetMapName": "Cobweb Woods",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 146,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 131,
+      "targetMapName": "Goal Manor",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 120,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 146,
+      "targetMapName": "Maple Valley",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 108,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 131,
+      "targetMapName": "Goal Manor",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 108,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 136,
+      "targetMapName": "Zig Alley 1",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 132,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 108,
+      "targetMapName": "Golden Path",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 136,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 108,
+      "targetMapName": "Golden Path",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 136,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 138,
+      "targetMapName": "Crane Pass",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 138,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 136,
+      "targetMapName": "Zig Alley 1",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 138,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 137,
+      "targetMapName": "Zig Alley 2",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 137,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 138,
+      "targetMapName": "Crane Pass",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 137,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 230,
+      "targetMapName": "Swan Pass",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 230,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 137,
+      "targetMapName": "Zig Alley 2",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 230,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 139,
+      "targetMapName": "Darkness Hamlet",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 139,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 230,
+      "targetMapName": "Swan Pass",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 160,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 163,
+      "targetMapName": "Orchid Temple",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 163,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 160,
+      "targetMapName": "Soul Valley",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 134,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 146,
+      "targetMapName": "Maple Valley",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 134,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 111,
+      "targetMapName": "Chill Pass",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 111,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 134,
+      "targetMapName": "Trident Mountain",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 143,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 111,
+      "targetMapName": "Chill Pass",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 143,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 121,
+      "targetMapName": "Dragon Palace",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 121,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 143,
+      "targetMapName": "Benthal Path",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 144,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 111,
+      "targetMapName": "Chill Pass",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 111,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 144,
+      "targetMapName": "Dew Peak",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 144,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 118,
+      "targetMapName": "Wind Canyon",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 118,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 144,
+      "targetMapName": "Dew Peak",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 111,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 107,
+      "targetMapName": "Chill Suburb",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 107,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 111,
+      "targetMapName": "Chill Pass",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 107,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 129,
+      "targetMapName": "Mega Forest",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 107,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 135,
+      "targetMapName": "Precious Garden",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 135,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 107,
+      "targetMapName": "Chill Suburb",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 135,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 133,
+      "targetMapName": "Mirror Lake",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 135,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 232,
+      "targetMapName": "Mega Mountain",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 232,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 135,
+      "targetMapName": "Precious Garden",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 232,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 164,
+      "targetMapName": "Sunlight Hole",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 133,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 135,
+      "targetMapName": "Precious Garden",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 164,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 232,
+      "targetMapName": "Mega Mountain",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 148,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 147,
+      "targetMapName": "Blurred Lake",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 148,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 150,
+      "targetMapName": "Mirror Palace",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 150,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 148,
+      "targetMapName": "Deep Corridor",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 147,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 133,
+      "targetMapName": "Mirror Lake",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 129,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 171,
+      "targetMapName": "Zig Pass",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 129,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 107,
+      "targetMapName": "Chill Suburb",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 171,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 129,
+      "targetMapName": "Mega Forest",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 109,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 242,
+      "targetMapName": "Windbell Valley",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 109,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 171,
+      "targetMapName": "Zig Pass",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 113,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 236,
+      "targetMapName": "Moonset Path",
+      "validation": "screenshot-validated"
+    },
+    {
+      "sourceMapId": 236,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 113,
+      "targetMapName": "Moonset Shore",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 236,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 169,
+      "targetMapName": "Timber Town",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 169,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 236,
+      "targetMapName": "Moonset Path",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 169,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 240,
+      "targetMapName": "Regret Cliff",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 240,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 169,
+      "targetMapName": "Timber Town",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 240,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 241,
+      "targetMapName": "De-evil Tower",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 241,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 240,
+      "targetMapName": "Regret Cliff",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 242,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 109,
+      "targetMapName": "Spring Forest",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 242,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 239,
+      "targetMapName": "Longicorn Gully",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 238,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 239,
+      "targetMapName": "Longicorn Gully",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 238,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 244,
+      "targetMapName": "Longicorn Cliff",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 239,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 242,
+      "targetMapName": "Windbell Valley",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 239,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 238,
+      "targetMapName": "Longicorn Hole",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 234,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 238,
+      "targetMapName": "Longicorn Hole",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 234,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 211,
+      "targetMapName": "Longicorn State",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 211,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 234,
+      "targetMapName": "Somber Aisle",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 244,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 238,
+      "targetMapName": "Longicorn Hole",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 244,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 166,
+      "targetMapName": "Chain Peak",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 166,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 244,
+      "targetMapName": "Longicorn Cliff",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 182,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 166,
+      "targetMapName": "Chain Peak",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 166,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 182,
+      "targetMapName": "Silent Hill",
+      "validation": "validated-manually"
+    }
+  ],
+  "landingOverrides": [
+    {
+      "sourceMapId": 101,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 103,
+      "x": 118,
+      "y": 189
+    },
+    {
+      "sourceMapId": 103,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 101,
+      "x": 72,
+      "y": 19
+    },
+    {
+      "sourceMapId": 103,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 102,
+      "x": 118,
+      "y": 189
+    },
+    {
+      "sourceMapId": 102,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 103,
+      "x": 8,
+      "y": 188
+    },
+    {
+      "sourceMapId": 102,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 112,
+      "x": 244,
+      "y": 92
+    },
+    {
+      "sourceMapId": 112,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 102,
+      "x": 14,
+      "y": 192
+    },
+    {
+      "sourceMapId": 105,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 112,
+      "x": 24,
+      "y": 492
+    },
+    {
+      "sourceMapId": 105,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 128,
+      "x": 43,
+      "y": 231
+    },
+    {
+      "sourceMapId": 112,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 105,
+      "x": 109,
+      "y": 192
+    },
+    {
+      "sourceMapId": 112,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 117,
+      "x": 16,
+      "y": 74
+    },
+    {
+      "sourceMapId": 117,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 112,
+      "x": 220,
+      "y": 492
+    },
+    {
+      "sourceMapId": 128,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 160,
+      "x": 42,
+      "y": 233
+    },
+    {
+      "sourceMapId": 128,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 105,
+      "x": 30,
+      "y": 19
+    },
+    {
+      "sourceMapId": 131,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 127,
+      "x": 14,
+      "y": 139
+    },
+    {
+      "sourceMapId": 131,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 146,
+      "x": 110,
+      "y": 76
+    },
+    {
+      "sourceMapId": 131,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 108,
+      "x": 72,
+      "y": 246
+    },
+    {
+      "sourceMapId": 146,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 120,
+      "x": 87,
+      "y": 230
+    },
+    {
+      "sourceMapId": 146,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 131,
+      "x": 16,
+      "y": 185
+    },
+    {
+      "sourceMapId": 120,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 146,
+      "x": 84,
+      "y": 19
+    },
+    {
+      "sourceMapId": 127,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 131,
+      "x": 92,
+      "y": 248
+    },
+    {
+      "sourceMapId": 108,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 131,
+      "x": 39,
+      "y": 14
+    },
+    {
+      "sourceMapId": 108,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 136,
+      "x": 46,
+      "y": 239
+    },
+    {
+      "sourceMapId": 132,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 108,
+      "x": 12,
+      "y": 80
+    },
+    {
+      "sourceMapId": 136,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 108,
+      "x": 12,
+      "y": 80
+    },
+    {
+      "sourceMapId": 136,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 138,
+      "x": 122,
+      "y": 162
+    },
+    {
+      "sourceMapId": 138,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 136,
+      "x": 58,
+      "y": 17
+    },
+    {
+      "sourceMapId": 138,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 137,
+      "x": 8,
+      "y": 214
+    },
+    {
+      "sourceMapId": 137,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 138,
+      "x": 68,
+      "y": 14
+    },
+    {
+      "sourceMapId": 137,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 230,
+      "x": 8,
+      "y": 90
+    },
+    {
+      "sourceMapId": 230,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 137,
+      "x": 60,
+      "y": 13
+    },
+    {
+      "sourceMapId": 230,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 139,
+      "x": 64,
+      "y": 242
+    },
+    {
+      "sourceMapId": 139,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 230,
+      "x": 67,
+      "y": 14
+    },
+    {
+      "sourceMapId": 160,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 163,
+      "x": 109,
+      "y": 244
+    },
+    {
+      "sourceMapId": 163,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 160,
+      "x": 42,
+      "y": 20
+    },
+    {
+      "sourceMapId": 134,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 146,
+      "x": 72,
+      "y": 231
+    },
+    {
+      "sourceMapId": 134,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 111,
+      "x": 32,
+      "y": 13
+    },
+    {
+      "sourceMapId": 111,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 134,
+      "x": 67,
+      "y": 239
+    },
+    {
+      "sourceMapId": 143,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 111,
+      "x": 224,
+      "y": 480
+    },
+    {
+      "sourceMapId": 143,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 121,
+      "x": 9,
+      "y": 47
+    },
+    {
+      "sourceMapId": 121,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 143,
+      "x": 118,
+      "y": 189
+    },
+    {
+      "sourceMapId": 144,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 111,
+      "x": 61,
+      "y": 492
+    },
+    {
+      "sourceMapId": 111,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 144,
+      "x": 85,
+      "y": 13
+    },
+    {
+      "sourceMapId": 144,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 118,
+      "x": 116,
+      "y": 76
+    },
+    {
+      "sourceMapId": 118,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 144,
+      "x": 10,
+      "y": 74
+    },
+    {
+      "sourceMapId": 111,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 107,
+      "x": 116,
+      "y": 82
+    },
+    {
+      "sourceMapId": 107,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 111,
+      "x": 11,
+      "y": 368
+    },
+    {
+      "sourceMapId": 107,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 129,
+      "x": 116,
+      "y": 139
+    },
+    {
+      "sourceMapId": 107,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 135,
+      "x": 67,
+      "y": 230
+    },
+    {
+      "sourceMapId": 135,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 107,
+      "x": 81,
+      "y": 13
+    },
+    {
+      "sourceMapId": 135,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 133,
+      "x": 115,
+      "y": 166
+    },
+    {
+      "sourceMapId": 135,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 232,
+      "x": 41,
+      "y": 88
+    },
+    {
+      "sourceMapId": 232,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 135,
+      "x": 66,
+      "y": 14
+    },
+    {
+      "sourceMapId": 232,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 164,
+      "x": 53,
+      "y": 105
+    },
+    {
+      "sourceMapId": 133,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 135,
+      "x": 10,
+      "y": 165
+    },
+    {
+      "sourceMapId": 164,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 232,
+      "x": 23,
+      "y": 34
+    },
+    {
+      "sourceMapId": 148,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 147,
+      "x": 10,
+      "y": 150
+    },
+    {
+      "sourceMapId": 148,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 150,
+      "x": 114,
+      "y": 137
+    },
+    {
+      "sourceMapId": 150,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 148,
+      "x": 12,
+      "y": 143
+    },
+    {
+      "sourceMapId": 147,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 133,
+      "x": 72,
+      "y": 54
+    },
+    {
+      "sourceMapId": 129,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 171,
+      "x": 108,
+      "y": 129
+    },
+    {
+      "sourceMapId": 129,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 107,
+      "x": 11,
+      "y": 80
+    },
+    {
+      "sourceMapId": 171,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 129,
+      "x": 12,
+      "y": 139
+    },
+    {
+      "sourceMapId": 109,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 242,
+      "x": 116,
+      "y": 165
+    },
+    {
+      "sourceMapId": 109,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 171,
+      "x": 55,
+      "y": 195
+    },
+    {
+      "sourceMapId": 113,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 236,
+      "x": 29,
+      "y": 20
+    },
+    {
+      "sourceMapId": 236,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 113,
+      "x": 63,
+      "y": 239
+    },
+    {
+      "sourceMapId": 236,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 169,
+      "x": 94,
+      "y": 236
+    },
+    {
+      "sourceMapId": 169,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 236,
+      "x": 12,
+      "y": 192
+    },
+    {
+      "sourceMapId": 169,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 240,
+      "x": 84,
+      "y": 235
+    },
+    {
+      "sourceMapId": 240,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 169,
+      "x": 12,
+      "y": 72
+    },
+    {
+      "sourceMapId": 240,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 241,
+      "x": 64,
+      "y": 54
+    },
+    {
+      "sourceMapId": 241,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 240,
+      "x": 80,
+      "y": 16
+    },
+    {
+      "sourceMapId": 242,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 109,
+      "x": 12,
+      "y": 82
+    },
+    {
+      "sourceMapId": 242,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 239,
+      "x": 14,
+      "y": 124
+    },
+    {
+      "sourceMapId": 238,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 239,
+      "x": 19,
+      "y": 49
+    },
+    {
+      "sourceMapId": 238,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 244,
+      "x": 108,
+      "y": 72
+    },
+    {
+      "sourceMapId": 239,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 242,
+      "x": 63,
+      "y": 12
+    },
+    {
+      "sourceMapId": 239,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 238,
+      "x": 28,
+      "y": 242
+    },
+    {
+      "sourceMapId": 234,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 238,
+      "x": 20,
+      "y": 45
+    },
+    {
+      "sourceMapId": 234,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 211,
+      "x": 19,
+      "y": 217
+    },
+    {
+      "sourceMapId": 211,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 234,
+      "x": 74,
+      "y": 79
+    },
+    {
+      "sourceMapId": 244,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 238,
+      "x": 116,
+      "y": 123
+    },
+    {
+      "sourceMapId": 244,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 166,
+      "x": 8,
+      "y": 123
+    },
+    {
+      "sourceMapId": 166,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 244,
+      "x": 121,
+      "y": 139
+    },
+    {
+      "sourceMapId": 182,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 166,
+      "x": 122,
+      "y": 124
+    },
+    {
+      "sourceMapId": 166,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 182,
+      "x": 10,
+      "y": 121
+    }
+  ]
+}

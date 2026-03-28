@@ -1934,13 +1934,13 @@
       "steps": [
         {
           "id": 1,
-          "mapId": 230,
+          "mapId": 139,
           "description": "Kill \"Lord Glenn\"",
           "completionDescription": "",
           "objective": {
             "kind": "monster-defeat",
             "triggerEvent": "monster-defeat",
-            "targetNpcId": 0,
+            "targetNpcId": 3087,
             "targetMonsterId": 5022,
             "targetCount": 1,
             "handInNpcId": 3022,

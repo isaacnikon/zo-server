@@ -35,6 +35,27 @@ type MapTeleporterFile = {
   maps: MapTeleporterRecord[];
 };
 
+type ManualRouteTargetOverride = {
+  sourceMapId: number;
+  sourceSceneScriptId: number;
+  targetMapId: number;
+  targetMapName: string;
+  validation?: string;
+};
+
+type ManualLandingOverride = {
+  sourceMapId: number;
+  sourceSceneScriptId: number;
+  targetMapId: number;
+  x: number;
+  y: number;
+};
+
+type ManualTeleportOverrideFile = {
+  routeTargets?: ManualRouteTargetOverride[];
+  landingOverrides?: ManualLandingOverride[];
+};
+
 type TeleportInteraction = {
   kind: 'teleport';
   name: string;
@@ -54,29 +75,19 @@ type TeleportInteraction = {
 type SceneInteraction = TeleportInteraction;
 
 const MAP_TELEPORTERS_PATH = resolveRepoPath('data', 'client-derived', 'maps', 'map-teleporters.json');
-const MANUAL_ROUTE_TARGETS = new Map<string, { mapId: number; mapName: string; validation: string }>([
-  ['102:2', { mapId: 112, mapName: 'Cloud City', validation: 'validated-manually' }],
-  ['105:1', { mapId: 112, mapName: 'Cloud City', validation: 'validated-manually' }],
-  ['112:2', { mapId: 102, mapName: 'Bling Alley', validation: 'validated-manually' }],
-  ['112:1', { mapId: 105, mapName: 'Fall Alley', validation: 'validated-manually' }],
-  ['112:3', { mapId: 117, mapName: 'Limon District', validation: 'validated-manually' }],
-  ['117:1', { mapId: 112, mapName: 'Cloud City', validation: 'validated-manually' }],
-]);
-const MANUAL_LANDING_OVERRIDES = new Map<string, { x: number; y: number }>([
-  ['101:1:103', { x: 118, y: 189 }],
-  ['103:1:101', { x: 72, y: 19 }],
-  ['103:2:102', { x: 118, y: 189 }],
-  ['102:1:103', { x: 8, y: 188 }],
-  ['102:2:112', { x: 244, y: 92 }],
-  ['112:2:102', { x: 14, y: 192 }],
-  ['105:1:112', { x: 24, y: 492 }],
-  ['112:1:105', { x: 109, y: 192 }],
-  ['112:3:117', { x: 16, y: 74 }],
-  ['117:1:112', { x: 220, y: 492 }],
-]);
+const MANUAL_TELEPORT_OVERRIDES_PATH = resolveRepoPath('data', 'teleport-route-overrides.json');
+
+let cachedSceneInteractions: SceneInteraction[] | null = null;
+let cachedSceneInteractionsVersion = '';
 
 function isInsideTriggerArea(x: number, y: number, trigger: Rect): boolean {
-  return x >= trigger.minX && x <= trigger.maxX && y >= trigger.minY && y <= trigger.maxY;
+  const edgeTolerance = 2;
+  return (
+    x >= (trigger.minX - edgeTolerance) &&
+    x <= (trigger.maxX + edgeTolerance) &&
+    y >= (trigger.minY - edgeTolerance) &&
+    y <= (trigger.maxY + edgeTolerance)
+  );
 }
 
 function validationRank(validation?: string | null): number {
@@ -113,6 +124,69 @@ function loadTeleporterData(): Map<number, MapTeleporterRecord> {
   }
 
   return byMapId;
+}
+
+function getFileVersionToken(path: string): string {
+  try {
+    const stat = fs.statSync(path);
+    return `${stat.mtimeMs}:${stat.size}`;
+  } catch (_error) {
+    return 'missing';
+  }
+}
+
+function loadManualTeleportOverrides(): ManualTeleportOverrideFile {
+  if (!fs.existsSync(MANUAL_TELEPORT_OVERRIDES_PATH)) {
+    return {};
+  }
+
+  try {
+    const parsed = JSON.parse(fs.readFileSync(MANUAL_TELEPORT_OVERRIDES_PATH, 'utf8')) as ManualTeleportOverrideFile;
+    return parsed && typeof parsed === 'object' ? parsed : {};
+  } catch (_error) {
+    return {};
+  }
+}
+
+function buildManualRouteTargets(overrides: ManualTeleportOverrideFile): Map<string, { mapId: number; mapName: string; validation: string }> {
+  const byKey = new Map<string, { mapId: number; mapName: string; validation: string }>();
+  for (const entry of overrides.routeTargets || []) {
+    if (
+      !Number.isInteger(entry?.sourceMapId) ||
+      !Number.isInteger(entry?.sourceSceneScriptId) ||
+      !Number.isInteger(entry?.targetMapId) ||
+      typeof entry?.targetMapName !== 'string' ||
+      entry.targetMapName.length === 0
+    ) {
+      continue;
+    }
+    byKey.set(`${entry.sourceMapId}:${entry.sourceSceneScriptId}`, {
+      mapId: entry.targetMapId >>> 0,
+      mapName: entry.targetMapName,
+      validation: entry.validation || 'validated-manually',
+    });
+  }
+  return byKey;
+}
+
+function buildManualLandingOverrides(overrides: ManualTeleportOverrideFile): Map<string, { x: number; y: number }> {
+  const byKey = new Map<string, { x: number; y: number }>();
+  for (const entry of overrides.landingOverrides || []) {
+    if (
+      !Number.isInteger(entry?.sourceMapId) ||
+      !Number.isInteger(entry?.sourceSceneScriptId) ||
+      !Number.isInteger(entry?.targetMapId) ||
+      !Number.isInteger(entry?.x) ||
+      !Number.isInteger(entry?.y)
+    ) {
+      continue;
+    }
+    byKey.set(`${entry.sourceMapId}:${entry.sourceSceneScriptId}:${entry.targetMapId}`, {
+      x: entry.x | 0,
+      y: entry.y | 0,
+    });
+  }
+  return byKey;
 }
 
 function chooseTargetCandidate(teleporter: TeleporterRecord): TeleportTargetCandidate | null {
@@ -168,12 +242,13 @@ function findReciprocalTeleporter(
 
 function deriveLandingPosition(
   maps: Map<number, MapTeleporterRecord>,
+  manualLandingOverrides: Map<string, { x: number; y: number }>,
   sourceMapId: number,
   sourceSceneScriptId: number,
   targetMapId: number,
   reciprocalTeleporter: TeleporterRecord | null
 ): { x: number; y: number; targetSceneScriptId?: number | null } | null {
-  const override = MANUAL_LANDING_OVERRIDES.get(`${sourceMapId}:${sourceSceneScriptId}:${targetMapId}`);
+  const override = manualLandingOverrides.get(`${sourceMapId}:${sourceSceneScriptId}:${targetMapId}`);
   if (override) {
     return { x: override.x, y: override.y, targetSceneScriptId: reciprocalTeleporter?.sceneScriptId || null };
   }
@@ -210,6 +285,9 @@ function deriveLandingPosition(
 
 function buildSceneInteractions(): SceneInteraction[] {
   const maps = loadTeleporterData();
+  const manualOverrides = loadManualTeleportOverrides();
+  const manualRouteTargets = buildManualRouteTargets(manualOverrides);
+  const manualLandingOverrides = buildManualLandingOverrides(manualOverrides);
   const interactions: SceneInteraction[] = [];
 
   for (const sourceMap of maps.values()) {
@@ -217,14 +295,21 @@ function buildSceneInteractions(): SceneInteraction[] {
       if (!Number.isInteger(teleporter.sceneScriptId)) {
         continue;
       }
-      const manualTarget = MANUAL_ROUTE_TARGETS.get(`${sourceMap.mapId}:${teleporter.sceneScriptId}`);
+      const manualTarget = manualRouteTargets.get(`${sourceMap.mapId}:${teleporter.sceneScriptId}`);
       const target = manualTarget || chooseTargetCandidate(teleporter);
       if (!target || !Number.isInteger(target.mapId)) {
         continue;
       }
 
       const reciprocal = findReciprocalTeleporter(maps, sourceMap.mapId, target.mapId || 0);
-      const landing = deriveLandingPosition(maps, sourceMap.mapId, teleporter.sceneScriptId, target.mapId || 0, reciprocal);
+      const landing = deriveLandingPosition(
+        maps,
+        manualLandingOverrides,
+        sourceMap.mapId,
+        teleporter.sceneScriptId,
+        target.mapId || 0,
+        reciprocal
+      );
       if (!landing) {
         continue;
       }
@@ -256,7 +341,54 @@ function buildSceneInteractions(): SceneInteraction[] {
   return interactions;
 }
 
-const SCENE_INTERACTIONS: SceneInteraction[] = buildSceneInteractions();
+function getSceneInteractions(): SceneInteraction[] {
+  const version = `${getFileVersionToken(MAP_TELEPORTERS_PATH)}|${getFileVersionToken(MANUAL_TELEPORT_OVERRIDES_PATH)}`;
+  if (!cachedSceneInteractions || cachedSceneInteractionsVersion !== version) {
+    cachedSceneInteractions = buildSceneInteractions();
+    cachedSceneInteractionsVersion = version;
+  }
+  return cachedSceneInteractions;
+}
+
+function tryHandleManualRouteFallback(session: GameSession, request: ServerRunRequestData): boolean {
+  const arg0 = Number.isInteger(request.rawArgs?.[0]) ? (request.rawArgs[0] >>> 0) : 0;
+  if ((request.subcmd >>> 0) !== 0x01 || arg0 <= 0) {
+    return false;
+  }
+
+  const maps = loadTeleporterData();
+  const sourceMap = maps.get(session.currentMapId >>> 0);
+  if (sourceMap?.teleporters?.some((teleporter) => (teleporter.sceneScriptId >>> 0) === arg0)) {
+    return false;
+  }
+
+  const overrides = loadManualTeleportOverrides();
+  const manualRouteTargets = buildManualRouteTargets(overrides);
+  const manualLandingOverrides = buildManualLandingOverrides(overrides);
+  const target = manualRouteTargets.get(`${session.currentMapId}:${arg0}`);
+  if (!target) {
+    return false;
+  }
+
+  const reciprocal = findReciprocalTeleporter(maps, session.currentMapId >>> 0, target.mapId >>> 0);
+  const landing = deriveLandingPosition(
+    maps,
+    manualLandingOverrides,
+    session.currentMapId >>> 0,
+    arg0,
+    target.mapId >>> 0,
+    reciprocal
+  );
+  if (!landing) {
+    return false;
+  }
+
+  session.log(
+    `Sending manual scene-enter fallback map=${target.mapId} pos=${landing.x},${landing.y} sourceMap=${session.currentMapId} scene=${arg0} sourcePos=${session.currentX},${session.currentY} validation=${target.validation}`
+  );
+  session.sendSceneEnter(target.mapId >>> 0, landing.x, landing.y);
+  return true;
+}
 
 function handleSceneInteractionRequest(session: GameSession, request: ServerRunRequestData): boolean {
   if (typeof session.sendSceneEnter !== 'function') {
@@ -264,7 +396,7 @@ function handleSceneInteractionRequest(session: GameSession, request: ServerRunR
   }
 
   const arg0 = request.rawArgs[0];
-  for (const interaction of SCENE_INTERACTIONS) {
+  for (const interaction of getSceneInteractions()) {
     if (request.subcmd !== interaction.requestSubcmd) {
       continue;
     }
@@ -285,11 +417,15 @@ function handleSceneInteractionRequest(session: GameSession, request: ServerRunR
     return true;
   }
 
+  if (tryHandleManualRouteFallback(session, request)) {
+    return true;
+  }
+
   return false;
 }
 
 function listSceneInteractions(): SceneInteraction[] {
-  return SCENE_INTERACTIONS.slice();
+  return getSceneInteractions().slice();
 }
 
 export {

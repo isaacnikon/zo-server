@@ -1,5 +1,6 @@
 import type { GameSession } from '../types.js';
 
+import { COMBAT_ENABLED } from '../config.js';
 import {
   resolveDerivedPlayerCombatStats,
   resolveEnemyPhysicalMitigation,
@@ -10,7 +11,7 @@ import { buildEncounterPoolForLocation } from '../roleinfo/index.js';
 import { getMapEncounterLevelRange, getMapNpcs, getMapSummary } from '../map-data.js';
 
 
-const FIELD_COMBAT_ENABLED = process.env.FIELD_COMBAT_ENABLED !== '0';
+const FIELD_COMBAT_ENABLED = COMBAT_ENABLED && process.env.FIELD_COMBAT_ENABLED !== '0';
 const FIELD_COMBAT_COOLDOWN_MS = Number.isFinite(Number(process.env.FIELD_COMBAT_COOLDOWN_MS))
   ? Math.max(0, Number(process.env.FIELD_COMBAT_COOLDOWN_MS))
   : 8000;

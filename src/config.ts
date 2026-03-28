@@ -1,7 +1,14 @@
+try {
+  process.loadEnvFile?.();
+} catch {
+  // Ignore missing or malformed local .env files and keep process env authoritative.
+}
+
 const port = parseInt(process.env.PORT || '7777', 10);
 const mapClientRoot = process.env.MAP_CLIENT_ROOT || process.env.CLIENT_ROOT;
 const bindHost = process.env.BIND_HOST || '0.0.0.0';
 const serverHost = process.env.SERVER_HOST || '127.0.0.1';
+const combatEnabled = process.env.COMBAT_ENABLED !== '0';
 const singleWorldSessionPerRemote =
   typeof process.env.SINGLE_WORLD_SESSION_PER_REMOTE === 'string' &&
   ['1', 'true', 'yes', 'on'].includes(process.env.SINGLE_WORLD_SESSION_PER_REMOTE.trim().toLowerCase());
@@ -11,6 +18,7 @@ export const ENV = {
   BIND_HOST: bindHost,
   SERVER_HOST: serverHost,
   PORT: Number.isInteger(port) && port > 0 ? port : 7777,
+  COMBAT_ENABLED: combatEnabled,
   SINGLE_WORLD_SESSION_PER_REMOTE: singleWorldSessionPerRemote,
   LOG_FILE: process.env.LOG_FILE || 'server.log',
   CHARACTER_STORE_FILE: process.env.CHARACTER_STORE_FILE || 'characters.json',
@@ -101,7 +109,7 @@ export const WORLD = {
 } as const;
 
 // --- Flat named exports ---
-export const { BIND_HOST, SERVER_HOST, PORT, SINGLE_WORLD_SESSION_PER_REMOTE, LOG_FILE, CHARACTER_STORE_FILE, COMBAT_PROBE_STATE_FILE, COMBAT_REFERENCE_ROOT, MAP_CLIENT_ROOT } = ENV;
+export const { BIND_HOST, SERVER_HOST, PORT, COMBAT_ENABLED, SINGLE_WORLD_SESSION_PER_REMOTE, LOG_FILE, CHARACTER_STORE_FILE, COMBAT_PROBE_STATE_FILE, COMBAT_REFERENCE_ROOT, MAP_CLIENT_ROOT } = ENV;
 export const { MAX_PACKET_SIZE, VALID_FLAG_MASK, VALID_FLAG_VALUE, DEFAULT_FLAGS, SPECIAL_FLAGS } = FRAMING;
 
 export const LOGIN_CMD = GAME_CMD.LOGIN;

@@ -82,15 +82,26 @@ function normalizeBagItem(item: UnknownRecord): BagItem | null {
     : isEquipmentDefinition(definition)
       ? numberOrDefault(definition.defaultQuantity, 0)
       : 1;
+  const normalizedBindState = Number.isInteger(item.bindState) ? (item.bindState & 0xff) : 0;
+  const normalizedRefineLevel = normalizeStoredRefineLevel(definition, item, normalizedBindState);
   return {
     instanceId: Number.isInteger(item.instanceId) && item.instanceId > 0 ? item.instanceId : 1,
     templateId: item.templateId >>> 0,
     quantity: isEquipmentDefinition(definition) ? 1 : normalizeStoredItemQuantity(definition, rawQuantity),
     durability: normalizeStoredItemDurability(definition, item.durability, rawQuantity),
-    tradeState: normalizeStoredTradeState(item.tradeState, item.bindState),
-    bindState: Number.isInteger(item.bindState) ? (item.bindState & 0xff) : 0,
+    tradeState: normalizeStoredTradeState(
+      item.tradeState,
+      isEquipmentDefinition(definition) ? 0 : normalizedBindState
+    ),
+    bindState: normalizedBindState,
+    refineLevel: normalizedRefineLevel,
     stateCode: Number.isInteger(item.stateCode) ? (item.stateCode & 0xff) : 0,
     extraValue: Number.isInteger(item.extraValue) ? (item.extraValue & 0xffff) : 0,
+    enhancementGrowthId: normalizeStoredEnhancementWord(item.enhancementGrowthId),
+    enhancementCurrentExp: normalizeStoredEnhancementWord(item.enhancementCurrentExp),
+    enhancementSoulPoints: normalizeStoredEnhancementWord(item.enhancementSoulPoints),
+    enhancementAptitudeGrowth: normalizeStoredEnhancementWord(item.enhancementAptitudeGrowth),
+    enhancementUnknown13: normalizeStoredEnhancementWord(item.enhancementUnknown13),
     attributePairs: normalizeInstanceAttributePairs(item.attributePairs),
     equipped: item.equipped === true,
     slot: Math.max(FIRST_BAG_SLOT, item.slot >>> 0),
@@ -121,11 +132,23 @@ function buildInventorySnapshot(session: InventorySessionLike): InventoryState['
           tradeState:
             Number.isInteger(item.tradeState) && typeof item.tradeState === 'number'
               ? (item.tradeState | 0)
-              : normalizeStoredTradeState(undefined, item.bindState),
+              : normalizeStoredTradeState(
+                  undefined,
+                  item.templateId != null && (() => {
+                    const definition = getItemDefinition(item.templateId);
+                    return definition && isEquipmentDefinition(definition)
+                      ? 0
+                      : item.bindState;
+                  })()
+                ),
           bindState:
             Number.isInteger(item.bindState) && typeof item.bindState === 'number'
               ? (item.bindState & 0xff)
               : 0,
+          refineLevel:
+            Number.isInteger(item.refineLevel) && typeof item.refineLevel === 'number'
+              ? (item.refineLevel & 0xff)
+              : undefined,
           stateCode:
             Number.isInteger(item.stateCode) && typeof item.stateCode === 'number'
               ? (item.stateCode & 0xff)
@@ -134,6 +157,11 @@ function buildInventorySnapshot(session: InventorySessionLike): InventoryState['
             Number.isInteger(item.extraValue) && typeof item.extraValue === 'number'
               ? (item.extraValue & 0xffff)
               : 0,
+          enhancementGrowthId: normalizeStoredEnhancementWord(item.enhancementGrowthId),
+          enhancementCurrentExp: normalizeStoredEnhancementWord(item.enhancementCurrentExp),
+          enhancementSoulPoints: normalizeStoredEnhancementWord(item.enhancementSoulPoints),
+          enhancementAptitudeGrowth: normalizeStoredEnhancementWord(item.enhancementAptitudeGrowth),
+          enhancementUnknown13: normalizeStoredEnhancementWord(item.enhancementUnknown13),
           attributePairs: normalizeInstanceAttributePairs(item.attributePairs),
           equipped: item.equipped === true,
           slot: item.slot >>> 0,
@@ -600,6 +628,30 @@ function initialStoredItemDurabilityForGrant(definition: ItemDefinition): number
   const defaultQuantity =
     typeof definition.defaultQuantity === 'number' ? definition.defaultQuantity : 0;
   return Number.isInteger(defaultQuantity) && defaultQuantity > 0 ? defaultQuantity : 0;
+}
+
+function normalizeStoredEnhancementWord(value: unknown): number | undefined {
+  if (!Number.isInteger(value) || typeof value !== 'number') {
+    return undefined;
+  }
+  return (value & 0xffff) >>> 0;
+}
+
+function normalizeStoredRefineLevel(
+  definition: ItemDefinition,
+  item: UnknownRecord,
+  normalizedBindState: number
+): number | undefined {
+  if (!isEquipmentDefinition(definition)) {
+    return undefined;
+  }
+  if (Number.isInteger(item.refineLevel) && typeof item.refineLevel === 'number') {
+    return (item.refineLevel & 0xff) >>> 0;
+  }
+  if (normalizedBindState > 0) {
+    return normalizedBindState;
+  }
+  return undefined;
 }
 
 function normalizeStoredItemDurability(

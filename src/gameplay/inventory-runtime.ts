@@ -55,10 +55,7 @@ function sendInventoryFullSync(session: GameSession): void {
 
 function buildClientInventoryItem(item: UnknownRecord): UnknownRecord {
   const definition = getItemDefinition(item.templateId);
-  const payloadBindState =
-    definition && isEquipmentDefinition(definition) && Number.isInteger(item.bindState)
-      ? (item.bindState & 0xff)
-      : 0;
+  const payloadBindState = resolveItemPayloadBindState(definition, item);
   const itemAttributePairs = Array.isArray(item.attributePairs)
     ? item.attributePairs
         .map((pair: UnknownRecord) => ({
@@ -73,7 +70,13 @@ function buildClientInventoryItem(item: UnknownRecord): UnknownRecord {
         ? definition.defaultAttributePairs
         : [];
   const payloadStateCode = resolveEquipmentPayloadStateCode(definition, item, payloadBindState);
-  const enhancementWords = buildEquipmentEnhancementWords(definition, payloadStateCode, payloadBindState, baseAttributePairs);
+  const enhancementWords = buildEquipmentEnhancementWords(
+    definition,
+    item,
+    payloadStateCode,
+    payloadBindState,
+    baseAttributePairs
+  );
   return {
     ...item,
     tradeState: Number.isInteger(item.tradeState) ? (item.tradeState | 0) : 0,
@@ -87,6 +90,19 @@ function buildClientInventoryItem(item: UnknownRecord): UnknownRecord {
   };
 }
 
+function resolveItemPayloadBindState(definition: UnknownRecord | null, item: UnknownRecord): number {
+  if (!definition || !isEquipmentDefinition(definition as any)) {
+    return Number.isInteger(item.bindState) ? (item.bindState & 0xff) : 0;
+  }
+  if (Number.isInteger(item.refineLevel)) {
+    return item.refineLevel & 0xff;
+  }
+  if (Number.isInteger(item.bindState)) {
+    return item.bindState & 0xff;
+  }
+  return 0;
+}
+
 function resolveEquipmentPayloadStateCode(
   definition: UnknownRecord | null,
   item: UnknownRecord,
@@ -97,16 +113,30 @@ function resolveEquipmentPayloadStateCode(
     definition &&
     isEquipmentDefinition(definition as any) &&
     payloadBindState > 0 &&
-    Number.isInteger((definition as any).itemSetId) &&
-    ((definition as any).itemSetId as number) > 0
+    (
+      storedStateCode === 6 ||
+      hasExplicitEnhancementState(item) ||
+      (Number.isInteger((definition as any).itemSetId) && ((definition as any).itemSetId as number) > 0)
+    )
   ) {
     return 6;
   }
   return storedStateCode;
 }
 
+function hasExplicitEnhancementState(item: UnknownRecord): boolean {
+  return (
+    Number.isInteger(item.enhancementGrowthId) ||
+    Number.isInteger(item.enhancementCurrentExp) ||
+    Number.isInteger(item.enhancementSoulPoints) ||
+    Number.isInteger(item.enhancementAptitudeGrowth) ||
+    Number.isInteger(item.enhancementUnknown13)
+  );
+}
+
 function buildEquipmentEnhancementWords(
   definition: UnknownRecord | null,
+  item: UnknownRecord,
   payloadStateCode: number,
   payloadBindState: number,
   attributePairs: Array<{ value: number }>
@@ -136,11 +166,26 @@ function buildEquipmentEnhancementWords(
     words[7] = Number.isInteger(attributePairs[1]?.value) ? (attributePairs[1]!.value & 0xffff) : 0;
   }
 
-  const enhancementGrowthId = Number.isInteger((definition as any).enhancementGrowthId)
-    ? (((definition as any).enhancementGrowthId as number) & 0xffff)
-    : 0;
-  words[10] = enhancementGrowthId;
+  words[8] = resolveEnhancementWord(item.enhancementCurrentExp);
+  words[9] = resolveEnhancementWord(item.enhancementSoulPoints);
+  words[10] = resolveEnhancementGrowthId(definition, item);
+  words[11] = resolveEnhancementWord(item.enhancementAptitudeGrowth);
+  words[12] = resolveEnhancementWord(item.enhancementUnknown13);
   return words;
+}
+
+function resolveEnhancementGrowthId(definition: UnknownRecord | null, item: UnknownRecord): number {
+  if (Number.isInteger(item.enhancementGrowthId)) {
+    return item.enhancementGrowthId & 0xffff;
+  }
+  if (definition && Number.isInteger((definition as any).enhancementGrowthId)) {
+    return ((definition as any).enhancementGrowthId as number) & 0xffff;
+  }
+  return 0;
+}
+
+function resolveEnhancementWord(value: unknown): number {
+  return Number.isInteger(value) ? ((value as number) & 0xffff) : 0;
 }
 
 function resolveClientItemQuantity(definition: UnknownRecord | null, quantity: number, durability?: number): number {

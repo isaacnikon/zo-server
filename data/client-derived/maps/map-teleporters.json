@@ -4,8 +4,8 @@
     "generator": "scripts/generate-map-teleporters.py"
   },
   "summary": {
-    "mapCount": 136,
-    "teleporterCount": 220,
+    "mapCount": 137,
+    "teleporterCount": 225,
     "authoritativeForTeleportRouting": false
   },
   "maps": [
@@ -2608,6 +2608,539 @@
               "authoritative": false
             }
           ]
+        }
+      ]
+    },
+    {
+      "mapId": 111,
+      "mapName": "Chill Pass",
+      "sceneScriptAreasPath": "data/client-derived/maps/111-chill-pass.scene-script-areas.json",
+      "teleporterCount": 5,
+      "teleporters": [
+        {
+          "sceneScriptId": 1,
+          "componentIndex": 1,
+          "displayLabel": null,
+          "tileTypeValues": [
+            0
+          ],
+          "auxValues": [
+            0
+          ],
+          "tileCount": 102,
+          "bbox": {
+            "minX": 28,
+            "minY": 0,
+            "maxX": 38,
+            "maxY": 11
+          },
+          "center": {
+            "x": 33.0,
+            "y": 5.5
+          },
+          "rowRuns": [
+            {
+              "y": 0,
+              "startX": 28,
+              "endX": 38
+            },
+            {
+              "y": 1,
+              "startX": 28,
+              "endX": 38
+            },
+            {
+              "y": 2,
+              "startX": 28,
+              "endX": 38
+            },
+            {
+              "y": 3,
+              "startX": 28,
+              "endX": 38
+            },
+            {
+              "y": 4,
+              "startX": 28,
+              "endX": 38
+            },
+            {
+              "y": 5,
+              "startX": 28,
+              "endX": 38
+            },
+            {
+              "y": 6,
+              "startX": 28,
+              "endX": 38
+            },
+            {
+              "y": 7,
+              "startX": 29,
+              "endX": 37
+            },
+            {
+              "y": 8,
+              "startX": 30,
+              "endX": 36
+            },
+            {
+              "y": 9,
+              "startX": 31,
+              "endX": 35
+            },
+            {
+              "y": 10,
+              "startX": 32,
+              "endX": 34
+            },
+            {
+              "y": 11,
+              "startX": 33,
+              "endX": 33
+            }
+          ],
+          "nearestPortalEffects": [
+            {
+              "assetName": "sina.gaf",
+              "x": 33,
+              "y": 4,
+              "distance": 1.5,
+              "source": "prelude"
+            },
+            {
+              "assetName": "sina.gaf",
+              "x": 83,
+              "y": 6,
+              "distance": 50.0,
+              "source": "prelude"
+            },
+            {
+              "assetName": "sina.gaf",
+              "x": 2,
+              "y": 81,
+              "distance": 81.62,
+              "source": "prelude"
+            }
+          ],
+          "targetCandidates": []
+        },
+        {
+          "sceneScriptId": 2,
+          "componentIndex": 2,
+          "displayLabel": null,
+          "tileTypeValues": [
+            0
+          ],
+          "auxValues": [
+            0
+          ],
+          "tileCount": 138,
+          "bbox": {
+            "minX": 0,
+            "minY": 361,
+            "maxX": 9,
+            "maxY": 375
+          },
+          "center": {
+            "x": 4.5,
+            "y": 368.0
+          },
+          "rowRuns": [
+            {
+              "y": 361,
+              "startX": 0,
+              "endX": 6
+            },
+            {
+              "y": 362,
+              "startX": 0,
+              "endX": 7
+            },
+            {
+              "y": 363,
+              "startX": 0,
+              "endX": 8
+            },
+            {
+              "y": 364,
+              "startX": 0,
+              "endX": 9
+            },
+            {
+              "y": 365,
+              "startX": 0,
+              "endX": 9
+            },
+            {
+              "y": 366,
+              "startX": 0,
+              "endX": 9
+            },
+            {
+              "y": 367,
+              "startX": 0,
+              "endX": 9
+            },
+            {
+              "y": 368,
+              "startX": 0,
+              "endX": 9
+            },
+            {
+              "y": 369,
+              "startX": 0,
+              "endX": 9
+            },
+            {
+              "y": 370,
+              "startX": 0,
+              "endX": 9
+            },
+            {
+              "y": 371,
+              "startX": 0,
+              "endX": 9
+            },
+            {
+              "y": 372,
+              "startX": 0,
+              "endX": 9
+            },
+            {
+              "y": 373,
+              "startX": 0,
+              "endX": 8
+            },
+            {
+              "y": 374,
+              "startX": 0,
+              "endX": 7
+            },
+            {
+              "y": 375,
+              "startX": 0,
+              "endX": 6
+            }
+          ],
+          "nearestPortalEffects": [
+            {
+              "assetName": "sina.gaf",
+              "x": 3,
+              "y": 368,
+              "distance": 1.5,
+              "source": "prelude"
+            },
+            {
+              "assetName": "sina.gaf",
+              "x": 5,
+              "y": 501,
+              "distance": 133.0,
+              "source": "map-config"
+            },
+            {
+              "assetName": "sina.gaf",
+              "x": 82,
+              "y": 248,
+              "distance": 142.85,
+              "source": "prelude"
+            }
+          ],
+          "targetCandidates": []
+        },
+        {
+          "sceneScriptId": 3,
+          "componentIndex": 3,
+          "displayLabel": null,
+          "tileTypeValues": [
+            0
+          ],
+          "auxValues": [
+            0
+          ],
+          "tileCount": 143,
+          "bbox": {
+            "minX": 56,
+            "minY": 497,
+            "maxX": 67,
+            "maxY": 510
+          },
+          "center": {
+            "x": 61.5,
+            "y": 503.5
+          },
+          "rowRuns": [
+            {
+              "y": 497,
+              "startX": 60,
+              "endX": 63
+            },
+            {
+              "y": 498,
+              "startX": 59,
+              "endX": 64
+            },
+            {
+              "y": 499,
+              "startX": 58,
+              "endX": 64
+            },
+            {
+              "y": 500,
+              "startX": 58,
+              "endX": 65
+            },
+            {
+              "y": 501,
+              "startX": 57,
+              "endX": 66
+            },
+            {
+              "y": 502,
+              "startX": 56,
+              "endX": 67
+            },
+            {
+              "y": 503,
+              "startX": 56,
+              "endX": 67
+            },
+            {
+              "y": 504,
+              "startX": 56,
+              "endX": 67
+            },
+            {
+              "y": 505,
+              "startX": 56,
+              "endX": 67
+            },
+            {
+              "y": 506,
+              "startX": 56,
+              "endX": 67
+            },
+            {
+              "y": 507,
+              "startX": 56,
+              "endX": 67
+            },
+            {
+              "y": 508,
+              "startX": 56,
+              "endX": 67
+            },
+            {
+              "y": 509,
+              "startX": 56,
+              "endX": 67
+            },
+            {
+              "y": 510,
+              "startX": 56,
+              "endX": 67
+            }
+          ],
+          "nearestPortalEffects": [
+            {
+              "assetName": "sina.gaf",
+              "x": 61,
+              "y": 505,
+              "distance": 1.58,
+              "source": "prelude"
+            },
+            {
+              "assetName": "sina.gaf",
+              "x": 5,
+              "y": 501,
+              "distance": 56.56,
+              "source": "map-config"
+            },
+            {
+              "assetName": "sina.gaf",
+              "x": 3,
+              "y": 368,
+              "distance": 147.59,
+              "source": "prelude"
+            }
+          ],
+          "targetCandidates": []
+        },
+        {
+          "sceneScriptId": 4,
+          "componentIndex": 4,
+          "displayLabel": null,
+          "tileTypeValues": [
+            0
+          ],
+          "auxValues": [
+            0
+          ],
+          "tileCount": 29,
+          "bbox": {
+            "minX": 186,
+            "minY": 190,
+            "maxX": 191,
+            "maxY": 197
+          },
+          "center": {
+            "x": 188.5,
+            "y": 193.5
+          },
+          "rowRuns": [
+            {
+              "y": 190,
+              "startX": 187,
+              "endX": 188
+            },
+            {
+              "y": 191,
+              "startX": 186,
+              "endX": 189
+            },
+            {
+              "y": 192,
+              "startX": 186,
+              "endX": 190
+            },
+            {
+              "y": 193,
+              "startX": 186,
+              "endX": 191
+            },
+            {
+              "y": 194,
+              "startX": 187,
+              "endX": 191
+            },
+            {
+              "y": 195,
+              "startX": 188,
+              "endX": 191
+            },
+            {
+              "y": 196,
+              "startX": 189,
+              "endX": 190
+            },
+            {
+              "y": 197,
+              "startX": 190,
+              "endX": 190
+            }
+          ],
+          "nearestPortalEffects": [
+            {
+              "assetName": "sina.gaf",
+              "x": 82,
+              "y": 248,
+              "distance": 119.63,
+              "source": "prelude"
+            },
+            {
+              "assetName": "sina.gaf",
+              "x": 245,
+              "y": 74,
+              "distance": 132.18,
+              "source": "map-config"
+            },
+            {
+              "assetName": "sina.gaf",
+              "x": 83,
+              "y": 6,
+              "distance": 215.14,
+              "source": "prelude"
+            }
+          ],
+          "targetCandidates": []
+        },
+        {
+          "sceneScriptId": 5,
+          "componentIndex": 5,
+          "displayLabel": null,
+          "tileTypeValues": [
+            0
+          ],
+          "auxValues": [
+            0
+          ],
+          "tileCount": 38,
+          "bbox": {
+            "minX": 170,
+            "minY": 233,
+            "maxX": 177,
+            "maxY": 240
+          },
+          "center": {
+            "x": 173.5,
+            "y": 236.5
+          },
+          "rowRuns": [
+            {
+              "y": 233,
+              "startX": 173,
+              "endX": 173
+            },
+            {
+              "y": 234,
+              "startX": 172,
+              "endX": 177
+            },
+            {
+              "y": 235,
+              "startX": 171,
+              "endX": 177
+            },
+            {
+              "y": 236,
+              "startX": 170,
+              "endX": 176
+            },
+            {
+              "y": 237,
+              "startX": 170,
+              "endX": 175
+            },
+            {
+              "y": 238,
+              "startX": 170,
+              "endX": 174
+            },
+            {
+              "y": 239,
+              "startX": 170,
+              "endX": 173
+            },
+            {
+              "y": 240,
+              "startX": 171,
+              "endX": 172
+            }
+          ],
+          "nearestPortalEffects": [
+            {
+              "assetName": "sina.gaf",
+              "x": 82,
+              "y": 248,
+              "distance": 92.22,
+              "source": "prelude"
+            },
+            {
+              "assetName": "sina.gaf",
+              "x": 245,
+              "y": 74,
+              "distance": 177.53,
+              "source": "map-config"
+            },
+            {
+              "assetName": "sina.gaf",
+              "x": 3,
+              "y": 368,
+              "distance": 215.32,
+              "source": "prelude"
+            }
+          ],
+          "targetCandidates": []
         }
       ]
     },
