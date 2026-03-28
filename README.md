@@ -32,8 +32,17 @@ Deploy to `ubuntu@orc.webcap.site` with the default SSH key path:
 make deploy
 ```
 
+By default, deploy also prunes unused Docker images and build cache on the remote host after `docker compose up`.
+Unused volume pruning is available, but stays off by default because it affects all unused Docker volumes on that host.
+
 Override deployment settings when needed:
 
 ```bash
 make deploy DEPLOY_HOST=ubuntu@example.com DEPLOY_KEY=~/.ssh/other_key DEPLOY_DIR=/home/ubuntu/zo-server
+```
+
+Enable remote volume pruning explicitly when you want it:
+
+```bash
+make deploy DEPLOY_PRUNE_VOLUMES=1
 ```
