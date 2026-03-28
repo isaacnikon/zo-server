@@ -43,6 +43,76 @@
       "validation": "validated-manually"
     },
     {
+      "sourceMapId": 112,
+      "sourceSceneScriptId": 4,
+      "targetMapId": 226,
+      "targetMapName": "Cloud City Inn",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 112,
+      "sourceSceneScriptId": 5,
+      "targetMapId": 221,
+      "targetMapName": "Casino",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 112,
+      "sourceSceneScriptId": 6,
+      "targetMapId": 224,
+      "targetMapName": "Armor Store",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 112,
+      "sourceSceneScriptId": 7,
+      "targetMapId": 222,
+      "targetMapName": "Jewelry Shop",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 112,
+      "sourceSceneScriptId": 8,
+      "targetMapId": 228,
+      "targetMapName": "Pet Shop",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 222,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 112,
+      "targetMapName": "Cloud City",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 224,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 112,
+      "targetMapName": "Cloud City",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 226,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 112,
+      "targetMapName": "Cloud City",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 228,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 112,
+      "targetMapName": "Cloud City",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 221,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 112,
+      "targetMapName": "Cloud City",
+      "validation": "validated-manually"
+    },
+    {
       "sourceMapId": 117,
       "sourceSceneScriptId": 1,
       "targetMapId": 112,
@@ -645,6 +715,76 @@
       "targetMapId": 117,
       "x": 16,
       "y": 74
+    },
+    {
+      "sourceMapId": 112,
+      "sourceSceneScriptId": 4,
+      "targetMapId": 226,
+      "x": 53,
+      "y": 102
+    },
+    {
+      "sourceMapId": 112,
+      "sourceSceneScriptId": 5,
+      "targetMapId": 221,
+      "x": 52,
+      "y": 97
+    },
+    {
+      "sourceMapId": 112,
+      "sourceSceneScriptId": 6,
+      "targetMapId": 224,
+      "x": 36,
+      "y": 84
+    },
+    {
+      "sourceMapId": 112,
+      "sourceSceneScriptId": 7,
+      "targetMapId": 222,
+      "x": 37,
+      "y": 95
+    },
+    {
+      "sourceMapId": 112,
+      "sourceSceneScriptId": 8,
+      "targetMapId": 228,
+      "x": 24,
+      "y": 111
+    },
+    {
+      "sourceMapId": 222,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 112,
+      "x": 121,
+      "y": 205
+    },
+    {
+      "sourceMapId": 224,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 112,
+      "x": 163,
+      "y": 168
+    },
+    {
+      "sourceMapId": 226,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 112,
+      "x": 214,
+      "y": 304
+    },
+    {
+      "sourceMapId": 228,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 112,
+      "x": 153,
+      "y": 242
+    },
+    {
+      "sourceMapId": 221,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 112,
+      "x": 123,
+      "y": 411
     },
     {
       "sourceMapId": 117,
