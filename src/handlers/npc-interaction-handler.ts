@@ -110,8 +110,13 @@ const TRIDENT_MOUNTAIN_MAP_ID = 134;
 const TRIDENT_MOUNTAIN_ENTRY_X = 67;
 const TRIDENT_MOUNTAIN_ENTRY_Y = 20;
 const CHILL_PASS_MAP_ID = 111;
+const CHILL_PASS_FROG_TELEPORTOR_NPC_ID = 3123;
+const CHILL_PASS_FROG_TELEPORT_SCRIPT_ID = 1001;
+const CHILL_PASS_FROG_TELEPORT_PRICE = 500;
 const RECEIVER_SPIRIT_NPC_ID = 3279;
 const RECEIVER_SPIRIT_RETURN_SCRIPT_ID = 20001;
+const CLOUD_CITY_FROG_TELEPORT_ENTRY_X = 79;
+const CLOUD_CITY_FROG_TELEPORT_ENTRY_Y = 317;
 const BENTHAL_PATH_MAP_ID = 143;
 const BENTHAL_PATH_ENTRY_X = 96;
 const BENTHAL_PATH_ENTRY_Y = 13;
@@ -200,6 +205,13 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
   if (handleInnRestRequest(session, resolvedNpcId, request)) {
     session.log(
       `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId}`
+    );
+    return true;
+  }
+
+  if (handleChillPassFrogTeleportorRequest(session, resolvedNpcId, request)) {
+    session.log(
+      `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId} frogTeleportor=1`
     );
     return true;
   }
@@ -720,6 +732,44 @@ function handleReceiverSpiritReturnRequest(
     `Sending ReceiverSpirit return scene-enter map=${BENTHAL_PATH_MAP_ID} pos=${BENTHAL_PATH_ENTRY_X},${BENTHAL_PATH_ENTRY_Y}`
   );
   session.sendSceneEnter(BENTHAL_PATH_MAP_ID, BENTHAL_PATH_ENTRY_X, BENTHAL_PATH_ENTRY_Y);
+  return true;
+}
+
+function handleChillPassFrogTeleportorRequest(
+  session: GameSession,
+  resolvedNpcId: number,
+  request: ServerRunRequestData
+): boolean {
+  if (request.subcmd !== 0x02 || session.currentMapId !== CHILL_PASS_MAP_ID) {
+    return false;
+  }
+  if (resolvedNpcId !== CHILL_PASS_FROG_TELEPORTOR_NPC_ID) {
+    return false;
+  }
+  const scriptId = Number.isInteger(request.scriptId) ? (request.scriptId! >>> 0) : 0;
+  if (scriptId !== CHILL_PASS_FROG_TELEPORT_SCRIPT_ID) {
+    return false;
+  }
+  if (typeof session.sendSceneEnter !== 'function') {
+    return false;
+  }
+
+  const currentCoins = Number.isInteger(session.coins) ? Math.max(0, session.coins) : 0;
+  if (currentCoins < CHILL_PASS_FROG_TELEPORT_PRICE) {
+    session.sendGameDialogue(
+      'FrogTeleportor',
+      `You need ${CHILL_PASS_FROG_TELEPORT_PRICE} coins to travel to Cloud City.`
+    );
+    return true;
+  }
+
+  session.coins = currentCoins - CHILL_PASS_FROG_TELEPORT_PRICE;
+  sendSelfStateValueUpdate(session, 'coins', session.coins);
+  session.persistCurrentCharacter();
+  session.log(
+    `Sending Chill Pass FrogTeleportor scene-enter map=${CLOUD_CITY_MAP_ID} pos=${CLOUD_CITY_FROG_TELEPORT_ENTRY_X},${CLOUD_CITY_FROG_TELEPORT_ENTRY_Y} cost=${CHILL_PASS_FROG_TELEPORT_PRICE} remainingCoins=${session.coins}`
+  );
+  session.sendSceneEnter(CLOUD_CITY_MAP_ID, CLOUD_CITY_FROG_TELEPORT_ENTRY_X, CLOUD_CITY_FROG_TELEPORT_ENTRY_Y);
   return true;
 }
 
