@@ -1,5 +1,5 @@
 import { DEFAULT_MAX_VITALS, resolveCharacterMaxVitals as resolveDerivedCharacterMaxVitals } from './max-vitals.js';
-import { getMapDetails } from '../map-data.js';
+import { getMapDetails, getMapSummary } from '../map-data.js';
 import { numberOrDefault, type UnknownRecord } from '../utils.js';
 type Vitals = { health: number; mana: number; rage: number; companionHp?: number };
 type Position = { mapId: number; x: number; y: number };
@@ -39,6 +39,17 @@ function resolvePersistedTownRespawn(persistedCharacter: UnknownRecord | null | 
   return isValidPosition(lastTown) ? lastTown : null;
 }
 
+function isTownCheckpointMap(mapId: number): boolean {
+  const summary = getMapSummary(mapId);
+  const mapName = typeof summary?.mapName === 'string' ? summary.mapName : '';
+  const nodeKind = typeof summary?.worldMap?.nodeKind === 'string' ? summary.worldMap.nodeKind : '';
+  if (nodeKind !== 'big' || !mapName) {
+    return false;
+  }
+
+  return /\b(city|town|manor|state|hamlet|valley|xanadu)\b/i.test(mapName);
+}
+
 export function resolveTownCheckpoint({
   persistedCharacter,
   currentMapId,
@@ -60,6 +71,9 @@ export function resolveTownCheckpoint({
       x: home.x >>> 0,
       y: home.y >>> 0,
     };
+  }
+  if (isTownCheckpointMap(currentPosition.mapId)) {
+    return currentPosition;
   }
   return resolvePersistedTownRespawn(persistedCharacter) || currentPosition;
 }

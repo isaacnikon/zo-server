@@ -1,11 +1,13 @@
 import { consumeBagItemByInstanceId, getBagItemByReference, getItemDefinition, } from '../inventory/index.js';
 import { sendConsumeResultPackets } from './inventory-runtime.js';
 import { learnSkillFromBook, sendSkillStateSync } from './skill-runtime.js';
-import { recomputeSessionMaxVitals } from './session-flows.js';
+import { recomputeSessionMaxVitals, resolveTownRespawn } from './session-flows.js';
 import { resolvePetMaxVitals } from './max-vitals.js';
 import { sendSelfStateVitalsUpdate } from './stat-sync.js';
 import type { UnknownRecord } from '../utils.js';
 import type { GameSession } from '../types.js';
+
+const PORTAL_STONE_TEMPLATE_IDS = new Set([26009, 26143]);
 
 export function consumeUsableItemByInstanceId(
   session: GameSession,
@@ -21,6 +23,9 @@ export function consumeUsableItemByInstanceId(
   }
 
   const definition = getItemDefinition(bagItem.templateId);
+  if (PORTAL_STONE_TEMPLATE_IDS.has(bagItem.templateId >>> 0)) {
+    return consumePortalStone(session, bagItem, definition, options);
+  }
   const effect = definition?.consumableEffect;
   if (!effect || (!effect.health && !effect.mana && !effect.rage)) {
     const learnResult = learnSkillFromBook(session, bagItem);
@@ -146,6 +151,122 @@ export function consumeUsableItemByInstanceId(
     nextVitals,
     gained,
   };
+}
+
+function consumePortalStone(
+  session: GameSession,
+  bagItem: UnknownRecord,
+  definition: UnknownRecord | null,
+  options: UnknownRecord
+): UnknownRecord {
+  if (isSessionInTeam(session)) {
+    if (typeof session.sendGameDialogue === 'function') {
+      session.sendGameDialogue('Portal Stone', 'You cannot use Portal Stone while in a team.');
+    }
+    return {
+      ok: false,
+      reason: 'Portal Stone cannot be used while in a team',
+      item: bagItem,
+      definition,
+    };
+  }
+
+  if (typeof session.sendSceneEnter !== 'function') {
+    return {
+      ok: false,
+      reason: 'Portal Stone teleport is unavailable',
+      item: bagItem,
+      definition,
+    };
+  }
+
+  const destination = resolveTownRespawn({
+    persistedCharacter: session.getPersistedCharacter?.() || null,
+    currentMapId: session.currentMapId,
+    currentX: session.currentX,
+    currentY: session.currentY,
+  });
+
+  const consumeResult = consumeBagItemByInstanceId(session, bagItem.instanceId >>> 0, 1);
+  if (!consumeResult.ok) {
+    return {
+      ok: false,
+      reason: consumeResult.reason || `Failed to consume instanceId=${bagItem.instanceId >>> 0}`,
+      item: bagItem,
+      definition,
+    };
+  }
+
+  if (options.suppressInventoryPackets !== true) {
+    sendConsumeResultPackets(session, consumeResult);
+  }
+  session.sendSceneEnter(destination.mapId >>> 0, destination.x >>> 0, destination.y >>> 0);
+  if (options.suppressPersist !== true && typeof session.persistCurrentCharacter === 'function') {
+    session.persistCurrentCharacter();
+  }
+  if (
+    typeof session.refreshQuestStateForItemTemplates === 'function' &&
+    Number.isInteger(bagItem?.templateId)
+  ) {
+    session.refreshQuestStateForItemTemplates([bagItem.templateId >>> 0]);
+  }
+
+  return {
+    ok: true,
+    item: bagItem,
+    definition,
+    consumeResult,
+    useKind: 'portal-stone',
+    destination,
+    gained: {
+      health: 0,
+      mana: 0,
+      rage: 0,
+    },
+  };
+}
+
+function isSessionInTeam(session: GameSession): boolean {
+  const candidateArrays = [
+    (session as unknown as Record<string, unknown>)?.teamMembers,
+    (session as unknown as Record<string, unknown>)?.partyMembers,
+    session.sharedState?.teamMembers,
+    session.sharedState?.partyMembers,
+  ];
+  for (const value of candidateArrays) {
+    if (Array.isArray(value) && value.length > 1) {
+      return true;
+    }
+  }
+
+  const candidateCounts = [
+    (session as unknown as Record<string, unknown>)?.teamSize,
+    (session as unknown as Record<string, unknown>)?.partySize,
+    session.sharedState?.teamSize,
+    session.sharedState?.partySize,
+  ];
+  for (const value of candidateCounts) {
+    if (typeof value === 'number' && Number.isInteger(value) && value > 1) {
+      return true;
+    }
+  }
+
+  const candidateIds = [
+    (session as unknown as Record<string, unknown>)?.teamId,
+    (session as unknown as Record<string, unknown>)?.partyId,
+    session.sharedState?.teamId,
+    session.sharedState?.partyId,
+  ];
+  for (const value of candidateIds) {
+    if (typeof value === 'number' && Number.isInteger(value) && value > 0) {
+      return true;
+    }
+    if (typeof value === 'string' && value.trim().length > 0) {
+      return true;
+    }
+  }
+
+  return session.sharedState?.inTeam === true || session.sharedState?.inParty === true;
 }
 
 function resolveItemUseTarget(session: GameSession, targetEntityId: unknown): UnknownRecord | null {
