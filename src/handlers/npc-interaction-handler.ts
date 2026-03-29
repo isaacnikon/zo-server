@@ -100,6 +100,19 @@ const SWAN_PASS_ZA2_APPROACH_X = 72;
 const SWAN_PASS_ZA2_APPROACH_Y = 11;
 const SWAN_PASS_ZA2_APPROACH_RADIUS = 20;
 const MAPLE_VALLEY_MAP_ID = 146;
+const MAPLE_SPIRIT_NPC_ID = 3218;
+const MAPLE_SPIRIT_WILLOW_FOREST_SCRIPT_ID = 20001;
+const WILLOW_FOREST_MAP_ID = 126;
+const WILLOW_FOREST_MAPLE_VALLEY_ENTRY_X = 147;
+const WILLOW_FOREST_MAPLE_VALLEY_ENTRY_Y = 492;
+const GUIDE_GHOST_NPC_ID = 3289;
+const GUIDE_GHOST_WILLOW_FOREST_SCRIPT_ID = 20001;
+const GUIDE_GHOST_WILLOW_FOREST_ENTRY_X = 229;
+const GUIDE_GHOST_WILLOW_FOREST_ENTRY_Y = 57;
+const CLUCK_BIRD_NPC_ID = 3161;
+const CLUCK_BIRD_WILLOW_FOREST_SCRIPT_ID = 20001;
+const CLUCK_BIRD_WILLOW_FOREST_ENTRY_X = 20;
+const CLUCK_BIRD_WILLOW_FOREST_ENTRY_Y = 480;
 const LION_CAPTAIN_NPC_ID = 3085;
 const LION_CAPTAIN_ROOT_SCRIPT_ID = 10001;
 const LION_CAPTAIN_PASS_SCRIPT_ID = 3000;
@@ -223,6 +236,20 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
     return true;
   }
 
+  if (handleGuideGhostWillowForestRequest(session, resolvedNpcId, request)) {
+    session.log(
+      `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId} guideGhostWillowForest=1`
+    );
+    return true;
+  }
+
+  if (handleCluckBirdWillowForestRequest(session, resolvedNpcId, request)) {
+    session.log(
+      `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId} cluckBirdWillowForest=1`
+    );
+    return true;
+  }
+
   if (handleOrchidTempleReturnRequest(session, resolvedNpcId, request)) {
     session.log(
       `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId} orchidTempleReturn=1`
@@ -310,6 +337,13 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
   if (tryStartLionCaptainNpcCombat(session, resolvedNpcId, request)) {
     session.log(
       `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId} npcCombat=1`
+    );
+    return true;
+  }
+
+  if (handleMapleSpiritWillowForestRequest(session, resolvedNpcId, request)) {
+    session.log(
+      `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId} mapleSpiritWillowForest=1`
     );
     return true;
   }
@@ -626,6 +660,36 @@ function tryStartLionCaptainNpcCombat(
   return true;
 }
 
+function handleMapleSpiritWillowForestRequest(
+  session: GameSession,
+  resolvedNpcId: number,
+  request: ServerRunRequestData
+): boolean {
+  if (request.subcmd !== 0x02 || session.currentMapId !== MAPLE_VALLEY_MAP_ID) {
+    return false;
+  }
+  if (resolvedNpcId !== MAPLE_SPIRIT_NPC_ID) {
+    return false;
+  }
+  const scriptId = Number.isInteger(request.scriptId) ? (request.scriptId! >>> 0) : 0;
+  if (scriptId !== MAPLE_SPIRIT_WILLOW_FOREST_SCRIPT_ID) {
+    return false;
+  }
+  if (typeof session.sendSceneEnter !== 'function') {
+    return false;
+  }
+
+  session.log(
+    `Sending Maple Spirit Willow Forest scene-enter map=${WILLOW_FOREST_MAP_ID} pos=${WILLOW_FOREST_MAPLE_VALLEY_ENTRY_X},${WILLOW_FOREST_MAPLE_VALLEY_ENTRY_Y}`
+  );
+  session.sendSceneEnter(
+    WILLOW_FOREST_MAP_ID,
+    WILLOW_FOREST_MAPLE_VALLEY_ENTRY_X,
+    WILLOW_FOREST_MAPLE_VALLEY_ENTRY_Y
+  );
+  return true;
+}
+
 function handleLionCaptainPassRequest(
   session: GameSession,
   resolvedNpcId: number,
@@ -654,6 +718,66 @@ function handleLionCaptainPassRequest(
     `Sending Lion Captain pass scene-enter map=${TRIDENT_MOUNTAIN_MAP_ID} pos=${TRIDENT_MOUNTAIN_ENTRY_X},${TRIDENT_MOUNTAIN_ENTRY_Y} level=${level}`
   );
   session.sendSceneEnter(TRIDENT_MOUNTAIN_MAP_ID, TRIDENT_MOUNTAIN_ENTRY_X, TRIDENT_MOUNTAIN_ENTRY_Y);
+  return true;
+}
+
+function handleGuideGhostWillowForestRequest(
+  session: GameSession,
+  resolvedNpcId: number,
+  request: ServerRunRequestData
+): boolean {
+  if (request.subcmd !== 0x02 || session.currentMapId !== WILLOW_FOREST_MAP_ID) {
+    return false;
+  }
+  if (resolvedNpcId !== GUIDE_GHOST_NPC_ID) {
+    return false;
+  }
+  const scriptId = Number.isInteger(request.scriptId) ? (request.scriptId! >>> 0) : 0;
+  if (scriptId !== GUIDE_GHOST_WILLOW_FOREST_SCRIPT_ID) {
+    return false;
+  }
+  if (typeof session.sendSceneEnter !== 'function') {
+    return false;
+  }
+
+  session.log(
+    `Sending Guide Ghost Willow Forest scene-enter map=${WILLOW_FOREST_MAP_ID} pos=${GUIDE_GHOST_WILLOW_FOREST_ENTRY_X},${GUIDE_GHOST_WILLOW_FOREST_ENTRY_Y}`
+  );
+  session.sendSceneEnter(
+    WILLOW_FOREST_MAP_ID,
+    GUIDE_GHOST_WILLOW_FOREST_ENTRY_X,
+    GUIDE_GHOST_WILLOW_FOREST_ENTRY_Y
+  );
+  return true;
+}
+
+function handleCluckBirdWillowForestRequest(
+  session: GameSession,
+  resolvedNpcId: number,
+  request: ServerRunRequestData
+): boolean {
+  if (request.subcmd !== 0x02 || session.currentMapId !== WILLOW_FOREST_MAP_ID) {
+    return false;
+  }
+  if (resolvedNpcId !== CLUCK_BIRD_NPC_ID) {
+    return false;
+  }
+  const scriptId = Number.isInteger(request.scriptId) ? (request.scriptId! >>> 0) : 0;
+  if (scriptId !== CLUCK_BIRD_WILLOW_FOREST_SCRIPT_ID) {
+    return false;
+  }
+  if (typeof session.sendSceneEnter !== 'function') {
+    return false;
+  }
+
+  session.log(
+    `Sending Cluck Bird Willow Forest scene-enter map=${WILLOW_FOREST_MAP_ID} pos=${CLUCK_BIRD_WILLOW_FOREST_ENTRY_X},${CLUCK_BIRD_WILLOW_FOREST_ENTRY_Y}`
+  );
+  session.sendSceneEnter(
+    WILLOW_FOREST_MAP_ID,
+    CLUCK_BIRD_WILLOW_FOREST_ENTRY_X,
+    CLUCK_BIRD_WILLOW_FOREST_ENTRY_Y
+  );
   return true;
 }
 

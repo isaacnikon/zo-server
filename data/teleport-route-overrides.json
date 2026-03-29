@@ -288,6 +288,34 @@
       "validation": "validated-manually"
     },
     {
+      "sourceMapId": 126,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 146,
+      "targetMapName": "Maple Valley",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 126,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 126,
+      "targetMapName": "Willow Forest",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 126,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 126,
+      "targetMapName": "Willow Forest",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 126,
+      "sourceSceneScriptId": 4,
+      "targetMapId": 126,
+      "targetMapName": "Willow Forest",
+      "validation": "validated-manually"
+    },
+    {
       "sourceMapId": 134,
       "sourceSceneScriptId": 2,
       "targetMapId": 111,
@@ -960,6 +988,34 @@
       "targetMapId": 146,
       "x": 72,
       "y": 231
+    },
+    {
+      "sourceMapId": 126,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 146,
+      "x": 7,
+      "y": 73
+    },
+    {
+      "sourceMapId": 126,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 126,
+      "x": 96,
+      "y": 23
+    },
+    {
+      "sourceMapId": 126,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 126,
+      "x": 156,
+      "y": 19
+    },
+    {
+      "sourceMapId": 126,
+      "sourceSceneScriptId": 4,
+      "targetMapId": 126,
+      "x": 82,
+      "y": 144
     },
     {
       "sourceMapId": 134,
