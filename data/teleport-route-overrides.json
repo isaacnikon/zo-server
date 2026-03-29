@@ -162,6 +162,55 @@
       "validation": "validated-manually"
     },
     {
+      "sourceMapId": 131,
+      "sourceSceneScriptId": 4,
+      "targetMapId": 227,
+      "targetMapName": "Goal Manor Pothouse",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 131,
+      "sourceSceneScriptId": 5,
+      "targetMapId": 225,
+      "targetMapName": "Weapon Shop",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 131,
+      "sourceSceneScriptId": 6,
+      "targetMapId": 218,
+      "targetMapName": "Goal Manor Grocer",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 218,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 131,
+      "targetMapName": "Goal Manor",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 225,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 131,
+      "targetMapName": "Goal Manor",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 227,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 131,
+      "targetMapName": "Goal Manor",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 264,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 131,
+      "targetMapName": "Goal Manor",
+      "validation": "validated-manually"
+    },
+    {
       "sourceMapId": 146,
       "sourceSceneScriptId": 1,
       "targetMapId": 120,
@@ -855,6 +904,55 @@
       "targetMapId": 108,
       "x": 72,
       "y": 246
+    },
+    {
+      "sourceMapId": 131,
+      "sourceSceneScriptId": 4,
+      "targetMapId": 227,
+      "x": 53,
+      "y": 102
+    },
+    {
+      "sourceMapId": 131,
+      "sourceSceneScriptId": 5,
+      "targetMapId": 225,
+      "x": 18,
+      "y": 88
+    },
+    {
+      "sourceMapId": 131,
+      "sourceSceneScriptId": 6,
+      "targetMapId": 218,
+      "x": 38,
+      "y": 93
+    },
+    {
+      "sourceMapId": 218,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 131,
+      "x": 65,
+      "y": 99
+    },
+    {
+      "sourceMapId": 225,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 131,
+      "x": 57,
+      "y": 183
+    },
+    {
+      "sourceMapId": 227,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 131,
+      "x": 37,
+      "y": 132
+    },
+    {
+      "sourceMapId": 264,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 131,
+      "x": 89,
+      "y": 177
     },
     {
       "sourceMapId": 146,

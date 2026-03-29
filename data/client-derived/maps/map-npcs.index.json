@@ -134,7 +134,10 @@
     {
       "mapId": 218,
       "mapName": "Goal Manor Grocer",
-      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+      "npcsPath": "data/client-derived/maps/218-goal-manor-grocer.npcs.json",
+      "statusCounts": {
+        "manual": 1
+      }
     },
     {
       "mapId": 219,
@@ -179,7 +182,10 @@
     {
       "mapId": 227,
       "mapName": "Goal Manor Pothouse",
-      "reason": "no macro_AddMapNpc calls found in extracted chunk"
+      "npcsPath": "data/client-derived/maps/227-goal-manor-pothouse.npcs.json",
+      "statusCounts": {
+        "manual": 1
+      }
     },
     {
       "mapId": 228,

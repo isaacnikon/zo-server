@@ -7499,8 +7499,13 @@
         "portalEffectCandidateCount": 0,
         "observedTriggerPointCount": 0
       },
-      "npcsPath": null,
-      "npcSummary": null,
+      "npcsPath": "data/client-derived/maps/218-goal-manor-grocer.npcs.json",
+      "npcSummary": {
+        "totalNpcCount": 1,
+        "statusCounts": {
+          "manual": 1
+        }
+      },
       "sceneScriptAreasPath": "data/client-derived/maps/218-goal-manor-grocer.scene-script-areas.json",
       "sceneScriptSummary": {
         "componentCount": 2,
@@ -7724,8 +7729,13 @@
         "portalEffectCandidateCount": 0,
         "observedTriggerPointCount": 0
       },
-      "npcsPath": null,
-      "npcSummary": null,
+      "npcsPath": "data/client-derived/maps/225-weapon-shop.npcs.json",
+      "npcSummary": {
+        "totalNpcCount": 1,
+        "statusCounts": {
+          "manual": 1
+        }
+      },
       "sceneScriptAreasPath": "data/client-derived/maps/225-weapon-shop.scene-script-areas.json",
       "sceneScriptSummary": {
         "componentCount": 1,
@@ -7789,8 +7799,13 @@
         "portalEffectCandidateCount": 0,
         "observedTriggerPointCount": 0
       },
-      "npcsPath": null,
-      "npcSummary": null,
+      "npcsPath": "data/client-derived/maps/227-goal-manor-pothouse.npcs.json",
+      "npcSummary": {
+        "totalNpcCount": 1,
+        "statusCounts": {
+          "manual": 1
+        }
+      },
       "sceneScriptAreasPath": "data/client-derived/maps/227-goal-manor-pothouse.scene-script-areas.json",
       "sceneScriptSummary": {
         "componentCount": 1,

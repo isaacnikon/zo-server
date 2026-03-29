@@ -11,9 +11,9 @@
     }
   },
   "validationSummary": {
-    "totalNpcs": 21,
+    "totalNpcs": 18,
     "statusCounts": {
-      "alias-id-mismatch": 7,
+      "alias-id-mismatch": 4,
       "literal-name-mismatch": 1,
       "match": 13
     }
@@ -35,21 +35,6 @@
       "rawCall": "macro_AddMapNpc(3152, 5,\"Servant \",89,177)"
     },
     {
-      "order": 1,
-      "npcId": 3247,
-      "npcTypeId": 5,
-      "name": "Blacksmith",
-      "nameSource": "literal",
-      "x": 54,
-      "y": 177,
-      "roleinfoNameByNpcId": "Blacksmith",
-      "roleinfoIdByName": 3008,
-      "nameMatchesRoleinfo": true,
-      "resolvedSpawnEntityType": 3008,
-      "validationStatus": "alias-id-mismatch",
-      "rawCall": "macro_AddMapNpc(3247, 5,\"Blacksmith\",54,177)"
-    },
-    {
       "order": 2,
       "npcId": 3310,
       "npcTypeId": 5,
@@ -63,21 +48,6 @@
       "resolvedSpawnEntityType": 3063,
       "validationStatus": "alias-id-mismatch",
       "rawCall": "macro_AddMapNpc(3310, 5,\"Mercer\",54,102)"
-    },
-    {
-      "order": 3,
-      "npcId": 3246,
-      "npcTypeId": 5,
-      "name": "Pub Owner",
-      "nameSource": "literal",
-      "x": 34,
-      "y": 124,
-      "roleinfoNameByNpcId": "Pub Owner",
-      "roleinfoIdByName": 3010,
-      "nameMatchesRoleinfo": true,
-      "resolvedSpawnEntityType": 3010,
-      "validationStatus": "alias-id-mismatch",
-      "rawCall": "macro_AddMapNpc(3246, 5,\"Pub Owner\",34,124)"
     },
     {
       "order": 4,
@@ -303,21 +273,6 @@
       "resolvedSpawnEntityType": 3249,
       "validationStatus": "match",
       "rawCall": "macro_AddMapNpc(3249, 1,\"\"..macro_GetTypeNpcName(3249)..\"\",71,98)"
-    },
-    {
-      "order": 19,
-      "npcId": 3199,
-      "npcTypeId": 7,
-      "name": "Grocer",
-      "nameSource": "macro_GetTypeNpcName",
-      "x": 62,
-      "y": 96,
-      "roleinfoNameByNpcId": "Grocer",
-      "roleinfoIdByName": 3012,
-      "nameMatchesRoleinfo": true,
-      "resolvedSpawnEntityType": 3199,
-      "validationStatus": "alias-id-mismatch",
-      "rawCall": "macro_AddMapNpc(3199, 7,\"\"..macro_GetTypeNpcName(3199)..\"\",62,96)"
     },
     {
       "order": 20,

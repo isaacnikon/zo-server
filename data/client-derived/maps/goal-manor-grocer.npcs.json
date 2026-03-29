@@ -1,0 +1,31 @@
+{
+  "mapId": 218,
+  "mapName": "Goal Manor Grocer",
+  "source": {
+    "authority": "manual-server-override",
+    "reason": "The Cobweb quest Grocer belongs in Goal Manor Grocer, while the outdoor shop Grocer stays in Goal Manor."
+  },
+  "validationSummary": {
+    "totalNpcs": 1,
+    "statusCounts": {
+      "manual": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3199,
+      "npcTypeId": 7,
+      "name": "Grocer",
+      "nameSource": "manual",
+      "x": 32,
+      "y": 60,
+      "roleinfoNameByNpcId": "Grocer",
+      "roleinfoIdByName": 3012,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3199,
+      "validationStatus": "manual",
+      "rawCall": "manual-server-override"
+    }
+  ]
+}

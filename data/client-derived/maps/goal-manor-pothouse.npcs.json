@@ -1,0 +1,31 @@
+{
+  "mapId": 227,
+  "mapName": "Goal Manor Pothouse",
+  "source": {
+    "authority": "manual-server-override",
+    "reason": "Goal Manor Pub Owner belongs in Goal Manor Pothouse, not Goal Manor."
+  },
+  "validationSummary": {
+    "totalNpcs": 1,
+    "statusCounts": {
+      "manual": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3246,
+      "npcTypeId": 5,
+      "name": "Pub Owner",
+      "nameSource": "manual",
+      "x": 15,
+      "y": 66,
+      "roleinfoNameByNpcId": "Pub Owner",
+      "roleinfoIdByName": 3010,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3010,
+      "validationStatus": "manual",
+      "rawCall": "manual-server-override"
+    }
+  ]
+}

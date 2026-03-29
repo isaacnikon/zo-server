@@ -1,0 +1,31 @@
+{
+  "mapId": 225,
+  "mapName": "Weapon Shop",
+  "source": {
+    "authority": "manual-server-override",
+    "reason": "Goal Manor Blacksmith belongs in Weapon Shop, not Goal Manor."
+  },
+  "validationSummary": {
+    "totalNpcs": 1,
+    "statusCounts": {
+      "manual": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3247,
+      "npcTypeId": 5,
+      "name": "Blacksmith",
+      "nameSource": "manual",
+      "x": 37,
+      "y": 64,
+      "roleinfoNameByNpcId": "Blacksmith",
+      "roleinfoIdByName": 3008,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3008,
+      "validationStatus": "manual",
+      "rawCall": "manual-server-override"
+    }
+  ]
+}
