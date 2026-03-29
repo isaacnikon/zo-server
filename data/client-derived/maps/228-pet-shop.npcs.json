@@ -1,0 +1,31 @@
+{
+  "mapId": 228,
+  "mapName": "Pet Shop",
+  "source": {
+    "authority": "manual-server-override",
+    "reason": "Pet Curer belongs in Pet Shop, not Cloud City."
+  },
+  "validationSummary": {
+    "totalNpcs": 1,
+    "statusCounts": {
+      "manual": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3013,
+      "npcTypeId": 5,
+      "name": "Pet Curer",
+      "nameSource": "manual",
+      "x": 40,
+      "y": 70,
+      "roleinfoNameByNpcId": "Pet Curer",
+      "roleinfoIdByName": 3013,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3013,
+      "validationStatus": "manual",
+      "rawCall": "manual-server-override"
+    }
+  ]
+}

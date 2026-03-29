@@ -79,36 +79,6 @@
       "rawCall": "macro_AddMapNpc(3094, 5,\"Guild Manager\",141,313)"
     },
     {
-      "order": 4,
-      "npcId": 3009,
-      "npcTypeId": 7,
-      "name": "Diana",
-      "nameSource": "literal",
-      "x": 163,
-      "y": 155,
-      "roleinfoNameByNpcId": "Diana",
-      "roleinfoIdByName": 3009,
-      "nameMatchesRoleinfo": true,
-      "resolvedSpawnEntityType": 3009,
-      "validationStatus": "match",
-      "rawCall": "macro_AddMapNpc(3009, 7,\"Diana\",163,155)"
-    },
-    {
-      "order": 5,
-      "npcId": 3016,
-      "npcTypeId": 5,
-      "name": "Amber",
-      "nameSource": "literal",
-      "x": 119,
-      "y": 191,
-      "roleinfoNameByNpcId": "Amber",
-      "roleinfoIdByName": 3016,
-      "nameMatchesRoleinfo": true,
-      "resolvedSpawnEntityType": 3016,
-      "validationStatus": "match",
-      "rawCall": "macro_AddMapNpc(3016, 5,\"Amber\",119,191)"
-    },
-    {
       "order": 6,
       "npcId": 3015,
       "npcTypeId": 5,
@@ -124,21 +94,6 @@
       "rawCall": "macro_AddMapNpc(3015, 5,\"Chelyn\",121,278)"
     },
     {
-      "order": 7,
-      "npcId": 3010,
-      "npcTypeId": 5,
-      "name": "Pub Owner",
-      "nameSource": "literal",
-      "x": 213,
-      "y": 293,
-      "roleinfoNameByNpcId": "Pub Owner",
-      "roleinfoIdByName": 3010,
-      "nameMatchesRoleinfo": true,
-      "resolvedSpawnEntityType": 3010,
-      "validationStatus": "match",
-      "rawCall": "macro_AddMapNpc(3010, 5,\"Pub Owner\",213,293)"
-    },
-    {
       "order": 8,
       "npcId": 3008,
       "npcTypeId": 5,
@@ -152,21 +107,6 @@
       "resolvedSpawnEntityType": 3008,
       "validationStatus": "match",
       "rawCall": "macro_AddMapNpc(3008, 5,\"Blacksmith\",240,233)"
-    },
-    {
-      "order": 9,
-      "npcId": 3013,
-      "npcTypeId": 5,
-      "name": "Pet Curer",
-      "nameSource": "literal",
-      "x": 152,
-      "y": 233,
-      "roleinfoNameByNpcId": "Pet Curer",
-      "roleinfoIdByName": 3013,
-      "nameMatchesRoleinfo": true,
-      "resolvedSpawnEntityType": 3013,
-      "validationStatus": "match",
-      "rawCall": "macro_AddMapNpc(3013, 5,\"Pet Curer\",152,233)"
     },
     {
       "order": 10,
@@ -197,21 +137,6 @@
       "resolvedSpawnEntityType": 3089,
       "validationStatus": "match",
       "rawCall": "macro_AddMapNpc(3089, 5,\"Housewife\",191,198)"
-    },
-    {
-      "order": 12,
-      "npcId": 3017,
-      "npcTypeId": 5,
-      "name": "Oppressor",
-      "nameSource": "literal",
-      "x": 123,
-      "y": 398,
-      "roleinfoNameByNpcId": "Oppressor",
-      "roleinfoIdByName": 3017,
-      "nameMatchesRoleinfo": true,
-      "resolvedSpawnEntityType": 3017,
-      "validationStatus": "match",
-      "rawCall": "macro_AddMapNpc(3017, 5,\"Oppressor\",123,398)"
     },
     {
       "order": 13,

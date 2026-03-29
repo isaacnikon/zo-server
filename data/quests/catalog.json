@@ -12554,46 +12554,55 @@
         ],
         "items": []
       },
-      "interactionTriggers": [],
+      "interactionTriggers": [
+        {
+          "kind": "server-run",
+          "stepStatus": 1,
+          "subtype": 2,
+          "npcId": 3018,
+          "scriptId": 10001,
+          "mapId": 221,
+          "contextId": 0,
+          "grantItems": [],
+          "consumeItems": [
+            {
+              "templateId": 21056,
+              "quantity": 1,
+              "name": ""
+            }
+          ],
+          "setProgressFlag": "",
+          "onlyIfMissingTemplateId": 0,
+          "combat": {
+            "monsterId": 5032,
+            "count": 1
+          }
+        }
+      ],
       "steps": [
         {
           "id": 1,
-          "mapId": 112,
+          "mapId": 221,
           "description": "Take Fortune Rune with you and speak to Ralph.",
-          "completionDescription": "",
+          "completionDescription": "Return to Ralph after defeating him",
           "objective": {
-            "kind": "npc-interaction",
-            "triggerEvent": "npc-interact",
+            "kind": "monster-defeat",
+            "triggerEvent": "monster-defeat",
             "targetNpcId": 3018,
-            "targetMonsterId": 0,
+            "targetMonsterId": 5032,
             "targetCount": 1,
             "handInNpcId": 3018,
             "autoAdvance": false,
-            "requiredItems": [
-              {
-                "templateId": 21056,
-                "quantity": 1,
-                "name": ""
-              }
-            ],
+            "requiredItems": [],
             "requiredProgressFlag": "",
             "progressKey": "count",
             "grantItem": null,
             "escortNpcId": 0
           },
-          "actions": [
-            {
-              "kind": "consume-item",
-              "item": {
-                "templateId": 21056,
-                "quantity": 1,
-                "name": ""
-              }
-            }
-          ],
+          "actions": [],
           "tracker": {
             "status": 1,
-            "progressObjectiveId": 0,
+            "progressObjectiveId": 5032,
             "markerNpcId": 3018
           },
           "ui": {

@@ -1,0 +1,31 @@
+{
+  "mapId": 224,
+  "mapName": "Armor Store",
+  "source": {
+    "authority": "manual-server-override",
+    "reason": "Diana belongs in Armor Store, not Cloud City."
+  },
+  "validationSummary": {
+    "totalNpcs": 1,
+    "statusCounts": {
+      "manual": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3009,
+      "npcTypeId": 7,
+      "name": "Diana",
+      "nameSource": "manual",
+      "x": 37,
+      "y": 59,
+      "roleinfoNameByNpcId": "Diana",
+      "roleinfoIdByName": 3009,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3009,
+      "validationStatus": "manual",
+      "rawCall": "manual-server-override"
+    }
+  ]
+}

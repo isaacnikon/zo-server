@@ -1057,10 +1057,10 @@
       },
       "npcsPath": "data/client-derived/maps/112-cloud-city.npcs.json",
       "npcSummary": {
-        "totalNpcCount": 77,
+        "totalNpcCount": 72,
         "statusCounts": {
           "literal-name-mismatch": 1,
-          "match": 76
+          "match": 71
         }
       },
       "sceneScriptAreasPath": "data/client-derived/maps/112-cloud-city.scene-script-areas.json",
@@ -7589,8 +7589,13 @@
         "portalEffectCandidateCount": 0,
         "observedTriggerPointCount": 0
       },
-      "npcsPath": null,
-      "npcSummary": null,
+      "npcsPath": "data/client-derived/maps/221-casino.npcs.json",
+      "npcSummary": {
+        "totalNpcCount": 2,
+        "statusCounts": {
+          "manual": 2
+        }
+      },
       "sceneScriptAreasPath": "data/client-derived/maps/221-casino.scene-script-areas.json",
       "sceneScriptSummary": {
         "componentCount": 1,
@@ -7619,8 +7624,13 @@
         "portalEffectCandidateCount": 0,
         "observedTriggerPointCount": 0
       },
-      "npcsPath": null,
-      "npcSummary": null,
+      "npcsPath": "data/client-derived/maps/222-jewelry-shop.npcs.json",
+      "npcSummary": {
+        "totalNpcCount": 1,
+        "statusCounts": {
+          "manual": 1
+        }
+      },
       "sceneScriptAreasPath": "data/client-derived/maps/222-jewelry-shop.scene-script-areas.json",
       "sceneScriptSummary": {
         "componentCount": 1,
@@ -7679,8 +7689,13 @@
         "portalEffectCandidateCount": 0,
         "observedTriggerPointCount": 0
       },
-      "npcsPath": null,
-      "npcSummary": null,
+      "npcsPath": "data/client-derived/maps/224-armor-store.npcs.json",
+      "npcSummary": {
+        "totalNpcCount": 1,
+        "statusCounts": {
+          "manual": 1
+        }
+      },
       "sceneScriptAreasPath": "data/client-derived/maps/224-armor-store.scene-script-areas.json",
       "sceneScriptSummary": {
         "componentCount": 1,
@@ -7739,8 +7754,13 @@
         "portalEffectCandidateCount": 0,
         "observedTriggerPointCount": 0
       },
-      "npcsPath": null,
-      "npcSummary": null,
+      "npcsPath": "data/client-derived/maps/226-cloud-city-inn.npcs.json",
+      "npcSummary": {
+        "totalNpcCount": 1,
+        "statusCounts": {
+          "manual": 1
+        }
+      },
       "sceneScriptAreasPath": "data/client-derived/maps/226-cloud-city-inn.scene-script-areas.json",
       "sceneScriptSummary": {
         "componentCount": 1,
@@ -7799,8 +7819,13 @@
         "portalEffectCandidateCount": 0,
         "observedTriggerPointCount": 0
       },
-      "npcsPath": null,
-      "npcSummary": null,
+      "npcsPath": "data/client-derived/maps/228-pet-shop.npcs.json",
+      "npcSummary": {
+        "totalNpcCount": 1,
+        "statusCounts": {
+          "manual": 1
+        }
+      },
       "sceneScriptAreasPath": "data/client-derived/maps/228-pet-shop.scene-script-areas.json",
       "sceneScriptSummary": {
         "componentCount": 1,

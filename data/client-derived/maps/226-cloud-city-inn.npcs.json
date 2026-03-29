@@ -1,0 +1,31 @@
+{
+  "mapId": 226,
+  "mapName": "Cloud City Inn",
+  "source": {
+    "authority": "manual-server-override",
+    "reason": "Pub Owner belongs in Cloud City Inn, not Cloud City."
+  },
+  "validationSummary": {
+    "totalNpcs": 1,
+    "statusCounts": {
+      "manual": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3010,
+      "npcTypeId": 5,
+      "name": "Pub Owner",
+      "nameSource": "manual",
+      "x": 15,
+      "y": 65,
+      "roleinfoNameByNpcId": "Pub Owner",
+      "roleinfoIdByName": 3010,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3010,
+      "validationStatus": "manual",
+      "rawCall": "manual-server-override"
+    }
+  ]
+}

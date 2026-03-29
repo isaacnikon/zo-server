@@ -5156,21 +5156,36 @@
           }
         ]
       },
-      "auxiliaryActions": [],
-      "steps": [
+      "auxiliaryActions": [
         {
-          "type": "talk",
+          "type": "combat_on_server_run",
+          "stepStatus": 1,
+          "subtype": 2,
           "npcId": 3018,
-          "status": 1,
-          "description": "Take Fortune Rune with you and speak to Ralph.",
-          "mapId": 112,
+          "scriptId": 10001,
+          "mapId": 221,
+          "monsterId": 5032,
+          "count": 1,
           "consumeItems": [
             {
               "templateId": 21056,
               "quantity": 1,
               "name": ""
             }
-          ]
+          ],
+          "grantItems": []
+        }
+      ],
+      "steps": [
+        {
+          "type": "kill",
+          "npcId": 3018,
+          "status": 1,
+          "description": "Take Fortune Rune with you and speak to Ralph.",
+          "mapId": 221,
+          "completionDescription": "Return to Ralph after defeating him",
+          "monsterId": 5032,
+          "count": 1
         }
       ],
       "minLevel": 12

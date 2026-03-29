@@ -1,0 +1,46 @@
+{
+  "mapId": 221,
+  "mapName": "Casino",
+  "source": {
+    "authority": "manual-server-override",
+    "reason": "Oppressor and Ralph belong in Casino, not Cloud City."
+  },
+  "validationSummary": {
+    "totalNpcs": 2,
+    "statusCounts": {
+      "manual": 2
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3017,
+      "npcTypeId": 5,
+      "name": "Oppressor",
+      "nameSource": "manual",
+      "x": 15,
+      "y": 65,
+      "roleinfoNameByNpcId": "Oppressor",
+      "roleinfoIdByName": 3017,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3017,
+      "validationStatus": "manual",
+      "rawCall": "manual-server-override"
+    },
+    {
+      "order": 1,
+      "npcId": 3018,
+      "npcTypeId": 5,
+      "name": "Ralph",
+      "nameSource": "manual",
+      "x": 46,
+      "y": 67,
+      "roleinfoNameByNpcId": "Ralph",
+      "roleinfoIdByName": 3018,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3018,
+      "validationStatus": "manual",
+      "rawCall": "manual-server-override"
+    }
+  ]
+}

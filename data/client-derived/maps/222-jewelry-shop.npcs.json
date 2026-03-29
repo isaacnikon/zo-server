@@ -1,0 +1,31 @@
+{
+  "mapId": 222,
+  "mapName": "Jewelry Shop",
+  "source": {
+    "authority": "manual-server-override",
+    "reason": "Amber belongs in Jewelry Shop, not Cloud City."
+  },
+  "validationSummary": {
+    "totalNpcs": 1,
+    "statusCounts": {
+      "manual": 1
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3016,
+      "npcTypeId": 5,
+      "name": "Amber",
+      "nameSource": "manual",
+      "x": 31,
+      "y": 63,
+      "roleinfoNameByNpcId": "Amber",
+      "roleinfoIdByName": 3016,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3016,
+      "validationStatus": "manual",
+      "rawCall": "manual-server-override"
+    }
+  ]
+}
