@@ -1148,6 +1148,74 @@
         {
           "templateId": 29002,
           "price": 200
+        },
+        {
+          "templateId": 29003,
+          "price": 300
+        },
+        {
+          "templateId": 29004,
+          "price": 400
+        },
+        {
+          "templateId": 26009,
+          "price": 100
+        },
+        {
+          "templateId": 27013,
+          "price": 3000
+        },
+        {
+          "templateId": 27014,
+          "price": 3000
+        },
+        {
+          "templateId": 27015,
+          "price": 3000
+        },
+        {
+          "templateId": 27016,
+          "price": 3000
+        },
+        {
+          "templateId": 27017,
+          "price": 3000
+        },
+        {
+          "templateId": 27018,
+          "price": 3000
+        },
+        {
+          "templateId": 27019,
+          "price": 3000
+        },
+        {
+          "templateId": 27020,
+          "price": 3000
+        },
+        {
+          "templateId": 27021,
+          "price": 3000
+        },
+        {
+          "templateId": 27022,
+          "price": 3000
+        },
+        {
+          "templateId": 27023,
+          "price": 3000
+        },
+        {
+          "templateId": 27024,
+          "price": 3000
+        },
+        {
+          "templateId": 26039,
+          "price": 400
+        },
+        {
+          "templateId": 26040,
+          "price": 400
         }
       ]
     },
@@ -1761,6 +1829,111 @@
         {
           "templateId": 26009,
           "price": 100
+        }
+      ]
+    },
+    "3248": {
+      "speaker": "Grocer",
+      "items": [
+        {
+          "templateId": 20001,
+          "price": 150
+        },
+        {
+          "templateId": 20002,
+          "price": 570
+        },
+        {
+          "templateId": 20003,
+          "price": 1000
+        },
+        {
+          "templateId": 20004,
+          "price": 250
+        },
+        {
+          "templateId": 20005,
+          "price": 750
+        },
+        {
+          "templateId": 20006,
+          "price": 1300
+        },
+        {
+          "templateId": 29001,
+          "price": 100
+        },
+        {
+          "templateId": 29002,
+          "price": 200
+        },
+        {
+          "templateId": 29003,
+          "price": 300
+        },
+        {
+          "templateId": 29004,
+          "price": 400
+        },
+        {
+          "templateId": 26009,
+          "price": 100
+        },
+        {
+          "templateId": 27013,
+          "price": 3000
+        },
+        {
+          "templateId": 27014,
+          "price": 3000
+        },
+        {
+          "templateId": 27015,
+          "price": 3000
+        },
+        {
+          "templateId": 27016,
+          "price": 3000
+        },
+        {
+          "templateId": 27017,
+          "price": 3000
+        },
+        {
+          "templateId": 27018,
+          "price": 3000
+        },
+        {
+          "templateId": 27019,
+          "price": 3000
+        },
+        {
+          "templateId": 27020,
+          "price": 3000
+        },
+        {
+          "templateId": 27021,
+          "price": 3000
+        },
+        {
+          "templateId": 27022,
+          "price": 3000
+        },
+        {
+          "templateId": 27023,
+          "price": 3000
+        },
+        {
+          "templateId": 27024,
+          "price": 3000
+        },
+        {
+          "templateId": 26039,
+          "price": 400
+        },
+        {
+          "templateId": 26040,
+          "price": 400
         }
       ]
     },
@@ -2498,6 +2671,29 @@
   },
   "mapOverrides": [
     {
+      "mapId": 218,
+      "npcId": 3199,
+      "speaker": "Grocer",
+      "items": [
+        {
+          "templateId": 20001,
+          "price": 150
+        },
+        {
+          "templateId": 20002,
+          "price": 500
+        },
+        {
+          "templateId": 20004,
+          "price": 150
+        },
+        {
+          "templateId": 20005,
+          "price": 500
+        }
+      ]
+    },
+    {
       "mapId": 112,
       "npcId": 3009,
       "speaker": "Diana",
@@ -2638,23 +2834,28 @@
       "items": [
         {
           "templateId": 23006,
-          "price": 200
+          "price": 200,
+          "quantity": 20
         },
         {
           "templateId": 23007,
-          "price": 200
+          "price": 200,
+          "quantity": 20
         },
         {
           "templateId": 23012,
-          "price": 200
+          "price": 200,
+          "quantity": 20
         },
         {
           "templateId": 23013,
-          "price": 200
+          "price": 200,
+          "quantity": 20
         },
         {
           "templateId": 23014,
-          "price": 200
+          "price": 200,
+          "quantity": 20
         }
       ]
     },
@@ -2855,6 +3056,10 @@
         {
           "templateId": 29009,
           "price": 2000
+        },
+        {
+          "templateId": 29010,
+          "price": 4000
         }
       ]
     }

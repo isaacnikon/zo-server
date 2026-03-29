@@ -83,6 +83,9 @@ function completeNpcShopPurchase(
   const bindState = requestedCurrency === 'coins' ? 1 : 0;
   const tradeState = requestedCurrency === 'coins' ? -2 : 0;
   const grantQuantity =
+    Number.isInteger(catalogItem?.quantity) && catalogItem.quantity > 0
+      ? (catalogItem.quantity as number)
+      :
     Number.isInteger(definition?.maxStack) && definition!.maxStack > 1
       ? definition!.maxStack
       : 1;
