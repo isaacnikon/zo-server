@@ -98,6 +98,8 @@ type EnemyDisableEffect = {
   chancePercent: number;
 };
 
+const BLIZZARD_NATIVE_EFFECT_IDS = [1170, 1171, 1172];
+
 export function handleCombatSkillUse(session: GameSession, payload: Buffer): void {
   const skillId = payload.readUInt16LE(3) & 0xffff;
   const targetEntityId = payload.readUInt32LE(5) >>> 0;
@@ -223,6 +225,10 @@ export function sendCombatSkillCastPlayback(
     skillPlan.implementationClass === 13 &&
     normalizedSkillId === SLAUGHTER_SKILL_ID &&
     packetSkillId === SLAUGHTER_SKILL_ID;
+  const useNativeBlizzardPrelude =
+    skillPlan.implementationClass === 16 &&
+    normalizedSkillId === BLIZZARD_SKILL_ID &&
+    packetSkillId === BLIZZARD_SKILL_ID;
   const useSlaughterStage2 =
     skillPlan.implementationClass === 13 &&
     normalizedSkillId === SLAUGHTER_SKILL_ID &&
@@ -260,6 +266,14 @@ export function sendCombatSkillCastPlayback(
         [1152, 1153],
         { leadingByte: 0 }
       )
+    : useNativeBlizzardPrelude
+      ? buildSlaughterCastPlaybackPacket(
+          session.runtimeId >>> 0,
+          packetSkillId,
+          skillLevelIndex,
+          BLIZZARD_NATIVE_EFFECT_IDS,
+          { leadingByte: 0 }
+        )
     : buildSkillCastPlaybackPacket(
         session.runtimeId >>> 0,
         packetSkillId,
@@ -272,7 +286,7 @@ export function sendCombatSkillCastPlayback(
             }
           : {}
       );
-  const delayedCastFallbackPacket = useNativeSlaughterPacket
+  const delayedCastFallbackPacket = (useNativeSlaughterPacket || useNativeBlizzardPrelude)
     ? buildSkillCastPlaybackPacket(
         session.runtimeId >>> 0,
         packetSkillId,
@@ -297,6 +311,8 @@ export function sendCombatSkillCastPlayback(
     stage2Spec: useSlaughterStage2 ? SLAUGHTER_PACKET_STAGE2_SPEC : (SKILL_PACKET_PROBE_STAGE2_ENABLED ? SKILL_PACKET_PROBE_STAGE2_SPEC : ''),
     slaughterNativePacket: useNativeSlaughterPacket,
     slaughterCleanupEffectIds: useNativeSlaughterPacket ? [1152, 1153] : [],
+    blizzardNativePrelude: useNativeBlizzardPrelude,
+    blizzardPreludeEffectIds: useNativeBlizzardPrelude ? BLIZZARD_NATIVE_EFFECT_IDS : [],
     slaughterFallbackPacketHex: delayedCastFallbackPacket ? delayedCastFallbackPacket.toString('hex') : '',
     targetProbe: {
       entity: SKILL_PACKET_PROBE_TARGET_ENTITY,
@@ -312,7 +328,7 @@ export function sendCombatSkillCastPlayback(
     DEFAULT_FLAGS,
     `Sending combat skill cast attacker=${session.runtimeId} skillId=${normalizedSkillId} packetSkillId=${packetSkillId} implClass=${skillPlan.implementationClass || 0} levelIndex=${skillLevelIndex} targets=${probedTargets.map((target) => `${target.entityId}:${target.actionCode}:${target.value}`).join('|') || 'none'} stage2=${(SKILL_PACKET_PROBE_STAGE2_ENABLED || useSlaughterStage2) ? `${useSlaughterStage2 ? SLAUGHTER_PACKET_STAGE2_FLAG : SKILL_PACKET_PROBE_STAGE2_FLAG}:${effectiveStage2Entries.map((entry) => `${entry.wordA}/${entry.wordB}/${entry.dwordC}`).join('|') || 'none'}` : 'off'}`
   );
-  if (delayedCastFallbackPacket && skillPlan.followUpMode === 'delayed_cast') {
+  if (delayedCastFallbackPacket && (skillPlan.followUpMode === 'delayed_cast' || useNativeBlizzardPrelude)) {
     session.combatState = {
       ...session.combatState,
       skillResolutionPhase: 'await-cast-ready',
@@ -321,7 +337,7 @@ export function sendCombatSkillCastPlayback(
     session.writePacket(
       delayedCastFallbackPacket,
       DEFAULT_FLAGS,
-      `Sending delayed skill follow-up cast attacker=${session.runtimeId} skillId=${normalizedSkillId} packetSkillId=${packetSkillId} implClass=${skillPlan.implementationClass || 0} levelIndex=${skillLevelIndex} targets=${probedTargets.map((target) => `${target.entityId}:${target.actionCode}:${target.value}`).join('|') || 'none'}`
+      `Sending delayed skill follow-up cast attacker=${session.runtimeId} skillId=${normalizedSkillId} packetSkillId=${packetSkillId} implClass=${skillPlan.implementationClass || 0} levelIndex=${skillLevelIndex} targets=${probedTargets.map((target) => `${target.entityId}:${target.actionCode}:${target.value}`).join('|') || 'none'} mode=${useNativeBlizzardPrelude ? 'blizzard-native' : 'delayed-cast'}`
     );
   }
 }

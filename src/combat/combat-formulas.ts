@@ -47,6 +47,8 @@ export const ENERVATE_DAMAGE_SCALE_MIN_BY_LEVEL = [1.12, 1.122, 1.124, 1.126, 1.
 export const ENERVATE_DAMAGE_SCALE_MAX_BY_LEVEL = [1.13, 1.132, 1.134, 1.136, 1.138, 1.14, 1.142, 1.144, 1.146, 1.148, 1.18, 1.22];
 export const FIREBALL_DAMAGE_SCALE_MIN_BY_LEVEL = [1.18, 1.2, 1.22, 1.24, 1.26, 1.28, 1.3, 1.32, 1.34, 1.36, 1.4, 1.46];
 export const FIREBALL_DAMAGE_SCALE_MAX_BY_LEVEL = [1.28, 1.3, 1.32, 1.34, 1.36, 1.38, 1.4, 1.42, 1.44, 1.46, 1.52, 1.58];
+export const BLIZZARD_DAMAGE_SCALE_MIN_BY_LEVEL = [1, 1, 1, 1, 1, 1.02, 1.02, 1.02, 1.02, 1.04, 1.06, 1.08];
+export const BLIZZARD_DAMAGE_SCALE_MAX_BY_LEVEL = [1, 1, 1, 1, 1, 1.04, 1.04, 1.04, 1.04, 1.08, 1.12, 1.16];
 export const SLAUGHTER_DAMAGE_SCALE_MIN_BY_LEVEL = [1.68, 1.69, 1.7, 1.71, 1.72, 1.73, 1.74, 1.75, 1.76, 1.78, 1.8, 1.83];
 export const SLAUGHTER_DAMAGE_SCALE_MAX_BY_LEVEL = [1.74, 1.75, 1.76, 1.77, 1.78, 1.79, 1.8, 1.81, 1.82, 1.835, 1.85, 1.85];
 export const FIREBALL_EXPLOSION_CHANCE = 0.1;
@@ -373,6 +375,9 @@ export function resolveSkillTargets(session: GameSession, skillId: number, targe
   if ((skillId >>> 0) === FIREBALL_SKILL_ID) {
     return resolveFireballTargets(session, targetEntityId);
   }
+  if ((skillId >>> 0) === BLIZZARD_SKILL_ID) {
+    return resolveBlizzardTargets(session, targetEntityId, skillLevel);
+  }
   if ((skillId >>> 0) === SLAUGHTER_SKILL_ID) {
     return resolveSlaughterTargets(session, targetEntityId, skillLevel);
   }
@@ -448,6 +453,43 @@ export function resolveFireballTargets(session: GameSession, targetEntityId: num
     .sort((a, b) => a.col - b.col);
 
   return [primaryTarget, ...adjacentTargets];
+}
+
+export function resolveBlizzardTargetCount(skillLevel: number): number {
+  const normalizedLevel = Math.max(1, Math.min(12, skillLevel | 0));
+  if (normalizedLevel <= 1) {
+    return 1;
+  }
+  if (normalizedLevel <= 5) {
+    return 2;
+  }
+  if (normalizedLevel <= 9) {
+    return 3;
+  }
+  return 4;
+}
+
+export function resolveBlizzardTargets(
+  session: GameSession,
+  targetEntityId: number,
+  skillLevel: number
+): CombatEnemyInstance[] {
+  const living = listLivingEnemies(session.combatState?.enemies);
+  if (living.length <= 0) {
+    return [];
+  }
+
+  const primaryTarget = findEnemyByEntityId(session.combatState?.enemies, targetEntityId >>> 0);
+  if (!primaryTarget || primaryTarget.hp <= 0) {
+    return [];
+  }
+
+  const targetCount = Math.max(1, Math.min(living.length, resolveBlizzardTargetCount(skillLevel)));
+  if (targetCount <= 1) {
+    return [primaryTarget];
+  }
+
+  return resolveGenericHintedTargets(living, primaryTarget, targetCount, 'multi');
 }
 
 export function resolveSlaughterTargetCount(skillLevel: number): number {
@@ -720,6 +762,10 @@ export function resolveEnemyPhysicalMitigation(session: GameSession, enemy: Reco
   return Math.max(0, baseMitigation - penetration);
 }
 
+export function resolveEnemyMagicMitigation(enemy: Record<string, any>): number {
+  return Math.max(0, Math.floor((enemy.level || 1) + Math.max(0, enemy.aptitude || 0)));
+}
+
 export function resolvePlayerCounterattackChance(session: GameSession): number {
   const derived = resolveDerivedPlayerCombatStats(session);
   const baseChance = 5;
@@ -767,7 +813,19 @@ export function computeSkillDamage(session: GameSession, skillId: number, skillL
     const scaledMin = Math.max(1, Math.round(attackMin * scaleMin));
     const scaledMax = Math.max(scaledMin, Math.round(attackMax * scaleMax));
     const baseDamage = rollRangeDamage(scaledMin, scaledMax);
-    const mitigation = Math.floor((enemy.level || 1) + Math.max(0, enemy.aptitude || 0));
+    const mitigation = resolveEnemyMagicMitigation(enemy);
+    return Math.max(0, baseDamage - mitigation);
+  }
+  if ((skillId >>> 0) === BLIZZARD_SKILL_ID) {
+    const attackRange = resolvePlayerMagicAttackRange(session);
+    const attackMin = Math.max(1, attackRange.min || 0);
+    const attackMax = Math.max(attackMin, attackRange.max || attackMin);
+    const scaleMin = BLIZZARD_DAMAGE_SCALE_MIN_BY_LEVEL[Math.max(0, skillLevel - 1)] || BLIZZARD_DAMAGE_SCALE_MIN_BY_LEVEL[0];
+    const scaleMax = BLIZZARD_DAMAGE_SCALE_MAX_BY_LEVEL[Math.max(0, skillLevel - 1)] || BLIZZARD_DAMAGE_SCALE_MAX_BY_LEVEL[0];
+    const scaledMin = Math.max(1, Math.round(attackMin * scaleMin));
+    const scaledMax = Math.max(scaledMin, Math.round(attackMax * scaleMax));
+    const baseDamage = rollRangeDamage(scaledMin, scaledMax);
+    const mitigation = resolveEnemyMagicMitigation(enemy);
     return Math.max(0, baseDamage - mitigation);
   }
   if ((skillId >>> 0) === SLAUGHTER_SKILL_ID) {

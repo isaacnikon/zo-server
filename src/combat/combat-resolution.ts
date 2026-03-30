@@ -951,9 +951,7 @@ export function finalizeSkillResolutionAndEnemyTurn(session: GameSession, source
     `Skill resolution complete source=${source} elapsedMs=${elapsed} pendingSkillCount=${pendingOutcomes.length}`
   );
 
-  const shouldSendSkillImpactPlayback = SKILL_PACKET_HYBRID_IMPACT_ENABLED;
-
-  if (shouldSendSkillImpactPlayback) {
+  if (SKILL_PACKET_HYBRID_IMPACT_ENABLED) {
     for (const pendingOutcome of pendingOutcomes) {
       if (!pendingOutcome?.targetEntityId || !pendingOutcome?.playerDamage) {
         continue;
