@@ -98,7 +98,78 @@ type EnemyDisableEffect = {
   chancePercent: number;
 };
 
+type NativeSkillPlaybackProfileDefinition = {
+  skillId: number;
+  implementationClass: number | null;
+  profileName: string;
+  nativePreludeEffectIds: number[];
+  delayedFollowUp: boolean;
+  packetSkillIdOverride?: number | null;
+  requireNativePacketSkillIdMatch?: boolean;
+  stage2Enabled?: boolean;
+  stage2Flag?: number | null;
+  stage2Spec?: string;
+};
+
+type ResolvedSkillPlaybackProfile = {
+  packetSkillId: number;
+  profileName: string | null;
+  nativePreludeEffectIds: number[];
+  delayedFollowUp: boolean;
+  stage2Enabled: boolean;
+  stage2Flag: number | null;
+  stage2Spec: string;
+};
+
+const SLAUGHTER_NATIVE_EFFECT_IDS = [1152, 1153];
 const BLIZZARD_NATIVE_EFFECT_IDS = [1170, 1171, 1172];
+const NATIVE_SKILL_PLAYBACK_PROFILES: NativeSkillPlaybackProfileDefinition[] = [
+  {
+    skillId: SLAUGHTER_SKILL_ID,
+    implementationClass: 13,
+    profileName: 'slaughter',
+    nativePreludeEffectIds: SLAUGHTER_NATIVE_EFFECT_IDS,
+    delayedFollowUp: true,
+    packetSkillIdOverride: SLAUGHTER_PACKET_SKILL_ID_OVERRIDE,
+    requireNativePacketSkillIdMatch: true,
+    stage2Enabled: SLAUGHTER_PACKET_STAGE2_ENABLED,
+    stage2Flag: SLAUGHTER_PACKET_STAGE2_FLAG,
+    stage2Spec: SLAUGHTER_PACKET_STAGE2_SPEC,
+  },
+  {
+    skillId: BLIZZARD_SKILL_ID,
+    implementationClass: 16,
+    profileName: 'blizzard',
+    nativePreludeEffectIds: BLIZZARD_NATIVE_EFFECT_IDS,
+    delayedFollowUp: true,
+    requireNativePacketSkillIdMatch: true,
+  },
+];
+
+function resolveSkillPlaybackProfile(skillPlan: CombatSkillPlan): ResolvedSkillPlaybackProfile {
+  const normalizedSkillId = skillPlan.skillId >>> 0;
+  const definition = NATIVE_SKILL_PLAYBACK_PROFILES.find((profile) =>
+    profile.skillId === normalizedSkillId &&
+    profile.implementationClass === skillPlan.implementationClass
+  );
+  const packetSkillId = definition?.packetSkillIdOverride && definition.packetSkillIdOverride > 0
+    ? definition.packetSkillIdOverride >>> 0
+    : normalizedSkillId;
+  const nativePreludeEnabled =
+    Array.isArray(definition?.nativePreludeEffectIds) &&
+    definition.nativePreludeEffectIds.length > 0 &&
+    (definition.requireNativePacketSkillIdMatch !== true || packetSkillId === normalizedSkillId);
+
+  return {
+    packetSkillId,
+    profileName: nativePreludeEnabled ? (definition?.profileName || null) : null,
+    nativePreludeEffectIds: nativePreludeEnabled ? [...(definition?.nativePreludeEffectIds || [])] : [],
+    delayedFollowUp: nativePreludeEnabled && definition?.delayedFollowUp === true,
+    stage2Enabled: definition?.stage2Enabled === true,
+    stage2Flag: definition?.stage2Enabled === true ? ((definition.stage2Flag || 0) & 0xff) : null,
+    stage2Spec: definition?.stage2Enabled === true ? String(definition.stage2Spec || '') : '',
+  };
+}
 
 export function handleCombatSkillUse(session: GameSession, payload: Buffer): void {
   const skillId = payload.readUInt16LE(3) & 0xffff;
@@ -218,21 +289,8 @@ export function sendCombatSkillCastPlayback(
 ): void {
   const normalizedSkillId = skillPlan.skillId >>> 0;
   const skillLevelIndex = Math.max(1, Math.min(12, skillLevel));
-  const packetSkillId = (normalizedSkillId === SLAUGHTER_SKILL_ID && SLAUGHTER_PACKET_SKILL_ID_OVERRIDE > 0)
-    ? SLAUGHTER_PACKET_SKILL_ID_OVERRIDE >>> 0
-    : normalizedSkillId;
-  const useNativeSlaughterPacket =
-    skillPlan.implementationClass === 13 &&
-    normalizedSkillId === SLAUGHTER_SKILL_ID &&
-    packetSkillId === SLAUGHTER_SKILL_ID;
-  const useNativeBlizzardPrelude =
-    skillPlan.implementationClass === 16 &&
-    normalizedSkillId === BLIZZARD_SKILL_ID &&
-    packetSkillId === BLIZZARD_SKILL_ID;
-  const useSlaughterStage2 =
-    skillPlan.implementationClass === 13 &&
-    normalizedSkillId === SLAUGHTER_SKILL_ID &&
-    SLAUGHTER_PACKET_STAGE2_ENABLED;
+  const playbackProfile = resolveSkillPlaybackProfile(skillPlan);
+  const packetSkillId = playbackProfile.packetSkillId >>> 0;
   const probedTargets = buildSkillPacketProbeTargets(
     packetSkillId,
     skillLevel >>> 0,
@@ -247,9 +305,9 @@ export function sendCombatSkillCastPlayback(
     session.runtimeId >>> 0,
     probedTargets
   );
-  const slaughterStage2Entries = useSlaughterStage2
+  const profileStage2Entries = playbackProfile.stage2Enabled
     ? buildSkillPacketProbeStage2EntriesForSpec(
-        SLAUGHTER_PACKET_STAGE2_SPEC,
+        playbackProfile.stage2Spec,
         packetSkillId,
         skillLevel >>> 0,
         skillLevelIndex,
@@ -257,36 +315,30 @@ export function sendCombatSkillCastPlayback(
         probedTargets
       )
     : [];
-  const effectiveStage2Entries = useSlaughterStage2 ? slaughterStage2Entries : stage2Entries;
-  const packet = useNativeSlaughterPacket
+  const effectiveStage2Entries = playbackProfile.stage2Enabled ? profileStage2Entries : stage2Entries;
+  const packet = playbackProfile.nativePreludeEffectIds.length > 0
     ? buildSlaughterCastPlaybackPacket(
         session.runtimeId >>> 0,
         packetSkillId,
         skillLevelIndex,
-        [1152, 1153],
+        playbackProfile.nativePreludeEffectIds,
         { leadingByte: 0 }
       )
-    : useNativeBlizzardPrelude
-      ? buildSlaughterCastPlaybackPacket(
-          session.runtimeId >>> 0,
-          packetSkillId,
-          skillLevelIndex,
-          BLIZZARD_NATIVE_EFFECT_IDS,
-          { leadingByte: 0 }
-        )
     : buildSkillCastPlaybackPacket(
         session.runtimeId >>> 0,
         packetSkillId,
         skillLevelIndex,
         probedTargets,
-        (SKILL_PACKET_PROBE_STAGE2_ENABLED || useSlaughterStage2)
+        (SKILL_PACKET_PROBE_STAGE2_ENABLED || playbackProfile.stage2Enabled)
           ? {
-              stage2Flag: useSlaughterStage2 ? SLAUGHTER_PACKET_STAGE2_FLAG : SKILL_PACKET_PROBE_STAGE2_FLAG,
+              stage2Flag: playbackProfile.stage2Enabled
+                ? (playbackProfile.stage2Flag || 0)
+                : SKILL_PACKET_PROBE_STAGE2_FLAG,
               stage2Entries: effectiveStage2Entries,
             }
           : {}
       );
-  const delayedCastFallbackPacket = (useNativeSlaughterPacket || useNativeBlizzardPrelude)
+  const delayedCastFallbackPacket = playbackProfile.delayedFollowUp
     ? buildSkillCastPlaybackPacket(
         session.runtimeId >>> 0,
         packetSkillId,
@@ -304,16 +356,14 @@ export function sendCombatSkillCastPlayback(
     skillLevelIndex,
     implementationClass: skillPlan.implementationClass,
     followUpMode: skillPlan.followUpMode,
-    stage2Enabled: SKILL_PACKET_PROBE_STAGE2_ENABLED || useSlaughterStage2,
-    stage2Flag: (SKILL_PACKET_PROBE_STAGE2_ENABLED || useSlaughterStage2)
-      ? ((useSlaughterStage2 ? SLAUGHTER_PACKET_STAGE2_FLAG : SKILL_PACKET_PROBE_STAGE2_FLAG) & 0xff)
+    stage2Enabled: SKILL_PACKET_PROBE_STAGE2_ENABLED || playbackProfile.stage2Enabled,
+    stage2Flag: (SKILL_PACKET_PROBE_STAGE2_ENABLED || playbackProfile.stage2Enabled)
+      ? ((playbackProfile.stage2Enabled ? (playbackProfile.stage2Flag || 0) : SKILL_PACKET_PROBE_STAGE2_FLAG) & 0xff)
       : null,
-    stage2Spec: useSlaughterStage2 ? SLAUGHTER_PACKET_STAGE2_SPEC : (SKILL_PACKET_PROBE_STAGE2_ENABLED ? SKILL_PACKET_PROBE_STAGE2_SPEC : ''),
-    slaughterNativePacket: useNativeSlaughterPacket,
-    slaughterCleanupEffectIds: useNativeSlaughterPacket ? [1152, 1153] : [],
-    blizzardNativePrelude: useNativeBlizzardPrelude,
-    blizzardPreludeEffectIds: useNativeBlizzardPrelude ? BLIZZARD_NATIVE_EFFECT_IDS : [],
-    slaughterFallbackPacketHex: delayedCastFallbackPacket ? delayedCastFallbackPacket.toString('hex') : '',
+    stage2Spec: playbackProfile.stage2Enabled ? playbackProfile.stage2Spec : (SKILL_PACKET_PROBE_STAGE2_ENABLED ? SKILL_PACKET_PROBE_STAGE2_SPEC : ''),
+    nativePreludeProfile: playbackProfile.profileName,
+    nativePreludeEffectIds: playbackProfile.nativePreludeEffectIds,
+    followUpCastPacketHex: delayedCastFallbackPacket ? delayedCastFallbackPacket.toString('hex') : '',
     targetProbe: {
       entity: SKILL_PACKET_PROBE_TARGET_ENTITY,
       action: SKILL_PACKET_PROBE_TARGET_ACTION,
@@ -326,9 +376,9 @@ export function sendCombatSkillCastPlayback(
   session.writePacket(
     packet,
     DEFAULT_FLAGS,
-    `Sending combat skill cast attacker=${session.runtimeId} skillId=${normalizedSkillId} packetSkillId=${packetSkillId} implClass=${skillPlan.implementationClass || 0} levelIndex=${skillLevelIndex} targets=${probedTargets.map((target) => `${target.entityId}:${target.actionCode}:${target.value}`).join('|') || 'none'} stage2=${(SKILL_PACKET_PROBE_STAGE2_ENABLED || useSlaughterStage2) ? `${useSlaughterStage2 ? SLAUGHTER_PACKET_STAGE2_FLAG : SKILL_PACKET_PROBE_STAGE2_FLAG}:${effectiveStage2Entries.map((entry) => `${entry.wordA}/${entry.wordB}/${entry.dwordC}`).join('|') || 'none'}` : 'off'}`
+    `Sending combat skill cast attacker=${session.runtimeId} skillId=${normalizedSkillId} packetSkillId=${packetSkillId} implClass=${skillPlan.implementationClass || 0} levelIndex=${skillLevelIndex} targets=${probedTargets.map((target) => `${target.entityId}:${target.actionCode}:${target.value}`).join('|') || 'none'} prelude=${playbackProfile.profileName || 'none'} stage2=${(SKILL_PACKET_PROBE_STAGE2_ENABLED || playbackProfile.stage2Enabled) ? `${playbackProfile.stage2Enabled ? (playbackProfile.stage2Flag || 0) : SKILL_PACKET_PROBE_STAGE2_FLAG}:${effectiveStage2Entries.map((entry) => `${entry.wordA}/${entry.wordB}/${entry.dwordC}`).join('|') || 'none'}` : 'off'}`
   );
-  if (delayedCastFallbackPacket && (skillPlan.followUpMode === 'delayed_cast' || useNativeBlizzardPrelude)) {
+  if (delayedCastFallbackPacket && (skillPlan.followUpMode === 'delayed_cast' || playbackProfile.delayedFollowUp)) {
     session.combatState = {
       ...session.combatState,
       skillResolutionPhase: 'await-cast-ready',
@@ -337,7 +387,7 @@ export function sendCombatSkillCastPlayback(
     session.writePacket(
       delayedCastFallbackPacket,
       DEFAULT_FLAGS,
-      `Sending delayed skill follow-up cast attacker=${session.runtimeId} skillId=${normalizedSkillId} packetSkillId=${packetSkillId} implClass=${skillPlan.implementationClass || 0} levelIndex=${skillLevelIndex} targets=${probedTargets.map((target) => `${target.entityId}:${target.actionCode}:${target.value}`).join('|') || 'none'} mode=${useNativeBlizzardPrelude ? 'blizzard-native' : 'delayed-cast'}`
+      `Sending delayed skill follow-up cast attacker=${session.runtimeId} skillId=${normalizedSkillId} packetSkillId=${packetSkillId} implClass=${skillPlan.implementationClass || 0} levelIndex=${skillLevelIndex} targets=${probedTargets.map((target) => `${target.entityId}:${target.actionCode}:${target.value}`).join('|') || 'none'} mode=${playbackProfile.profileName ? `${playbackProfile.profileName}-native` : 'delayed-cast'}`
     );
   }
 }
