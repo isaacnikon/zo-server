@@ -15,6 +15,7 @@ import {
 import { buildNpcShopOpenPacket } from '../protocol/gameplay-packets.js';
 import { resolveRepoPath } from '../runtime-paths.js';
 import { tryHandleConfiguredNpcInteraction } from '../gameplay/npc-interaction-rules.js';
+import { isFrogTeleporterNpc, syncFrogTeleporterClientState } from '../gameplay/frog-teleporter-service.js';
 import { recomputeSessionMaxVitals, resolveInnRestVitals } from '../gameplay/session-flows.js';
 import { primeNpcServiceContext } from '../gameplay/npc-service-runtime.js';
 import { sendSelfStateValueUpdate, sendSelfStateVitalsUpdate } from '../gameplay/stat-sync.js';
@@ -203,6 +204,12 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
     Number.isInteger(request.scriptId) &&
     typeof session.sendServerRunScriptImmediate === 'function'
   ) {
+    if (isFrogTeleporterNpc(resolvedNpcId)) {
+      syncFrogTeleporterClientState(
+        session,
+        `frog-dialog:${session.currentMapId}:${resolvedNpcId}:${request.scriptId! >>> 0}`
+      );
+    }
     session.sendServerRunScriptImmediate(request.scriptId! >>> 0);
   }
 

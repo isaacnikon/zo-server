@@ -7,6 +7,17 @@ export interface ServerRunRequestData {
   scriptId?: number;
   awardId?: number;
 }
+
+export interface FrogTeleporterUnlocks {
+  cloudCityToRainbowValley: boolean;
+  cloudCityToGoalManor: boolean;
+  cloudCityToTimberTown: boolean;
+  cloudCityToChillPass: boolean;
+  cloudCityToArielManor: boolean;
+  cloudCityToCelestialState: boolean;
+  rainbowValleyToCloudCity: boolean;
+  goalManorToCloudCity: boolean;
+}
 export interface CreateRoleData { templateIndex: number; roleName: string; birthMonth: number; birthDay: number; selectedAptitude: number; extra1: number; extra2: number }
 export interface QuestPacketData { subcmd: number; taskId: number }
 export interface EquipmentStateData { instanceId: number; equipFlag: number; unequipFlag: number }
@@ -220,6 +231,7 @@ export interface GameSession {
   pendingLoginQuestSyncTimer: NodeJS.Timeout | null;
   activeNpcShop: any;
   activeNpcService: any;
+  frogTeleporterUnlocks: FrogTeleporterUnlocks;
   // Equipment
   equipmentReplayTimer: NodeJS.Timeout | null;
   // Persisted data

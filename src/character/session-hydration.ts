@@ -3,6 +3,7 @@ import type { GameSession } from '../types.js';
 import { normalizePets } from '../pet-runtime.js';
 import { CHARACTER_VITALS_BASELINE } from '../gameplay/session-flows.js';
 import { resolveCharacterMaxVitals } from '../gameplay/max-vitals.js';
+import { defaultFrogTeleporterUnlocks, hydrateFrogTeleporterUnlocks } from '../gameplay/frog-teleporter-service.js';
 import { defaultBonusAttributes, numberOrDefault, normalizeBonusAttributes, normalizePrimaryAttributes, normalizeCharacterRecord, normalizeSkillState, } from './normalize.js';
 import { normalizeQuestState } from '../quest-engine/index.js';
 import { buildInventorySnapshot, normalizeInventoryState } from '../inventory/index.js';
@@ -83,6 +84,10 @@ export function hydratePendingGameCharacter(session: GameSession, sharedState: R
       ? pendingCharacter.selectedPetRuntimeId >>> 0
       : null;
   session.petSummoned = pendingCharacter.petSummoned === true;
+  hydrateFrogTeleporterUnlocks(
+    session,
+    pendingCharacter.frogTeleporterUnlocks || defaultFrogTeleporterUnlocks()
+  );
 
   const inventoryState = normalizeInventoryState(pendingCharacter);
   session.bagItems = inventoryState.inventory.bag;
@@ -172,6 +177,7 @@ export function buildCharacterSnapshot(
     selectedPetRuntimeId:
       typeof session.selectedPetRuntimeId === 'number' ? session.selectedPetRuntimeId >>> 0 : null,
     petSummoned: session.petSummoned === true,
+    frogTeleporterUnlocks: session.frogTeleporterUnlocks || defaultFrogTeleporterUnlocks(),
     inventory: buildInventorySnapshot(session),
     mapId: session.currentMapId,
     x: session.currentX,

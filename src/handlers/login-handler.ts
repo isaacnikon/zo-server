@@ -285,6 +285,10 @@ function sendGameServerRedirect(session: GameSession): void {
         ? persisted.selectedPetRuntimeId >>> 0
         : session.selectedPetRuntimeId,
     petSummoned: persisted?.petSummoned === true || session.petSummoned === true,
+    frogTeleporterUnlocks:
+      persisted?.frogTeleporterUnlocks && typeof persisted.frogTeleporterUnlocks === 'object'
+        ? persisted.frogTeleporterUnlocks
+        : session.frogTeleporterUnlocks,
     inventory: normalizeInventoryState(persisted || session).inventory,
     mapId: typeof persisted?.mapId === 'number' ? persisted.mapId : session.currentMapId,
     x: typeof persisted?.x === 'number' ? persisted.x : session.currentX,

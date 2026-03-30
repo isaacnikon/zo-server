@@ -1,4 +1,4 @@
-import type { CombatState, GameSession, PrimaryAttributes, QuestRecord, QuestSyncMode, SkillState } from './types.js';
+import type { CombatState, FrogTeleporterUnlocks, GameSession, PrimaryAttributes, QuestRecord, QuestSyncMode, SkillState } from './types.js';
 
 import { dispatchGamePacket } from './handlers/packet-dispatcher.js';
 import { createIdleCombatState, disposeCombatTimers as combatHandlerDisposeTimers, sendCombatEncounterProbe as combatHandlerSendCombatEncounterProbe, sendCombatExitProbe as combatHandlerSendCombatExitProbe, } from './handlers/combat-handler.js';
@@ -17,6 +17,7 @@ import { stopAutoMapRotation } from './scenes/map-rotation.js';
 import { removeWorldPresence } from './world-state.js';
 import { buildCharacterSnapshot as sessionHydrationBuildCharacterSnapshot, getPersistedCharacter as sessionHydrationGetPersistedCharacter, hydratePendingGameCharacter, persistCurrentCharacter as sessionHydrationPersistCurrentCharacter, saveCharacter as sessionHydrationSaveCharacter, } from './character/session-hydration.js';
 import { defaultBonusAttributes, defaultSkillState } from './character/normalize.js';
+import { defaultFrogTeleporterUnlocks } from './gameplay/frog-teleporter-service.js';
 
 type SharedState = Record<string, any>;
 type LoggerLike = {
@@ -96,6 +97,7 @@ class Session implements GameSession {
   combatSkillResolutionTimer: NodeJS.Timeout | null;
   activeNpcShop: any;
   activeNpcService: any;
+  frogTeleporterUnlocks: FrogTeleporterUnlocks;
   attackMin?: number;
   attackMax?: number;
   characterAttackMin?: number;
@@ -197,6 +199,7 @@ class Session implements GameSession {
     this.combatSkillResolutionTimer = null;
     this.activeNpcShop = null;
     this.activeNpcService = null;
+    this.frogTeleporterUnlocks = defaultFrogTeleporterUnlocks();
     this.mapRotationTimer = null;
     this.mapRotationTargets = [];
     this.mapRotationIndex = 0;

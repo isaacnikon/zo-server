@@ -14,6 +14,7 @@ import { tryHandlePetActionPacket } from './pet-handler.js';
 import { resolveTownCheckpoint } from '../gameplay/session-flows.js';
 import { tryHandleNpcServicePacket } from '../gameplay/npc-service-runtime.js';
 import { handleNpcShopServiceRequest } from '../gameplay/shop-runtime.js';
+import { handleFrogTeleporterMapArrival, syncFrogTeleporterClientState } from '../gameplay/frog-teleporter-service.js';
 import { syncWorldPresence } from '../world-state.js';
 
 import { PING_CMD, GAME_GATHER_REQUEST_CMD, GAME_POSITION_QUERY_CMD, GAME_SERVER_RUN_CMD, ROLE_CMD, GAME_QUEST_CMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_MISC_CMD, GAME_FIGHT_RESULT_CMD, GAME_FIGHT_STATE_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, } from '../config.js';
@@ -147,6 +148,11 @@ function dispatchGamePacket(
     session.currentMapId = position.mapId;
     session.currentX = position.x;
     session.currentY = position.y;
+    const frogTeleporterUnlocks = handleFrogTeleporterMapArrival(
+      session,
+      previousMapId >>> 0,
+      position.mapId >>> 0
+    );
     session.persistCurrentCharacter({
       mapId: position.mapId,
       x: position.x,
@@ -154,14 +160,17 @@ function dispatchGamePacket(
       lastTownMapId: checkpoint.mapId,
       lastTownX: checkpoint.x,
       lastTownY: checkpoint.y,
+      ...(frogTeleporterUnlocks ? { frogTeleporterUnlocks } : {}),
     });
     notifyAutoMapRotationPosition(session, position.mapId);
     if (session.pendingSceneNpcSpawnMapId === position.mapId) {
       session.sendMapNpcSpawns?.(position.mapId);
       session.syncQuestStateToClient?.({ mode: 'runtime' });
+      syncFrogTeleporterClientState(session, `map-change:${previousMapId}->${position.mapId}`);
       session.pendingSceneNpcSpawnMapId = null;
     } else if (previousMapId !== position.mapId) {
       session.syncQuestStateToClient?.({ mode: 'runtime' });
+      syncFrogTeleporterClientState(session, `map-change:${previousMapId}->${position.mapId}`);
     }
     if (session.pendingLoginQuestSyncMapId === position.mapId) {
       if (session.pendingLoginQuestSyncTimer) {

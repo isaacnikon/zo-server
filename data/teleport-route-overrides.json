@@ -505,6 +505,13 @@
       "validation": "validated-manually"
     },
     {
+      "sourceMapId": 165,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 170,
+      "targetMapName": "Ariel Manor",
+      "validation": "validated-manually"
+    },
+    {
       "sourceMapId": 148,
       "sourceSceneScriptId": 1,
       "targetMapId": 147,
@@ -523,6 +530,13 @@
       "sourceSceneScriptId": 1,
       "targetMapId": 148,
       "targetMapName": "Deep Corridor",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 161,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 181,
+      "targetMapName": "Moon Lake",
       "validation": "validated-manually"
     },
     {
@@ -547,10 +561,129 @@
       "validation": "validated-manually"
     },
     {
+      "sourceMapId": 130,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 161,
+      "targetMapName": "Soul-free Valley",
+      "validation": "validated-manually"
+    },
+    {
       "sourceMapId": 171,
       "sourceSceneScriptId": 1,
       "targetMapId": 129,
       "targetMapName": "Mega Forest",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 181,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 170,
+      "targetMapName": "Ariel Manor",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 170,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 165,
+      "targetMapName": "Lotus Peak",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 170,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 178,
+      "targetMapName": "Great Desert",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 178,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 185,
+      "targetMapName": "Thorn Mountain",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 178,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 170,
+      "targetMapName": "Ariel Manor",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 178,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 182,
+      "targetMapName": "Silent Hill",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 185,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 178,
+      "targetMapName": "Great Desert",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 204,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 130,
+      "targetMapName": "Triumph Path",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 204,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 292,
+      "targetMapName": "Plume Forest",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 292,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 204,
+      "targetMapName": "Celestial State",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 292,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 210,
+      "targetMapName": "West County Pass",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 210,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 292,
+      "targetMapName": "Plume Forest",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 186,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 210,
+      "targetMapName": "West County Pass",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 186,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 212,
+      "targetMapName": "North County Pass",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 212,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 186,
+      "targetMapName": "Glacial Land",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 130,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 204,
+      "targetMapName": "Celestial State",
       "validation": "validated-manually"
     },
     {
@@ -712,6 +845,13 @@
       "sourceSceneScriptId": 1,
       "targetMapId": 166,
       "targetMapName": "Chain Peak",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 182,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 178,
+      "targetMapName": "Great Desert",
       "validation": "validated-manually"
     },
     {
@@ -1074,6 +1214,13 @@
       "y": 244
     },
     {
+      "sourceMapId": 161,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 181,
+      "x": 52,
+      "y": 87
+    },
+    {
       "sourceMapId": 163,
       "sourceSceneScriptId": 1,
       "targetMapId": 160,
@@ -1256,6 +1403,13 @@
       "y": 34
     },
     {
+      "sourceMapId": 165,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 170,
+      "x": 19,
+      "y": 44
+    },
+    {
       "sourceMapId": 148,
       "sourceSceneScriptId": 1,
       "targetMapId": 147,
@@ -1298,11 +1452,130 @@
       "y": 80
     },
     {
+      "sourceMapId": 130,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 161,
+      "x": 39,
+      "y": 19
+    },
+    {
       "sourceMapId": 171,
       "sourceSceneScriptId": 1,
       "targetMapId": 129,
       "x": 12,
       "y": 139
+    },
+    {
+      "sourceMapId": 181,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 170,
+      "x": 119,
+      "y": 27
+    },
+    {
+      "sourceMapId": 170,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 165,
+      "x": 66,
+      "y": 237
+    },
+    {
+      "sourceMapId": 170,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 178,
+      "x": 205,
+      "y": 27
+    },
+    {
+      "sourceMapId": 178,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 185,
+      "x": 113,
+      "y": 211
+    },
+    {
+      "sourceMapId": 178,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 170,
+      "x": 98,
+      "y": 236
+    },
+    {
+      "sourceMapId": 178,
+      "sourceSceneScriptId": 3,
+      "targetMapId": 182,
+      "x": 120,
+      "y": 170
+    },
+    {
+      "sourceMapId": 185,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 178,
+      "x": 14,
+      "y": 135
+    },
+    {
+      "sourceMapId": 204,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 130,
+      "x": 44,
+      "y": 22
+    },
+    {
+      "sourceMapId": 204,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 292,
+      "x": 10,
+      "y": 87
+    },
+    {
+      "sourceMapId": 292,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 204,
+      "x": 114,
+      "y": 152
+    },
+    {
+      "sourceMapId": 292,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 210,
+      "x": 15,
+      "y": 245
+    },
+    {
+      "sourceMapId": 210,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 292,
+      "x": 113,
+      "y": 82
+    },
+    {
+      "sourceMapId": 186,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 210,
+      "x": 113,
+      "y": 246
+    },
+    {
+      "sourceMapId": 186,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 212,
+      "x": 17,
+      "y": 236
+    },
+    {
+      "sourceMapId": 212,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 186,
+      "x": 121,
+      "y": 70
+    },
+    {
+      "sourceMapId": 130,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 204,
+      "x": 76,
+      "y": 240
     },
     {
       "sourceMapId": 109,
@@ -1464,6 +1737,13 @@
       "targetMapId": 166,
       "x": 122,
       "y": 124
+    },
+    {
+      "sourceMapId": 182,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 178,
+      "x": 15,
+      "y": 390
     },
     {
       "sourceMapId": 166,

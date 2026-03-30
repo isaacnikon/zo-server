@@ -5,6 +5,7 @@ import { PacketWriter } from '../protocol.js';
 import { syncInventoryStateToClient } from '../gameplay/inventory-runtime.js';
 import { sendSkillStateSync } from '../gameplay/skill-runtime.js';
 import { buildMapGatheringNodes } from '../gameplay/gathering-runtime.js';
+import { syncFrogTeleporterClientState } from '../gameplay/frog-teleporter-service.js';
 import { getMapBootstrapSpawns } from '../map-spawns.js';
 import { getCurrentStep, getCurrentStepUi, getQuestDefinition } from '../quest-engine/index.js';
 import { buildSceneSpawnBatchPacket } from '../protocol/gameplay-packets.js';
@@ -49,6 +50,7 @@ export function sendEnterGameOk(session: GameSession, options: { syncMode?: Ques
     `Sending enter-game success char="${session.charName}" runtimeId=0x${session.runtimeId.toString(16)} entity=0x${session.entityType.toString(16)} roleEntity=0x${session.roleEntityType.toString(16)} aptitude=${session.selectedAptitude} map=${session.currentMapId} pos=${session.currentX},${session.currentY}`
   );
   session.sendSelfStateAptitudeSync();
+  syncFrogTeleporterClientState(session, 'enter-game');
   sendSkillStateSync(session, 'enter-game');
   syncInventoryStateToClient(session);
   session.scheduleEquipmentReplay();

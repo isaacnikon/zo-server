@@ -1,6 +1,7 @@
 import { applyEffects } from '../effects/effect-executor.js';
 import { getMapEncounterLevelRange, getMapSummary } from '../map-data.js';
 import { buildEncounterPoolEntry } from '../roleinfo/index.js';
+import { tryHandleFrogTeleporterInteraction } from './frog-teleporter-service.js';
 
 import type { GameSession, ServerRunRequestData } from '../types.js';
 
@@ -208,6 +209,15 @@ const TELEPORT_RULES: TeleportRule[] = [
     targetMapId: 109,
     targetX: 83,
     targetY: 20,
+  },
+  {
+    id: 'west-county-pass-guard-white-dew-snowland',
+    mapId: 210,
+    npcId: 3761,
+    scriptId: 20001,
+    targetMapId: 186,
+    targetX: 83,
+    targetY: 14,
   },
 ];
 
@@ -428,6 +438,11 @@ export function tryHandleConfiguredNpcInteraction(
   npcId: number,
   request: ServerRunRequestData
 ): RuleResult {
+  const frogTeleportResult = tryHandleFrogTeleporterInteraction(session, npcId, request);
+  if (frogTeleportResult.handled) {
+    return frogTeleportResult;
+  }
+
   const teleportResult = tryHandleTeleportRule(session, npcId, request);
   if (teleportResult.handled) {
     return teleportResult;

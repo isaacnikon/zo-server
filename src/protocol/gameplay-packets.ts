@@ -1,4 +1,4 @@
-import { GAME_DIALOG_MESSAGE_SUBCMD, FIGHT_ACTIVE_STATE_SUBCMD, GAME_DIALOG_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, GAME_GATHER_RESPONSE_CMD, GAME_ITEM_CONTAINER_CMD, ITEM_CONTAINER_POSITION_SUBCMD, GAME_ITEM_CMD, GAME_NPC_SHOP_CMD, GAME_QUEST_CMD, GAME_QUEST_TABLE_CMD, GAME_SCENE_ENTER_CMD, GAME_SCRIPT_EVENT_CMD, SCENE_ENTER_LOAD_SUBCMD, GAME_SELF_STATE_CMD, SELF_STATE_APTITUDE_SUBCMD, SELF_STATE_VALUE_UPDATE_SUBCMD, } from '../config.js';
+import { GAME_DIALOG_MESSAGE_SUBCMD, FIGHT_ACTIVE_STATE_SUBCMD, FIGHT_CLIENT_PLAYER_VAR_SYNC_SUBCMD, GAME_DIALOG_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, GAME_GATHER_RESPONSE_CMD, GAME_ITEM_CONTAINER_CMD, ITEM_CONTAINER_POSITION_SUBCMD, GAME_ITEM_CMD, GAME_NPC_SHOP_CMD, GAME_QUEST_CMD, GAME_QUEST_TABLE_CMD, GAME_SCENE_ENTER_CMD, GAME_SCRIPT_EVENT_CMD, SCENE_ENTER_LOAD_SUBCMD, GAME_SELF_STATE_CMD, SELF_STATE_APTITUDE_SUBCMD, SELF_STATE_VALUE_UPDATE_SUBCMD, } from '../config.js';
 import { PacketWriter } from '../protocol.js';
 import { writeClientItemInstancePayload } from './item-serializer.js';
 
@@ -39,6 +39,11 @@ interface AptitudeSyncParams {
 
 interface ValueUpdateParams {
   discriminator: number;
+  value: number;
+}
+
+interface PlayerVarSyncParams {
+  index: number;
   value: number;
 }
 
@@ -357,6 +362,15 @@ export function buildSelfStateValueUpdatePacket({ discriminator, value }: ValueU
   writer.writeUint16(GAME_SELF_STATE_CMD);
   writer.writeUint8(SELF_STATE_VALUE_UPDATE_SUBCMD);
   writer.writeUint8(discriminator & 0xff);
+  writer.writeUint32(value >>> 0);
+  return writer.payload();
+}
+
+export function buildPlayerVarSyncPacket({ index, value }: PlayerVarSyncParams): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_FIGHT_CLIENT_CMD);
+  writer.writeUint8(FIGHT_CLIENT_PLAYER_VAR_SYNC_SUBCMD);
+  writer.writeUint8(index & 0xff);
   writer.writeUint32(value >>> 0);
   return writer.payload();
 }

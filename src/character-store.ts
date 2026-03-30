@@ -128,6 +128,10 @@ export class CharacterStore {
       statusPoints: profile.statusPoints,
       selectedPetRuntimeId: profile.selectedPetRuntimeId,
       petSummoned: profile.petSummoned,
+      frogTeleporterUnlocks:
+        profile.frogTeleporterUnlocks && typeof profile.frogTeleporterUnlocks === 'object'
+          ? cloneJson(profile.frogTeleporterUnlocks)
+          : undefined,
       mapId: profile.mapId,
       x: profile.x,
       y: profile.y,
@@ -213,6 +217,10 @@ function buildProfileDocument(accountId: string, characterId: string, character:
     statusPoints: numberOrDefault(character.statusPoints, 0),
     selectedPetRuntimeId: numberOrNull(character.selectedPetRuntimeId),
     petSummoned: character.petSummoned === true,
+    frogTeleporterUnlocks:
+      character.frogTeleporterUnlocks && typeof character.frogTeleporterUnlocks === 'object'
+        ? cloneJson(character.frogTeleporterUnlocks)
+        : undefined,
     mapId: numberOrDefault(character.mapId, 0),
     x: numberOrDefault(character.x, 0),
     y: numberOrDefault(character.y, 0),
