@@ -220,7 +220,10 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
 }
 
 function tryStartQuestKillCombat(session: GameSession, npcId: number, request: ServerRunRequestData): boolean {
-  if (request.subcmd !== 0x02 || typeof session.sendCombatEncounterProbe !== 'function') {
+  if (
+    (request.subcmd !== 0x02 && request.subcmd !== 0x08) ||
+    typeof session.sendCombatEncounterProbe !== 'function'
+  ) {
     return false;
   }
   if (session.combatState?.active) {
@@ -244,11 +247,18 @@ function tryStartQuestKillCombat(session: GameSession, npcId: number, request: S
     const uiNpcId = Number.isInteger(ui?.overNpcId) ? (ui.overNpcId >>> 0) : 0;
     const handInNpcId = Number.isInteger(objective?.handInNpcId) ? (objective.handInNpcId >>> 0) : 0;
     const stepNpcId = targetNpcId || uiNpcId || handInNpcId || 0;
+    const stepMapId = Number.isInteger(step?.mapId) ? (step.mapId >>> 0) : 0;
     const monsterId = Number.isInteger(objective?.targetMonsterId) ? (objective.targetMonsterId >>> 0) : 0;
     const isCombatObjective =
       objective?.triggerEvent === 'monster-defeat' &&
       (objective?.kind === 'monster-defeat' || objective?.kind === 'item-collect');
-    if (!step || !isCombatObjective || stepNpcId !== (npcId >>> 0) || monsterId <= 0) {
+    if (
+      !step ||
+      !isCombatObjective ||
+      (stepMapId > 0 && stepMapId !== (session.currentMapId >>> 0)) ||
+      stepNpcId !== (npcId >>> 0) ||
+      monsterId <= 0
+    ) {
       continue;
     }
 

@@ -23,6 +23,8 @@ export {
   getQuestDefinition,
   getQuestProgressObjectiveId,
   getQuestMarkerNpcId,
+  getClientTasklistEntry,
+  isClientTasklistFamilyTask,
 } from './data.js';
 
 export {

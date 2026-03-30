@@ -5,6 +5,7 @@ import { numberOrDefault, type UnknownRecord } from '../utils.js';
 
 const QUEST_CATALOG_FILE = resolveRepoPath('data', 'quests', 'catalog.json');
 const QUEST_OVERRIDE_FILE = resolveRepoPath('data', 'quests', 'main-story.overrides.json');
+const CLIENT_TASKLIST_FILE = resolveRepoPath('data', 'client-derived', 'quests.json');
 
 type QuestCategory =
   | 'main'
@@ -153,9 +154,20 @@ interface QuestState {
   level?: number;
 }
 
+interface ClientTasklistEntry {
+  taskId: number;
+  startNpcId: number;
+  title: string;
+  field11: number;
+}
+
 const QUEST_DEFINITIONS: readonly QuestDefinitionRecord[] = Object.freeze(loadQuestDefinitions());
 const QUESTS_BY_ID = new Map<number, QuestDefinitionRecord>(
   QUEST_DEFINITIONS.map((quest) => [quest.id, quest])
+);
+const CLIENT_TASKLIST_ENTRIES: readonly ClientTasklistEntry[] = Object.freeze(loadClientTasklistEntries());
+const CLIENT_TASKLIST_BY_ID = new Map<number, ClientTasklistEntry>(
+  CLIENT_TASKLIST_ENTRIES.map((entry) => [entry.taskId, entry])
 );
 
 function loadQuestDefinitions(): QuestDefinitionRecord[] {
@@ -187,6 +199,34 @@ function loadQuestSourceFile(filePath: string): UnknownRecord[] {
   }
 }
 
+function loadClientTasklistEntries(): ClientTasklistEntry[] {
+  try {
+    const raw = fs.readFileSync(CLIENT_TASKLIST_FILE, 'utf8');
+    const parsed = JSON.parse(raw) as UnknownRecord;
+    const entries = Array.isArray(parsed?.entries) ? parsed.entries : [];
+    return entries
+      .map((entry: UnknownRecord) => normalizeClientTasklistEntry(entry))
+      .filter((entry: ClientTasklistEntry | null): entry is ClientTasklistEntry => Boolean(entry));
+  } catch (err: any) {
+    if (err?.code === 'ENOENT') {
+      return [];
+    }
+    throw err;
+  }
+}
+
+function normalizeClientTasklistEntry(source: UnknownRecord): ClientTasklistEntry | null {
+  if (!Number.isInteger(source?.taskId) || source.taskId <= 0) {
+    return null;
+  }
+  return {
+    taskId: source.taskId >>> 0,
+    startNpcId: Number.isInteger(source?.startNpcId) ? (source.startNpcId >>> 0) : 0,
+    title: typeof source?.title === 'string' ? source.title : '',
+    field11: Number.isInteger(source?.field11) ? (source.field11 >>> 0) : 0,
+  };
+}
+
 function normalizeQuestDefinition(source: UnknownRecord): QuestDefinitionRecord | null {
   if (!Number.isInteger(source?.id) || !Array.isArray(source?.steps) || source.steps.length < 1) {
     return null;
@@ -199,8 +239,10 @@ function normalizeQuestDefinition(source: UnknownRecord): QuestDefinitionRecord 
     return null;
   }
 
-  return {
-    id: source.id >>> 0,
+  const taskId = source.id >>> 0;
+  const acceptGrantItems = normalizeGrantedItems(source?.acceptGrantItems);
+  const normalizedDefinition: QuestDefinitionRecord = {
+    id: taskId,
     name: typeof source?.name === 'string' ? source.name : `Quest ${source.id}`,
     category: normalizeQuestCategory(source?.category),
     acceptNpcId: Number.isInteger(source?.acceptNpcId) ? (source.acceptNpcId >>> 0) : undefined,
@@ -212,7 +254,7 @@ function normalizeQuestDefinition(source: UnknownRecord): QuestDefinitionRecord 
     exclusiveTaskIds: normalizeTaskIdList(source?.exclusiveTaskIds),
     minLevel: Math.max(1, numberOrDefault(source?.minLevel, 1)),
     repeatable: source?.repeatable === true,
-    acceptGrantItems: normalizeGrantedItems(source?.acceptGrantItems),
+    acceptGrantItems,
     nextQuestId: Number.isInteger(source?.nextQuestId) && source.nextQuestId > 0
       ? (source.nextQuestId >>> 0)
       : undefined,
@@ -224,6 +266,19 @@ function normalizeQuestDefinition(source: UnknownRecord): QuestDefinitionRecord 
       : [],
     steps,
   };
+
+  // Client scripts gate the Outcast renown interaction on quest item 21052.
+  if (taskId === 811 && (!acceptGrantItems || acceptGrantItems.length < 1)) {
+    normalizedDefinition.acceptGrantItems = [
+      {
+        templateId: 21052,
+        quantity: 1,
+        name: 'Info on Outcast',
+      },
+    ];
+  }
+
+  return normalizedDefinition;
 }
 
 function normalizeQuestCategory(value: unknown): QuestCategory {
@@ -514,12 +569,19 @@ function getCurrentStepUi(
   return getCurrentStep(definition, record)?.ui || null;
 }
 
-function getQuestStatus(definition: QuestDefinitionRecord | null, record: QuestRecord | null): number {
+function getQuestTrackerStatus(definition: QuestDefinitionRecord | null, record: QuestRecord | null): number {
   const step = getCurrentStep(definition, record);
-  if (!step || !record) {
+  if (!step) {
     return 0;
   }
-  return numberOrDefault(step.tracker?.status, numberOrDefault(record.status, 0));
+  return numberOrDefault(step.tracker?.status, 0);
+}
+
+function getQuestStatus(definition: QuestDefinitionRecord | null, record: QuestRecord | null): number {
+  if (!definition || !record) {
+    return 0;
+  }
+  return numberOrDefault(record.status, 0);
 }
 
 function getQuestStepDescription(definition: QuestDefinitionRecord | null, record: QuestRecord | null): string {
@@ -577,6 +639,23 @@ function getQuestMarkerNpcId(definition: QuestDefinitionRecord | null, record: Q
   return numberOrDefault(step.tracker?.markerNpcId, 0);
 }
 
+function getClientTasklistEntry(taskId: number): ClientTasklistEntry | null {
+  const normalizedTaskId = numberOrDefault(taskId, 0);
+  if (normalizedTaskId <= 0) {
+    return null;
+  }
+  return CLIENT_TASKLIST_BY_ID.get(normalizedTaskId) || null;
+}
+
+function isClientTasklistFamilyTask(taskId: number): boolean {
+  const normalizedTaskId = numberOrDefault(taskId, 0);
+  if (normalizedTaskId <= 0) {
+    return false;
+  }
+  const entry = getClientTasklistEntry(normalizedTaskId);
+  return entry !== null && entry.field11 > 0 && entry.field11 === normalizedTaskId;
+}
+
 export type {
   GrantedItem,
   RewardChoiceGroup,
@@ -592,6 +671,7 @@ export type {
   QuestDefinitionRecord,
   QuestRecord,
   QuestState,
+  ClientTasklistEntry,
 };
 
 export {
@@ -604,9 +684,12 @@ export {
   getCurrentStep,
   getCurrentObjective,
   getCurrentStepUi,
+  getQuestTrackerStatus,
   getQuestStatus,
   getQuestStepDescription,
   getQuestProgressObjectiveId,
   getQuestProgressCount,
   getQuestMarkerNpcId,
+  getClientTasklistEntry,
+  isClientTasklistFamilyTask,
 };

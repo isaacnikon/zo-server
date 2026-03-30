@@ -18,6 +18,36 @@ type QuestEventHandlerDeps = {
   syncQuestStateToClient(session: GameSession, options?: { mode?: QuestSyncMode }): void;
 };
 
+function clearQuestResetItems(
+  session: GameSession,
+  templateIds: number[],
+  suppressPackets: boolean,
+  suppressDialogues: boolean,
+  dialogueSuffix: string
+): boolean {
+  let inventoryDirty = false;
+  for (const templateId of Array.isArray(templateIds) ? templateIds : []) {
+    const quantity = getBagQuantityByTemplateId(session, templateId);
+    if (quantity <= 0) {
+      continue;
+    }
+    const definition = getItemDefinition(templateId);
+    const consumeResult = consumeItemFromBag(session, templateId, quantity);
+    if (!consumeResult.ok) {
+      continue;
+    }
+    inventoryDirty = true;
+    if (!suppressPackets) {
+      sendConsumeResultPackets(session, consumeResult);
+      sendInventoryFullSync(session);
+    }
+    if (!suppressDialogues) {
+      session.sendGameDialogue('Quest', `${definition?.name || 'Quest item'} ${dialogueSuffix}`);
+    }
+  }
+  return inventoryDirty;
+}
+
 function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHandler<QuestEvent> {
   return {
     describeEvent(event: QuestEvent, source: string): string {
@@ -73,6 +103,13 @@ function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHan
       }
 
       if (event.type === 'completed') {
+        const clearedQuestItems = clearQuestResetItems(
+          session,
+          event.resetItemTemplateIds,
+          suppressPackets,
+          suppressDialogues,
+          'was cleared after completing the quest.'
+        );
         const rewardResult = applyQuestCompletionReward(session, event.reward, {
           suppressPackets,
           suppressDialogues,
@@ -86,8 +123,12 @@ function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHan
           }
         }
         if (!suppressPackets) {
+          deps.sendQuestMarker(session, event.taskId, 0);
           deps.sendQuestComplete(session, event.taskId);
-          deps.sendQuestHistory(session, event.taskId, 0);
+          if (event.definition.repeatable !== true) {
+            deps.sendQuestHistory(session, event.taskId, 0);
+          }
+          deps.syncQuestStateToClient(session, { mode: 'runtime' });
         }
         if (!suppressDialogues) {
           const rewardText = rewardResult.rewardMessages.length > 0 ? rewardResult.rewardMessages.join(', ') : 'no reward';
@@ -99,31 +140,20 @@ function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHan
         return {
           stateDirty: true,
           statsDirty: rewardResult.statsDirty,
-          inventoryDirty: rewardResult.inventoryDirty,
+          inventoryDirty: rewardResult.inventoryDirty || clearedQuestItems,
         };
       }
 
       if (event.type === 'abandoned') {
-        let inventoryDirty = false;
-        for (const templateId of Array.isArray(event.resetItemTemplateIds) ? event.resetItemTemplateIds : []) {
-          const quantity = getBagQuantityByTemplateId(session, templateId);
-          if (quantity <= 0) {
-            continue;
-          }
-          const definition = getItemDefinition(templateId);
-          const consumeResult = consumeItemFromBag(session, templateId, quantity);
-          if (consumeResult.ok) {
-            inventoryDirty = true;
-            if (!suppressPackets) {
-              sendConsumeResultPackets(session, consumeResult);
-              sendInventoryFullSync(session);
-            }
-            if (!suppressDialogues) {
-              session.sendGameDialogue('Quest', `${definition?.name || 'Quest item'} was cleared after abandoning the quest.`);
-            }
-          }
-        }
+        const inventoryDirty = clearQuestResetItems(
+          session,
+          event.resetItemTemplateIds,
+          suppressPackets,
+          suppressDialogues,
+          'was cleared after abandoning the quest.'
+        );
         if (!suppressPackets) {
+          deps.sendQuestMarker(session, event.taskId, 0);
           deps.sendQuestUpdate(session, event.taskId, 0);
           deps.sendQuestAbandon(session, event.taskId);
           deps.syncQuestStateToClient(session, { mode: 'runtime' });

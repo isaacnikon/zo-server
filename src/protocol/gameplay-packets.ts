@@ -123,7 +123,7 @@ interface QuestAcceptStateParams {
   taskType: number;
   maxStep: number;
   overNpcId: number;
-  targetNpcId: number;
+  taskRoleNpcId: number;
   objectiveWords?: number[];
 }
 
@@ -239,7 +239,7 @@ export function buildQuestAcceptStatePacket({
   taskType,
   maxStep,
   overNpcId,
-  targetNpcId,
+  taskRoleNpcId,
   objectiveWords = [],
 }: QuestAcceptStateParams): Buffer {
   const writer = new PacketWriter();
@@ -254,7 +254,7 @@ export function buildQuestAcceptStatePacket({
   writer.writeUint8(taskType & 0xff);
   writer.writeUint8(maxStep & 0xff);
   writer.writeUint16(overNpcId & 0xffff);
-  writer.writeUint16(targetNpcId & 0xffff);
+  writer.writeUint16(taskRoleNpcId & 0xffff);
 
   for (let index = 0; index < 10; index += 1) {
     writer.writeUint16((normalizedObjectiveWords[index] || 0) & 0xffff);

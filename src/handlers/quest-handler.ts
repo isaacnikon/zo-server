@@ -7,10 +7,12 @@ import {
   getCurrentObjective,
   getCurrentStep,
   getCurrentStepUi,
+  isClientTasklistFamilyTask,
   getQuestDefinition,
   getQuestMarkerNpcId,
   normalizeQuestState,
 } from '../quest-engine/index.js';
+import { getBagQuantityByTemplateId } from '../inventory/index.js';
 import { normalizeInventoryState } from '../inventory/index.js';
 import { normalizePets } from '../pet-runtime.js';
 import { buildQuestAcceptStatePacket, buildQuestPacket, buildQuestTableSyncPacket } from '../protocol/gameplay-packets.js';
@@ -37,9 +39,17 @@ type QuestMonsterDefeatResult = {
   grantedItems: Array<{ templateId: number; quantity: number }>;
 };
 
+const CLIENT_QUEST_ALIAS_TASKS = new Map<number, number>([
+  [811, 383],
+]);
+const MIRRORED_CLIENT_QUESTS_BY_SESSION = new WeakMap<GameSession, Set<number>>();
+const RENOWN_TASK_ID = 811;
+const RENOWN_CLIENT_ALIAS_TASK_ID = 383;
+const RENOWN_OUTCAST_MAP_ID = 128;
+
 function supportsQuestTableTaskId(taskId: number): boolean {
   const normalizedTaskId = numberOrDefault(taskId, 0);
-  return normalizedTaskId > 0 && (normalizedTaskId < 0x321 || normalizedTaskId === 811);
+  return normalizedTaskId > 0 && (normalizedTaskId < 0x321 || normalizedTaskId === 811) && (!isClientTasklistFamilyTask(normalizedTaskId) || normalizedTaskId === 811);
 }
 
 function buildQuestAcceptObjectiveWords(step: UnknownRecord | null): number[] {
@@ -57,7 +67,7 @@ function buildQuestAcceptObjectiveWords(step: UnknownRecord | null): number[] {
     words[0] = killTargetId & 0xffff;
   }
   if (killCount > 0) {
-    words[2] = killCount & 0xffff;
+    words[1] = killCount & 0xffff;
   }
 
   if (requiredItems.length > 0) {
@@ -83,16 +93,9 @@ function getQuestSyncRecord(session: GameSession, taskId: number): { definition:
   return { definition, record };
 }
 
-function resolveQuestPacketTargetNpcId(step: UnknownRecord | null): number {
-  const objective = step?.objective && typeof step.objective === 'object' ? step.objective : null;
+function resolveQuestPacketTaskRoleNpcId(step: UnknownRecord | null): number {
   const ui = step?.ui && typeof step.ui === 'object' ? step.ui : null;
-  return numberOrDefault(
-    ui?.taskRoleNpcId,
-    numberOrDefault(
-      objective?.handInNpcId,
-      numberOrDefault(objective?.targetNpcId, numberOrDefault(ui?.overNpcId, 0))
-    )
-  );
+  return numberOrDefault(ui?.taskRoleNpcId, 0);
 }
 
 function buildEscortRuntimeSpawns(session: GameSession, mapId: number, baseCount: number): SpawnRecord[] {
@@ -151,7 +154,7 @@ function sendQuestAcceptWithState(
   const markerNpcId = getQuestMarkerNpcId(definition as any, record as any);
   const overNpcId = numberOrDefault(ui?.overNpcId, markerNpcId);
   const taskType = numberOrDefault(ui?.taskType, 0);
-  const targetNpcId = resolveQuestPacketTargetNpcId(step) || overNpcId;
+  const taskRoleNpcId = resolveQuestPacketTaskRoleNpcId(step);
   const maxStep = Array.isArray((definition as UnknownRecord | null)?.steps)
     ? (definition as UnknownRecord).steps.length
     : 0;
@@ -164,11 +167,11 @@ function sendQuestAcceptWithState(
       taskType,
       maxStep: Math.max(1, maxStep),
       overNpcId,
-      targetNpcId,
+      taskRoleNpcId,
       objectiveWords: buildQuestAcceptObjectiveWords(step),
     }),
     DEFAULT_FLAGS,
-    `Sending quest accept cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x03 taskId=${taskId} step=${stepIndex + 1} type=${taskType} maxStep=${Math.max(1, maxStep)} overNpc=${overNpcId} targetNpc=${targetNpcId}`
+    `Sending quest accept cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x03 taskId=${taskId} step=${stepIndex + 1} type=${taskType} maxStep=${Math.max(1, maxStep)} overNpc=${overNpcId} taskRole=${taskRoleNpcId}`
   );
 }
 
@@ -205,7 +208,7 @@ function sendQuestUpdateWithState(
   const markerNpcId = getQuestMarkerNpcId(definition as any, record as any);
   const overNpcId = numberOrDefault(ui?.overNpcId, markerNpcId);
   const taskType = numberOrDefault(ui?.taskType, 0);
-  const targetNpcId = resolveQuestPacketTargetNpcId(step) || overNpcId;
+  const taskRoleNpcId = resolveQuestPacketTaskRoleNpcId(step);
   const maxStep = Array.isArray((definition as UnknownRecord | null)?.steps)
     ? (definition as UnknownRecord).steps.length
     : 0;
@@ -218,11 +221,11 @@ function sendQuestUpdateWithState(
       taskType,
       maxStep: Math.max(1, maxStep),
       overNpcId,
-      targetNpcId,
+      taskRoleNpcId,
       objectiveWords: buildQuestAcceptObjectiveWords(step),
     }),
     DEFAULT_FLAGS,
-    `Sending quest update cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x08 taskId=${taskId} step=${stepIndex + 1} type=${taskType} maxStep=${Math.max(1, maxStep)} overNpc=${overNpcId} targetNpc=${targetNpcId}`
+    `Sending quest update cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x08 taskId=${taskId} step=${stepIndex + 1} type=${taskType} maxStep=${Math.max(1, maxStep)} overNpc=${overNpcId} taskRole=${taskRoleNpcId}`
   );
 }
 
@@ -230,14 +233,13 @@ function sendQuestMarker(session: GameSession, taskId: number, npcId: number): v
   const { definition, record } = getQuestSyncRecord(session, taskId);
   const ui = getCurrentStepUi(definition as any, record as any) as UnknownRecord | null;
   const taskType = numberOrDefault(ui?.taskType, 0);
-  const trackedNpcId = numberOrDefault(
-    (taskType & 0x08) !== 0 ? ui?.taskRoleNpcId : 0,
-    0
-  );
-  const trackedRuntimeId = numberOrDefault(
-    (taskType & 0x08) !== 0 ? resolveTrackedNpcRuntimeId(session, session.currentMapId >>> 0, trackedNpcId) : 0,
-    npcId
-  );
+  const trackedNpcId =
+    numberOrDefault((taskType & 0x08) !== 0 ? ui?.taskRoleNpcId : 0, 0) ||
+    numberOrDefault(npcId, 0);
+  const trackedRuntimeId =
+    trackedNpcId > 0
+      ? resolveTrackedNpcRuntimeId(session, session.currentMapId >>> 0, trackedNpcId)
+      : 0;
 
   session.writePacket(
     buildQuestPacket(0x0c, trackedNpcId, trackedRuntimeId, 'u32'),
@@ -343,7 +345,14 @@ function syncQuestStateToClient(session: GameSession, options: QuestSyncOptions 
     activeQuests: session.activeQuests,
     completedQuests: session.completedQuests,
   }) as QuestSyncState[];
+  const missingAcceptGrantItemEvents = collectMissingAcceptGrantItemEvents(session, syncState);
+  if (missingAcceptGrantItemEvents.length > 0) {
+    applyQuestEvents(session, missingAcceptGrantItemEvents, 'quest-sync-accept-item', {
+      suppressDialogues: true,
+    });
+  }
 
+  const mirroredClientQuestIds = new Set<number>();
   sendQuestTableStateSync(session, syncState);
   for (const taskId of session.completedQuests) {
     sendQuestHistory(session, taskId, 0);
@@ -357,7 +366,12 @@ function syncQuestStateToClient(session: GameSession, options: QuestSyncOptions 
         sendQuestUpdateWithState(session, quest.taskId, definition, record);
       }
     } else {
-      sendQuestAccept(session, quest.taskId);
+      if (quest.stepMode === 'kill') {
+        sendQuestAcceptWithState(session, quest.taskId, definition, record);
+        sendQuestUpdateWithState(session, quest.taskId, definition, record);
+      } else {
+        sendQuestAccept(session, quest.taskId);
+      }
     }
     // Talk-step replay is mode-dependent: full login needs it so the client
     // reconstructs the current stage, while runtime refreshes stay minimal.
@@ -380,13 +394,112 @@ function syncQuestStateToClient(session: GameSession, options: QuestSyncOptions 
     if (markerNpcId > 0) {
       sendQuestMarker(session, quest.taskId, markerNpcId);
     }
+    const clientAliasTaskId = resolveClientQuestAliasTaskId(quest, session);
+    if (clientAliasTaskId > 0) {
+      sendQuestAcceptWithState(session, clientAliasTaskId, definition, record);
+      if (quest.stepMode === 'kill') {
+        sendQuestUpdateWithState(session, clientAliasTaskId, definition, record);
+      } else {
+        sendQuestAccept(session, clientAliasTaskId);
+      }
+      if (quest.stepMode === 'kill' && numberOrDefault(quest.status, 0) > 0) {
+        sendQuestUpdate(session, clientAliasTaskId, numberOrDefault(quest.status, 0));
+      }
+      if (quest.stepMode === 'kill' && numberOrDefault(quest.progressCount, 0) > 0) {
+        sendQuestProgress(
+          session,
+          numberOrDefault(quest.progressObjectiveId, quest.taskId),
+          numberOrDefault(quest.progressCount, 0)
+        );
+      }
+      if (markerNpcId > 0) {
+        sendQuestMarker(session, clientAliasTaskId, markerNpcId);
+      }
+      mirroredClientQuestIds.add(clientAliasTaskId);
+    }
     replayQuestTrackerScripts(session, quest.taskId, definition, record);
   }
+
+  clearStaleMirroredClientQuests(session, mirroredClientQuestIds);
+  MIRRORED_CLIENT_QUESTS_BY_SESSION.set(session, mirroredClientQuestIds);
 
   if (!session.hasAnnouncedQuestOverview && syncState.length > 0) {
     const activeQuest = syncState[0];
     session.sendGameDialogue('Quest', `Active quest loaded.${activeQuest.stepDescription ? ` ${activeQuest.stepDescription}` : ''}`);
     session.hasAnnouncedQuestOverview = true;
+  }
+}
+
+function collectMissingAcceptGrantItemEvents(session: GameSession, syncState: QuestSyncState[]): UnknownRecord[] {
+  const events: UnknownRecord[] = [];
+
+  for (const quest of syncState) {
+    const { definition } = getQuestSyncRecord(session, quest.taskId);
+    const grantItems = Array.isArray(definition?.acceptGrantItems) ? definition!.acceptGrantItems : [];
+    for (const item of grantItems) {
+      const templateId = numberOrDefault(item?.templateId, 0);
+      const quantity = Math.max(1, numberOrDefault(item?.quantity, 1));
+      if (templateId <= 0) {
+        continue;
+      }
+      const currentQuantity = getBagQuantityByTemplateId(session, templateId);
+      if (currentQuantity >= quantity) {
+        continue;
+      }
+      events.push({
+        type: 'item-granted',
+        taskId: quest.taskId,
+        definition,
+        templateId,
+        quantity: quantity - currentQuantity,
+        itemName: typeof item?.name === 'string' ? item.name : '',
+        reason: 'sync-ensure-accept-item',
+      });
+    }
+  }
+
+  return events;
+}
+
+function resolveClientQuestAliasTaskId(quest: QuestSyncState, session: GameSession): number {
+  const taskId = numberOrDefault(quest?.taskId, 0);
+  const aliasTaskId = numberOrDefault(CLIENT_QUEST_ALIAS_TASKS.get(taskId), 0);
+  if (aliasTaskId <= 0) {
+    return 0;
+  }
+  const hasRealAliasTask = Array.isArray(session.activeQuests)
+    ? session.activeQuests.some((record) => numberOrDefault(record?.id, 0) === aliasTaskId)
+    : false;
+  if (hasRealAliasTask) {
+    return 0;
+  }
+  if (
+    taskId === RENOWN_TASK_ID &&
+    aliasTaskId === RENOWN_CLIENT_ALIAS_TASK_ID &&
+    (
+      (session.currentMapId >>> 0) !== RENOWN_OUTCAST_MAP_ID ||
+      numberOrDefault(quest?.stepIndex, 0) !== 0 ||
+      numberOrDefault(quest?.status, 0) !== 0
+    )
+  ) {
+    return 0;
+  }
+  return aliasTaskId;
+}
+
+function clearStaleMirroredClientQuests(session: GameSession, mirroredClientQuestIds: Set<number>): void {
+  const previousMirroredClientQuestIds = MIRRORED_CLIENT_QUESTS_BY_SESSION.get(session);
+  if (!previousMirroredClientQuestIds || previousMirroredClientQuestIds.size < 1) {
+    return;
+  }
+
+  for (const clientTaskId of previousMirroredClientQuestIds) {
+    if (mirroredClientQuestIds.has(clientTaskId)) {
+      continue;
+    }
+    sendQuestMarker(session, clientTaskId, 0);
+    sendQuestUpdate(session, clientTaskId, 0);
+    sendQuestAbandon(session, clientTaskId);
   }
 }
 

@@ -22,6 +22,7 @@ import type { GameSession } from '../types.js';
 
 const TRIGGER_TRACE_PATH = resolve(process.cwd(), 'data/runtime/trigger-trace.jsonl');
 const SKILL_PACKET_TRACE_PATH = resolve(process.cwd(), 'data/runtime/skill-packet-trace.jsonl');
+const OUTCAST_PACKET_TRACE_PATH = resolve(process.cwd(), 'data/runtime/outcast-packet-trace.jsonl');
 const SKILL_UI_TRACE_COMMANDS = new Set([0x03f5, 0x0400, 0x040d, 0x0410]);
 const GLADYS_TRACE_MAP_ID = 112;
 const GLADYS_TRACE_BOUNDS = {
@@ -29,6 +30,13 @@ const GLADYS_TRACE_BOUNDS = {
   maxX: 32,
   minY: 360,
   maxY: 400,
+} as const;
+const OUTCAST_TRACE_MAP_ID = 128;
+const OUTCAST_TRACE_BOUNDS = {
+  minX: 40,
+  maxX: 56,
+  minY: 94,
+  maxY: 110,
 } as const;
 
 function appendTriggerTrace(event: Record<string, unknown>): void {
@@ -39,6 +47,11 @@ function appendTriggerTrace(event: Record<string, unknown>): void {
 function appendSkillPacketTrace(event: Record<string, unknown>): void {
   mkdirSync(dirname(SKILL_PACKET_TRACE_PATH), { recursive: true });
   appendFileSync(SKILL_PACKET_TRACE_PATH, `${JSON.stringify(event)}\n`, 'utf8');
+}
+
+function appendOutcastPacketTrace(event: Record<string, unknown>): void {
+  mkdirSync(dirname(OUTCAST_PACKET_TRACE_PATH), { recursive: true });
+  appendFileSync(OUTCAST_PACKET_TRACE_PATH, `${JSON.stringify(event)}\n`, 'utf8');
 }
 
 function traceSkillUiPacket(
@@ -65,6 +78,52 @@ function traceSkillUiPacket(
     x: session.currentX,
     y: session.currentY,
     skillState: session.skillState || null,
+  });
+}
+
+function traceOutcastInteractionWindow(
+  session: GameSession,
+  cmdWord: number,
+  flags: number,
+  payload: Buffer,
+  phase: 'pre-dispatch' | 'post-unhandled'
+): void {
+  if (session.currentMapId !== OUTCAST_TRACE_MAP_ID) {
+    return;
+  }
+  if (
+    session.currentX < OUTCAST_TRACE_BOUNDS.minX ||
+    session.currentX > OUTCAST_TRACE_BOUNDS.maxX ||
+    session.currentY < OUTCAST_TRACE_BOUNDS.minY ||
+    session.currentY > OUTCAST_TRACE_BOUNDS.maxY
+  ) {
+    return;
+  }
+  if (cmdWord === GAME_POSITION_QUERY_CMD || cmdWord === PING_CMD) {
+    return;
+  }
+
+  const subcmd = payload.length >= 3 ? payload[2] : -1;
+  const renownQuestRecord =
+    Array.isArray(session.activeQuests)
+      ? session.activeQuests.find((record) => Number.isInteger(record?.id) && (record.id >>> 0) === 811)
+      : null;
+  appendOutcastPacketTrace({
+    kind: 'outcast-trace',
+    phase,
+    ts: new Date().toISOString(),
+    sessionId: session.id,
+    flags,
+    cmdWord,
+    subcmd,
+    len: payload.length,
+    hex: payload.toString('hex'),
+    mapId: session.currentMapId,
+    x: session.currentX,
+    y: session.currentY,
+    renownActive: Boolean(renownQuestRecord),
+    renownStepIndex: Number.isInteger(renownQuestRecord?.stepIndex) ? (renownQuestRecord!.stepIndex >>> 0) : -1,
+    renownStatus: Number.isInteger(renownQuestRecord?.status) ? (renownQuestRecord!.status >>> 0) : -1,
   });
 }
 
@@ -118,6 +177,7 @@ function dispatchGamePacket(
   payload: Buffer
 ): boolean {
   traceSkillUiPacket(session, cmdWord, payload, 'pre-dispatch');
+  traceOutcastInteractionWindow(session, cmdWord, flags, payload, 'pre-dispatch');
   traceGladysInteractionWindow(session, cmdWord, payload, 'pre-dispatch');
 
   if ((flags & 0x04) !== 0 && payload.length >= 6) {
@@ -305,6 +365,7 @@ function dispatchGamePacket(
   }
 
   traceSkillUiPacket(session, cmdWord, payload, 'post-unhandled');
+  traceOutcastInteractionWindow(session, cmdWord, flags, payload, 'post-unhandled');
   traceGladysInteractionWindow(session, cmdWord, payload, 'post-unhandled');
 
   return false;

@@ -8,6 +8,8 @@ import type { UnknownRecord } from '../utils.js';
 import type { GameSession } from '../types.js';
 
 const PORTAL_STONE_TEMPLATE_IDS = new Set([26009, 26143]);
+const FIELD_COMBAT_WARD_AMULET_TEMPLATE_ID = 26039;
+const FIELD_COMBAT_WARD_DURATION_MS = 20 * 60 * 1000;
 
 export function consumeUsableItemByInstanceId(
   session: GameSession,
@@ -25,6 +27,9 @@ export function consumeUsableItemByInstanceId(
   const definition = getItemDefinition(bagItem.templateId);
   if (PORTAL_STONE_TEMPLATE_IDS.has(bagItem.templateId >>> 0)) {
     return consumePortalStone(session, bagItem, definition, options);
+  }
+  if ((bagItem.templateId >>> 0) === FIELD_COMBAT_WARD_AMULET_TEMPLATE_ID) {
+    return consumeFieldCombatWardAmulet(session, bagItem, definition, options);
   }
   const effect = definition?.consumableEffect;
   if (!effect || (!effect.health && !effect.mana && !effect.rage)) {
@@ -150,6 +155,61 @@ export function consumeUsableItemByInstanceId(
     previousVitals,
     nextVitals,
     gained,
+  };
+}
+
+function consumeFieldCombatWardAmulet(
+  session: GameSession,
+  bagItem: UnknownRecord,
+  definition: UnknownRecord | null,
+  options: UnknownRecord
+): UnknownRecord {
+  const consumeResult = consumeBagItemByInstanceId(session, bagItem.instanceId >>> 0, 1);
+  if (!consumeResult.ok) {
+    return {
+      ok: false,
+      reason: consumeResult.reason || `Failed to consume instanceId=${bagItem.instanceId >>> 0}`,
+      item: bagItem,
+      definition,
+    };
+  }
+
+  const suppressionUntil = Date.now() + FIELD_COMBAT_WARD_DURATION_MS;
+  session.fieldCombatCooldownUntil = Math.max(session.fieldCombatCooldownUntil || 0, suppressionUntil);
+
+  if (options.suppressInventoryPackets !== true) {
+    sendConsumeResultPackets(session, consumeResult);
+  }
+  if (typeof session.sendGameDialogue === 'function') {
+    session.sendGameDialogue('Item', 'Amulet used. Field combats are suppressed for 20 minutes.');
+  }
+  if (typeof session.log === 'function') {
+    session.log(
+      `Field-combat ward activated templateId=${bagItem.templateId >>> 0} instanceId=${bagItem.instanceId >>> 0} durationMs=${FIELD_COMBAT_WARD_DURATION_MS} until=${session.fieldCombatCooldownUntil}`
+    );
+  }
+  if (options.suppressPersist !== true && typeof session.persistCurrentCharacter === 'function') {
+    session.persistCurrentCharacter();
+  }
+  if (
+    typeof session.refreshQuestStateForItemTemplates === 'function' &&
+    Number.isInteger(bagItem?.templateId)
+  ) {
+    session.refreshQuestStateForItemTemplates([bagItem.templateId >>> 0]);
+  }
+
+  return {
+    ok: true,
+    item: bagItem,
+    definition,
+    consumeResult,
+    useKind: 'field-combat-ward',
+    suppressionUntil,
+    gained: {
+      health: 0,
+      mana: 0,
+      rage: 0,
+    },
   };
 }
 

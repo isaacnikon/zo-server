@@ -15,6 +15,7 @@ import {
   getCurrentStep,
   getCurrentObjective,
   getCurrentStepUi,
+  getQuestTrackerStatus,
   getQuestStatus,
   getQuestStepDescription,
   getQuestProgressObjectiveId,
@@ -244,6 +245,7 @@ function completeQuest(state: QuestState, record: QuestRecord, definition: Quest
     taskId: definition.id,
     definition,
     reward: definition.rewards,
+    resetItemTemplateIds: collectQuestResetItemTemplateIds(definition),
     reason,
   });
 
@@ -262,12 +264,11 @@ function advanceQuest(state: QuestState, record: QuestRecord, definition: QuestD
     return;
   }
 
-  record.status = getQuestStatus(definition, record);
   events.push({
     type: 'advanced',
     taskId: definition.id,
     definition,
-    status: record.status,
+    status: getQuestStatus(definition, record),
     stepDescription: getQuestStepDescription(definition, record),
     progressObjectiveId: getQuestProgressObjectiveId(definition, record),
     progressCount: getQuestProgressCount(definition, record),
@@ -459,7 +460,10 @@ function applyMonsterDefeat(state: QuestState, monsterId: number, count = 1): Qu
       ...cloneProgress(record.progress),
       [objective.progressKey]: nextCount,
     };
-    record.status = getQuestStatus(definition, record);
+    record.status =
+      nextCount >= targetCount && objectiveRequiresNpcTurnIn(objective)
+        ? getQuestTrackerStatus(definition, record)
+        : 0;
 
     if (objective.kind === 'item-collect' && objective.grantItem) {
       events.push({
@@ -478,7 +482,7 @@ function applyMonsterDefeat(state: QuestState, monsterId: number, count = 1): Qu
         type: 'progress',
         taskId: definition!.id,
         definition: definition!,
-        status: getQuestStatus(definition, record),
+        status: getQuestTrackerStatus(definition, record),
         stepDescription:
           typeof step.completionDescription === 'string' && step.completionDescription.length > 0
             ? step.completionDescription

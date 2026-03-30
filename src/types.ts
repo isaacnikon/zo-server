@@ -74,6 +74,7 @@ export interface QuestAdvancedEvent extends QuestEventBase {
 export interface QuestCompletedEvent extends QuestEventBase {
   type: 'completed';
   reward: QuestReward;
+  resetItemTemplateIds: number[];
 }
 export interface QuestAbandonedEvent extends QuestEventBase {
   type: 'abandoned';

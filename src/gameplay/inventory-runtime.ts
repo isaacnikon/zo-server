@@ -4,6 +4,7 @@ import { BAG_CONTAINER_TYPE, getItemDefinition, isEquipmentDefinition, } from '.
 import { applyEffects } from '../effects/effect-executor.js';
 
 const EQUIPMENT_CONTAINER_TYPE = 0;
+const FIELD_COMBAT_WARD_AMULET_TEMPLATE_ID = 26039;
 
 import type { GameSession } from '../types.js';
 type UnknownRecord = Record<string, any>;
@@ -91,6 +92,9 @@ function buildClientInventoryItem(item: UnknownRecord): UnknownRecord {
 }
 
 function resolveItemPayloadBindState(definition: UnknownRecord | null, item: UnknownRecord): number {
+  if (Number.isInteger(item?.templateId) && (item.templateId >>> 0) === FIELD_COMBAT_WARD_AMULET_TEMPLATE_ID) {
+    return 0;
+  }
   if (!definition || !isEquipmentDefinition(definition as any)) {
     return Number.isInteger(item.bindState) ? (item.bindState & 0xff) : 0;
   }
