@@ -83,7 +83,11 @@
       "Bash(echo \"exit: $?\")",
       "Bash(timeout 8 wine gc12.exe)",
       "mcp__ghidra-mcp__list_open_programs",
-      "mcp__ghidra-mcp__get_xrefs_from"
+      "mcp__ghidra-mcp__get_xrefs_from",
+      "Bash(npm run:*)",
+      "mcp__ghidra-mcp__query_knowledge_context",
+      "mcp__ghidra-mcp__get_version",
+      "Bash(journalctl -u zo-server --no-pager -n 50)"
     ]
   },
   "enableAllProjectMcpServers": true,
