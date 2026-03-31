@@ -18,6 +18,7 @@ import { removeWorldPresence } from './world-state.js';
 import { buildCharacterSnapshot as sessionHydrationBuildCharacterSnapshot, getPersistedCharacter as sessionHydrationGetPersistedCharacter, hydratePendingGameCharacter, persistCurrentCharacter as sessionHydrationPersistCurrentCharacter, saveCharacter as sessionHydrationSaveCharacter, } from './character/session-hydration.js';
 import { defaultBonusAttributes, defaultSkillState } from './character/normalize.js';
 import { defaultFrogTeleporterUnlocks } from './gameplay/frog-teleporter-service.js';
+import { handleTeamSessionDisposed, syncTeamFollowersToLeader } from './gameplay/team-runtime.js';
 
 type SharedState = Record<string, any>;
 type LoggerLike = {
@@ -53,6 +54,9 @@ class Session implements GameSession {
   accountKey: string | null;
   charName: string;
   runtimeId: number;
+  teamId: number | null;
+  teamSize: number;
+  teamMembers: number[];
   entityType: number;
   roleEntityType: number;
   roleData: number;
@@ -150,6 +154,9 @@ class Session implements GameSession {
     this.accountKey = null;
     this.charName = 'Hero';
     this.runtimeId = ENTITY_TYPE;
+    this.teamId = null;
+    this.teamSize = 0;
+    this.teamMembers = [];
     this.entityType = ENTITY_TYPE;
     this.roleEntityType = ENTITY_TYPE;
     this.roleData = 0;
@@ -458,6 +465,10 @@ class Session implements GameSession {
       `Sending scene-enter cmd=0x${GAME_SCENE_ENTER_CMD.toString(16)} sub=0x${subtype.toString(16)} map=${mapId} pos=${x},${y}`
     );
     this.pendingSceneNpcSpawnMapId = mapId;
+    this.currentMapId = mapId >>> 0;
+    this.currentX = x >>> 0;
+    this.currentY = y >>> 0;
+    syncTeamFollowersToLeader(this);
   }
 
   sendMapNpcSpawns(mapId: number): void {
@@ -473,6 +484,7 @@ class Session implements GameSession {
       clearTimeout(this.pendingLoginQuestSyncTimer);
       this.pendingLoginQuestSyncTimer = null;
     }
+    handleTeamSessionDisposed(this);
     removeWorldPresence(this, 'session-dispose');
     combatHandlerDisposeTimers(this);
     petHandlerDisposeTimers(this);

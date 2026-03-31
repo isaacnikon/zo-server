@@ -1,7 +1,7 @@
 import { parseCreateRole, parseLoginPacket } from '../protocol/inbound-packets.js';
 import { PacketWriter } from '../protocol.js';
 import { AREA_ID, DEFAULT_FLAGS, ENTITY_TYPE, LOGIN_CMD, LOGIN_SERVER_LIST_RESULT, LINE_SELECT_RESULT, MAP_ID, PORT, REDIRECT_RESULT, ROLE_CMD, SERVER_HOST, SINGLE_WORLD_SESSION_PER_REMOTE, SPAWN_X, SPAWN_Y, } from '../config.js';
-import { packRoleData, resolveRoleData, resolveRoleLevel, resolveBirthMonth, resolveBirthDay, } from '../character/role-utils.js';
+import { deriveStableRoleData, packRoleData, resolveRoleData, resolveRoleLevel, resolveBirthMonth, resolveBirthDay, } from '../character/role-utils.js';
 import { defaultBonusAttributes, numberOrDefault, defaultPrimaryAttributes, normalizeBonusAttributes, normalizePrimaryAttributes, normalizeCharacterRecord, normalizeSkillState, } from '../character/normalize.js';
 import { normalizeQuestState } from '../quest-engine/index.js';
 import { normalizeInventoryState } from '../inventory/index.js';
@@ -125,7 +125,15 @@ function handleCreateRole(session: GameSession, payload: Buffer): void {
   session.runtimeId = ENTITY_TYPE;
   session.entityType = ENTITY_TYPE;
   session.roleEntityType = ENTITY_TYPE + templateIndex;
-  session.roleData = packRoleData(extra1, extra2);
+  session.roleData = packRoleData(extra1, extra2) || deriveStableRoleData({
+    accountName: session.accountName,
+    accountKey: session.accountKey,
+    charName: session.charName,
+    roleName: session.charName,
+    entityType: session.entityType,
+    roleEntityType: session.roleEntityType,
+    selectedAptitude,
+  });
   session.selectedAptitude = selectedAptitude;
   session.level = 1;
   session.experience = 0;

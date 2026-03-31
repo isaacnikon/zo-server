@@ -7,7 +7,7 @@ import { sendSkillStateSync } from '../gameplay/skill-runtime.js';
 import { buildMapGatheringNodes } from '../gameplay/gathering-runtime.js';
 import { syncFrogTeleporterClientState } from '../gameplay/frog-teleporter-service.js';
 import { getMapBootstrapSpawns } from '../map-spawns.js';
-import { getCurrentStep, getCurrentStepUi, getQuestDefinition } from '../quest-engine/index.js';
+import { getCurrentObjective, getCurrentStep, getCurrentStepUi, getQuestDefinition } from '../quest-engine/index.js';
 import { buildSceneSpawnBatchPacket } from '../protocol/gameplay-packets.js';
 import { startAutoMapRotation } from '../scenes/map-rotation.js';
 import { numberOrDefault } from '../character/normalize.js';
@@ -117,9 +117,11 @@ function buildEscortQuestRoleSpawns(
   for (const record of session.activeQuests) {
     const definition = getQuestDefinition(numberOrDefault(record?.id, 0));
     const step = getCurrentStep(definition, record as any);
+    const objective = getCurrentObjective(definition, record as any);
     const ui = getCurrentStepUi(definition, record as any);
     if (
       !step ||
+      objective?.kind !== 'escort' ||
       numberOrDefault(ui?.taskType, 0) !== 8 ||
       numberOrDefault(step.mapId, 0) !== mapId
     ) {

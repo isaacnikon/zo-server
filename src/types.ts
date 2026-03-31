@@ -7,6 +7,17 @@ export interface ServerRunRequestData {
   scriptId?: number;
   awardId?: number;
 }
+export interface TeamClientAction03FD {
+  subcmd: number;
+}
+export interface TeamClientAction03FE {
+  subcmd: number;
+  targetIds: number[];
+}
+export interface TeamClientAction0442 {
+  subcmd: number;
+  targetIds: number[];
+}
 
 export interface FrogTeleporterUnlocks {
   cloudCityToRainbowValley: boolean;
@@ -153,6 +164,9 @@ export interface GameSession {
   sharedState: Record<string, any>;
   charName: string;
   runtimeId: number;
+  teamId?: number | null;
+  teamSize?: number;
+  teamMembers?: number[];
   entityType: number;
   roleEntityType: number;
   roleData: number;

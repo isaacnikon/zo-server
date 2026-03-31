@@ -121,15 +121,16 @@ Observed subcommands from the decompiled cases we reviewed:
   - system message: `Team dismissed!`
   - frees the team structure
 - `0x08`
-  - allocates / initializes team state if absent
-- `0x09`
   - calls `FUN_00557600(...)`
   - then emits a secondary packet `0x0442 sub=0x0c`
   - finishes with `You team status updated!`
-- `0x0a`
+- `0x09`
   - system message: `He/she has joined the team!`
 - `0x0d`
+  - explicit leader-change packet
   - member became new leader
+  - resolves the leader through `FUN_00557580(...)` using the member record field at `+0x1dc`
+  - updates `DAT_00907a00[2]`
 - `0x0e`
   - leader removed a member from team
 - `0x12`
@@ -154,6 +155,33 @@ Takeaway:
 - `0x0402` is the main team-state and team-message UI handler
 - start at `FUN_00505be0`
 - use `DAT_00907a00` as the anchor when tracing client team behavior
+
+Additional verified findings from the latest team work:
+
+- `FUN_00557600(...)` is the full 5-slot team roster loader.
+- The roster packet layout parsed by `FUN_00442f90(...)` is:
+  - `u32` -> member live entity/runtime id at `+0x5b0`
+  - `u16` -> role entity type at `+0x40`
+  - `u16` -> level at `+0x260`
+  - `u32` -> stable member identity at `+0x1dc`
+  - `u8` -> member status at `+0x67c`
+  - `string` -> display name
+- The leading `u32` in the full roster packet is matched against the roster entry field at `+0x1dc`, not `+0x5b0`.
+- `0x0402 sub=0x0d` leader change also uses that same `+0x1dc` identity field.
+- `0x03ed`/`0x03f9` movement and `0x0402 sub=0x17` teammate position use live runtime ids, not the stable team identity field.
+- For server work this means team membership packets need a stable identity distinct from movement/runtime ids.
+- `0x0402 sub=0x01` inserts the local player into the local team object with status `1`; using it on invite accept can distort member-side captain state if the roster already carries correct identities.
+- The client helper `FUN_00557800(...)` chooses a fallback captain by scanning for the first member whose status byte `+0x67c` is `1`.
+- A status of `0` on roster entries renders as offline/unset in the team UI; `1` is the normal active state; `2` is the temporary-leave style state.
+- The client is still not emitting the expected `0x0442 sub=0x0c` follow-up in our current flow.
+
+Current practical state:
+
+- roster population works
+- team invite / accept / leader flow works
+- same-map leader movement / follower movement works
+- member-side captain badge is still missing even with correct stable ids and leader-change packets
+- the remaining issue appears cosmetic / client-side rather than core team-state failure
 
 ## Combat / World Separation Note
 

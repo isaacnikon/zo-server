@@ -6,6 +6,9 @@ import type {
   PositionUpdate,
   QuestPacketData,
   ServerRunRequestData,
+  TeamClientAction03FD,
+  TeamClientAction03FE,
+  TeamClientAction0442,
 } from '../types.js';
 
 import { PacketReader } from './packet-reader.js';
@@ -219,6 +222,53 @@ function parseRoleSubcommand(payload: Buffer): { subcmd: number } {
   return { subcmd: payload[2] };
 }
 
+function parseTeamAction03FD(payload: Buffer): TeamClientAction03FD | null {
+  if (payload.length < 3) {
+    return null;
+  }
+  return {
+    subcmd: payload[2] & 0xff,
+  };
+}
+
+function parseTeamAction03FE(payload: Buffer): TeamClientAction03FE | null {
+  if (payload.length < 3) {
+    return null;
+  }
+
+  const reader = new PacketReader(payload, 2);
+  const subcmd = reader.readUint8() & 0xff;
+  const targetIds: number[] = [];
+
+  while (reader.remaining() >= 4) {
+    targetIds.push(reader.readUint32() >>> 0);
+  }
+
+  return {
+    subcmd,
+    targetIds,
+  };
+}
+
+function parseTeamAction0442(payload: Buffer): TeamClientAction0442 | null {
+  if (payload.length < 3) {
+    return null;
+  }
+
+  const reader = new PacketReader(payload, 2);
+  const subcmd = reader.readUint8() & 0xff;
+  const targetIds: number[] = [];
+
+  while (reader.remaining() >= 4) {
+    targetIds.push(reader.readUint32() >>> 0);
+  }
+
+  return {
+    subcmd,
+    targetIds,
+  };
+}
+
 export {
   parsePositionUpdate,
   parseServerRunRequest,
@@ -235,4 +285,7 @@ export {
   parsePingToken,
   parseLoginPacket,
   parseRoleSubcommand,
+  parseTeamAction03FD,
+  parseTeamAction03FE,
+  parseTeamAction0442,
 };

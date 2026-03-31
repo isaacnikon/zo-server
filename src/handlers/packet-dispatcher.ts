@@ -1,4 +1,4 @@
-import { parsePositionUpdate, parsePingToken, parseServerRunRequest } from '../protocol/inbound-packets.js';
+import { parsePositionUpdate, parsePingToken, parseServerRunRequest, parseTeamAction03FD, parseTeamAction03FE, parseTeamAction0442 } from '../protocol/inbound-packets.js';
 import { appendFileSync, mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { handleSceneInteractionRequest } from '../scenes/map-interactions.js';
@@ -15,9 +15,18 @@ import { resolveTownCheckpoint } from '../gameplay/session-flows.js';
 import { tryHandleNpcServicePacket } from '../gameplay/npc-service-runtime.js';
 import { handleNpcShopServiceRequest } from '../gameplay/shop-runtime.js';
 import { handleFrogTeleporterMapArrival, syncFrogTeleporterClientState } from '../gameplay/frog-teleporter-service.js';
+import {
+  handleTeamActionPrimary,
+  handleTeamActionSecondary,
+  handleTeamFollowUpAction,
+  notifyTeamMemberPosition,
+  rejectFollowerLocalMovement,
+  shouldIgnoreClientPositionUpdateWhileFollowing,
+  syncTeamFollowersToLeader,
+} from '../gameplay/team-runtime.js';
 import { syncWorldPresence } from '../world-state.js';
 
-import { PING_CMD, GAME_GATHER_REQUEST_CMD, GAME_POSITION_QUERY_CMD, GAME_SERVER_RUN_CMD, ROLE_CMD, GAME_QUEST_CMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_MISC_CMD, GAME_FIGHT_RESULT_CMD, GAME_FIGHT_STATE_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, } from '../config.js';
+import { PING_CMD, GAME_GATHER_REQUEST_CMD, GAME_POSITION_QUERY_CMD, GAME_SERVER_RUN_CMD, ROLE_CMD, GAME_QUEST_CMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_MISC_CMD, GAME_FIGHT_RESULT_CMD, GAME_FIGHT_STATE_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, GAME_TEAM_ACTION_PRIMARY_CMD, GAME_TEAM_ACTION_SECONDARY_CMD, GAME_TEAM_FOLLOWUP_CMD, } from '../config.js';
 import type { GameSession } from '../types.js';
 
 const TRIGGER_TRACE_PATH = resolve(process.cwd(), 'data/runtime/trigger-trace.jsonl');
@@ -198,6 +207,28 @@ function dispatchGamePacket(
 
   if (cmdWord === GAME_POSITION_QUERY_CMD && payload.length >= 8) {
     const position = parsePositionUpdate(payload);
+    if (shouldIgnoreClientPositionUpdateWhileFollowing(session)) {
+      rejectFollowerLocalMovement(session, position.mapId >>> 0, position.x >>> 0, position.y >>> 0);
+      if (session.pendingSceneNpcSpawnMapId === (session.currentMapId >>> 0)) {
+        session.sendMapNpcSpawns?.(session.currentMapId >>> 0);
+        session.syncQuestStateToClient?.({ mode: 'runtime' });
+        syncFrogTeleporterClientState(session, `team-follow-map:${session.currentMapId}`);
+        session.pendingSceneNpcSpawnMapId = null;
+      }
+      if (session.pendingLoginQuestSyncMapId === (session.currentMapId >>> 0)) {
+        if (session.pendingLoginQuestSyncTimer) {
+          clearTimeout(session.pendingLoginQuestSyncTimer);
+          session.pendingLoginQuestSyncTimer = null;
+        }
+        session.syncQuestStateToClient?.({ mode: 'login' });
+        session.pendingLoginQuestSyncMapId = null;
+      }
+      session.log(
+        `Ignoring follower-reported position map=${position.mapId} pos=${position.x},${position.y} authoritative=${session.currentMapId >>> 0},${session.currentX >>> 0},${session.currentY >>> 0}`
+      );
+      return true;
+    }
+
     const previousMapId = session.currentMapId;
     const checkpoint = resolveTownCheckpoint({
       persistedCharacter: session.getPersistedCharacter?.() || null,
@@ -244,6 +275,15 @@ function dispatchGamePacket(
       session,
       previousMapId === position.mapId ? 'position-update' : `map-change:${previousMapId}->${position.mapId}`
     );
+    const followedMembers = syncTeamFollowersToLeader(session);
+    for (const follower of followedMembers) {
+      syncWorldPresence(
+        follower,
+        previousMapId === position.mapId ? 'team-follow-position' : `team-follow-map:${previousMapId}->${position.mapId}`
+      );
+      notifyTeamMemberPosition(follower);
+    }
+    notifyTeamMemberPosition(session);
     session.log(`Position update map=${position.mapId} pos=${position.x},${position.y}`);
     appendTriggerTrace({
       kind: 'position',
@@ -293,6 +333,27 @@ function dispatchGamePacket(
         x: session.currentX,
         y: session.currentY,
       });
+      return true;
+    }
+  }
+
+  if (cmdWord === GAME_TEAM_ACTION_PRIMARY_CMD) {
+    const action = parseTeamAction03FD(payload);
+    if (action && handleTeamActionPrimary(session, action)) {
+      return true;
+    }
+  }
+
+  if (cmdWord === GAME_TEAM_ACTION_SECONDARY_CMD) {
+    const action = parseTeamAction03FE(payload);
+    if (action && handleTeamActionSecondary(session, action)) {
+      return true;
+    }
+  }
+
+  if (cmdWord === GAME_TEAM_FOLLOWUP_CMD) {
+    const action = parseTeamAction0442(payload);
+    if (action && handleTeamFollowUpAction(session, action)) {
       return true;
     }
   }

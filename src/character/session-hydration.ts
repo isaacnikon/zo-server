@@ -3,6 +3,7 @@ import type { GameSession } from '../types.js';
 import { normalizePets } from '../pet-runtime.js';
 import { CHARACTER_VITALS_BASELINE } from '../gameplay/session-flows.js';
 import { resolveCharacterMaxVitals } from '../gameplay/max-vitals.js';
+import { resolveRoleData } from './role-utils.js';
 import { defaultFrogTeleporterUnlocks, hydrateFrogTeleporterUnlocks } from '../gameplay/frog-teleporter-service.js';
 import { defaultBonusAttributes, numberOrDefault, normalizeBonusAttributes, normalizePrimaryAttributes, normalizeCharacterRecord, normalizeSkillState, } from './normalize.js';
 import { normalizeQuestState } from '../quest-engine/index.js';
@@ -25,7 +26,7 @@ export function hydratePendingGameCharacter(session: GameSession, sharedState: R
   session.runtimeId = numberOrDefault(pendingCharacter.runtimeId, pendingCharacter.entityType);
   session.entityType = pendingCharacter.entityType;
   session.roleEntityType = pendingCharacter.roleEntityType || session.entityType;
-  session.roleData = pendingCharacter.roleData || 0;
+  session.roleData = resolveRoleData(pendingCharacter);
   session.selectedAptitude = numberOrDefault(pendingCharacter.selectedAptitude, 0);
   session.level = numberOrDefault(pendingCharacter.level, 1);
   session.experience = numberOrDefault(pendingCharacter.experience, 0);

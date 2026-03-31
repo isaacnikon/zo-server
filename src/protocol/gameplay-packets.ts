@@ -145,6 +145,19 @@ interface SceneSpawnRecord {
   } | null;
 }
 
+interface TeamPacketWithActorIdParams {
+  actorId: number;
+}
+
+interface TeamRosterMemberPacketParams {
+  actorId: number;
+  identityId?: number;
+  roleEntityType: number;
+  level: number;
+  displayName: string;
+  status?: number;
+}
+
 export function buildSelfStateAptitudeSyncPacket({
   selectedAptitude,
   level,
@@ -741,6 +754,170 @@ export function buildGatherFailedPacket(): Buffer {
   const writer = new PacketWriter();
   writer.writeUint16(GAME_GATHER_RESPONSE_CMD);
   writer.writeUint8(0x0f);
+  return writer.payload();
+}
+
+export function buildTeamCreatePacket(): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_TEAM_STATE_CMD);
+  writer.writeUint8(0x01);
+  return writer.payload();
+}
+
+export function buildTeamInvitePromptPacket({
+  actorId,
+  inviterName,
+  requestType = 0,
+}: {
+  actorId: number;
+  inviterName: string;
+  requestType?: number;
+}): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_TEAM_STATE_CMD);
+  writer.writeUint8(0x02);
+  writer.writeUint32(actorId >>> 0);
+  writer.writeString(`${inviterName || ''}\0`);
+  writer.writeUint16(requestType & 0xffff);
+  return writer.payload();
+}
+
+export function buildTeamInviteRefusedPacket(refuserName: string): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_TEAM_STATE_CMD);
+  writer.writeUint8(0x04);
+  writer.writeString(`${refuserName || ''}\0`);
+  return writer.payload();
+}
+
+export function buildTeamRemoveMemberPacket(actorId: number, leaderActorId = 0): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_TEAM_STATE_CMD);
+  writer.writeUint8(0x05);
+  writer.writeUint32(actorId >>> 0);
+  writer.writeUint32(leaderActorId >>> 0);
+  return writer.payload();
+}
+
+export function buildTeamRefreshPacket(): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_TEAM_STATE_CMD);
+  writer.writeUint8(0x06);
+  return writer.payload();
+}
+
+export function buildTeamMemberRefreshPacket(member: TeamRosterMemberPacketParams): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_TEAM_STATE_CMD);
+  writer.writeUint8(0x06);
+  writeTeamRosterMemberRecord(writer, member);
+  return writer.payload();
+}
+
+export function buildTeamDismissedPacket(): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_TEAM_STATE_CMD);
+  writer.writeUint8(0x07);
+  return writer.payload();
+}
+
+function writeTeamRosterMemberRecord(writer: PacketWriter, member: TeamRosterMemberPacketParams | null): void {
+  if (!member) {
+    writer.writeUint32(0);
+    writer.writeUint16(0);
+    writer.writeUint16(0);
+    writer.writeUint32(0);
+    writer.writeUint8(0);
+    writer.writeString('\0');
+    return;
+  }
+
+  writer.writeUint32(member.actorId >>> 0);
+  writer.writeUint16(member.roleEntityType & 0xffff);
+  writer.writeUint16(member.level & 0xffff);
+  writer.writeUint32((member.identityId ?? member.actorId) >>> 0);
+  writer.writeUint8(member.status ?? 1);
+  writer.writeString(`${member.displayName || ''}\0`);
+}
+
+export function buildTeamRosterSyncPacket({
+  leaderIdentityId,
+  members,
+}: {
+  leaderIdentityId: number;
+  members: Array<TeamRosterMemberPacketParams | null>;
+}): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_TEAM_STATE_CMD);
+  writer.writeUint8(0x08);
+  writer.writeUint32(leaderIdentityId >>> 0);
+  for (let index = 0; index < 5; index += 1) {
+    writeTeamRosterMemberRecord(writer, members[index] || null);
+  }
+  return writer.payload();
+}
+
+export function buildTeamJoinedNoticePacket(): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_TEAM_STATE_CMD);
+  writer.writeUint8(0x09);
+  return writer.payload();
+}
+
+export function buildTeamLeaderRemovedMemberPacket(actorId: number): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_TEAM_STATE_CMD);
+  writer.writeUint8(0x0a);
+  writer.writeUint32(actorId >>> 0);
+  return writer.payload();
+}
+
+export function buildTeamLeaderChangedPacket({ actorId }: TeamPacketWithActorIdParams): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_TEAM_STATE_CMD);
+  writer.writeUint8(0x0d);
+  writer.writeUint32(actorId >>> 0);
+  return writer.payload();
+}
+
+export function buildTeamConflictPacket(): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_TEAM_STATE_CMD);
+  writer.writeUint8(0x12);
+  return writer.payload();
+}
+
+export function buildTeamMemberEntryRemovedPacket({ actorId }: TeamPacketWithActorIdParams): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_TEAM_STATE_CMD);
+  writer.writeUint8(0x14);
+  writer.writeUint32(actorId >>> 0);
+  return writer.payload();
+}
+
+export function buildTeamMemberTemporaryLeavePacket({ actorId }: TeamPacketWithActorIdParams): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_TEAM_STATE_CMD);
+  writer.writeUint8(0x15);
+  writer.writeUint32(actorId >>> 0);
+  return writer.payload();
+}
+
+export function buildTeamMemberReturnPacket({ actorId }: TeamPacketWithActorIdParams): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_TEAM_STATE_CMD);
+  writer.writeUint8(0x16);
+  writer.writeUint32(actorId >>> 0);
+  return writer.payload();
+}
+
+export function buildTeamMemberPositionPacket(actorId: number, x: number, y: number): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_TEAM_STATE_CMD);
+  writer.writeUint8(0x17);
+  writer.writeUint32(actorId >>> 0);
+  writer.writeUint16(x & 0xffff);
+  writer.writeUint16(y & 0xffff);
   return writer.payload();
 }
 
