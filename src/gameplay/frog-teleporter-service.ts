@@ -1,4 +1,4 @@
-import { DEFAULT_FLAGS, GAME_FIGHT_CLIENT_CMD, FIGHT_CLIENT_PLAYER_VAR_SYNC_SUBCMD } from '../config.js';
+import { DEFAULT_FLAGS, GAME_SCRIPT_EVENT_CMD, FIGHT_CLIENT_PLAYER_VAR_SYNC_SUBCMD } from '../config.js';
 import { buildPlayerVarSyncPacket } from '../protocol/gameplay-packets.js';
 import { sendSelfStateValueUpdate } from './stat-sync.js';
 import type { FrogTeleporterUnlocks, GameSession, ServerRunRequestData } from '../types.js';
@@ -125,7 +125,7 @@ function sendPlayerVarSync(session: GameSession, index: number, value: number, r
   session.writePacket(
     buildPlayerVarSyncPacket({ index, value }),
     DEFAULT_FLAGS,
-    `Sending frog player-var sync cmd=0x${GAME_FIGHT_CLIENT_CMD.toString(16)} sub=0x${FIGHT_CLIENT_PLAYER_VAR_SYNC_SUBCMD.toString(16)} index=${index} value=0x${(value >>> 0).toString(16)} reason=${reason}`
+    `Sending frog player-var sync cmd=0x${GAME_SCRIPT_EVENT_CMD.toString(16)} sub=0x${FIGHT_CLIENT_PLAYER_VAR_SYNC_SUBCMD.toString(16)} index=${index} value=0x${(value >>> 0).toString(16)} reason=${reason}`
   );
 }
 
