@@ -1,11 +1,13 @@
 import type { CombatEnemyInstance, CombatState, GameSession } from '../types.js';
-import { COMBAT_ENABLED, DEFAULT_FLAGS, FIGHT_CLIENT_ATTACK_SELECTION_SUBCMD, FIGHT_CLIENT_FLEE_SUBCMD, FIGHT_CLIENT_ITEM_USE_SUBCMD, FIGHT_CLIENT_READY_SUBCMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_STREAM_CMD, } from '../config.js';
+import { COMBAT_ENABLED, DEFAULT_FLAGS, FIGHT_CLIENT_ATTACK_SELECTION_SUBCMD, FIGHT_CLIENT_DEFEND_SUBCMD, FIGHT_CLIENT_FLEE_SUBCMD, FIGHT_CLIENT_ITEM_USE_SUBCMD, FIGHT_CLIENT_READY_SUBCMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_STREAM_CMD, } from '../config.js';
 import { parseCombatItemUse } from '../protocol/inbound-packets.js';
 import { buildEncounterEnemies } from '../combat/encounter-builder.js';
 import { buildEncounterPacket } from '../combat/packets.js';
 import {
   appendSkillPacketTrace,
+  buildAllyPlayerEntry,
   buildPlayerEntry,
+  type CombatPartySlot,
   createIdleCombatState,
   describeEncounterEnemies,
   FIGHT_CLIENT_SKILL_USE_SUBCMD,
@@ -17,18 +19,24 @@ import {
   advanceSkillResolutionEvent,
   handleAttackSelection,
   processNextEnemyTurnAttack,
+  resolveCombatDefend,
   resolveCombatFlee,
   resolveCombatItemUse,
   resolveEnemyCounterattack,
   resolveVictory,
   sendIntroSequence,
+  tryAdvanceSharedCombatRoundOnReady,
   transitionToCommandPhase,
 } from '../combat/combat-resolution.js';
 
 type CombatAction = Record<string, any>;
+type SendCombatEncounterOptions = {
+  enemies?: CombatEnemyInstance[] | null;
+  allies?: GameSession[] | null;
+};
 
 export { createIdleCombatState } from '../combat/combat-formulas.js';
-export { disposeCombatTimers } from '../combat/combat-resolution.js';
+export { disposeCombatTimers, handleSharedCombatParticipantDisposed } from '../combat/combat-resolution.js';
 
 export function handleCombatPacket(session: GameSession, cmdWord: number, payload: Buffer): void {
   if (!session.combatState?.active) {
@@ -110,6 +118,15 @@ export function handleCombatPacket(session: GameSession, cmdWord: number, payloa
     return;
   }
 
+  if (
+    cmdWord === GAME_FIGHT_ACTION_CMD &&
+    payload.length >= 3 &&
+    payload[2] === FIGHT_CLIENT_DEFEND_SUBCMD
+  ) {
+    resolveCombatDefend(session, `cmd=0x${cmdWord.toString(16)} sub=0x${payload[2].toString(16)}`);
+    return;
+  }
+
   if (cmdWord === GAME_FIGHT_CLIENT_CMD) {
     const subcmd = payload.length >= 3 ? payload[2] : -1;
     const decodedClientPacket = subcmd === 0x4f
@@ -175,6 +192,10 @@ function isClientReadyPacket(cmdWord: number, payload: Buffer): boolean {
 }
 
 function tryHandleCombatReady(session: GameSession): boolean {
+  if (tryAdvanceSharedCombatRoundOnReady(session)) {
+    return true;
+  }
+
   if (session.combatState.pendingActionResolution) {
     const pending = session.combatState.pendingActionResolution;
     session.combatState.pendingActionResolution = null;
@@ -228,7 +249,51 @@ function isDelayedSkillImpactCompletionPacket(session: GameSession, cmdWord: num
   );
 }
 
-export function sendCombatEncounterProbe(session: GameSession, action: CombatAction): void {
+function cloneEncounterEnemies(enemies: CombatEnemyInstance[]): CombatEnemyInstance[] {
+  return enemies.map((enemy) => ({
+    ...enemy,
+    appearanceTypes: Array.isArray(enemy?.appearanceTypes) ? [...enemy.appearanceTypes] : [],
+    appearanceVariants: Array.isArray(enemy?.appearanceVariants) ? [...enemy.appearanceVariants] : [],
+    drops: Array.isArray(enemy?.drops) ? enemy.drops.map((drop) => ({ ...drop })) : [],
+  }));
+}
+
+function resolveSharedPartySlots(size: number): CombatPartySlot[] {
+  switch (Math.max(1, Math.min(5, size | 0))) {
+    case 1:
+      return [{ row: 1, col: 2 }];
+    case 2:
+      return [{ row: 1, col: 1 }, { row: 1, col: 3 }];
+    case 3:
+      return [{ row: 1, col: 1 }, { row: 1, col: 2 }, { row: 1, col: 3 }];
+    case 4:
+      return [{ row: 1, col: 0 }, { row: 1, col: 1 }, { row: 1, col: 3 }, { row: 1, col: 4 }];
+    default:
+      return [{ row: 1, col: 0 }, { row: 1, col: 1 }, { row: 1, col: 2 }, { row: 1, col: 3 }, { row: 1, col: 4 }];
+  }
+}
+
+function resolveCombatPartyOrder(viewer: GameSession, allies: GameSession[] | null | undefined): GameSession[] {
+  const normalized = [viewer, ...(Array.isArray(allies) ? allies : [])]
+    .filter((candidate, index, values) =>
+      Boolean(candidate) &&
+      values.findIndex((entry) => (entry.id >>> 0) === (candidate.id >>> 0)) === index
+    );
+  const teamOrder = Array.isArray(viewer.teamMembers) ? viewer.teamMembers : [];
+  return normalized.sort((left, right) => {
+    const leftIndex = teamOrder.findIndex((runtimeId) => (runtimeId >>> 0) === (left.runtimeId >>> 0));
+    const rightIndex = teamOrder.findIndex((runtimeId) => (runtimeId >>> 0) === (right.runtimeId >>> 0));
+    const normalizedLeftIndex = leftIndex >= 0 ? leftIndex : (0x10000 + (left.runtimeId >>> 0));
+    const normalizedRightIndex = rightIndex >= 0 ? rightIndex : (0x10000 + (right.runtimeId >>> 0));
+    return normalizedLeftIndex - normalizedRightIndex;
+  });
+}
+
+export function sendCombatEncounterProbe(
+  session: GameSession,
+  action: CombatAction,
+  options: SendCombatEncounterOptions = {}
+): void {
   if (!COMBAT_ENABLED) {
     session.log(`Ignoring encounter trigger while combat is disabled trigger=${action?.probeId || 'unknown'}`);
     return;
@@ -238,12 +303,23 @@ export function sendCombatEncounterProbe(session: GameSession, action: CombatAct
     return;
   }
 
-  const enemies = buildEncounterEnemies(action, session.currentMapId) as CombatEnemyInstance[];
+  const enemies = Array.isArray(options.enemies) && options.enemies.length > 0
+    ? cloneEncounterEnemies(options.enemies as CombatEnemyInstance[])
+    : buildEncounterEnemies(action, session.currentMapId) as CombatEnemyInstance[];
   if (enemies.length === 0) {
     session.log(`Skipping encounter probe with empty pool trigger=${action?.probeId || 'unknown'}`);
     return;
   }
-  const player = buildPlayerEntry(session);
+  const partyOrder = resolveCombatPartyOrder(session, options.allies || []);
+  const partySlots = resolveSharedPartySlots(partyOrder.length);
+  const playerPartyIndex = Math.max(0, partyOrder.findIndex((member) => (member.id >>> 0) === (session.id >>> 0)));
+  const player = buildPlayerEntry(session, partySlots[playerPartyIndex] || { row: 1, col: 2 });
+  const allies = partyOrder
+    .filter((member) => (member.id >>> 0) !== (session.id >>> 0))
+    .map((ally) => {
+      const allyPartyIndex = Math.max(0, partyOrder.findIndex((member) => (member.id >>> 0) === (ally.id >>> 0)));
+      return buildAllyPlayerEntry(ally, partySlots[allyPartyIndex] || { row: 1, col: 2 });
+    });
 
   session.combatState = {
     active: true,
@@ -279,9 +355,9 @@ export function sendCombatEncounterProbe(session: GameSession, action: CombatAct
   };
 
   session.writePacket(
-    buildEncounterPacket(player, enemies),
+    buildEncounterPacket(player, enemies, allies),
     DEFAULT_FLAGS,
-    `Sending combat encounter cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x65 trigger=${session.combatState.triggerId} enemies=${describeEncounterEnemies(enemies)}`
+    `Sending combat encounter cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x65 trigger=${session.combatState.triggerId} allies=${allies.map((ally) => `${Number(ally.entityId) >>> 0}@${Number(ally.row) & 0xff},${Number(ally.col) & 0xff}`).join('|') || 'none'} enemies=${describeEncounterEnemies(enemies)}`
   );
   sendIntroSequence(session);
 }

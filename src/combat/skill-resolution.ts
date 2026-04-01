@@ -79,7 +79,17 @@ import {
   REVIVE_SKILL_ID,
   SACRIFICE_SKILL_ID,
 } from './combat-formulas.js';
-import { finalizeSkillResolutionAndEnemyTurn, resendCombatCommandPrompt } from './combat-resolution.js';
+import {
+  finalizeSkillResolutionAndEnemyTurn,
+  resendCombatCommandPrompt,
+  resolveSharedTeamQueuedTurn,
+} from './combat-resolution.js';
+import {
+  areAllSharedTeamCombatActionsReady,
+  getSharedTeamCombatFollowers,
+  getSharedTeamCombatOwnerSession,
+  setSharedTeamCombatQueuedAction,
+} from '../gameplay/team-runtime.js';
 import type { GameSession } from '../types.js';
 
 type CombatSkillPlan = {
@@ -174,6 +184,9 @@ function resolveSkillPlaybackProfile(skillPlan: CombatSkillPlan): ResolvedSkillP
 export function handleCombatSkillUse(session: GameSession, payload: Buffer): void {
   const skillId = payload.readUInt16LE(3) & 0xffff;
   const targetEntityId = payload.readUInt32LE(5) >>> 0;
+  if (tryHandleSharedTeamSkillSelection(session, skillId, targetEntityId)) {
+    return;
+  }
   resolveCombatSkillUse(
     session,
     skillId,
@@ -182,11 +195,55 @@ export function handleCombatSkillUse(session: GameSession, payload: Buffer): voi
   );
 }
 
+function tryHandleSharedTeamSkillSelection(
+  session: GameSession,
+  skillId: number,
+  targetEntityId: number
+): boolean {
+  const owner = getSharedTeamCombatOwnerSession(session);
+  if (!owner || !owner.combatState?.active) {
+    return false;
+  }
+
+  const followers = getSharedTeamCombatFollowers(owner).filter((participant) => participant.combatState?.active);
+  if ((owner.id >>> 0) === (session.id >>> 0) && followers.length <= 0) {
+    return false;
+  }
+
+  if (!session.combatState?.active || !session.combatState.awaitingPlayerAction) {
+    session.log(`Ignoring shared combat skill selection without command prompt active=${session.combatState?.active ? 1 : 0}`);
+    return true;
+  }
+
+  session.combatState.awaitingPlayerAction = false;
+  session.combatState.awaitingClientReady = false;
+  session.combatState.phase = 'resolved';
+  setSharedTeamCombatQueuedAction(owner, session, {
+    round: Math.max(1, owner.combatState.round || 1),
+    kind: 'skill',
+    skillId: skillId & 0xffff,
+    targetEntityId: targetEntityId >>> 0,
+  });
+  session.log(
+    `Queued shared combat skill selection round=${owner.combatState.round} skillId=${skillId & 0xffff} targetEntityId=${targetEntityId >>> 0} ownerSession=${owner.id >>> 0}`
+  );
+
+  if (!areAllSharedTeamCombatActionsReady(owner)) {
+    return true;
+  }
+
+  resolveSharedTeamQueuedTurn(owner);
+  return true;
+}
+
 export function resolveCombatSkillUse(
   session: GameSession,
   skillId: number,
   targetEntityId: number,
-  sourceLabel: string
+  sourceLabel: string,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  } = {}
 ): void {
   if (!session.combatState?.active || !session.combatState.awaitingPlayerAction) {
     session.log(`Ignoring combat skill use without command prompt active=${session.combatState?.active ? 1 : 0}`);
@@ -229,7 +286,9 @@ export function resolveCombatSkillUse(
     slaughterTargetCapacity > 1 &&
     Math.random() < SLAUGHTER_CONCENTRATION_CHANCE;
   const targetEnemies = effectiveSelectionMode === 'enemy'
-    ? resolveSkillTargets(session, skillId, targetEntityId, skillLevel)
+    ? resolveSkillTargets(session, skillId, targetEntityId, skillLevel, {
+        strictTargetLock: options.deferSharedTeamPostResolution === true,
+      })
     : [];
   const fireballExploded = (skillId >>> 0) === FIREBALL_SKILL_ID && targetEnemies.length > 1;
   session.log(
@@ -277,7 +336,8 @@ export function resolveCombatSkillUse(
     targetEnemies,
     primaryTarget,
     slaughterFocused,
-    fireballExploded
+    fireballExploded,
+    options
   );
 }
 
@@ -393,6 +453,16 @@ export function sendCombatSkillCastPlayback(
 }
 
 export function queuePostSkillEnemyResponse(session: GameSession, skillPlan: CombatSkillPlan): void {
+  queuePostSkillEnemyResponseWithOptions(session, skillPlan, {});
+}
+
+export function queuePostSkillEnemyResponseWithOptions(
+  session: GameSession,
+  skillPlan: CombatSkillPlan,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
+): void {
   if (!session.combatState?.active) {
     return;
   }
@@ -401,6 +471,7 @@ export function queuePostSkillEnemyResponse(session: GameSession, skillPlan: Com
     implementationClass: skillPlan.implementationClass,
     followUpMode: skillPlan.followUpMode,
     allowEnemyCounterattack: skillPlan.allowEnemyCounterattack,
+    deferSharedTeamPostResolution: options.deferSharedTeamPostResolution === true,
   };
   session.combatState.awaitingSkillResolution = true;
   session.combatState.skillResolutionStartedAt = Date.now();
@@ -477,59 +548,62 @@ function dispatchCombatSkillByImplementationClass(
   targetEnemies: Array<Record<string, any>>,
   primaryTarget: Record<string, any> | null,
   slaughterFocused: boolean,
-  fireballExploded: boolean
+  fireballExploded: boolean,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
 ): void {
   switch (skillPlan.implementationClass) {
     case 1:
-      handleImplementationClass1(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+      handleImplementationClass1(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
       return;
     case 2:
-      handleImplementationClass2(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+      handleImplementationClass2(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
       return;
     case 3:
-      handleImplementationClass3(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+      handleImplementationClass3(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
       return;
     case 4:
-      handleImplementationClass4(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+      handleImplementationClass4(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
       return;
     case 5:
-      handleImplementationClass5(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+      handleImplementationClass5(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
       return;
     case 6:
-      handleImplementationClass6(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+      handleImplementationClass6(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
       return;
     case 7:
-      handleImplementationClass7(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+      handleImplementationClass7(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
       return;
     case 8:
-      handleImplementationClass8(session, skillPlan, skillLevel, sourceLabel);
+      handleImplementationClass8(session, skillPlan, skillLevel, sourceLabel, options);
       return;
     case 9:
-      handleImplementationClass9(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+      handleImplementationClass9(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
       return;
     case 10:
-      handleImplementationClass10(session, skillPlan, skillLevel, sourceLabel, targetEnemies, primaryTarget, slaughterFocused, fireballExploded);
+      handleImplementationClass10(session, skillPlan, skillLevel, sourceLabel, targetEnemies, primaryTarget, slaughterFocused, fireballExploded, options);
       return;
     case 11:
-      handleImplementationClass11(session, skillPlan, skillLevel, sourceLabel);
+      handleImplementationClass11(session, skillPlan, skillLevel, sourceLabel, options);
       return;
     case 12:
-      handleImplementationClass12(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+      handleImplementationClass12(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
       return;
     case 13:
-      handleImplementationClass13(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+      handleImplementationClass13(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
       return;
     case 14:
-      handleImplementationClass14(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+      handleImplementationClass14(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
       return;
     case 15:
-      handleImplementationClass15(session, skillPlan, skillLevel, sourceLabel);
+      handleImplementationClass15(session, skillPlan, skillLevel, sourceLabel, options);
       return;
     case 16:
-      handleImplementationClass16(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+      handleImplementationClass16(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
       return;
     default:
-      dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+      dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
   }
 }
 
@@ -540,25 +614,28 @@ function dispatchCombatSkillByBehavior(
   sourceLabel: string,
   targetEnemies: Array<Record<string, any>>,
   slaughterFocused: boolean,
-  fireballExploded: boolean
+  fireballExploded: boolean,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
 ): void {
   if (skillPlan.behavior === 'buff_self') {
-    handleCombatBuffSkillUse(session, skillPlan, skillLevel, sourceLabel);
+    handleCombatBuffSkillUse(session, skillPlan, skillLevel, sourceLabel, options);
     return;
   }
   if ((skillPlan.skillId >>> 0) === BLOOD_DRAIN_SKILL_ID) {
-    handleCombatDrainSkillUse(session, skillPlan, skillLevel, sourceLabel, targetEnemies);
+    handleCombatDrainSkillUse(session, skillPlan, skillLevel, sourceLabel, targetEnemies, options);
     return;
   }
   if (skillPlan.behavior === 'heal') {
-    handleCombatHealSkillUse(session, skillPlan, skillLevel, sourceLabel);
+    handleCombatHealSkillUse(session, skillPlan, skillLevel, sourceLabel, options);
     return;
   }
   if (skillPlan.selectionMode === 'self') {
-    handleCombatSupportSkillUse(session, skillPlan, skillLevel, sourceLabel, targetEnemies);
+    handleCombatSupportSkillUse(session, skillPlan, skillLevel, sourceLabel, targetEnemies, options);
     return;
   }
-  handleCombatOffensiveSkillUse(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+  handleCombatOffensiveSkillUse(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
 }
 
 function handleCombatSupportSkillUse(
@@ -566,7 +643,10 @@ function handleCombatSupportSkillUse(
   skillPlan: CombatSkillPlan,
   skillLevel: number,
   sourceLabel: string,
-  targetEnemies: Array<Record<string, any>>
+  targetEnemies: Array<Record<string, any>>,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
 ): void {
   const primaryEnemy = targetEnemies[0] || null;
   const castTargetEntityId = primaryEnemy ? (primaryEnemy.entityId >>> 0) : (session.runtimeId >>> 0);
@@ -587,7 +667,7 @@ function handleCombatSupportSkillUse(
       `Combat skill use ok source=${sourceLabel} skillId=${skillPlan.skillId} targetEntityId=${session.runtimeId} effect=puzzle rounds=2 manaReduction=${reductionPercent}`
     );
     session.combatState.pendingSkillOutcomes = null;
-    queuePostSkillEnemyResponse(session, skillPlan);
+    queuePostSkillEnemyResponseWithOptions(session, skillPlan, options);
     return;
   }
 
@@ -596,10 +676,10 @@ function handleCombatSupportSkillUse(
       `Combat skill use ok source=${sourceLabel} skillId=${skillPlan.skillId} targetEntityId=${session.runtimeId} effect=dedicate nextEnemyCounterattack=skipped`
     );
     session.combatState.pendingSkillOutcomes = null;
-    queuePostSkillEnemyResponse(session, {
+    queuePostSkillEnemyResponseWithOptions(session, {
       ...skillPlan,
       allowEnemyCounterattack: false,
-    });
+    }, options);
     return;
   }
 
@@ -620,7 +700,7 @@ function handleCombatSupportSkillUse(
       );
     }
     session.combatState.pendingSkillOutcomes = null;
-    queuePostSkillEnemyResponse(session, skillPlan);
+    queuePostSkillEnemyResponseWithOptions(session, skillPlan, options);
     return;
   }
 
@@ -634,7 +714,7 @@ function handleCombatSupportSkillUse(
       `Combat skill use ok source=${sourceLabel} skillId=${skillPlan.skillId} targetEntityId=${session.runtimeId} effect=conceal rounds=${durationRounds}`
     );
     session.combatState.pendingSkillOutcomes = null;
-    queuePostSkillEnemyResponse(session, skillPlan);
+    queuePostSkillEnemyResponseWithOptions(session, skillPlan, options);
     return;
   }
 
@@ -642,7 +722,7 @@ function handleCombatSupportSkillUse(
     `Combat skill use ok source=${sourceLabel} skillId=${skillPlan.skillId} targetEntityId=${castTargetEntityId} effect=generic-support implClass=${skillPlan.implementationClass || 0}`
   );
   session.combatState.pendingSkillOutcomes = null;
-  queuePostSkillEnemyResponse(session, skillPlan);
+  queuePostSkillEnemyResponseWithOptions(session, skillPlan, options);
 }
 
 function clearPlayerSupportDebuffs(session: GameSession): number {
@@ -654,7 +734,10 @@ function handleCombatBuffSkillUse(
   session: GameSession,
   skillPlan: CombatSkillPlan,
   skillLevel: number,
-  sourceLabel: string
+  sourceLabel: string,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
 ): void {
   sendCombatSkillCastPlayback(session, skillPlan, skillLevel, [{
     entityId: session.runtimeId >>> 0,
@@ -716,14 +799,17 @@ function handleCombatBuffSkillUse(
   }
 
   session.combatState.pendingSkillOutcomes = null;
-  queuePostSkillEnemyResponse(session, skillPlan);
+  queuePostSkillEnemyResponseWithOptions(session, skillPlan, options);
 }
 
 function handleCombatHealSkillUse(
   session: GameSession,
   skillPlan: CombatSkillPlan,
   skillLevel: number,
-  sourceLabel: string
+  sourceLabel: string,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
 ): void {
   if ((skillPlan.skillId >>> 0) === GOSPEL_SKILL_ID) {
     const durationRounds = resolveGospelDuration();
@@ -742,7 +828,7 @@ function handleCombatHealSkillUse(
       `Combat skill use ok source=${sourceLabel} skillId=${skillPlan.skillId} targetEntityId=${session.runtimeId} effect=gospel rounds=${durationRounds} healPerRound=${healAmount}`
     );
     session.combatState.pendingSkillOutcomes = null;
-    queuePostSkillEnemyResponse(session, skillPlan);
+    queuePostSkillEnemyResponseWithOptions(session, skillPlan, options);
     return;
   }
 
@@ -763,7 +849,7 @@ function handleCombatHealSkillUse(
       `Combat skill use ok source=${sourceLabel} skillId=${skillPlan.skillId} targetEntityId=${session.runtimeId} effect=regenerate rounds=${durationRounds} healPerRound=${healAmount}`
     );
     session.combatState.pendingSkillOutcomes = null;
-    queuePostSkillEnemyResponse(session, skillPlan);
+    queuePostSkillEnemyResponseWithOptions(session, skillPlan, options);
     return;
   }
 
@@ -785,7 +871,7 @@ function handleCombatHealSkillUse(
     targetEntityId: session.runtimeId >>> 0,
     healAmount: appliedHeal,
   }];
-  queuePostSkillEnemyResponse(session, skillPlan);
+  queuePostSkillEnemyResponseWithOptions(session, skillPlan, options);
 }
 
 function handleCombatDrainSkillUse(
@@ -793,7 +879,10 @@ function handleCombatDrainSkillUse(
   skillPlan: CombatSkillPlan,
   skillLevel: number,
   sourceLabel: string,
-  targetEnemies: Array<Record<string, any>>
+  targetEnemies: Array<Record<string, any>>,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
 ): void {
   const targetEnemy = targetEnemies[0];
   if (!targetEnemy) {
@@ -833,7 +922,7 @@ function handleCombatDrainSkillUse(
     playerDamage: Math.max(1, playerDamage),
     targetDied,
   }];
-  queuePostSkillEnemyResponse(session, skillPlan);
+  queuePostSkillEnemyResponseWithOptions(session, skillPlan, options);
 }
 
 function resolveGenericSkillHealing(session: GameSession, skillId: number, skillLevel: number): number {
@@ -853,7 +942,10 @@ function handleCombatOffensiveSkillUse(
   sourceLabel: string,
   targetEnemies: Array<Record<string, any>>,
   slaughterFocused: boolean,
-  fireballExploded: boolean
+  fireballExploded: boolean,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
 ): void {
   const skillId = skillPlan.skillId >>> 0;
   const castTargets: Array<{ entityId: number; actionCode: number; value: number }> = [];
@@ -903,7 +995,7 @@ function handleCombatOffensiveSkillUse(
     `Combat skill use ok source=${sourceLabel} skillId=${skillId} class=${skillPlan.implementationClass || 0} targetCount=${pendingOutcomes.length} totalDamage=${totalAppliedDamage} disabledTargets=${disabledTargets} fireballExploded=${fireballExploded ? 1 : 0} slaughterFocused=${slaughterFocused ? 1 : 0} remaining=${describeLivingEnemies(session.combatState.enemies)}`
   );
   session.combatState.pendingSkillOutcomes = pendingOutcomes;
-  queuePostSkillEnemyResponse(session, skillPlan);
+  queuePostSkillEnemyResponseWithOptions(session, skillPlan, options);
 }
 
 function applyEnemyDisableEffect(
@@ -968,9 +1060,12 @@ function handleImplementationClass1(
   sourceLabel: string,
   targetEnemies: Array<Record<string, any>>,
   slaughterFocused: boolean,
-  fireballExploded: boolean
+  fireballExploded: boolean,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
 ): void {
-  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
 }
 
 function handleImplementationClass2(
@@ -980,9 +1075,12 @@ function handleImplementationClass2(
   sourceLabel: string,
   targetEnemies: Array<Record<string, any>>,
   slaughterFocused: boolean,
-  fireballExploded: boolean
+  fireballExploded: boolean,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
 ): void {
-  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
 }
 
 function handleImplementationClass3(
@@ -992,9 +1090,12 @@ function handleImplementationClass3(
   sourceLabel: string,
   targetEnemies: Array<Record<string, any>>,
   slaughterFocused: boolean,
-  fireballExploded: boolean
+  fireballExploded: boolean,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
 ): void {
-  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
 }
 
 function handleImplementationClass4(
@@ -1004,9 +1105,12 @@ function handleImplementationClass4(
   sourceLabel: string,
   targetEnemies: Array<Record<string, any>>,
   slaughterFocused: boolean,
-  fireballExploded: boolean
+  fireballExploded: boolean,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
 ): void {
-  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
 }
 
 function handleImplementationClass5(
@@ -1016,9 +1120,12 @@ function handleImplementationClass5(
   sourceLabel: string,
   targetEnemies: Array<Record<string, any>>,
   slaughterFocused: boolean,
-  fireballExploded: boolean
+  fireballExploded: boolean,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
 ): void {
-  handleCombatOffensiveSkillUse(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+  handleCombatOffensiveSkillUse(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
 }
 
 function handleImplementationClass6(
@@ -1028,9 +1135,12 @@ function handleImplementationClass6(
   sourceLabel: string,
   targetEnemies: Array<Record<string, any>>,
   slaughterFocused: boolean,
-  fireballExploded: boolean
+  fireballExploded: boolean,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
 ): void {
-  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
 }
 
 function handleImplementationClass7(
@@ -1040,13 +1150,24 @@ function handleImplementationClass7(
   sourceLabel: string,
   targetEnemies: Array<Record<string, any>>,
   slaughterFocused: boolean,
-  fireballExploded: boolean
+  fireballExploded: boolean,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
 ): void {
-  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
 }
 
-function handleImplementationClass8(session: GameSession, skillPlan: CombatSkillPlan, skillLevel: number, sourceLabel: string): void {
-  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, [], false, false);
+function handleImplementationClass8(
+  session: GameSession,
+  skillPlan: CombatSkillPlan,
+  skillLevel: number,
+  sourceLabel: string,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
+): void {
+  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, [], false, false, options);
 }
 
 function handleImplementationClass9(
@@ -1056,9 +1177,12 @@ function handleImplementationClass9(
   sourceLabel: string,
   targetEnemies: Array<Record<string, any>>,
   slaughterFocused: boolean,
-  fireballExploded: boolean
+  fireballExploded: boolean,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
 ): void {
-  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
 }
 
 function handleImplementationClass10(
@@ -1069,13 +1193,24 @@ function handleImplementationClass10(
   targetEnemies: Array<Record<string, any>>,
   _primaryTarget: Record<string, any> | null,
   slaughterFocused: boolean,
-  fireballExploded: boolean
+  fireballExploded: boolean,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
 ): void {
-  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
 }
 
-function handleImplementationClass11(session: GameSession, skillPlan: CombatSkillPlan, skillLevel: number, sourceLabel: string): void {
-  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, [], false, false);
+function handleImplementationClass11(
+  session: GameSession,
+  skillPlan: CombatSkillPlan,
+  skillLevel: number,
+  sourceLabel: string,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
+): void {
+  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, [], false, false, options);
 }
 
 function handleImplementationClass12(
@@ -1085,9 +1220,12 @@ function handleImplementationClass12(
   sourceLabel: string,
   targetEnemies: Array<Record<string, any>>,
   slaughterFocused: boolean,
-  fireballExploded: boolean
+  fireballExploded: boolean,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
 ): void {
-  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
 }
 
 function handleImplementationClass13(
@@ -1097,9 +1235,12 @@ function handleImplementationClass13(
   sourceLabel: string,
   targetEnemies: Array<Record<string, any>>,
   slaughterFocused: boolean,
-  fireballExploded: boolean
+  fireballExploded: boolean,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
 ): void {
-  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
 }
 
 function handleImplementationClass14(
@@ -1109,13 +1250,24 @@ function handleImplementationClass14(
   sourceLabel: string,
   targetEnemies: Array<Record<string, any>>,
   slaughterFocused: boolean,
-  fireballExploded: boolean
+  fireballExploded: boolean,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
 ): void {
-  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
 }
 
-function handleImplementationClass15(session: GameSession, skillPlan: CombatSkillPlan, skillLevel: number, sourceLabel: string): void {
-  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, [], false, false);
+function handleImplementationClass15(
+  session: GameSession,
+  skillPlan: CombatSkillPlan,
+  skillLevel: number,
+  sourceLabel: string,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
+): void {
+  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, [], false, false, options);
 }
 
 function handleImplementationClass16(
@@ -1125,7 +1277,10 @@ function handleImplementationClass16(
   sourceLabel: string,
   targetEnemies: Array<Record<string, any>>,
   slaughterFocused: boolean,
-  fireballExploded: boolean
+  fireballExploded: boolean,
+  options: {
+    deferSharedTeamPostResolution?: boolean;
+  }
 ): void {
-  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded);
+  dispatchCombatSkillByBehavior(session, skillPlan, skillLevel, sourceLabel, targetEnemies, slaughterFocused, fireballExploded, options);
 }

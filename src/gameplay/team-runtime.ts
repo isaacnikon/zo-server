@@ -2,6 +2,7 @@ import type { GameSession, TeamClientAction03FD, TeamClientAction03FE, TeamClien
 
 import { DEFAULT_FLAGS, SCENE_ENTER_LOAD_SUBCMD } from '../config.js';
 import { resolveTownCheckpoint } from './session-flows.js';
+import { syncFrogTeleporterClientState } from './frog-teleporter-service.js';
 import {
   buildEntityWalkSyncPacket,
   buildSceneEnterPacket,
@@ -33,11 +34,48 @@ interface PendingTeamInvite {
   createdAt: number;
 }
 
+interface SharedCombatQueuedActionAttack {
+  round: number;
+  kind: 'attack';
+  attackMode: number;
+  targetA: number;
+  targetB: number;
+  targetEntityId: number;
+}
+
+interface SharedCombatQueuedActionSkill {
+  round: number;
+  kind: 'skill';
+  skillId: number;
+  targetEntityId: number;
+}
+
+interface SharedCombatQueuedActionItem {
+  round: number;
+  kind: 'item';
+  instanceId: number;
+  targetEntityId: number;
+}
+
+interface SharedCombatQueuedActionDefend {
+  round: number;
+  kind: 'defend';
+}
+
+type SharedCombatQueuedAction =
+  | SharedCombatQueuedActionAttack
+  | SharedCombatQueuedActionSkill
+  | SharedCombatQueuedActionItem
+  | SharedCombatQueuedActionDefend;
+
 interface TeamRuntimeState {
   nextTeamId: number;
   teams: Map<number, TeamRuntimeRecord>;
   teamIdBySessionId: Map<number, number>;
   pendingInvitesByInviteeSessionId: Map<number, PendingTeamInvite[]>;
+  combatOwnerSessionIdByParticipantSessionId: Map<number, number>;
+  combatParticipantSessionIdsByOwnerSessionId: Map<number, number[]>;
+  combatPendingActionsByOwnerSessionId: Map<number, Map<number, SharedCombatQueuedAction>>;
 }
 
 const TEAM_MAX_MEMBERS = 5;
@@ -64,6 +102,9 @@ function getTeamRuntimeState(sharedState: Record<string, any>): TeamRuntimeState
       teams: new Map<number, TeamRuntimeRecord>(),
       teamIdBySessionId: new Map<number, number>(),
       pendingInvitesByInviteeSessionId: new Map<number, PendingTeamInvite[]>(),
+      combatOwnerSessionIdByParticipantSessionId: new Map<number, number>(),
+      combatParticipantSessionIdsByOwnerSessionId: new Map<number, number[]>(),
+      combatPendingActionsByOwnerSessionId: new Map<number, Map<number, SharedCombatQueuedAction>>(),
     } as TeamRuntimeState;
   }
   return sharedState.teamRuntime as TeamRuntimeState;
@@ -125,6 +166,232 @@ function getTeamSessions(sharedState: Record<string, any>, team: TeamRuntimeReco
   return team.memberSessionIds
     .map((sessionId) => getSessionById(sharedState, sessionId))
     .filter((candidate): candidate is GameSession => Boolean(candidate));
+}
+
+export function getTeamCombatParticipants(session: GameSession): GameSession[] {
+  const team = getTeamForSession(session);
+  if (!team || !isTeamLeader(session, team)) {
+    return [session];
+  }
+
+  const participants = getTeamSessions(session.sharedState, team).filter((member) => {
+    if (member.socket?.destroyed) {
+      return false;
+    }
+    if (member.defeatRespawnPending) {
+      return false;
+    }
+    if (member.combatState?.active) {
+      return false;
+    }
+    return true;
+  });
+
+  return participants.length > 0 ? participants : [session];
+}
+
+export function beginSharedTeamCombat(owner: GameSession, participants: GameSession[]): void {
+  const state = getTeamRuntimeState(owner.sharedState);
+  const normalizedOwnerSessionId = owner.id >>> 0;
+  const normalizedParticipantSessionIds = participants
+    .map((participant) => participant.id >>> 0)
+    .filter((sessionId, index, values) => values.indexOf(sessionId) === index);
+
+  endSharedTeamCombat(owner);
+  for (const participantSessionId of normalizedParticipantSessionIds) {
+    const existingOwnerSessionId = state.combatOwnerSessionIdByParticipantSessionId.get(participantSessionId);
+    if (Number.isInteger(existingOwnerSessionId)) {
+      const existingOwner = getSessionById(owner.sharedState, Number(existingOwnerSessionId) >>> 0);
+      if (existingOwner) {
+        endSharedTeamCombat(existingOwner);
+      }
+    }
+  }
+
+  state.combatParticipantSessionIdsByOwnerSessionId.set(
+    normalizedOwnerSessionId,
+    normalizedParticipantSessionIds
+  );
+  state.combatPendingActionsByOwnerSessionId.set(normalizedOwnerSessionId, new Map());
+  for (const participantSessionId of normalizedParticipantSessionIds) {
+    state.combatOwnerSessionIdByParticipantSessionId.set(participantSessionId, normalizedOwnerSessionId);
+  }
+}
+
+export function getSharedTeamCombatOwnerSession(session: GameSession): GameSession | null {
+  const state = getTeamRuntimeState(session.sharedState);
+  const ownerSessionId = state.combatOwnerSessionIdByParticipantSessionId.get(session.id >>> 0);
+  if (!Number.isInteger(ownerSessionId)) {
+    return null;
+  }
+  return getSessionById(session.sharedState, Number(ownerSessionId) >>> 0);
+}
+
+export function isSharedTeamCombatOwner(session: GameSession): boolean {
+  const owner = getSharedTeamCombatOwnerSession(session);
+  return owner !== null && (owner.id >>> 0) === (session.id >>> 0);
+}
+
+export function getSharedTeamCombatFollowers(session: GameSession): GameSession[] {
+  if (!isSharedTeamCombatOwner(session)) {
+    return [];
+  }
+
+  const state = getTeamRuntimeState(session.sharedState);
+  const participantSessionIds = state.combatParticipantSessionIdsByOwnerSessionId.get(session.id >>> 0) || [];
+  return participantSessionIds
+    .map((participantSessionId) => getSessionById(session.sharedState, participantSessionId))
+    .filter((participant): participant is GameSession => {
+      if (!participant) {
+        return false;
+      }
+      return (participant.id >>> 0) !== (session.id >>> 0);
+    });
+}
+
+function isSharedTeamCombatRoundParticipant(participant: GameSession | null | undefined): participant is GameSession {
+  if (!participant) {
+    return false;
+  }
+  if (participant.socket?.destroyed) {
+    return false;
+  }
+  if (!participant.combatState?.active) {
+    return false;
+  }
+  if ((participant.currentHealth || 0) <= 0) {
+    return false;
+  }
+  return true;
+}
+
+export function getSharedTeamCombatRoundParticipants(owner: GameSession): GameSession[] {
+  if (!isSharedTeamCombatOwner(owner) || !owner.combatState?.active) {
+    return [];
+  }
+
+  const state = getTeamRuntimeState(owner.sharedState);
+  const participantSessionIds = state.combatParticipantSessionIdsByOwnerSessionId.get(owner.id >>> 0) || [];
+  return participantSessionIds
+    .map((participantSessionId) => getSessionById(owner.sharedState, participantSessionId))
+    .filter(isSharedTeamCombatRoundParticipant);
+}
+
+export function endSharedTeamCombat(session: GameSession): void {
+  const state = getTeamRuntimeState(session.sharedState);
+  const owner = getSharedTeamCombatOwnerSession(session);
+  const ownerSessionId = owner ? (owner.id >>> 0) : (session.id >>> 0);
+  const participantSessionIds = state.combatParticipantSessionIdsByOwnerSessionId.get(ownerSessionId) || [];
+
+  state.combatParticipantSessionIdsByOwnerSessionId.delete(ownerSessionId);
+  state.combatPendingActionsByOwnerSessionId.delete(ownerSessionId);
+  for (const participantSessionId of participantSessionIds) {
+    state.combatOwnerSessionIdByParticipantSessionId.delete(participantSessionId >>> 0);
+  }
+}
+
+export function removeSharedTeamCombatParticipant(session: GameSession): GameSession | null {
+  const state = getTeamRuntimeState(session.sharedState);
+  const owner = getSharedTeamCombatOwnerSession(session);
+  if (!owner) {
+    return null;
+  }
+
+  const ownerSessionId = owner.id >>> 0;
+  const participantSessionIds = state.combatParticipantSessionIdsByOwnerSessionId.get(ownerSessionId) || [];
+
+  if ((owner.id >>> 0) === (session.id >>> 0)) {
+    endSharedTeamCombat(owner);
+    return owner;
+  }
+
+  const filteredParticipantSessionIds = participantSessionIds.filter(
+    (participantSessionId) => (participantSessionId >>> 0) !== (session.id >>> 0)
+  );
+  state.combatParticipantSessionIdsByOwnerSessionId.set(ownerSessionId, filteredParticipantSessionIds);
+  state.combatOwnerSessionIdByParticipantSessionId.delete(session.id >>> 0);
+
+  const actions = state.combatPendingActionsByOwnerSessionId.get(ownerSessionId);
+  if (actions instanceof Map) {
+    actions.delete(session.id >>> 0);
+  }
+
+  return owner;
+}
+
+export function setSharedTeamCombatQueuedAction(
+  owner: GameSession,
+  participant: GameSession,
+  action: SharedCombatQueuedAction
+): void {
+  const state = getTeamRuntimeState(owner.sharedState);
+  let actions = state.combatPendingActionsByOwnerSessionId.get(owner.id >>> 0);
+  if (!(actions instanceof Map)) {
+    actions = new Map<number, SharedCombatQueuedAction>();
+    state.combatPendingActionsByOwnerSessionId.set(owner.id >>> 0, actions);
+  }
+  if (action.kind === 'attack') {
+    actions.set(participant.id >>> 0, {
+      round: Math.max(1, action.round | 0),
+      kind: 'attack',
+      attackMode: action.attackMode & 0xff,
+      targetA: action.targetA & 0xff,
+      targetB: action.targetB & 0xff,
+      targetEntityId: action.targetEntityId >>> 0,
+    });
+    return;
+  }
+  if (action.kind === 'skill') {
+    actions.set(participant.id >>> 0, {
+      round: Math.max(1, action.round | 0),
+      kind: 'skill',
+      skillId: action.skillId & 0xffff,
+      targetEntityId: action.targetEntityId >>> 0,
+    });
+    return;
+  }
+  if (action.kind === 'item') {
+    actions.set(participant.id >>> 0, {
+      round: Math.max(1, action.round | 0),
+      kind: 'item',
+      instanceId: action.instanceId >>> 0,
+      targetEntityId: action.targetEntityId >>> 0,
+    });
+    return;
+  }
+  actions.set(participant.id >>> 0, {
+    round: Math.max(1, action.round | 0),
+    kind: 'defend',
+  });
+}
+
+export function consumeSharedTeamCombatQueuedActions(owner: GameSession): Map<number, SharedCombatQueuedAction> {
+  const state = getTeamRuntimeState(owner.sharedState);
+  const actions = state.combatPendingActionsByOwnerSessionId.get(owner.id >>> 0) || new Map<number, SharedCombatQueuedAction>();
+  state.combatPendingActionsByOwnerSessionId.set(owner.id >>> 0, new Map<number, SharedCombatQueuedAction>());
+  return actions;
+}
+
+export function clearSharedTeamCombatQueuedActions(owner: GameSession): void {
+  const state = getTeamRuntimeState(owner.sharedState);
+  state.combatPendingActionsByOwnerSessionId.set(owner.id >>> 0, new Map<number, SharedCombatQueuedAction>());
+}
+
+export function areAllSharedTeamCombatActionsReady(owner: GameSession): boolean {
+  if (!owner.combatState?.active) {
+    return false;
+  }
+  const state = getTeamRuntimeState(owner.sharedState);
+  const participantSessionIds = getSharedTeamCombatRoundParticipants(owner).map((participant) => participant.id >>> 0);
+  const actions = state.combatPendingActionsByOwnerSessionId.get(owner.id >>> 0) || new Map<number, SharedCombatQueuedAction>();
+  const expectedRound = Math.max(1, owner.combatState.round | 0);
+  if (participantSessionIds.length <= 0) {
+    return false;
+  }
+  return participantSessionIds.every((participantSessionId) => {
+    const action = actions.get(participantSessionId >>> 0);
+    return Boolean(action) && ((action?.round || 0) >>> 0) === (expectedRound >>> 0);
+  });
 }
 
 function clampFollowCoordinate(value: number): number {
@@ -267,6 +534,10 @@ function sendFollowerSceneEnter(session: GameSession, mapId: number, x: number, 
     buildSceneEnterPacket(mapId >>> 0, x >>> 0, y >>> 0, SCENE_ENTER_LOAD_SUBCMD),
     `Sending team follow scene-enter cmd=0x3e9 sub=0x${SCENE_ENTER_LOAD_SUBCMD.toString(16)} map=${mapId >>> 0} pos=${x >>> 0},${y >>> 0} reason=${reason}`
   );
+  session.sendMapNpcSpawns?.(mapId >>> 0);
+  session.syncQuestStateToClient?.({ mode: 'runtime' });
+  syncFrogTeleporterClientState(session, `team-follow-map:${mapId >>> 0}`);
+  session.pendingSceneNpcSpawnMapId = null;
 }
 
 function sendFollowerWalkSync(session: GameSession, x: number, y: number, reason: string): void {

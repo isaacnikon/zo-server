@@ -183,6 +183,32 @@ Current practical state:
 - member-side captain badge is still missing even with correct stable ids and leader-change packets
 - the remaining issue appears cosmetic / client-side rather than core team-state failure
 
+## Shared Team Combat Findings
+
+Additional verified findings from the latest team combat work:
+
+- Team combat now works best as one owner-driven shared round, not as mirrored independent battles.
+- The leader-side session should own the shared combat state and enemy roster, while followers receive mirrored playback and local command prompts.
+- Player selections must be queued per round before any shared round begins.
+- Those queued selections need to be tagged with the exact combat round number; otherwise stale inputs from a previous round can incorrectly satisfy "everyone is ready" for the next round.
+- The runnable round should be built from one AP-sorted list containing:
+  - all active living team participants with a queued action for the current round
+  - all living enemies
+- Dead or invalid queued actors must explicitly advance to the next action instead of returning early, or the shared round can deadlock.
+- If an earlier action kills an enemy that still appears later in the AP queue, that later enemy entry must be skipped and the queue must continue.
+- If a queued player action targets an enemy that died earlier in the same round, server resolution should retarget to a random living enemy rather than no-op on the dead explicit target.
+- Follower disconnects during shared combat should remove only that participant from the owner's shared-combat participant set, not tear down the full shared combat unless the owner disconnects.
+
+Practical server-side consequences:
+
+- shared rounds should only finish after all queued actions and remaining living enemy actions have been consumed
+- `clearCombatState()` on a follower must not destroy the entire shared combat mapping
+- queued item / defend / skill / attack actions all need to obey the same round queue constraints
+
+Observed remaining risk area:
+
+- visible sequencing still depends on the client completion/ready packets arriving in the expected order; the server should not silently fall back to blind timer-only advancement for shared rounds
+
 ## Combat / World Separation Note
 
 This matters for later packet work:

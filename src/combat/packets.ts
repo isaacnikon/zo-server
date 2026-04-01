@@ -63,13 +63,21 @@ function writeEntry(writer: InstanceType<typeof PacketWriter>, entry: UnknownRec
   writer.writeString(`${entry.name || 'Unknown'}\0`);
 }
 
-export function buildEncounterPacket(player: UnknownRecord, enemies: UnknownRecord[] | UnknownRecord): Buffer {
+export function buildEncounterPacket(
+  player: UnknownRecord,
+  enemies: UnknownRecord[] | UnknownRecord,
+  allies: UnknownRecord[] = []
+): Buffer {
   const writer = new PacketWriter();
   const normalizedEnemies = Array.isArray(enemies) ? enemies : [enemies];
+  const normalizedAllies = Array.isArray(allies) ? allies : [];
   writer.writeUint16(GAME_FIGHT_STREAM_CMD);
   writer.writeUint8(FIGHT_ENCOUNTER_PROBE_SUBCMD);
   writer.writeUint32(player.entityId >>> 0);
   writeEntry(writer, player, true);
+  for (const ally of normalizedAllies) {
+    writeEntry(writer, ally, true);
+  }
   for (const enemy of normalizedEnemies) {
     writeEntry(writer, enemy, false);
   }

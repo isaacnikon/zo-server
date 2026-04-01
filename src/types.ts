@@ -338,6 +338,7 @@ export interface CombatEnemyInstance {
   maxHp: number;
   level: number;
   aptitude: number;
+  attackPriority?: number;
   appearanceTypes: number[];
   appearanceVariants: number[];
   drops?: DropEntry[];
@@ -380,6 +381,7 @@ export interface PendingSkillContext {
   implementationClass?: number | null;
   followUpMode?: 'none' | 'delayed_cast';
   allowEnemyCounterattack?: boolean;
+  deferSharedTeamPostResolution?: boolean;
 }
 export interface PendingCounterattack {
   enemyEntityId: number;
@@ -416,6 +418,11 @@ export interface CombatState {
   pendingSkillContext?: PendingSkillContext | null;
   pendingCounterattack?: PendingCounterattack | null;
   pendingActionResolution?: PendingActionResolution | null;
+  sharedActionSequenceToken?: number | null;
+  sharedRoundEntries?: Array<Record<string, any>> | null;
+  sharedRoundIndex?: number | null;
+  sharedAwaitingActionReady?: boolean;
+  sharedAwaitingReadySessionId?: number | null;
   playerStatus: CombatPlayerStatus;
   enemyStatuses: Record<number, CombatEnemyStatus>;
 }

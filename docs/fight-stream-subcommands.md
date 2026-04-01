@@ -245,6 +245,20 @@ Current server use:
 - Send `0x040d` + `entityId` + `0x62` on combat intro, command refresh, and combat clear.
 - Follow with `0x040d` + `entityId` + `0x63` + 11 zero `u16` entries to clear the client action-state table between battles.
 
+## `0x03ed len=3 hex=ed0309` Combat Ready Event
+
+Observed runtime behavior:
+
+- clients emit `0x03ed 0x09` after combat playback phases complete
+- in shared team combat this is the primary event-driven hook for advancing the next AP-ordered queued action
+- the server must consume that ready packet only for the currently expected acting session
+
+Practical implications:
+
+- consuming ready from the wrong session can make actions appear simultaneous or advance the shared queue too early
+- if a queued actor is skipped because it died earlier in the same round, the server must advance explicitly instead of waiting for a ready packet that will never arrive
+- if a queued target dies earlier in the same round, the action resolver should retarget or skip cleanly before the queue waits on readiness
+
 ## Targeting Notes
 
 - The client computes offensive-skill availability locally in `FUN_00413670`.

@@ -1,13 +1,13 @@
-import type { CombatState, FrogTeleporterUnlocks, GameSession, PrimaryAttributes, QuestRecord, QuestSyncMode, SkillState } from './types.js';
+import type { CombatEnemyInstance, CombatState, FrogTeleporterUnlocks, GameSession, PrimaryAttributes, QuestRecord, QuestSyncMode, SkillState } from './types.js';
 
 import { dispatchGamePacket } from './handlers/packet-dispatcher.js';
-import { createIdleCombatState, disposeCombatTimers as combatHandlerDisposeTimers, sendCombatEncounterProbe as combatHandlerSendCombatEncounterProbe, sendCombatExitProbe as combatHandlerSendCombatExitProbe, } from './handlers/combat-handler.js';
+import { createIdleCombatState, disposeCombatTimers as combatHandlerDisposeTimers, handleSharedCombatParticipantDisposed as combatHandlerHandleSharedCombatParticipantDisposed, sendCombatEncounterProbe as combatHandlerSendCombatEncounterProbe, sendCombatExitProbe as combatHandlerSendCombatExitProbe, } from './handlers/combat-handler.js';
 import { handleLogin as loginHandlerHandleLogin, } from './handlers/login-handler.js';
 import { applyQuestEvents as questHandlerApplyQuestEvents, questEventHandler, handleQuestMonsterDefeat as questHandlerHandleQuestMonsterDefeat, syncQuestStateToClient as questHandlerSyncQuestStateToClient, ensureQuestStateReady as questHandlerEnsureQuestStateReady, refreshQuestStateForItemTemplates as questHandlerRefreshQuestStateForItemTemplates, } from './handlers/quest-handler.js';
 import { scheduleEquipmentReplay as playerStateHandlerScheduleEquipmentReplay, } from './handlers/player-state-handler.js';
 import { schedulePetReplay as petHandlerSchedulePetReplay, sendPetStateSync as petHandlerSendPetStateSync, disposePetTimers as petHandlerDisposeTimers, } from './handlers/pet-handler.js';
 import { sendEnterGameOk as sessionBootstrapHandlerSendEnterGameOk, sendMapNpcSpawns as sessionBootstrapHandlerSendMapNpcSpawns, } from './handlers/session-bootstrap-handler.js';
-import { DEFAULT_FLAGS, ENTITY_TYPE, GAME_DIALOG_CMD, GAME_DIALOG_MESSAGE_SUBCMD, GAME_ITEM_CONTAINER_CMD, GAME_ITEM_CMD, GAME_SCENE_ENTER_CMD, GAME_SELF_STATE_CMD, HANDSHAKE_CMD, MAP_ID, PONG_CMD, SCENE_ENTER_LOAD_SUBCMD, SERVER_SCRIPT_DEFERRED_SUBCMD, SERVER_SCRIPT_IMMEDIATE_SUBCMD, SELF_STATE_APTITUDE_SUBCMD, SPAWN_X, SPAWN_Y, SPECIAL_FLAGS, VALID_FLAG_MASK, VALID_FLAG_VALUE, } from './config.js';
+import { DEFAULT_FLAGS, ENTITY_TYPE, GAME_DIALOG_CMD, GAME_DIALOG_MESSAGE_SUBCMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, GAME_ITEM_CONTAINER_CMD, GAME_ITEM_CMD, GAME_SCENE_ENTER_CMD, GAME_SELF_STATE_CMD, HANDSHAKE_CMD, MAP_ID, PONG_CMD, SCENE_ENTER_LOAD_SUBCMD, SERVER_SCRIPT_DEFERRED_SUBCMD, SERVER_SCRIPT_IMMEDIATE_SUBCMD, SELF_STATE_APTITUDE_SUBCMD, SPAWN_X, SPAWN_Y, SPECIAL_FLAGS, VALID_FLAG_MASK, VALID_FLAG_VALUE, } from './config.js';
 import { PacketWriter, buildPacket } from './protocol.js';
 import { buildGameDialoguePacket, buildSceneEnterPacket, buildServerRunScriptPacket, buildSelfStateAptitudeSyncPacket, } from './protocol/gameplay-packets.js';
 import { ObjectiveRegistry } from './objectives/objective-registry.js';
@@ -15,10 +15,11 @@ import { questObjectiveSystem } from './objectives/quest-objective-system.js';
 import { CHARACTER_VITALS_BASELINE, resolveCurrentPlayerVitals } from './gameplay/session-flows.js';
 import { stopAutoMapRotation } from './scenes/map-rotation.js';
 import { removeWorldPresence } from './world-state.js';
+import { buildEncounterEnemies } from './combat/encounter-builder.js';
 import { buildCharacterSnapshot as sessionHydrationBuildCharacterSnapshot, getPersistedCharacter as sessionHydrationGetPersistedCharacter, hydratePendingGameCharacter, persistCurrentCharacter as sessionHydrationPersistCurrentCharacter, saveCharacter as sessionHydrationSaveCharacter, } from './character/session-hydration.js';
 import { defaultBonusAttributes, defaultSkillState } from './character/normalize.js';
 import { defaultFrogTeleporterUnlocks } from './gameplay/frog-teleporter-service.js';
-import { handleTeamSessionDisposed, syncTeamFollowersToLeader } from './gameplay/team-runtime.js';
+import { beginSharedTeamCombat, getSharedTeamCombatFollowers, getSharedTeamCombatOwnerSession, getTeamCombatParticipants, handleTeamSessionDisposed, isSharedTeamCombatOwner, syncTeamFollowersToLeader } from './gameplay/team-runtime.js';
 
 type SharedState = Record<string, any>;
 type LoggerLike = {
@@ -38,6 +39,7 @@ const SELF_STATE_PROBE_FIELD_A = Number.isFinite(Number(process.env.SELF_STATE_P
 const SELF_STATE_PROBE_FIELD_B = Number.isFinite(Number(process.env.SELF_STATE_PROBE_FIELD_B))
   ? Number(process.env.SELF_STATE_PROBE_FIELD_B)
   : 1;
+const GAME_PLAYER_ACTION_STATE_CMD = 0x040d;
 
 class Session implements GameSession {
   socket: SocketLike;
@@ -345,8 +347,9 @@ class Session implements GameSession {
 
   writePacket(payload: Buffer, flags: number = DEFAULT_FLAGS, message = ''): void {
     const packet = buildPacket(payload, this.serverSeq, flags);
+    let cmdWord = -1;
     if (payload.length >= 2) {
-      const cmdWord = payload.readUInt16LE(0);
+      cmdWord = payload.readUInt16LE(0);
       if (
         (cmdWord === GAME_ITEM_CMD || cmdWord === GAME_ITEM_CONTAINER_CMD) &&
         payload.includes(Buffer.from([0xed, 0x13]))
@@ -363,6 +366,31 @@ class Session implements GameSession {
     this.log(message);
     this.logger.log(this.logger.hexDump(packet, `[S${this.id}] > `));
     this.socket.write(packet);
+
+    const isMirroredSharedCombatPacket = message.includes('mirrored-owner=');
+    const shouldMirrorSharedCombatPacket =
+      !isMirroredSharedCombatPacket &&
+      cmdWord === GAME_FIGHT_STREAM_CMD &&
+      payload.length >= 3 &&
+      (
+        payload[2] === 0x03 ||
+        payload[2] === 0x04 ||
+        payload[2] === 0x33
+      );
+
+    const sharedCombatOwner = getSharedTeamCombatOwnerSession(this);
+    if (sharedCombatOwner && shouldMirrorSharedCombatPacket) {
+      const participants = [
+        sharedCombatOwner,
+        ...getSharedTeamCombatFollowers(sharedCombatOwner),
+      ];
+      for (const participant of participants) {
+        if ((participant.id >>> 0) === (this.id >>> 0)) {
+          continue;
+        }
+        participant.writePacket(payload, flags, `${message} mirrored-owner=S${sharedCombatOwner.id}`);
+      }
+    }
   }
 
   log(message: string): void {
@@ -484,6 +512,7 @@ class Session implements GameSession {
       clearTimeout(this.pendingLoginQuestSyncTimer);
       this.pendingLoginQuestSyncTimer = null;
     }
+    combatHandlerHandleSharedCombatParticipantDisposed(this);
     handleTeamSessionDisposed(this);
     removeWorldPresence(this, 'session-dispose');
     combatHandlerDisposeTimers(this);
@@ -518,7 +547,28 @@ class Session implements GameSession {
   }
 
   sendCombatEncounterProbe(action: Record<string, unknown>): void {
-    combatHandlerSendCombatEncounterProbe(this, action);
+    const participants = getTeamCombatParticipants(this);
+    if (participants.length <= 1) {
+      combatHandlerSendCombatEncounterProbe(this, action);
+      return;
+    }
+
+    const enemies = buildEncounterEnemies(action, this.currentMapId) as CombatEnemyInstance[];
+    if (!Array.isArray(enemies) || enemies.length === 0) {
+      combatHandlerSendCombatEncounterProbe(this, action);
+      return;
+    }
+
+    this.log(
+      `Mirroring team combat trigger=${String((action as Record<string, unknown>)?.probeId || 'unknown')} participants=${participants.map((member) => `${member.charName || member.id}@${member.id}`).join(',')}`
+    );
+    for (const participant of participants) {
+      combatHandlerSendCombatEncounterProbe(participant, action, {
+        enemies,
+        allies: participants.filter((member) => (member.id >>> 0) !== (participant.id >>> 0)),
+      });
+    }
+    beginSharedTeamCombat(this, participants);
   }
 
   sendCombatExitProbe(action: Record<string, unknown>): void {

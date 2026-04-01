@@ -89,6 +89,21 @@ function buildEnemyFromTemplate(template: UnknownRecord, mapId: number, position
     maxHp: hp,
     level,
     aptitude: Math.max(0, template.aptitude || 0),
+    attackPriority: Number.isFinite(Number(template.attackPriority))
+      ? Math.max(0, Number(template.attackPriority))
+      : (
+        Number.isFinite(Number(template.attack_priority))
+          ? Math.max(0, Number(template.attack_priority))
+          : (
+            Number.isFinite(Number(template.apPriority))
+              ? Math.max(0, Number(template.apPriority))
+              : (
+                Number.isFinite(Number(template.ap))
+                  ? Math.max(0, Number(template.ap))
+                  : undefined
+              )
+          )
+      ),
     appearanceTypes: Array.isArray(template.appearanceTypes) ? template.appearanceTypes.slice(0, 3) : [0, 0, 0],
     appearanceVariants: Array.isArray(template.appearanceVariants) ? template.appearanceVariants.slice(0, 3) : [0, 0, 0],
     drops,

@@ -105,6 +105,10 @@ export type RoundStartProbeOptions = {
   fieldD?: number;
   fieldE?: number | null;
 };
+export type CombatPartySlot = {
+  row: number;
+  col: number;
+};
 export type EnemyTurnReason = 'normal' | 'post-kill';
 
 // --- Functions ---
@@ -137,6 +141,11 @@ export function createIdleCombatState(): CombatState {
     pendingSkillContext: null,
     pendingCounterattack: null,
     pendingActionResolution: null,
+    sharedActionSequenceToken: null,
+    sharedRoundEntries: null,
+    sharedRoundIndex: null,
+    sharedAwaitingActionReady: false,
+    sharedAwaitingReadySessionId: null,
     playerStatus: {},
     enemyStatuses: {},
   };
@@ -368,17 +377,40 @@ export function resolveCaptureTargetEnemy(session: GameSession, targetEntityId: 
   return living.length === 1 ? living[0] : null;
 }
 
-export function resolveSkillTargets(session: GameSession, skillId: number, targetEntityId: number, skillLevel = 1): CombatEnemyInstance[] {
+export function resolveSkillTargets(
+  session: GameSession,
+  skillId: number,
+  targetEntityId: number,
+  skillLevel = 1,
+  options: {
+    strictTargetLock?: boolean;
+  } = {}
+): CombatEnemyInstance[] {
   if ((skillId >>> 0) === CURE_SKILL_ID) {
     return [];
   }
   if ((skillId >>> 0) === FIREBALL_SKILL_ID) {
+    const explicitTarget = findEnemyByEntityId(session.combatState?.enemies, targetEntityId >>> 0);
+    if (options.strictTargetLock === true && (!explicitTarget || explicitTarget.hp <= 0)) {
+      const fallbackTarget = pickRandomLivingEnemy(session.combatState?.enemies);
+      return fallbackTarget ? resolveFireballTargets(session, fallbackTarget.entityId >>> 0) : [];
+    }
     return resolveFireballTargets(session, targetEntityId);
   }
   if ((skillId >>> 0) === BLIZZARD_SKILL_ID) {
+    const explicitTarget = findEnemyByEntityId(session.combatState?.enemies, targetEntityId >>> 0);
+    if (options.strictTargetLock === true && (!explicitTarget || explicitTarget.hp <= 0)) {
+      const fallbackTarget = pickRandomLivingEnemy(session.combatState?.enemies);
+      return fallbackTarget ? resolveBlizzardTargets(session, fallbackTarget.entityId >>> 0, skillLevel) : [];
+    }
     return resolveBlizzardTargets(session, targetEntityId, skillLevel);
   }
   if ((skillId >>> 0) === SLAUGHTER_SKILL_ID) {
+    const explicitTarget = findEnemyByEntityId(session.combatState?.enemies, targetEntityId >>> 0);
+    if (options.strictTargetLock === true && (!explicitTarget || explicitTarget.hp <= 0)) {
+      const fallbackTarget = pickRandomLivingEnemy(session.combatState?.enemies);
+      return fallbackTarget ? resolveSlaughterTargets(session, fallbackTarget.entityId >>> 0, skillLevel) : [];
+    }
     return resolveSlaughterTargets(session, targetEntityId, skillLevel);
   }
   const living = listLivingEnemies(session.combatState?.enemies);
@@ -396,6 +428,16 @@ export function resolveSkillTargets(session: GameSession, skillId: number, targe
       return resolveGenericHintedTargets(living, explicitTarget, hintedTargetCount, definition?.targetPatternHint || null);
     }
     return [explicitTarget];
+  }
+  if (options.strictTargetLock === true) {
+    const fallbackTarget = pickRandomLivingEnemy(session.combatState?.enemies);
+    if (!fallbackTarget) {
+      return [];
+    }
+    if (hintedTargetCount > 1) {
+      return resolveGenericHintedTargets(living, fallbackTarget, hintedTargetCount, definition?.targetPatternHint || null);
+    }
+    return [fallbackTarget];
   }
   return [];
 }
@@ -566,6 +608,14 @@ export function listLivingEnemies(enemies: CombatEnemyInstance[] | null | undefi
   return enemies.filter((enemy) => enemy && (enemy.hp || 0) > 0);
 }
 
+export function pickRandomLivingEnemy(enemies: CombatEnemyInstance[] | null | undefined): CombatEnemyInstance | null {
+  const living = listLivingEnemies(enemies);
+  if (living.length <= 0) {
+    return null;
+  }
+  return living[Math.floor(Math.random() * living.length)] || null;
+}
+
 export function resolveSelectedEnemy(enemies: CombatEnemyInstance[] | null | undefined, selection: { targetA: number; targetB: number }): CombatEnemyInstance | null {
   if (!Array.isArray(enemies)) {
     return null;
@@ -603,18 +653,55 @@ export function describeEnemyRoster(enemies: CombatEnemyInstance[] | null | unde
     .join('|');
 }
 
-export function buildPlayerEntry(session: GameSession): Record<string, any> {
+export function buildPlayerEntry(
+  session: GameSession,
+  slot: CombatPartySlot = { row: 1, col: 2 }
+): Record<string, any> {
   return {
     side: 0xff,
     entityId: session.runtimeId >>> 0,
     typeId: (session.roleEntityType || session.entityType) & 0xffff,
-    row: 1,
-    col: 2,
+    row: slot.row & 0xff,
+    col: slot.col & 0xff,
     hp: Math.max(1, session.currentHealth || 1),
     mp: Math.max(0, session.currentMana || 0),
     aptitude: 0,
     level: Math.max(1, session.level || 1),
     appearanceTypes: [0, 0, 0],
+    appearanceVariants: [0, 0, 0],
+    name: session.charName || 'Hero',
+  };
+}
+
+export function buildAllyPlayerEntry(
+  session: GameSession,
+  slotIndex: number | CombatPartySlot = 0
+): Record<string, any> {
+  const allySlots = [
+    { row: 1, col: 1 },
+    { row: 1, col: 3 },
+    { row: 1, col: 0 },
+    { row: 1, col: 4 },
+  ];
+  const slot = typeof slotIndex === 'number'
+    ? (allySlots[Math.max(0, Math.min(allySlots.length - 1, slotIndex))] || allySlots[0])
+    : slotIndex;
+
+  return {
+    side: 0xff,
+    entityId: session.runtimeId >>> 0,
+    typeId: (session.roleEntityType || session.entityType) & 0xffff,
+    row: slot.row & 0xff,
+    col: slot.col & 0xff,
+    hp: Math.max(1, session.currentHealth || 1),
+    mp: Math.max(0, session.currentMana || 0),
+    aptitude: 0,
+    level: Math.max(1, session.level || 1),
+    appearanceTypes: [
+      (session.roleEntityType || session.entityType || 0) & 0xffff,
+      0,
+      0,
+    ],
     appearanceVariants: [0, 0, 0],
     name: session.charName || 'Hero',
   };
