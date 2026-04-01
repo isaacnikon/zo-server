@@ -18,7 +18,7 @@ import { removeWorldPresence } from './world-state.js';
 import { buildEncounterEnemies } from './combat/encounter-builder.js';
 import { buildCharacterSnapshot as sessionHydrationBuildCharacterSnapshot, getPersistedCharacter as sessionHydrationGetPersistedCharacter, hydratePendingGameCharacter, persistCurrentCharacter as sessionHydrationPersistCurrentCharacter, saveCharacter as sessionHydrationSaveCharacter, } from './character/session-hydration.js';
 import { defaultBonusAttributes, defaultSkillState } from './character/normalize.js';
-import { defaultFrogTeleporterUnlocks } from './gameplay/frog-teleporter-service.js';
+import { defaultFrogTeleporterUnlocks, syncFrogTeleporterClientState } from './gameplay/frog-teleporter-service.js';
 import { beginSharedTeamCombat, getSharedTeamCombatFollowers, getSharedTeamCombatOwnerSession, getTeamCombatParticipants, handleTeamSessionDisposed, isSharedTeamCombatOwner, syncTeamFollowersToLeader } from './gameplay/team-runtime.js';
 
 type SharedState = Record<string, any>;
@@ -496,6 +496,10 @@ class Session implements GameSession {
     this.currentMapId = mapId >>> 0;
     this.currentX = x >>> 0;
     this.currentY = y >>> 0;
+    this.sendMapNpcSpawns(mapId >>> 0);
+    this.syncQuestStateToClient({ mode: 'runtime' });
+    syncFrogTeleporterClientState(this, `scene-enter:${mapId >>> 0}`);
+    this.pendingSceneNpcSpawnMapId = null;
     syncTeamFollowersToLeader(this);
   }
 

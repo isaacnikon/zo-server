@@ -339,8 +339,9 @@ function resolveSharedCombatEnemyTurn(owner: GameSession, enemyEntityId: number)
   const target = targets[Math.floor(Math.random() * targets.length)];
   owner.combatState.sharedAwaitingReadySessionId = target.id >>> 0;
   const enemyDamage = computeEnemyDamage(target, enemy);
-  const appliedEnemyDamage = Math.max(0, Math.min(target.currentHealth, enemyDamage));
-  const nextHealth = Math.max(0, target.currentHealth - enemyDamage);
+  const defendedDamage = computeDefendedDamage(enemyDamage, target);
+  const appliedEnemyDamage = Math.max(0, Math.min(target.currentHealth, defendedDamage));
+  const nextHealth = Math.max(0, target.currentHealth - defendedDamage);
   const lethalHit = nextHealth <= 0;
   target.currentHealth = nextHealth;
   target.combatState.damageTaken = Math.max(0, (target.combatState.damageTaken || 0) + appliedEnemyDamage);
@@ -349,10 +350,10 @@ function resolveSharedCombatEnemyTurn(owner: GameSession, enemyEntityId: number)
       enemy.entityId >>> 0,
       target.runtimeId >>> 0,
       lethalHit ? FIGHT_ACTIVE_STATE_SUBCMD : FIGHT_CONTROL_RING_OPEN_SUBCMD,
-      enemyDamage
+      defendedDamage
     ),
     DEFAULT_FLAGS,
-    `Sending shared combat enemy playback attacker=${enemy.entityId >>> 0} target=${target.runtimeId >>> 0} damage=${enemyDamage} targetHp=${target.currentHealth} ap=${resolveEnemyAttackPriority(enemy)}`
+    `Sending shared combat enemy playback attacker=${enemy.entityId >>> 0} target=${target.runtimeId >>> 0} damage=${defendedDamage} raw=${enemyDamage} defended=${defendedDamage !== enemyDamage ? 1 : 0} targetHp=${target.currentHealth} ap=${resolveEnemyAttackPriority(enemy)}`
   );
 
   if (target.currentHealth <= 0) {
@@ -361,6 +362,22 @@ function resolveSharedCombatEnemyTurn(owner: GameSession, enemyEntityId: number)
   }
 
   return true;
+}
+
+function clearRoundDefenseState(session: GameSession): void {
+  const playerStatus = session.combatState?.playerStatus;
+  if (!playerStatus) {
+    return;
+  }
+  delete playerStatus.defendPending;
+}
+
+function computeDefendedDamage(rawDamage: number, session: GameSession): number {
+  const normalizedDamage = Math.max(0, rawDamage | 0);
+  if (session.combatState?.playerStatus?.defendPending !== true) {
+    return normalizedDamage;
+  }
+  return Math.max(0, Math.ceil(normalizedDamage / 2));
 }
 
 function continueSharedCombatRound(owner: GameSession, source: string): void {
@@ -741,13 +758,19 @@ export function handleSharedCombatParticipantDisposed(session: GameSession): voi
   }
 }
 
-export function resolveCombatDefend(session: GameSession, sourceLabel: string): void {
-  if (tryHandleSharedTeamDefendSelection(session)) {
+export function resolveCombatDefend(
+  session: GameSession,
+  sourceLabel: string
+): void {
+  if (!session.combatState?.active || !session.combatState.awaitingPlayerAction) {
+    session.log(`Ignoring combat defend without command prompt active=${session.combatState?.active ? 1 : 0}`);
     return;
   }
 
-  if (!session.combatState?.active || !session.combatState.awaitingPlayerAction) {
-    session.log(`Ignoring combat defend without command prompt active=${session.combatState?.active ? 1 : 0}`);
+  const playerStatus = session.combatState.playerStatus || (session.combatState.playerStatus = {});
+  playerStatus.defendPending = true;
+
+  if (tryHandleSharedTeamDefendSelection(session)) {
     return;
   }
 
@@ -832,6 +855,7 @@ export function transitionToCommandPhase(session: GameSession, reason: string): 
   session.combatState.phase = 'command';
   session.combatState.pendingActionResolution = null;
   session.combatState.round = Math.max(1, (session.combatState.round || 0) + 1);
+  clearRoundDefenseState(session);
   sendCommandPrompt(session, reason);
   if (isSharedTeamCombatOwner(session)) {
     clearSharedTeamCombatQueuedActions(session);
@@ -847,6 +871,7 @@ export function transitionToCommandPhase(session: GameSession, reason: string): 
       follower.combatState.pendingActionResolution = null;
       follower.combatState.round = session.combatState.round;
       follower.combatState.sharedAwaitingReadySessionId = null;
+      clearRoundDefenseState(follower);
       sendCommandPrompt(follower, `${reason}:shared`);
     }
   }
@@ -1225,8 +1250,9 @@ export function processNextEnemyTurnAttack(session: GameSession, reason: EnemyTu
   }
 
   const enemyDamage = computeEnemyDamage(session, enemy);
-  const appliedEnemyDamage = Math.max(0, Math.min(session.currentHealth, enemyDamage));
-  const nextHealth = Math.max(0, session.currentHealth - enemyDamage);
+  const defendedDamage = computeDefendedDamage(enemyDamage, session);
+  const appliedEnemyDamage = Math.max(0, Math.min(session.currentHealth, defendedDamage));
+  const nextHealth = Math.max(0, session.currentHealth - defendedDamage);
   const lethalHit = nextHealth <= 0;
   session.currentHealth = nextHealth;
   session.combatState.damageTaken = Math.max(0, (session.combatState.damageTaken || 0) + appliedEnemyDamage);
@@ -1235,10 +1261,10 @@ export function processNextEnemyTurnAttack(session: GameSession, reason: EnemyTu
       enemy.entityId >>> 0,
       session.runtimeId >>> 0,
       lethalHit ? FIGHT_ACTIVE_STATE_SUBCMD : FIGHT_CONTROL_RING_OPEN_SUBCMD,
-      enemyDamage
+      defendedDamage
     ),
     DEFAULT_FLAGS,
-    `Sending combat counterattack playback attacker=${enemy.entityId} target=${session.runtimeId} damage=${enemyDamage} playerHp=${session.currentHealth} remaining=${describeLivingEnemies(session.combatState.enemies)} reason=${reason}`
+    `Sending combat enemy playback attacker=${enemy.entityId} target=${session.runtimeId} damage=${defendedDamage} raw=${enemyDamage} defended=${defendedDamage !== enemyDamage ? 1 : 0} playerHp=${session.currentHealth} remaining=${describeLivingEnemies(session.combatState.enemies)} reason=${reason}`
   );
 
   if (session.currentHealth <= 0) {

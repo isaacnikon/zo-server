@@ -345,6 +345,8 @@ export interface CombatEnemyInstance {
   name: string;
 }
 export interface CombatPlayerStatus {
+  defendPending?: boolean;
+  protectTargetEntityId?: number;
   defiantRoundsRemaining?: number;
   defiantDefenseBonusPercent?: number;
   defiantAttackPenaltyPercent?: number;

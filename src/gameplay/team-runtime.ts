@@ -1,8 +1,8 @@
 import type { GameSession, TeamClientAction03FD, TeamClientAction03FE, TeamClientAction0442 } from '../types.js';
 
 import { DEFAULT_FLAGS, SCENE_ENTER_LOAD_SUBCMD } from '../config.js';
-import { resolveTownCheckpoint } from './session-flows.js';
 import { syncFrogTeleporterClientState } from './frog-teleporter-service.js';
+import { persistSessionPosition } from './position-persistence.js';
 import {
   buildEntityWalkSyncPacket,
   buildSceneEnterPacket,
@@ -552,21 +552,10 @@ function persistFollowedMemberPosition(session: GameSession): void {
   if (typeof session.persistCurrentCharacter !== 'function') {
     return;
   }
-
-  const checkpoint = resolveTownCheckpoint({
-    persistedCharacter: session.getPersistedCharacter?.() || null,
-    currentMapId: session.currentMapId >>> 0,
-    currentX: session.currentX >>> 0,
-    currentY: session.currentY >>> 0,
-  });
-
-  session.persistCurrentCharacter({
+  persistSessionPosition(session, {
     mapId: session.currentMapId >>> 0,
     x: session.currentX >>> 0,
     y: session.currentY >>> 0,
-    lastTownMapId: checkpoint.mapId,
-    lastTownX: checkpoint.x,
-    lastTownY: checkpoint.y,
   });
 }
 
