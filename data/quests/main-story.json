@@ -1247,6 +1247,20 @@
           "status": 1,
           "description": "Bring Bonnie's \"Forgotten Pendant\" to Franklin",
           "mapId": 163,
+          "requiredItems": [
+            {
+              "templateId": 21007,
+              "quantity": 1,
+              "name": "Forgotten Pendant"
+            }
+          ],
+          "consumeItems": [
+            {
+              "templateId": 21007,
+              "quantity": 1,
+              "name": "Forgotten Pendant"
+            }
+          ],
           "grantItems": [
             {
               "templateId": 21131,

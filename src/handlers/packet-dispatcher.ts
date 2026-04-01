@@ -28,6 +28,7 @@ import { syncWorldPresence } from '../world-state.js';
 
 import { PING_CMD, GAME_GATHER_REQUEST_CMD, GAME_POSITION_QUERY_CMD, GAME_SERVER_RUN_CMD, ROLE_CMD, GAME_QUEST_CMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_MISC_CMD, GAME_FIGHT_RESULT_CMD, GAME_FIGHT_STATE_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, GAME_TEAM_ACTION_PRIMARY_CMD, GAME_TEAM_ACTION_SECONDARY_CMD, GAME_TEAM_FOLLOWUP_CMD, } from '../config.js';
 import type { GameSession } from '../types.js';
+import type { UnknownRecord } from '../utils.js';
 
 const TRIGGER_TRACE_PATH = resolve(process.cwd(), 'data/runtime/trigger-trace.jsonl');
 const SKILL_PACKET_TRACE_PATH = resolve(process.cwd(), 'data/runtime/skill-packet-trace.jsonl');
@@ -40,6 +41,11 @@ const GLADYS_TRACE_BOUNDS = {
   minY: 360,
   maxY: 400,
 } as const;
+const DISENCHANTING_TRACE_TASK_ID = 7;
+const DISENCHANTING_TRACE_MAP_ID = 112;
+const DISENCHANTING_FRANKLIN_POS = { x: 14, y: 200 } as const;
+const DISENCHANTING_BONNIE_POS = { x: 22, y: 189 } as const;
+const DISENCHANTING_TRACE_RADIUS = 16;
 const OUTCAST_TRACE_MAP_ID = 128;
 const OUTCAST_TRACE_BOUNDS = {
   minX: 40,
@@ -173,6 +179,71 @@ function traceGladysInteractionWindow(
   });
 }
 
+function findActiveQuestRecord(session: GameSession, taskId: number): UnknownRecord | null {
+  if (!Array.isArray(session.activeQuests)) {
+    return null;
+  }
+  return session.activeQuests.find((record) => Number.isInteger(record?.id) && (record.id >>> 0) === (taskId >>> 0)) || null;
+}
+
+function chebyshevDistance(x: number, y: number, targetX: number, targetY: number): number {
+  return Math.max(Math.abs((x | 0) - (targetX | 0)), Math.abs((y | 0) - (targetY | 0)));
+}
+
+function traceDisenchantingInteractionWindow(
+  session: GameSession,
+  cmdWord: number,
+  payload: Buffer,
+  phase: 'pre-dispatch' | 'post-unhandled'
+): void {
+  const questRecord = findActiveQuestRecord(session, DISENCHANTING_TRACE_TASK_ID);
+  if (!questRecord) {
+    return;
+  }
+  if (cmdWord === GAME_POSITION_QUERY_CMD || cmdWord === PING_CMD) {
+    return;
+  }
+
+  const subcmd = payload.length >= 3 ? payload[2] : -1;
+  const franklinDistance = chebyshevDistance(
+    session.currentX,
+    session.currentY,
+    DISENCHANTING_FRANKLIN_POS.x,
+    DISENCHANTING_FRANKLIN_POS.y
+  );
+  const bonnieDistance = chebyshevDistance(
+    session.currentX,
+    session.currentY,
+    DISENCHANTING_BONNIE_POS.x,
+    DISENCHANTING_BONNIE_POS.y
+  );
+  const nearRelevantNpc =
+    session.currentMapId === DISENCHANTING_TRACE_MAP_ID &&
+    (franklinDistance <= DISENCHANTING_TRACE_RADIUS || bonnieDistance <= DISENCHANTING_TRACE_RADIUS);
+  if (cmdWord !== GAME_SERVER_RUN_CMD && !nearRelevantNpc) {
+    return;
+  }
+
+  appendTriggerTrace({
+    kind: 'disenchanting-trace',
+    phase,
+    ts: new Date().toISOString(),
+    sessionId: session.id,
+    cmdWord,
+    subcmd,
+    len: payload.length,
+    hex: payload.toString('hex'),
+    mapId: session.currentMapId,
+    x: session.currentX,
+    y: session.currentY,
+    taskId: DISENCHANTING_TRACE_TASK_ID,
+    stepIndex: Number.isInteger(questRecord?.stepIndex) ? (questRecord.stepIndex as number) >>> 0 : -1,
+    status: Number.isInteger(questRecord?.status) ? (questRecord.status as number) >>> 0 : -1,
+    franklinDistance,
+    bonnieDistance,
+  });
+}
+
 const PACKET_HANDLERS = new Map<number, (session: GameSession, payload: Buffer) => void>([
   [ROLE_CMD, handleRolePacket],
   [GAME_QUEST_CMD, handleQuestPacket],
@@ -188,6 +259,7 @@ function dispatchGamePacket(
   traceSkillUiPacket(session, cmdWord, payload, 'pre-dispatch');
   traceOutcastInteractionWindow(session, cmdWord, flags, payload, 'pre-dispatch');
   traceGladysInteractionWindow(session, cmdWord, payload, 'pre-dispatch');
+  traceDisenchantingInteractionWindow(session, cmdWord, payload, 'pre-dispatch');
 
   if ((flags & 0x04) !== 0 && payload.length >= 6) {
     if (cmdWord === PING_CMD) {
@@ -321,6 +393,25 @@ function dispatchGamePacket(
           `Server-run request sub=0x${request.subcmd.toString(16)} args=[${argsText}] map=${session.currentMapId} pos=${session.currentX},${session.currentY}`
         );
       }
+      const disenchantingQuestRecord = findActiveQuestRecord(session, DISENCHANTING_TRACE_TASK_ID);
+      if (disenchantingQuestRecord && request.subcmd === 0x1a) {
+        const franklinDistance = chebyshevDistance(
+          session.currentX,
+          session.currentY,
+          DISENCHANTING_FRANKLIN_POS.x,
+          DISENCHANTING_FRANKLIN_POS.y
+        );
+        const bonnieDistance = chebyshevDistance(
+          session.currentX,
+          session.currentY,
+          DISENCHANTING_BONNIE_POS.x,
+          DISENCHANTING_BONNIE_POS.y
+        );
+        const argsText = request.rawArgs.map((value: any) => `0x${value.toString(16)}`).join(',');
+        session.log(
+          `Disenchanting trace sub=0x1a args=[${argsText}] taskStep=${Number.isInteger(disenchantingQuestRecord?.stepIndex) ? ((disenchantingQuestRecord.stepIndex as number) >>> 0) : -1} taskStatus=${Number.isInteger(disenchantingQuestRecord?.status) ? ((disenchantingQuestRecord.status as number) >>> 0) : -1} franklinDist=${franklinDistance} bonnieDist=${bonnieDistance} map=${session.currentMapId} pos=${session.currentX},${session.currentY}`
+        );
+      }
       appendTriggerTrace({
         kind: 'server-run',
         ts: new Date().toISOString(),
@@ -428,6 +519,7 @@ function dispatchGamePacket(
   traceSkillUiPacket(session, cmdWord, payload, 'post-unhandled');
   traceOutcastInteractionWindow(session, cmdWord, flags, payload, 'post-unhandled');
   traceGladysInteractionWindow(session, cmdWord, payload, 'post-unhandled');
+  traceDisenchantingInteractionWindow(session, cmdWord, payload, 'post-unhandled');
 
   return false;
 }

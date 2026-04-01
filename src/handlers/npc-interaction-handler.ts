@@ -125,6 +125,7 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
   }
 
   let handledQuestEvents = false;
+  let startedQuestCombatAfterQuestEvents = false;
   if (request.subcmd === 0x02 || request.subcmd === 0x03 || request.subcmd === 0x04 || request.subcmd === 0x08) {
     const questState = {
       activeQuests: session.activeQuests,
@@ -150,6 +151,9 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
       applyQuestEvents(session, combinedEvents, auxiliaryResult ? 'npc-talk-aux' : 'npc-talk', {
         selectedAwardId: Number.isInteger(request.awardId) ? (request.awardId! >>> 0) : 0,
       });
+      if (!auxiliaryResult?.combatTrigger) {
+        startedQuestCombatAfterQuestEvents = tryStartQuestKillCombat(session, resolvedNpcId, request);
+      }
     } else if (auxiliaryResult?.stateChanged === true) {
       session.persistCurrentCharacter?.();
     } else {
@@ -183,6 +187,13 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
       });
       session.log(
         `NPC interaction auxiliary combat taskId=${auxiliaryResult.combatTrigger.taskId} monsterId=${auxiliaryResult.combatTrigger.monsterId} count=${auxiliaryResult.combatTrigger.count} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId}`
+      );
+      return true;
+    }
+
+    if (startedQuestCombatAfterQuestEvents) {
+      session.log(
+        `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId} questCombat=1 postQuestEvent=1`
       );
       return true;
     }

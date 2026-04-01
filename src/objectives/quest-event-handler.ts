@@ -3,6 +3,7 @@ import { consumeItemFromBag, getBagQuantityByTemplateId, getItemDefinition, } fr
 import { applyQuestCompletionReward } from '../gameplay/reward-runtime.js';
 import { normalizePets } from '../pet-runtime.js';
 import { numberOrDefault } from '../character/normalize.js';
+import { sanitizeQuestDialogueText } from '../utils.js';
 
 import type { DirtyFlags, DispatchOptions, ObjectiveEventHandler } from './objective-dispatcher.js';
 import type { GameSession, QuestEvent, QuestSyncMode } from '../types.js';
@@ -15,6 +16,7 @@ type QuestEventHandlerDeps = {
   sendQuestComplete(session: GameSession, taskId: number): void;
   sendQuestAbandon(session: GameSession, taskId: number): void;
   sendQuestHistory(session: GameSession, taskId: number, historyLevel?: number): void;
+  usesQuestTrackerMarkerPacket(session: GameSession, taskId: number): boolean;
   syncQuestStateToClient(session: GameSession, options?: { mode?: QuestSyncMode }): void;
 };
 
@@ -49,6 +51,10 @@ function clearQuestResetItems(
 }
 
 function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHandler<QuestEvent> {
+  function buildQuestDialogueMessage(parts: Array<string | null | undefined>, maxLength = 220): string {
+    return sanitizeQuestDialogueText(parts.filter((part) => typeof part === 'string' && part.length > 0).join(' '), maxLength);
+  }
+
   return {
     describeEvent(event: QuestEvent, source: string): string {
       const statusText = 'status' in event && typeof event.status === 'number' ? ` status=${event.status}` : '';
@@ -70,7 +76,13 @@ function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHan
           deps.syncQuestStateToClient(session, { mode: 'runtime' });
         }
         if (!suppressDialogues) {
-          session.sendGameDialogue('Quest', `${event.definition.acceptMessage || `${event.definition.name} accepted.`}${event.stepDescription ? ` Objective: ${event.stepDescription}` : ''}`);
+          session.sendGameDialogue(
+            'Quest',
+            buildQuestDialogueMessage([
+              event.definition.acceptMessage || `${event.definition.name} accepted.`,
+              event.stepDescription ? `Objective: ${event.stepDescription}` : '',
+            ])
+          );
         }
         return { stateDirty: true };
       }
@@ -90,14 +102,25 @@ function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHan
             );
           }
           if (numberOrDefault(event.markerNpcId, 0) > 0) {
-            deps.sendQuestMarker(session, event.taskId, numberOrDefault(event.markerNpcId, 0));
+            if (deps.usesQuestTrackerMarkerPacket(session, event.taskId)) {
+              deps.sendQuestMarker(session, event.taskId, numberOrDefault(event.markerNpcId, 0));
+            } else {
+              deps.syncQuestStateToClient(session, { mode: 'runtime' });
+            }
           }
         }
         if (!suppressDialogues) {
           const progressText = event.type === 'progress'
             ? ` Progress: ${numberOrDefault(event.progressCount, event.status)}.`
             : '';
-          session.sendGameDialogue('Quest', `Quest updated: ${event.definition.name}.${event.stepDescription ? ` ${event.stepDescription}` : ''}${progressText}`);
+          session.sendGameDialogue(
+            'Quest',
+            buildQuestDialogueMessage([
+              `Quest updated: ${event.definition.name}.`,
+              event.stepDescription || '',
+              progressText,
+            ])
+          );
         }
         return { stateDirty: true };
       }

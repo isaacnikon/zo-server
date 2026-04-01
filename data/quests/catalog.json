@@ -2927,13 +2927,27 @@
             "targetCount": 1,
             "handInNpcId": 3118,
             "autoAdvance": false,
-            "requiredItems": [],
+            "requiredItems": [
+              {
+                "templateId": 21007,
+                "quantity": 1,
+                "name": "Forgotten Pendant"
+              }
+            ],
             "requiredProgressFlag": "",
             "progressKey": "count",
             "grantItem": null,
             "escortNpcId": 0
           },
           "actions": [
+            {
+              "kind": "consume-item",
+              "item": {
+                "templateId": 21007,
+                "quantity": 1,
+                "name": "Forgotten Pendant"
+              }
+            },
             {
               "kind": "grant-item",
               "item": {

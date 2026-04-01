@@ -265,6 +265,13 @@ const COMBAT_RULES: CombatRule[] = [
     probeScriptId: 3001,
     monsterId: 5072,
   },
+  {
+    id: 'orchid-temple-ahriman-lord',
+    mapId: 163,
+    npcId: 3062,
+    scriptIds: [10001],
+    monsterId: 5099,
+  },
 ];
 
 function isPointInsideBounds(x: number, y: number, points: ReadonlyArray<PositionPoint>): boolean {

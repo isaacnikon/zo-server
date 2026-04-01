@@ -22,6 +22,8 @@ import { createQuestEventHandler } from '../objectives/quest-event-handler.js';
 import { getMapBootstrapSpawns } from '../map-spawns.js';
 import type { QuestSyncMode, GameSession } from '../types.js';
 
+import { sanitizeQuestDialogueText } from '../utils.js';
+
 import type { UnknownRecord } from '../utils.js';
 type QuestSyncState = UnknownRecord & { taskId: number };
 
@@ -140,6 +142,16 @@ function resolveTrackedNpcRuntimeId(session: GameSession, mapId: number, tracked
   const allSpawns = [...staticSpawns, ...buildEscortRuntimeSpawns(session, mapId, staticSpawns.length)];
   const match = allSpawns.find((spawn) => (spawn?.entityType & 0xffff) === (trackedNpcId & 0xffff));
   return numberOrDefault(match?.id, 0) >>> 0;
+}
+
+function usesQuestTrackerMarkerPacket(ui: UnknownRecord | null): boolean {
+  return (numberOrDefault(ui?.taskType, 0) & 0x08) !== 0;
+}
+
+function questUsesTrackerMarkerPacket(session: GameSession, taskId: number): boolean {
+  const { definition, record } = getQuestSyncRecord(session, taskId);
+  const ui = getCurrentStepUi(definition as any, record as any) as UnknownRecord | null;
+  return usesQuestTrackerMarkerPacket(ui);
 }
 
 function sendQuestAcceptWithState(
@@ -391,7 +403,8 @@ function syncQuestStateToClient(session: GameSession, options: QuestSyncOptions 
       );
     }
     const markerNpcId = getQuestMarkerNpcId(definition as any, record as any);
-    if (markerNpcId > 0) {
+    const ui = getCurrentStepUi(definition as any, record as any) as UnknownRecord | null;
+    if (markerNpcId > 0 && usesQuestTrackerMarkerPacket(ui)) {
       sendQuestMarker(session, quest.taskId, markerNpcId);
     }
     const clientAliasTaskId = resolveClientQuestAliasTaskId(quest, session);
@@ -412,7 +425,7 @@ function syncQuestStateToClient(session: GameSession, options: QuestSyncOptions 
           numberOrDefault(quest.progressCount, 0)
         );
       }
-      if (markerNpcId > 0) {
+      if (markerNpcId > 0 && usesQuestTrackerMarkerPacket(ui)) {
         sendQuestMarker(session, clientAliasTaskId, markerNpcId);
       }
       mirroredClientQuestIds.add(clientAliasTaskId);
@@ -425,7 +438,10 @@ function syncQuestStateToClient(session: GameSession, options: QuestSyncOptions 
 
   if (!session.hasAnnouncedQuestOverview && syncState.length > 0) {
     const activeQuest = syncState[0];
-    session.sendGameDialogue('Quest', `Active quest loaded.${activeQuest.stepDescription ? ` ${activeQuest.stepDescription}` : ''}`);
+    session.sendGameDialogue(
+      'Quest',
+      sanitizeQuestDialogueText(`Active quest loaded.${activeQuest.stepDescription ? ` ${activeQuest.stepDescription}` : ''}`)
+    );
     session.hasAnnouncedQuestOverview = true;
   }
 }
@@ -614,6 +630,7 @@ const questEventHandler = createQuestEventHandler({
   sendQuestComplete,
   sendQuestAbandon,
   sendQuestHistory,
+  usesQuestTrackerMarkerPacket: questUsesTrackerMarkerPacket,
   syncQuestStateToClient,
 });
 
