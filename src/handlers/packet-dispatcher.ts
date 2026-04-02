@@ -9,6 +9,7 @@ import { tryHandleClientMaxVitalsSyncPacket, tryHandleEquipmentStatePacket, tryH
 import { tryHandlePetActionPacket } from './pet-handler.js';
 import { tryHandleNpcServicePacket } from '../gameplay/npc-service-runtime.js';
 import { handleNpcShopServiceRequest } from '../gameplay/shop-runtime.js';
+import { tryHandleCraftRecipePacket } from '../gameplay/crafting-runtime.js';
 import {
   handleTeamActionPrimary,
   handleTeamActionSecondary,
@@ -134,6 +135,10 @@ function dispatchGamePacket(
   }
 
   if (tryHandleItemUsePacket(session, cmdWord, payload)) {
+    return true;
+  }
+
+  if (cmdWord === 0x0400 && tryHandleCraftRecipePacket(session, payload)) {
     return true;
   }
 

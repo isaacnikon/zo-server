@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 
-import { getEquippedItems, getItemDefinition, removeBagItemByInstanceId } from '../inventory/index.js';
+import { getEquippedItems, getItemDefinition } from '../inventory/index.js';
 import { resolveRepoPath } from '../runtime-paths.js';
 import type { GameSession } from '../types.js';
 
@@ -14,6 +14,28 @@ const TOOL_TYPE_TO_SKILL_ID: Record<number, number> = {
   9008: 9008,
   9009: 9009,
 };
+
+const MINING_TOOL_TYPE = 9006;
+const LUMBERING_TOOL_TYPE = 9007;
+const HERBALISM_TOOL_TYPE = 9008;
+const GATHER_DURABILITY_COST = 30;
+
+// Until client-authored gather bonus rates are recovered, keep these easy to tune.
+const GATHER_JADE_BONUS_CHANCE_PERCENT = 10;
+const GATHER_SPAR_BONUS_CHANCE_PERCENT = 10;
+const GATHER_CRYSTAL_BONUS_CHANCE_PERCENT = 10;
+const JADE_TEMPLATE_IDS_BY_LEVEL = [
+  23045, 23046, 23047, 23048, 23049,
+  23050, 23051, 23052, 23053, 23054,
+];
+const SPAR_TEMPLATE_IDS_BY_LEVEL = [
+  23121, 23122, 23123, 23124, 23125,
+  23126, 23127, 23128, 23129, 23130,
+];
+const CRYSTAL_TEMPLATE_IDS_BY_LEVEL = [
+  23055, 23056, 23057, 23058, 23059,
+  23060, 23061, 23062, 23063, 23064,
+];
 
 type GatheringMaterial = {
   nodeTemplateId: number;
@@ -298,6 +320,14 @@ function resolveEquippedGatheringTool(session: GameSession): GatherToolMatch | n
     const rawStats = Array.isArray((combatStats as any)?.raw) ? (combatStats as any).raw : [];
     const toolType = Number(rawStats[14] || 0);
     if (toolType >= 9006 && toolType <= 9009) {
+      const durability = Number.isInteger(bagItem?.durability)
+        ? Number(bagItem.durability)
+        : Number.isInteger(bagItem?.quantity)
+          ? Number(bagItem.quantity)
+          : 0;
+      if (durability <= 0) {
+        continue;
+      }
       return { bagItem, toolType: toolType >>> 0 };
     }
   }
@@ -343,26 +373,49 @@ export function validateGatherAccess(session: GameSession, runtimeId: number): G
   };
 }
 
-export function rollGatherLoot(node: ActiveGatheringNode, _skillLevel: number): number | null {
-  return Number.isInteger(node?.dropItemId) && node.dropItemId > 0 ? node.dropItemId >>> 0 : null;
+export function rollGatherLoot(node: ActiveGatheringNode, _skillLevel: number): number[] {
+  const rewards: number[] = [];
+  if (Number.isInteger(node?.dropItemId) && (node.dropItemId >>> 0) > 0) {
+    rewards.push(node.dropItemId >>> 0);
+  }
+
+  const tierIndex = Math.max(0, Math.min(9, (Number(node?.level || 1) | 0) - 1));
+  if (
+    (node?.toolType >>> 0) === MINING_TOOL_TYPE &&
+    (Math.random() * 100) < GATHER_CRYSTAL_BONUS_CHANCE_PERCENT
+  ) {
+    rewards.push(CRYSTAL_TEMPLATE_IDS_BY_LEVEL[tierIndex] >>> 0);
+  }
+  if (
+    (node?.toolType >>> 0) === HERBALISM_TOOL_TYPE &&
+    (Math.random() * 100) < GATHER_SPAR_BONUS_CHANCE_PERCENT
+  ) {
+    rewards.push(SPAR_TEMPLATE_IDS_BY_LEVEL[tierIndex] >>> 0);
+  }
+  if (
+    (node?.toolType >>> 0) === LUMBERING_TOOL_TYPE &&
+    (Math.random() * 100) < GATHER_JADE_BONUS_CHANCE_PERCENT
+  ) {
+    rewards.push(JADE_TEMPLATE_IDS_BY_LEVEL[tierIndex] >>> 0);
+  }
+
+  return rewards;
 }
 
-export function decrementToolDurability(session: GameSession, bagItem: any): number {
-  const instanceId = Number(bagItem?.instanceId || 0);
+export function decrementToolDurability(_session: GameSession, bagItem: any): number {
   const currentDurability = Number.isInteger(bagItem?.durability)
     ? Number(bagItem.durability)
     : Number.isInteger(bagItem?.quantity)
       ? Number(bagItem.quantity)
       : 0;
-  const nextDurability = Math.max(0, currentDurability - 300);
+  const nextDurability = Math.max(0, currentDurability - GATHER_DURABILITY_COST);
+
+  bagItem.durability = nextDurability;
 
   if (nextDurability <= 0) {
-    if (instanceId > 0) {
-      removeBagItemByInstanceId(session as any, instanceId >>> 0);
-    }
+    bagItem.equipped = false;
     return 0;
   }
 
-  bagItem.durability = nextDurability;
   return nextDurability;
 }

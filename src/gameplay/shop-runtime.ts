@@ -1,16 +1,17 @@
 import { GAME_ITEM_SERVICE_CMD } from '../config.js';
 import { getBagItemByInstanceId, getItemDefinition, grantItemToBag, removeBagItemByInstanceId, } from '../inventory/index.js';
-import { sendGrantResultPackets, sendInventoryFullSync, sendConsumeResultPackets, } from './inventory-runtime.js';
+import { sendGrantResultPackets, sendConsumeResultPackets, syncInventoryStateToClient, } from './inventory-runtime.js';
 import { sendSelfStateValueUpdate } from './stat-sync.js';
 import type { UnknownRecord } from '../utils.js';
 import type { GameSession } from '../types.js';
 
 const SHOP_SERVICE_BUY_GOLD = 0x01;
 const SHOP_SERVICE_SELL = 0x02;
+const SHOP_SERVICE_REPAIR_ALL = 0x06;
 const SHOP_SERVICE_BUY_COINS = 0x0b;
 
 export function handleNpcShopServiceRequest(session: GameSession, payload: Buffer): boolean {
-  if (!Buffer.isBuffer(payload) || payload.length < 9) {
+  if (!Buffer.isBuffer(payload) || payload.length < 7) {
     return false;
   }
 
@@ -35,6 +36,20 @@ export function handleNpcShopServiceRequest(session: GameSession, payload: Buffe
   ) {
     session.log(
       `Ignoring npc shop service request for mismatched context npcKey=${serviceNpcKey} mapId=${serviceMapId} activeNpcKey=${(activeShop.npcKey || 0) >>> 0} activeMapId=${(activeShop.mapId || 0) >>> 0} activeShopNpcId=${activeShop.npcId >>> 0}`
+    );
+    return true;
+  }
+
+  if ((serviceSubtype >>> 0) === SHOP_SERVICE_REPAIR_ALL) {
+    session.log(
+      `Parsed npc shop service cmd=0x${cmdWord.toString(16)} npcKey=${serviceNpcKey} mapId=${serviceMapId} subtype=0x6 repair=all`
+    );
+    return completeNpcShopRepairAll(session, activeShop);
+  }
+
+  if (payload.length < 9) {
+    session.log(
+      `Ignoring short npc shop service cmd=0x${cmdWord.toString(16)} npcKey=${serviceNpcKey} mapId=${serviceMapId} subtype=0x${serviceSubtype.toString(16)} len=${payload.length}`
     );
     return true;
   }
@@ -69,6 +84,67 @@ export function handleNpcShopServiceRequest(session: GameSession, payload: Buffe
   }
 
   return completeNpcShopPurchase(session, activeShop, catalogItem, currency);
+}
+
+function completeNpcShopRepairAll(session: GameSession, activeShop: UnknownRecord): boolean {
+  const repairTargets = (Array.isArray(session.bagItems) ? session.bagItems : [])
+    .map((item) => {
+      const definition = getItemDefinition(item?.templateId >>> 0);
+      const maxDurability =
+        definition?.hasDurability === true && Number.isInteger(definition?.defaultQuantity) && definition.defaultQuantity! > 0
+          ? (definition.defaultQuantity as number)
+          : 0;
+      const currentDurability =
+        Number.isInteger(item?.durability) && item.durability >= 0 ? item.durability as number : maxDurability;
+      const missingDurability = Math.max(0, maxDurability - currentDurability);
+      return {
+        item,
+        definition,
+        maxDurability,
+        currentDurability,
+        missingDurability,
+      };
+    })
+    .filter((entry) => entry.maxDurability > 0 && entry.missingDurability > 0);
+
+  if (repairTargets.length <= 0) {
+    session.sendGameDialogue(activeShop.speaker || 'Shop', 'Nothing needs repair.');
+    session.log(`Shop repair-all skipped key=${activeShop.key || 'unknown'} reason=no-damaged-items`);
+    return true;
+  }
+
+  const repairCost = repairTargets.reduce((total, entry) => {
+    const basePrice =
+      entry.definition && Number.isInteger(entry.definition.sellPrice) ? Math.max(1, entry.definition.sellPrice as number) : 1;
+    const proportionalCost = Math.ceil((basePrice * entry.missingDurability) / Math.max(1, entry.maxDurability));
+    return total + Math.max(1, proportionalCost);
+  }, 0);
+  const currentCoins = Math.max(0, Number.isInteger(session.coins) ? session.coins : 0);
+
+  if (currentCoins < repairCost) {
+    session.sendGameDialogue(activeShop.speaker || 'Shop', `You need ${repairCost} coins to repair everything.`);
+    session.log(
+      `Shop repair-all rejected key=${activeShop.key || 'unknown'} reason=insufficient-coins coins=${currentCoins} cost=${repairCost} items=${repairTargets.length}`
+    );
+    return true;
+  }
+
+  for (const entry of repairTargets) {
+    entry.item.durability = entry.maxDurability;
+  }
+
+  session.coins = currentCoins - repairCost;
+  syncInventoryStateToClient(session);
+  sendSelfStateValueUpdate(session, 'coins', session.coins);
+  session.persistCurrentCharacter();
+  session.sendGameDialogue(
+    activeShop.speaker || 'Shop',
+    `Repaired ${repairTargets.length} item${repairTargets.length === 1 ? '' : 's'} for ${repairCost} coins.`
+  );
+  session.log(
+    `Shop repair-all ok key=${activeShop.key || 'unknown'} items=${repairTargets.length} cost=${repairCost} coins=${session.coins}`
+  );
+  return true;
 }
 
 function completeNpcShopPurchase(
@@ -121,7 +197,7 @@ function completeNpcShopPurchase(
 
   session[requestedCurrency] = balance - price;
   sendGrantResultPackets(session, grantResult);
-  sendInventoryFullSync(session);
+  syncInventoryStateToClient(session);
   sendSelfStateValueUpdate(session, requestedCurrency, session[requestedCurrency]);
   session.persistCurrentCharacter();
   if (typeof session.refreshQuestStateForItemTemplates === 'function') {
@@ -161,7 +237,7 @@ function completeNpcShopSell(session: GameSession, activeShop: UnknownRecord, in
 
   session.coins = Math.max(0, Number.isInteger(session.coins) ? session.coins : 0) + sellPrice;
   sendConsumeResultPackets(session, removeResult);
-  sendInventoryFullSync(session);
+  syncInventoryStateToClient(session);
   sendSelfStateValueUpdate(session, 'coins', session.coins);
   session.persistCurrentCharacter();
   session.sendGameDialogue(activeShop.speaker || 'Shop', `You sold ${itemName} for ${sellPrice} coins.`);

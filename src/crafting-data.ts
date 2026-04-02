@@ -27,6 +27,13 @@ export function getComposeRecipesByMaterial(templateId: number): UnknownRecord[]
   return COMBINITEM_ENTRIES.filter((entry) => entry.materialTemplateId === templateId);
 }
 
+export function getComposeRecipeEntries(recipeId: number): UnknownRecord[] {
+  if (!Number.isInteger(recipeId)) {
+    return [];
+  }
+  return COMBINITEM_ENTRIES.filter((entry) => entry.recipeId === recipeId);
+}
+
 export function getComposeRecipesByTarget(templateId: number): UnknownRecord[] {
   if (!Number.isInteger(templateId)) {
     return [];

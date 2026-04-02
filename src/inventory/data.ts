@@ -424,6 +424,9 @@ function canEquipItem(session: UnknownRecord, item: BagItem): UnknownRecord {
   if (!definition || definition.hasDurability !== true) {
     return { ok: false, reason: 'Item is not equippable' };
   }
+  if (Number.isInteger(item?.durability) && (item.durability as number) <= 0) {
+    return { ok: false, reason: 'Item is broken' };
+  }
 
   const restrictions =
     definition.restrictions && typeof definition.restrictions === 'object'
