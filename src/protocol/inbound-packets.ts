@@ -3,6 +3,9 @@ import type {
   AttributeAllocationData,
   CreateRoleData,
   EquipmentStateData,
+  ItemContainerActionData,
+  ItemStackCombineRequestData,
+  ItemStackSplitRequestData,
   PositionUpdate,
   QuestPacketData,
   ServerRunRequestData,
@@ -110,6 +113,69 @@ function parseEquipmentState(payload: Buffer): EquipmentStateData | null {
     return null;
   }
   return { instanceId, equipFlag, unequipFlag };
+}
+
+function parseItemContainerAction(payload: Buffer): ItemContainerActionData | null {
+  if (payload.length < 4) {
+    return null;
+  }
+
+  const containerType = payload[2] & 0xff;
+  const subcmd = payload[3] & 0xff;
+
+  if (subcmd === 0x17 && payload.length >= 14) {
+    return {
+      containerType,
+      subcmd,
+      instanceId: payload.readUInt32LE(4),
+      slotIndex: payload.readUInt16LE(8),
+      column: payload.readUInt16LE(10),
+      row: payload.readUInt16LE(12),
+    };
+  }
+
+  if (subcmd === 0x14 && payload.length >= 10) {
+    return {
+      containerType,
+      subcmd,
+      instanceId: payload.readUInt32LE(4),
+      quantity: payload.readUInt16LE(8),
+    };
+  }
+
+  return {
+    containerType,
+    subcmd,
+  };
+}
+
+function parseItemStackSplitRequest(payload: Buffer): ItemStackSplitRequestData | null {
+  if (!Buffer.isBuffer(payload) || payload.length !== 10 || (payload.readUInt16LE(0) >>> 0) !== 0x0400) {
+    return null;
+  }
+  if ((payload[2] & 0xff) !== 0x08) {
+    return null;
+  }
+  return {
+    subcmd: payload[2] & 0xff,
+    mode: payload[3] & 0xff,
+    instanceId: payload.readUInt32LE(4) >>> 0,
+    quantity: payload.readUInt16LE(8) >>> 0,
+  };
+}
+
+function parseItemStackCombineRequest(payload: Buffer): ItemStackCombineRequestData | null {
+  if (!Buffer.isBuffer(payload) || payload.length !== 11 || (payload.readUInt16LE(0) >>> 0) !== 0x03ee) {
+    return null;
+  }
+  if ((payload[2] & 0xff) !== 0x04) {
+    return null;
+  }
+  return {
+    subcmd: payload[2] & 0xff,
+    sourceInstanceId: payload.readUInt32LE(3) >>> 0,
+    targetInstanceId: payload.readUInt32LE(7) >>> 0,
+  };
 }
 
 function parseAttributeAllocation(payload: Buffer): AttributeAllocationData | null {
@@ -284,6 +350,9 @@ export {
   parseCreateRole,
   parseQuestPacket,
   parseEquipmentState,
+  parseItemContainerAction,
+  parseItemStackCombineRequest,
+  parseItemStackSplitRequest,
   parseAttributeAllocation,
   parseClientMaxVitalsSync,
   parseAttackSelection,

@@ -35,4 +35,8 @@ export {
   normalizeInventoryState,
   consumeBagItemByInstanceId,
   removeBagItemByInstanceId,
+  moveBagItemToSlot,
+  splitBagItemByInstanceId,
+  splitMovedBagItemByInstanceId,
+  combineBagItemsByInstanceId,
 } from './bag.js';

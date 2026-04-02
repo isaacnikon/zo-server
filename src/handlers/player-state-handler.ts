@@ -1,15 +1,16 @@
 import type { GameSession } from '../types.js';
 
-import { parseEquipmentState, parseAttributeAllocation, parseClientMaxVitalsSync, parseCombatItemUse, parseFightResultItemActionProbe, parseSharedItemUse, parseTargetedItemUse, } from '../protocol/inbound-packets.js';
+import { parseEquipmentState, parseAttributeAllocation, parseClientMaxVitalsSync, parseCombatItemUse, parseFightResultItemActionProbe, parseItemContainerAction, parseItemStackCombineRequest, parseItemStackSplitRequest, parseSharedItemUse, parseTargetedItemUse, } from '../protocol/inbound-packets.js';
 import { FIGHT_CLIENT_ITEM_USE_SUBCMD, GAME_FIGHT_ACTION_CMD } from '../config.js';
-import { canEquipItem, getBagItemByReference, getItemDefinition, removeBagItemByInstanceId } from '../inventory/index.js';
+import { BAG_CONTAINER_TYPE, canEquipItem, combineBagItemsByInstanceId, getBagItemByInstanceId, getBagItemByReference, getItemDefinition, moveBagItemToSlot, removeBagItemByInstanceId, splitBagItemByInstanceId, splitMovedBagItemByInstanceId } from '../inventory/index.js';
 import { sendConsumeResultPackets, sendEquipmentContainerSync, sendInventoryFullSync, } from '../gameplay/inventory-runtime.js';
 import { consumeUsableItemByInstanceId } from '../gameplay/item-use-runtime.js';
-import { sendSkillStateSync } from '../gameplay/skill-runtime.js';
 import { sendSelfStateVitalsUpdate } from '../gameplay/stat-sync.js';
 import { normalizePrimaryAttributes } from '../character/normalize.js';
 import { recomputeSessionMaxVitals } from '../gameplay/session-flows.js';
 import { sendPetStateSync } from './pet-handler.js';
+
+const PENDING_BAG_SPLIT_WINDOW_MS = 5000;
 
 export function tryHandleEquipmentStatePacket(session: GameSession, payload: Buffer): boolean {
   const parsed = parseEquipmentState(payload);
@@ -227,6 +228,166 @@ export function tryHandleFightResultItemActionProbe(
   return true;
 }
 
+export function tryHandleItemContainerPacket(session: GameSession, payload: Buffer): boolean {
+  const parsed = parseItemContainerAction(payload);
+  if (!parsed) {
+    return false;
+  }
+
+  if (parsed.containerType !== BAG_CONTAINER_TYPE) {
+    session.pendingBagSplitMove = null;
+    session.log(
+      `Ignoring item-container packet container=${parsed.containerType} sub=0x${parsed.subcmd.toString(16)} len=${payload.length}`
+    );
+    return true;
+  }
+
+  if (parsed.subcmd === 0x17 && typeof parsed.instanceId === 'number' && typeof parsed.slotIndex === 'number') {
+    const moveResult = moveBagItemToSlot(session, parsed.instanceId, parsed.slotIndex);
+    if (!moveResult.ok) {
+      session.pendingBagSplitMove = null;
+      session.log(
+        `Bag move rejected instanceId=${parsed.instanceId} slot=${parsed.slotIndex} reason=${moveResult.reason}`
+      );
+      sendInventoryFullSync(session);
+      return true;
+    }
+
+    const movedItem = getBagItemByInstanceId(session, parsed.instanceId);
+    const movedDefinition = movedItem ? getItemDefinition(movedItem.templateId) : null;
+    const splitEligible =
+      moveResult.action === 'moved' &&
+      moveResult.targetWasEmpty === true &&
+      movedItem != null &&
+      movedDefinition != null &&
+      movedDefinition.maxStack > 1 &&
+      movedItem.quantity > 1;
+
+    session.pendingBagSplitMove = splitEligible
+      ? {
+          instanceId: parsed.instanceId >>> 0,
+          fromSlot: moveResult.fromSlot >>> 0,
+          toSlot: moveResult.toSlot >>> 0,
+          createdAt: Date.now(),
+        }
+      : null;
+
+    sendInventoryFullSync(session);
+    session.persistCurrentCharacter();
+    session.log(
+      `Bag move ok instanceId=${parsed.instanceId} action=${moveResult.action} from=${moveResult.fromSlot >>> 0} to=${moveResult.toSlot >>> 0}${typeof moveResult.quantityMoved === 'number' ? ` qtyMoved=${moveResult.quantityMoved >>> 0}` : ''}${splitEligible ? ' splitEligible=1' : ''}`
+    );
+    return true;
+  }
+
+  if (parsed.subcmd === 0x14 && typeof parsed.instanceId === 'number' && typeof parsed.quantity === 'number') {
+    const bagItem = getBagItemByInstanceId(session, parsed.instanceId);
+    if (!bagItem) {
+      session.pendingBagSplitMove = null;
+      session.log(
+        `Bag split rejected instanceId=${parsed.instanceId} quantity=${parsed.quantity} reason=unknown-instance`
+      );
+      sendInventoryFullSync(session);
+      return true;
+    }
+
+    const pendingSplit = isPendingBagSplitActive(session, parsed.instanceId) ? session.pendingBagSplitMove : null;
+    const splitResult = pendingSplit
+      ? splitMovedBagItemByInstanceId(session, parsed.instanceId, parsed.quantity, pendingSplit.fromSlot)
+      : splitBagItemByInstanceId(session, parsed.instanceId, parsed.quantity);
+
+    session.pendingBagSplitMove = null;
+
+    if (!splitResult.ok) {
+      session.log(
+        `Bag split rejected instanceId=${parsed.instanceId} quantity=${parsed.quantity} reason=${splitResult.reason}`
+      );
+      sendInventoryFullSync(session);
+      return true;
+    }
+
+    sendInventoryFullSync(session);
+    session.persistCurrentCharacter();
+    session.log(
+      `Bag split ok instanceId=${parsed.instanceId} templateId=${bagItem.templateId >>> 0} quantity=${parsed.quantity >>> 0} newInstanceId=${splitResult.newItem?.instanceId || 0} newSlot=${splitResult.newItem?.slot || 0}${pendingSplit ? ` remainderSlot=${pendingSplit.fromSlot >>> 0}` : ''}${splitResult.noop ? ' noop=1' : ''}`
+    );
+    return true;
+  }
+
+  session.pendingBagSplitMove = null;
+  session.log(
+    `Unhandled item-container packet container=${parsed.containerType} sub=0x${parsed.subcmd.toString(16)} len=${payload.length} hex=${payload.toString('hex')}`
+  );
+  return true;
+}
+
+export function tryHandleItemStackSplitPacket(session: GameSession, payload: Buffer): boolean {
+  const parsed = parseItemStackSplitRequest(payload);
+  if (!parsed) {
+    return false;
+  }
+
+  const bagItem = getBagItemByInstanceId(session, parsed.instanceId);
+  const definition = bagItem ? getItemDefinition(bagItem.templateId) : null;
+  if (!bagItem || !definition || definition.maxStack <= 1 || bagItem.equipped === true) {
+    return false;
+  }
+
+  const splitResult = splitBagItemByInstanceId(session, parsed.instanceId, parsed.quantity);
+  if (!splitResult.ok) {
+    session.log(
+      `Bag split rejected cmd=0x400 sub=0x${parsed.subcmd.toString(16)} mode=0x${parsed.mode.toString(16)} instanceId=${parsed.instanceId} quantity=${parsed.quantity} reason=${splitResult.reason}`
+    );
+    sendInventoryFullSync(session);
+    return true;
+  }
+
+  sendInventoryFullSync(session);
+  session.persistCurrentCharacter();
+  session.log(
+    `Bag split ok cmd=0x400 sub=0x${parsed.subcmd.toString(16)} mode=0x${parsed.mode.toString(16)} instanceId=${parsed.instanceId} templateId=${bagItem.templateId >>> 0} quantity=${parsed.quantity} newInstanceId=${splitResult.newItem?.instanceId || 0} newSlot=${splitResult.newItem?.slot || 0}${splitResult.noop ? ' noop=1' : ''}`
+  );
+  return true;
+}
+
+export function tryHandleItemStackCombinePacket(session: GameSession, payload: Buffer): boolean {
+  const parsed = parseItemStackCombineRequest(payload);
+  if (!parsed) {
+    return false;
+  }
+
+  const sourceItem = getBagItemByInstanceId(session, parsed.sourceInstanceId);
+  const targetItem = getBagItemByInstanceId(session, parsed.targetInstanceId);
+  const sourceDefinition = sourceItem ? getItemDefinition(sourceItem.templateId) : null;
+  const targetDefinition = targetItem ? getItemDefinition(targetItem.templateId) : null;
+  if (
+    !sourceItem ||
+    !targetItem ||
+    !sourceDefinition ||
+    !targetDefinition ||
+    sourceDefinition.maxStack <= 1 ||
+    targetDefinition.maxStack <= 1
+  ) {
+    return false;
+  }
+
+  const combineResult = combineBagItemsByInstanceId(session, parsed.sourceInstanceId, parsed.targetInstanceId);
+  if (!combineResult.ok) {
+    session.log(
+      `Bag combine rejected cmd=0x3ee sub=0x${parsed.subcmd.toString(16)} sourceInstanceId=${parsed.sourceInstanceId} targetInstanceId=${parsed.targetInstanceId} reason=${combineResult.reason}`
+    );
+    sendInventoryFullSync(session);
+    return true;
+  }
+
+  sendInventoryFullSync(session);
+  session.persistCurrentCharacter();
+  session.log(
+    `Bag combine ok cmd=0x3ee sub=0x${parsed.subcmd.toString(16)} sourceInstanceId=${parsed.sourceInstanceId} targetInstanceId=${parsed.targetInstanceId} templateId=${targetItem.templateId >>> 0} quantityMoved=${combineResult.quantityMoved || 0}${combineResult.sourceRemoved ? ' sourceRemoved=1' : ''}${combineResult.noop ? ' noop=1' : ''}`
+  );
+  return true;
+}
+
 export function tryHandleItemUsePacket(session: GameSession, cmdWord: number, payload: Buffer): boolean {
   const sharedItemUse = parseSharedItemUse(payload);
   if (cmdWord === 0x03ee && sharedItemUse) {
@@ -309,4 +470,16 @@ export function scheduleEquipmentReplay(session: GameSession, delayMs = 300): vo
     }
     sendEquipmentContainerSync(session);
   }, Math.max(0, delayMs | 0));
+}
+
+function isPendingBagSplitActive(session: GameSession, instanceId: number): boolean {
+  const pending = session.pendingBagSplitMove;
+  if (
+    !pending ||
+    (pending.instanceId >>> 0) !== (instanceId >>> 0) ||
+    Date.now() - pending.createdAt > PENDING_BAG_SPLIT_WINDOW_MS
+  ) {
+    return false;
+  }
+  return true;
 }

@@ -5,7 +5,7 @@ import { handleQuestAbandonRequest, handleQuestPacket } from './quest-handler.js
 import { handleRolePacket } from './login-handler.js';
 import { handleCombatPacket } from './combat-handler.js';
 import { handleGatheringRequest } from './gathering-handler.js';
-import { tryHandleClientMaxVitalsSyncPacket, tryHandleEquipmentStatePacket, tryHandleFightResultItemActionProbe, tryHandleItemUsePacket, tryHandleAttributeAllocationPacket } from './player-state-handler.js';
+import { tryHandleClientMaxVitalsSyncPacket, tryHandleEquipmentStatePacket, tryHandleFightResultItemActionProbe, tryHandleItemContainerPacket, tryHandleItemStackCombinePacket, tryHandleItemStackSplitPacket, tryHandleItemUsePacket, tryHandleAttributeAllocationPacket } from './player-state-handler.js';
 import { tryHandlePetActionPacket } from './pet-handler.js';
 import { tryHandleNpcServicePacket } from '../gameplay/npc-service-runtime.js';
 import { handleNpcShopServiceRequest } from '../gameplay/shop-runtime.js';
@@ -24,7 +24,7 @@ import {
   traceUnhandledPlayerStatePacket,
 } from '../observability/packet-tracing.js';
 
-import { PING_CMD, GAME_GATHER_REQUEST_CMD, GAME_POSITION_QUERY_CMD, GAME_SERVER_RUN_CMD, ROLE_CMD, GAME_QUEST_CMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_MISC_CMD, GAME_FIGHT_RESULT_CMD, GAME_FIGHT_STATE_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, GAME_TEAM_ACTION_PRIMARY_CMD, GAME_TEAM_ACTION_SECONDARY_CMD, GAME_TEAM_FOLLOWUP_CMD, } from '../config.js';
+import { PING_CMD, GAME_GATHER_REQUEST_CMD, GAME_ITEM_CONTAINER_CMD, GAME_POSITION_QUERY_CMD, GAME_SERVER_RUN_CMD, ROLE_CMD, GAME_QUEST_CMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_MISC_CMD, GAME_FIGHT_RESULT_CMD, GAME_FIGHT_STATE_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, GAME_TEAM_ACTION_PRIMARY_CMD, GAME_TEAM_ACTION_SECONDARY_CMD, GAME_TEAM_FOLLOWUP_CMD, } from '../config.js';
 import type { GameSession } from '../types.js';
 
 const PACKET_HANDLERS = new Map<number, (session: GameSession, payload: Buffer) => void>([
@@ -134,7 +134,19 @@ function dispatchGamePacket(
     return true;
   }
 
+  if (cmdWord === GAME_ITEM_CONTAINER_CMD && tryHandleItemContainerPacket(session, payload)) {
+    return true;
+  }
+
   if (tryHandleItemUsePacket(session, cmdWord, payload)) {
+    return true;
+  }
+
+  if (cmdWord === 0x0400 && tryHandleItemStackSplitPacket(session, payload)) {
+    return true;
+  }
+
+  if (cmdWord === 0x03ee && tryHandleItemStackCombinePacket(session, payload)) {
     return true;
   }
 

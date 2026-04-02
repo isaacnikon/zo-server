@@ -513,6 +513,307 @@ function consumeBagItemByInstanceId(session: InventorySessionLike, instanceId: n
   };
 }
 
+function moveBagItemToSlot(session: InventorySessionLike, instanceId: number, targetSlot: number): UnknownRecord {
+  const bagItems = Array.isArray(session.bagItems) ? session.bagItems : [];
+  const bagSize = typeof session.bagSize === 'number' && session.bagSize > 0 ? session.bagSize : DEFAULT_BAG_SIZE;
+  const normalizedTargetSlot = targetSlot >>> 0;
+  if (normalizedTargetSlot < FIRST_BAG_SLOT || normalizedTargetSlot > bagSize) {
+    return {
+      ok: false,
+      reason: `Invalid slot=${targetSlot}`,
+    };
+  }
+
+  const sourceItem =
+    bagItems.find((item) => item.equipped !== true && (item.instanceId >>> 0) === (instanceId >>> 0)) || null;
+  if (!sourceItem) {
+    return {
+      ok: false,
+      reason: `Unknown instanceId=${instanceId}`,
+    };
+  }
+
+  const fromSlot = sourceItem.slot >>> 0;
+  if (fromSlot === normalizedTargetSlot) {
+    return {
+      ok: true,
+      action: 'noop',
+      item: sourceItem,
+      fromSlot,
+      toSlot: normalizedTargetSlot,
+      targetWasEmpty: false,
+    };
+  }
+
+  const targetItem =
+    bagItems.find((item) => item.equipped !== true && (item.slot >>> 0) === normalizedTargetSlot) || null;
+
+  if (!targetItem) {
+    sourceItem.slot = normalizedTargetSlot;
+    sortAndRefreshBagSession(session, Math.min(fromSlot, normalizedTargetSlot));
+    return {
+      ok: true,
+      action: 'moved',
+      item: sourceItem,
+      fromSlot,
+      toSlot: normalizedTargetSlot,
+      targetWasEmpty: true,
+    };
+  }
+
+  if (areBagItemsStackCompatible(sourceItem, targetItem)) {
+    const definition = getItemDefinition(sourceItem.templateId);
+    const capacity =
+      definition && !isEquipmentDefinition(definition)
+        ? Math.max(0, definition.maxStack - logicalItemQuantity(targetItem))
+        : 0;
+    if (capacity > 0) {
+      const quantityMoved = Math.min(capacity, logicalItemQuantity(sourceItem));
+      targetItem.quantity += quantityMoved;
+      sourceItem.quantity -= quantityMoved;
+      let sourceRemoved = false;
+      if (sourceItem.quantity <= 0) {
+        const sourceIndex = bagItems.indexOf(sourceItem);
+        if (sourceIndex >= 0) {
+          bagItems.splice(sourceIndex, 1);
+        }
+        sourceRemoved = true;
+      }
+      sortAndRefreshBagSession(session, Math.min(fromSlot, normalizedTargetSlot));
+      return {
+        ok: true,
+        action: 'merged',
+        item: targetItem,
+        sourceItem,
+        targetItem,
+        fromSlot,
+        toSlot: normalizedTargetSlot,
+        quantityMoved,
+        sourceRemoved,
+        targetWasEmpty: false,
+      };
+    }
+  }
+
+  const displacedSlot = targetItem.slot >>> 0;
+  targetItem.slot = fromSlot;
+  sourceItem.slot = displacedSlot;
+  sortAndRefreshBagSession(session, Math.min(fromSlot, displacedSlot));
+  return {
+    ok: true,
+    action: 'swapped',
+    item: sourceItem,
+    targetItem,
+    fromSlot,
+    toSlot: displacedSlot,
+    targetWasEmpty: false,
+  };
+}
+
+function splitBagItemByInstanceId(
+  session: InventorySessionLike,
+  instanceId: number,
+  splitQuantity: number,
+  targetSlot?: number
+): UnknownRecord {
+  const bagItems = Array.isArray(session.bagItems) ? session.bagItems : [];
+  const sourceItem =
+    bagItems.find((item) => item.equipped !== true && (item.instanceId >>> 0) === (instanceId >>> 0)) || null;
+  if (!sourceItem) {
+    return {
+      ok: false,
+      reason: `Unknown instanceId=${instanceId}`,
+    };
+  }
+
+  const definition = getItemDefinition(sourceItem.templateId);
+  const logicalQuantity = logicalItemQuantity(sourceItem);
+  const normalizedSplitQuantity = Math.max(0, splitQuantity | 0);
+  if (!definition || isEquipmentDefinition(definition) || definition.maxStack <= 1) {
+    return {
+      ok: false,
+      reason: `Item instanceId=${instanceId} is not stackable`,
+    };
+  }
+  if (normalizedSplitQuantity <= 0 || normalizedSplitQuantity > logicalQuantity) {
+    return {
+      ok: false,
+      reason: `Invalid split quantity=${splitQuantity}`,
+    };
+  }
+  if (normalizedSplitQuantity === logicalQuantity) {
+    return {
+      ok: true,
+      noop: true,
+      sourceItem,
+      newItem: null,
+      splitQuantity: normalizedSplitQuantity,
+    };
+  }
+
+  const slot = resolveEmptyBagSlot(session, targetSlot);
+  if (slot === null) {
+    return {
+      ok: false,
+      reason: 'Bag is full',
+    };
+  }
+
+  sourceItem.quantity = logicalQuantity - normalizedSplitQuantity;
+  const splitItem = cloneBagItemWithQuantity(session, sourceItem, normalizedSplitQuantity, slot);
+  bagItems.push(splitItem);
+  sortAndRefreshBagSession(session, Math.min(sourceItem.slot >>> 0, slot >>> 0));
+  return {
+    ok: true,
+    sourceItem,
+    newItem: splitItem,
+    splitQuantity: normalizedSplitQuantity,
+  };
+}
+
+function splitMovedBagItemByInstanceId(
+  session: InventorySessionLike,
+  instanceId: number,
+  targetQuantity: number,
+  remainderPreferredSlot?: number
+): UnknownRecord {
+  const bagItems = Array.isArray(session.bagItems) ? session.bagItems : [];
+  const targetItem =
+    bagItems.find((item) => item.equipped !== true && (item.instanceId >>> 0) === (instanceId >>> 0)) || null;
+  if (!targetItem) {
+    return {
+      ok: false,
+      reason: `Unknown instanceId=${instanceId}`,
+    };
+  }
+
+  const definition = getItemDefinition(targetItem.templateId);
+  const logicalQuantity = logicalItemQuantity(targetItem);
+  const normalizedTargetQuantity = Math.max(0, targetQuantity | 0);
+  if (!definition || isEquipmentDefinition(definition) || definition.maxStack <= 1) {
+    return {
+      ok: false,
+      reason: `Item instanceId=${instanceId} is not stackable`,
+    };
+  }
+  if (normalizedTargetQuantity <= 0 || normalizedTargetQuantity > logicalQuantity) {
+    return {
+      ok: false,
+      reason: `Invalid split quantity=${targetQuantity}`,
+    };
+  }
+  if (normalizedTargetQuantity === logicalQuantity) {
+    return {
+      ok: true,
+      noop: true,
+      sourceItem: targetItem,
+      newItem: null,
+      splitQuantity: 0,
+    };
+  }
+
+  const slot = resolveEmptyBagSlot(session, remainderPreferredSlot);
+  if (slot === null) {
+    return {
+      ok: false,
+      reason: 'Bag is full',
+    };
+  }
+
+  const remainderQuantity = logicalQuantity - normalizedTargetQuantity;
+  targetItem.quantity = normalizedTargetQuantity;
+  const remainderItem = cloneBagItemWithQuantity(session, targetItem, remainderQuantity, slot);
+  bagItems.push(remainderItem);
+  sortAndRefreshBagSession(session, Math.min(targetItem.slot >>> 0, slot >>> 0));
+  return {
+    ok: true,
+    sourceItem: targetItem,
+    newItem: remainderItem,
+    splitQuantity: normalizedTargetQuantity,
+  };
+}
+
+function combineBagItemsByInstanceId(
+  session: InventorySessionLike,
+  sourceInstanceId: number,
+  targetInstanceId: number
+): UnknownRecord {
+  const bagItems = Array.isArray(session.bagItems) ? session.bagItems : [];
+  const sourceItem =
+    bagItems.find((item) => item.equipped !== true && (item.instanceId >>> 0) === (sourceInstanceId >>> 0)) || null;
+  const targetItem =
+    bagItems.find((item) => item.equipped !== true && (item.instanceId >>> 0) === (targetInstanceId >>> 0)) || null;
+  if (!sourceItem) {
+    return {
+      ok: false,
+      reason: `Unknown source instanceId=${sourceInstanceId}`,
+    };
+  }
+  if (!targetItem) {
+    return {
+      ok: false,
+      reason: `Unknown target instanceId=${targetInstanceId}`,
+    };
+  }
+  if ((sourceItem.instanceId >>> 0) === (targetItem.instanceId >>> 0)) {
+    return {
+      ok: true,
+      noop: true,
+      sourceItem,
+      targetItem,
+      quantityMoved: 0,
+      sourceRemoved: false,
+    };
+  }
+
+  const definition = getItemDefinition(sourceItem.templateId);
+  if (!definition || isEquipmentDefinition(definition) || definition.maxStack <= 1) {
+    return {
+      ok: false,
+      reason: `Item instanceId=${sourceInstanceId} is not stackable`,
+    };
+  }
+  if (!areBagItemsStackCompatible(sourceItem, targetItem)) {
+    return {
+      ok: false,
+      reason: 'Stacks are incompatible',
+    };
+  }
+
+  const capacity = Math.max(0, definition.maxStack - logicalItemQuantity(targetItem));
+  if (capacity <= 0) {
+    return {
+      ok: true,
+      noop: true,
+      sourceItem,
+      targetItem,
+      quantityMoved: 0,
+      sourceRemoved: false,
+    };
+  }
+
+  const quantityMoved = Math.min(capacity, logicalItemQuantity(sourceItem));
+  targetItem.quantity += quantityMoved;
+  sourceItem.quantity -= quantityMoved;
+  let sourceRemoved = false;
+  if (sourceItem.quantity <= 0) {
+    const sourceIndex = bagItems.indexOf(sourceItem);
+    if (sourceIndex >= 0) {
+      bagItems.splice(sourceIndex, 1);
+    }
+    sourceRemoved = true;
+  }
+  sortAndRefreshBagSession(session, Math.min(sourceItem.slot >>> 0, targetItem.slot >>> 0));
+  return {
+    ok: true,
+    sourceItem,
+    targetItem,
+    quantityMoved,
+    sourceRemoved,
+    noop: false,
+  };
+}
+
 function normalizeBagLayout(items: BagItem[], bagSize: number): BagItem[] {
   const usedSlots = new Set<number>();
   const usedInstanceIds = new Set<number>();
@@ -701,6 +1002,81 @@ function logicalItemQuantity(item: BagItem): number {
   return Number.isInteger(item.quantity) && item.quantity > 0 ? item.quantity : 1;
 }
 
+function resolveEmptyBagSlot(session: InventorySessionLike, preferredSlot?: number): number | null {
+  const bagItems = Array.isArray(session.bagItems) ? session.bagItems : [];
+  const bagSize = typeof session.bagSize === 'number' && session.bagSize > 0 ? session.bagSize : DEFAULT_BAG_SIZE;
+  const normalizedPreferredSlot =
+    Number.isInteger(preferredSlot) && typeof preferredSlot === 'number' ? preferredSlot >>> 0 : null;
+  if (
+    normalizedPreferredSlot !== null &&
+    normalizedPreferredSlot >= FIRST_BAG_SLOT &&
+    normalizedPreferredSlot <= bagSize &&
+    !bagItems.some((item) => item.equipped !== true && (item.slot >>> 0) === normalizedPreferredSlot)
+  ) {
+    return normalizedPreferredSlot;
+  }
+  const slot = findNextAvailableSlot(bagItems, bagSize, FIRST_BAG_SLOT);
+  return slot <= bagSize ? slot : null;
+}
+
+function cloneBagItemWithQuantity(
+  session: InventorySessionLike,
+  sourceItem: BagItem,
+  quantity: number,
+  slot: number
+): BagItem {
+  return {
+    ...sourceItem,
+    instanceId: allocateNextInstanceId(session),
+    quantity,
+    equipped: false,
+    slot: slot >>> 0,
+  };
+}
+
+function allocateNextInstanceId(session: InventorySessionLike): number {
+  const usedInstanceIds = new Set<number>(
+    Array.isArray(session.bagItems) ? session.bagItems.map((item) => item.instanceId >>> 0) : []
+  );
+  let nextInstanceId =
+    typeof session.nextItemInstanceId === 'number' && session.nextItemInstanceId > 0
+      ? session.nextItemInstanceId >>> 0
+      : 1;
+  while (usedInstanceIds.has(nextInstanceId)) {
+    nextInstanceId += 1;
+  }
+  session.nextItemInstanceId = nextInstanceId + 1;
+  return nextInstanceId;
+}
+
+function areBagItemsStackCompatible(left: BagItem, right: BagItem): boolean {
+  const leftDefinition = getItemDefinition(left.templateId);
+  const rightDefinition = getItemDefinition(right.templateId);
+  if (
+    !leftDefinition ||
+    !rightDefinition ||
+    isEquipmentDefinition(leftDefinition) ||
+    isEquipmentDefinition(rightDefinition)
+  ) {
+    return false;
+  }
+  return (
+    (left.templateId >>> 0) === (right.templateId >>> 0) &&
+    normalizeStoredTradeState(left.tradeState, left.bindState) ===
+      normalizeStoredTradeState(right.tradeState, right.bindState) &&
+    ((left.bindState ?? 0) & 0xff) === ((right.bindState ?? 0) & 0xff) &&
+    ((left.stateCode ?? 0) & 0xff) === ((right.stateCode ?? 0) & 0xff) &&
+    ((left.extraValue ?? 0) & 0xffff) === ((right.extraValue ?? 0) & 0xffff)
+  );
+}
+
+function sortAndRefreshBagSession(session: InventorySessionLike, preferredSlot = FIRST_BAG_SLOT): void {
+  const bagItems = Array.isArray(session.bagItems) ? session.bagItems : [];
+  const bagSize = typeof session.bagSize === 'number' && session.bagSize > 0 ? session.bagSize : DEFAULT_BAG_SIZE;
+  session.bagItems = bagItems.sort((left: BagItem, right: BagItem) => left.slot - right.slot);
+  session.nextBagSlot = findNextAvailableSlot(session.bagItems, bagSize, preferredSlot >>> 0);
+}
+
 export {
   buildInventorySnapshot,
   bagHasTemplateId,
@@ -715,4 +1091,8 @@ export {
   normalizeInventoryState,
   consumeBagItemByInstanceId,
   removeBagItemByInstanceId,
+  moveBagItemToSlot,
+  splitBagItemByInstanceId,
+  splitMovedBagItemByInstanceId,
+  combineBagItemsByInstanceId,
 };

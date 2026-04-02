@@ -45,6 +45,26 @@ export interface CreateRoleData { templateIndex: number; roleName: string; birth
 export interface QuestPacketData { subcmd: number; taskId: number }
 export interface EquipmentStateData { instanceId: number; equipFlag: number; unequipFlag: number }
 export interface AttributeAllocationData { strengthDelta: number; dexterityDelta: number; vitalityDelta: number; intelligenceDelta: number }
+export interface ItemContainerActionData {
+  containerType: number;
+  subcmd: number;
+  instanceId?: number;
+  slotIndex?: number;
+  column?: number;
+  row?: number;
+  quantity?: number;
+}
+export interface ItemStackSplitRequestData {
+  subcmd: number;
+  mode: number;
+  instanceId: number;
+  quantity: number;
+}
+export interface ItemStackCombineRequestData {
+  subcmd: number;
+  sourceInstanceId: number;
+  targetInstanceId: number;
+}
 export interface AttackSelectionData { attackMode: number; targetA: number; targetB: number }
 export type QuestSyncMode = 'login' | 'runtime';
 export interface LearnedSkillRecord {
@@ -220,6 +240,12 @@ export interface GameSession {
   bagSize: number;
   nextItemInstanceId: number;
   nextBagSlot: number;
+  pendingBagSplitMove?: {
+    instanceId: number;
+    fromSlot: number;
+    toSlot: number;
+    createdAt: number;
+  } | null;
   // Quests
   activeQuests: QuestRecord[];
   completedQuests: number[];
