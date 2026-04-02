@@ -860,6 +860,41 @@
       "targetMapId": 182,
       "targetMapName": "Silent Hill",
       "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 145,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 117,
+      "targetMapName": "Limon District",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 145,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 168,
+      "targetMapName": "Darkness Sentry",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 168,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 145,
+      "targetMapName": "Darkness Mountain",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 168,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 233,
+      "targetMapName": "Darkness Hole Ground",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 233,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 168,
+      "targetMapName": "Darkness Sentry",
+      "validation": "validated-manually"
     }
   ],
   "landingOverrides": [
@@ -1751,6 +1786,41 @@
       "targetMapId": 182,
       "x": 10,
       "y": 121
+    },
+    {
+      "sourceMapId": 145,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 117,
+      "x": 116,
+      "y": 79
+    },
+    {
+      "sourceMapId": 145,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 168,
+      "x": 66,
+      "y": 235
+    },
+    {
+      "sourceMapId": 168,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 145,
+      "x": 85,
+      "y": 20
+    },
+    {
+      "sourceMapId": 168,
+      "sourceSceneScriptId": 2,
+      "targetMapId": 233,
+      "x": 28,
+      "y": 239
+    },
+    {
+      "sourceMapId": 233,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 168,
+      "x": 18,
+      "y": 232
     }
   ]
 }

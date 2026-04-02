@@ -1,0 +1,37 @@
+{
+  "mapAdditions": [
+    {
+      "mapId": 233,
+      "mapName": "Darkness Hole Ground",
+      "npcs": [
+        {
+          "npcId": 3128,
+          "npcTypeId": 1,
+          "name": "Irene",
+          "resolvedSpawnEntityType": 3128,
+          "validationStatus": "manual-override",
+          "x": 74,
+          "y": 148
+        },
+        {
+          "npcId": 3272,
+          "npcTypeId": 1,
+          "name": "Drunk Spirit",
+          "resolvedSpawnEntityType": 3272,
+          "validationStatus": "manual-override",
+          "x": 20,
+          "y": 76
+        },
+        {
+          "npcId": 3273,
+          "npcTypeId": 1,
+          "name": "Darkness Evil",
+          "resolvedSpawnEntityType": 3273,
+          "validationStatus": "manual-override",
+          "x": 84,
+          "y": 176
+        }
+      ]
+    }
+  ]
+}

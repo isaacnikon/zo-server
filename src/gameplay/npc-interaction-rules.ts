@@ -133,6 +133,15 @@ const TELEPORT_RULES: TeleportRule[] = [
     targetY: 13,
   },
   {
+    id: 'general-smith-darkness-mountain',
+    mapId: 117,
+    npcId: 3157,
+    scriptId: 20001,
+    targetMapId: 145,
+    targetX: 116,
+    targetY: 79,
+  },
+  {
     id: 'chill-pass-frog-teleport',
     mapId: 111,
     npcId: 3123,

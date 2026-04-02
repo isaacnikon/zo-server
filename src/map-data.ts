@@ -68,6 +68,16 @@ type MapNpcFile = {
   npcs: MapNpcRecord[];
 };
 
+type ManualMapNpcOverrideRecord = {
+  mapId: number;
+  mapName?: string;
+  npcs?: MapNpcRecord[];
+};
+
+type ManualMapNpcOverrideFile = {
+  mapAdditions?: ManualMapNpcOverrideRecord[];
+};
+
 type MapSummaryWorldRecord = {
   nodeId: number;
   nodeName: string;
@@ -129,7 +139,9 @@ type EncounterLevelRangeRecord = {
 };
 
 const MAP_SUMMARY_PATH = resolveRepoPath('data', 'client-derived', 'maps', 'map-summary.json');
+const MANUAL_MAP_NPC_OVERRIDES_PATH = resolveRepoPath('data', 'map-npc-overrides.json');
 const MAP_SUMMARY = loadMapSummary();
+const MANUAL_MAP_NPC_OVERRIDES = loadManualMapNpcOverrides();
 const MAP_DETAILS_CACHE = new Map<string, MapDetailsRecord | null>();
 const MAP_NPCS_CACHE = new Map<string, MapNpcFile | null>();
 
@@ -156,6 +168,33 @@ function loadMapSummary(): Map<number, MapSummaryRecord> {
     }
     byMapId.set(record.mapId, record);
   }
+  return byMapId;
+}
+
+function loadManualMapNpcOverrides(): Map<number, ManualMapNpcOverrideRecord> {
+  const byMapId = new Map<number, ManualMapNpcOverrideRecord>();
+  if (!fs.existsSync(MANUAL_MAP_NPC_OVERRIDES_PATH)) {
+    return byMapId;
+  }
+
+  let parsed: ManualMapNpcOverrideFile;
+  try {
+    parsed = JSON.parse(fs.readFileSync(MANUAL_MAP_NPC_OVERRIDES_PATH, 'utf8'));
+  } catch (_error) {
+    return byMapId;
+  }
+
+  if (!Array.isArray(parsed?.mapAdditions)) {
+    return byMapId;
+  }
+
+  for (const record of parsed.mapAdditions) {
+    if (!record || !Number.isInteger(record.mapId)) {
+      continue;
+    }
+    byMapId.set(record.mapId, record);
+  }
+
   return byMapId;
 }
 
@@ -198,10 +237,40 @@ export function getMapDetails(mapId: number): MapDetailsRecord | null {
 
 export function getMapNpcs(mapId: number): MapNpcFile | null {
   const summary = getMapSummary(mapId);
-  if (!summary?.npcsPath) {
+  const baseNpcs =
+    summary?.npcsPath
+      ? loadJsonFile<MapNpcFile>(summary.npcsPath, MAP_NPCS_CACHE)
+      : null;
+  const manualAdditions = MANUAL_MAP_NPC_OVERRIDES.get(mapId);
+  const manualNpcs = Array.isArray(manualAdditions?.npcs) ? manualAdditions!.npcs : [];
+
+  if (manualNpcs.length < 1) {
+    return baseNpcs;
+  }
+
+  const mergedNpcs = [
+    ...(Array.isArray(baseNpcs?.npcs) ? baseNpcs!.npcs : []),
+    ...manualNpcs.filter(
+      (npc) =>
+        npc &&
+        Number.isInteger(npc.npcId) &&
+        Number.isInteger(npc.x) &&
+        Number.isInteger(npc.y)
+    ),
+  ];
+  if (mergedNpcs.length < 1) {
     return null;
   }
-  return loadJsonFile<MapNpcFile>(summary.npcsPath, MAP_NPCS_CACHE);
+
+  return {
+    mapId,
+    mapName:
+      baseNpcs?.mapName ||
+      manualAdditions?.mapName ||
+      summary?.mapName ||
+      `Map ${mapId}`,
+    npcs: mergedNpcs,
+  };
 }
 
 function resolveSpawnEntityType(npc: MapNpcRecord): number {
