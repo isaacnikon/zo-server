@@ -14,6 +14,7 @@ import {
 } from '../quest-engine/index.js';
 import { buildNpcShopOpenPacket } from '../protocol/gameplay-packets.js';
 import { resolveRepoPath } from '../runtime-paths.js';
+import { resolveFieldEventInteractionTarget, tryHandleFieldEventInteraction } from '../gameplay/field-event-runtime.js';
 import { tryHandleConfiguredNpcInteraction } from '../gameplay/npc-interaction-rules.js';
 import { isFrogTeleporterNpc, syncFrogTeleporterClientState } from '../gameplay/frog-teleporter-service.js';
 import { recomputeSessionMaxVitals, resolveInnRestVitals } from '../gameplay/session-flows.js';
@@ -68,6 +69,7 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
     request.subcmd !== 0x03 &&
     request.subcmd !== 0x04 &&
     request.subcmd !== 0x08 &&
+    request.subcmd !== 0x15 &&
     request.subcmd !== 0x0f
   ) {
     return false;
@@ -103,6 +105,14 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
   if (handleHousewifeTeachingRequest(session, resolvedNpcId, request)) {
     session.log(
       `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId} housewife=1`
+    );
+    return true;
+  }
+
+  const fieldEventInteraction = tryHandleFieldEventInteraction(session, resolvedNpcId, request);
+  if (fieldEventInteraction.handled) {
+    session.log(
+      `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId} fieldEvent=${fieldEventInteraction.ruleId || 'unknown'} kind=${fieldEventInteraction.kind || 'unknown'}${fieldEventInteraction.detail ? ` ${fieldEventInteraction.detail}` : ''}`
     );
     return true;
   }
@@ -529,22 +539,29 @@ function resolveNpcNameForCurrentMap(session: GameSession, npcId: number): strin
     npcs.find(
       (entry: MapNpcRecord) => Number.isInteger(entry?.npcId) && (entry.npcId >>> 0) === (npcId >>> 0)
     ) || null;
-  return typeof npc?.name === 'string' && npc.name.length > 0 ? npc.name : '';
+  if (typeof npc?.name === 'string' && npc.name.length > 0) {
+    return npc.name;
+  }
+
+  const fieldEventName =
+    Array.from(session.fieldEventSpawns?.values() || []).find(
+      (entry) =>
+        (entry.npcId >>> 0) === (npcId >>> 0) ||
+        (entry.entityType >>> 0) === (npcId >>> 0)
+    )?.name || '';
+  return fieldEventName;
 }
 
 function resolveNpcInteractionTarget(session: GameSession, request: ServerRunRequestData): MapNpcRecord | null {
   const mapNpcs = getMapNpcs(session.currentMapId);
   const npcs = Array.isArray(mapNpcs?.npcs) ? mapNpcs.npcs : [];
-  if (npcs.length === 0) {
-    return null;
-  }
 
   if (request.subcmd === 0x08) {
     const npcIndex = Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] >>> 0 : 0;
     if (npcIndex >= 1 && npcIndex <= npcs.length) {
       return npcs[npcIndex - 1] || null;
     }
-    return null;
+    return resolveFieldEventInteractionTarget(session, request) as MapNpcRecord | null;
   }
 
   const npcKey =
@@ -568,6 +585,11 @@ function resolveNpcInteractionTarget(session: GameSession, request: ServerRunReq
   });
   if (directMatch) {
     return directMatch;
+  }
+
+  const fieldEventMatch = resolveFieldEventInteractionTarget(session, request);
+  if (fieldEventMatch) {
+    return fieldEventMatch as MapNpcRecord;
   }
 
   if (npcKey >= 1 && npcKey <= npcs.length) {

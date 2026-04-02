@@ -1,4 +1,4 @@
-import type { CombatEnemyInstance, CombatState, FrogTeleporterUnlocks, GameSession, PrimaryAttributes, QuestRecord, QuestSyncMode, SkillState } from './types.js';
+import type { CombatEnemyInstance, CombatState, FieldEventSpawn, FrogTeleporterUnlocks, GameSession, PrimaryAttributes, QuestRecord, QuestSyncMode, SkillState } from './types.js';
 
 import { dispatchGamePacket } from './handlers/packet-dispatcher.js';
 import { createIdleCombatState, disposeCombatTimers as combatHandlerDisposeTimers, handleSharedCombatParticipantDisposed as combatHandlerHandleSharedCombatParticipantDisposed, sendCombatEncounterProbe as combatHandlerSendCombatEncounterProbe, sendCombatExitProbe as combatHandlerSendCombatExitProbe, } from './handlers/combat-handler.js';
@@ -131,6 +131,7 @@ class Session implements GameSession {
     name: string;
   }> | null;
   activeGather: { runtimeId: number; startedAt: number } | null;
+  fieldEventSpawns: Map<number, FieldEventSpawn> | null;
   pendingSceneNpcSpawnMapId: number | null;
   pendingLoginQuestSyncMapId: number | null;
   pendingLoginQuestSyncTimer: NodeJS.Timeout | null;
@@ -227,6 +228,7 @@ class Session implements GameSession {
     this.mapRotationLastSentAt = null;
     this.gatheringNodes = null;
     this.activeGather = null;
+    this.fieldEventSpawns = null;
     this.pendingSceneNpcSpawnMapId = null;
     this.pendingLoginQuestSyncMapId = null;
     this.pendingLoginQuestSyncTimer = null;

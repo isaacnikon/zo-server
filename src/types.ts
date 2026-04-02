@@ -29,6 +29,18 @@ export interface FrogTeleporterUnlocks {
   rainbowValleyToCloudCity: boolean;
   goalManorToCloudCity: boolean;
 }
+export interface FieldEventSpawn {
+  eventId: string;
+  runtimeId: number;
+  sceneIndex: number;
+  npcId: number;
+  entityType: number;
+  monsterId: number;
+  name: string;
+  mapId: number;
+  x: number;
+  y: number;
+}
 export interface CreateRoleData { templateIndex: number; roleName: string; birthMonth: number; birthDay: number; selectedAptitude: number; extra1: number; extra2: number }
 export interface QuestPacketData { subcmd: number; taskId: number }
 export interface EquipmentStateData { instanceId: number; equipFlag: number; unequipFlag: number }
@@ -247,6 +259,7 @@ export interface GameSession {
     name: string;
   }> | null;
   activeGather: { runtimeId: number; startedAt: number } | null;
+  fieldEventSpawns: Map<number, FieldEventSpawn> | null;
   // Scene/NPC state
   pendingSceneNpcSpawnMapId: number | null;
   pendingLoginQuestSyncMapId: number | null;
@@ -331,6 +344,7 @@ export interface CombatEncounterProfile {
   encounterChancePercent?: number;
   cooldownMs?: number;
   locationName?: string;
+  fixedEnemies?: Array<CombatEnemyTemplate & { row: number; col: number }>;
   pool: CombatEnemyTemplate[];
 }
 export type CombatPhase = 'idle' | 'intro' | 'command' | 'enemy-turn' | 'resolved';

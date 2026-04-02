@@ -3,6 +3,7 @@ import type { GameSession, QuestSyncMode } from '../types.js';
 import { DEFAULT_FLAGS } from '../config.js';
 import { syncInventoryStateToClient } from '../gameplay/inventory-runtime.js';
 import { sendSkillStateSync } from '../gameplay/skill-runtime.js';
+import { buildMapFieldEventSpawns } from '../gameplay/field-event-runtime.js';
 import { buildMapGatheringNodes } from '../gameplay/gathering-runtime.js';
 import { syncFrogTeleporterClientState } from '../gameplay/frog-teleporter-service.js';
 import { getMapBootstrapSpawns } from '../map-spawns.js';
@@ -73,6 +74,22 @@ export function sendEnterGameOk(session: GameSession, options: { syncMode?: Ques
 function sendStaticNpcSpawns(session: GameSession, mapId: number): void {
   const staticNpcs = getMapBootstrapSpawns(mapId);
   const escortSpawns = buildEscortQuestRoleSpawns(session, mapId, staticNpcs.length);
+  const fieldEventEntries = buildMapFieldEventSpawns(
+    session.sharedState,
+    mapId,
+    staticNpcs.length + escortSpawns.length
+  );
+  session.fieldEventSpawns = new Map(
+    fieldEventEntries.map((spawn) => [spawn.runtimeId >>> 0, spawn])
+  );
+  const fieldEventSpawns: SpawnRecord[] = fieldEventEntries.map((spawn) => ({
+    id: spawn.runtimeId,
+    entityType: spawn.entityType,
+    x: spawn.x,
+    y: spawn.y,
+    dir: 0,
+    state: 0,
+  }));
 
   // Build gathering nodes for this map and store on session
   const gatheringNodes = buildMapGatheringNodes(mapId);
@@ -87,7 +104,7 @@ function sendStaticNpcSpawns(session: GameSession, mapId: number): void {
     state: 0,
   }));
 
-  const allSpawns = [...staticNpcs, ...escortSpawns, ...gatheringSpawns];
+  const allSpawns = [...staticNpcs, ...escortSpawns, ...fieldEventSpawns, ...gatheringSpawns];
   if (!Array.isArray(allSpawns) || allSpawns.length === 0) {
     return;
   }
@@ -95,7 +112,7 @@ function sendStaticNpcSpawns(session: GameSession, mapId: number): void {
   session.writePacket(
     buildSceneSpawnBatchPacket(allSpawns),
     DEFAULT_FLAGS,
-    `Sending static NPC spawn batch cmd=0x03eb sub=0x15 map=${mapId} count=${allSpawns.length} base=${staticNpcs.length} escort=${escortSpawns.length} gather=${gatheringSpawns.length}`
+    `Sending static NPC spawn batch cmd=0x03eb sub=0x15 map=${mapId} count=${allSpawns.length} base=${staticNpcs.length} escort=${escortSpawns.length} fieldEvents=${fieldEventSpawns.length} gather=${gatheringSpawns.length}`
   );
 }
 

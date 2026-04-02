@@ -113,6 +113,26 @@ function buildEnemyFromTemplate(template: UnknownRecord, mapId: number, position
 
 export function buildEncounterEnemies(action: UnknownRecord | null | undefined, mapId: number): UnknownRecord[] {
   const profile = action?.encounterProfile || {};
+  const fixedEnemies = Array.isArray(profile.fixedEnemies)
+    ? profile.fixedEnemies.filter(
+        (entry: UnknownRecord) =>
+          entry &&
+          Number.isInteger(entry.typeId) &&
+          Number.isInteger(entry.row) &&
+          Number.isInteger(entry.col)
+      )
+    : [];
+  if (fixedEnemies.length > 0) {
+    return fixedEnemies
+      .slice(0, ENEMY_POSITIONS.length)
+      .map((template: UnknownRecord) =>
+        buildEnemyFromTemplate(template, mapId, {
+          row: template.row & 0xff,
+          col: template.col & 0xff,
+        })
+      );
+  }
+
   const pool = Array.isArray(profile.pool) ? profile.pool : [];
   if (pool.length === 0) {
     return [];

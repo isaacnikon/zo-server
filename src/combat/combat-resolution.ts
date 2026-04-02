@@ -23,6 +23,7 @@ import {
 } from '../gameplay/team-runtime.js';
 import { applyEffects } from '../effects/effect-executor.js';
 import { PROGRESSION } from '../gameplay/progression.js';
+import { handleActiveFieldEventVictory } from '../gameplay/field-event-runtime.js';
 import { buildDefeatRespawnState } from '../gameplay/session-flows.js';
 import { sendSelfStateVitalsUpdate } from '../gameplay/stat-sync.js';
 import { getCapturePetTemplateId } from '../roleinfo/index.js';
@@ -1701,6 +1702,7 @@ export function resolveVictory(session: GameSession): void {
   const encounterAction = session.combatState?.encounterAction || null;
   session.log(`Combat victory trigger=${session.combatState.triggerId} enemies=${defeatedEnemies.map((enemy: Record<string, any>) => `${enemy.typeId}@${enemy.entityId}`).join('|') || 'none'} exp=${combatRewards.characterExperience} petExp=0 coins=${combatRewards.coins} score=${combatRewards.totalScore}/${combatRewards.maxScore} drops=${combinedDrops.map((drop: Record<string, any>) => `${drop.templateId}x${drop.quantity}`).join(',') || 'none'}`);
   clearCombatState(session, dropResult.inventoryDirty, !shouldRepositionAfterVictory);
+  handleActiveFieldEventVictory(session, encounterAction);
   if (
     !shouldRepositionAfterVictory ||
     (!isLionCaptainVictory && typeof session.sendEnterGameOk !== 'function') ||
