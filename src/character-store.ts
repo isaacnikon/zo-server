@@ -125,6 +125,14 @@ export class CharacterStore {
       boundGold: profile.boundGold,
       coins: profile.coins,
       renown: profile.renown,
+      onlineState:
+        profile.onlineState && typeof profile.onlineState === 'object'
+          ? cloneJson(profile.onlineState)
+          : undefined,
+      renownTaskDailyState:
+        profile.renownTaskDailyState && typeof profile.renownTaskDailyState === 'object'
+          ? cloneJson(profile.renownTaskDailyState)
+          : undefined,
       statusPoints: profile.statusPoints,
       selectedPetRuntimeId: profile.selectedPetRuntimeId,
       petSummoned: profile.petSummoned,
@@ -214,6 +222,14 @@ function buildProfileDocument(accountId: string, characterId: string, character:
     boundGold: numberOrDefault(character.boundGold, 0),
     coins: numberOrDefault(character.coins, 0),
     renown: numberOrDefault(character.renown, 0),
+    onlineState:
+      character.onlineState && typeof character.onlineState === 'object'
+        ? cloneJson(character.onlineState)
+        : undefined,
+    renownTaskDailyState:
+      character.renownTaskDailyState && typeof character.renownTaskDailyState === 'object'
+        ? cloneJson(character.renownTaskDailyState)
+        : undefined,
     statusPoints: numberOrDefault(character.statusPoints, 0),
     selectedPetRuntimeId: numberOrNull(character.selectedPetRuntimeId),
     petSummoned: character.petSummoned === true,

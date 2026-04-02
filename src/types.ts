@@ -65,6 +65,18 @@ export interface ItemStackCombineRequestData {
   sourceInstanceId: number;
   targetInstanceId: number;
 }
+export interface RenownTaskDailyState {
+  dayKey: string;
+  takenToday: number;
+  finishedToday: number;
+  firstTwentyStreakToday: number;
+  postTwentyOnlineClaimedMsToday: number;
+}
+export interface OnlineActivityState {
+  dayKey: string;
+  accumulatedTodayMs: number;
+  accumulatedTotalMs: number;
+}
 export interface AttackSelectionData { attackMode: number; targetA: number; targetB: number }
 export type QuestSyncMode = 'login' | 'runtime';
 export interface LearnedSkillRecord {
@@ -229,6 +241,10 @@ export interface GameSession {
   boundGold: number;
   coins: number;
   renown: number;
+  onlineState: OnlineActivityState;
+  onlineCreditCursorAt: number | null;
+  onlineLastPersistAt: number | null;
+  lastHeartbeatAt: number | null;
   // Position
   currentMapId: number;
   currentX: number;
@@ -250,6 +266,7 @@ export interface GameSession {
   activeQuests: QuestRecord[];
   completedQuests: number[];
   hasAnnouncedQuestOverview: boolean;
+  renownTaskDailyState: RenownTaskDailyState;
   // Pets
   pets: any[];
   selectedPetRuntimeId: number | null;

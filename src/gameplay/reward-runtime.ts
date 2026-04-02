@@ -3,6 +3,7 @@ import { isFemaleRole } from '../roleinfo/index.js';
 import { createOwnedPet } from '../pet-runtime.js';
 import { applyEffects } from '../effects/effect-executor.js';
 import { sendSelfStateValueUpdate } from './stat-sync.js';
+import { ensureRenownTaskDailyState, RENOWN_TASK_ID, RENOWN_TASK_STREAK_TARGET } from './renown-task-runtime.js';
 import { numberOrDefault, type UnknownRecord } from '../utils.js';
 import type { GameSession } from '../types.js';
 
@@ -158,14 +159,15 @@ function resolveQuestRewardForSession(
   taskId: number,
   selectedAwardId = 0
 ): UnknownRecord {
+  const normalizedTaskId = taskId >>> 0;
   const normalizedReward = normalizeReward(reward);
-  if ((taskId >>> 0) === 353) {
-    return resolveBehindCurtainRewardForSession(session, normalizedReward, selectedAwardId);
-  }
-  if (normalizedReward.choiceGroups.length > 0) {
+  let resolvedReward = normalizedReward;
+  if (normalizedTaskId === 353) {
+    resolvedReward = resolveBehindCurtainRewardForSession(session, normalizedReward, selectedAwardId);
+  } else if (normalizedReward.choiceGroups.length > 0) {
     const selectedGroup = selectRewardChoiceGroupForSession(session, normalizedReward.choiceGroups, selectedAwardId);
     if (selectedGroup) {
-      return {
+      resolvedReward = {
         gold: selectedGroup.gold || normalizedReward.gold,
         experience: selectedGroup.experience || normalizedReward.experience,
         coins: selectedGroup.coins || normalizedReward.coins,
@@ -176,17 +178,35 @@ function resolveQuestRewardForSession(
     }
   }
 
-  if ((taskId >>> 0) !== 2) {
-    return normalizedReward;
+  if (normalizedTaskId === RENOWN_TASK_ID) {
+    const renownTaskState = ensureRenownTaskDailyState(session);
+    if (renownTaskState.firstTwentyStreakToday < RENOWN_TASK_STREAK_TARGET) {
+      resolvedReward = {
+        ...resolvedReward,
+        experience: Math.max(0, resolvedReward.experience * 2),
+      };
+    } else {
+      resolvedReward = {
+        ...resolvedReward,
+        gold: 0,
+        coins: 0,
+        experience: resolvedReward.experience > 0 ? Math.max(0, Math.floor(resolvedReward.experience / 2)) : 0,
+        renown: 0,
+      };
+    }
   }
 
-  if (normalizedReward.items.length > 0) {
-    return normalizedReward;
+  if (normalizedTaskId !== 2) {
+    return resolvedReward;
+  }
+
+  if (resolvedReward.items.length > 0) {
+    return resolvedReward;
   }
 
   return {
-    ...normalizedReward,
-    pets: normalizePetRewardList(session, normalizedReward.pets),
+    ...resolvedReward,
+    pets: normalizePetRewardList(session, resolvedReward.pets),
     items: resolveSpinningStarterSet(session),
   };
 }

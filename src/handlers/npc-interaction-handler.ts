@@ -17,6 +17,7 @@ import { resolveRepoPath } from '../runtime-paths.js';
 import { resolveFieldEventInteractionTarget, tryHandleFieldEventInteraction } from '../gameplay/field-event-runtime.js';
 import { tryHandleConfiguredNpcInteraction } from '../gameplay/npc-interaction-rules.js';
 import { isFrogTeleporterNpc, syncFrogTeleporterClientState } from '../gameplay/frog-teleporter-service.js';
+import { RENOWN_TASK_ACCEPT_NPC_ID, RENOWN_TASK_ID, formatRenownTaskHint, getRenownTaskAcceptBlocker } from '../gameplay/renown-task-runtime.js';
 import { recomputeSessionMaxVitals, resolveInnRestVitals } from '../gameplay/session-flows.js';
 import { primeNpcServiceContext } from '../gameplay/npc-service-runtime.js';
 import { sendSelfStateValueUpdate, sendSelfStateVitalsUpdate } from '../gameplay/stat-sync.js';
@@ -95,6 +96,24 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
     return false;
   }
 
+  const hasActiveRenownTask = Array.isArray(session.activeQuests)
+    ? session.activeQuests.some((record: Record<string, any>) => (Number.isInteger(record?.id) ? (record.id >>> 0) : 0) === RENOWN_TASK_ID)
+    : false;
+  if (
+    resolvedNpcId === RENOWN_TASK_ACCEPT_NPC_ID &&
+    (request.subcmd === 0x02 || request.subcmd === 0x03 || request.subcmd === 0x04 || request.subcmd === 0x08) &&
+    !hasActiveRenownTask
+  ) {
+    const renownTaskAcceptBlocker = getRenownTaskAcceptBlocker(session);
+    if (renownTaskAcceptBlocker) {
+      session.sendGameDialogue('Thad', renownTaskAcceptBlocker);
+      session.log(
+        `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId} renownLimit=1`
+      );
+      return true;
+    }
+  }
+
   if (handleInnRestRequest(session, resolvedNpcId, request)) {
     session.log(
       `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId}`
@@ -170,6 +189,8 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
       const blocker = getQuestAcceptBlocker(questState as any, resolvedNpcId);
       if (blocker) {
         session.sendGameDialogue('Quest', blocker);
+      } else if (resolvedNpcId === RENOWN_TASK_ACCEPT_NPC_ID) {
+        session.sendGameDialogue('Thad', formatRenownTaskHint(session));
       }
     }
 

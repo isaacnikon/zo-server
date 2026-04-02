@@ -2,6 +2,8 @@ import type { GameSession } from '../types.js';
 
 import { normalizePets } from '../pet-runtime.js';
 import { CHARACTER_VITALS_BASELINE, recomputeSessionMaxVitals } from '../gameplay/session-flows.js';
+import { initializeOnlineTracking, normalizeOnlineState } from '../gameplay/online-runtime.js';
+import { normalizeRenownTaskDailyState } from '../gameplay/renown-task-runtime.js';
 import { resolveRoleData } from './role-utils.js';
 import { defaultFrogTeleporterUnlocks, hydrateFrogTeleporterUnlocks } from '../gameplay/frog-teleporter-service.js';
 import { defaultBonusAttributes, numberOrDefault, normalizeBonusAttributes, normalizePrimaryAttributes, normalizeCharacterRecord, normalizeSkillState, } from './normalize.js';
@@ -43,6 +45,7 @@ export function hydratePendingGameCharacter(session: GameSession, sharedState: R
   session.boundGold = numberOrDefault(pendingCharacter.boundGold, 0);
   session.coins = numberOrDefault(pendingCharacter.coins, 0);
   session.renown = numberOrDefault(pendingCharacter.renown, 0);
+  session.onlineState = normalizeOnlineState(pendingCharacter.onlineState);
   session.primaryAttributes = normalizePrimaryAttributes(pendingCharacter.primaryAttributes);
   session.bonusAttributes = normalizeBonusAttributes(pendingCharacter.bonusAttributes);
   session.skillState = normalizeSkillState(pendingCharacter.skillState);
@@ -68,6 +71,7 @@ export function hydratePendingGameCharacter(session: GameSession, sharedState: R
   const questState = normalizeQuestState(pendingCharacter);
   session.activeQuests = questState.activeQuests;
   session.completedQuests = questState.completedQuests;
+  session.renownTaskDailyState = normalizeRenownTaskDailyState(pendingCharacter.renownTaskDailyState);
   session.pets = normalizePets(pendingCharacter.pets);
   session.selectedPetRuntimeId =
     typeof pendingCharacter.selectedPetRuntimeId === 'number'
@@ -95,6 +99,7 @@ export function hydratePendingGameCharacter(session: GameSession, sharedState: R
   if (accountKey && sharedState?.pendingGameCharacters instanceof Map) {
     sharedState.pendingGameCharacters.delete(accountKey);
   }
+  initializeOnlineTracking(session);
   if (correctedVitals) {
     session.persistCurrentCharacter({
       currentHealth: session.currentHealth,
@@ -157,12 +162,14 @@ export function buildCharacterSnapshot(
     boundGold: session.boundGold,
     coins: session.coins,
     renown: session.renown,
+    onlineState: session.onlineState,
     primaryAttributes: session.primaryAttributes,
     bonusAttributes: session.bonusAttributes || defaultBonusAttributes(),
     skillState: session.skillState,
     statusPoints: session.statusPoints,
     activeQuests: session.activeQuests,
     completedQuests: session.completedQuests,
+    renownTaskDailyState: session.renownTaskDailyState,
     pets: normalizePets(session.pets),
     selectedPetRuntimeId:
       typeof session.selectedPetRuntimeId === 'number' ? session.selectedPetRuntimeId >>> 0 : null,

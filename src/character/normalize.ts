@@ -1,9 +1,11 @@
 import { MAP_ID, SPAWN_X, SPAWN_Y } from '../config.js';
 import { normalizeQuestState } from '../quest-engine/index.js';
 import { normalizeInventoryState } from '../inventory/index.js';
+import { normalizeOnlineState } from '../gameplay/online-runtime.js';
 import { normalizePets } from '../pet-runtime.js';
 import { CHARACTER_VITALS_BASELINE } from '../gameplay/session-flows.js';
 import { resolveCharacterDerivedMaxVitals } from '../gameplay/max-vitals.js';
+import { normalizeRenownTaskDailyState } from '../gameplay/renown-task-runtime.js';
 import {
   getAptitudeSkillDefinition,
   getPassiveSkillDefinition,
@@ -246,12 +248,14 @@ export function normalizeCharacterRecord(character: UnknownRecord): UnknownRecor
     boundGold: numberOrDefault(character.boundGold, 0),
     coins: numberOrDefault(character.coins, 0),
     renown: numberOrDefault(character.renown, 0),
+    onlineState: normalizeOnlineState(character.onlineState),
     statusPoints: numberOrDefault(character.statusPoints, 0),
     primaryAttributes: normalizePrimaryAttributes(character.primaryAttributes),
     bonusAttributes,
     skillState,
     activeQuests: questState.activeQuests,
     completedQuests: questState.completedQuests,
+    renownTaskDailyState: normalizeRenownTaskDailyState(character.renownTaskDailyState),
     pets: normalizePets(character.pets),
     selectedPetRuntimeId:
       typeof character.selectedPetRuntimeId === 'number'

@@ -1,4 +1,5 @@
 import { applyInventoryQuestEvent, sendConsumeResultPackets, sendInventoryFullSync, } from '../gameplay/inventory-runtime.js';
+import { RENOWN_TASK_ID, appendRenownTaskHint, ensureRenownTaskDailyState, recordRenownTaskAbandoned, recordRenownTaskAccepted, recordRenownTaskCompleted } from '../gameplay/renown-task-runtime.js';
 import { consumeItemFromBag, getBagQuantityByTemplateId, getItemDefinition, } from '../inventory/index.js';
 import { applyQuestCompletionReward } from '../gameplay/reward-runtime.js';
 import { normalizePets } from '../pet-runtime.js';
@@ -72,16 +73,22 @@ function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHan
       }
 
       if (event.type === 'accepted') {
+        if ((event.taskId >>> 0) === RENOWN_TASK_ID) {
+          recordRenownTaskAccepted(session);
+        }
         if (!suppressPackets) {
           deps.syncQuestStateToClient(session, { mode: 'runtime' });
         }
         if (!suppressDialogues) {
+          const acceptedMessage = buildQuestDialogueMessage([
+            event.definition.acceptMessage || `${event.definition.name} accepted.`,
+            event.stepDescription ? `Objective: ${event.stepDescription}` : '',
+          ]);
           session.sendGameDialogue(
             'Quest',
-            buildQuestDialogueMessage([
-              event.definition.acceptMessage || `${event.definition.name} accepted.`,
-              event.stepDescription ? `Objective: ${event.stepDescription}` : '',
-            ])
+            (event.taskId >>> 0) === RENOWN_TASK_ID
+              ? appendRenownTaskHint(acceptedMessage, session)
+              : acceptedMessage
           );
         }
         return { stateDirty: true };
@@ -153,12 +160,21 @@ function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHan
           }
           deps.syncQuestStateToClient(session, { mode: 'runtime' });
         }
+        if ((event.taskId >>> 0) === RENOWN_TASK_ID) {
+          recordRenownTaskCompleted(session);
+        }
         if (!suppressDialogues) {
           const rewardText = rewardResult.rewardMessages.length > 0 ? rewardResult.rewardMessages.join(', ') : 'no reward';
           const levelText = rewardResult.levelSummary?.levelsGained > 0
             ? ` Level up: ${rewardResult.levelSummary.levelsGained} -> level ${session.level}, status points +${rewardResult.levelSummary.statusPointsGained}.`
             : '';
-          session.sendGameDialogue('Quest', `${event.definition.completionMessage || `${event.definition.name} completed.`} Reward: ${rewardText}.${levelText}`);
+          const completionMessage = `${event.definition.completionMessage || `${event.definition.name} completed.`} Reward: ${rewardText}.${levelText}`;
+          session.sendGameDialogue(
+            'Quest',
+            (event.taskId >>> 0) === RENOWN_TASK_ID
+              ? appendRenownTaskHint(completionMessage, session)
+              : completionMessage
+          );
         }
         return {
           stateDirty: true,
@@ -168,6 +184,9 @@ function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHan
       }
 
       if (event.type === 'abandoned') {
+        if ((event.taskId >>> 0) === RENOWN_TASK_ID) {
+          recordRenownTaskAbandoned(session);
+        }
         const inventoryDirty = clearQuestResetItems(
           session,
           event.resetItemTemplateIds,
@@ -182,7 +201,13 @@ function createQuestEventHandler(deps: QuestEventHandlerDeps): ObjectiveEventHan
           deps.syncQuestStateToClient(session, { mode: 'runtime' });
         }
         if (!suppressDialogues) {
-          session.sendGameDialogue('Quest', `${event.definition.name} abandoned.`);
+          const abandonMessage = `${event.definition.name} abandoned.`;
+          session.sendGameDialogue(
+            'Quest',
+            (event.taskId >>> 0) === RENOWN_TASK_ID
+              ? appendRenownTaskHint(abandonMessage, session)
+              : abandonMessage
+          );
         }
         return {
           stateDirty: true,

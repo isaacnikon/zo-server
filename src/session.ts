@@ -1,4 +1,4 @@
-import type { CombatEnemyInstance, CombatState, FieldEventSpawn, FrogTeleporterUnlocks, GameSession, PrimaryAttributes, QuestRecord, QuestSyncMode, SkillState } from './types.js';
+import type { CombatEnemyInstance, CombatState, FieldEventSpawn, FrogTeleporterUnlocks, GameSession, OnlineActivityState, PrimaryAttributes, QuestRecord, QuestSyncMode, SkillState } from './types.js';
 
 import { dispatchGamePacket } from './handlers/packet-dispatcher.js';
 import { createIdleCombatState, disposeCombatTimers as combatHandlerDisposeTimers, handleSharedCombatParticipantDisposed as combatHandlerHandleSharedCombatParticipantDisposed, sendCombatEncounterProbe as combatHandlerSendCombatEncounterProbe, sendCombatExitProbe as combatHandlerSendCombatExitProbe, } from './handlers/combat-handler.js';
@@ -7,7 +7,7 @@ import { applyQuestEvents as questHandlerApplyQuestEvents, questEventHandler, ha
 import { scheduleEquipmentReplay as playerStateHandlerScheduleEquipmentReplay, } from './handlers/player-state-handler.js';
 import { schedulePetReplay as petHandlerSchedulePetReplay, sendPetStateSync as petHandlerSendPetStateSync, disposePetTimers as petHandlerDisposeTimers, } from './handlers/pet-handler.js';
 import { sendEnterGameOk as sessionBootstrapHandlerSendEnterGameOk, sendMapNpcSpawns as sessionBootstrapHandlerSendMapNpcSpawns, } from './handlers/session-bootstrap-handler.js';
-import { DEFAULT_FLAGS, ENTITY_TYPE, GAME_DIALOG_CMD, GAME_DIALOG_MESSAGE_SUBCMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, GAME_ITEM_CONTAINER_CMD, GAME_ITEM_CMD, GAME_SCENE_ENTER_CMD, GAME_SELF_STATE_CMD, HANDSHAKE_CMD, MAP_ID, PONG_CMD, SCENE_ENTER_LOAD_SUBCMD, SERVER_SCRIPT_DEFERRED_SUBCMD, SERVER_SCRIPT_IMMEDIATE_SUBCMD, SELF_STATE_APTITUDE_SUBCMD, SPAWN_X, SPAWN_Y, SPECIAL_FLAGS, VALID_FLAG_MASK, VALID_FLAG_VALUE, } from './config.js';
+import { DEFAULT_FLAGS, ENTITY_TYPE, GAME_DIALOG_CMD, GAME_DIALOG_MESSAGE_SUBCMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, GAME_ITEM_CONTAINER_CMD, GAME_ITEM_CMD, GAME_SCENE_ENTER_CMD, GAME_SELF_STATE_CMD, HANDSHAKE_CMD, MAP_ID, PING_CMD, PONG_CMD, SCENE_ENTER_LOAD_SUBCMD, SERVER_SCRIPT_DEFERRED_SUBCMD, SERVER_SCRIPT_IMMEDIATE_SUBCMD, SELF_STATE_APTITUDE_SUBCMD, SPAWN_X, SPAWN_Y, SPECIAL_FLAGS, VALID_FLAG_MASK, VALID_FLAG_VALUE, } from './config.js';
 import { PacketWriter, buildPacket } from './protocol.js';
 import { buildGameDialoguePacket, buildSceneEnterPacket, buildServerRunScriptPacket, buildSelfStateAptitudeSyncPacket, } from './protocol/gameplay-packets.js';
 import { ObjectiveRegistry } from './objectives/objective-registry.js';
@@ -20,6 +20,9 @@ import { buildEncounterEnemies } from './combat/encounter-builder.js';
 import { buildCharacterSnapshot as sessionHydrationBuildCharacterSnapshot, getPersistedCharacter as sessionHydrationGetPersistedCharacter, hydratePendingGameCharacter, persistCurrentCharacter as sessionHydrationPersistCurrentCharacter, saveCharacter as sessionHydrationSaveCharacter, } from './character/session-hydration.js';
 import { defaultBonusAttributes, defaultSkillState } from './character/normalize.js';
 import { defaultFrogTeleporterUnlocks, syncFrogTeleporterClientState } from './gameplay/frog-teleporter-service.js';
+import { defaultOnlineState, flushOnlinePresence, touchOnlinePresence } from './gameplay/online-runtime.js';
+import { claimPostTwentyOnlineRenownReward, defaultRenownTaskDailyState } from './gameplay/renown-task-runtime.js';
+import { sendSelfStateValueUpdate } from './gameplay/stat-sync.js';
 import { beginSharedTeamCombat, getSharedTeamCombatFollowers, getSharedTeamCombatOwnerSession, getTeamCombatParticipants, handleTeamSessionDisposed, isSharedTeamCombatOwner, syncTeamFollowersToLeader } from './gameplay/team-runtime.js';
 
 type SharedState = Record<string, any>;
@@ -82,6 +85,10 @@ class Session implements GameSession {
   boundGold: number;
   coins: number;
   renown: number;
+  onlineState: OnlineActivityState;
+  onlineCreditCursorAt: number | null;
+  onlineLastPersistAt: number | null;
+  lastHeartbeatAt: number | null;
   primaryAttributes: PrimaryAttributes;
   bonusAttributes: PrimaryAttributes;
   skillState: SkillState;
@@ -91,6 +98,7 @@ class Session implements GameSession {
   pets: any[];
   selectedPetRuntimeId: number | null;
   petSummoned: boolean;
+  renownTaskDailyState: import('./types.js').RenownTaskDailyState;
   bagItems: any[];
   bagSize: number;
   nextItemInstanceId: number;
@@ -188,6 +196,10 @@ class Session implements GameSession {
     this.boundGold = 0;
     this.coins = 0;
     this.renown = 0;
+    this.onlineState = defaultOnlineState();
+    this.onlineCreditCursorAt = null;
+    this.onlineLastPersistAt = null;
+    this.lastHeartbeatAt = null;
     this.primaryAttributes = {
       intelligence: 15,
       vitality: 15,
@@ -199,6 +211,7 @@ class Session implements GameSession {
     this.statusPoints = 0;
     this.activeQuests = [];
     this.completedQuests = [];
+    this.renownTaskDailyState = defaultRenownTaskDailyState();
     this.pets = [];
     this.selectedPetRuntimeId = null;
     this.petSummoned = false;
@@ -309,6 +322,18 @@ class Session implements GameSession {
     this.log(
       `Game packet flags=0x${flags.toString(16)} cmd8=0x${cmdByte.toString(16).padStart(2, '0')} cmd16=0x${cmdWord.toString(16).padStart(4, '0')}`
     );
+
+    touchOnlinePresence(this, {
+      isHeartbeat: (flags & 0x04) !== 0 && cmdWord === PING_CMD,
+    });
+    const automaticRenownGain = claimPostTwentyOnlineRenownReward(this);
+    if (automaticRenownGain > 0) {
+      this.renown += automaticRenownGain;
+      sendSelfStateValueUpdate(this, 'renown', this.renown);
+      this.persistCurrentCharacter();
+      this.onlineLastPersistAt = Date.now();
+      this.log(`Auto renown granted amount=${automaticRenownGain} total=${this.renown}`);
+    }
 
     if (dispatchGamePacket(this, cmdWord, flags, payload)) {
       return;
@@ -526,6 +551,14 @@ class Session implements GameSession {
   }
 
   dispose(): void {
+    const nowMs = Date.now();
+    flushOnlinePresence(this, nowMs);
+    const automaticRenownGain = claimPostTwentyOnlineRenownReward(this, new Date(nowMs));
+    if (automaticRenownGain > 0) {
+      this.renown += automaticRenownGain;
+      this.persistCurrentCharacter();
+      this.log(`Auto renown granted on disconnect amount=${automaticRenownGain} total=${this.renown}`);
+    }
     if (this.pendingLoginQuestSyncTimer) {
       clearTimeout(this.pendingLoginQuestSyncTimer);
       this.pendingLoginQuestSyncTimer = null;
