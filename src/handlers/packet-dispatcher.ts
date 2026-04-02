@@ -1,12 +1,11 @@
 import { parsePositionUpdate, parsePingToken, parseServerRunRequest, parseTeamAction03FD, parseTeamAction03FE, parseTeamAction0442 } from '../protocol/inbound-packets.js';
-import { handleSceneInteractionRequest } from '../scenes/map-interactions.js';
-import { handleNpcInteractionRequest } from './npc-interaction-handler.js';
-import { handleQuestAbandonRequest, handleQuestPacket } from './quest-handler.js';
+import { handleQuestPacket } from './quest-handler.js';
 import { handleRolePacket } from './login-handler.js';
 import { handleCombatPacket } from './combat-handler.js';
 import { handleGatheringRequest } from './gathering-handler.js';
 import { tryHandleClientMaxVitalsSyncPacket, tryHandleEquipmentStatePacket, tryHandleFightResultItemActionProbe, tryHandleItemContainerPacket, tryHandleItemStackCombinePacket, tryHandleItemStackSplitPacket, tryHandleItemUsePacket, tryHandleAttributeAllocationPacket } from './player-state-handler.js';
 import { tryHandlePetActionPacket } from './pet-handler.js';
+import { handleServerRunRequest } from '../gameplay/server-run-runtime.js';
 import { tryHandleNpcServicePacket } from '../gameplay/npc-service-runtime.js';
 import { handleNpcShopServiceRequest } from '../gameplay/shop-runtime.js';
 import { tryHandleCraftRecipePacket } from '../gameplay/crafting-runtime.js';
@@ -18,10 +17,8 @@ import {
 } from '../gameplay/team-runtime.js';
 import { handleClientPositionUpdate } from '../gameplay/movement-runtime.js';
 import {
-  buildDisenchantingServerRunLog,
   traceGameplayPacket,
   tracePositionUpdate,
-  traceServerRunRequest,
   traceUnhandledPlayerStatePacket,
 } from '../observability/packet-tracing.js';
 
@@ -33,6 +30,19 @@ const PACKET_HANDLERS = new Map<number, (session: GameSession, payload: Buffer) 
   [GAME_QUEST_CMD, handleQuestPacket],
   [GAME_GATHER_REQUEST_CMD, handleGatheringRequest],
 ]);
+
+function dispatchParsedPacket<TParsed>(
+  session: GameSession,
+  payload: Buffer,
+  parsePacket: (payload: Buffer) => TParsed | null,
+  handlePacket: (session: GameSession, parsed: TParsed) => boolean
+): boolean {
+  const parsed = parsePacket(payload);
+  if (!parsed) {
+    return false;
+  }
+  return handlePacket(session, parsed);
+}
 
 function dispatchGamePacket(
   session: GameSession,
@@ -65,58 +75,32 @@ function dispatchGamePacket(
     return true;
   }
 
-  if (cmdWord === GAME_SERVER_RUN_CMD) {
-    const request = parseServerRunRequest(payload);
-    if (request) {
-      handleSceneInteractionRequest(session, request);
-      handleNpcInteractionRequest(session, request);
-      if (
-        request.subcmd === 0x05 &&
-        Array.isArray(request.rawArgs) &&
-        Number.isInteger(request.rawArgs[0]) &&
-        handleQuestAbandonRequest(session, request.rawArgs[0] >>> 0, 'server-run-abandon')
-      ) {
-        session.log(`Handled server-run quest abandon taskId=${request.rawArgs[0] >>> 0}`);
-      }
-
-      if (request.subcmd === 0x03 && typeof request.npcId === 'number' && typeof request.scriptId === 'number') {
-        session.log(
-          `Server-run request sub=0x${request.subcmd.toString(16)} npcId=${request.npcId} script=${request.scriptId} map=${session.currentMapId} pos=${session.currentX},${session.currentY}`
-        );
-      } else {
-        const argsText = request.rawArgs.map((value: any) => `0x${value.toString(16)}`).join(',');
-        session.log(
-          `Server-run request sub=0x${request.subcmd.toString(16)} args=[${argsText}] map=${session.currentMapId} pos=${session.currentX},${session.currentY}`
-        );
-      }
-      const disenchantingLog = buildDisenchantingServerRunLog(session, request);
-      if (disenchantingLog) {
-        session.log(disenchantingLog);
-      }
-      traceServerRunRequest(session, request);
-      return true;
-    }
+  if (
+    cmdWord === GAME_SERVER_RUN_CMD &&
+    dispatchParsedPacket(session, payload, parseServerRunRequest, handleServerRunRequest)
+  ) {
+    return true;
   }
 
-  if (cmdWord === GAME_TEAM_ACTION_PRIMARY_CMD) {
-    const action = parseTeamAction03FD(payload);
-    if (action && handleTeamActionPrimary(session, action)) {
-      return true;
-    }
+  if (
+    cmdWord === GAME_TEAM_ACTION_PRIMARY_CMD &&
+    dispatchParsedPacket(session, payload, parseTeamAction03FD, handleTeamActionPrimary)
+  ) {
+    return true;
   }
 
-  if (cmdWord === GAME_TEAM_ACTION_SECONDARY_CMD) {
-    const action = parseTeamAction03FE(payload);
-    if (action && handleTeamActionSecondary(session, action)) {
-      return true;
-    }
+  if (
+    cmdWord === GAME_TEAM_ACTION_SECONDARY_CMD &&
+    dispatchParsedPacket(session, payload, parseTeamAction03FE, handleTeamActionSecondary)
+  ) {
+    return true;
   }
 
-  if (cmdWord === GAME_TEAM_FOLLOWUP_CMD) {
-    const action = parseTeamAction0442(payload);
-    if (action && handleTeamFollowUpAction(session, action)) {
-      return true;
-    }
+  if (
+    cmdWord === GAME_TEAM_FOLLOWUP_CMD &&
+    dispatchParsedPacket(session, payload, parseTeamAction0442, handleTeamFollowUpAction)
+  ) {
+    return true;
   }
 
   if (handleNpcShopServiceRequest(session, payload)) {

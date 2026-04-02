@@ -12,6 +12,14 @@ import { sendPetStateSync } from './pet-handler.js';
 
 const PENDING_BAG_SPLIT_WINDOW_MS = 5000;
 
+type ItemUseAttempt = {
+  instanceId: number;
+  label: string;
+  targetEntityId?: number;
+  consumeTargetEntityId?: number;
+  includeTargetKind?: boolean;
+};
+
 export function tryHandleEquipmentStatePacket(session: GameSession, payload: Buffer): boolean {
   const parsed = parseEquipmentState(payload);
   if (!parsed) {
@@ -391,40 +399,21 @@ export function tryHandleItemStackCombinePacket(session: GameSession, payload: B
 export function tryHandleItemUsePacket(session: GameSession, cmdWord: number, payload: Buffer): boolean {
   const sharedItemUse = parseSharedItemUse(payload);
   if (cmdWord === 0x03ee && sharedItemUse) {
-    const { instanceId } = sharedItemUse;
-    const useResult = consumeUsableItemByInstanceId(session, instanceId);
-    if (!useResult.ok) {
-      session.log(`Item use rejected instanceId=${instanceId} reason=${useResult.reason}`);
-      return true;
-    }
-
-    if (useResult.petSyncNeeded) {
-      sendPetStateSync(session, 'item-use');
-    }
-    session.log(
-      `Item use ok instanceId=${instanceId} templateId=${useResult.item?.templateId || 0} restored=${useResult.gained?.health || 0}/${useResult.gained?.mana || 0}/${useResult.gained?.rage || 0}`
-    );
-    return true;
+    return completeItemUse(session, {
+      instanceId: sharedItemUse.instanceId,
+      label: 'Item use',
+    });
   }
 
   const targetedItemUse = parseTargetedItemUse(payload);
   if (cmdWord === 0x03ee && targetedItemUse) {
-    const { instanceId, targetEntityId } = targetedItemUse;
-    const useResult = consumeUsableItemByInstanceId(session, instanceId, { targetEntityId });
-    if (!useResult.ok) {
-      session.log(
-        `Targeted item use rejected instanceId=${instanceId} targetEntityId=${targetEntityId} reason=${useResult.reason}`
-      );
-      return true;
-    }
-
-    if (useResult.petSyncNeeded) {
-      sendPetStateSync(session, 'item-use');
-    }
-    session.log(
-      `Targeted item use ok instanceId=${instanceId} targetEntityId=${targetEntityId} targetKind=${useResult.targetKind || 'unknown'} templateId=${useResult.item?.templateId || 0} restored=${useResult.gained?.health || 0}/${useResult.gained?.mana || 0}/${useResult.gained?.rage || 0}`
-    );
-    return true;
+    return completeItemUse(session, {
+      instanceId: targetedItemUse.instanceId,
+      label: 'Targeted item use',
+      targetEntityId: targetedItemUse.targetEntityId,
+      consumeTargetEntityId: targetedItemUse.targetEntityId,
+      includeTargetKind: true,
+    });
   }
 
   if (
@@ -440,21 +429,11 @@ export function tryHandleItemUsePacket(session: GameSession, cmdWord: number, pa
   }
 
   const { instanceId, targetEntityId } = parseCombatItemUse(payload);
-  const useResult = consumeUsableItemByInstanceId(session, instanceId);
-  if (!useResult.ok) {
-    session.log(
-      `Item use rejected instanceId=${instanceId} targetEntityId=${targetEntityId} reason=${useResult.reason}`
-    );
-    return true;
-  }
-
-  if (useResult.petSyncNeeded) {
-    sendPetStateSync(session, 'item-use');
-  }
-  session.log(
-    `Item use ok instanceId=${instanceId} targetEntityId=${targetEntityId} templateId=${useResult.item?.templateId || 0} restored=${useResult.gained?.health || 0}/${useResult.gained?.mana || 0}/${useResult.gained?.rage || 0}`
-  );
-  return true;
+  return completeItemUse(session, {
+    instanceId,
+    label: 'Item use',
+    targetEntityId,
+  });
 }
 
 export function scheduleEquipmentReplay(session: GameSession, delayMs = 300): void {
@@ -482,4 +461,35 @@ function isPendingBagSplitActive(session: GameSession, instanceId: number): bool
     return false;
   }
   return true;
+}
+
+function completeItemUse(session: GameSession, attempt: ItemUseAttempt): boolean {
+  const consumeOptions =
+    typeof attempt.consumeTargetEntityId === 'number'
+      ? { targetEntityId: attempt.consumeTargetEntityId }
+      : undefined;
+  const useResult = consumeUsableItemByInstanceId(session, attempt.instanceId, consumeOptions);
+  if (!useResult.ok) {
+    session.log(
+      `${attempt.label} rejected instanceId=${attempt.instanceId}${formatItemUseTargetLog(attempt)} reason=${useResult.reason}`
+    );
+    return true;
+  }
+
+  if (useResult.petSyncNeeded) {
+    sendPetStateSync(session, 'item-use');
+  }
+
+  const targetKindSegment =
+    attempt.includeTargetKind === true ? ` targetKind=${useResult.targetKind || 'unknown'}` : '';
+  session.log(
+    `${attempt.label} ok instanceId=${attempt.instanceId}${formatItemUseTargetLog(attempt)}${targetKindSegment} templateId=${useResult.item?.templateId || 0} restored=${useResult.gained?.health || 0}/${useResult.gained?.mana || 0}/${useResult.gained?.rage || 0}`
+  );
+  return true;
+}
+
+function formatItemUseTargetLog(attempt: ItemUseAttempt): string {
+  return typeof attempt.targetEntityId === 'number'
+    ? ` targetEntityId=${attempt.targetEntityId}`
+    : '';
 }

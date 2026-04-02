@@ -68,16 +68,16 @@ Responsibility:
 
 ## First cut applied
 
-The current refactor starts enforcing those rules in two places:
+The current refactor starts enforcing those rules in three places:
 
 - movement side effects moved into [`src/gameplay/movement-runtime.ts`](/home/nikon/projects/zo-server/src/gameplay/movement-runtime.ts)
 - packet tracing moved into [`src/observability/packet-tracing.ts`](/home/nikon/projects/zo-server/src/observability/packet-tracing.ts)
+- server-run request orchestration moved into [`src/gameplay/server-run-runtime.ts`](/home/nikon/projects/zo-server/src/gameplay/server-run-runtime.ts)
 
 That leaves `packet-dispatcher` responsible for identifying the packet and selecting the correct workflow, instead of embedding each workflow inline.
 
 ## Next worthwhile extractions
 
-- move server-run request handling into a dedicated gameplay interaction runtime
 - introduce a narrower `SessionPorts` interface so handlers stop depending on the full mutable `GameSession`
 - split `Session` construction/default state from `Session` transport behavior
 - carve the combat entry path out of `Session.sendCombatEncounterProbe()` into a combat application service
