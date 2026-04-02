@@ -7,6 +7,7 @@ import type { GameSession } from '../types.js';
 
 const SHOP_SERVICE_BUY_GOLD = 0x01;
 const SHOP_SERVICE_SELL = 0x02;
+const SHOP_SERVICE_REPAIR_ONE = 0x05;
 const SHOP_SERVICE_REPAIR_ALL = 0x06;
 const SHOP_SERVICE_BUY_COINS = 0x0b;
 
@@ -62,6 +63,14 @@ export function handleNpcShopServiceRequest(session: GameSession, payload: Buffe
     return completeNpcShopSell(session, activeShop, instanceId);
   }
 
+  if ((serviceSubtype >>> 0) === SHOP_SERVICE_REPAIR_ONE) {
+    const instanceId = payload.length >= 11 ? payload.readUInt32LE(7) : 0;
+    session.log(
+      `Parsed npc shop service cmd=0x${cmdWord.toString(16)} npcKey=${serviceNpcKey} mapId=${serviceMapId} subtype=0x5 instanceId=${instanceId}`
+    );
+    return completeNpcShopRepairOne(session, activeShop, instanceId);
+  }
+
   const templateId = payload.readUInt16LE(7);
   session.log(
     `Parsed npc shop service cmd=0x${cmdWord.toString(16)} npcKey=${serviceNpcKey} mapId=${serviceMapId} subtype=0x${serviceSubtype.toString(16)} templateId=${templateId}`
@@ -88,23 +97,7 @@ export function handleNpcShopServiceRequest(session: GameSession, payload: Buffe
 
 function completeNpcShopRepairAll(session: GameSession, activeShop: UnknownRecord): boolean {
   const repairTargets = (Array.isArray(session.bagItems) ? session.bagItems : [])
-    .map((item) => {
-      const definition = getItemDefinition(item?.templateId >>> 0);
-      const maxDurability =
-        definition?.hasDurability === true && Number.isInteger(definition?.defaultQuantity) && definition.defaultQuantity! > 0
-          ? (definition.defaultQuantity as number)
-          : 0;
-      const currentDurability =
-        Number.isInteger(item?.durability) && item.durability >= 0 ? item.durability as number : maxDurability;
-      const missingDurability = Math.max(0, maxDurability - currentDurability);
-      return {
-        item,
-        definition,
-        maxDurability,
-        currentDurability,
-        missingDurability,
-      };
-    })
+    .map((item) => buildRepairTarget(item))
     .filter((entry) => entry.maxDurability > 0 && entry.missingDurability > 0);
 
   if (repairTargets.length <= 0) {
@@ -113,12 +106,7 @@ function completeNpcShopRepairAll(session: GameSession, activeShop: UnknownRecor
     return true;
   }
 
-  const repairCost = repairTargets.reduce((total, entry) => {
-    const basePrice =
-      entry.definition && Number.isInteger(entry.definition.sellPrice) ? Math.max(1, entry.definition.sellPrice as number) : 1;
-    const proportionalCost = Math.ceil((basePrice * entry.missingDurability) / Math.max(1, entry.maxDurability));
-    return total + Math.max(1, proportionalCost);
-  }, 0);
+  const repairCost = repairTargets.reduce((total, entry) => total + computeRepairCost(entry), 0);
   const currentCoins = Math.max(0, Number.isInteger(session.coins) ? session.coins : 0);
 
   if (currentCoins < repairCost) {
@@ -143,6 +131,58 @@ function completeNpcShopRepairAll(session: GameSession, activeShop: UnknownRecor
   );
   session.log(
     `Shop repair-all ok key=${activeShop.key || 'unknown'} items=${repairTargets.length} cost=${repairCost} coins=${session.coins}`
+  );
+  return true;
+}
+
+function completeNpcShopRepairOne(session: GameSession, activeShop: UnknownRecord, instanceId: number): boolean {
+  const repairTarget = (Array.isArray(session.bagItems) ? session.bagItems : [])
+    .map((item) => buildRepairTarget(item))
+    .find((entry) => (entry.item?.instanceId >>> 0) === (instanceId >>> 0)) || null;
+
+  if (!repairTarget) {
+    session.sendGameDialogue(activeShop.speaker || 'Shop', 'That item could not be found for repair.');
+    session.log(`Shop repair-one rejected key=${activeShop.key || 'unknown'} instanceId=${instanceId} reason=unknown-item`);
+    return true;
+  }
+
+  if (repairTarget.maxDurability <= 0) {
+    session.sendGameDialogue(activeShop.speaker || 'Shop', 'That item cannot be repaired.');
+    session.log(
+      `Shop repair-one rejected key=${activeShop.key || 'unknown'} instanceId=${instanceId} templateId=${repairTarget.item?.templateId || 0} reason=not-repairable`
+    );
+    return true;
+  }
+
+  if (repairTarget.missingDurability <= 0) {
+    session.sendGameDialogue(activeShop.speaker || 'Shop', 'That item does not need repair.');
+    session.log(
+      `Shop repair-one skipped key=${activeShop.key || 'unknown'} instanceId=${instanceId} templateId=${repairTarget.item?.templateId || 0} reason=already-full`
+    );
+    return true;
+  }
+
+  const repairCost = computeRepairCost(repairTarget);
+  const currentCoins = Math.max(0, Number.isInteger(session.coins) ? session.coins : 0);
+  if (currentCoins < repairCost) {
+    session.sendGameDialogue(activeShop.speaker || 'Shop', `You need ${repairCost} coins to repair that item.`);
+    session.log(
+      `Shop repair-one rejected key=${activeShop.key || 'unknown'} instanceId=${instanceId} templateId=${repairTarget.item?.templateId || 0} reason=insufficient-coins coins=${currentCoins} cost=${repairCost}`
+    );
+    return true;
+  }
+
+  repairTarget.item.durability = repairTarget.maxDurability;
+  session.coins = currentCoins - repairCost;
+  syncInventoryStateToClient(session);
+  sendSelfStateValueUpdate(session, 'coins', session.coins);
+  session.persistCurrentCharacter();
+  session.sendGameDialogue(
+    activeShop.speaker || 'Shop',
+    `Repaired ${repairTarget.definition?.name || `item ${repairTarget.item?.templateId || 0}`} for ${repairCost} coins.`
+  );
+  session.log(
+    `Shop repair-one ok key=${activeShop.key || 'unknown'} instanceId=${instanceId} templateId=${repairTarget.item?.templateId || 0} cost=${repairCost} durability=${repairTarget.maxDurability} coins=${session.coins}`
   );
   return true;
 }
@@ -245,6 +285,43 @@ function completeNpcShopSell(session: GameSession, activeShop: UnknownRecord, in
     `Shop sell ok key=${activeShop.key || 'unknown'} instanceId=${instanceId} templateId=${bagItem.templateId} qty=${quantity} unitPrice=${unitSellPrice} coins=${session.coins} price=${sellPrice}`
   );
   return true;
+}
+
+function buildRepairTarget(item: UnknownRecord): {
+  item: UnknownRecord;
+  definition: UnknownRecord | null;
+  maxDurability: number;
+  currentDurability: number;
+  missingDurability: number;
+} {
+  const definition = getItemDefinition(item?.templateId >>> 0);
+  const maxDurability =
+    definition?.hasDurability === true && Number.isInteger(definition?.defaultQuantity) && definition.defaultQuantity! > 0
+      ? (definition.defaultQuantity as number)
+      : 0;
+  const currentDurability =
+    Number.isInteger(item?.durability) && item.durability >= 0 ? (item.durability as number) : maxDurability;
+  const missingDurability = Math.max(0, maxDurability - currentDurability);
+  return {
+    item,
+    definition,
+    maxDurability,
+    currentDurability,
+    missingDurability,
+  };
+}
+
+function computeRepairCost(repairTarget: {
+  definition: UnknownRecord | null;
+  maxDurability: number;
+  missingDurability: number;
+}): number {
+  const basePrice =
+    repairTarget.definition && Number.isInteger(repairTarget.definition.sellPrice)
+      ? Math.max(1, repairTarget.definition.sellPrice as number)
+      : 1;
+  const proportionalCost = Math.ceil((basePrice * repairTarget.missingDurability) / Math.max(1, repairTarget.maxDurability));
+  return Math.max(1, proportionalCost);
 }
 
 function resolveShopCurrencyBySubtype(serviceSubtype: number): 'coins' | 'gold' | null {
