@@ -17,6 +17,9 @@ type PetStats = {
   vitality: number;
   intelligence: number;
 };
+type ResolveCharacterMaxVitalsOptions = {
+  includeExplicitMaximums?: boolean;
+};
 
 const ZIZHI_INFO_FILE = resolveRepoPath('data', 'client-derived', 'archive', '00007383__zizhiinfo.txt');
 export const DEFAULT_MAX_VITALS = Object.freeze({
@@ -27,22 +30,32 @@ export const DEFAULT_MAX_VITALS = Object.freeze({
 const GROWTH_ROWS = loadGrowthRows();
 
 export function resolveCharacterMaxVitals(input: UnknownRecord | null | undefined = {}): Vitals {
+  return resolveCharacterMaxVitalsInternal(input, { includeExplicitMaximums: true });
+}
+
+export function resolveCharacterDerivedMaxVitals(
+  input: UnknownRecord | null | undefined = {}
+): Vitals {
+  return resolveCharacterMaxVitalsInternal(input, { includeExplicitMaximums: false });
+}
+
+function resolveCharacterMaxVitalsInternal(
+  input: UnknownRecord | null | undefined = {},
+  options: ResolveCharacterMaxVitalsOptions = {}
+): Vitals {
+  const includeExplicitMaximums = options.includeExplicitMaximums !== false;
   const selectedAptitude = numberOrDefault(input?.selectedAptitude, 0);
   const level = Math.max(1, numberOrDefault(input?.level, 1));
   const stats = normalizePrimaryAttributes(input?.primaryAttributes);
   const bonuses = resolveCharacterBonusAttributes(input);
   const baseAttributes = resolveCharacterBaseAttributes(input);
   const growth = GROWTH_ROWS.get(selectedAptitude) || GROWTH_ROWS.get(0) || { hpGrowth: 950, mpGrowth: 1040 };
-  const explicitHealth = Math.max(
-    0,
-    numberOrDefault(input?.maxHealth, 0),
-    numberOrDefault(input?.maxHp, 0)
-  );
-  const explicitMana = Math.max(
-    0,
-    numberOrDefault(input?.maxMana, 0),
-    numberOrDefault(input?.maxMp, 0)
-  );
+  const explicitHealth = includeExplicitMaximums
+    ? Math.max(0, numberOrDefault(input?.maxHealth, 0), numberOrDefault(input?.maxHp, 0))
+    : 0;
+  const explicitMana = includeExplicitMaximums
+    ? Math.max(0, numberOrDefault(input?.maxMana, 0), numberOrDefault(input?.maxMp, 0))
+    : 0;
 
   const strength = stats.strength + bonuses.strength + baseAttributes.strength;
   const dexterity = stats.dexterity + bonuses.dexterity + baseAttributes.dexterity;

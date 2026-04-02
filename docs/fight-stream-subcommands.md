@@ -47,20 +47,11 @@ Observed client-side prefix:
 5. `targetEntityId: u32`
 6. `targetActionCode: u8` (client treats this as per-target hitstate/result)
 
-Observed second-stage client parse:
+Important separation:
 
-- Caller `0x431a40` reads a leading `u8` flag with `0x589210`.
-- If that flag is non-zero, the branch returns early and does not enter the skill-entry parser.
-- If that flag is zero, it calls `0x54ce10`.
-- `0x54ce10` reads:
-  1. `entryCount: u16`
-  2. repeated entries:
-  3. `entryWordA: u16`
-  4. `entryWordB: u16`
-  5. `entryDwordC: u32`
-- The repeated entry parser uses `0x589240`, `0x589240`, then `0x589270`, so this stage is definitively `u16/u16/u32`, not `u32/u8/u32`.
-- `0x54ce10` passes those three values into `0x54cd70`, which then stores `entryWordA` via `0x54afa0` and mirrors internal fields via `0x54a660`.
-- The floating skill-damage renderer around `0x437954..0x437b39` is downstream of a different object state and is not reached by the current server packet shape.
+- the live `sub=0x04` branch is the cast/effect path at `0x5201a3`
+- the `HandleCombatSkillTableRebuildPayload -> CombatSkillTable_RebuildFromPacket` parser chain belongs to `0x03f0`, not to `sub=0x04`
+- so `0x03f0` experiments must be treated as skill-table rebuilds, not as extra stage-2 payload for `sub=0x04`
 
 Observed behavior in client handler:
 
@@ -72,7 +63,7 @@ Current server implication:
 
 - For skills, send `sub=0x04` first to start the skill animation path.
 - Follow with `sub=0x03` only for actual hit/damage resolution if the skill deals damage.
-- Do not assume `sub=0x04` carries per-target damage in the same flat record. The client has an additional parsed structure after the cast header, and that structure is still only partially decoded.
+- Do not assume `sub=0x04` alone repairs the offensive-skill disable bug. That bug is tied to separate selector state, not to a hidden `sub=0x04` rebuild payload.
 
 ### Confirmed Runtime Handler Chain
 
@@ -259,118 +250,155 @@ Practical implications:
 - if a queued actor is skipped because it died earlier in the same round, the server must advance explicitly instead of waiting for a ready packet that will never arrive
 - if a queued target dies earlier in the same round, the action resolver should retarget or skip cleanly before the queue waits on readiness
 
-## Targeting Notes
+## `0x03ed len=7 hex=ed030a????????` Combat Selector Token
 
-- The client computes offensive-skill availability locally in `FUN_00413670`.
-- In the combat skill menu builder (`FUN_0047af60`), the returned `AL` value is written directly into the entry enabled/disabled flag.
+Observed runtime behavior:
 
-## `Enervate` Disable Root Cause
+- the client sometimes emits `0x03ed sub=0x0a` during command phase with a `u32` payload
+- the sender path is `0x49bdc0 case 6 -> QueueCombatSelectorTokenCommand -> FlushPendingCombatControlCommand`
+- the payload is not a combat runtime id; it is a client-side selector token
 
-The round-2 disable was traced to the `Enervate` skill object validator at `0x54a850`.
+Strong correlation:
 
-Relevant fields on the live `Enervate` object:
+- the `u32` from `0x03ed sub=0x0a` exactly matches the mysterious `u32` that appeared in older successful `0x03fa sub=0x06` packets
+- the same `u32` also shows up in client-originated `0x03f5` skill/control packets such as `sub=0x51`, `sub=0x56`, and `sub=0x58`
+- therefore the `sub=0x06` `u32` field is not an active entity id; `1021` only looked correct because some earlier simplified packets reused the local player runtime id there
+
+Important constraint:
+
+- the client `0x03ed` receiver treats `sub=0x0a` as a no-op
+- so the server should not try to echo `0x03ed sub=0x0a` back to the client
+- the useful action is to consume the token and feed it into the outbound round-control path
+
+## `0x03f0` Skill Table Rebuild
+
+Verified handler chain:
+
+- `HandleFightTurnPacket_03F0 (0x5052a0)`
+- `HandleCombatSkillTableRebuildPayload`
+- `CombatSkillTable_RebuildFromPacket`
+
+Observed behavior:
+
+- `HandleCombatSkillTableRebuildPayload` reads a leading `u8` flag
+- if the flag is non-zero, the handler returns without rebuilding anything
+- if the flag is zero, it calls `CombatSkillTable_RebuildFromPacket` on the local player skill table
+
+Verified rebuild semantics:
+
+- `CombatSkillTable_RebuildFromPacket` starts by calling `CombatSkillTable_Clear`, which clears the entire live combat skill-object table
+- it then reads `entryCount: u16`
+- repeated entries are `u16/u16/u16`
+- each entry is instantiated/imported through `CombatSkillTable_CreateEntryFromTemplate`
+
+Practical implication:
+
+- combat-time `0x03f0` is a full replacement rebuild, not a patch and not a narrow UI refresh
+- full combat-time `0x03f0` replays passive/stat-bearing objects and can trigger ATK drift
+- partial or filtered combat-time `0x03f0` is also wrong because the client treats it as replacement and drops missing skill objects
+
+## `0x03e9 sub=0x03` Mapserver Progress Restore
+
+Verified registration:
+
+- `RegisterGamePacketHandlers` registers `0x03e9 -> HandleMapServerProgressPacket_03E9`
+- `HandleMapServerProgressPacket_03E9` is a 25-case subcommand dispatcher
+- `sub=0x03` is the local player restore path
+
+Verified `sub=0x03` behavior:
+
+- the handler logs `MAPSERVER INPROGRESS: 3-1` through `3-5`
+- it explicitly calls `ClearLocalCombatRuntimeState (0x434070)` before restoring local player fields
+- it then calls `RestoreLocalPlayerFromMapServerProgress (0x436930)`, which reads:
+  - `u32 runtimeId`
+  - `u16 roleEntityType`
+  - `u32 roleData`
+  - `u16 x`
+  - `u16 y`
+  - `u16 reserved`
+  - `string name`
+  - `u8 extraNameFlag`
+  - optional extra string when the flag is non-zero
+
+Practical implication:
+
+- post-combat client cleanup is not only a fight-stream concern
+- the client’s real combat-exit clear path is entered through `0x03e9 sub=0x03`
+- because that path clears the live combat skill table before reading the restore payload, omitting this packet can leave the last offensive skill’s reuse gate resident into the next battle
+
+Current server takeaway:
+
+- the existing login / enter-game success packet already matches the required field layout closely enough
+- a narrow `0x03e9 sub=0x03` restore alone is not sufficient in practice: it clears combat skill state, but the client also needs the normal post-login rehydrate layers for inventory, equipment-derived stats, pet state, and related UI state
+- the practical server fix is to run the full runtime bootstrap after combat exit (`sendEnterGameOk({ syncMode: 'runtime' })`), using `0x03e9 sub=0x03` as part of that broader restore path rather than as a standalone packet
+- ordering matters: the server must clear its combat state first, then send the runtime bootstrap, otherwise the client can apply only part of the restore and leave inventory / stats / UI in a mixed combat state
+
+## Offensive Skill Disable Root Cause
+
+The client computes offensive-skill availability locally.
+
+Relevant pieces:
+
+- the combat menu validator lives at `CombatSkillRuntime_CheckReuseBlocked (0x54a850)`
+- the cast-time overlay lives at `CombatSkillRuntime_ApplyCastSelector (0x54a990)`
+- the template import path lives at `CombatSkillRuntime_InitFromTemplate (0x54aa90)`
+
+Relevant live-object fields:
 
 - `+0x170`: actor/runtime id gate
 - `+0x174`: selector gate
 - `+0xd0`, `+0x38`: additional selector threshold terms
 
-Validator rule:
+Observed validator rule:
 
 - if `skillObj+0x170 == argActor`
 - and `argSelector < skillObj+0x174 + skillObj+0xd0 + skillObj+0x38`
-- then return `error 4`
-
-Live object comparison:
-
-- `Enervate` skill object: `0x4c8e0f0`
-- `Defiant` skill object: `0x4c8df70`
+- then the validator returns error `4` and the offensive skill is greyed out
 
 Observed behavior:
 
-- `Defiant` bypasses the actor-match gate because `+0x170 = -1`
-- `Enervate` is marked with the current actor id and selector after cast, so it fails the same validator on the next round unless the client gets a fresh skill-state sync
+- self-buffs such as `Defiant` bypass this because their live object keeps `+0x170 = -1`
+- offensive skills such as `Enervate` get marked with actor/selector state after cast and then fail the same validator next round unless the selector state is refreshed correctly
 
-## `Enervate` Rebuild Path
+## `0x03fa sub=0x06` Round-Control Layout
 
-The client rebuilds the live `Enervate` object in two separate steps:
+The real `sub=0x06` handler (`0x51f985`) parses:
 
-1. Copy/import from a source skill-state object:
-   - `0x54aa90` entered from `0x54cdb0`
-   - source object observed: `0x48d9630`
-2. Overlay actor/selector state from the live `sub=0x04` skill-cast handler:
-   - `0x54a990` entered from `0x52028d`
-   - observed values: `actor=1021`, `sel=5`
+1. `u16` -> visible round/banner value
+2. `u32` -> selector token written into later skill-resolution state
+3. `u16`
+4. `u8`
+5. optional `u32` depending on the `u8`
 
-Important implication:
+Important corrections:
 
-- the trailing stage-2 `u32` in `sub=0x04` is not the source of the round-2 disable
-- `0x54afa0` only writes a `u16` into `skillObj+0x18`
-- the disable happens because `sub=0x04` overlays the live skill object with actor/selector state, and that state later trips `0x54a850`
+- the first `u16` must stay the real round number
+- the second field is a selector token, not the acting runtime id
+- `EnterCombatModeAndResetSelectorState (0x518a10)` seeds local selector state to `1`, so the client has a fallback before it receives a server-driven token
 
-## Working Server Fix
+## Current Corrective Direction
 
-Resending `0x03f0` skill state sync at command-phase refresh fixes the round-2 disable:
+The correct fix is no longer "send `0x03f0` on command rebuild".
 
-- `reason=combat-command-client-ready`
-- `reason=combat-command-enemy-counterattack-normal`
-- `reason=combat-command-enemy-counterattack-post-kill`
+Current best model:
 
-This keeps `Enervate` enabled across rounds without needing the old hybrid `sub=0x03` impact packet.
+1. keep `0x03f0` for login/out-of-combat skill-table sync only
+2. consume client `0x03ed sub=0x0a <selectorToken>`
+3. thread that selector token into the `u32` field of outbound `0x03fa sub=0x06`
+4. keep `0x03fa sub=0x04` for cast playback and `0x03fa sub=0x03` for hit-resolution where needed
 
-Important follow-up:
+Why this is the most defensible model:
 
-- `0x03fa sub=0x06 fieldA` is also the visible round-banner value in the client UI.
-- Using selector probes like `fieldA=5` makes the client render `Round 5` even when the real encounter round is `1`.
-- So the working server fix is:
-  - keep the extra `0x03f0` refresh
-  - keep hybrid skill impact off by default
-  - keep `sub=0x06 fieldA` equal to the real round number
-- Do not reuse `fieldA` for selector experimentation.
+- it matches the client sender state machine instead of fighting it
+- it explains why `0x03f0` "worked" while also causing ATK drift and skill loss
+- it explains the older good traces where a second `sub=0x06` used a non-runtime selector token like `0x07db693e`
+- it matches the fact that `sub=0x04` later consumes selector state through the `+0x2c44` family instead of resolving the target purely from the flat cast header
 
-## Current Remaining Bug
+Open point:
 
-After the `0x03f0` refresh fix:
-
-- `Enervate` stays enabled after round transition
-- hybrid `sub=0x03` skill impact can remain disabled, so double animation is gone
-- damage text is still missing
-
-Current packet sequence in the good state:
-
-- `0x03f0` skill state refresh on command rebuild
-- `0x03fa sub=0x04` for the skill cast
-- no additional skill-specific `0x03fa sub=0x03`
-
-So the remaining issue is now isolated:
-
-- the missing red damage is a pure `sub=0x04` client playback/decode problem
-- it is no longer entangled with the round-2 skill-disable bug
-- the round banner regression from the probe was self-inflicted by overriding `sub=0x06 fieldA`, not by the real round counter
-- Observed breakpoint result in the failing second-fight case:
-  - `skillId=1101 (Enervate) -> enabled=0`
-  - `skillId=3103 (Defiant) -> enabled=1`
-- Self-buffs and offensive skills therefore do not share the same client gate.
-- A likely failure mode is stale combat-target state carried across encounters. Reusing the same enemy runtime IDs across fights is unsafe because the client appears to cache targetability for offensive-skill validation.
-
-## Latest `sub=0x04` Gate Result
-
-With the round-refresh fix active and hybrid impact disabled, the client still takes the same early `sub=0x04` path and bails before the deeper effect block:
-
-- `0x52028d` apply/overlay:
-  - `esi=0x4c8e0f0`
-  - `ebp=0x5fd8fd0`
-- `0x52034c` early gate:
-  - `eax=0x4b365d8`
-  - `edx=0x48d9630`
-  - `esi=0x8e9110`
-  - `ebp=0x5fd8fd0`
-- `0x520370` and `0x52038d` did not fire
-
-Current implication:
-
-- the client still exits before the deeper `0x43d1b0` call / effect block
-- the remaining missing-damage bug is still upstream of the effect block
-- round-state and hybrid-animation issues are no longer part of this bug
+- in multi-actor traces, the client sometimes received multiple `sub=0x06` packets per round with different selector tokens
+- so the final server implementation may need a round-control packet combination, not just one packet
+- the key boundary is still the same: fix selector-token flow, not combat-time skill-table rebuild
 
 ## Failed Packet Probes
 

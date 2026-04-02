@@ -3,7 +3,7 @@ import { normalizeQuestState } from '../quest-engine/index.js';
 import { normalizeInventoryState } from '../inventory/index.js';
 import { normalizePets } from '../pet-runtime.js';
 import { CHARACTER_VITALS_BASELINE } from '../gameplay/session-flows.js';
-import { resolveCharacterMaxVitals } from '../gameplay/max-vitals.js';
+import { resolveCharacterDerivedMaxVitals } from '../gameplay/max-vitals.js';
 import {
   getAptitudeSkillDefinition,
   getPassiveSkillDefinition,
@@ -208,7 +208,7 @@ export function normalizeCharacterRecord(character: UnknownRecord): UnknownRecor
   const currentHealth = numberOrDefault(character.currentHealth, CHARACTER_VITALS_BASELINE.health);
   const currentMana = numberOrDefault(character.currentMana, CHARACTER_VITALS_BASELINE.mana);
   const currentRage = numberOrDefault(character.currentRage, 100);
-  const maxVitals = resolveCharacterMaxVitals({
+  const maxVitals = resolveCharacterDerivedMaxVitals({
     roleEntityType: numberOrDefault(
       character.roleEntityType,
       numberOrDefault(character.entityType, 0)
@@ -221,9 +221,6 @@ export function normalizeCharacterRecord(character: UnknownRecord): UnknownRecor
     currentHealth,
     currentMana,
     currentRage,
-    maxHealth: numberOrDefault(character.maxHealth, 0),
-    maxMana: numberOrDefault(character.maxMana, 0),
-    maxRage: numberOrDefault(character.maxRage, 0),
   });
   const clampedHealth = Math.max(0, Math.min(currentHealth, maxVitals.health));
   const clampedMana = Math.max(0, Math.min(currentMana, maxVitals.mana));

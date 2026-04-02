@@ -50,6 +50,8 @@ export interface LearnedSkillRecord {
 export interface SkillState {
   learnedSkills: LearnedSkillRecord[];
   hotbarSkillIds: number[];
+  lastCombatAction?: 'attack' | 'skill';
+  lastCombatSkillId?: number | null;
 }
 
 // --- Quest events (discriminated union — replaces if/else type dispatch) ---
@@ -184,6 +186,11 @@ export interface GameSession {
   maxHealth: number;
   maxMana: number;
   maxRage: number;
+  derivedMaxHealth?: number;
+  derivedMaxMana?: number;
+  derivedMaxRage?: number;
+  clientObservedMaxHealth?: number | null;
+  clientObservedMaxMana?: number | null;
   // Currency
   gold: number;
   bankGold: number;
@@ -425,6 +432,10 @@ export interface CombatState {
   sharedRoundIndex?: number | null;
   sharedAwaitingActionReady?: boolean;
   sharedAwaitingReadySessionId?: number | null;
+  commandReadyFallbackToken?: number | null;
+  commandReadyFallbackRound?: number | null;
+  selectorToken?: number | null;
+  selectorTokenSource?: 'server' | 'client' | null;
   playerStatus: CombatPlayerStatus;
   enemyStatuses: Record<number, CombatEnemyStatus>;
 }

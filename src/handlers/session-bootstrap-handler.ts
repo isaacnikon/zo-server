@@ -1,14 +1,13 @@
 import type { GameSession, QuestSyncMode } from '../types.js';
 
-import { DEFAULT_FLAGS, LOGIN_CMD, LOGIN_SERVER_LIST_RESULT } from '../config.js';
-import { PacketWriter } from '../protocol.js';
+import { DEFAULT_FLAGS } from '../config.js';
 import { syncInventoryStateToClient } from '../gameplay/inventory-runtime.js';
 import { sendSkillStateSync } from '../gameplay/skill-runtime.js';
 import { buildMapGatheringNodes } from '../gameplay/gathering-runtime.js';
 import { syncFrogTeleporterClientState } from '../gameplay/frog-teleporter-service.js';
 import { getMapBootstrapSpawns } from '../map-spawns.js';
 import { getCurrentObjective, getCurrentStep, getCurrentStepUi, getQuestDefinition } from '../quest-engine/index.js';
-import { buildSceneSpawnBatchPacket } from '../protocol/gameplay-packets.js';
+import { buildEnterGameProgressPacket, buildSceneSpawnBatchPacket } from '../protocol/gameplay-packets.js';
 import { startAutoMapRotation } from '../scenes/map-rotation.js';
 import { numberOrDefault } from '../character/normalize.js';
 import { ensureWorldPresence, syncWorldPresence } from '../world-state.js';
@@ -32,20 +31,16 @@ export function sendEnterGameOk(session: GameSession, options: { syncMode?: Ques
   session.ensureQuestStateReady();
   ensureWorldPresence(session);
 
-  const writer = new PacketWriter();
-  writer.writeUint16(LOGIN_CMD);
-  writer.writeUint8(LOGIN_SERVER_LIST_RESULT);
-  writer.writeUint32(session.runtimeId >>> 0);
-  writer.writeUint16((session.roleEntityType || session.entityType) & 0xffff);
-  writer.writeUint32(session.roleData);
-  writer.writeUint16(session.currentX);
-  writer.writeUint16(session.currentY);
-  writer.writeUint16(0);
-  writer.writeString(`${session.charName}\0`);
-  writer.writeUint8(0);
-  writer.writeUint16(session.currentMapId);
   session.writePacket(
-    writer.payload(),
+    buildEnterGameProgressPacket({
+      runtimeId: session.runtimeId >>> 0,
+      roleEntityType: (session.roleEntityType || session.entityType) & 0xffff,
+      roleData: session.roleData >>> 0,
+      x: session.currentX,
+      y: session.currentY,
+      name: session.charName,
+      mapId: session.currentMapId,
+    }),
     DEFAULT_FLAGS,
     `Sending enter-game success char="${session.charName}" runtimeId=0x${session.runtimeId.toString(16)} entity=0x${session.entityType.toString(16)} roleEntity=0x${session.roleEntityType.toString(16)} aptitude=${session.selectedAptitude} map=${session.currentMapId} pos=${session.currentX},${session.currentY}`
   );

@@ -1,7 +1,7 @@
 import { DEFAULT_FLAGS, GAME_FIGHT_ACTION_CMD } from '../config.js';
 import { buildSkillCastPlaybackPacket, buildSlaughterCastPlaybackPacket } from './packets.js';
 import { getSkillDefinition } from '../gameplay/skill-definitions.js';
-import { findLearnedSkill, incrementSkillProficiency, resolveEffectiveSkillLevel } from '../gameplay/skill-runtime.js';
+import { ensureSkillState, findLearnedSkill, incrementSkillProficiency, resolveEffectiveSkillLevel } from '../gameplay/skill-runtime.js';
 import {
   resolveSkillTargets,
   BLEED_SKILL_ID,
@@ -86,7 +86,6 @@ import {
 } from './combat-resolution.js';
 import {
   areAllSharedTeamCombatActionsReady,
-  getSharedTeamCombatFollowers,
   getSharedTeamCombatOwnerSession,
   setSharedTeamCombatQueuedAction,
 } from '../gameplay/team-runtime.js';
@@ -205,15 +204,14 @@ function tryHandleSharedTeamSkillSelection(
     return false;
   }
 
-  const followers = getSharedTeamCombatFollowers(owner).filter((participant) => participant.combatState?.active);
-  if ((owner.id >>> 0) === (session.id >>> 0) && followers.length <= 0) {
-    return false;
-  }
-
   if (!session.combatState?.active || !session.combatState.awaitingPlayerAction) {
-    session.log(`Ignoring shared combat skill selection without command prompt active=${session.combatState?.active ? 1 : 0}`);
+    session.log(`Ignoring combat round skill selection without command prompt active=${session.combatState?.active ? 1 : 0}`);
     return true;
   }
+
+  const skillState = ensureSkillState(session);
+  skillState.lastCombatAction = 'skill';
+  skillState.lastCombatSkillId = skillId & 0xffff;
 
   session.combatState.awaitingPlayerAction = false;
   session.combatState.awaitingClientReady = false;
@@ -225,7 +223,7 @@ function tryHandleSharedTeamSkillSelection(
     targetEntityId: targetEntityId >>> 0,
   });
   session.log(
-    `Queued shared combat skill selection round=${owner.combatState.round} skillId=${skillId & 0xffff} targetEntityId=${targetEntityId >>> 0} ownerSession=${owner.id >>> 0}`
+    `Queued combat round skill selection round=${owner.combatState.round} skillId=${skillId & 0xffff} targetEntityId=${targetEntityId >>> 0} ownerSession=${owner.id >>> 0}`
   );
 
   if (!areAllSharedTeamCombatActionsReady(owner)) {
@@ -323,6 +321,10 @@ export function resolveCombatSkillUse(
     resendCombatCommandPrompt(session, 'skill-rejected-mana');
     return;
   }
+
+  const skillState = ensureSkillState(session);
+  skillState.lastCombatAction = 'skill';
+  skillState.lastCombatSkillId = skillId >>> 0;
 
   session.combatState.awaitingPlayerAction = false;
   session.combatState.phase = 'resolved';

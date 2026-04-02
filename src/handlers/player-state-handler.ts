@@ -150,10 +150,15 @@ export function tryHandleClientMaxVitalsSyncPacket(
     return false;
   }
 
-  const maxHealth = Math.max(1, vitals.maxHealth >>> 0);
-  const maxMana = Math.max(0, vitals.maxMana >>> 0);
-  session.maxHealth = maxHealth;
-  session.maxMana = maxMana;
+  const observedMaxHealth = Math.max(1, vitals.maxHealth >>> 0);
+  const observedMaxMana = Math.max(0, vitals.maxMana >>> 0);
+  session.clientObservedMaxHealth = observedMaxHealth;
+  session.clientObservedMaxMana = observedMaxMana;
+  recomputeSessionMaxVitals(session, {
+    currentHealth: session.currentHealth,
+    currentMana: session.currentMana,
+    currentRage: session.currentRage,
+  });
   const clampedHealth = Math.max(0, Math.min(Math.max(0, session.currentHealth || 0), session.maxHealth));
   const clampedMana = Math.max(0, Math.min(Math.max(0, session.currentMana || 0), session.maxMana));
   const clampedVitals =
@@ -165,8 +170,8 @@ export function tryHandleClientMaxVitalsSyncPacket(
   session.persistCurrentCharacter({
     currentHealth: session.currentHealth,
     currentMana: session.currentMana,
-    maxHealth: session.maxHealth,
-    maxMana: session.maxMana,
+    maxHealth: session.derivedMaxHealth || session.maxHealth,
+    maxMana: session.derivedMaxMana || session.maxMana,
   });
   if (clampedVitals) {
     sendSelfStateVitalsUpdate(session, {
@@ -176,7 +181,7 @@ export function tryHandleClientMaxVitalsSyncPacket(
     });
   }
   session.log(
-    `Client max-vitals sync sub=0x2f hp=${session.maxHealth} mp=${session.maxMana} current=${session.currentHealth}/${session.currentMana}`
+    `Client max-vitals sync sub=0x2f observed=${observedMaxHealth}/${observedMaxMana} derived=${session.derivedMaxHealth || session.maxHealth}/${session.derivedMaxMana || session.maxMana} effective=${session.maxHealth}/${session.maxMana} current=${session.currentHealth}/${session.currentMana}`
   );
   return true;
 }

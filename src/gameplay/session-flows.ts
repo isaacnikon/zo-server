@@ -1,4 +1,8 @@
-import { DEFAULT_MAX_VITALS, resolveCharacterMaxVitals as resolveDerivedCharacterMaxVitals } from './max-vitals.js';
+import {
+  DEFAULT_MAX_VITALS,
+  resolveCharacterDerivedMaxVitals,
+  resolveCharacterMaxVitals as resolveEffectiveCharacterMaxVitals,
+} from './max-vitals.js';
 import { getMapDetails, getMapSummary } from '../map-data.js';
 import { numberOrDefault, type UnknownRecord } from '../utils.js';
 type Vitals = { health: number; mana: number; rage: number; companionHp?: number };
@@ -7,7 +11,7 @@ type Position = { mapId: number; x: number; y: number };
 export const CHARACTER_VITALS_BASELINE = DEFAULT_MAX_VITALS;
 
 export function resolveCharacterMaxVitals(currentVitals: UnknownRecord | null = null): Vitals {
-  return resolveDerivedCharacterMaxVitals(currentVitals);
+  return resolveEffectiveCharacterMaxVitals(currentVitals);
 }
 
 export function resolveInnRestVitals(currentVitals: UnknownRecord | null | undefined): Vitals {
@@ -144,14 +148,24 @@ export function recomputeSessionMaxVitals(session: UnknownRecord, overrides: Unk
     currentHealth: session?.currentHealth,
     currentMana: session?.currentMana,
     currentRage: session?.currentRage,
-    maxHealth: session?.maxHealth,
-    maxMana: session?.maxMana,
-    maxRage: session?.maxRage,
     ...(overrides || {}),
   };
-  const maxVitals = resolveCharacterMaxVitals(input);
-  session.maxHealth = maxVitals.health;
-  session.maxMana = maxVitals.mana;
-  session.maxRage = maxVitals.rage;
-  return maxVitals;
+  const derivedMaxVitals = resolveCharacterDerivedMaxVitals(input);
+  session.derivedMaxHealth = derivedMaxVitals.health;
+  session.derivedMaxMana = derivedMaxVitals.mana;
+  session.derivedMaxRage = derivedMaxVitals.rage;
+  const clientObservedMaxHealth = Number.isInteger(session?.clientObservedMaxHealth)
+    ? Math.max(1, session.clientObservedMaxHealth >>> 0)
+    : 0;
+  const clientObservedMaxMana = Number.isInteger(session?.clientObservedMaxMana)
+    ? Math.max(0, session.clientObservedMaxMana >>> 0)
+    : 0;
+  session.maxHealth = Math.max(derivedMaxVitals.health, clientObservedMaxHealth);
+  session.maxMana = Math.max(derivedMaxVitals.mana, clientObservedMaxMana);
+  session.maxRage = derivedMaxVitals.rage;
+  return {
+    health: session.maxHealth,
+    mana: session.maxMana,
+    rage: session.maxRage,
+  };
 }

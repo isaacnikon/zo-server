@@ -1,4 +1,4 @@
-import { GAME_DIALOG_MESSAGE_SUBCMD, FIGHT_ACTIVE_STATE_SUBCMD, FIGHT_CLIENT_PLAYER_VAR_SYNC_SUBCMD, GAME_DIALOG_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, GAME_GATHER_RESPONSE_CMD, GAME_ITEM_CONTAINER_CMD, ITEM_CONTAINER_POSITION_SUBCMD, GAME_ITEM_CMD, GAME_NPC_SHOP_CMD, GAME_QUEST_CMD, GAME_QUEST_TABLE_CMD, GAME_SCENE_ENTER_CMD, GAME_SCRIPT_EVENT_CMD, GAME_SELF_STATE_CMD, GAME_TEAM_STATE_CMD, SCENE_ENTER_LOAD_SUBCMD, SELF_STATE_APTITUDE_SUBCMD, SELF_STATE_VALUE_UPDATE_SUBCMD, } from '../config.js';
+import { GAME_DIALOG_MESSAGE_SUBCMD, FIGHT_ACTIVE_STATE_SUBCMD, FIGHT_CLIENT_PLAYER_VAR_SYNC_SUBCMD, GAME_DIALOG_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, GAME_GATHER_RESPONSE_CMD, GAME_ITEM_CONTAINER_CMD, ITEM_CONTAINER_POSITION_SUBCMD, GAME_ITEM_CMD, GAME_NPC_SHOP_CMD, GAME_QUEST_CMD, GAME_QUEST_TABLE_CMD, GAME_SCENE_ENTER_CMD, GAME_SCRIPT_EVENT_CMD, GAME_SELF_STATE_CMD, GAME_TEAM_STATE_CMD, LOGIN_CMD, LOGIN_SERVER_LIST_RESULT, SCENE_ENTER_LOAD_SUBCMD, SELF_STATE_APTITUDE_SUBCMD, SELF_STATE_VALUE_UPDATE_SUBCMD, } from '../config.js';
 import { PacketWriter } from '../protocol.js';
 import { writeClientItemInstancePayload } from './item-serializer.js';
 
@@ -45,6 +45,16 @@ interface ValueUpdateParams {
 interface PlayerVarSyncParams {
   index: number;
   value: number;
+}
+
+interface EnterGameProgressParams {
+  runtimeId: number;
+  roleEntityType: number;
+  roleData: number;
+  x: number;
+  y: number;
+  name: string;
+  mapId: number;
 }
 
 interface PetStateFlags {
@@ -198,6 +208,30 @@ export function buildSelfStateAptitudeSyncPacket({
   writer.writeUint16(primaryAttributes.intelligence & 0xffff);
   writer.writeUint16(statusPoints & 0xffff);
   writer.writeUint8(petCapacity & 0xff);
+  return writer.payload();
+}
+
+export function buildEnterGameProgressPacket({
+  runtimeId,
+  roleEntityType,
+  roleData,
+  x,
+  y,
+  name,
+  mapId,
+}: EnterGameProgressParams): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(LOGIN_CMD);
+  writer.writeUint8(LOGIN_SERVER_LIST_RESULT);
+  writer.writeUint32(runtimeId >>> 0);
+  writer.writeUint16(roleEntityType & 0xffff);
+  writer.writeUint32(roleData >>> 0);
+  writer.writeUint16(x & 0xffff);
+  writer.writeUint16(y & 0xffff);
+  writer.writeUint16(0);
+  writer.writeString(`${name}\0`);
+  writer.writeUint8(0);
+  writer.writeUint16(mapId & 0xffff);
   return writer.payload();
 }
 

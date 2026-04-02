@@ -12,6 +12,10 @@ function getPetOwnerRuntimeId(session: GameSession): number {
 }
 
 export function tryHandlePetActionPacket(session: GameSession, payload: Buffer): boolean {
+  if (payload.length < 3) {
+    return false;
+  }
+
   const subcmd = payload[2];
   const selectedPetRuntimeId =
     typeof session.selectedPetRuntimeId === 'number' ? session.selectedPetRuntimeId : null;
@@ -25,8 +29,7 @@ export function tryHandlePetActionPacket(session: GameSession, payload: Buffer):
 
   if (subcmd === 0x03 && payload.length >= 6) {
     if (!selectedPet) {
-      session.log('Pet position request ignored reason=no-selected-pet');
-      return true;
+      return false;
     }
 
     selectedPet.stateFlags = {
@@ -54,14 +57,13 @@ export function tryHandlePetActionPacket(session: GameSession, payload: Buffer):
     ? session.pets.find((entry: PetRecord) => (entry?.runtimeId >>> 0) === runtimeId) || null
     : null;
 
-  session.log(
-    `Pet action request sub=0x${subcmd.toString(16)} runtimeId=${runtimeId} known=${pet ? 1 : 0}`
-  );
-
   if (subcmd === 0x51) {
     if (!pet) {
-      return true;
+      return false;
     }
+    session.log(
+      `Pet action request sub=0x${subcmd.toString(16)} runtimeId=${runtimeId} known=1`
+    );
     session.selectedPetRuntimeId = runtimeId >>> 0;
     session.petSummoned = true;
     session.pets = normalizePets([
@@ -74,6 +76,12 @@ export function tryHandlePetActionPacket(session: GameSession, payload: Buffer):
   }
 
   if (subcmd === 0x58) {
+    if (!pet && (selectedPetRuntimeId === null || (selectedPetRuntimeId >>> 0) !== runtimeId)) {
+      return false;
+    }
+    session.log(
+      `Pet action request sub=0x${subcmd.toString(16)} runtimeId=${runtimeId} known=${pet ? 1 : 0}`
+    );
     if (pet) {
       session.selectedPetRuntimeId = runtimeId >>> 0;
     }
@@ -99,7 +107,7 @@ export function tryHandlePetActionPacket(session: GameSession, payload: Buffer):
     return true;
   }
 
-  return true;
+  return false;
 }
 
 export function schedulePetReplay(session: GameSession, delayMs = 500): void {

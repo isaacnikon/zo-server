@@ -11,6 +11,7 @@ import { DEFAULT_FLAGS, ENTITY_TYPE, GAME_DIALOG_CMD, GAME_DIALOG_MESSAGE_SUBCMD
 import { PacketWriter, buildPacket } from './protocol.js';
 import { buildGameDialoguePacket, buildSceneEnterPacket, buildServerRunScriptPacket, buildSelfStateAptitudeSyncPacket, } from './protocol/gameplay-packets.js';
 import { ObjectiveRegistry } from './objectives/objective-registry.js';
+import { getClientVisibleExperience } from './gameplay/progression.js';
 import { questObjectiveSystem } from './objectives/quest-objective-system.js';
 import { CHARACTER_VITALS_BASELINE, resolveCurrentPlayerVitals } from './gameplay/session-flows.js';
 import { stopAutoMapRotation } from './scenes/map-rotation.js';
@@ -71,6 +72,11 @@ class Session implements GameSession {
   maxHealth: number;
   maxMana: number;
   maxRage: number;
+  derivedMaxHealth: number;
+  derivedMaxMana: number;
+  derivedMaxRage: number;
+  clientObservedMaxHealth: number | null;
+  clientObservedMaxMana: number | null;
   gold: number;
   bankGold: number;
   boundGold: number;
@@ -171,6 +177,11 @@ class Session implements GameSession {
     this.maxHealth = CHARACTER_VITALS_BASELINE.health;
     this.maxMana = CHARACTER_VITALS_BASELINE.mana;
     this.maxRage = 100;
+    this.derivedMaxHealth = CHARACTER_VITALS_BASELINE.health;
+    this.derivedMaxMana = CHARACTER_VITALS_BASELINE.mana;
+    this.derivedMaxRage = 100;
+    this.clientObservedMaxHealth = null;
+    this.clientObservedMaxMana = null;
     this.gold = 0;
     this.bankGold = 0;
     this.boundGold = 0;
@@ -444,10 +455,11 @@ class Session implements GameSession {
 
   sendSelfStateAptitudeSync(): void {
     const vitals = resolveCurrentPlayerVitals(this);
+    const displayExperience = getClientVisibleExperience(this.level, this.experience);
     const packet = buildSelfStateAptitudeSyncPacket({
       selectedAptitude: this.selectedAptitude,
       level: this.level,
-      experience: this.experience,
+      experience: displayExperience,
       bankGold: this.bankGold,
       gold: this.gold,
       boundGold: this.boundGold,
@@ -466,7 +478,7 @@ class Session implements GameSession {
     this.writePacket(
       packet,
       DEFAULT_FLAGS,
-      `Sending self-state stat sync cmd=0x${GAME_SELF_STATE_CMD.toString(16)} sub=0x${SELF_STATE_APTITUDE_SUBCMD.toString(16)} aptitude=${this.selectedAptitude} level=${this.level} hp/mp/rage=${vitals.health}/${vitals.mana}/${vitals.rage} stats=${this.primaryAttributes.intelligence}/${this.primaryAttributes.vitality}/${this.primaryAttributes.dexterity}/${this.primaryAttributes.strength} statusPoints=${this.statusPoints} probeFields=${SELF_STATE_PROBE_FIELD_A}/${SELF_STATE_PROBE_FIELD_B} packetHex=${packet.toString('hex')}`
+      `Sending self-state stat sync cmd=0x${GAME_SELF_STATE_CMD.toString(16)} sub=0x${SELF_STATE_APTITUDE_SUBCMD.toString(16)} aptitude=${this.selectedAptitude} level=${this.level} exp=${displayExperience} hp/mp/rage=${vitals.health}/${vitals.mana}/${vitals.rage} stats=${this.primaryAttributes.intelligence}/${this.primaryAttributes.vitality}/${this.primaryAttributes.dexterity}/${this.primaryAttributes.strength} statusPoints=${this.statusPoints} probeFields=${SELF_STATE_PROBE_FIELD_A}/${SELF_STATE_PROBE_FIELD_B} packetHex=${packet.toString('hex')}`
     );
   }
 
@@ -552,8 +564,12 @@ class Session implements GameSession {
 
   sendCombatEncounterProbe(action: Record<string, unknown>): void {
     const participants = getTeamCombatParticipants(this);
+    const hadActiveCombat = this.combatState?.active === true;
     if (participants.length <= 1) {
       combatHandlerSendCombatEncounterProbe(this, action);
+      if (!hadActiveCombat && this.combatState?.active) {
+        beginSharedTeamCombat(this, [this]);
+      }
       return;
     }
 
@@ -572,7 +588,9 @@ class Session implements GameSession {
         allies: participants.filter((member) => (member.id >>> 0) !== (participant.id >>> 0)),
       });
     }
-    beginSharedTeamCombat(this, participants);
+    if (!hadActiveCombat && this.combatState?.active) {
+      beginSharedTeamCombat(this, participants);
+    }
   }
 
   sendCombatExitProbe(action: Record<string, unknown>): void {

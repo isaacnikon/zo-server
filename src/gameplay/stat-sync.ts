@@ -1,6 +1,7 @@
 import { DEFAULT_FLAGS, GAME_SELF_STATE_CMD } from '../config.js';
 import { buildSelfStateValueUpdatePacket } from '../protocol/gameplay-packets.js';
 import type { GameSession } from '../types.js';
+import { getClientVisibleExperience } from './progression.js';
 type ValueUpdateKind = 'gold' | 'coins' | 'renown' | 'experience' | 'health' | 'mana' | 'rage';
 
 export const VALUE_UPDATE_DISCRIMINATORS = Object.freeze({
@@ -18,6 +19,8 @@ export function sendSelfStateValueUpdate(session: GameSession, kind: ValueUpdate
   if (discriminator == null) {
     return;
   }
+  const normalizedValue =
+    kind === 'experience' ? getClientVisibleExperience(session.level || 1, value) : value;
 
   const encodedDiscriminator =
     typeof discriminator === 'string' ? discriminator.charCodeAt(0) : discriminator & 0xff;
@@ -25,10 +28,10 @@ export function sendSelfStateValueUpdate(session: GameSession, kind: ValueUpdate
   session.writePacket(
     buildSelfStateValueUpdatePacket({
       discriminator: encodedDiscriminator,
-      value,
+      value: normalizedValue,
     }),
     DEFAULT_FLAGS,
-    `Sending self-state value update cmd=0x${GAME_SELF_STATE_CMD.toString(16)} kind=${kind} discriminator=0x${encodedDiscriminator.toString(16)} value=${value}`
+    `Sending self-state value update cmd=0x${GAME_SELF_STATE_CMD.toString(16)} kind=${kind} discriminator=0x${encodedDiscriminator.toString(16)} value=${normalizedValue}`
   );
 }
 

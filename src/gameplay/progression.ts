@@ -35,6 +35,13 @@ export function getRequiredExperienceForNextLevel(level: number): number | null 
   return PROGRESSION.requiredExperienceByLevel.get(level) || DEFAULT_REQUIRED_EXPERIENCE;
 }
 
+export function getClientVisibleExperience(level: number, experience: number): number {
+  if (Math.max(1, numberOrDefault(level, 1)) >= PROGRESSION.maxLevel) {
+    return 0;
+  }
+  return Math.max(0, numberOrDefault(experience, 0));
+}
+
 export function applyExperienceGain(character: UnknownRecord | null | undefined, gainedExperience: number) {
   const currentLevel = Math.max(1, numberOrDefault(character?.level, 1));
   let level = currentLevel;

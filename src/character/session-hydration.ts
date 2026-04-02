@@ -1,8 +1,7 @@
 import type { GameSession } from '../types.js';
 
 import { normalizePets } from '../pet-runtime.js';
-import { CHARACTER_VITALS_BASELINE } from '../gameplay/session-flows.js';
-import { resolveCharacterMaxVitals } from '../gameplay/max-vitals.js';
+import { CHARACTER_VITALS_BASELINE, recomputeSessionMaxVitals } from '../gameplay/session-flows.js';
 import { resolveRoleData } from './role-utils.js';
 import { defaultFrogTeleporterUnlocks, hydrateFrogTeleporterUnlocks } from '../gameplay/frog-teleporter-service.js';
 import { defaultBonusAttributes, numberOrDefault, normalizeBonusAttributes, normalizePrimaryAttributes, normalizeCharacterRecord, normalizeSkillState, } from './normalize.js';
@@ -48,23 +47,13 @@ export function hydratePendingGameCharacter(session: GameSession, sharedState: R
   session.bonusAttributes = normalizeBonusAttributes(pendingCharacter.bonusAttributes);
   session.skillState = normalizeSkillState(pendingCharacter.skillState);
   session.statusPoints = numberOrDefault(pendingCharacter.statusPoints, 0);
-  const maxVitals = resolveCharacterMaxVitals({
-    roleEntityType: session.roleEntityType,
-    entityType: session.entityType,
-    selectedAptitude: session.selectedAptitude,
-    level: session.level,
-    primaryAttributes: session.primaryAttributes,
-    bonusAttributes: session.bonusAttributes,
+  session.clientObservedMaxHealth = null;
+  session.clientObservedMaxMana = null;
+  recomputeSessionMaxVitals(session, {
     currentHealth: session.currentHealth,
     currentMana: session.currentMana,
     currentRage: session.currentRage,
-    maxHealth: pendingCharacter.maxHealth,
-    maxMana: pendingCharacter.maxMana,
-    maxRage: pendingCharacter.maxRage,
   });
-  session.maxHealth = maxVitals.health;
-  session.maxMana = maxVitals.mana;
-  session.maxRage = maxVitals.rage;
   const clampedHealth = Math.max(0, Math.min(session.currentHealth, session.maxHealth));
   const clampedMana = Math.max(0, Math.min(session.currentMana, session.maxMana));
   const clampedRage = Math.max(0, Math.min(session.currentRage, session.maxRage));
@@ -111,9 +100,9 @@ export function hydratePendingGameCharacter(session: GameSession, sharedState: R
       currentHealth: session.currentHealth,
       currentMana: session.currentMana,
       currentRage: session.currentRage,
-      maxHealth: session.maxHealth,
-      maxMana: session.maxMana,
-      maxRage: session.maxRage,
+      maxHealth: session.derivedMaxHealth || session.maxHealth,
+      maxMana: session.derivedMaxMana || session.maxMana,
+      maxRage: session.derivedMaxRage || session.maxRage,
     });
     session.log(
       `Clamped persisted vitals on login hp=${session.currentHealth}/${session.maxHealth} mp=${session.currentMana}/${session.maxMana}`
@@ -160,9 +149,9 @@ export function buildCharacterSnapshot(
     currentHealth: session.currentHealth,
     currentMana: session.currentMana,
     currentRage: session.currentRage,
-    maxHealth: session.maxHealth,
-    maxMana: session.maxMana,
-    maxRage: session.maxRage,
+    maxHealth: session.derivedMaxHealth || session.maxHealth,
+    maxMana: session.derivedMaxMana || session.maxMana,
+    maxRage: session.derivedMaxRage || session.maxRage,
     gold: session.gold,
     bankGold: session.bankGold,
     boundGold: session.boundGold,

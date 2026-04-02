@@ -3,11 +3,12 @@ import type { CombatEnemyInstance, CombatState, GameSession } from '../types.js'
 import { DEFAULT_FLAGS, FIGHT_ACTIVE_STATE_SUBCMD, FIGHT_CONTROL_RING_OPEN_SUBCMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_STREAM_CMD } from '../config.js';
 import { resolveRepoPath } from '../runtime-paths.js';
 import { parseAttackSelection, parseCombatItemUse } from '../protocol/inbound-packets.js';
+import { buildEnterGameProgressPacket } from '../protocol/gameplay-packets.js';
 import { buildActionStateResetPacket, buildActionStateTableResetPacket, buildAttackPlaybackPacket, buildControlInitPacket, buildControlShowPacket, buildDefeatPacket, buildEntityHidePacket, buildRingOpenPacket, buildRoundStartPacket, buildStateModePacket, buildVictoryPacket, buildVictoryPointsPacket, buildVictoryRankPacket, buildVitalsPacket, buildActiveStatePacket } from './packets.js';
 import { grantCombatDrops } from '../gameplay/combat-drop-runtime.js';
 import { sendInventoryFullSync } from '../gameplay/inventory-runtime.js';
 import { consumeUsableItemByInstanceId } from '../gameplay/item-use-runtime.js';
-import { sendSkillStateSync } from '../gameplay/skill-runtime.js';
+import { ensureSkillState, sendSkillStateSync } from '../gameplay/skill-runtime.js';
 import {
   areAllSharedTeamCombatActionsReady,
   clearSharedTeamCombatQueuedActions,
@@ -21,6 +22,7 @@ import {
   setSharedTeamCombatQueuedAction,
 } from '../gameplay/team-runtime.js';
 import { applyEffects } from '../effects/effect-executor.js';
+import { PROGRESSION } from '../gameplay/progression.js';
 import { buildDefeatRespawnState } from '../gameplay/session-flows.js';
 import { sendSelfStateVitalsUpdate } from '../gameplay/stat-sync.js';
 import { getCapturePetTemplateId } from '../roleinfo/index.js';
@@ -53,7 +55,7 @@ import {
   tickCombatStatuses,
 } from './combat-formulas.js';
 import { createIdleCombatState } from './combat-formulas.js';
-import { resolveCombatSkillUse } from './skill-resolution.js';
+import { handleCombatSkillUse, resolveCombatSkillUse } from './skill-resolution.js';
 
 type CombatAction = Record<string, any>;
 type EnemyTurnReason = 'normal' | 'post-kill';
@@ -70,7 +72,7 @@ type ResolveCombatItemUseOptions = {
   sharedTeamQueuedExecution?: boolean;
 };
 const DELAYED_SKILL_COMPLETION_TIMEOUT_MS = 1200;
-const ENEMY_ACTION_SEQUENCE_DELAY_MS = 350;
+const COMMAND_PHASE_AUTO_FALLBACK_DELAY_MS = 5000;
 const CRANE_PASS_GUARDIAN_VICTORY_TRIGGER_PREFIX = 'npc-fight:3229:10001:';
 const CRANE_PASS_GUARDIAN_VICTORY_MAP_ID = 138;
 const CRANE_PASS_GUARDIAN_VICTORY_X = 80;
@@ -87,6 +89,62 @@ const LION_CAPTAIN_VICTORY_TRIGGER_PREFIX = 'npc-fight:3085:3001:';
 const LION_CAPTAIN_VICTORY_MAP_ID = 134;
 const LION_CAPTAIN_VICTORY_X = 67;
 const LION_CAPTAIN_VICTORY_Y = 20;
+const COMBAT_SELECTOR_TOKEN_PREFIX = 0x40000000;
+const COMBAT_SELECTOR_TOKEN_LOW16_START = 0x6000;
+const COMBAT_SELECTOR_TOKEN_LOW16_STEP = 0x100;
+let NEXT_COMBAT_SELECTOR_TOKEN_LOW16 = COMBAT_SELECTOR_TOKEN_LOW16_START - 1;
+
+function allocateCombatSelectorToken(): number {
+  NEXT_COMBAT_SELECTOR_TOKEN_LOW16 += COMBAT_SELECTOR_TOKEN_LOW16_STEP;
+  if (NEXT_COMBAT_SELECTOR_TOKEN_LOW16 > 0xffff) {
+    NEXT_COMBAT_SELECTOR_TOKEN_LOW16 = COMBAT_SELECTOR_TOKEN_LOW16_START;
+  }
+  return (COMBAT_SELECTOR_TOKEN_PREFIX | (NEXT_COMBAT_SELECTOR_TOKEN_LOW16 & 0xffff)) >>> 0;
+}
+
+function resolveRoundStartSelectorToken(session: GameSession, activeEntityId: number): number {
+  const selectorToken = session.combatState?.selectorToken;
+  if (
+    session.combatState?.selectorTokenSource === 'client' &&
+    Number.isFinite(selectorToken) &&
+    (selectorToken || 0) >= 0
+  ) {
+    session.combatState.selectorTokenSource = 'server';
+    return (selectorToken as number) >>> 0;
+  }
+  const allocatedToken = allocateCombatSelectorToken();
+  if (session.combatState) {
+    session.combatState.selectorToken = allocatedToken;
+    session.combatState.selectorTokenSource = 'server';
+  }
+  return allocatedToken;
+}
+
+function buildCommandRoundStartState(
+  session: GameSession,
+  activeEntityId: number
+): {
+  selectorToken: number;
+  roundStartProbeOptions: Record<string, any> | null;
+  roundStartPacket: Buffer;
+} {
+  const selectorToken = resolveRoundStartSelectorToken(session, activeEntityId);
+  const roundStartProbeOptions = buildRoundStartProbeOptions(
+    session.combatState.round,
+    activeEntityId,
+    selectorToken
+  );
+  const roundStartPacket = buildRoundStartPacket(
+    session.combatState.round,
+    activeEntityId,
+    roundStartProbeOptions || { fieldB: selectorToken }
+  );
+  return {
+    selectorToken,
+    roundStartProbeOptions,
+    roundStartPacket,
+  };
+}
 
 function cloneCombatEnemyRoster(enemies: CombatEnemyInstance[] | null | undefined): CombatEnemyInstance[] {
   if (!Array.isArray(enemies)) {
@@ -130,8 +188,18 @@ function syncSharedCombatEnemyRoster(owner: GameSession): void {
       continue;
     }
     follower.combatState.enemies = cloneCombatEnemyRoster(owner.combatState?.enemies);
+    follower.combatState.enemyStatuses = cloneCombatEnemyStatuses(owner.combatState?.enemyStatuses);
     follower.combatState.round = owner.combatState?.round || follower.combatState.round;
   }
+}
+
+function syncSharedCombatParticipantState(owner: GameSession, participant: GameSession): void {
+  if (!participant.combatState?.active) {
+    return;
+  }
+  participant.combatState.enemies = cloneCombatEnemyRoster(owner.combatState?.enemies);
+  participant.combatState.enemyStatuses = cloneCombatEnemyStatuses(owner.combatState?.enemyStatuses);
+  participant.combatState.round = owner.combatState?.round || participant.combatState.round;
 }
 
 function resolveAttackPriority(session: GameSession): number {
@@ -327,7 +395,7 @@ function resolveSharedCombatEnemyTurn(owner: GameSession, enemyEntityId: number)
   const enemyStatus = owner.combatState?.enemyStatuses?.[enemy.entityId >>> 0] || null;
   if ((enemyStatus?.actionDisabledRoundsRemaining || 0) > 0) {
     owner.log(
-      `Shared combat enemy action skipped entity=${enemy.entityId} reason=${enemyStatus?.actionDisabledReason || 'disabled'} roundsRemaining=${enemyStatus?.actionDisabledRoundsRemaining || 0}`
+      `Combat round enemy action skipped entity=${enemy.entityId} reason=${enemyStatus?.actionDisabledReason || 'disabled'} roundsRemaining=${enemyStatus?.actionDisabledRoundsRemaining || 0}`
     );
     return false;
   }
@@ -353,7 +421,7 @@ function resolveSharedCombatEnemyTurn(owner: GameSession, enemyEntityId: number)
       defendedDamage
     ),
     DEFAULT_FLAGS,
-    `Sending shared combat enemy playback attacker=${enemy.entityId >>> 0} target=${target.runtimeId >>> 0} damage=${defendedDamage} raw=${enemyDamage} defended=${defendedDamage !== enemyDamage ? 1 : 0} targetHp=${target.currentHealth} ap=${resolveEnemyAttackPriority(enemy)}`
+    `Sending combat round enemy playback attacker=${enemy.entityId >>> 0} target=${target.runtimeId >>> 0} damage=${defendedDamage} raw=${enemyDamage} defended=${defendedDamage !== enemyDamage ? 1 : 0} targetHp=${target.currentHealth} ap=${resolveEnemyAttackPriority(enemy)}`
   );
 
   if (target.currentHealth <= 0) {
@@ -380,6 +448,94 @@ function computeDefendedDamage(rawDamage: number, session: GameSession): number 
   return Math.max(0, Math.ceil(normalizedDamage / 2));
 }
 
+function resetCommandPhaseAutoFallback(session: GameSession): void {
+  if (!session.combatState) {
+    return;
+  }
+  session.combatState.commandReadyFallbackToken = null;
+  session.combatState.commandReadyFallbackRound = null;
+}
+
+function buildAutoAttackSelectionPayload(enemy: CombatEnemyInstance): Buffer {
+  return Buffer.from([
+    GAME_FIGHT_ACTION_CMD & 0xff,
+    (GAME_FIGHT_ACTION_CMD >>> 8) & 0xff,
+    0x03,
+    0x01,
+    enemy.row & 0xff,
+    enemy.col & 0xff,
+  ]);
+}
+
+function buildAutoSkillUsePayload(skillId: number, targetEntityId: number): Buffer {
+  const payload = Buffer.alloc(9);
+  payload.writeUInt16LE(GAME_FIGHT_ACTION_CMD, 0);
+  payload[2] = 0x04;
+  payload.writeUInt16LE(skillId & 0xffff, 3);
+  payload.writeUInt32LE(targetEntityId >>> 0, 5);
+  return payload;
+}
+
+export function scheduleCommandPhaseAutoFallback(session: GameSession, source: string): void {
+  if (!session.combatState?.active || session.combatState.phase !== 'command' || !session.combatState.awaitingPlayerAction) {
+    return;
+  }
+
+  const round = Math.max(1, session.combatState.round || 1);
+  if ((session.combatState.commandReadyFallbackRound || 0) === round) {
+    return;
+  }
+
+  const token = (((session.combatState.commandReadyFallbackToken || 0) + 1) >>> 0) || 1;
+  session.combatState.commandReadyFallbackToken = token;
+  session.combatState.commandReadyFallbackRound = round;
+  session.log(
+    `Queued combat auto fallback source=${source} round=${round} delayMs=${COMMAND_PHASE_AUTO_FALLBACK_DELAY_MS}`
+  );
+
+  setTimeout(() => {
+    if (!session.combatState?.active || session.combatState.phase !== 'command' || !session.combatState.awaitingPlayerAction) {
+      return;
+    }
+    if ((session.combatState.commandReadyFallbackToken || 0) !== token) {
+      return;
+    }
+    if ((session.combatState.commandReadyFallbackRound || 0) !== round) {
+      return;
+    }
+
+    const enemy = findFirstLivingEnemy(session.combatState.enemies);
+    const skillState = ensureSkillState(session);
+    const rememberedAction = skillState.lastCombatAction;
+    const rememberedSkillId = Number(skillState.lastCombatSkillId || 0) >>> 0;
+
+    if (rememberedAction === 'skill' && rememberedSkillId > 0) {
+      const autoTargetEntityId = enemy?.entityId ? (enemy.entityId >>> 0) : (session.runtimeId >>> 0);
+      session.log(
+        `Executing combat auto fallback source=${source} round=${round} action=skill skillId=${rememberedSkillId} target=${autoTargetEntityId}`
+      );
+      handleCombatSkillUse(session, buildAutoSkillUsePayload(rememberedSkillId, autoTargetEntityId));
+      if (!session.combatState?.active || session.combatState.phase !== 'command' || !session.combatState.awaitingPlayerAction) {
+        return;
+      }
+      session.log(
+        `Combat auto fallback skill unresolved source=${source} round=${round} skillId=${rememberedSkillId} fallback=attack`
+      );
+    }
+
+    if (!enemy || enemy.hp <= 0) {
+      session.log(`Skipping combat auto fallback source=${source} round=${round} reason=no-living-target`);
+      resetCommandPhaseAutoFallback(session);
+      return;
+    }
+
+    session.log(
+      `Executing combat auto fallback source=${source} round=${round} action=attack target=${enemy.entityId >>> 0} row=${enemy.row} col=${enemy.col}`
+    );
+    handleAttackSelection(session, buildAutoAttackSelectionPayload(enemy));
+  }, COMMAND_PHASE_AUTO_FALLBACK_DELAY_MS);
+}
+
 function continueSharedCombatRound(owner: GameSession, source: string): void {
   if (!owner.combatState?.active || (owner.combatState.sharedActionSequenceToken || 0) === 0) {
     return;
@@ -393,7 +549,7 @@ function continueSharedCombatRound(owner: GameSession, source: string): void {
     : -1;
   owner.combatState.sharedAwaitingActionReady = false;
   owner.combatState.sharedAwaitingReadySessionId = null;
-  owner.log(`Advancing shared combat round source=${source} nextIndex=${currentIndex + 1}`);
+  owner.log(`Advancing combat round source=${source} nextIndex=${currentIndex + 1}`);
   resolveSharedTeamQueuedTurnStep(owner, entries, currentIndex + 1, owner.combatState.sharedActionSequenceToken || 0);
 }
 
@@ -409,12 +565,12 @@ export function tryAdvanceSharedCombatRoundOnReady(session: GameSession): boolea
   const normalizedExpectedReadySessionId = Number(expectedReadySessionId);
   if (Number.isInteger(normalizedExpectedReadySessionId) && (session.id >>> 0) !== (normalizedExpectedReadySessionId >>> 0)) {
     owner.log(
-      `Ignoring shared combat ready event from S${session.id} while waiting for S${normalizedExpectedReadySessionId >>> 0} roundIndex=${Number(owner.combatState.sharedRoundIndex ?? -1)}`
+      `Ignoring combat round ready event from S${session.id} while waiting for S${normalizedExpectedReadySessionId >>> 0} roundIndex=${Number(owner.combatState.sharedRoundIndex ?? -1)}`
     );
     return true;
   }
   owner.log(
-    `Consuming shared combat ready event from S${session.id} roundIndex=${Number(owner.combatState.sharedRoundIndex ?? -1)}`
+    `Consuming combat round ready event from S${session.id} roundIndex=${Number(owner.combatState.sharedRoundIndex ?? -1)}`
   );
   continueSharedCombatRound(owner, `client-ready:S${session.id}`);
   return true;
@@ -459,6 +615,7 @@ function resolveSharedTeamQueuedTurnStep(
   }
 
   owner.combatState.sharedRoundIndex = actionIndex;
+  syncSharedCombatParticipantState(owner, participant);
 
   if (participantSelection.kind === 'skill') {
     const previousDamageDealt = Math.max(0, participant.combatState?.damageDealt || 0);
@@ -507,7 +664,7 @@ function resolveSharedTeamQueuedTurnStep(
       owner.combatState.sharedAwaitingActionReady = false;
       owner.combatState.sharedAwaitingReadySessionId = null;
       owner.log(
-        `Shared combat item skipped actor=${participant.runtimeId >>> 0} reason=rejected-or-reprompted ap=${resolveAttackPriority(participant)}`
+        `Combat round item skipped actor=${participant.runtimeId >>> 0} reason=rejected-or-reprompted ap=${resolveAttackPriority(participant)}`
       );
       continueSharedCombatRound(owner, `item-rejected:S${participant.id}`);
       return;
@@ -516,8 +673,10 @@ function resolveSharedTeamQueuedTurnStep(
     owner.combatState.enemyStatuses = cloneCombatEnemyStatuses(participant.combatState?.enemyStatuses);
     syncSharedCombatEnemyRoster(owner);
   } else if (participantSelection.kind === 'defend') {
+    const playerStatus = participant.combatState.playerStatus || (participant.combatState.playerStatus = {});
+    playerStatus.defendPending = true;
     participant.log(
-      `Shared combat defend resolved defender=${participant.runtimeId >>> 0} ap=${resolveAttackPriority(participant)}`
+      `Combat round defend resolved defender=${participant.runtimeId >>> 0} ap=${resolveAttackPriority(participant)}`
     );
     continueSharedCombatRound(owner, `defend:S${participant.id}`);
   } else {
@@ -528,7 +687,7 @@ function resolveSharedTeamQueuedTurnStep(
         : pickRandomLivingEnemy(owner.combatState.enemies);
     if (!selectedEnemy || selectedEnemy.hp <= 0) {
       owner.log(
-        `Shared combat attack skipped attacker=${participant.runtimeId >>> 0} reason=no-living-target requested=${participantSelection.targetEntityId >>> 0} roster=${describeLivingEnemies(owner.combatState.enemies)} ap=${resolveAttackPriority(participant)}`
+        `Combat round attack skipped attacker=${participant.runtimeId >>> 0} reason=no-living-target requested=${participantSelection.targetEntityId >>> 0} roster=${describeLivingEnemies(owner.combatState.enemies)} ap=${resolveAttackPriority(participant)}`
       );
       resolveSharedTeamQueuedTurnStep(owner, roundEntries, actionIndex + 1, sequenceToken);
       return;
@@ -541,7 +700,7 @@ function resolveSharedTeamQueuedTurnStep(
     owner.combatState.damageDealt = Math.max(0, (owner.combatState.damageDealt || 0) + appliedPlayerDamage);
     participant.combatState.damageDealt = Math.max(0, (participant.combatState.damageDealt || 0) + appliedPlayerDamage);
     owner.log(
-      `Shared combat attack resolved attacker=${participant.runtimeId >>> 0} target=${selectedEnemy.entityId >>> 0} damage=${playerDamage} enemyHp=${selectedEnemy.hp} ap=${resolveAttackPriority(participant)}`
+      `Combat round attack resolved attacker=${participant.runtimeId >>> 0} target=${selectedEnemy.entityId >>> 0} damage=${playerDamage} enemyHp=${selectedEnemy.hp} ap=${resolveAttackPriority(participant)}`
     );
     participant.writePacket(
       buildAttackPlaybackPacket(
@@ -551,7 +710,7 @@ function resolveSharedTeamQueuedTurnStep(
         playerDamage
       ),
       DEFAULT_FLAGS,
-      `Sending shared combat attack playback attacker=${participant.runtimeId} target=${selectedEnemy.entityId} damage=${playerDamage} enemyHp=${selectedEnemy.hp} ap=${resolveAttackPriority(participant)}`
+      `Sending combat round attack playback attacker=${participant.runtimeId} target=${selectedEnemy.entityId} damage=${playerDamage} enemyHp=${selectedEnemy.hp} ap=${resolveAttackPriority(participant)}`
     );
 
     if (selectedEnemy.hp <= 0) {
@@ -566,13 +725,8 @@ function tryHandleSharedTeamAttackSelection(session: GameSession, payload: Buffe
     return false;
   }
 
-  const followers = getSharedTeamCombatFollowers(owner).filter((participant) => participant.combatState?.active);
-  if ((owner.id >>> 0) === (session.id >>> 0) && followers.length <= 0) {
-    return false;
-  }
-
   if (!session.combatState?.active || !session.combatState.awaitingPlayerAction) {
-    session.log(`Ignoring shared combat attack selection without command prompt active=${session.combatState?.active ? 1 : 0}`);
+    session.log(`Ignoring combat round attack selection without command prompt active=${session.combatState?.active ? 1 : 0}`);
     return true;
   }
 
@@ -582,6 +736,10 @@ function tryHandleSharedTeamAttackSelection(session: GameSession, payload: Buffe
     session.log('Ignoring shared combat attack selection because combat enemy is missing');
     return true;
   }
+
+  const skillState = ensureSkillState(session);
+  skillState.lastCombatAction = 'attack';
+  skillState.lastCombatSkillId = null;
 
   session.combatState.awaitingPlayerAction = false;
   session.combatState.awaitingClientReady = false;
@@ -595,7 +753,7 @@ function tryHandleSharedTeamAttackSelection(session: GameSession, payload: Buffe
     targetEntityId: enemy.entityId >>> 0,
   });
   session.log(
-    `Queued shared combat attack selection round=${owner.combatState.round} mode=${selection.attackMode} target=${selection.targetA},${selection.targetB} targetEntityId=${enemy.entityId >>> 0} ownerSession=${owner.id >>> 0}`
+    `Queued combat round attack selection round=${owner.combatState.round} mode=${selection.attackMode} target=${selection.targetA},${selection.targetB} targetEntityId=${enemy.entityId >>> 0} ownerSession=${owner.id >>> 0}`
   );
 
   if (!areAllSharedTeamCombatActionsReady(owner)) {
@@ -616,13 +774,8 @@ function tryHandleSharedTeamItemSelection(
     return false;
   }
 
-  const followers = getSharedTeamCombatFollowers(owner).filter((participant) => participant.combatState?.active);
-  if ((owner.id >>> 0) === (session.id >>> 0) && followers.length <= 0) {
-    return false;
-  }
-
   if (!session.combatState?.active || !session.combatState.awaitingPlayerAction) {
-    session.log(`Ignoring shared combat item selection without command prompt active=${session.combatState?.active ? 1 : 0}`);
+    session.log(`Ignoring combat round item selection without command prompt active=${session.combatState?.active ? 1 : 0}`);
     return true;
   }
 
@@ -636,7 +789,7 @@ function tryHandleSharedTeamItemSelection(
     targetEntityId: targetEntityId >>> 0,
   });
   session.log(
-    `Queued shared combat item selection round=${owner.combatState.round} instanceId=${instanceId >>> 0} targetEntityId=${targetEntityId >>> 0} ownerSession=${owner.id >>> 0}`
+    `Queued combat round item selection round=${owner.combatState.round} instanceId=${instanceId >>> 0} targetEntityId=${targetEntityId >>> 0} ownerSession=${owner.id >>> 0}`
   );
 
   if (!areAllSharedTeamCombatActionsReady(owner)) {
@@ -653,13 +806,8 @@ function tryHandleSharedTeamDefendSelection(session: GameSession): boolean {
     return false;
   }
 
-  const followers = getSharedTeamCombatFollowers(owner).filter((participant) => participant.combatState?.active);
-  if ((owner.id >>> 0) === (session.id >>> 0) && followers.length <= 0) {
-    return false;
-  }
-
   if (!session.combatState?.active || !session.combatState.awaitingPlayerAction) {
-    session.log(`Ignoring shared combat defend selection without command prompt active=${session.combatState?.active ? 1 : 0}`);
+    session.log(`Ignoring combat round defend selection without command prompt active=${session.combatState?.active ? 1 : 0}`);
     return true;
   }
 
@@ -670,7 +818,7 @@ function tryHandleSharedTeamDefendSelection(session: GameSession): boolean {
     round: Math.max(1, owner.combatState.round || 1),
     kind: 'defend',
   });
-  session.log(`Queued shared combat defend selection round=${owner.combatState.round} ownerSession=${owner.id >>> 0}`);
+  session.log(`Queued combat round defend selection round=${owner.combatState.round} ownerSession=${owner.id >>> 0}`);
 
   if (!areAllSharedTeamCombatActionsReady(owner)) {
     return true;
@@ -690,7 +838,7 @@ export function resolveSharedTeamQueuedTurn(owner: GameSession): void {
     Array.isArray(owner.combatState.sharedRoundEntries)
   ) {
     owner.log(
-      `Ignoring duplicate shared combat round resolve round=${owner.combatState.round} phase=${owner.combatState.phase}`
+      `Ignoring duplicate combat round resolve round=${owner.combatState.round} phase=${owner.combatState.phase}`
     );
     return;
   }
@@ -711,7 +859,7 @@ export function resolveSharedTeamQueuedTurn(owner: GameSession): void {
     participant.combatState.sharedActionSequenceToken = sequenceToken;
   }
   owner.log(
-    `Resolving shared combat round order round=${owner.combatState.round} ${roundEntries.map((entry) =>
+    `Resolving combat round order round=${owner.combatState.round} ${roundEntries.map((entry) =>
       entry.actorKind === 'player'
         ? `${entry.session.charName}:${entry.ap}:${entry.selection.kind}`
         : `${findEnemyByEntityId(owner.combatState.enemies, entry.enemyEntityId >>> 0)?.name || 'enemy'}#${entry.enemyEntityId >>> 0}:${entry.ap}:enemy`
@@ -767,13 +915,12 @@ export function resolveCombatDefend(
     return;
   }
 
-  const playerStatus = session.combatState.playerStatus || (session.combatState.playerStatus = {});
-  playerStatus.defendPending = true;
-
   if (tryHandleSharedTeamDefendSelection(session)) {
     return;
   }
 
+  const playerStatus = session.combatState.playerStatus || (session.combatState.playerStatus = {});
+  playerStatus.defendPending = true;
   session.combatState.awaitingPlayerAction = false;
   session.combatState.phase = 'resolved';
   session.log(`Combat defend source=${sourceLabel} trigger=${session.combatState.triggerId} round=${session.combatState.round}`);
@@ -805,6 +952,39 @@ function sendCombatActionStateReset(session: GameSession, reason: string): void 
   );
 }
 
+function sendCombatExitRestorePacket(session: GameSession, reason: string): void {
+  session.writePacket(
+    buildEnterGameProgressPacket({
+      runtimeId: session.runtimeId >>> 0,
+      roleEntityType: (session.roleEntityType || session.entityType) & 0xffff,
+      roleData: session.roleData >>> 0,
+      x: session.currentX,
+      y: session.currentY,
+      name: session.charName,
+      mapId: session.currentMapId,
+    }),
+    DEFAULT_FLAGS,
+    `Sending combat exit restore cmd=0x03e9 sub=0x03 reason=${reason} runtimeId=${session.runtimeId >>> 0} map=${session.currentMapId} pos=${session.currentX},${session.currentY}`
+  );
+}
+
+function sendCombatExitClientCleanup(session: GameSession, reason: string): void {
+  if (!session.socket || session.socket.destroyed) {
+    return;
+  }
+  sendCombatActionStateReset(session, reason);
+  if (typeof session.sendEnterGameOk === 'function') {
+    session.log(`Sending combat exit runtime bootstrap reason=${reason}`);
+    session.sendEnterGameOk({ syncMode: 'runtime' });
+    return;
+  }
+  sendCombatExitRestorePacket(session, reason);
+  session.sendSelfStateAptitudeSync();
+  sendSkillStateSync(session, `combat-exit:${reason}`);
+  session.scheduleEquipmentReplay(0);
+  session.sendPetStateSync(`combat-exit:${reason}`);
+}
+
 // --- Intro / Command prompt ---
 
 export function sendIntroSequence(session: GameSession): void {
@@ -824,15 +1004,14 @@ export function sendIntroSequence(session: GameSession): void {
 
 export function sendCommandPrompt(session: GameSession, reason: string): void {
   const entityId = session.runtimeId >>> 0;
-  const roundStartProbeOptions = buildRoundStartProbeOptions(session.combatState.round, entityId);
-  const roundStartPacket = buildRoundStartPacket(session.combatState.round, entityId, roundStartProbeOptions || {});
+  const { selectorToken, roundStartProbeOptions, roundStartPacket } = buildCommandRoundStartState(session, entityId);
   sendCombatActionStateReset(session, `command reason=${reason}`);
-  sendSkillStateSync(session, `combat-command-${reason}`);
   session.writePacket(buildRingOpenPacket(), DEFAULT_FLAGS, `Sending combat ring-open refresh reason=${reason}`);
   session.writePacket(
     roundStartPacket,
     DEFAULT_FLAGS,
     `Sending combat round start reason=${reason} round=${session.combatState.round} active=${entityId}` +
+    ` selectorToken=${selectorToken}` +
     `${roundStartProbeOptions ? ` probe=${JSON.stringify(roundStartProbeOptions)}` : ''}` +
     ` hex=${roundStartPacket.toString('hex')}`
   );
@@ -842,6 +1021,7 @@ export function sendCommandPrompt(session: GameSession, reason: string): void {
     sessionId: session.id,
     round: session.combatState.round,
     activeEntityId: entityId >>> 0,
+    selectorToken,
     probeEnabled: roundStartProbeOptions !== null,
     probe: roundStartProbeOptions,
     packetHex: roundStartPacket.toString('hex'),
@@ -855,6 +1035,7 @@ export function transitionToCommandPhase(session: GameSession, reason: string): 
   session.combatState.phase = 'command';
   session.combatState.pendingActionResolution = null;
   session.combatState.round = Math.max(1, (session.combatState.round || 0) + 1);
+  resetCommandPhaseAutoFallback(session);
   clearRoundDefenseState(session);
   sendCommandPrompt(session, reason);
   if (isSharedTeamCombatOwner(session)) {
@@ -871,6 +1052,7 @@ export function transitionToCommandPhase(session: GameSession, reason: string): 
       follower.combatState.pendingActionResolution = null;
       follower.combatState.round = session.combatState.round;
       follower.combatState.sharedAwaitingReadySessionId = null;
+      resetCommandPhaseAutoFallback(follower);
       clearRoundDefenseState(follower);
       sendCommandPrompt(follower, `${reason}:shared`);
     }
@@ -884,6 +1066,42 @@ export function resendCombatCommandPrompt(session: GameSession, reason: string):
   session.combatState.awaitingPlayerAction = true;
   session.combatState.phase = 'command';
   sendCommandPrompt(session, reason);
+}
+
+export function handleCombatSelectorToken(session: GameSession, selectorToken: number, sourceLabel: string): void {
+  if (!session.combatState?.active) {
+    return;
+  }
+
+  const normalizedToken = selectorToken >>> 0;
+  const previousToken = Number.isFinite(session.combatState.selectorToken)
+    ? ((session.combatState.selectorToken as number) >>> 0)
+    : null;
+  session.combatState.selectorToken = normalizedToken;
+  session.combatState.selectorTokenSource = 'client';
+  appendSkillPacketTrace({
+    kind: 'fight-selector-token',
+    ts: new Date().toISOString(),
+    sessionId: session.id,
+    token: normalizedToken,
+    previousToken,
+    phase: session.combatState.phase || 'unknown',
+    awaitingPlayerAction: session.combatState.awaitingPlayerAction === true,
+    round: session.combatState.round,
+    source: sourceLabel,
+  });
+  session.log(
+    `Received combat selector token source=${sourceLabel} token=${normalizedToken} previous=${previousToken ?? 'none'} ` +
+    `phase=${session.combatState.phase || 'unknown'} round=${session.combatState.round}`
+  );
+
+  if (
+    session.combatState.phase === 'command' &&
+    session.combatState.awaitingPlayerAction === true &&
+    previousToken !== normalizedToken
+  ) {
+    resendCombatCommandPrompt(session, 'selector-token');
+  }
 }
 
 export function resolveCombatFlee(session: GameSession, sourceLabel: string): void {
@@ -936,6 +1154,10 @@ export function handleAttackSelection(session: GameSession, payload: Buffer): vo
     session.log('Ignoring attack selection because combat enemy is missing');
     return;
   }
+
+  const skillState = ensureSkillState(session);
+  skillState.lastCombatAction = 'attack';
+  skillState.lastCombatSkillId = null;
 
   session.combatState.awaitingPlayerAction = false;
   session.combatState.phase = 'resolved';
@@ -1275,13 +1497,6 @@ export function processNextEnemyTurnAttack(session: GameSession, reason: EnemyTu
   if (enemyDamage === 0) {
     queuePlayerCounterattack(session, enemy, reason);
   }
-
-  setTimeout(() => {
-    if (!session.combatState?.active || session.combatState.phase !== 'enemy-turn') {
-      return;
-    }
-    processNextEnemyTurnAttack(session, reason);
-  }, ENEMY_ACTION_SEQUENCE_DELAY_MS);
 }
 
 function queuePlayerCounterattack(session: GameSession, enemy: Record<string, any>, reason: EnemyTurnReason): void {
@@ -1455,6 +1670,8 @@ export function resolveVictory(session: GameSession): void {
   }
 
   const rankCode = deriveCombatResultRankCode(combatRewards.totalScore, combatRewards.maxScore);
+  const visibleVictoryExperience =
+    Math.max(1, Number(session.level) || 1) >= PROGRESSION.maxLevel ? 0 : combatRewards.characterExperience;
 
   session.writePacket(
     buildVictoryPointsPacket(combatRewards.totalScore),
@@ -1466,16 +1683,15 @@ export function resolveVictory(session: GameSession): void {
     DEFAULT_FLAGS,
     `Sending combat victory rank rankCode=${rankCode} score=${combatRewards.totalScore}/${combatRewards.maxScore}`
   );
-
   session.writePacket(
     buildVictoryPacket(session.currentHealth, session.currentMana, session.currentRage, {
-      characterExperience: combatRewards.characterExperience,
+      characterExperience: visibleVictoryExperience,
       petExperience: 0,
       coins: combatRewards.coins,
       items: combinedDrops,
     }),
     DEFAULT_FLAGS,
-    `Sending combat victory enemies=${defeatedEnemies.map((enemy: Record<string, any>) => `${enemy.typeId}@${enemy.entityId}`).join('|') || 'none'} exp=${combatRewards.characterExperience} petExp=0 coins=${combatRewards.coins} score=${combatRewards.totalScore}/${combatRewards.maxScore} drops=${combinedDrops.length}`
+    `Sending combat victory enemies=${defeatedEnemies.map((enemy: Record<string, any>) => `${enemy.typeId}@${enemy.entityId}`).join('|') || 'none'} exp=${visibleVictoryExperience} petExp=0 coins=${combatRewards.coins} score=${combatRewards.totalScore}/${combatRewards.maxScore} drops=${combinedDrops.length}`
   );
   const triggerId = typeof session.combatState?.triggerId === 'string' ? session.combatState.triggerId : '';
   const isCranePassGuardianVictory = triggerId.startsWith(CRANE_PASS_GUARDIAN_VICTORY_TRIGGER_PREFIX);
@@ -1484,7 +1700,7 @@ export function resolveVictory(session: GameSession): void {
   const shouldRepositionAfterVictory = isCranePassGuardianVictory || isSwanPassGuardianVictory || isLionCaptainVictory;
   const encounterAction = session.combatState?.encounterAction || null;
   session.log(`Combat victory trigger=${session.combatState.triggerId} enemies=${defeatedEnemies.map((enemy: Record<string, any>) => `${enemy.typeId}@${enemy.entityId}`).join('|') || 'none'} exp=${combatRewards.characterExperience} petExp=0 coins=${combatRewards.coins} score=${combatRewards.totalScore}/${combatRewards.maxScore} drops=${combinedDrops.map((drop: Record<string, any>) => `${drop.templateId}x${drop.quantity}`).join(',') || 'none'}`);
-  clearCombatState(session, dropResult.inventoryDirty);
+  clearCombatState(session, dropResult.inventoryDirty, !shouldRepositionAfterVictory);
   if (
     !shouldRepositionAfterVictory ||
     (!isLionCaptainVictory && typeof session.sendEnterGameOk !== 'function') ||
@@ -1631,7 +1847,7 @@ export function resolveDefeat(session: GameSession): void {
     `Sending combat defeat respawnMap=${state.respawn.mapId} pos=${state.respawn.x},${state.respawn.y}`
   );
 
-  clearCombatState(session, false);
+  clearCombatState(session, false, false);
   session.defeatRespawnPending = true;
   session.combatDefeatTimer = setTimeout(() => {
     session.combatDefeatTimer = null;
@@ -1666,15 +1882,23 @@ export function grantCombatDropsForEnemies(session: GameSession, enemies: Record
   }, { granted: [] as Record<string, any>[], inventoryDirty: false });
 }
 
-export function clearCombatState(session: GameSession, persist = false): void {
+export function clearCombatState(
+  session: GameSession,
+  persist = false,
+  sendClientCleanup = true
+): void {
   disposeCombatTimers(session);
-  if (session.socket && !session.socket.destroyed) {
-    sendCombatActionStateReset(session, 'combat-clear');
+  const cleanupTargets: Array<{ session: GameSession; reason: string }> = [];
+  if (sendClientCleanup) {
+    cleanupTargets.push({ session, reason: 'combat-clear' });
   }
   const sharedCombatOwner = getSharedTeamCombatOwnerSession(session);
   if (isSharedTeamCombatOwner(session)) {
     for (const follower of getSharedTeamCombatFollowers(session)) {
       disposeCombatTimers(follower);
+      if (sendClientCleanup) {
+        cleanupTargets.push({ session: follower, reason: 'combat-clear:shared' });
+      }
       follower.combatState = createIdleCombatState();
     }
   } else if (sharedCombatOwner) {
@@ -1684,11 +1908,11 @@ export function clearCombatState(session: GameSession, persist = false): void {
   if (isSharedTeamCombatOwner(session) || !sharedCombatOwner) {
     endSharedTeamCombat(session);
   }
+  for (const cleanupTarget of cleanupTargets) {
+    sendCombatExitClientCleanup(cleanupTarget.session, cleanupTarget.reason);
+  }
   if (persist) {
     session.persistCurrentCharacter();
-  }
-  if (typeof session.scheduleEquipmentReplay === 'function') {
-    session.scheduleEquipmentReplay(100);
   }
 }
 

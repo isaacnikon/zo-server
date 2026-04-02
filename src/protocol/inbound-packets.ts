@@ -149,6 +149,15 @@ function parseCombatItemUse(payload: Buffer): { instanceId: number; targetEntity
   };
 }
 
+function parseCombatSelectorToken(payload: Buffer): { selectorToken: number } | null {
+  if (payload.length < 7) {
+    return null;
+  }
+  return {
+    selectorToken: payload.readUInt32LE(3) >>> 0,
+  };
+}
+
 function parseFightResultItemActionProbe(payload: Buffer): { subcmd: number; rawValue: number } | null {
   if (payload.length !== 7 || payload[2] !== 0x02) {
     return null;
@@ -279,6 +288,7 @@ export {
   parseClientMaxVitalsSync,
   parseAttackSelection,
   parseCombatItemUse,
+  parseCombatSelectorToken,
   parseFightResultItemActionProbe,
   parseSharedItemUse,
   parseTargetedItemUse,

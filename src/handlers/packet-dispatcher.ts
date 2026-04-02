@@ -141,6 +141,10 @@ function dispatchGamePacket(
     if (tryHandlePetActionPacket(session, payload)) {
       return true;
     }
+    if (session.combatState?.active) {
+      handleCombatPacket(session, cmdWord, payload);
+      return true;
+    }
   }
 
   if (cmdWord === 0x03ef && tryHandleClientMaxVitalsSyncPacket(session, payload)) {

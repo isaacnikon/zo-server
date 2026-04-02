@@ -469,10 +469,13 @@ export function addSkillProficiency(
   if (passiveEntry) {
     passiveEntry.level = passiveLevel;
   }
-  sendSkillStateSync(
-    session,
-    `${reason} skillId=${normalizedSkillId} progressionTarget=${progressionTarget} progressionSkillId=${progressionSkillId} effectiveLevel=${effectiveLevel} passiveLevel=${passiveLevel} proficiency=${proficiencyValue}/${threshold}${upgradedSkillIds.length > 0 ? ` upgraded=${upgradedSkillIds.join(',')}` : ''}`
-  );
+  const syncReason =
+    `${reason} skillId=${normalizedSkillId} progressionTarget=${progressionTarget} progressionSkillId=${progressionSkillId} effectiveLevel=${effectiveLevel} passiveLevel=${passiveLevel} proficiency=${proficiencyValue}/${threshold}${upgradedSkillIds.length > 0 ? ` upgraded=${upgradedSkillIds.join(',')}` : ''}`;
+  if (session.combatState?.active) {
+    session.log(`Deferring skill state sync until out-of-combat reason=${syncReason}`);
+  } else {
+    sendSkillStateSync(session, syncReason);
+  }
 
   return {
     ok: true,
@@ -492,16 +495,44 @@ export function sendSkillStateSync(session: GameSession, reason = 'runtime'): vo
     return;
   }
 
+  const skills = collectSkillSyncEntries(session);
+  writeSkillStateSyncPacket(session, skills, reason);
+}
+
+export function sendCombatSkillUiStateSync(session: GameSession, reason = 'runtime'): void {
+  if (!session || typeof session.writePacket !== 'function') {
+    return;
+  }
+
+  const skills = collectSkillSyncEntries(session).filter((entry) => getSkillVariantKind(entry.skillId) !== 'passive');
+  writeSkillStateSyncPacket(session, skills, reason);
+}
+
+function collectSkillSyncEntries(session: GameSession, skillIds?: number[]): Array<{ skillId: number; level: number; proficiency: number }> {
   const skillState = ensureSkillState(session);
   const learnedSkills = Array.isArray(skillState.learnedSkills) ? skillState.learnedSkills : [];
-  const skills = learnedSkills
+  const normalizedFilter = Array.isArray(skillIds) && skillIds.length > 0
+    ? new Set(
+        skillIds
+          .filter((skillId) => Number.isInteger(skillId) && (skillId >>> 0) > 0)
+          .map((skillId) => skillId >>> 0)
+      )
+    : null;
+  return learnedSkills
     .filter((entry: UnknownRecord) => Number.isInteger(entry?.skillId))
+    .filter((entry: UnknownRecord) => normalizedFilter === null || normalizedFilter.has(entry.skillId >>> 0))
     .map((entry: UnknownRecord) => ({
       skillId: entry.skillId >>> 0,
       level: Number.isInteger(entry?.level) && entry.level > 0 ? (entry.level >>> 0) : 1,
       proficiency: Number.isInteger(entry?.proficiency) && entry.proficiency >= 0 ? (entry.proficiency >>> 0) : 0,
     }));
+}
 
+function writeSkillStateSyncPacket(
+  session: GameSession,
+  skills: Array<{ skillId: number; level: number; proficiency: number }>,
+  reason: string
+): void {
   const packet = buildSkillStateSyncPacket({ skills });
   session.writePacket(
     packet,

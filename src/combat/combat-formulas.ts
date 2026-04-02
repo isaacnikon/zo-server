@@ -146,6 +146,10 @@ export function createIdleCombatState(): CombatState {
     sharedRoundIndex: null,
     sharedAwaitingActionReady: false,
     sharedAwaitingReadySessionId: null,
+    commandReadyFallbackToken: null,
+    commandReadyFallbackRound: null,
+    selectorToken: null,
+    selectorTokenSource: null,
     playerStatus: {},
     enemyStatuses: {},
   };
@@ -206,7 +210,7 @@ export function resolveSkillPacketProbeToken(token: string, context: SkillPacket
 
 export function resolveRoundStartProbeToken(
   token: string,
-  context: { round: number; activeEntityId: number }
+  context: { round: number; activeEntityId: number; selectorToken: number }
 ): number | undefined {
   const normalizedToken = String(token || '').trim();
   if (!normalizedToken) {
@@ -224,6 +228,9 @@ export function resolveRoundStartProbeToken(
     case 'active':
     case 'activeEntityId':
       return context.activeEntityId >>> 0;
+    case 'selector':
+    case 'selectorToken':
+      return context.selectorToken >>> 0;
     case 'one':
       return 1;
     case 'zero':
@@ -233,13 +240,22 @@ export function resolveRoundStartProbeToken(
   }
 }
 
-export function buildRoundStartProbeOptions(round: number, activeEntityId: number): RoundStartProbeOptions | null {
+export function buildRoundStartProbeOptions(
+  round: number,
+  activeEntityId: number,
+  selectorToken?: number | null
+): RoundStartProbeOptions | null {
   if (!ROUND_START_PROBE_ENABLED) {
     return null;
   }
+  const resolvedSelectorToken =
+    Number.isFinite(selectorToken) && (selectorToken || 0) >= 0
+      ? ((selectorToken as number) >>> 0)
+      : 1;
   const context = {
     round: Math.max(1, round) & 0xffff,
     activeEntityId: activeEntityId >>> 0,
+    selectorToken: resolvedSelectorToken,
   };
   const fieldA = resolveRoundStartProbeToken(ROUND_START_PROBE_FIELD_A, context);
   const fieldB = resolveRoundStartProbeToken(ROUND_START_PROBE_FIELD_B, context);
@@ -248,7 +264,7 @@ export function buildRoundStartProbeOptions(round: number, activeEntityId: numbe
   const fieldE = resolveRoundStartProbeToken(ROUND_START_PROBE_FIELD_E, context);
   return {
     fieldA: fieldA === undefined ? context.round : fieldA,
-    fieldB,
+    fieldB: fieldB === undefined ? context.selectorToken : fieldB,
     fieldC,
     fieldD,
     fieldE: fieldE === undefined ? undefined : fieldE,

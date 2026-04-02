@@ -1,6 +1,6 @@
 import type { CombatEnemyInstance, CombatState, GameSession } from '../types.js';
-import { COMBAT_ENABLED, DEFAULT_FLAGS, FIGHT_CLIENT_ATTACK_SELECTION_SUBCMD, FIGHT_CLIENT_DEFEND_SUBCMD, FIGHT_CLIENT_FLEE_SUBCMD, FIGHT_CLIENT_ITEM_USE_SUBCMD, FIGHT_CLIENT_PROTECT_SUBCMD, FIGHT_CLIENT_READY_SUBCMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_STREAM_CMD, } from '../config.js';
-import { parseCombatItemUse } from '../protocol/inbound-packets.js';
+import { COMBAT_ENABLED, DEFAULT_FLAGS, FIGHT_CLIENT_ATTACK_SELECTION_SUBCMD, FIGHT_CLIENT_DEFEND_SUBCMD, FIGHT_CLIENT_FLEE_SUBCMD, FIGHT_CLIENT_ITEM_USE_SUBCMD, FIGHT_CLIENT_PROTECT_SUBCMD, FIGHT_CLIENT_READY_SUBCMD, FIGHT_CLIENT_SELECTOR_TOKEN_SUBCMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_STREAM_CMD, } from '../config.js';
+import { parseCombatItemUse, parseCombatSelectorToken } from '../protocol/inbound-packets.js';
 import { buildEncounterEnemies } from '../combat/encounter-builder.js';
 import { buildEncounterPacket } from '../combat/packets.js';
 import {
@@ -22,8 +22,10 @@ import {
   resolveCombatDefend,
   resolveCombatFlee,
   resolveCombatItemUse,
+  handleCombatSelectorToken,
   resolveEnemyCounterattack,
   resolveVictory,
+  scheduleCommandPhaseAutoFallback,
   sendIntroSequence,
   tryAdvanceSharedCombatRoundOnReady,
   transitionToCommandPhase,
@@ -42,6 +44,31 @@ export function handleCombatPacket(session: GameSession, cmdWord: number, payloa
   if (!session.combatState?.active) {
     session.log(`Ignoring combat packet with no active combat cmd=0x${cmdWord.toString(16)}`);
     return;
+  }
+
+  if (cmdWord === 0x03f5 && payload.length >= 7) {
+    const subcmd = payload[2] & 0xff;
+    const selectorToken = payload.readUInt32LE(3) >>> 0;
+    appendSkillPacketTrace({
+      kind: 'fight-skill-ui-packet',
+      ts: new Date().toISOString(),
+      sessionId: session.id,
+      cmdWord,
+      subcmd,
+      len: payload.length,
+      hex: payload.toString('hex'),
+      phase: session.combatState.phase || 'unknown',
+      awaitingPlayerAction: session.combatState.awaitingPlayerAction === true,
+      selectorToken,
+    });
+    if (subcmd === 0x51 || subcmd === 0x56 || subcmd === 0x58) {
+      handleCombatSelectorToken(
+        session,
+        selectorToken,
+        `cmd=0x${cmdWord.toString(16)} sub=0x${subcmd.toString(16)}`
+      );
+      return;
+    }
   }
 
   if (session.combatState.awaitingSkillResolution) {
@@ -130,6 +157,22 @@ export function handleCombatPacket(session: GameSession, cmdWord: number, payloa
   if (
     cmdWord === GAME_FIGHT_ACTION_CMD &&
     payload.length >= 7 &&
+    payload[2] === FIGHT_CLIENT_SELECTOR_TOKEN_SUBCMD
+  ) {
+    const parsed = parseCombatSelectorToken(payload);
+    if (parsed) {
+      handleCombatSelectorToken(
+        session,
+        parsed.selectorToken,
+        `cmd=0x${cmdWord.toString(16)} sub=0x${payload[2].toString(16)}`
+      );
+      return;
+    }
+  }
+
+  if (
+    cmdWord === GAME_FIGHT_ACTION_CMD &&
+    payload.length >= 7 &&
     payload[2] === FIGHT_CLIENT_PROTECT_SUBCMD
   ) {
     resolveCombatDefend(
@@ -205,6 +248,14 @@ function isClientReadyPacket(cmdWord: number, payload: Buffer): boolean {
 
 function tryHandleCombatReady(session: GameSession): boolean {
   if (tryAdvanceSharedCombatRoundOnReady(session)) {
+    return true;
+  }
+
+  if (session.combatState.phase === 'command' && session.combatState.awaitingPlayerAction) {
+    scheduleCommandPhaseAutoFallback(session, 'command-ready-packet');
+    session.log(
+      `Deferring command-phase ready packet as possible auto-action trigger round=${session.combatState.round}`
+    );
     return true;
   }
 
@@ -362,6 +413,8 @@ export function sendCombatEncounterProbe(
     pendingPostKillCounterattack: false,
     enemyTurnReason: null,
     pendingActionResolution: null,
+    selectorToken: null,
+    selectorTokenSource: null,
     playerStatus: {},
     enemyStatuses: {},
   };
