@@ -4,6 +4,7 @@ import type {
   CreateRoleData,
   EquipmentStateData,
   ItemContainerActionData,
+  ItemContainerMoveRequestData,
   ItemStackCombineRequestData,
   ItemStackSplitRequestData,
   PositionUpdate,
@@ -12,6 +13,7 @@ import type {
   TeamClientAction03FD,
   TeamClientAction03FE,
   TeamClientAction0442,
+  WarehousePasswordRequestData,
 } from '../types.js';
 
 import { PacketReader } from './packet-reader.js';
@@ -175,6 +177,35 @@ function parseItemStackCombineRequest(payload: Buffer): ItemStackCombineRequestD
     subcmd: payload[2] & 0xff,
     sourceInstanceId: payload.readUInt32LE(3) >>> 0,
     targetInstanceId: payload.readUInt32LE(7) >>> 0,
+  };
+}
+
+function parseItemContainerMoveRequest(payload: Buffer): ItemContainerMoveRequestData | null {
+  if (!Buffer.isBuffer(payload) || payload.length !== 9 || (payload.readUInt16LE(0) >>> 0) !== 0x03ee) {
+    return null;
+  }
+  if ((payload[2] & 0xff) !== 0x01) {
+    return null;
+  }
+  return {
+    subcmd: payload[2] & 0xff,
+    instanceId: payload.readUInt32LE(3) >>> 0,
+    fromContainerType: payload[7] & 0xff,
+    toContainerType: payload[8] & 0xff,
+  };
+}
+
+function parseWarehousePasswordRequest(payload: Buffer): WarehousePasswordRequestData | null {
+  if (!Buffer.isBuffer(payload) || payload.length < 12 || (payload.readUInt16LE(0) >>> 0) !== 0x0406) {
+    return null;
+  }
+  if ((payload[2] & 0xff) !== 0x32) {
+    return null;
+  }
+  return {
+    subcmd: payload[2] & 0xff,
+    mode: payload.readUInt16LE(3) >>> 0,
+    password: payload.subarray(5).toString('latin1').replace(/\0.*$/, ''),
   };
 }
 
@@ -351,6 +382,7 @@ export {
   parseQuestPacket,
   parseEquipmentState,
   parseItemContainerAction,
+  parseItemContainerMoveRequest,
   parseItemStackCombineRequest,
   parseItemStackSplitRequest,
   parseAttributeAllocation,
@@ -361,6 +393,7 @@ export {
   parseFightResultItemActionProbe,
   parseSharedItemUse,
   parseTargetedItemUse,
+  parseWarehousePasswordRequest,
   parsePingToken,
   parseLoginPacket,
   parseRoleSubcommand,

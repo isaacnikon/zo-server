@@ -10,6 +10,7 @@ import { tryHandlePetActionPacket } from './pet-handler.js';
 import { tryHandleNpcServicePacket } from '../gameplay/npc-service-runtime.js';
 import { handleNpcShopServiceRequest } from '../gameplay/shop-runtime.js';
 import { tryHandleCraftRecipePacket } from '../gameplay/crafting-runtime.js';
+import { tryHandleWarehouseItemMovePacket, tryHandleWarehousePasswordPacket } from '../gameplay/warehouse-runtime.js';
 import {
   handleTeamActionPrimary,
   handleTeamActionSecondary,
@@ -126,7 +127,15 @@ function dispatchGamePacket(
     return true;
   }
 
+  if (cmdWord === GAME_FIGHT_CLIENT_CMD && tryHandleWarehousePasswordPacket(session, payload)) {
+    return true;
+  }
+
   if (cmdWord === GAME_FIGHT_RESULT_CMD && tryHandleEquipmentStatePacket(session, payload)) {
+    return true;
+  }
+
+  if (cmdWord === GAME_FIGHT_RESULT_CMD && tryHandleWarehouseItemMovePacket(session, payload)) {
     return true;
   }
 

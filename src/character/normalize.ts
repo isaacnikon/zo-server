@@ -262,6 +262,10 @@ export function normalizeCharacterRecord(character: UnknownRecord): UnknownRecor
         ? (character.selectedPetRuntimeId >>> 0)
         : null,
     petSummoned: character.petSummoned === true,
+    warehousePassword:
+      typeof character.warehousePassword === 'string' && character.warehousePassword.length > 0
+        ? character.warehousePassword
+        : '000000',
     inventory: inventoryState.inventory,
   };
 }

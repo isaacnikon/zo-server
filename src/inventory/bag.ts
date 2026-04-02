@@ -1,6 +1,7 @@
 import {
   BAG_CONTAINER_TYPE,
   DEFAULT_BAG_SIZE,
+  DEFAULT_WAREHOUSE_SIZE,
   FIRST_BAG_SLOT,
   getItemDefinition,
   isEquipmentDefinition,
@@ -19,38 +20,30 @@ import type {
 } from './data.js';
 
 function normalizeInventoryState(character: UnknownRecord): InventoryState {
-  const rawBag = Array.isArray(character?.inventory?.bag)
-    ? character.inventory.bag
-        .map((item: UnknownRecord) => normalizeBagItem(item))
-        .filter((item: BagItem | null): item is BagItem => Boolean(item))
-        .sort((left: BagItem, right: BagItem) => {
-          if (left.slot !== right.slot) {
-            return left.slot - right.slot;
-          }
-          return left.instanceId - right.instanceId;
-        })
-    : [];
-  const requestedBagSize =
+  const bagState = normalizeContainerState(
+    Array.isArray(character?.inventory?.bag) ? character.inventory.bag : [],
     Number.isInteger(character?.inventory?.bagSize) && character.inventory.bagSize > 0
       ? character.inventory.bagSize
-      : DEFAULT_BAG_SIZE;
-  const bagSize = Math.max(
-    requestedBagSize,
-    computeRequiredBagSlots(rawBag),
-    rawBag.reduce((maxSlot: number, item: BagItem) => Math.max(maxSlot, item.slot), FIRST_BAG_SLOT - 1)
+      : DEFAULT_BAG_SIZE
   );
-  const bag = normalizeBagLayout(rawBag, bagSize);
-
-  const computedNextSlot = Math.max(
-    FIRST_BAG_SLOT,
-    bag.reduce((maxSlot, item) => Math.max(maxSlot, item.slot), FIRST_BAG_SLOT - 1) + 1
+  const warehouseState = normalizeContainerState(
+    Array.isArray(character?.inventory?.warehouse) ? character.inventory.warehouse : [],
+    Number.isInteger(character?.inventory?.warehouseSize) && character.inventory.warehouseSize > 0
+      ? character.inventory.warehouseSize
+      : DEFAULT_WAREHOUSE_SIZE
   );
-  const computedNextInstanceId = bag.reduce((maxId, item) => Math.max(maxId, item.instanceId), 0) + 1;
+  const computedNextInstanceId =
+    Math.max(
+      bagState.items.reduce((maxId, item) => Math.max(maxId, item.instanceId), 0),
+      warehouseState.items.reduce((maxId, item) => Math.max(maxId, item.instanceId), 0)
+    ) + 1;
 
   return {
     inventory: {
-      bag,
-      bagSize,
+      bag: bagState.items,
+      bagSize: bagState.size,
+      warehouse: warehouseState.items,
+      warehouseSize: warehouseState.size,
       nextItemInstanceId:
         Number.isInteger(character?.inventory?.nextItemInstanceId) &&
         character.inventory.nextItemInstanceId >= computedNextInstanceId
@@ -59,9 +52,19 @@ function normalizeInventoryState(character: UnknownRecord): InventoryState {
       nextBagSlot:
         Number.isInteger(character?.inventory?.nextBagSlot) &&
         character.inventory.nextBagSlot >= FIRST_BAG_SLOT &&
-        character.inventory.nextBagSlot <= bagSize + 1
-          ? findNextAvailableSlot(bag, bagSize, character.inventory.nextBagSlot)
-          : computedNextSlot,
+        character.inventory.nextBagSlot <= bagState.size + 1
+          ? findNextAvailableSlot(bagState.items, bagState.size, character.inventory.nextBagSlot)
+          : bagState.nextSlot,
+      nextWarehouseSlot:
+        Number.isInteger(character?.inventory?.nextWarehouseSlot) &&
+        character.inventory.nextWarehouseSlot >= FIRST_BAG_SLOT &&
+        character.inventory.nextWarehouseSlot <= warehouseState.size + 1
+          ? findNextAvailableSlot(
+              warehouseState.items,
+              warehouseState.size,
+              character.inventory.nextWarehouseSlot
+            )
+          : warehouseState.nextSlot,
     },
   };
 }
@@ -108,8 +111,94 @@ function normalizeBagItem(item: UnknownRecord): BagItem | null {
   };
 }
 
+function normalizeContainerState(rawItems: unknown[], requestedSize: number): {
+  items: BagItem[];
+  size: number;
+  nextSlot: number;
+} {
+  const normalizedItems = Array.isArray(rawItems)
+    ? rawItems
+        .map((item: unknown) => normalizeBagItem(item as UnknownRecord))
+        .filter((item: BagItem | null): item is BagItem => Boolean(item))
+        .sort((left: BagItem, right: BagItem) => {
+          if (left.slot !== right.slot) {
+            return left.slot - right.slot;
+          }
+          return left.instanceId - right.instanceId;
+        })
+    : [];
+  const size = Math.max(
+    requestedSize,
+    computeRequiredBagSlots(normalizedItems),
+    normalizedItems.reduce((maxSlot: number, item: BagItem) => Math.max(maxSlot, item.slot), FIRST_BAG_SLOT - 1)
+  );
+  const items = normalizeBagLayout(normalizedItems, size);
+  return {
+    items,
+    size,
+    nextSlot: Math.max(
+      FIRST_BAG_SLOT,
+      items.reduce((maxSlot, item) => Math.max(maxSlot, item.slot), FIRST_BAG_SLOT - 1) + 1
+    ),
+  };
+}
+
+function serializeInventoryItems(items: BagItem[] | undefined): Array<Record<string, unknown>> {
+  return Array.isArray(items)
+    ? items.map((item) => ({
+        instanceId: item.instanceId >>> 0,
+        templateId: item.templateId >>> 0,
+        quantity: item.quantity >>> 0,
+        durability:
+          Number.isInteger(item.durability) && typeof item.durability === 'number'
+            ? item.durability >>> 0
+            : undefined,
+        tradeState:
+          Number.isInteger(item.tradeState) && typeof item.tradeState === 'number'
+            ? (item.tradeState | 0)
+            : normalizeStoredTradeState(
+                undefined,
+                item.templateId != null && (() => {
+                  const definition = getItemDefinition(item.templateId);
+                  return definition && isEquipmentDefinition(definition)
+                    ? 0
+                    : item.bindState;
+                })()
+              ),
+        bindState:
+          Number.isInteger(item.bindState) && typeof item.bindState === 'number'
+            ? (item.bindState & 0xff)
+            : 0,
+        refineLevel:
+          Number.isInteger(item.refineLevel) && typeof item.refineLevel === 'number'
+            ? (item.refineLevel & 0xff)
+            : undefined,
+        stateCode:
+          Number.isInteger(item.stateCode) && typeof item.stateCode === 'number'
+            ? (item.stateCode & 0xff)
+            : 0,
+        extraValue:
+          Number.isInteger(item.extraValue) && typeof item.extraValue === 'number'
+            ? (item.extraValue & 0xffff)
+            : 0,
+        enhancementGrowthId: normalizeStoredEnhancementWord(item.enhancementGrowthId),
+        enhancementCurrentExp: normalizeStoredEnhancementWord(item.enhancementCurrentExp),
+        enhancementSoulPoints: normalizeStoredEnhancementWord(item.enhancementSoulPoints),
+        enhancementAptitudeGrowth: normalizeStoredEnhancementWord(item.enhancementAptitudeGrowth),
+        enhancementUnknown13: normalizeStoredEnhancementWord(item.enhancementUnknown13),
+        attributePairs: normalizeInstanceAttributePairs(item.attributePairs),
+        equipped: item.equipped === true,
+        slot: item.slot >>> 0,
+      }))
+    : [];
+}
+
 function buildInventorySnapshot(session: InventorySessionLike): InventoryState['inventory'] {
   const bagSize = typeof session.bagSize === 'number' && session.bagSize > 0 ? session.bagSize : DEFAULT_BAG_SIZE;
+  const warehouseSize =
+    typeof session.warehouseSize === 'number' && session.warehouseSize > 0
+      ? session.warehouseSize
+      : DEFAULT_WAREHOUSE_SIZE;
   const nextItemInstanceId =
     typeof session.nextItemInstanceId === 'number' && session.nextItemInstanceId > 0
       ? session.nextItemInstanceId
@@ -118,58 +207,19 @@ function buildInventorySnapshot(session: InventorySessionLike): InventoryState['
     typeof session.nextBagSlot === 'number' && session.nextBagSlot >= FIRST_BAG_SLOT
       ? session.nextBagSlot
       : FIRST_BAG_SLOT;
+  const nextWarehouseSlot =
+    typeof session.nextWarehouseSlot === 'number' && session.nextWarehouseSlot >= FIRST_BAG_SLOT
+      ? session.nextWarehouseSlot
+      : FIRST_BAG_SLOT;
 
   const snapshot = {
-    bag: Array.isArray(session.bagItems)
-      ? session.bagItems.map((item) => ({
-          instanceId: item.instanceId >>> 0,
-          templateId: item.templateId >>> 0,
-          quantity: item.quantity >>> 0,
-          durability:
-            Number.isInteger(item.durability) && typeof item.durability === 'number'
-              ? item.durability >>> 0
-              : undefined,
-          tradeState:
-            Number.isInteger(item.tradeState) && typeof item.tradeState === 'number'
-              ? (item.tradeState | 0)
-              : normalizeStoredTradeState(
-                  undefined,
-                  item.templateId != null && (() => {
-                    const definition = getItemDefinition(item.templateId);
-                    return definition && isEquipmentDefinition(definition)
-                      ? 0
-                      : item.bindState;
-                  })()
-                ),
-          bindState:
-            Number.isInteger(item.bindState) && typeof item.bindState === 'number'
-              ? (item.bindState & 0xff)
-              : 0,
-          refineLevel:
-            Number.isInteger(item.refineLevel) && typeof item.refineLevel === 'number'
-              ? (item.refineLevel & 0xff)
-              : undefined,
-          stateCode:
-            Number.isInteger(item.stateCode) && typeof item.stateCode === 'number'
-              ? (item.stateCode & 0xff)
-              : 0,
-          extraValue:
-            Number.isInteger(item.extraValue) && typeof item.extraValue === 'number'
-              ? (item.extraValue & 0xffff)
-              : 0,
-          enhancementGrowthId: normalizeStoredEnhancementWord(item.enhancementGrowthId),
-          enhancementCurrentExp: normalizeStoredEnhancementWord(item.enhancementCurrentExp),
-          enhancementSoulPoints: normalizeStoredEnhancementWord(item.enhancementSoulPoints),
-          enhancementAptitudeGrowth: normalizeStoredEnhancementWord(item.enhancementAptitudeGrowth),
-          enhancementUnknown13: normalizeStoredEnhancementWord(item.enhancementUnknown13),
-          attributePairs: normalizeInstanceAttributePairs(item.attributePairs),
-          equipped: item.equipped === true,
-          slot: item.slot >>> 0,
-        }))
-      : [],
+    bag: serializeInventoryItems(session.bagItems),
     bagSize,
+    warehouse: serializeInventoryItems(session.warehouseItems),
+    warehouseSize,
     nextItemInstanceId,
     nextBagSlot,
+    nextWarehouseSlot,
   };
   return normalizeInventoryState({ inventory: snapshot }).inventory;
 }
@@ -1036,7 +1086,12 @@ function cloneBagItemWithQuantity(
 
 function allocateNextInstanceId(session: InventorySessionLike): number {
   const usedInstanceIds = new Set<number>(
-    Array.isArray(session.bagItems) ? session.bagItems.map((item) => item.instanceId >>> 0) : []
+    [
+      ...(Array.isArray(session.bagItems) ? session.bagItems.map((item) => item.instanceId >>> 0) : []),
+      ...(Array.isArray(session.warehouseItems)
+        ? session.warehouseItems.map((item) => item.instanceId >>> 0)
+        : []),
+    ]
   );
   let nextInstanceId =
     typeof session.nextItemInstanceId === 'number' && session.nextItemInstanceId > 0

@@ -65,6 +65,17 @@ export interface ItemStackCombineRequestData {
   sourceInstanceId: number;
   targetInstanceId: number;
 }
+export interface ItemContainerMoveRequestData {
+  subcmd: number;
+  instanceId: number;
+  fromContainerType: number;
+  toContainerType: number;
+}
+export interface WarehousePasswordRequestData {
+  subcmd: number;
+  mode: number;
+  password: string;
+}
 export interface RenownTaskDailyState {
   dayKey: string;
   takenToday: number;
@@ -254,8 +265,13 @@ export interface GameSession {
   // Inventory
   bagItems: any[];
   bagSize: number;
+  warehouseItems: any[];
+  warehouseSize: number;
   nextItemInstanceId: number;
   nextBagSlot: number;
+  nextWarehouseSlot: number;
+  warehousePassword: string;
+  warehouseUnlocked: boolean;
   pendingBagSplitMove?: {
     instanceId: number;
     fromSlot: number;

@@ -86,8 +86,16 @@ export function hydratePendingGameCharacter(session: GameSession, sharedState: R
   const inventoryState = normalizeInventoryState(pendingCharacter);
   session.bagItems = inventoryState.inventory.bag;
   session.bagSize = inventoryState.inventory.bagSize;
+  session.warehouseItems = inventoryState.inventory.warehouse;
+  session.warehouseSize = inventoryState.inventory.warehouseSize;
   session.nextItemInstanceId = inventoryState.inventory.nextItemInstanceId;
   session.nextBagSlot = inventoryState.inventory.nextBagSlot;
+  session.nextWarehouseSlot = inventoryState.inventory.nextWarehouseSlot;
+  session.warehousePassword =
+    typeof pendingCharacter.warehousePassword === 'string' && pendingCharacter.warehousePassword.length > 0
+      ? pendingCharacter.warehousePassword
+      : '000000';
+  session.warehouseUnlocked = false;
 
   session.currentMapId = numberOrDefault(pendingCharacter.mapId, session.currentMapId);
   session.currentX = numberOrDefault(pendingCharacter.x, session.currentX);
@@ -176,6 +184,10 @@ export function buildCharacterSnapshot(
     petSummoned: session.petSummoned === true,
     frogTeleporterUnlocks: session.frogTeleporterUnlocks || defaultFrogTeleporterUnlocks(),
     inventory: buildInventorySnapshot(session),
+    warehousePassword:
+      typeof session.warehousePassword === 'string' && session.warehousePassword.length > 0
+        ? session.warehousePassword
+        : '000000',
     mapId: session.currentMapId,
     x: session.currentX,
     y: session.currentY,

@@ -4,6 +4,7 @@ import { BAG_CONTAINER_TYPE, getItemDefinition, isEquipmentDefinition, } from '.
 import { applyEffects } from '../effects/effect-executor.js';
 
 const EQUIPMENT_CONTAINER_TYPE = 0;
+const WAREHOUSE_CONTAINER_TYPE = 2;
 const FIELD_COMBAT_WARD_AMULET_TEMPLATE_ID = 26039;
 
 import type { GameSession } from '../types.js';
@@ -51,6 +52,22 @@ function sendInventoryFullSync(session: GameSession): void {
     }),
     DEFAULT_FLAGS,
     `Sending inventory full sync cmd=0x${GAME_ITEM_CONTAINER_CMD.toString(16)} container=${BAG_CONTAINER_TYPE} items=${bagItems.length}`
+  );
+}
+
+function sendWarehouseContainerSync(session: GameSession): void {
+  const warehouseItems = Array.isArray(session.warehouseItems)
+    ? session.warehouseItems
+        .filter((item: UnknownRecord) => item.equipped !== true)
+        .map((item: UnknownRecord) => buildClientInventoryItem(item))
+    : [];
+  session.writePacket(
+    buildInventoryContainerBulkSyncPacket({
+      containerType: WAREHOUSE_CONTAINER_TYPE,
+      items: warehouseItems as any[],
+    }),
+    DEFAULT_FLAGS,
+    `Sending warehouse container sync cmd=0x${GAME_ITEM_CONTAINER_CMD.toString(16)} container=${WAREHOUSE_CONTAINER_TYPE} items=${warehouseItems.length}`
   );
 }
 
@@ -344,6 +361,7 @@ function mapInventoryQuestEventToEffect(event: UnknownRecord): UnknownRecord | n
 
 export {
   applyInventoryQuestEvent,
+  buildClientInventoryItem,
   sendConsumeResultPackets,
   sendInventoryFullSync,
   sendItemAdd,
@@ -351,5 +369,7 @@ export {
   sendItemQuantityUpdate,
   sendGrantResultPackets,
   sendEquipmentContainerSync,
+  sendWarehouseContainerSync,
   syncInventoryStateToClient,
+  WAREHOUSE_CONTAINER_TYPE,
 };

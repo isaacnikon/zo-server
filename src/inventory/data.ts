@@ -5,6 +5,7 @@ import { resolveRepoPath } from '../runtime-paths.js';
 
 const BAG_CONTAINER_TYPE = 1;
 const DEFAULT_BAG_SIZE = 24;
+const DEFAULT_WAREHOUSE_SIZE = 30;
 const FIRST_BAG_SLOT = 1;
 const CLIENT_DERIVED_ROOT = resolveRepoPath('data', 'client-derived');
 const EQUIPMENT_TABLE_FILE = path.join(CLIENT_DERIVED_ROOT, 'equipment.json');
@@ -85,16 +86,22 @@ interface InventoryState {
   inventory: {
     bag: BagItem[];
     bagSize: number;
+    warehouse: BagItem[];
+    warehouseSize: number;
     nextItemInstanceId: number;
     nextBagSlot: number;
+    nextWarehouseSlot: number;
   };
 }
 
 interface InventorySessionLike {
   bagItems?: BagItem[];
   bagSize?: number;
+  warehouseItems?: BagItem[];
+  warehouseSize?: number;
   nextItemInstanceId?: number;
   nextBagSlot?: number;
+  nextWarehouseSlot?: number;
 }
 
 interface InventoryChange {
@@ -549,6 +556,7 @@ function computeClientDisplayedSellPrice(baseValue: number, divisorValue: number
 export {
   BAG_CONTAINER_TYPE,
   DEFAULT_BAG_SIZE,
+  DEFAULT_WAREHOUSE_SIZE,
   FIRST_BAG_SLOT,
   getItemDefinition,
   isEquipmentDefinition,

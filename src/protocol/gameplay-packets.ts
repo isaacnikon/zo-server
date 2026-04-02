@@ -243,6 +243,13 @@ export function buildServerRunScriptPacket(scriptId: number, subtype: number): B
   return writer.payload();
 }
 
+export function buildScriptEventControlPacket(subtype: number): Buffer {
+  const writer = new PacketWriter();
+  writer.writeUint16(GAME_SCRIPT_EVENT_CMD);
+  writer.writeUint8(subtype & 0xff);
+  return writer.payload();
+}
+
 export function buildQuestTableSyncPacket({
   playerRuntimeId,
   subtype = 0x08,

@@ -136,6 +136,10 @@ export class CharacterStore {
       statusPoints: profile.statusPoints,
       selectedPetRuntimeId: profile.selectedPetRuntimeId,
       petSummoned: profile.petSummoned,
+      warehousePassword:
+        typeof profile.warehousePassword === 'string' && profile.warehousePassword.length > 0
+          ? profile.warehousePassword
+          : undefined,
       frogTeleporterUnlocks:
         profile.frogTeleporterUnlocks && typeof profile.frogTeleporterUnlocks === 'object'
           ? cloneJson(profile.frogTeleporterUnlocks)
@@ -169,9 +173,12 @@ export class CharacterStore {
       pets: Array.isArray(pets.pets) ? pets.pets : [],
       inventory: {
         bag: Array.isArray(inventoryItems.items) ? inventoryItems.items : [],
+        warehouse: Array.isArray(inventoryItems.warehouseItems) ? inventoryItems.warehouseItems : [],
         bagSize: inventoryState.bagSize,
+        warehouseSize: inventoryState.warehouseSize,
         nextItemInstanceId: inventoryState.nextItemInstanceId,
         nextBagSlot: inventoryState.nextBagSlot,
+        nextWarehouseSlot: inventoryState.nextWarehouseSlot,
       },
     };
   }
@@ -233,6 +240,10 @@ function buildProfileDocument(accountId: string, characterId: string, character:
     statusPoints: numberOrDefault(character.statusPoints, 0),
     selectedPetRuntimeId: numberOrNull(character.selectedPetRuntimeId),
     petSummoned: character.petSummoned === true,
+    warehousePassword:
+      typeof character.warehousePassword === 'string' && character.warehousePassword.length > 0
+        ? character.warehousePassword
+        : '000000',
     frogTeleporterUnlocks:
       character.frogTeleporterUnlocks && typeof character.frogTeleporterUnlocks === 'object'
         ? cloneJson(character.frogTeleporterUnlocks)
@@ -306,10 +317,9 @@ function buildCompletedQuestsDocument(characterId: string, character: any): Reco
 }
 
 function buildInventoryItemsDocument(characterId: string, character: any): Record<string, unknown> {
-  return {
-    characterId,
-    items: Array.isArray(character?.inventory?.bag)
-        ? character.inventory.bag.map((item: any) => ({
+  const serializeItemList = (items: any[]): Array<Record<string, unknown>> =>
+    Array.isArray(items)
+      ? items.map((item: any) => ({
           instanceId: numberOrDefault(item.instanceId, 0),
           templateId: numberOrDefault(item.templateId, 0),
           quantity: numberOrDefault(item.quantity, 1),
@@ -346,7 +356,12 @@ function buildInventoryItemsDocument(characterId: string, character: any): Recor
           equipped: item.equipped === true,
           slot: numberOrDefault(item.slot, 0),
         }))
-      : [],
+      : [];
+
+  return {
+    characterId,
+    items: serializeItemList(character?.inventory?.bag),
+    warehouseItems: serializeItemList(character?.inventory?.warehouse),
     updatedAt: new Date().toISOString(),
   };
 }
@@ -432,8 +447,10 @@ function buildInventoryStateDocument(characterId: string, character: any): Recor
   return {
     characterId,
     bagSize: numberOrDefault(character?.inventory?.bagSize, 24),
+    warehouseSize: numberOrDefault(character?.inventory?.warehouseSize, 30),
     nextItemInstanceId: numberOrDefault(character?.inventory?.nextItemInstanceId, 1),
     nextBagSlot: numberOrDefault(character?.inventory?.nextBagSlot, 0),
+    nextWarehouseSlot: numberOrDefault(character?.inventory?.nextWarehouseSlot, 0),
     updatedAt: new Date().toISOString(),
   };
 }

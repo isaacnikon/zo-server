@@ -101,8 +101,13 @@ class Session implements GameSession {
   renownTaskDailyState: import('./types.js').RenownTaskDailyState;
   bagItems: any[];
   bagSize: number;
+  warehouseItems: any[];
+  warehouseSize: number;
   nextItemInstanceId: number;
   nextBagSlot: number;
+  nextWarehouseSlot: number;
+  warehousePassword: string;
+  warehouseUnlocked: boolean;
   currentMapId: number;
   currentX: number;
   currentY: number;
@@ -217,8 +222,13 @@ class Session implements GameSession {
     this.petSummoned = false;
     this.bagItems = [];
     this.bagSize = 24;
+    this.warehouseItems = [];
+    this.warehouseSize = 30;
     this.nextItemInstanceId = 1;
     this.nextBagSlot = 0;
+    this.nextWarehouseSlot = 0;
+    this.warehousePassword = '000000';
+    this.warehouseUnlocked = false;
     this.currentMapId = MAP_ID;
     this.currentX = SPAWN_X;
     this.currentY = SPAWN_Y;
