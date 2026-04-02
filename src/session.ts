@@ -43,6 +43,9 @@ const SELF_STATE_PROBE_FIELD_A = Number.isFinite(Number(process.env.SELF_STATE_P
 const SELF_STATE_PROBE_FIELD_B = Number.isFinite(Number(process.env.SELF_STATE_PROBE_FIELD_B))
   ? Number(process.env.SELF_STATE_PROBE_FIELD_B)
   : 1;
+const VERBOSE_SESSION_PACKET_LOGS =
+  typeof process.env.VERBOSE_SESSION_PACKET_LOGS === 'string' &&
+  ['1', 'true', 'yes', 'on'].includes(process.env.VERBOSE_SESSION_PACKET_LOGS.trim().toLowerCase());
 const GAME_PLAYER_ACTION_STATE_CMD = 0x040d;
 
 class Session implements GameSession {
@@ -293,8 +296,7 @@ class Session implements GameSession {
       const payload = this.recvBuf.slice(5, totalLen);
       this.recvBuf = this.recvBuf.slice(totalLen);
 
-      this.log(`RECV pkt flags=0x${flags.toString(16)} len=${payloadLen} seq=${seq}`);
-      this.logger.log(this.logger.hexDump(payload, `[S${this.id}] < `));
+      this.logInboundPacket(flags, payloadLen, seq, payload);
       this.handlePacket(flags, seq, payload);
     }
   }
@@ -306,11 +308,7 @@ class Session implements GameSession {
 
     const cmdByte = payload[0];
     const cmdWord = payload.length >= 2 ? payload.readUInt16LE(0) : cmdByte;
-    this.log(
-      `CMD8=0x${cmdByte.toString(16).padStart(2, '0')} CMD16=0x${cmdWord.toString(16).padStart(4, '0')} state=${this.state}`
-    );
-    const readable = payload.toString('latin1').replace(/[^\x20-\x7e]/g, '.');
-    this.log(`ASCII: ${readable}`);
+    this.logDecodedPacket(cmdByte, cmdWord, payload);
 
     if (this.state === 'CONNECTED') {
       this.handleLogin(payload);
@@ -329,9 +327,7 @@ class Session implements GameSession {
   handleLoggedInPacket(flags: number, payload: Buffer): void {
     const cmdByte = payload[0];
     const cmdWord = payload.length >= 2 ? payload.readUInt16LE(0) : cmdByte;
-    this.log(
-      `Game packet flags=0x${flags.toString(16)} cmd8=0x${cmdByte.toString(16).padStart(2, '0')} cmd16=0x${cmdWord.toString(16).padStart(4, '0')}`
-    );
+    this.logGamePacketHeader(flags, cmdByte, cmdWord);
 
     touchOnlinePresence(this, {
       isHeartbeat: (flags & 0x04) !== 0 && cmdWord === PING_CMD,
@@ -399,6 +395,7 @@ class Session implements GameSession {
     if (payload.length >= 2) {
       cmdWord = payload.readUInt16LE(0);
       if (
+        VERBOSE_SESSION_PACKET_LOGS &&
         (cmdWord === GAME_ITEM_CMD || cmdWord === GAME_ITEM_CONTAINER_CMD) &&
         payload.includes(Buffer.from([0xed, 0x13]))
       ) {
@@ -411,8 +408,10 @@ class Session implements GameSession {
     if (this.serverSeq > 65000) {
       this.serverSeq = 1;
     }
-    this.log(message);
-    this.logger.log(this.logger.hexDump(packet, `[S${this.id}] > `));
+    if (this.shouldLogPacketMessage(message)) {
+      this.log(message);
+    }
+    this.logOutboundPacket(packet);
     this.socket.write(packet);
 
     const isMirroredSharedCombatPacket = message.includes('mirrored-owner=');
@@ -443,6 +442,48 @@ class Session implements GameSession {
 
   log(message: string): void {
     this.logger.log(`[S${this.id}] ${message}`);
+  }
+
+  private logInboundPacket(flags: number, payloadLen: number, seq: number, payload: Buffer): void {
+    if (!VERBOSE_SESSION_PACKET_LOGS) {
+      return;
+    }
+    this.log(`RECV pkt flags=0x${flags.toString(16)} len=${payloadLen} seq=${seq}`);
+    this.logger.log(this.logger.hexDump(payload, `[S${this.id}] < `));
+  }
+
+  private logDecodedPacket(cmdByte: number, cmdWord: number, payload: Buffer): void {
+    if (!VERBOSE_SESSION_PACKET_LOGS) {
+      return;
+    }
+    this.log(
+      `CMD8=0x${cmdByte.toString(16).padStart(2, '0')} CMD16=0x${cmdWord.toString(16).padStart(4, '0')} state=${this.state}`
+    );
+    const readable = payload.toString('latin1').replace(/[^\x20-\x7e]/g, '.');
+    this.log(`ASCII: ${readable}`);
+  }
+
+  private logGamePacketHeader(flags: number, cmdByte: number, cmdWord: number): void {
+    if (!VERBOSE_SESSION_PACKET_LOGS) {
+      return;
+    }
+    this.log(
+      `Game packet flags=0x${flags.toString(16)} cmd8=0x${cmdByte.toString(16).padStart(2, '0')} cmd16=0x${cmdWord.toString(16).padStart(4, '0')}`
+    );
+  }
+
+  private shouldLogPacketMessage(message: string): boolean {
+    if (!message) {
+      return false;
+    }
+    return VERBOSE_SESSION_PACKET_LOGS || !message.startsWith('Sending ');
+  }
+
+  private logOutboundPacket(packet: Buffer): void {
+    if (!VERBOSE_SESSION_PACKET_LOGS) {
+      return;
+    }
+    this.logger.log(this.logger.hexDump(packet, `[S${this.id}] > `));
   }
 
   getPersistedCharacter(): Record<string, unknown> | null {

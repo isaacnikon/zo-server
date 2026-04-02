@@ -23,6 +23,7 @@ The required map binaries are now vendored under `data/client/map`, so no extern
 - `SERVER_HOST`: host/IP advertised to clients in the login server-list and redirect packets. Defaults to `127.0.0.1`.
 - `MAP_CLIENT_ROOT`: optional override for the client map data root. Defaults to `/app/data/client`.
 - `COMBAT_REFERENCE_ROOT`: container path for the combat reference dataset.
+- `VERBOSE_SESSION_PACKET_LOGS`: set to `1` to re-enable raw recv/send packet logs, decoded ASCII, and hex dumps. By default those transport-level logs stay quiet.
 
 ## Deploy
 
