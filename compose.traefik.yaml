@@ -1,0 +1,22 @@
+services:
+  portal:
+    environment:
+      ADMIN_COOKIE_SECURE: "${ADMIN_COOKIE_SECURE:-1}"
+    networks:
+      - default
+      - traefik-public
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.zo-portal-signup.rule=Host(`${PORTAL_SIGNUP_HOST:-signup.zo.webcap.site}`)"
+      - "traefik.http.routers.zo-portal-signup.entrypoints=websecure"
+      - "traefik.http.routers.zo-portal-signup.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.zo-portal-signup.service=zo-portal"
+      - "traefik.http.routers.zo-portal-admin.rule=Host(`${PORTAL_ADMIN_HOST:-admin.zo.webcap.site}`)"
+      - "traefik.http.routers.zo-portal-admin.entrypoints=websecure"
+      - "traefik.http.routers.zo-portal-admin.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.zo-portal-admin.service=zo-portal"
+      - "traefik.http.services.zo-portal.loadbalancer.server.port=3000"
+
+networks:
+  traefik-public:
+    external: true
