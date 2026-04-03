@@ -1,17 +1,8 @@
 {
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "node16",
-    "moduleResolution": "node16",
-    "outDir": "dist",
-    "rootDir": ".",
-    "strict": true,
-    "esModuleInterop": true,
-    "allowJs": false,
-    "declaration": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true
-  },
-  "include": ["tools/**/*.ts", "scripts/reset-character.ts", "src/**/*"],
-  "exclude": ["node_modules", "dist", "data", "context"]
+  "files": [],
+  "references": [
+    {
+      "path": "./apps/game-server"
+    }
+  ]
 }

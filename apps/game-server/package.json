@@ -1,0 +1,19 @@
+{
+  "name": "@zo/game-server",
+  "private": true,
+  "type": "module",
+  "main": "dist/src/server.js",
+  "dependencies": {
+    "pg": "^8.13.1"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/src/server.js",
+    "test": "tsc --noEmit -p tsconfig.json",
+    "db:import:static": "node dist/scripts/import-static-json-to-db.js --apply",
+    "db:import:static:purge": "node dist/scripts/import-static-json-to-db.js --apply --delete-files",
+    "db:import:characters": "node dist/scripts/migrate-character-json-to-db.js --apply",
+    "db:import:all": "npm run db:import:static && npm run db:import:characters",
+    "reset:character": "npm run build && node dist/scripts/reset-character.js"
+  }
+}

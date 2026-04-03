@@ -5,9 +5,9 @@ Private-server reimplementation for Zodiac Online, a 2D MMO client. TypeScript, 
 ## Build & Run
 
 ```
-npm run build        # tsc
-npm start            # node dist/src/server.js
-npm run dev          # tsc && node dist/src/server.js
+npm run build        # build all workspaces
+npm start            # start @zo/game-server
+npm run dev          # docker compose dev stack
 ```
 
 All relative imports use `.js` extensions (node16 module resolution).
@@ -15,7 +15,8 @@ All relative imports use `.js` extensions (node16 module resolution).
 ## Repository Layout
 
 ```
-src/                    Server source (ESM TypeScript)
+apps/game-server/
+  src/                  Server source (ESM TypeScript)
   server.ts             Entry point
   session.ts            Session class — implements GameSession interface
   types.ts              Shared types, GameSession interface, CombatState, QuestEvent union
@@ -68,6 +69,7 @@ scripts/                Data processing scripts (Python + TypeScript)
   generate/              Code/data generation from extracted data
   analysis/              Debugging and inspection tools
   patch/                 Client binary patching
+apps/portal/            Next.js portal
 tools/                  Standalone utilities (capture proxy, GCG extractor)
 data/
   client/                Vendored client binaries (maps)

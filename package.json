@@ -1,15 +1,28 @@
 {
-  "name": "zo-server",
+  "name": "zo-monorepo",
   "version": "1.0.0",
-  "type": "module",
-  "main": "dist/src/server.js",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
   "scripts": {
-    "build": "tsc",
-    "start": "node dist/src/server.js",
-    "dev": "tsc && node dist/src/server.js",
-    "test": "tsc",
+    "build:game-server": "npm run build -w @zo/game-server",
+    "build:portal": "npm run build -w @zo/portal",
+    "build": "npm run build:game-server && npm run build:portal",
+    "start": "npm run start -w @zo/game-server",
+    "dev": "docker compose -f compose.yaml -f compose.local.yaml up --build",
+    "test:game-server": "npm run test -w @zo/game-server",
+    "test:portal": "npm run test -w @zo/portal",
+    "test": "npm run test:game-server && npm run test:portal",
+    "db:migrate": "docker compose run --rm flyway migrate",
+    "db:repair": "docker compose run --rm flyway repair",
+    "db:info": "docker compose run --rm flyway info",
+    "db:import:static": "bash -lc 'source \"$HOME/.nvm/nvm.sh\" 2>/dev/null && npm run build:game-server && npm run db:import:static -w @zo/game-server'",
+    "db:import:static:purge": "bash -lc 'source \"$HOME/.nvm/nvm.sh\" 2>/dev/null && npm run build:game-server && npm run db:import:static:purge -w @zo/game-server'",
+    "db:import:characters": "bash -lc 'source \"$HOME/.nvm/nvm.sh\" 2>/dev/null && npm run build:game-server && npm run db:import:characters -w @zo/game-server'",
+    "db:import:all": "bash -lc 'source \"$HOME/.nvm/nvm.sh\" 2>/dev/null && npm run build:game-server && npm run db:import:all -w @zo/game-server'",
     "generate:client-runtime-json": "python3 scripts/generate/generate-client-runtime-json.py",
-    "reset:character": "tsc && node dist/scripts/reset-character.js"
+    "reset:character": "npm run reset:character -w @zo/game-server"
   },
   "keywords": [],
   "author": "",

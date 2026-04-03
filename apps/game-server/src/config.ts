@@ -1,0 +1,224 @@
+import { resolveRepoPath } from './runtime-paths.js';
+
+try {
+  process.loadEnvFile?.();
+} catch {
+  // Ignore missing or malformed local .env files and keep process env authoritative.
+}
+
+const port = parseInt(process.env.PORT || '7777', 10);
+const mapClientRoot = process.env.MAP_CLIENT_ROOT || process.env.CLIENT_ROOT;
+const defaultMapClientRoot = resolveRepoPath('data', 'client');
+const bindHost = process.env.BIND_HOST || '0.0.0.0';
+const serverHost = process.env.SERVER_HOST || '127.0.0.1';
+const combatEnabled = process.env.COMBAT_ENABLED !== '0';
+const databasePort = parseInt(process.env.DATABASE_PORT || process.env.DB_PORT || '5432', 10);
+const characterStoreBackend = (process.env.CHARACTER_STORE_BACKEND || 'json').trim().toLowerCase();
+const staticDataBackend = (process.env.STATIC_DATA_BACKEND || 'json').trim().toLowerCase();
+const singleWorldSessionPerRemote =
+  typeof process.env.SINGLE_WORLD_SESSION_PER_REMOTE === 'string' &&
+  ['1', 'true', 'yes', 'on'].includes(process.env.SINGLE_WORLD_SESSION_PER_REMOTE.trim().toLowerCase());
+const gameLoginRequirePortalAuth =
+  typeof process.env.GAME_LOGIN_REQUIRE_PORTAL_AUTH === 'string'
+    ? ['1', 'true', 'yes', 'on'].includes(process.env.GAME_LOGIN_REQUIRE_PORTAL_AUTH.trim().toLowerCase())
+    : characterStoreBackend === 'db';
+
+// --- Environment / paths ---
+export const ENV = {
+  BIND_HOST: bindHost,
+  SERVER_HOST: serverHost,
+  PORT: Number.isInteger(port) && port > 0 ? port : 7777,
+  COMBAT_ENABLED: combatEnabled,
+  SINGLE_WORLD_SESSION_PER_REMOTE: singleWorldSessionPerRemote,
+  GAME_LOGIN_REQUIRE_PORTAL_AUTH: gameLoginRequirePortalAuth,
+  LOG_FILE: process.env.LOG_FILE || resolveRepoPath('runtime', 'server.log'),
+  CHARACTER_STORE_FILE: process.env.CHARACTER_STORE_FILE || resolveRepoPath('runtime', 'characters.json'),
+  CHARACTER_STORE_BACKEND: characterStoreBackend === 'db' ? 'db' : 'json',
+  STATIC_DATA_BACKEND: staticDataBackend === 'db' ? 'db' : 'json',
+  DATABASE_HOST: process.env.DATABASE_HOST || process.env.DB_HOST || '127.0.0.1',
+  DATABASE_PORT: Number.isInteger(databasePort) && databasePort > 0 ? databasePort : 5432,
+  DATABASE_NAME: process.env.DATABASE_NAME || process.env.DB_NAME || 'zo_server',
+  DATABASE_USER: process.env.DATABASE_USER || process.env.DB_USER || 'zo',
+  DATABASE_PASSWORD: process.env.DATABASE_PASSWORD || process.env.DB_PASSWORD || 'zo_password',
+  COMBAT_PROBE_STATE_FILE: process.env.COMBAT_PROBE_STATE_FILE || resolveRepoPath('runtime', 'combat-probe-state.json'),
+  COMBAT_REFERENCE_ROOT: process.env.COMBAT_REFERENCE_ROOT || resolveRepoPath('third_party', 'shengxiao-server'),
+  MAP_CLIENT_ROOT: mapClientRoot || defaultMapClientRoot,
+} as const;
+
+// --- Protocol framing ---
+export const FRAMING = {
+  MAX_PACKET_SIZE: 0x4000,
+  VALID_FLAG_MASK: 0xe0,
+  VALID_FLAG_VALUE: 0x40,
+  DEFAULT_FLAGS: 0x40,
+  SPECIAL_FLAGS: 0x44,
+} as const;
+
+// --- Game command words ---
+export const GAME_CMD = {
+  LOGIN: 0x03e9,
+  POSITION_QUERY: 0x03eb,
+  DIALOG: 0x03e7,
+  SERVER_RUN: 0x03f1,
+  NPC_SHOP: 0x0411,
+  SCENE_ENTER: 0x040e,
+  ITEM_CONTAINER: 0x03f2,
+  ITEM: 0x03f3,
+  ITEM_SERVICE: 0x03f8,
+  SELF_STATE: 0x03f6,
+  QUEST: 0x03ff,
+  QUEST_TABLE: 0x07d2,
+  SCRIPT_EVENT: 0x0407,
+  FIGHT_CLIENT: 0x0406,
+  FIGHT_STATE: 0x03ec,
+  FIGHT_ACTION: 0x03ed,
+  FIGHT_RESULT: 0x03ee,
+  FIGHT_TURN: 0x03f0,
+  FIGHT_MISC: 0x0453,
+  FIGHT_STREAM: 0x03fa,
+  ROLE: 0x044c,
+  HANDSHAKE: 1,
+  PING: 2,
+  PONG: 3,
+  GATHER_REQUEST: 0x0401,
+  GATHER_RESPONSE: 0x0410,
+  TEAM_ACTION_PRIMARY: 0x03fd,
+  TEAM_ACTION_SECONDARY: 0x03fe,
+  TEAM_STATE: 0x0402,
+  TEAM_FOLLOWUP: 0x0442,
+} as const;
+
+// --- Subcommands ---
+export const SUB = {
+  FIGHT_CONTROL_RING_OPEN: 0x01,
+  FIGHT_CONTROL_INIT: 0x02,
+  FIGHT_ACTIVE_STATE: 0x03,
+  FIGHT_CLIENT_FLEE: 0x02,
+  FIGHT_CLIENT_ATTACK_SELECTION: 0x03,
+  FIGHT_CLIENT_ITEM_USE: 0x05,
+  FIGHT_CLIENT_PROTECT: 0x08,
+  FIGHT_CLIENT_READY: 0x09,
+  FIGHT_CLIENT_SELECTOR_TOKEN: 0x0a,
+  FIGHT_CLIENT_DEFEND: 0x0e,
+  // The live client applies player vars through script-event 0x0407 / 0x4f,
+  // which reaches the local player-var setter. 0x0406 is a different path.
+  FIGHT_CLIENT_PLAYER_VAR_SYNC: 0x4f,
+  FIGHT_ENTITY_FLAG_HIDE: 0x33,
+  FIGHT_CONTROL_SHOW: 0x34,
+  FIGHT_STATE_MODE: 0x64,
+  FIGHT_ENCOUNTER_PROBE: 0x65,
+  FIGHT_RESULT_VICTORY: 0x66,
+  FIGHT_RESULT_DEFEAT: 0x67,
+  SPAWN_BATCH: 0x15,
+  ITEM_CONTAINER_POSITION: 0x17,
+  LINE_SELECT_RESULT: 0x1b,
+  REDIRECT_RESULT: 0x0d,
+  LOGIN_SERVER_LIST_RESULT: 0x03,
+  DIALOG_MESSAGE: 0x01,
+  SERVER_RUN_MESSAGE: 0x01,
+  SERVER_RUN_CONTEXT: 0x02,
+  SERVER_RUN_REST: 0x0f,
+  SELF_STATE_APTITUDE: 0x0a,
+  SELF_STATE_VALUE_UPDATE: 0x0c,
+  SERVER_SCRIPT_IMMEDIATE: 0x7a,
+  SERVER_SCRIPT_DEFERRED: 0x7b,
+  SCENE_ENTER_LOAD: 0x01,
+} as const;
+
+// --- World defaults ---
+export const WORLD = {
+  MAP_ID: 101,
+  AREA_ID: 6101,
+  ENTITY_TYPE: 0x3e9,
+  SPAWN_X: 70,
+  SPAWN_Y: 95,
+  ENABLE_DIALOG_EXPERIMENT: false,
+} as const;
+
+// --- Flat named exports ---
+export const {
+  BIND_HOST,
+  SERVER_HOST,
+  PORT,
+  COMBAT_ENABLED,
+  SINGLE_WORLD_SESSION_PER_REMOTE,
+  GAME_LOGIN_REQUIRE_PORTAL_AUTH,
+  LOG_FILE,
+  CHARACTER_STORE_FILE,
+  CHARACTER_STORE_BACKEND,
+  STATIC_DATA_BACKEND,
+  DATABASE_HOST,
+  DATABASE_PORT,
+  DATABASE_NAME,
+  DATABASE_USER,
+  DATABASE_PASSWORD,
+  COMBAT_PROBE_STATE_FILE,
+  COMBAT_REFERENCE_ROOT,
+  MAP_CLIENT_ROOT,
+} = ENV;
+export const { MAX_PACKET_SIZE, VALID_FLAG_MASK, VALID_FLAG_VALUE, DEFAULT_FLAGS, SPECIAL_FLAGS } = FRAMING;
+
+export const LOGIN_CMD = GAME_CMD.LOGIN;
+export const GAME_POSITION_QUERY_CMD = GAME_CMD.POSITION_QUERY;
+export const GAME_DIALOG_CMD = GAME_CMD.DIALOG;
+export const GAME_SERVER_RUN_CMD = GAME_CMD.SERVER_RUN;
+export const GAME_NPC_SHOP_CMD = GAME_CMD.NPC_SHOP;
+export const GAME_SCENE_ENTER_CMD = GAME_CMD.SCENE_ENTER;
+export const GAME_ITEM_CONTAINER_CMD = GAME_CMD.ITEM_CONTAINER;
+export const GAME_ITEM_CMD = GAME_CMD.ITEM;
+export const GAME_ITEM_SERVICE_CMD = GAME_CMD.ITEM_SERVICE;
+export const GAME_SELF_STATE_CMD = GAME_CMD.SELF_STATE;
+export const GAME_QUEST_CMD = GAME_CMD.QUEST;
+export const GAME_QUEST_TABLE_CMD = GAME_CMD.QUEST_TABLE;
+export const GAME_SCRIPT_EVENT_CMD = GAME_CMD.SCRIPT_EVENT;
+export const GAME_FIGHT_CLIENT_CMD = GAME_CMD.FIGHT_CLIENT;
+export const GAME_FIGHT_STATE_CMD = GAME_CMD.FIGHT_STATE;
+export const GAME_FIGHT_ACTION_CMD = GAME_CMD.FIGHT_ACTION;
+export const GAME_FIGHT_RESULT_CMD = GAME_CMD.FIGHT_RESULT;
+export const GAME_FIGHT_TURN_CMD = GAME_CMD.FIGHT_TURN;
+export const GAME_FIGHT_MISC_CMD = GAME_CMD.FIGHT_MISC;
+export const GAME_FIGHT_STREAM_CMD = GAME_CMD.FIGHT_STREAM;
+export const ROLE_CMD = GAME_CMD.ROLE;
+export const HANDSHAKE_CMD = GAME_CMD.HANDSHAKE;
+export const PING_CMD = GAME_CMD.PING;
+export const PONG_CMD = GAME_CMD.PONG;
+export const GAME_GATHER_REQUEST_CMD = GAME_CMD.GATHER_REQUEST;
+export const GAME_GATHER_RESPONSE_CMD = GAME_CMD.GATHER_RESPONSE;
+export const GAME_TEAM_ACTION_PRIMARY_CMD = GAME_CMD.TEAM_ACTION_PRIMARY;
+export const GAME_TEAM_ACTION_SECONDARY_CMD = GAME_CMD.TEAM_ACTION_SECONDARY;
+export const GAME_TEAM_STATE_CMD = GAME_CMD.TEAM_STATE;
+export const GAME_TEAM_FOLLOWUP_CMD = GAME_CMD.TEAM_FOLLOWUP;
+
+export const ITEM_CONTAINER_POSITION_SUBCMD = SUB.ITEM_CONTAINER_POSITION;
+export const FIGHT_CONTROL_RING_OPEN_SUBCMD = SUB.FIGHT_CONTROL_RING_OPEN;
+export const FIGHT_CONTROL_INIT_SUBCMD = SUB.FIGHT_CONTROL_INIT;
+export const FIGHT_ACTIVE_STATE_SUBCMD = SUB.FIGHT_ACTIVE_STATE;
+export const FIGHT_CLIENT_FLEE_SUBCMD = SUB.FIGHT_CLIENT_FLEE;
+export const FIGHT_CLIENT_ATTACK_SELECTION_SUBCMD = SUB.FIGHT_CLIENT_ATTACK_SELECTION;
+export const FIGHT_CLIENT_ITEM_USE_SUBCMD = SUB.FIGHT_CLIENT_ITEM_USE;
+export const FIGHT_CLIENT_PROTECT_SUBCMD = SUB.FIGHT_CLIENT_PROTECT;
+export const FIGHT_CLIENT_READY_SUBCMD = SUB.FIGHT_CLIENT_READY;
+export const FIGHT_CLIENT_SELECTOR_TOKEN_SUBCMD = SUB.FIGHT_CLIENT_SELECTOR_TOKEN;
+export const FIGHT_CLIENT_DEFEND_SUBCMD = SUB.FIGHT_CLIENT_DEFEND;
+export const FIGHT_CLIENT_PLAYER_VAR_SYNC_SUBCMD = SUB.FIGHT_CLIENT_PLAYER_VAR_SYNC;
+export const FIGHT_ENTITY_FLAG_HIDE_SUBCMD = SUB.FIGHT_ENTITY_FLAG_HIDE;
+export const FIGHT_CONTROL_SHOW_SUBCMD = SUB.FIGHT_CONTROL_SHOW;
+export const FIGHT_STATE_MODE_SUBCMD = SUB.FIGHT_STATE_MODE;
+export const FIGHT_ENCOUNTER_PROBE_SUBCMD = SUB.FIGHT_ENCOUNTER_PROBE;
+export const FIGHT_RESULT_VICTORY_SUBCMD = SUB.FIGHT_RESULT_VICTORY;
+export const FIGHT_RESULT_DEFEAT_SUBCMD = SUB.FIGHT_RESULT_DEFEAT;
+export const GAME_SPAWN_BATCH_SUBCMD = SUB.SPAWN_BATCH;
+export const LINE_SELECT_RESULT = SUB.LINE_SELECT_RESULT;
+export const REDIRECT_RESULT = SUB.REDIRECT_RESULT;
+export const LOGIN_SERVER_LIST_RESULT = SUB.LOGIN_SERVER_LIST_RESULT;
+export const GAME_DIALOG_MESSAGE_SUBCMD = SUB.DIALOG_MESSAGE;
+export const SERVER_RUN_MESSAGE_SUBCMD = SUB.SERVER_RUN_MESSAGE;
+export const SERVER_RUN_CONTEXT_SUBCMD = SUB.SERVER_RUN_CONTEXT;
+export const SERVER_RUN_REST_SUBCMD = SUB.SERVER_RUN_REST;
+export const SELF_STATE_APTITUDE_SUBCMD = SUB.SELF_STATE_APTITUDE;
+export const SELF_STATE_VALUE_UPDATE_SUBCMD = SUB.SELF_STATE_VALUE_UPDATE;
+export const SERVER_SCRIPT_IMMEDIATE_SUBCMD = SUB.SERVER_SCRIPT_IMMEDIATE;
+export const SERVER_SCRIPT_DEFERRED_SUBCMD = SUB.SERVER_SCRIPT_DEFERRED;
+export const SCENE_ENTER_LOAD_SUBCMD = SUB.SCENE_ENTER_LOAD;
+
+export const { ENABLE_DIALOG_EXPERIMENT, MAP_ID, AREA_ID, ENTITY_TYPE, SPAWN_X, SPAWN_Y } = WORLD;

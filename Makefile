@@ -13,6 +13,7 @@ RSYNC := rsync -az --delete -e "ssh -i $(DEPLOY_KEY)" \
 	--exclude .claude \
 	--exclude .mcp.json \
 	--exclude node_modules \
+	--exclude postgres-data \
 	--exclude runtime \
 	--exclude data/save \
 	--exclude server.log \
@@ -30,7 +31,20 @@ deploy-sync:
 	$(RSYNC) ./ $(DEPLOY_HOST):$(DEPLOY_DIR)/
 
 deploy-up:
-	$(SSH) $(DEPLOY_HOST) 'cd $(DEPLOY_DIR) && mkdir -p runtime data/save && docker compose up -d --build --remove-orphans'
+	$(SSH) $(DEPLOY_HOST) 'set -e; \
+		cd $(DEPLOY_DIR); \
+		mkdir -p runtime runtime/data/save data/save postgres-data; \
+		if docker network inspect traefik-public >/dev/null 2>&1; then \
+			COMPOSE_FILES="-f compose.yaml -f compose.traefik.yaml"; \
+		else \
+			COMPOSE_FILES="-f compose.yaml"; \
+		fi; \
+		docker compose $$COMPOSE_FILES build zo-server portal; \
+		docker compose $$COMPOSE_FILES up -d postgres; \
+		docker compose $$COMPOSE_FILES run --rm flyway migrate; \
+		docker compose $$COMPOSE_FILES run --rm --no-deps zo-server npm run db:import:static -w @zo/game-server; \
+		docker compose $$COMPOSE_FILES run --rm --no-deps zo-server npm run db:import:characters -w @zo/game-server; \
+		docker compose $$COMPOSE_FILES up -d --remove-orphans postgres zo-server portal'
 
 deploy-cleanup:
 	$(SSH) $(DEPLOY_HOST) 'set -e; \

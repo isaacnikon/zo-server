@@ -101,4 +101,4 @@ Most likely this is a `0x03fa` packet or another combat playback/state transitio
 ## Notes
 
 - Only `.ts` files were changed for flee support.
-- The running server uses `dist/src/server.js`, so rebuild/restart is required after future TypeScript changes.
+- The running server now uses `apps/game-server/dist/src/server.js`, so rebuild/restart is required after future TypeScript changes.

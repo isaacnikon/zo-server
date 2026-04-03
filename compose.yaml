@@ -1,19 +1,83 @@
 services:
+  postgres:
+    image: postgres:16-bookworm
+    environment:
+      POSTGRES_DB: "${POSTGRES_DB:-zo_server}"
+      POSTGRES_USER: "${POSTGRES_USER:-zo}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-zo_password}"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  flyway:
+    image: flyway/flyway:10.22.0
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      FLYWAY_URL: "jdbc:postgresql://postgres:5432/${POSTGRES_DB:-zo_server}"
+      FLYWAY_USER: "${POSTGRES_USER:-zo}"
+      FLYWAY_PASSWORD: "${POSTGRES_PASSWORD:-zo_password}"
+      FLYWAY_CONNECT_RETRIES: "60"
+    command: migrate
+    volumes:
+      - ./db/migrations:/flyway/sql:ro
+    restart: "no"
+
   zo-server:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: apps/game-server/Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+      flyway:
+        condition: service_completed_successfully
     ports:
-      - "${PORT:-7777}:7777"
+      - "${GAME_BIND_HOST:-0.0.0.0}:${PORT:-7777}:7777"
     environment:
       PORT: 7777
       SERVER_HOST: "${SERVER_HOST:-127.0.0.1}"
       LOG_FILE: /app/runtime/server.log
       CHARACTER_STORE_FILE: /app/runtime/characters.json
       COMBAT_PROBE_STATE_FILE: /app/runtime/combat-probe-state.json
+      CHARACTER_STORE_BACKEND: "${CHARACTER_STORE_BACKEND:-db}"
+      STATIC_DATA_BACKEND: "${STATIC_DATA_BACKEND:-db}"
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: "${POSTGRES_DB:-zo_server}"
+      DATABASE_USER: "${POSTGRES_USER:-zo}"
+      DATABASE_PASSWORD: "${POSTGRES_PASSWORD:-zo_password}"
+      GAME_LOGIN_REQUIRE_PORTAL_AUTH: "${GAME_LOGIN_REQUIRE_PORTAL_AUTH:-1}"
       MAP_CLIENT_ROOT: "${MAP_CLIENT_ROOT:-/app/data/client}"
       COMBAT_REFERENCE_ROOT: "${COMBAT_REFERENCE_ROOT:-/app/third_party/shengxiao-server}"
     volumes:
       - ./data/save:/app/data/save
       - ./runtime:/app/runtime
+    restart: unless-stopped
+
+  portal:
+    build:
+      context: .
+      dockerfile: apps/portal/Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+      flyway:
+        condition: service_completed_successfully
+    environment:
+      PORT: 3000
+      NODE_ENV: production
+      NEXT_TELEMETRY_DISABLED: "1"
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: "${POSTGRES_DB:-zo_server}"
+      DATABASE_USER: "${POSTGRES_USER:-zo}"
+      DATABASE_PASSWORD: "${POSTGRES_PASSWORD:-zo_password}"
+      ADMIN_PORTAL_TOKEN: "${ADMIN_PORTAL_TOKEN:-change-me-dev-token}"
     restart: unless-stopped
