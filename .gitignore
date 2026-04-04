@@ -1,11 +1,15 @@
 node_modules/
 dist/
+apps/*/dist/
+apps/*/.next/
 .env
 server.log
 combat-probe-state.json
 data/save/
 data/runtime/
 runtime/
+postgres-data/
 __pycache__/
 *.pyc
 roleinfo.txt
+.playwright-mcp
