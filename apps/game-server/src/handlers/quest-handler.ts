@@ -20,12 +20,25 @@ import { numberOrDefault } from '../character/normalize.js';
 import { applyObjectiveEvents } from '../objectives/objective-dispatcher.js';
 import { createQuestEventHandler } from '../objectives/quest-event-handler.js';
 import { getMapBootstrapSpawns } from '../map-spawns.js';
+import { isQuest2DefinitionId } from '../quest2/definitions.js';
+import { filterLegacyCompletedQuestIds, filterLegacyQuestRecords } from '../quest2/legacy-state.js';
+import { dispatchQuestEventToSession } from '../quest2/runtime.js';
+import { normalizeQuestState as normalizeQuestStateV2 } from '../quest2/state.js';
+import {
+  buildQuest2SyncState,
+  replayQuest2TrackerScripts,
+  sendQuest2AcceptWithState,
+  sendQuest2Marker,
+  sendQuest2UpdateWithState,
+  type Quest2SyncState,
+  usesQuest2TrackerMarkerPacket,
+} from '../quest2/sync.js';
 import type { QuestSyncMode, GameSession } from '../types.js';
 
 import { sanitizeQuestDialogueText } from '../utils.js';
 
 import type { UnknownRecord } from '../utils.js';
-type QuestSyncState = UnknownRecord & { taskId: number };
+type QuestSyncState = UnknownRecord & { taskId: number; source?: 'legacy' | 'quest2' };
 
 type QuestSyncOptions = {
   mode?: QuestSyncMode;
@@ -292,28 +305,51 @@ function sendQuestHistory(session: GameSession, taskId: number, historyLevel = 0
   );
 }
 
-function sendQuestTableStateSync(session: GameSession, syncState: QuestSyncState[]): void {
+function buildLegacyQuestSyncState(session: GameSession): QuestSyncState[] {
+  return buildQuestSyncState({
+    activeQuests: filterLegacyQuestRecords(session.activeQuests),
+    completedQuests: filterLegacyCompletedQuestIds(session.completedQuests),
+  }).map((quest: UnknownRecord) => ({
+    ...quest,
+    source: 'legacy',
+  })) as QuestSyncState[];
+}
+
+function buildCombinedCompletedQuestIds(session: GameSession): number[] {
+  const completed = new Set<number>();
+  for (const taskId of filterLegacyCompletedQuestIds(session.completedQuests)) {
+    completed.add(taskId >>> 0);
+  }
+  for (const taskId of Array.isArray(session.questStateV2?.completed) ? session.questStateV2.completed : []) {
+    if (Number.isInteger(taskId) && taskId > 0) {
+      completed.add(taskId >>> 0);
+    }
+  }
+  return [...completed].sort((left, right) => left - right);
+}
+
+function sendQuestTableStateSync(
+  session: GameSession,
+  syncState: QuestSyncState[],
+  completedTaskIds: number[]
+): void {
   const supportedQuests = syncState
     .filter((quest) => supportsQuestTableTaskId(numberOrDefault(quest.taskId, 0)))
     .slice(0, 0x10)
     .map((quest) => {
-      const { definition, record } = getQuestSyncRecord(session, numberOrDefault(quest.taskId, 0));
-      const ui = getCurrentStepUi(definition as any, record as any) as UnknownRecord | null;
       return {
         taskId: numberOrDefault(quest.taskId, 0),
         step: Math.max(1, numberOrDefault(quest.stepIndex, 0) + 1),
-        extraA: numberOrDefault(quest.maxAward, numberOrDefault(ui?.maxAward, 0)),
-        extraB: numberOrDefault(quest.taskStep, numberOrDefault(ui?.taskStep, 0)),
+        extraA: numberOrDefault(quest.maxAward, 0),
+        extraB: numberOrDefault(quest.taskStep, 0),
       };
     });
-  const historyEntries = Array.isArray(session.completedQuests)
-    ? session.completedQuests
-        .filter((taskId) => supportsQuestTableTaskId(numberOrDefault(taskId, 0)))
-        .map((taskId) => ({
-          taskId: numberOrDefault(taskId, 0),
-          state: 0,
-        }))
-    : [];
+  const historyEntries = completedTaskIds
+    .filter((taskId) => supportsQuestTableTaskId(numberOrDefault(taskId, 0)))
+    .map((taskId) => ({
+      taskId: numberOrDefault(taskId, 0),
+      state: 0,
+    }));
 
   const skippedCount = Math.max(0, syncState.length - supportedQuests.length);
   session.writePacket(
@@ -351,48 +387,53 @@ function replayQuestTrackerScripts(
 
 function syncQuestStateToClient(session: GameSession, options: QuestSyncOptions = {}): void {
   const mode: QuestSyncMode = options.mode || 'runtime';
-  const replayTalkStepUpdates = mode === 'login';
+  const quest2SyncState = buildQuest2SyncState(session.questStateV2);
+  const syncState = [...quest2SyncState].sort((left, right) => {
+    if (numberOrDefault(left.acceptedAt, 0) !== numberOrDefault(right.acceptedAt, 0)) {
+      return numberOrDefault(left.acceptedAt, 0) - numberOrDefault(right.acceptedAt, 0);
+    }
+    return numberOrDefault(left.taskId, 0) - numberOrDefault(right.taskId, 0);
+  });
+  const completedTaskIds = Array.isArray(session.questStateV2?.completed)
+    ? session.questStateV2.completed
+        .filter(Number.isInteger)
+        .map((taskId: number) => taskId >>> 0)
+        .sort((left: number, right: number) => left - right)
+    : [];
 
-  const syncState = buildQuestSyncState({
-    activeQuests: session.activeQuests,
-    completedQuests: session.completedQuests,
-  }) as QuestSyncState[];
-  const missingAcceptGrantItemEvents = collectMissingAcceptGrantItemEvents(session, syncState);
-  if (missingAcceptGrantItemEvents.length > 0) {
-    applyQuestEvents(session, missingAcceptGrantItemEvents, 'quest-sync-accept-item', {
-      suppressDialogues: true,
-    });
-  }
+  session.log(
+    `Quest sync mode=${mode} quest2Active=${quest2SyncState.length} quest2Completed=${completedTaskIds.length}`
+  );
 
   const mirroredClientQuestIds = new Set<number>();
-  sendQuestTableStateSync(session, syncState);
-  for (const taskId of session.completedQuests) {
+  sendQuestTableStateSync(session, syncState, completedTaskIds);
+  for (const taskId of completedTaskIds) {
     sendQuestHistory(session, taskId, 0);
   }
 
-  for (const quest of syncState) {
-    const { definition, record } = getQuestSyncRecord(session, quest.taskId);
+  for (const quest of quest2SyncState) {
+    const shouldSendFullUpdateState =
+      quest.stepMode === 'kill' ||
+      numberOrDefault(quest.stepIndex, 0) > 0 ||
+      numberOrDefault(quest.status, 0) > 0;
+
+    sendQuest2AcceptWithState(session, quest);
     if (mode === 'login') {
-      sendQuestAcceptWithState(session, quest.taskId, definition, record);
-      if (quest.stepMode === 'kill') {
-        sendQuestUpdateWithState(session, quest.taskId, definition, record);
+      if (shouldSendFullUpdateState) {
+        sendQuest2UpdateWithState(session, quest);
       }
     } else {
-      if (quest.stepMode === 'kill') {
-        sendQuestAcceptWithState(session, quest.taskId, definition, record);
-        sendQuestUpdateWithState(session, quest.taskId, definition, record);
-      } else {
-        sendQuestAccept(session, quest.taskId);
+      if (shouldSendFullUpdateState) {
+        sendQuest2UpdateWithState(session, quest);
       }
     }
-    // Talk-step replay is mode-dependent: full login needs it so the client
-    // reconstructs the current stage, while runtime refreshes stay minimal.
-    if (quest.stepMode === 'kill' || (replayTalkStepUpdates && quest.stepMode === 'talk')) {
+
+    if (numberOrDefault(quest.stepIndex, 0) > 0) {
       for (let index = 0; index < numberOrDefault(quest.stepIndex, 0); index += 1) {
         sendQuestUpdate(session, quest.taskId, index + 1);
       }
     }
-    if (quest.stepMode === 'kill' && numberOrDefault(quest.status, 0) > 0) {
+    if (numberOrDefault(quest.status, 0) > 0) {
       sendQuestUpdate(session, quest.taskId, numberOrDefault(quest.status, 0));
     }
     if (quest.stepMode === 'kill' && numberOrDefault(quest.progressCount, 0) > 0) {
@@ -402,35 +443,10 @@ function syncQuestStateToClient(session: GameSession, options: QuestSyncOptions 
         numberOrDefault(quest.progressCount, 0)
       );
     }
-    const markerNpcId = getQuestMarkerNpcId(definition as any, record as any);
-    const ui = getCurrentStepUi(definition as any, record as any) as UnknownRecord | null;
-    if (markerNpcId > 0 && usesQuestTrackerMarkerPacket(ui)) {
-      sendQuestMarker(session, quest.taskId, markerNpcId);
+    if (numberOrDefault(quest.markerNpcId, 0) > 0 && usesQuest2TrackerMarkerPacket(quest)) {
+      sendQuest2Marker(session, quest);
     }
-    const clientAliasTaskId = resolveClientQuestAliasTaskId(quest, session);
-    if (clientAliasTaskId > 0) {
-      sendQuestAcceptWithState(session, clientAliasTaskId, definition, record);
-      if (quest.stepMode === 'kill') {
-        sendQuestUpdateWithState(session, clientAliasTaskId, definition, record);
-      } else {
-        sendQuestAccept(session, clientAliasTaskId);
-      }
-      if (quest.stepMode === 'kill' && numberOrDefault(quest.status, 0) > 0) {
-        sendQuestUpdate(session, clientAliasTaskId, numberOrDefault(quest.status, 0));
-      }
-      if (quest.stepMode === 'kill' && numberOrDefault(quest.progressCount, 0) > 0) {
-        sendQuestProgress(
-          session,
-          numberOrDefault(quest.progressObjectiveId, quest.taskId),
-          numberOrDefault(quest.progressCount, 0)
-        );
-      }
-      if (markerNpcId > 0 && usesQuestTrackerMarkerPacket(ui)) {
-        sendQuestMarker(session, clientAliasTaskId, markerNpcId);
-      }
-      mirroredClientQuestIds.add(clientAliasTaskId);
-    }
-    replayQuestTrackerScripts(session, quest.taskId, definition, record);
+    replayQuest2TrackerScripts(session, quest);
   }
 
   clearStaleMirroredClientQuests(session, mirroredClientQuestIds);
@@ -532,19 +548,14 @@ function handleQuestAbandonRequest(session: GameSession, taskId: number, source 
   if (!Number.isInteger(taskId) || taskId <= 0) {
     return false;
   }
-
-  const questState = {
-    activeQuests: session.activeQuests,
-    completedQuests: session.completedQuests,
-  };
-  const events = abandonQuest(questState, taskId);
-  session.activeQuests = questState.activeQuests;
-  session.completedQuests = questState.completedQuests;
-  if (events.length > 0) {
-    applyQuestEvents(session, events, source);
-    return true;
+  if (!isQuest2DefinitionId(taskId)) {
+    session.log(`Ignoring legacy quest abandon taskId=${taskId} source=${source}`);
+    return false;
   }
-  return false;
+  return dispatchQuestEventToSession(session, {
+    type: 'quest_abandon',
+    questId: taskId >>> 0,
+  }).handled;
 }
 
 function handleQuestPacket(session: GameSession, payload: Buffer): void {
@@ -571,28 +582,16 @@ function handleQuestPacket(session: GameSession, payload: Buffer): void {
 }
 
 function handleQuestMonsterDefeat(session: GameSession, monsterId: number, count = 1): QuestMonsterDefeatResult {
-  const questState = {
-    activeQuests: session.activeQuests,
-    completedQuests: session.completedQuests,
-    level: session.level,
-  };
-  const events = applyMonsterDefeat(questState as any, monsterId, count);
-  session.activeQuests = questState.activeQuests;
-  session.completedQuests = questState.completedQuests;
-
-  if (events.length > 0) {
-    applyQuestEvents(session, events as UnknownRecord[], 'monster-defeat');
-  }
+  const quest2Result = dispatchQuestEventToSession(session, {
+    type: 'monster_defeat',
+    monsterId: monsterId >>> 0,
+    count: Math.max(1, count),
+    mapId: session.currentMapId >>> 0,
+  });
 
   return {
-    handled: events.length > 0,
-    grantedItems: events
-      .filter((event: UnknownRecord) => event?.type === 'item-granted' && event?.reason === 'defeat-collect')
-      .map((event: UnknownRecord) => ({
-        templateId: numberOrDefault(event?.templateId, 0),
-        quantity: Math.max(1, numberOrDefault(event?.quantity, 1)),
-      }))
-      .filter((item) => item.templateId > 0),
+    handled: quest2Result.handled,
+    grantedItems: quest2Result.grantedItems,
   };
 }
 
@@ -600,8 +599,13 @@ function ensureQuestStateReady(session: GameSession): void {
   const persisted = session.getPersistedCharacter();
   if (persisted) {
     const questState = normalizeQuestState(persisted);
-    session.activeQuests = questState.activeQuests;
-    session.completedQuests = questState.completedQuests;
+    session.activeQuests = filterLegacyQuestRecords(questState.activeQuests);
+    session.completedQuests = filterLegacyCompletedQuestIds(questState.completedQuests);
+    session.questStateV2 = normalizeQuestStateV2(
+      persisted?.questStateV2 && typeof persisted.questStateV2 === 'object'
+        ? persisted.questStateV2 as UnknownRecord
+        : {}
+    );
     session.pets = normalizePets(persisted.pets);
     session.selectedPetRuntimeId =
       typeof persisted.selectedPetRuntimeId === 'number'
@@ -614,12 +618,6 @@ function ensureQuestStateReady(session: GameSession): void {
     session.nextItemInstanceId = inventoryState.inventory.nextItemInstanceId;
     session.nextBagSlot = inventoryState.inventory.nextBagSlot;
   }
-
-  session.reconcileObjectives('bootstrap', {
-    suppressPackets: true,
-    suppressDialogues: true,
-    suppressStatSync: true,
-  });
 }
 
 const questEventHandler = createQuestEventHandler({
@@ -643,37 +641,17 @@ function refreshQuestStateForItemTemplates(session: GameSession, templateIds: nu
   if (interestingTemplates.size === 0) {
     return;
   }
-
-  const syncStateByTaskId = new Map<number, QuestSyncState>(
-    buildQuestSyncState({
-      activeQuests: session.activeQuests,
-      completedQuests: session.completedQuests,
-    }).map((quest: any) => [quest.taskId, quest] as [number, QuestSyncState])
-  );
-
-  for (const record of session.activeQuests) {
-    const definition = getQuestDefinition(record?.id);
-    if (!definition) {
-      continue;
+  for (const templateId of interestingTemplates) {
+    const quantity = Math.max(0, getBagQuantityByTemplateId(session, templateId));
+    const result = dispatchQuestEventToSession(session, {
+      type: 'item_changed',
+      templateId,
+      delta: 0,
+      quantity,
+    });
+    if (result.handled) {
+      session.log(`Refreshed quest2 state for templateId=${templateId} quantity=${quantity}`);
     }
-    const objective = getCurrentObjective(definition as any, record as any) as UnknownRecord | null;
-    const requiredItems = Array.isArray(objective?.requiredItems) ? objective.requiredItems : [];
-    if (requiredItems.length === 0) {
-      continue;
-    }
-
-    const matchesGrantedItem = requiredItems.some((item: UnknownRecord) =>
-      interestingTemplates.has(numberOrDefault(item?.templateId, 0) >>> 0)
-    );
-    if (!matchesGrantedItem) {
-      continue;
-    }
-
-    const syncState = syncStateByTaskId.get(definition.id);
-    if (!syncState) {
-      continue;
-    }
-    session.log(`Refreshed quest sync for task=${definition.id} after item grant templates=${[...interestingTemplates].join(',')}`);
   }
 }
 

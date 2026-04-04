@@ -158,6 +158,7 @@ export function buildCharacterReplaceSql(
       warehouse_password,
       online_state,
       renown_task_daily_state,
+      quest_state_v2,
       frog_teleporter_unlocks,
       map_id,
       x,
@@ -199,6 +200,11 @@ export function buildCharacterReplaceSql(
           : {}
       )},
       ${sqlJson(
+        character?.questStateV2 && typeof character.questStateV2 === 'object'
+          ? character.questStateV2
+          : { active: [], completed: [], failed: [] }
+      )},
+      ${sqlJson(
         character?.frogTeleporterUnlocks && typeof character.frogTeleporterUnlocks === 'object'
           ? character.frogTeleporterUnlocks
           : {}
@@ -234,6 +240,7 @@ export function buildCharacterReplaceSql(
         warehouse_password = EXCLUDED.warehouse_password,
         online_state = EXCLUDED.online_state,
         renown_task_daily_state = EXCLUDED.renown_task_daily_state,
+        quest_state_v2 = EXCLUDED.quest_state_v2,
         frog_teleporter_unlocks = EXCLUDED.frog_teleporter_unlocks,
         map_id = EXCLUDED.map_id,
         x = EXCLUDED.x,

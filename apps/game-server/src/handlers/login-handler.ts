@@ -10,6 +10,11 @@ import { CHARACTER_VITALS_BASELINE, recomputeSessionMaxVitals } from '../gamepla
 import { hasActiveWorldAccount, replaceExistingWorldSessionsForRemote } from '../world-state.js';
 import { hydratePendingGameCharacter } from '../character/session-hydration.js';
 import { authenticateGameLogin } from '../db/game-login-auth.js';
+import {
+  filterLegacyCompletedQuestIds,
+  filterLegacyQuestRecords,
+  normalizeQuestState as normalizeQuestStateV2,
+} from '../quest2/index.js';
 
 import type { UnknownRecord } from '../utils.js';
 import type { GameSession } from '../types.js';
@@ -254,6 +259,16 @@ function sendCreateRoleOk(session: GameSession, role: UnknownRecord): void {
 function sendGameServerRedirect(session: GameSession): void {
   const persisted = session.getPersistedCharacter();
   const roleData = persisted ? resolveRoleData(persisted) : session.roleData;
+  const legacyQuestState = normalizeQuestState(persisted || {});
+  const questStateV2 = normalizeQuestStateV2(
+    persisted?.questStateV2 && typeof persisted.questStateV2 === 'object'
+      ? persisted.questStateV2 as UnknownRecord
+      : (
+        session.questStateV2 && typeof session.questStateV2 === 'object'
+          ? session.questStateV2 as UnknownRecord
+          : {}
+      )
+  );
   const accountKey = typeof session.accountKey === 'string' ? session.accountKey.trim() : '';
   if (!accountKey) {
     session.log('Cannot prepare game-server redirect without account name');
@@ -286,8 +301,9 @@ function sendGameServerRedirect(session: GameSession): void {
     bonusAttributes: normalizeBonusAttributes(persisted?.bonusAttributes || session.bonusAttributes),
     skillState: normalizeSkillState(persisted?.skillState || session.skillState),
     statusPoints: persisted?.statusPoints || session.statusPoints || 0,
-    activeQuests: normalizeQuestState(persisted || {}).activeQuests,
-    completedQuests: normalizeQuestState(persisted || {}).completedQuests,
+    activeQuests: filterLegacyQuestRecords(legacyQuestState.activeQuests as UnknownRecord[]),
+    completedQuests: filterLegacyCompletedQuestIds(legacyQuestState.completedQuests),
+    questStateV2,
     pets: normalizePets(Array.isArray(persisted?.pets) ? persisted.pets : session.pets),
     selectedPetRuntimeId:
       typeof persisted?.selectedPetRuntimeId === 'number'

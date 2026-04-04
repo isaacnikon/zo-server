@@ -1,3 +1,5 @@
+import type { QuestState as QuestStateV2 } from './quest2/index.js';
+
 // --- Packet field types (used by declarative schemas) ---
 export interface PositionUpdate { x: number; y: number; mapId: number }
 export interface ServerRunRequestData {
@@ -281,6 +283,7 @@ export interface GameSession {
   // Quests
   activeQuests: QuestRecord[];
   completedQuests: number[];
+  questStateV2: QuestStateV2;
   hasAnnouncedQuestOverview: boolean;
   renownTaskDailyState: RenownTaskDailyState;
   // Pets

@@ -50,6 +50,13 @@ This file tracks quest-system issues that were discovered while bringing live qu
 - threaded `selectedAwardId` through `src/types.ts`, `src/handlers/npc-interaction-handler.ts`, `src/objectives/objective-dispatcher.ts`, and `src/objectives/quest-event-handler.ts`
 - updated `src/gameplay/reward-runtime.ts` to honor the selected reward instead of defaulting to option 1
 
+### Fresh `quest2` talk accepts could visually skip the first step
+- Issue: after accepting `Back to Earth` from Apollo, the client could render the quest as if the Blacksmith step was already cleared even though the server still had `stepId = "meet_blacksmith"`.
+- Root cause: runtime quest sync for `quest2` always replayed both full-state packets (`0x03ff sub=0x03` and `sub=0x08`); for a fresh talk quest, that extra full update-state packet was enough for the client to locally treat the current talk step as already updated.
+- Resolution:
+- `src/handlers/quest-handler.ts` now sends the full `quest2` update-state packet only when the quest is a kill step, has already advanced beyond the first step, or carries a non-zero status
+- fresh talk-step accepts still receive accept-state, table sync, markers, and history, but no immediate full update-state replay
+
 ## Quest Data Corrections
 
 ### Quest `3` capture hand-in rejected valid flask state
@@ -96,6 +103,19 @@ This file tracks quest-system issues that were discovered while bringing live qu
 - `src/handlers/quest-handler.ts` now sends the login-time full `0x03ff sub=0x08` update-state packet only for kill quests, not active talk quests
 - active talk quests still receive login accept-state, markers, history, and normal quest-table sync
 - Follow-up: if quest `1` still auto-progresses after relog, add a targeted trace for task `1` during login sync to identify which outbound packet changes the client-local state
+
+### Quest `1` `Back to Earth` migrated cleanly into `quest2`
+- Goal: remove the legacy auxiliary quest path while keeping Matt's Timber grant and `mattTalked` flag requirement.
+- Root cause: the original `quest2` model only supported the current step's primary trigger and completion effects, which was not enough to express “talk to Matt during the active Blacksmith step, grant Timber, set a flag, but do not advance the visible step yet.”
+- Resolution:
+- `src/quest2/schema.ts` now supports step `reactions`, step `eventEffects`, quantity-based progress, idempotent quest item grants, and capture-aware turn-in requirements/effects
+- `data/quests-v2/definitions.json` now models quest `1` with:
+- accept from Apollo (`3054`) granting the recommendation token
+- `meet_blacksmith` as the first real step
+- `bring_timber` as the second step
+- Matt (`3029`) as a reaction on `bring_timber` that sets `mattTalked` and grants Timber idempotently
+- Blacksmith (`3276`) still requires both the Timber item and `mattTalked` before completion
+- structured `quest2` storage/import was extended in `db/migrations/V14__extend_quest2_schema_for_reactions_and_capture.sql` and `apps/game-server/scripts/import-quest2-json-to-db.ts`
 
 ### Quest `51` `Pet` skipped Scholar's item swap
 - Issue: talking to Scholar advanced the quest toward Idler, but `Candy's Recommendation` (`21123`) stayed in the bag and `Scholar's Letter` (`21001`) was never granted.

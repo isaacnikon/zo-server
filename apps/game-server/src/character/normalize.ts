@@ -7,6 +7,11 @@ import { CHARACTER_VITALS_BASELINE } from '../gameplay/session-flows.js';
 import { resolveCharacterDerivedMaxVitals } from '../gameplay/max-vitals.js';
 import { normalizeRenownTaskDailyState } from '../gameplay/renown-task-runtime.js';
 import {
+  filterLegacyCompletedQuestIds,
+  filterLegacyQuestRecords,
+  normalizeQuestState as normalizeQuestStateV2,
+} from '../quest2/index.js';
+import {
   getAptitudeSkillDefinition,
   getPassiveSkillDefinition,
   isActiveSkillId,
@@ -204,6 +209,13 @@ export function normalizeCharacterRecord(character: UnknownRecord): UnknownRecor
   const x = numberOrDefault(character.x, SPAWN_X);
   const y = numberOrDefault(character.y, SPAWN_Y);
   const questState = normalizeQuestState(character);
+  const questStateV2 = normalizeQuestStateV2(
+    character?.questStateV2 && typeof character.questStateV2 === 'object'
+      ? character.questStateV2 as UnknownRecord
+      : {}
+  );
+  const activeQuests = filterLegacyQuestRecords(questState.activeQuests as UnknownRecord[]);
+  const completedQuests = filterLegacyCompletedQuestIds(questState.completedQuests);
   const inventoryState = normalizeInventoryState(character);
   const bonusAttributes = normalizeBonusAttributes(character.bonusAttributes);
   const skillState = normalizeSkillState(character.skillState);
@@ -253,8 +265,9 @@ export function normalizeCharacterRecord(character: UnknownRecord): UnknownRecor
     primaryAttributes: normalizePrimaryAttributes(character.primaryAttributes),
     bonusAttributes,
     skillState,
-    activeQuests: questState.activeQuests,
-    completedQuests: questState.completedQuests,
+    activeQuests,
+    completedQuests,
+    questStateV2,
     renownTaskDailyState: normalizeRenownTaskDailyState(character.renownTaskDailyState),
     pets: normalizePets(character.pets),
     selectedPetRuntimeId:

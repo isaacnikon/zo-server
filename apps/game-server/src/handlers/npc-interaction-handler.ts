@@ -25,6 +25,7 @@ import { buildEncounterPoolEntry } from '../roleinfo/index.js';
 import { grantSkill, sendSkillStateSync } from '../gameplay/skill-runtime.js';
 import { applyEffects } from '../effects/effect-executor.js';
 import { matchesTrigger } from '../triggers/trigger-matcher.js';
+import { dispatchQuestEventToSession } from '../quest2/index.js';
 import { applyQuestEvents } from './quest-handler.js';
 
 type MapNpcRecord = Record<string, any>;
@@ -153,95 +154,25 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
     sendNpcShopOpen(session, resolvedNpcId, request);
   }
 
-  let handledQuestEvents = false;
-  let startedQuestCombatAfterQuestEvents = false;
   if (request.subcmd === 0x02 || request.subcmd === 0x03 || request.subcmd === 0x04 || request.subcmd === 0x08) {
-    const questState = {
-      activeQuests: session.activeQuests,
-      completedQuests: session.completedQuests,
-      level: session.level,
-    };
-    const auxiliaryResult = applyQuestNpcAuxiliaryActions(session, questState as any, resolvedNpcId, request);
-    const events = interactWithNpc(
-      questState as any,
-      resolvedNpcId,
-      (templateId: number) => getBagQuantityByTemplateId(session, templateId),
-      (item: { templateId: number; quantity: number; capturedMonsterId?: number }) =>
-        countMatchingQuestItems(session, item)
-    );
-    const combinedEvents =
-      auxiliaryResult && auxiliaryResult.events.length > 0 ? [...auxiliaryResult.events, ...events] : events;
-
-    session.activeQuests = questState.activeQuests;
-    session.completedQuests = questState.completedQuests;
-
-    if (combinedEvents.length > 0) {
-      handledQuestEvents = true;
-      applyQuestEvents(session, combinedEvents, auxiliaryResult ? 'npc-talk-aux' : 'npc-talk', {
-        selectedAwardId: Number.isInteger(request.awardId) ? (request.awardId! >>> 0) : 0,
-      });
-      if (!auxiliaryResult?.combatTrigger) {
-        startedQuestCombatAfterQuestEvents = tryStartQuestKillCombat(session, resolvedNpcId, request);
-      }
-    } else if (auxiliaryResult?.stateChanged === true) {
-      session.persistCurrentCharacter?.();
-    } else {
-      const blocker = getQuestAcceptBlocker(questState as any, resolvedNpcId);
-      if (blocker) {
-        session.sendGameDialogue('Quest', blocker);
-      } else if (resolvedNpcId === RENOWN_TASK_ACCEPT_NPC_ID) {
-        session.sendGameDialogue('Thad', formatRenownTaskHint(session));
-      }
-    }
-
-    if (
-      auxiliaryResult?.combatTrigger &&
-      typeof session.sendCombatEncounterProbe === 'function' &&
-      !session.combatState?.active
-    ) {
-      const encounterLevelRange = getMapEncounterLevelRange(session.currentMapId);
-      const mapName = getMapSummary(session.currentMapId)?.mapName || `Map ${session.currentMapId}`;
-      session.sendCombatEncounterProbe({
-        probeId: `quest-aux:${auxiliaryResult.combatTrigger.taskId}:${auxiliaryResult.combatTrigger.monsterId}:${Date.now()}`,
-        encounterProfile: {
-          minEnemies: Math.max(1, auxiliaryResult.combatTrigger.count || 1),
-          maxEnemies: Math.max(1, auxiliaryResult.combatTrigger.count || 1),
-          locationName: mapName,
-          pool: [
-            buildEncounterPoolEntry(auxiliaryResult.combatTrigger.monsterId, {
-              levelMin: encounterLevelRange?.min || 1,
-              levelMax: encounterLevelRange?.max || encounterLevelRange?.min || 1,
-              weight: 1,
-            }),
-          ],
-        },
-      });
+    const quest2Dispatch = dispatchQuestEventToSession(session, {
+      type: 'npc_interact',
+      npcId: resolvedNpcId >>> 0,
+      mapId: session.currentMapId >>> 0,
+      scriptId: Number.isInteger(request.scriptId) ? (request.scriptId! >>> 0) : undefined,
+      subtype: request.subcmd >>> 0,
+      contextId: Number.isInteger(request.rawArgs?.[1]) ? (request.rawArgs[1] >>> 0) : undefined,
+      rewardChoiceId: Number.isInteger(request.awardId) ? (request.awardId! >>> 0) : undefined,
+    });
+    if (quest2Dispatch.handled) {
       session.log(
-        `NPC interaction auxiliary combat taskId=${auxiliaryResult.combatTrigger.taskId} monsterId=${auxiliaryResult.combatTrigger.monsterId} count=${auxiliaryResult.combatTrigger.count} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId}`
-      );
-      return true;
-    }
-
-    if (startedQuestCombatAfterQuestEvents) {
-      session.log(
-        `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId} questCombat=1 postQuestEvent=1`
+        `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId} quest2=1 transitions=${quest2Dispatch.transitionCount}`
       );
       return true;
     }
   }
 
   if (
-    handledQuestEvents !== true &&
-    tryStartQuestKillCombat(session, resolvedNpcId, request)
-  ) {
-    session.log(
-      `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId} questCombat=1`
-    );
-    return true;
-  }
-
-  if (
-    handledQuestEvents !== true &&
     (request.subcmd === 0x02 || request.subcmd === 0x03 || request.subcmd === 0x04) &&
     Number.isInteger(request.scriptId) &&
     typeof session.sendServerRunScriptImmediate === 'function'

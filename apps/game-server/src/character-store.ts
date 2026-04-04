@@ -133,6 +133,10 @@ export class CharacterStore {
         profile.renownTaskDailyState && typeof profile.renownTaskDailyState === 'object'
           ? cloneJson(profile.renownTaskDailyState)
           : undefined,
+      questStateV2:
+        profile.questStateV2 && typeof profile.questStateV2 === 'object'
+          ? cloneJson(profile.questStateV2)
+          : undefined,
       statusPoints: profile.statusPoints,
       selectedPetRuntimeId: profile.selectedPetRuntimeId,
       petSummoned: profile.petSummoned,
@@ -236,6 +240,10 @@ function buildProfileDocument(accountId: string, characterId: string, character:
     renownTaskDailyState:
       character.renownTaskDailyState && typeof character.renownTaskDailyState === 'object'
         ? cloneJson(character.renownTaskDailyState)
+        : undefined,
+    questStateV2:
+      character.questStateV2 && typeof character.questStateV2 === 'object'
+        ? cloneJson(character.questStateV2)
         : undefined,
     statusPoints: numberOrDefault(character.statusPoints, 0),
     selectedPetRuntimeId: numberOrNull(character.selectedPetRuntimeId),

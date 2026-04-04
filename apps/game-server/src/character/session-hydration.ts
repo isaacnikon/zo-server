@@ -9,6 +9,11 @@ import { defaultFrogTeleporterUnlocks, hydrateFrogTeleporterUnlocks } from '../g
 import { defaultBonusAttributes, numberOrDefault, normalizeBonusAttributes, normalizePrimaryAttributes, normalizeCharacterRecord, normalizeSkillState, } from './normalize.js';
 import { normalizeQuestState } from '../quest-engine/index.js';
 import { buildInventorySnapshot, normalizeInventoryState } from '../inventory/index.js';
+import {
+  filterLegacyCompletedQuestIds,
+  filterLegacyQuestRecords,
+  normalizeQuestState as normalizeQuestStateV2,
+} from '../quest2/index.js';
 
 type CharacterOverrides = Record<string, unknown>;
 
@@ -69,8 +74,13 @@ export function hydratePendingGameCharacter(session: GameSession, sharedState: R
   session.currentRage = clampedRage;
 
   const questState = normalizeQuestState(pendingCharacter);
-  session.activeQuests = questState.activeQuests;
-  session.completedQuests = questState.completedQuests;
+  session.activeQuests = filterLegacyQuestRecords(questState.activeQuests);
+  session.completedQuests = filterLegacyCompletedQuestIds(questState.completedQuests);
+  session.questStateV2 = normalizeQuestStateV2(
+    pendingCharacter?.questStateV2 && typeof pendingCharacter.questStateV2 === 'object'
+      ? pendingCharacter.questStateV2 as Record<string, unknown>
+      : {}
+  );
   session.renownTaskDailyState = normalizeRenownTaskDailyState(pendingCharacter.renownTaskDailyState);
   session.pets = normalizePets(pendingCharacter.pets);
   session.selectedPetRuntimeId =
@@ -175,8 +185,9 @@ export function buildCharacterSnapshot(
     bonusAttributes: session.bonusAttributes || defaultBonusAttributes(),
     skillState: session.skillState,
     statusPoints: session.statusPoints,
-    activeQuests: session.activeQuests,
-    completedQuests: session.completedQuests,
+    activeQuests: filterLegacyQuestRecords(session.activeQuests),
+    completedQuests: filterLegacyCompletedQuestIds(session.completedQuests),
+    questStateV2: session.questStateV2,
     renownTaskDailyState: session.renownTaskDailyState,
     pets: normalizePets(session.pets),
     selectedPetRuntimeId:

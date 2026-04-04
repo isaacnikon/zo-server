@@ -1,4 +1,5 @@
 import type { CombatEnemyInstance, CombatState, FieldEventSpawn, FrogTeleporterUnlocks, GameSession, OnlineActivityState, PrimaryAttributes, QuestRecord, QuestSyncMode, SkillState } from './types.js';
+import type { QuestState as QuestStateV2 } from './quest2/index.js';
 
 import { dispatchGamePacket } from './handlers/packet-dispatcher.js';
 import { createIdleCombatState, disposeCombatTimers as combatHandlerDisposeTimers, handleSharedCombatParticipantDisposed as combatHandlerHandleSharedCombatParticipantDisposed, sendCombatEncounterProbe as combatHandlerSendCombatEncounterProbe, sendCombatExitProbe as combatHandlerSendCombatExitProbe, } from './handlers/combat-handler.js';
@@ -24,6 +25,7 @@ import { defaultOnlineState, flushOnlinePresence, touchOnlinePresence } from './
 import { claimPostTwentyOnlineRenownReward, defaultRenownTaskDailyState } from './gameplay/renown-task-runtime.js';
 import { sendSelfStateValueUpdate } from './gameplay/stat-sync.js';
 import { beginSharedTeamCombat, getSharedTeamCombatFollowers, getSharedTeamCombatOwnerSession, getTeamCombatParticipants, handleTeamSessionDisposed, isSharedTeamCombatOwner, syncTeamFollowersToLeader } from './gameplay/team-runtime.js';
+import { createEmptyQuestState as createEmptyQuestStateV2 } from './quest2/index.js';
 
 type SharedState = Record<string, any>;
 type LoggerLike = {
@@ -98,6 +100,7 @@ class Session implements GameSession {
   statusPoints: number;
   activeQuests: QuestRecord[];
   completedQuests: number[];
+  questStateV2: QuestStateV2;
   pets: any[];
   selectedPetRuntimeId: number | null;
   petSummoned: boolean;
@@ -219,6 +222,7 @@ class Session implements GameSession {
     this.statusPoints = 0;
     this.activeQuests = [];
     this.completedQuests = [];
+    this.questStateV2 = createEmptyQuestStateV2();
     this.renownTaskDailyState = defaultRenownTaskDailyState();
     this.pets = [];
     this.selectedPetRuntimeId = null;

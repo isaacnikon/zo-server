@@ -28,6 +28,7 @@ type HeaderRecord = {
   renown: number;
   onlineState: Record<string, unknown>;
   renownTaskDailyState: Record<string, unknown>;
+  questStateV2: Record<string, unknown>;
   statusPoints: number;
   selectedPetRuntimeId: number | null;
   petSummoned: boolean;
@@ -92,6 +93,7 @@ export class PostgresCharacterStore {
         'renown', c.renown,
         'onlineState', c.online_state,
         'renownTaskDailyState', c.renown_task_daily_state,
+        'questStateV2', c.quest_state_v2,
         'statusPoints', c.status_points,
         'selectedPetRuntimeId', c.selected_pet_runtime_id,
         'petSummoned', c.pet_summoned,
@@ -276,6 +278,7 @@ export class PostgresCharacterStore {
       renown: header.renown,
       onlineState: header.onlineState,
       renownTaskDailyState: header.renownTaskDailyState,
+      questStateV2: header.questStateV2,
       statusPoints: header.statusPoints,
       selectedPetRuntimeId: header.selectedPetRuntimeId,
       petSummoned: header.petSummoned,

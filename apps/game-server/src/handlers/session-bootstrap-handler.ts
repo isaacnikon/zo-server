@@ -25,7 +25,7 @@ type SpawnRecord = {
 
 export function sendEnterGameOk(session: GameSession, options: { syncMode?: QuestSyncMode } = {}): void {
   const syncMode: QuestSyncMode = options.syncMode || 'login';
-  const deferLoginQuestSync = syncMode === 'login';
+  const replayLoginQuestSync = syncMode === 'login';
   const runtimeBootstrap = syncMode === 'runtime';
   if (session.pendingLoginQuestSyncTimer) {
     clearTimeout(session.pendingLoginQuestSyncTimer);
@@ -54,7 +54,8 @@ export function sendEnterGameOk(session: GameSession, options: { syncMode?: Ques
   session.scheduleEquipmentReplay();
   session.sendPetStateSync('enter-game');
   sendStaticNpcSpawns(session, session.currentMapId);
-  if (deferLoginQuestSync) {
+  if (replayLoginQuestSync) {
+    session.syncQuestStateToClient({ mode: 'login' });
     session.pendingLoginQuestSyncMapId = session.currentMapId;
     session.pendingLoginQuestSyncTimer = setTimeout(() => {
       session.pendingLoginQuestSyncTimer = null;

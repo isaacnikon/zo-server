@@ -1,0 +1,336 @@
+{
+  "quests": [
+    {
+      "id": 1,
+      "name": "Back to Earth",
+      "repeatable": false,
+      "accept": {
+        "trigger": { "type": "npc_interact" },
+        "requirements": [
+          { "kind": "level_at_least", "level": 1 },
+          { "kind": "npc_is", "npcId": 3054 },
+          { "kind": "subtype_is", "subtype": 3 },
+          { "kind": "map_is", "mapId": 101 }
+        ],
+        "effects": [
+          {
+            "kind": "grant_item",
+            "item": {
+              "templateId": 21098,
+              "quantity": 1,
+              "name": "Zodiac Recommendation Token"
+            }
+          }
+        ]
+      },
+      "steps": [
+        {
+          "id": "meet_blacksmith",
+          "kind": "talk",
+          "description": "Bring Zodiac Recommendation Token to BlackSmith at the entrance to the village.",
+          "trigger": { "type": "npc_interact" },
+          "requirements": [
+            { "kind": "npc_is", "npcId": 3276 },
+            { "kind": "map_is", "mapId": 101 },
+            { "kind": "item_count_at_least", "templateId": 21098, "quantity": 1 }
+          ],
+          "effects": [
+            {
+              "kind": "remove_item",
+              "item": {
+                "templateId": 21098,
+                "quantity": 1,
+                "name": "Zodiac Recommendation Token"
+              }
+            }
+          ],
+          "nextStepId": "bring_timber",
+          "client": {
+            "markerNpcId": 3276,
+            "overNpcId": 3276,
+            "taskType": 2,
+            "maxAward": 0,
+            "taskStep": 1
+          }
+        },
+        {
+          "id": "bring_timber",
+          "kind": "talk",
+          "description": "Bring some \"Timber\" to Blacksmith from Woodman.",
+          "trigger": { "type": "npc_interact" },
+          "requirements": [
+            { "kind": "npc_is", "npcId": 3276 },
+            { "kind": "map_is", "mapId": 101 },
+            { "kind": "flag_is", "flag": "mattTalked", "value": true },
+            { "kind": "item_count_at_least", "templateId": 21116, "quantity": 1 }
+          ],
+          "effects": [
+            {
+              "kind": "remove_item",
+              "item": {
+                "templateId": 21116,
+                "quantity": 1,
+                "name": "Timber"
+              }
+            }
+          ],
+          "reactions": [
+            {
+              "id": "matt_timber",
+              "trigger": { "type": "npc_interact" },
+              "requirements": [
+                { "kind": "npc_is", "npcId": 3029 },
+                { "kind": "map_is", "mapId": 101 },
+                { "kind": "subtype_is", "subtype": 2 },
+                { "kind": "script_is", "scriptId": 10000 }
+              ],
+              "effects": [
+                { "kind": "set_flag", "flag": "mattTalked", "value": true },
+                {
+                  "kind": "grant_item",
+                  "idempotent": true,
+                  "item": {
+                    "templateId": 21116,
+                    "quantity": 1,
+                    "name": "Timber"
+                  }
+                }
+              ]
+            }
+          ],
+          "nextStepId": null,
+          "client": {
+            "markerNpcId": 3276,
+            "overNpcId": 3276,
+            "taskType": 2,
+            "maxAward": 1,
+            "taskStep": 2
+          }
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 100,
+        "coins": 100,
+        "renown": 0,
+        "pets": [],
+        "items": [],
+        "choiceGroups": [
+          {
+            "id": 1,
+            "label": "Default reward",
+            "gold": 0,
+            "experience": 100,
+            "coins": 100,
+            "renown": 0,
+            "pets": [],
+            "items": [
+              {
+                "templateId": 20001,
+                "quantity": 5,
+                "name": "Medicine"
+              },
+              {
+                "templateId": 20004,
+                "quantity": 5,
+                "name": "Heal Grass"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "name": "Disenchanting",
+      "repeatable": false,
+      "accept": {
+        "trigger": { "type": "npc_interact" },
+        "requirements": [
+          { "kind": "level_at_least", "level": 10 },
+          { "kind": "npc_is", "npcId": 3030 },
+          { "kind": "subtype_is", "subtype": 3 },
+          { "kind": "map_is", "mapId": 112 }
+        ],
+        "effects": []
+      },
+      "steps": [
+        {
+          "id": "franklin_intro",
+          "kind": "talk",
+          "description": "At your 14 level, go to speak with Franklin. Quest reward: None",
+          "trigger": { "type": "npc_interact" },
+          "requirements": [
+            { "kind": "npc_is", "npcId": 3118 },
+            { "kind": "map_is", "mapId": 112 }
+          ],
+          "effects": [],
+          "nextStepId": "bonnie_pendant",
+          "client": {
+            "markerNpcId": 3118,
+            "overNpcId": 3118,
+            "taskType": 0,
+            "maxAward": 0,
+            "taskStep": 1
+          }
+        },
+        {
+          "id": "bonnie_pendant",
+          "kind": "talk",
+          "description": "Encounter a ghost called Bonnie. Bonnie gives you a jewelry to bring to Franklin.",
+          "trigger": { "type": "npc_interact" },
+          "requirements": [
+            { "kind": "npc_is", "npcId": 3036 },
+            { "kind": "map_is", "mapId": 112 }
+          ],
+          "effects": [
+            {
+              "kind": "grant_item",
+              "item": {
+                "templateId": 21006,
+                "quantity": 1,
+                "name": "Bonnie's Pendant"
+              }
+            }
+          ],
+          "nextStepId": "return_to_franklin",
+          "client": {
+            "markerNpcId": 3036,
+            "overNpcId": 3036,
+            "taskType": 0,
+            "maxAward": 0,
+            "taskStep": 2
+          }
+        },
+        {
+          "id": "return_to_franklin",
+          "kind": "turn_in",
+          "description": "Bring Bonnie's Pendant to Franklin.",
+          "trigger": { "type": "npc_interact" },
+          "requirements": [
+            { "kind": "npc_is", "npcId": 3118 },
+            { "kind": "map_is", "mapId": 112 },
+            { "kind": "item_count_at_least", "templateId": 21006, "quantity": 1 }
+          ],
+          "effects": [
+            {
+              "kind": "remove_item",
+              "item": {
+                "templateId": 21006,
+                "quantity": 1,
+                "name": "Bonnie's Pendant"
+              }
+            }
+          ],
+          "nextStepId": null,
+          "client": {
+            "markerNpcId": 3118,
+            "overNpcId": 3118,
+            "taskType": 0,
+            "maxAward": 0,
+            "taskStep": 3
+          }
+        }
+      ],
+      "rewards": {
+        "gold": 0,
+        "experience": 1200,
+        "coins": 1000,
+        "renown": 0,
+        "pets": [],
+        "items": [],
+        "choiceGroups": [
+          {
+            "id": 1,
+            "label": "Default reward",
+            "gold": 0,
+            "experience": 1200,
+            "coins": 1000,
+            "renown": 0,
+            "pets": [],
+            "items": []
+          }
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "name": "Magical Adventure",
+      "repeatable": false,
+      "accept": {
+        "trigger": { "type": "npc_interact" },
+        "requirements": [
+          { "kind": "level_at_least", "level": 14 },
+          { "kind": "quest_completed", "questId": 7 },
+          { "kind": "npc_is", "npcId": 3118 },
+          { "kind": "subtype_is", "subtype": 3 },
+          { "kind": "map_is", "mapId": 112 }
+        ],
+        "effects": []
+      },
+      "steps": [
+        {
+          "id": "find_bonnie",
+          "kind": "talk",
+          "description": "Locate Bonnie at Orchid Temple at night.",
+          "trigger": { "type": "npc_interact" },
+          "requirements": [
+            { "kind": "npc_is", "npcId": 3036 },
+            { "kind": "map_is", "mapId": 163 }
+          ],
+          "effects": [],
+          "nextStepId": "defeat_ahriman_lord",
+          "client": {
+            "markerNpcId": 3036,
+            "overNpcId": 3036,
+            "taskType": 32,
+            "maxAward": 0,
+            "taskStep": 1
+          }
+        },
+        {
+          "id": "defeat_ahriman_lord",
+          "kind": "kill",
+          "description": "Kill \"Ahriman Lord\" at Orchid Temple.",
+          "trigger": { "type": "monster_defeat" },
+          "requirements": [
+            { "kind": "monster_is", "monsterId": 5099 },
+            { "kind": "map_is", "mapId": 163 },
+            { "kind": "turn_in_npc_is", "npcId": 3036 },
+            { "kind": "turn_in_map_is", "mapId": 163 }
+          ],
+          "effects": [],
+          "progress": {
+            "counter": "ahriman_lord_kills",
+            "target": 1,
+            "eventValue": "count"
+          },
+          "nextStepId": null,
+          "client": {
+            "markerNpcId": 3036,
+            "overNpcId": 3036,
+            "taskType": 1,
+            "maxAward": 2,
+            "taskStep": 3,
+            "status": 3
+          }
+        }
+      ],
+      "rewards": {
+        "gold": 800,
+        "experience": 800,
+        "coins": 1200,
+        "renown": 40,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 10102,
+            "quantity": 1,
+            "name": "Universal Cap"
+          }
+        ],
+        "choiceGroups": []
+      }
+    }
+  ]
+}

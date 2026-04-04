@@ -11,9 +11,10 @@
     "start": "node dist/src/server.js",
     "test": "tsc --noEmit -p tsconfig.json",
     "db:import:static": "node dist/scripts/import-static-json-to-db.js --apply",
+    "db:import:quest2": "node dist/scripts/import-quest2-json-to-db.js --apply",
     "db:import:static:purge": "node dist/scripts/import-static-json-to-db.js --apply --delete-files",
     "db:import:characters": "node dist/scripts/migrate-character-json-to-db.js --apply",
-    "db:import:all": "npm run db:import:static && npm run db:import:characters",
+    "db:import:all": "npm run db:import:static && npm run db:import:quest2 && npm run db:import:characters",
     "reset:character": "npm run build && node dist/scripts/reset-character.js"
   }
 }
