@@ -1,3 +1,5 @@
+import { STATIC_DATA_BACKEND } from '../config.js';
+import { queryJsonArray } from '../db/postgres-cli.js';
 import { tryReadStaticJsonDocument } from '../db/static-json-store.js';
 import { resolveRepoPath } from '../runtime-paths.js';
 import { numberOrDefault, type UnknownRecord } from '../utils.js';
@@ -170,6 +172,11 @@ const CLIENT_TASKLIST_BY_ID = new Map<number, ClientTasklistEntry>(
 );
 
 function loadQuestDefinitions(): QuestDefinitionRecord[] {
+  const fromDatabase = loadQuestDefinitionsFromTables();
+  if (fromDatabase.length > 0) {
+    return fromDatabase;
+  }
+
   const combinedSources = [
     ...loadQuestSourceFile(QUEST_CATALOG_FILE),
     ...loadQuestSourceFile(QUEST_OVERRIDE_FILE),
@@ -185,17 +192,72 @@ function loadQuestDefinitions(): QuestDefinitionRecord[] {
   return [...mergedById.values()].sort((left, right) => left.id - right.id);
 }
 
+function loadQuestDefinitionsFromTables(): QuestDefinitionRecord[] {
+  if (STATIC_DATA_BACKEND !== 'db') {
+    return [];
+  }
+
+  try {
+    const rows = queryJsonArray<UnknownRecord>(
+      `SELECT COALESCE(
+         json_agg(raw_data ORDER BY quest_id),
+         '[]'::json
+       )
+       FROM game_quest_definitions`
+    );
+
+    return rows
+      .map((quest) => normalizeQuestDefinition(quest))
+      .filter((quest): quest is QuestDefinitionRecord => Boolean(quest));
+  } catch {
+    return [];
+  }
+}
+
 function loadQuestSourceFile(filePath: string): UnknownRecord[] {
   const parsed = tryReadStaticJsonDocument<UnknownRecord>(filePath);
   return Array.isArray(parsed?.quests) ? parsed.quests : [];
 }
 
 function loadClientTasklistEntries(): ClientTasklistEntry[] {
+  const fromDatabase = loadClientTasklistEntriesFromTables();
+  if (fromDatabase.length > 0) {
+    return fromDatabase;
+  }
+
   const parsed = tryReadStaticJsonDocument<UnknownRecord>(CLIENT_TASKLIST_FILE);
   const entries = Array.isArray(parsed?.entries) ? parsed.entries : [];
   return entries
     .map((entry: UnknownRecord) => normalizeClientTasklistEntry(entry))
     .filter((entry: ClientTasklistEntry | null): entry is ClientTasklistEntry => Boolean(entry));
+}
+
+function loadClientTasklistEntriesFromTables(): ClientTasklistEntry[] {
+  if (STATIC_DATA_BACKEND !== 'db') {
+    return [];
+  }
+
+  try {
+    return queryJsonArray<ClientTasklistEntry>(
+      `SELECT COALESCE(
+         json_agg(
+           json_build_object(
+             'taskId', task_id,
+             'startNpcId', start_npc_id,
+             'title', title,
+             'field11', field11
+           )
+           ORDER BY task_id
+         ),
+         '[]'::json
+       )
+       FROM game_quest_tasklist`
+    )
+      .map((entry) => normalizeClientTasklistEntry(entry as UnknownRecord))
+      .filter((entry: ClientTasklistEntry | null): entry is ClientTasklistEntry => Boolean(entry));
+  } catch {
+    return [];
+  }
 }
 
 function normalizeClientTasklistEntry(source: UnknownRecord): ClientTasklistEntry | null {

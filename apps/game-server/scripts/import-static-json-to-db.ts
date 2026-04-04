@@ -19,6 +19,25 @@ function loadJson(filePath: string): UnknownRecord | null {
   }
 }
 
+function loadMergedQuestEntries(filePaths: string[]): UnknownRecord[] {
+  const questsById = new Map<number, UnknownRecord>();
+
+  for (const filePath of filePaths) {
+    const parsed = loadJson(filePath);
+    const quests = Array.isArray(parsed?.quests) ? parsed.quests : [];
+
+    for (const quest of quests) {
+      if (!Number.isInteger(quest?.id)) {
+        continue;
+      }
+
+      questsById.set(quest.id, quest);
+    }
+  }
+
+  return [...questsById.values()].sort((left, right) => Number(left.id) - Number(right.id));
+}
+
 function buildStaticDocumentSql(filePath: string): string | null {
   const raw = fs.readFileSync(filePath, 'utf8');
   const payload = JSON.parse(raw);
@@ -172,9 +191,8 @@ function buildSkillImportSql(filePath: string): string[] {
   return statements;
 }
 
-function buildQuestImportSql(filePath: string): string[] {
-  const parsed = loadJson(filePath);
-  const quests = Array.isArray(parsed?.quests) ? parsed.quests : [];
+function buildQuestImportSql(filePaths: string[]): string[] {
+  const quests = loadMergedQuestEntries(filePaths);
   const statements: string[] = [];
   for (const quest of quests) {
     if (!Number.isInteger(quest?.id)) {
@@ -428,9 +446,12 @@ function buildCuratedImportSql(): string[] {
     statements.push(...buildSkillImportSql(skillFile));
   }
 
-  const questCatalogFile = path.join(resolvedProjectRoot, 'data/quests/catalog.json');
-  if (fs.existsSync(questCatalogFile)) {
-    statements.push(...buildQuestImportSql(questCatalogFile));
+  const questCatalogFiles = [
+    path.join(resolvedProjectRoot, 'data/quests/catalog.json'),
+    path.join(resolvedProjectRoot, 'data/quests/main-story.overrides.json'),
+  ].filter((filePath) => fs.existsSync(filePath));
+  if (questCatalogFiles.length > 0) {
+    statements.push(...buildQuestImportSql(questCatalogFiles));
   }
 
   const questTasklistFile = path.join(resolvedProjectRoot, 'data/client-derived/quests.json');
