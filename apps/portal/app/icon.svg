@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="portal-a" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#0f5a63" />
+      <stop offset="100%" stop-color="#a5532e" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="18" fill="#f7efe1" />
+  <path
+    d="M16 18h23c6.6 0 12 5.4 12 12s-5.4 12-12 12H28v10H16V18Zm12 12h11a4 4 0 1 0 0-8H28v8Z"
+    fill="url(#portal-a)"
+  />
+</svg>
