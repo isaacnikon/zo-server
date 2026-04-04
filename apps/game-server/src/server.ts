@@ -2,15 +2,21 @@ import net from 'node:net';
 
 import { BIND_HOST, CHARACTER_STORE_BACKEND, CHARACTER_STORE_FILE, LOG_FILE, PORT } from './config.js';
 import { CharacterStore } from './character-store.js';
+import { initializeStaticJsonStore } from './db/static-json-store.js';
 import { clearRuntimeOnlinePlayers } from './db/runtime-online-store.js';
 import { createLogger } from './logger.js';
 import { PostgresCharacterStore } from './postgres-character-store.js';
+import { initializeQuestDefinitions } from './quest2/definitions.js';
 import { startRuntimeAdminCommandWorker } from './runtime-admin/runtime-admin-worker.js';
+import { initializeSceneInteractions } from './scenes/map-interactions.js';
 import { Session } from './session.js';
 import { createSessionState } from './session-state.js';
 
-export function startServer() {
+export async function startServer() {
   const logger = createLogger(LOG_FILE);
+  await initializeStaticJsonStore();
+  await initializeSceneInteractions();
+  await initializeQuestDefinitions();
   const sharedState = createSessionState();
   sharedState.characterStore = (
     CHARACTER_STORE_BACKEND === 'db'
@@ -18,7 +24,7 @@ export function startServer() {
       : new CharacterStore(CHARACTER_STORE_FILE)
   ) as any;
   try {
-    clearRuntimeOnlinePlayers();
+    await clearRuntimeOnlinePlayers();
   } catch (error) {
     logger.log(`Failed to clear runtime online players: ${(error as Error).message}`);
   }
@@ -36,12 +42,10 @@ export function startServer() {
     session.sendHandshake();
 
     socket.on('data', (data: Buffer) => {
-      try {
-        session.feed(data);
-      } catch (err) {
+      void session.feed(data).catch((err) => {
         const error = err as Error;
         logger.log(`[S${session.id}] Error: ${error.message}\n${error.stack}`);
-      }
+      });
     });
 
     socket.on('close', () => {
@@ -69,4 +73,7 @@ export function startServer() {
   return server;
 }
 
-startServer();
+startServer().catch((error) => {
+  console.error('Server startup error:', (error as Error).message);
+  process.exit(1);
+});

@@ -34,7 +34,7 @@ export class CharacterStore {
     }
   }
 
-  get(accountId: string | null): CharacterRecord | null {
+  async get(accountId: string | null): Promise<CharacterRecord | null> {
     if (!accountId) {
       return null;
     }
@@ -61,7 +61,7 @@ export class CharacterStore {
     return null;
   }
 
-  set(accountId: string, character: CharacterRecord): void {
+  async set(accountId: string, character: CharacterRecord): Promise<void> {
     if (!accountId || !character || typeof character !== 'object') {
       return;
     }
@@ -80,8 +80,6 @@ export class CharacterStore {
     this.writeJsonFile(this.getCharacterFilePath(characterId, 'profile.json'), buildProfileDocument(accountId, characterId, normalizedCharacter));
     this.writeJsonFile(this.getCharacterFilePath(characterId, 'vitals.json'), buildVitalsDocument(characterId, normalizedCharacter));
     this.writeJsonFile(this.getCharacterFilePath(characterId, 'attributes.json'), buildAttributesDocument(characterId, normalizedCharacter));
-    this.writeJsonFile(this.getCharacterFilePath(characterId, 'active-quests.json'), buildActiveQuestsDocument(characterId, normalizedCharacter));
-    this.writeJsonFile(this.getCharacterFilePath(characterId, 'completed-quests.json'), buildCompletedQuestsDocument(characterId, normalizedCharacter));
     this.writeJsonFile(this.getCharacterFilePath(characterId, 'skills.json'), buildSkillsDocument(characterId, normalizedCharacter));
     this.writeJsonFile(this.getCharacterFilePath(characterId, 'pets.json'), buildPetsDocument(characterId, normalizedCharacter));
     this.writeJsonFile(this.getCharacterFilePath(characterId, 'inventory-items.json'), buildInventoryItemsDocument(characterId, normalizedCharacter));
@@ -98,8 +96,6 @@ export class CharacterStore {
 
     const vitals = (this.readJsonFile(this.getCharacterFilePath(characterId, 'vitals.json')) || {}) as any;
     const attributes = (this.readJsonFile(this.getCharacterFilePath(characterId, 'attributes.json')) || {}) as any;
-    const activeQuests = (this.readJsonFile(this.getCharacterFilePath(characterId, 'active-quests.json')) || {}) as any;
-    const completedQuests = (this.readJsonFile(this.getCharacterFilePath(characterId, 'completed-quests.json')) || {}) as any;
     const skills = (this.readJsonFile(this.getCharacterFilePath(characterId, 'skills.json')) || {}) as any;
     const pets = (this.readJsonFile(this.getCharacterFilePath(characterId, 'pets.json')) || {}) as any;
     const inventoryItems = (this.readJsonFile(this.getCharacterFilePath(characterId, 'inventory-items.json')) || {}) as any;
@@ -172,8 +168,6 @@ export class CharacterStore {
         learnedSkills: Array.isArray(skills.learnedSkills) ? skills.learnedSkills : [],
         hotbarSkillIds: Array.isArray(skills.hotbarSkillIds) ? skills.hotbarSkillIds : [],
       },
-      activeQuests: Array.isArray(activeQuests.quests) ? activeQuests.quests : [],
-      completedQuests: Array.isArray(completedQuests.taskIds) ? completedQuests.taskIds : [],
       pets: Array.isArray(pets.pets) ? pets.pets : [],
       inventory: {
         bag: Array.isArray(inventoryItems.items) ? inventoryItems.items : [],
@@ -294,32 +288,6 @@ function buildAttributesDocument(characterId: string, character: any): Record<st
       dexterity: numberOrDefault(character?.bonusAttributes?.dexterity, 0),
       strength: numberOrDefault(character?.bonusAttributes?.strength, 0),
     },
-    updatedAt: new Date().toISOString(),
-  };
-}
-
-function buildActiveQuestsDocument(characterId: string, character: any): Record<string, unknown> {
-  return {
-    characterId,
-    quests: Array.isArray(character.activeQuests)
-      ? character.activeQuests.map((quest: any) => ({
-          id: numberOrDefault(quest.id, 0),
-          stepIndex: numberOrDefault(quest.stepIndex, 0),
-          status: numberOrDefault(quest.status, 0),
-          progress: quest?.progress && typeof quest.progress === 'object' ? cloneJson(quest.progress) : {},
-          acceptedAt: numberOrDefault(quest.acceptedAt, Date.now()),
-        }))
-      : [],
-    updatedAt: new Date().toISOString(),
-  };
-}
-
-function buildCompletedQuestsDocument(characterId: string, character: any): Record<string, unknown> {
-  return {
-    characterId,
-    taskIds: Array.isArray(character.completedQuests)
-      ? character.completedQuests.filter(Number.isInteger).map((taskId: number) => taskId >>> 0)
-      : [],
     updatedAt: new Date().toISOString(),
   };
 }

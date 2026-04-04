@@ -45,6 +45,51 @@ export async function queryOnePostgres<T extends QueryResultRow = QueryResultRow
   return result.rows[0] || null;
 }
 
+export async function executePostgresSql(
+  text: string,
+  values: unknown[] = []
+): Promise<void> {
+  await queryPostgres(text, values);
+}
+
+export async function queryOptionalScalarPostgres(
+  text: string,
+  values: unknown[] = []
+): Promise<string | null> {
+  const row = await queryOnePostgres<Record<string, unknown>>(text, values);
+  if (!row) {
+    return null;
+  }
+  const value = Object.values(row)[0];
+  if (value === null || value === undefined) {
+    return null;
+  }
+  return String(value);
+}
+
+export async function queryOptionalJsonPostgres<T>(
+  text: string,
+  values: unknown[] = []
+): Promise<T | null> {
+  const row = await queryOnePostgres<Record<string, unknown>>(text, values);
+  if (!row) {
+    return null;
+  }
+  const value = Object.values(row)[0];
+  if (value === null || value === undefined) {
+    return null;
+  }
+  return value as T;
+}
+
+export async function queryJsonArrayPostgres<T>(
+  text: string,
+  values: unknown[] = []
+): Promise<T[]> {
+  const value = await queryOptionalJsonPostgres<unknown>(text, values);
+  return Array.isArray(value) ? (value as T[]) : [];
+}
+
 export async function withPostgresTransaction<T>(
   work: (client: PoolClient) => Promise<T>
 ): Promise<T> {

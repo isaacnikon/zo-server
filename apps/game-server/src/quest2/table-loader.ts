@@ -1,5 +1,5 @@
 import { STATIC_DATA_BACKEND } from '../config.js';
-import { queryJsonArray } from '../db/postgres-cli.js';
+import { queryOnePostgres } from '../db/postgres-pool.js';
 import type {
   ClientQuestHints,
   ClientStepHints,
@@ -156,13 +156,22 @@ type RewardChoicePetRow = {
   petTemplateId: number;
 };
 
-function loadQuestDefinitionsFromTables(): QuestDef[] {
+type JsonArrayRow<T> = {
+  payload: T[] | null;
+};
+
+async function queryJsonArrayFromPostgres<T>(sql: string): Promise<T[]> {
+  const row = await queryOnePostgres<JsonArrayRow<T>>(sql);
+  return Array.isArray(row?.payload) ? row.payload : [];
+}
+
+async function loadQuestDefinitionsFromTables(): Promise<QuestDef[]> {
   if (STATIC_DATA_BACKEND !== 'db') {
     return [];
   }
 
   try {
-    const questRows = queryJsonArray<QuestRow>(
+    const questRows = await queryJsonArrayFromPostgres<QuestRow>(
       `SELECT COALESCE(
          json_agg(
            json_build_object(
@@ -174,15 +183,29 @@ function loadQuestDefinitionsFromTables(): QuestDef[] {
            ORDER BY quest_id
          ),
          '[]'::json
-       )
+       ) AS payload
        FROM game_quest2_definitions`
     );
     if (questRows.length < 1) {
       return [];
     }
 
-    const acceptRuleRows = queryJsonArray<AcceptRuleRow>(
-      `SELECT COALESCE(
+    const [
+      acceptRuleRows,
+      stepRows,
+      requirementRows,
+      effectRows,
+      stepReactionRows,
+      trackerScriptRows,
+      rewardRows,
+      rewardItemRows,
+      rewardPetRows,
+      rewardChoiceRows,
+      rewardChoiceItemRows,
+      rewardChoicePetRows,
+    ] = await Promise.all([
+      queryJsonArrayFromPostgres<AcceptRuleRow>(
+        `SELECT COALESCE(
          json_agg(
            json_build_object(
              'questId', quest_id,
@@ -191,11 +214,11 @@ function loadQuestDefinitionsFromTables(): QuestDef[] {
            ORDER BY quest_id
          ),
          '[]'::json
-       )
+       ) AS payload
        FROM game_quest2_accept_rules`
-    );
-    const stepRows = queryJsonArray<StepRow>(
-      `SELECT COALESCE(
+      ),
+      queryJsonArrayFromPostgres<StepRow>(
+        `SELECT COALESCE(
          json_agg(
            json_build_object(
              'questId', quest_id,
@@ -219,11 +242,11 @@ function loadQuestDefinitionsFromTables(): QuestDef[] {
            ORDER BY quest_id, step_order
          ),
          '[]'::json
-       )
+       ) AS payload
        FROM game_quest2_steps`
-    );
-    const requirementRows = queryJsonArray<RequirementRow>(
-      `SELECT COALESCE(
+      ),
+      queryJsonArrayFromPostgres<RequirementRow>(
+        `SELECT COALESCE(
          json_agg(
            json_build_object(
              'questId', quest_id,
@@ -250,11 +273,11 @@ function loadQuestDefinitionsFromTables(): QuestDef[] {
            ORDER BY quest_id, scope_type, step_id, reaction_id, sort_order
          ),
          '[]'::json
-       )
+       ) AS payload
        FROM game_quest2_requirements`
-    );
-    const effectRows = queryJsonArray<EffectRow>(
-      `SELECT COALESCE(
+      ),
+      queryJsonArrayFromPostgres<EffectRow>(
+        `SELECT COALESCE(
          json_agg(
            json_build_object(
              'questId', quest_id,
@@ -282,11 +305,11 @@ function loadQuestDefinitionsFromTables(): QuestDef[] {
            ORDER BY quest_id, scope_type, step_id, reaction_id, sort_order
          ),
          '[]'::json
-       )
+       ) AS payload
        FROM game_quest2_effects`
-    );
-    const stepReactionRows = queryJsonArray<StepReactionRow>(
-      `SELECT COALESCE(
+      ),
+      queryJsonArrayFromPostgres<StepReactionRow>(
+        `SELECT COALESCE(
          json_agg(
            json_build_object(
              'questId', quest_id,
@@ -298,11 +321,11 @@ function loadQuestDefinitionsFromTables(): QuestDef[] {
            ORDER BY quest_id, step_id, reaction_order
          ),
          '[]'::json
-       )
+       ) AS payload
        FROM game_quest2_step_reactions`
-    );
-    const trackerScriptRows = queryJsonArray<StepTrackerScriptRow>(
-      `SELECT COALESCE(
+      ),
+      queryJsonArrayFromPostgres<StepTrackerScriptRow>(
+        `SELECT COALESCE(
          json_agg(
            json_build_object(
              'questId', quest_id,
@@ -313,11 +336,11 @@ function loadQuestDefinitionsFromTables(): QuestDef[] {
            ORDER BY quest_id, step_id, sort_order
          ),
          '[]'::json
-       )
+       ) AS payload
        FROM game_quest2_step_tracker_scripts`
-    );
-    const rewardRows = queryJsonArray<RewardRow>(
-      `SELECT COALESCE(
+      ),
+      queryJsonArrayFromPostgres<RewardRow>(
+        `SELECT COALESCE(
          json_agg(
            json_build_object(
              'questId', quest_id,
@@ -329,11 +352,11 @@ function loadQuestDefinitionsFromTables(): QuestDef[] {
            ORDER BY quest_id
          ),
          '[]'::json
-       )
+       ) AS payload
        FROM game_quest2_rewards`
-    );
-    const rewardItemRows = queryJsonArray<RewardItemRow>(
-      `SELECT COALESCE(
+      ),
+      queryJsonArrayFromPostgres<RewardItemRow>(
+        `SELECT COALESCE(
          json_agg(
            json_build_object(
              'questId', quest_id,
@@ -345,11 +368,11 @@ function loadQuestDefinitionsFromTables(): QuestDef[] {
            ORDER BY quest_id, sort_order
          ),
          '[]'::json
-       )
+       ) AS payload
        FROM game_quest2_reward_items`
-    );
-    const rewardPetRows = queryJsonArray<RewardPetRow>(
-      `SELECT COALESCE(
+      ),
+      queryJsonArrayFromPostgres<RewardPetRow>(
+        `SELECT COALESCE(
          json_agg(
            json_build_object(
              'questId', quest_id,
@@ -359,11 +382,11 @@ function loadQuestDefinitionsFromTables(): QuestDef[] {
            ORDER BY quest_id, sort_order
          ),
          '[]'::json
-       )
+       ) AS payload
        FROM game_quest2_reward_pets`
-    );
-    const rewardChoiceRows = queryJsonArray<RewardChoiceRow>(
-      `SELECT COALESCE(
+      ),
+      queryJsonArrayFromPostgres<RewardChoiceRow>(
+        `SELECT COALESCE(
          json_agg(
            json_build_object(
              'questId', quest_id,
@@ -377,11 +400,11 @@ function loadQuestDefinitionsFromTables(): QuestDef[] {
            ORDER BY quest_id, choice_id
          ),
          '[]'::json
-       )
+       ) AS payload
        FROM game_quest2_reward_choices`
-    );
-    const rewardChoiceItemRows = queryJsonArray<RewardChoiceItemRow>(
-      `SELECT COALESCE(
+      ),
+      queryJsonArrayFromPostgres<RewardChoiceItemRow>(
+        `SELECT COALESCE(
          json_agg(
            json_build_object(
              'questId', quest_id,
@@ -394,11 +417,11 @@ function loadQuestDefinitionsFromTables(): QuestDef[] {
            ORDER BY quest_id, choice_id, sort_order
          ),
          '[]'::json
-       )
+       ) AS payload
        FROM game_quest2_reward_choice_items`
-    );
-    const rewardChoicePetRows = queryJsonArray<RewardChoicePetRow>(
-      `SELECT COALESCE(
+      ),
+      queryJsonArrayFromPostgres<RewardChoicePetRow>(
+        `SELECT COALESCE(
          json_agg(
            json_build_object(
              'questId', quest_id,
@@ -409,9 +432,10 @@ function loadQuestDefinitionsFromTables(): QuestDef[] {
            ORDER BY quest_id, choice_id, sort_order
          ),
          '[]'::json
-       )
+       ) AS payload
        FROM game_quest2_reward_choice_pets`
-    );
+      ),
+    ]);
 
     return buildQuestDefinitions({
       questRows,

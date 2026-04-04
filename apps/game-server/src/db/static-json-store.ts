@@ -2,12 +2,21 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { STATIC_DATA_BACKEND } from '../config.js';
-import { queryOptionalScalar } from './postgres-cli.js';
-import { sqlText } from './sql-literals.js';
+import { queryPostgres } from './postgres-pool.js';
 import { resolveRepoPath } from '../runtime-paths.js';
 
 const DOCUMENT_CACHE = new Map<string, unknown | null>();
 const VERSION_CACHE = new Map<string, string>();
+let staticJsonStoreInitialized = false;
+let staticJsonStoreInitPromise: Promise<void> | null = null;
+
+type StaticJsonRow = {
+  document_path: string;
+  payload: unknown;
+  payload_sha256: string | null;
+  source_size: number | null;
+  source_mtime_epoch: string | null;
+};
 
 function toDocumentPath(filePath: string): string {
   const projectRoot = resolveRepoPath();
@@ -26,15 +35,60 @@ function readFromFilesystem<T>(filePath: string): T | null {
   }
 }
 
-function readFromDatabase<T>(documentPath: string): T | null {
-  try {
-    const payload = queryOptionalScalar(
-      `SELECT payload::text FROM static_json_documents WHERE document_path = ${sqlText(documentPath)}`
-    );
-    return payload ? (JSON.parse(payload) as T) : null;
-  } catch {
-    return null;
+function buildVersionToken(row: Pick<StaticJsonRow, 'payload_sha256' | 'source_size' | 'source_mtime_epoch'>): string {
+  return `${row.payload_sha256 || ''}:${Number(row.source_size || 0)}:${row.source_mtime_epoch || '0'}`;
+}
+
+async function loadStaticJsonRowsFromDatabase(): Promise<StaticJsonRow[]> {
+  const result = await queryPostgres<StaticJsonRow>(
+    `SELECT
+       document_path,
+       payload,
+       payload_sha256,
+       source_size,
+       COALESCE(EXTRACT(EPOCH FROM source_mtime)::bigint::text, '0') AS source_mtime_epoch
+     FROM static_json_documents`
+  );
+  return result.rows;
+}
+
+function cacheStaticJsonRows(rows: StaticJsonRow[]): void {
+  DOCUMENT_CACHE.clear();
+  VERSION_CACHE.clear();
+  for (const row of rows) {
+    if (typeof row?.document_path !== 'string' || row.document_path.length < 1) {
+      continue;
+    }
+    DOCUMENT_CACHE.set(row.document_path, row.payload ?? null);
+    VERSION_CACHE.set(row.document_path, buildVersionToken(row));
   }
+}
+
+export async function initializeStaticJsonStore(forceReload = false): Promise<void> {
+  if (STATIC_DATA_BACKEND !== 'db') {
+    staticJsonStoreInitialized = true;
+    return;
+  }
+
+  if (forceReload) {
+    staticJsonStoreInitialized = false;
+    staticJsonStoreInitPromise = null;
+  }
+
+  if (staticJsonStoreInitialized) {
+    return;
+  }
+  if (!staticJsonStoreInitPromise) {
+    staticJsonStoreInitPromise = loadStaticJsonRowsFromDatabase()
+      .then((rows) => {
+        cacheStaticJsonRows(rows);
+        staticJsonStoreInitialized = true;
+      })
+      .finally(() => {
+        staticJsonStoreInitPromise = null;
+      });
+  }
+  await staticJsonStoreInitPromise;
 }
 
 export function tryReadStaticJsonDocument<T>(filePath: string): T | null {
@@ -44,8 +98,13 @@ export function tryReadStaticJsonDocument<T>(filePath: string): T | null {
     return (DOCUMENT_CACHE.get(documentPath) || null) as T | null;
   }
 
+  if (STATIC_DATA_BACKEND === 'db' && !staticJsonStoreInitialized && !staticJsonStoreInitPromise) {
+    void initializeStaticJsonStore().catch(() => {
+      // Fall back to filesystem below.
+    });
+  }
   const fromDatabase =
-    STATIC_DATA_BACKEND === 'db' ? readFromDatabase<T>(documentPath) : null;
+    STATIC_DATA_BACKEND === 'db' ? ((DOCUMENT_CACHE.get(documentPath) || null) as T | null) : null;
   if (fromDatabase != null) {
     DOCUMENT_CACHE.set(documentPath, fromDatabase);
     return fromDatabase;
@@ -71,20 +130,13 @@ export function getStaticJsonVersionToken(filePath: string): string {
     return VERSION_CACHE.get(documentPath)!;
   }
 
-  if (STATIC_DATA_BACKEND === 'db') {
-    try {
-      const token = queryOptionalScalar(
-        `SELECT payload_sha256 || ':' || source_size::text || ':' || COALESCE(EXTRACT(EPOCH FROM source_mtime)::bigint::text, '0')
-         FROM static_json_documents
-         WHERE document_path = ${sqlText(documentPath)}`
-      );
-      if (token) {
-        VERSION_CACHE.set(documentPath, token);
-        return token;
-      }
-    } catch {
+  if (STATIC_DATA_BACKEND === 'db' && !staticJsonStoreInitialized && !staticJsonStoreInitPromise) {
+    void initializeStaticJsonStore().catch(() => {
       // Fall back to filesystem below.
-    }
+    });
+  }
+  if (STATIC_DATA_BACKEND === 'db' && VERSION_CACHE.has(documentPath)) {
+    return VERSION_CACHE.get(documentPath)!;
   }
 
   try {

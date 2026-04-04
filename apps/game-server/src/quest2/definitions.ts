@@ -20,10 +20,13 @@ import type {
 } from './schema.js';
 
 const QUEST2_DEFINITIONS_FILE = resolveRepoPath('data', 'quests-v2', 'definitions.json');
+let questDefinitionsSnapshot: readonly QuestDef[] | null = null;
+let questDefinitionsById = new Map<number, QuestDef>();
+let questDefinitionsLoadPromise: Promise<readonly QuestDef[]> | null = null;
 
-function loadQuestDefinitions(): QuestDef[] {
+function loadQuestDefinitionsFromJson(): QuestDef[] {
   if (STATIC_DATA_BACKEND === 'db') {
-    return loadQuestDefinitionsFromTables();
+    return [];
   }
 
   const parsed = tryReadStaticJsonDocument<UnknownRecord>(QUEST2_DEFINITIONS_FILE);
@@ -32,6 +35,48 @@ function loadQuestDefinitions(): QuestDef[] {
     .map((quest: UnknownRecord) => normalizeQuestDefinition(quest))
     .filter((quest: QuestDef | null): quest is QuestDef => Boolean(quest))
     .sort((left, right) => left.id - right.id);
+}
+
+function setQuestDefinitions(definitions: QuestDef[]): readonly QuestDef[] {
+  const sortedDefinitions = [...definitions].sort((left, right) => left.id - right.id);
+  questDefinitionsSnapshot = Object.freeze(sortedDefinitions);
+  questDefinitionsById = new Map(sortedDefinitions.map((definition) => [definition.id, definition]));
+  return questDefinitionsSnapshot;
+}
+
+async function refreshQuestDefinitions(): Promise<readonly QuestDef[]> {
+  const definitions =
+    STATIC_DATA_BACKEND === 'db'
+      ? await loadQuestDefinitionsFromTables()
+      : loadQuestDefinitionsFromJson();
+  return setQuestDefinitions(definitions);
+}
+
+async function initializeQuestDefinitions(forceReload = false): Promise<readonly QuestDef[]> {
+  if (forceReload) {
+    questDefinitionsLoadPromise = null;
+    questDefinitionsSnapshot = null;
+    questDefinitionsById = new Map<number, QuestDef>();
+  }
+  if (questDefinitionsSnapshot) {
+    return questDefinitionsSnapshot;
+  }
+  if (!questDefinitionsLoadPromise) {
+    questDefinitionsLoadPromise = refreshQuestDefinitions().finally(() => {
+      questDefinitionsLoadPromise = null;
+    });
+  }
+  return questDefinitionsLoadPromise;
+}
+
+function loadQuestDefinitions(): readonly QuestDef[] {
+  if (!questDefinitionsSnapshot) {
+    if (STATIC_DATA_BACKEND === 'db') {
+      throw new Error('quest2 definitions were accessed before initialization');
+    }
+    return setQuestDefinitions(loadQuestDefinitionsFromJson());
+  }
+  return questDefinitionsSnapshot;
 }
 
 function normalizeQuestDefinition(source: UnknownRecord): QuestDef | null {
@@ -520,11 +565,12 @@ function getQuestDefinition(questId: number): QuestDef | null {
   if (!Number.isInteger(questId) || questId <= 0) {
     return null;
   }
-  return loadQuestDefinitions().find((definition) => definition.id === (questId >>> 0)) || null;
+  loadQuestDefinitions();
+  return questDefinitionsById.get(questId >>> 0) || null;
 }
 
 function listQuestDefinitions(): readonly QuestDef[] {
-  return Object.freeze(loadQuestDefinitions());
+  return loadQuestDefinitions();
 }
 
 function isQuest2DefinitionId(questId: number): boolean {
@@ -533,6 +579,8 @@ function isQuest2DefinitionId(questId: number): boolean {
 
 export {
   QUEST2_DEFINITIONS_FILE,
+  initializeQuestDefinitions,
+  refreshQuestDefinitions,
   loadQuestDefinitions,
   normalizeQuestDefinition,
   getQuestDefinition,

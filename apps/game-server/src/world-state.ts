@@ -620,11 +620,9 @@ export function syncWorldPresence(
   const world = getWorldState(session.sharedState);
   const source = ensureWorldPresence(session);
   updatePresenceFromSession(source, session);
-  try {
-    upsertRuntimeOnlinePlayer(session);
-  } catch (_error) {
+  void upsertRuntimeOnlinePlayer(session).catch(() => {
     // Keep world sync resilient if the admin runtime table is unavailable.
-  }
+  });
   const skipSourceViewerAdd = options.skipSourceViewerAdd === true;
 
   for (const visibleRuntimeId of [...session.visiblePlayerRuntimeIds]) {
@@ -723,11 +721,9 @@ export function removeWorldPresence(session: GameSession, reason: string): void 
   const world = getWorldState(session.sharedState);
   const presence = world.playersBySessionId.get(session.id);
   if (!presence) {
-    try {
-      removeRuntimeOnlinePlayer(session);
-    } catch (_error) {
+    void removeRuntimeOnlinePlayer(session).catch(() => {
       // Best-effort cleanup only.
-    }
+    });
     session.worldRegistered = false;
     session.visiblePlayerRuntimeIds.clear();
     return;
@@ -764,9 +760,7 @@ export function removeWorldPresence(session: GameSession, reason: string): void 
   session.visiblePlayerRuntimeIds.clear();
   session.worldRegistered = false;
   session.observedPetStates.clear();
-  try {
-    removeRuntimeOnlinePlayer(session);
-  } catch (_error) {
+  void removeRuntimeOnlinePlayer(session).catch(() => {
     // Best-effort cleanup only.
-  }
+  });
 }

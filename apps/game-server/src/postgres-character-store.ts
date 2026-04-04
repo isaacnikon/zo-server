@@ -1,7 +1,6 @@
 import { CharacterStore } from './character-store.js';
 import { buildCharacterReplaceSql } from './db/character-store-sql.js';
-import { executePostgresSql, queryJsonArray, queryOptionalJson } from './db/postgres-cli.js';
-import { sqlText } from './db/sql-literals.js';
+import { executePostgresSql, queryJsonArrayPostgres, queryOptionalJsonPostgres } from './db/postgres-pool.js';
 
 type CharacterRecord = Record<string, unknown>;
 
@@ -60,7 +59,7 @@ export class PostgresCharacterStore {
     this.fallback = new CharacterStore(filePath);
   }
 
-  get(accountId: string | null): CharacterRecord | null {
+  async get(accountId: string | null): Promise<CharacterRecord | null> {
     if (!accountId) {
       return null;
     }
@@ -69,7 +68,7 @@ export class PostgresCharacterStore {
       return cloneJson(this.cache.get(accountId)!);
     }
 
-    const header = queryOptionalJson<HeaderRecord>(
+    const header = await queryOptionalJsonPostgres<HeaderRecord>(
       `SELECT json_build_object(
         'characterId', c.character_id,
         'accountId', a.account_id,
@@ -132,11 +131,12 @@ export class PostgresCharacterStore {
       LEFT JOIN character_vitals v ON v.character_id = c.character_id
       LEFT JOIN character_attributes att ON att.character_id = c.character_id
       LEFT JOIN character_inventory_state inv ON inv.character_id = c.character_id
-      WHERE a.account_id = ${sqlText(accountId)}`
+      WHERE a.account_id = $1`,
+      [accountId]
     );
 
     if (!header?.characterId) {
-      const fallbackCharacter = this.fallback.get(accountId);
+      const fallbackCharacter = await this.fallback.get(accountId);
       if (fallbackCharacter) {
         this.cache.set(accountId, fallbackCharacter);
         return cloneJson(fallbackCharacter);
@@ -145,29 +145,8 @@ export class PostgresCharacterStore {
     }
 
     const characterId = header.characterId;
-    const activeQuests = queryJsonArray<Record<string, unknown>>(
-      `SELECT COALESCE(
-         json_agg(
-           json_build_object(
-             'id', quest_id,
-             'stepIndex', step_index,
-             'status', status,
-             'progress', progress,
-             'acceptedAt', accepted_at
-           )
-           ORDER BY quest_id
-         ),
-         '[]'::json
-       )
-       FROM character_active_quests
-       WHERE character_id = ${sqlText(characterId)}`
-    );
-    const completedQuests = queryJsonArray<number>(
-      `SELECT COALESCE(json_agg(quest_id ORDER BY quest_id), '[]'::json)
-       FROM character_completed_quests
-       WHERE character_id = ${sqlText(characterId)}`
-    );
-    const learnedSkills = queryJsonArray<Record<string, unknown>>(
+    const [learnedSkills, hotbarSkillIds, pets, inventoryItems] = await Promise.all([
+      queryJsonArrayPostgres<Record<string, unknown>>(
       `SELECT COALESCE(
          json_agg(
            json_build_object(
@@ -187,14 +166,16 @@ export class PostgresCharacterStore {
          '[]'::json
        )
        FROM character_skills
-       WHERE character_id = ${sqlText(characterId)}`
-    );
-    const hotbarSkillIds = queryJsonArray<number>(
+       WHERE character_id = $1`,
+        [characterId]
+      ),
+      queryJsonArrayPostgres<number>(
       `SELECT COALESCE(json_agg(skill_id ORDER BY slot_index), '[]'::json)
        FROM character_skill_hotbar
-       WHERE character_id = ${sqlText(characterId)}`
-    );
-    const pets = queryJsonArray<Record<string, unknown>>(
+       WHERE character_id = $1`,
+        [characterId]
+      ),
+      queryJsonArrayPostgres<Record<string, unknown>>(
       `SELECT COALESCE(
          json_agg(
            json_build_object(
@@ -216,9 +197,10 @@ export class PostgresCharacterStore {
          '[]'::json
        )
        FROM character_pets
-       WHERE character_id = ${sqlText(characterId)}`
-    );
-    const inventoryItems = queryJsonArray<Record<string, unknown>>(
+       WHERE character_id = $1`,
+        [characterId]
+      ),
+      queryJsonArrayPostgres<Record<string, unknown>>(
       `SELECT COALESCE(
          json_agg(
            json_build_object(
@@ -246,8 +228,10 @@ export class PostgresCharacterStore {
          '[]'::json
        )
        FROM character_inventory_items
-       WHERE character_id = ${sqlText(characterId)}`
-    );
+       WHERE character_id = $1`,
+        [characterId]
+      ),
+    ]);
 
     const bag = inventoryItems
       .filter((item) => item.inventoryScope === 'bag')
@@ -298,8 +282,6 @@ export class PostgresCharacterStore {
         learnedSkills,
         hotbarSkillIds,
       },
-      activeQuests,
-      completedQuests,
       pets,
       inventory: {
         bag,
@@ -316,11 +298,11 @@ export class PostgresCharacterStore {
     return cloneJson(record);
   }
 
-  set(accountId: string, character: CharacterRecord): void {
+  async set(accountId: string, character: CharacterRecord): Promise<void> {
     if (!accountId || !character || typeof character !== 'object') {
       return;
     }
-    executePostgresSql(buildCharacterReplaceSql(accountId, cloneJson(character) as Record<string, any>));
+    await executePostgresSql(buildCharacterReplaceSql(accountId, cloneJson(character) as Record<string, any>));
     this.cache.set(accountId, cloneJson(character));
   }
 }

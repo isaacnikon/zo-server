@@ -3,7 +3,6 @@ import { PacketWriter } from '../protocol.js';
 import { AREA_ID, DEFAULT_FLAGS, ENTITY_TYPE, LOGIN_CMD, LOGIN_SERVER_LIST_RESULT, LINE_SELECT_RESULT, MAP_ID, PORT, REDIRECT_RESULT, ROLE_CMD, SERVER_HOST, SINGLE_WORLD_SESSION_PER_REMOTE, SPAWN_X, SPAWN_Y, } from '../config.js';
 import { deriveStableRoleData, packRoleData, resolveRoleData, resolveRoleLevel, resolveBirthMonth, resolveBirthDay, } from '../character/role-utils.js';
 import { defaultBonusAttributes, numberOrDefault, defaultPrimaryAttributes, normalizeBonusAttributes, normalizePrimaryAttributes, normalizeCharacterRecord, normalizeSkillState, } from '../character/normalize.js';
-import { normalizeQuestState } from '../quest-engine/index.js';
 import { normalizeInventoryState } from '../inventory/index.js';
 import { normalizePets } from '../pet-runtime.js';
 import { CHARACTER_VITALS_BASELINE, recomputeSessionMaxVitals } from '../gameplay/session-flows.js';
@@ -11,8 +10,7 @@ import { hasActiveWorldAccount, replaceExistingWorldSessionsForRemote } from '..
 import { hydratePendingGameCharacter } from '../character/session-hydration.js';
 import { authenticateGameLogin } from '../db/game-login-auth.js';
 import {
-  filterLegacyCompletedQuestIds,
-  filterLegacyQuestRecords,
+  createEmptyQuestState,
   normalizeQuestState as normalizeQuestStateV2,
 } from '../quest2/index.js';
 
@@ -26,13 +24,13 @@ function parseLoginPayload(_session: GameSession, payload: Buffer): UnknownRecor
   return parseLoginPacket(payload);
 }
 
-function handleLogin(session: GameSession, payload: Buffer): void {
+async function handleLogin(session: GameSession, payload: Buffer): Promise<void> {
   const cmdByte = payload[0];
   session.log(`Login packet cmd=0x${cmdByte.toString(16)} mode=${session.isGame ? 'GAME' : 'LOGIN'}`);
 
   const login = parseLoginPayload(session, payload);
   if (login) {
-    const authResult = authenticateGameLogin({
+    const authResult = await authenticateGameLogin({
       username: login.username,
       passwordDigest: login.passwordDigest,
     });
@@ -76,20 +74,20 @@ function handleLogin(session: GameSession, payload: Buffer): void {
       );
     }
     hydratePendingGameCharacter(session, session.sharedState);
-    session.sendEnterGameOk();
+      session.sendEnterGameOk();
   } else {
     sendLoginServerList(session);
   }
 }
 
-function handleRolePacket(session: GameSession, payload: Buffer): void {
+async function handleRolePacket(session: GameSession, payload: Buffer): Promise<void> {
   if (payload.length < 3) {
     session.log('Short 0x044c payload');
     return;
   }
 
   const subcmd = payload[2];
-  const roleHandlers: Record<number, () => void> = {
+  const roleHandlers: Record<number, () => Promise<void>> = {
     0x04: () => handleCreateRole(session, payload),
     0x0d: () => {
       const slotIndex = payload.length >= 4 ? payload[3] : 0;
@@ -97,25 +95,26 @@ function handleRolePacket(session: GameSession, payload: Buffer): void {
       if (session.isGame) {
         session.sendEnterGameOk();
       } else {
-        sendGameServerRedirect(session);
+        return sendGameServerRedirect(session);
       }
+      return Promise.resolve();
     },
     0x1c: () => {
       const lineNo = payload.length >= 4 ? payload[3] : 0;
       session.log(`Line select request for line ${lineNo}`);
-      sendLineSelectOk(session, lineNo);
+      return sendLineSelectOk(session, lineNo);
     },
   };
 
   const handler = roleHandlers[subcmd];
   if (handler) {
-    handler();
+    await handler();
   } else {
     session.log(`Unhandled 0x044c subcmd=0x${subcmd.toString(16)}`);
   }
 }
 
-function handleCreateRole(session: GameSession, payload: Buffer): void {
+async function handleCreateRole(session: GameSession, payload: Buffer): Promise<void> {
   if (payload.length < 6) {
     session.log('Short create-role payload');
     return;
@@ -162,9 +161,8 @@ function handleCreateRole(session: GameSession, payload: Buffer): void {
     maxMana: 0,
     maxRage: 0,
   });
-  session.activeQuests = [];
-  session.completedQuests = [];
-  session.saveCharacter({
+  session.questStateV2 = createEmptyQuestState();
+  await session.saveCharacter({
     slot: 0,
     roleName: session.charName,
     birthMonth,
@@ -190,8 +188,7 @@ function handleCreateRole(session: GameSession, payload: Buffer): void {
     primaryAttributes: session.primaryAttributes,
     bonusAttributes: session.bonusAttributes,
     statusPoints: session.statusPoints,
-    activeQuests: session.activeQuests,
-    completedQuests: session.completedQuests,
+    questStateV2: session.questStateV2,
     mapId: MAP_ID,
     x: SPAWN_X,
     y: SPAWN_Y,
@@ -229,13 +226,13 @@ function sendLoginServerList(session: GameSession): void {
   session.writePacket(writer.payload(), DEFAULT_FLAGS, 'Sending login server-list response');
 }
 
-function sendLineSelectOk(session: GameSession, lineNo: number): void {
+async function sendLineSelectOk(session: GameSession, lineNo: number): Promise<void> {
   const writer = new PacketWriter();
   writer.writeUint16(LOGIN_CMD);
   writer.writeUint8(LINE_SELECT_RESULT);
   writer.writeUint8(lineNo & 0xff);
   session.writePacket(writer.payload(), DEFAULT_FLAGS, `Sending line-select success for line ${lineNo}`);
-  replayPersistedCharacter(session);
+  await replayPersistedCharacter(session);
 }
 
 function sendCreateRoleOk(session: GameSession, role: UnknownRecord): void {
@@ -256,10 +253,9 @@ function sendCreateRoleOk(session: GameSession, role: UnknownRecord): void {
   );
 }
 
-function sendGameServerRedirect(session: GameSession): void {
-  const persisted = session.getPersistedCharacter();
+async function sendGameServerRedirect(session: GameSession): Promise<void> {
+  const persisted = (await session.loadPersistedCharacter()) || session.getPersistedCharacter();
   const roleData = persisted ? resolveRoleData(persisted) : session.roleData;
-  const legacyQuestState = normalizeQuestState(persisted || {});
   const questStateV2 = normalizeQuestStateV2(
     persisted?.questStateV2 && typeof persisted.questStateV2 === 'object'
       ? persisted.questStateV2 as UnknownRecord
@@ -301,8 +297,6 @@ function sendGameServerRedirect(session: GameSession): void {
     bonusAttributes: normalizeBonusAttributes(persisted?.bonusAttributes || session.bonusAttributes),
     skillState: normalizeSkillState(persisted?.skillState || session.skillState),
     statusPoints: persisted?.statusPoints || session.statusPoints || 0,
-    activeQuests: filterLegacyQuestRecords(legacyQuestState.activeQuests as UnknownRecord[]),
-    completedQuests: filterLegacyCompletedQuestIds(legacyQuestState.completedQuests),
     questStateV2,
     pets: normalizePets(Array.isArray(persisted?.pets) ? persisted.pets : session.pets),
     selectedPetRuntimeId:
@@ -329,8 +323,8 @@ function sendGameServerRedirect(session: GameSession): void {
   session.writePacket(writer.payload(), DEFAULT_FLAGS, `Sending 0x0d game-server redirect to ${SERVER_HOST}:${PORT}`);
 }
 
-function replayPersistedCharacter(session: GameSession): void {
-  const character = session.getPersistedCharacter();
+async function replayPersistedCharacter(session: GameSession): Promise<void> {
+  const character = (await session.loadPersistedCharacter()) || session.getPersistedCharacter();
   if (!character) {
     session.log('No persisted role to replay');
     return;

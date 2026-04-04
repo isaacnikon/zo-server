@@ -7,11 +7,8 @@ import { normalizeRenownTaskDailyState } from '../gameplay/renown-task-runtime.j
 import { resolveRoleData } from './role-utils.js';
 import { defaultFrogTeleporterUnlocks, hydrateFrogTeleporterUnlocks } from '../gameplay/frog-teleporter-service.js';
 import { defaultBonusAttributes, numberOrDefault, normalizeBonusAttributes, normalizePrimaryAttributes, normalizeCharacterRecord, normalizeSkillState, } from './normalize.js';
-import { normalizeQuestState } from '../quest-engine/index.js';
 import { buildInventorySnapshot, normalizeInventoryState } from '../inventory/index.js';
 import {
-  filterLegacyCompletedQuestIds,
-  filterLegacyQuestRecords,
   normalizeQuestState as normalizeQuestStateV2,
 } from '../quest2/index.js';
 
@@ -26,6 +23,8 @@ export function hydratePendingGameCharacter(session: GameSession, sharedState: R
   if (!session.isGame || !pendingCharacter) {
     return;
   }
+
+  session.persistedCharacter = normalizeCharacterRecord(pendingCharacter);
 
   session.accountKey = typeof pendingCharacter.accountKey === 'string' ? pendingCharacter.accountKey : session.accountKey;
   session.charName = pendingCharacter.charName;
@@ -73,9 +72,6 @@ export function hydratePendingGameCharacter(session: GameSession, sharedState: R
   session.currentMana = clampedMana;
   session.currentRage = clampedRage;
 
-  const questState = normalizeQuestState(pendingCharacter);
-  session.activeQuests = filterLegacyQuestRecords(questState.activeQuests);
-  session.completedQuests = filterLegacyCompletedQuestIds(questState.completedQuests);
   session.questStateV2 = normalizeQuestStateV2(
     pendingCharacter?.questStateV2 && typeof pendingCharacter.questStateV2 === 'object'
       ? pendingCharacter.questStateV2 as Record<string, unknown>
@@ -133,22 +129,38 @@ export function hydratePendingGameCharacter(session: GameSession, sharedState: R
   }
 }
 
-export function getPersistedCharacter(session: GameSession): Record<string, unknown> | null {
+export async function loadPersistedCharacter(session: GameSession): Promise<Record<string, unknown> | null> {
   const storageKey = session.accountName;
-  const character = session.sharedState.characterStore?.get(storageKey) || null;
-  if (!character) {
+  if (!storageKey || !session.sharedState.characterStore) {
+    session.persistedCharacter = null;
     return null;
   }
-  return normalizeCharacterRecord(character);
+  if (session.persistedCharacter && typeof session.persistedCharacter === 'object') {
+    return session.persistedCharacter;
+  }
+  const character = await session.sharedState.characterStore.get(storageKey);
+  if (!character) {
+    session.persistedCharacter = null;
+    return null;
+  }
+  session.persistedCharacter = normalizeCharacterRecord(character);
+  return session.persistedCharacter;
 }
 
-export function saveCharacter(session: GameSession, character: Record<string, unknown>): void {
+export function getPersistedCharacter(session: GameSession): Record<string, unknown> | null {
+  return session.persistedCharacter && typeof session.persistedCharacter === 'object'
+    ? session.persistedCharacter
+    : null;
+}
+
+export async function saveCharacter(session: GameSession, character: Record<string, unknown>): Promise<void> {
   const storageKey = session.accountName;
   if (!storageKey || !session.sharedState.characterStore) {
     return;
   }
   const normalized = normalizeCharacterRecord(character);
-  session.sharedState.characterStore.set(storageKey, normalized);
+  session.persistedCharacter = normalized;
+  await session.sharedState.characterStore.set(storageKey, normalized);
   session.log(
     `Persisted character "${normalized.charName || normalized.roleName || 'Hero'}" for account "${session.accountName}" key="${storageKey}"`
   );
@@ -185,8 +197,6 @@ export function buildCharacterSnapshot(
     bonusAttributes: session.bonusAttributes || defaultBonusAttributes(),
     skillState: session.skillState,
     statusPoints: session.statusPoints,
-    activeQuests: filterLegacyQuestRecords(session.activeQuests),
-    completedQuests: filterLegacyCompletedQuestIds(session.completedQuests),
     questStateV2: session.questStateV2,
     renownTaskDailyState: session.renownTaskDailyState,
     pets: normalizePets(session.pets),
@@ -206,9 +216,9 @@ export function buildCharacterSnapshot(
   };
 }
 
-export function persistCurrentCharacter(
+export async function persistCurrentCharacter(
   session: GameSession,
   overrides: CharacterOverrides = {}
-): void {
-  saveCharacter(session, buildCharacterSnapshot(session, overrides));
+): Promise<void> {
+  await saveCharacter(session, buildCharacterSnapshot(session, overrides));
 }

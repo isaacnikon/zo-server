@@ -1,21 +1,21 @@
 import type { GameSession } from '../types.js';
 
 import { CHARACTER_STORE_BACKEND } from '../config.js';
-import { executePostgresSql } from './postgres-cli.js';
+import { executePostgresSql } from './postgres-pool.js';
 import { sqlInteger, sqlText } from './sql-literals.js';
 
 function isDatabaseBacked(): boolean {
   return CHARACTER_STORE_BACKEND === 'db';
 }
 
-export function clearRuntimeOnlinePlayers(): void {
+export async function clearRuntimeOnlinePlayers(): Promise<void> {
   if (!isDatabaseBacked()) {
     return;
   }
-  executePostgresSql('DELETE FROM runtime_online_players;');
+  await executePostgresSql('DELETE FROM runtime_online_players;');
 }
 
-export function upsertRuntimeOnlinePlayer(session: GameSession): void {
+export async function upsertRuntimeOnlinePlayer(session: GameSession): Promise<void> {
   if (!isDatabaseBacked()) {
     return;
   }
@@ -28,7 +28,7 @@ export function upsertRuntimeOnlinePlayer(session: GameSession): void {
   const characterId = session.getPersistedCharacter?.() && typeof session.getPersistedCharacter() === 'object'
     ? String((session.getPersistedCharacter() as Record<string, unknown>)?.characterId || session.charName)
     : session.charName;
-  executePostgresSql(
+  await executePostgresSql(
     `INSERT INTO runtime_online_players (
       character_id,
       account_id,
@@ -61,7 +61,7 @@ export function upsertRuntimeOnlinePlayer(session: GameSession): void {
   );
 }
 
-export function removeRuntimeOnlinePlayer(session: GameSession): void {
+export async function removeRuntimeOnlinePlayer(session: GameSession): Promise<void> {
   if (!isDatabaseBacked()) {
     return;
   }
@@ -73,7 +73,7 @@ export function removeRuntimeOnlinePlayer(session: GameSession): void {
   if (!characterId) {
     return;
   }
-  executePostgresSql(
+  await executePostgresSql(
     `DELETE FROM runtime_online_players WHERE character_id = ${sqlText(characterId)};`
   );
 }

@@ -25,31 +25,31 @@ import {
 import { PING_CMD, GAME_GATHER_REQUEST_CMD, GAME_ITEM_CONTAINER_CMD, GAME_POSITION_QUERY_CMD, GAME_SERVER_RUN_CMD, ROLE_CMD, GAME_QUEST_CMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_MISC_CMD, GAME_FIGHT_RESULT_CMD, GAME_FIGHT_STATE_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, GAME_TEAM_ACTION_PRIMARY_CMD, GAME_TEAM_ACTION_SECONDARY_CMD, GAME_TEAM_FOLLOWUP_CMD, } from '../config.js';
 import type { GameSession } from '../types.js';
 
-const PACKET_HANDLERS = new Map<number, (session: GameSession, payload: Buffer) => void>([
+const PACKET_HANDLERS = new Map<number, (session: GameSession, payload: Buffer) => Promise<void> | void | boolean>([
   [ROLE_CMD, handleRolePacket],
   [GAME_QUEST_CMD, handleQuestPacket],
   [GAME_GATHER_REQUEST_CMD, handleGatheringRequest],
 ]);
 
-function dispatchParsedPacket<TParsed>(
+async function dispatchParsedPacket<TParsed>(
   session: GameSession,
   payload: Buffer,
   parsePacket: (payload: Buffer) => TParsed | null,
-  handlePacket: (session: GameSession, parsed: TParsed) => boolean
-): boolean {
+  handlePacket: (session: GameSession, parsed: TParsed) => Promise<boolean> | boolean
+): Promise<boolean> {
   const parsed = parsePacket(payload);
   if (!parsed) {
     return false;
   }
-  return handlePacket(session, parsed);
+  return await handlePacket(session, parsed);
 }
 
-function dispatchGamePacket(
+async function dispatchGamePacket(
   session: GameSession,
   cmdWord: number,
   flags: number,
   payload: Buffer
-): boolean {
+): Promise<boolean> {
   traceGameplayPacket(session, cmdWord, flags, payload, 'pre-dispatch');
 
   if ((flags & 0x04) !== 0 && payload.length >= 6) {
@@ -64,7 +64,7 @@ function dispatchGamePacket(
 
   const handler = PACKET_HANDLERS.get(cmdWord);
   if (handler) {
-    handler(session, payload);
+    await handler(session, payload);
     return true;
   }
 
@@ -77,28 +77,28 @@ function dispatchGamePacket(
 
   if (
     cmdWord === GAME_SERVER_RUN_CMD &&
-    dispatchParsedPacket(session, payload, parseServerRunRequest, handleServerRunRequest)
+    await dispatchParsedPacket(session, payload, parseServerRunRequest, handleServerRunRequest)
   ) {
     return true;
   }
 
   if (
     cmdWord === GAME_TEAM_ACTION_PRIMARY_CMD &&
-    dispatchParsedPacket(session, payload, parseTeamAction03FD, handleTeamActionPrimary)
+    await dispatchParsedPacket(session, payload, parseTeamAction03FD, handleTeamActionPrimary)
   ) {
     return true;
   }
 
   if (
     cmdWord === GAME_TEAM_ACTION_SECONDARY_CMD &&
-    dispatchParsedPacket(session, payload, parseTeamAction03FE, handleTeamActionSecondary)
+    await dispatchParsedPacket(session, payload, parseTeamAction03FE, handleTeamActionSecondary)
   ) {
     return true;
   }
 
   if (
     cmdWord === GAME_TEAM_FOLLOWUP_CMD &&
-    dispatchParsedPacket(session, payload, parseTeamAction0442, handleTeamFollowUpAction)
+    await dispatchParsedPacket(session, payload, parseTeamAction0442, handleTeamFollowUpAction)
   ) {
     return true;
   }

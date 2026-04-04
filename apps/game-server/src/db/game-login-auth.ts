@@ -1,8 +1,7 @@
 import crypto from 'node:crypto';
 
 import { GAME_LOGIN_REQUIRE_PORTAL_AUTH } from '../config.js';
-import { queryOptionalJson, queryOptionalScalar } from './postgres-cli.js';
-import { sqlText } from './sql-literals.js';
+import { queryOnePostgres, queryOptionalScalarPostgres } from './postgres-pool.js';
 
 type PortalAuthRecord = {
   accountId: string;
@@ -40,34 +39,43 @@ function timingSafeDigestEquals(expected: string, actual: string): boolean {
   return crypto.timingSafeEqual(expectedBuffer, actualBuffer);
 }
 
-function getPortalAuthRecord(username: string): PortalAuthRecord | null {
-  return queryOptionalJson<PortalAuthRecord>(
-    `SELECT json_build_object(
-      'accountId', COALESCE(account_id, username),
-      'username', username,
-      'gamePasswordMd5', game_password_md5
-    )
-    FROM portal_users
-    WHERE username = ${sqlText(username)}
-       OR account_id = ${sqlText(username)}
-    ORDER BY CASE WHEN username = ${sqlText(username)} THEN 0 ELSE 1 END
-    LIMIT 1`
+async function getPortalAuthRecord(username: string): Promise<PortalAuthRecord | null> {
+  const row = await queryOnePostgres<{
+    account_id: string | null;
+    username: string;
+    game_password_md5: string | null;
+  }>(
+    `SELECT account_id, username, game_password_md5
+     FROM portal_users
+     WHERE username = $1 OR account_id = $1
+     ORDER BY CASE WHEN username = $1 THEN 0 ELSE 1 END
+     LIMIT 1`,
+    [username]
   );
+  if (!row) {
+    return null;
+  }
+  return {
+    accountId: row.account_id || row.username,
+    username: row.username,
+    gamePasswordMd5: row.game_password_md5,
+  };
 }
 
-function getExistingLegacyAccount(username: string): string | null {
-  return queryOptionalScalar(
+function getExistingLegacyAccount(username: string): Promise<string | null> {
+  return queryOptionalScalarPostgres(
     `SELECT account_id
      FROM accounts
-     WHERE account_id = ${sqlText(username)}
-     LIMIT 1`
+     WHERE account_id = $1
+     LIMIT 1`,
+    [username]
   );
 }
 
-export function authenticateGameLogin(input: {
+export async function authenticateGameLogin(input: {
   username: unknown;
   passwordDigest: unknown;
-}): GameLoginAuthResult {
+}): Promise<GameLoginAuthResult> {
   const username = normalizeText(input.username);
   const passwordDigest = normalizeGamePasswordDigest(input.passwordDigest);
 
@@ -78,7 +86,7 @@ export function authenticateGameLogin(input: {
     };
   }
 
-  const portalUser = getPortalAuthRecord(username);
+  const portalUser = await getPortalAuthRecord(username);
   if (portalUser) {
     const expectedDigest = normalizeGamePasswordDigest(portalUser.gamePasswordMd5);
     if (!expectedDigest || !passwordDigest || !timingSafeDigestEquals(expectedDigest, passwordDigest)) {
@@ -96,7 +104,7 @@ export function authenticateGameLogin(input: {
     };
   }
 
-  const legacyAccountId = getExistingLegacyAccount(username);
+  const legacyAccountId = await getExistingLegacyAccount(username);
   if (legacyAccountId) {
     return {
       ok: true,

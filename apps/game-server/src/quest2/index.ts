@@ -42,6 +42,8 @@ export type {
 
 export {
   QUEST2_DEFINITIONS_FILE,
+  initializeQuestDefinitions,
+  refreshQuestDefinitions,
   loadQuestDefinitions,
   normalizeQuestDefinition,
   getQuestDefinition,
@@ -75,11 +77,6 @@ export {
 export {
   dispatchQuestEventToSession,
 } from './runtime.js';
-
-export {
-  filterLegacyCompletedQuestIds,
-  filterLegacyQuestRecords,
-} from './legacy-state.js';
 
 export type {
   Quest2SyncState,

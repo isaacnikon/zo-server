@@ -1,24 +1,22 @@
-import type { CombatEnemyInstance, CombatState, FieldEventSpawn, FrogTeleporterUnlocks, GameSession, OnlineActivityState, PrimaryAttributes, QuestRecord, QuestSyncMode, SkillState } from './types.js';
+import type { CombatEnemyInstance, CombatState, FieldEventSpawn, FrogTeleporterUnlocks, GameSession, OnlineActivityState, PrimaryAttributes, QuestSyncMode, SkillState } from './types.js';
 import type { QuestState as QuestStateV2 } from './quest2/index.js';
 
 import { dispatchGamePacket } from './handlers/packet-dispatcher.js';
 import { createIdleCombatState, disposeCombatTimers as combatHandlerDisposeTimers, handleSharedCombatParticipantDisposed as combatHandlerHandleSharedCombatParticipantDisposed, sendCombatEncounterProbe as combatHandlerSendCombatEncounterProbe, sendCombatExitProbe as combatHandlerSendCombatExitProbe, } from './handlers/combat-handler.js';
 import { handleLogin as loginHandlerHandleLogin, } from './handlers/login-handler.js';
-import { applyQuestEvents as questHandlerApplyQuestEvents, questEventHandler, handleQuestMonsterDefeat as questHandlerHandleQuestMonsterDefeat, syncQuestStateToClient as questHandlerSyncQuestStateToClient, ensureQuestStateReady as questHandlerEnsureQuestStateReady, refreshQuestStateForItemTemplates as questHandlerRefreshQuestStateForItemTemplates, } from './handlers/quest-handler.js';
+import { handleQuestMonsterDefeat as questHandlerHandleQuestMonsterDefeat, syncQuestStateToClient as questHandlerSyncQuestStateToClient, ensureQuestStateReady as questHandlerEnsureQuestStateReady, refreshQuestStateForItemTemplates as questHandlerRefreshQuestStateForItemTemplates, } from './handlers/quest-handler.js';
 import { scheduleEquipmentReplay as playerStateHandlerScheduleEquipmentReplay, } from './handlers/player-state-handler.js';
 import { schedulePetReplay as petHandlerSchedulePetReplay, sendPetStateSync as petHandlerSendPetStateSync, disposePetTimers as petHandlerDisposeTimers, } from './handlers/pet-handler.js';
 import { sendEnterGameOk as sessionBootstrapHandlerSendEnterGameOk, sendMapNpcSpawns as sessionBootstrapHandlerSendMapNpcSpawns, } from './handlers/session-bootstrap-handler.js';
 import { DEFAULT_FLAGS, ENTITY_TYPE, GAME_DIALOG_CMD, GAME_DIALOG_MESSAGE_SUBCMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, GAME_ITEM_CONTAINER_CMD, GAME_ITEM_CMD, GAME_SCENE_ENTER_CMD, GAME_SELF_STATE_CMD, HANDSHAKE_CMD, MAP_ID, PING_CMD, PONG_CMD, SCENE_ENTER_LOAD_SUBCMD, SERVER_SCRIPT_DEFERRED_SUBCMD, SERVER_SCRIPT_IMMEDIATE_SUBCMD, SELF_STATE_APTITUDE_SUBCMD, SPAWN_X, SPAWN_Y, SPECIAL_FLAGS, VALID_FLAG_MASK, VALID_FLAG_VALUE, } from './config.js';
 import { PacketWriter, buildPacket } from './protocol.js';
 import { buildGameDialoguePacket, buildSceneEnterPacket, buildServerRunScriptPacket, buildSelfStateAptitudeSyncPacket, } from './protocol/gameplay-packets.js';
-import { ObjectiveRegistry } from './objectives/objective-registry.js';
 import { getClientVisibleExperience } from './gameplay/progression.js';
-import { questObjectiveSystem } from './objectives/quest-objective-system.js';
 import { CHARACTER_VITALS_BASELINE, resolveCurrentPlayerVitals } from './gameplay/session-flows.js';
 import { stopAutoMapRotation } from './scenes/map-rotation.js';
 import { removeWorldPresence } from './world-state.js';
 import { buildEncounterEnemies } from './combat/encounter-builder.js';
-import { buildCharacterSnapshot as sessionHydrationBuildCharacterSnapshot, getPersistedCharacter as sessionHydrationGetPersistedCharacter, hydratePendingGameCharacter, persistCurrentCharacter as sessionHydrationPersistCurrentCharacter, saveCharacter as sessionHydrationSaveCharacter, } from './character/session-hydration.js';
+import { buildCharacterSnapshot as sessionHydrationBuildCharacterSnapshot, getPersistedCharacter as sessionHydrationGetPersistedCharacter, hydratePendingGameCharacter, loadPersistedCharacter as sessionHydrationLoadPersistedCharacter, persistCurrentCharacter as sessionHydrationPersistCurrentCharacter, saveCharacter as sessionHydrationSaveCharacter, } from './character/session-hydration.js';
 import { defaultBonusAttributes, defaultSkillState } from './character/normalize.js';
 import { defaultFrogTeleporterUnlocks, syncFrogTeleporterClientState } from './gameplay/frog-teleporter-service.js';
 import { defaultOnlineState, flushOnlinePresence, touchOnlinePresence } from './gameplay/online-runtime.js';
@@ -98,8 +96,6 @@ class Session implements GameSession {
   bonusAttributes: PrimaryAttributes;
   skillState: SkillState;
   statusPoints: number;
-  activeQuests: QuestRecord[];
-  completedQuests: number[];
   questStateV2: QuestStateV2;
   pets: any[];
   selectedPetRuntimeId: number | null;
@@ -122,7 +118,6 @@ class Session implements GameSession {
   defeatRespawnPending: boolean;
   hasAnnouncedQuestOverview: boolean;
   persistedCharacter: Record<string, unknown> | null;
-  objectiveRegistry: any;
   combatState: CombatState;
   combatDefeatTimer: NodeJS.Timeout | null;
   combatSkillResolutionTimer: NodeJS.Timeout | null;
@@ -220,8 +215,6 @@ class Session implements GameSession {
     this.bonusAttributes = defaultBonusAttributes();
     this.skillState = defaultSkillState();
     this.statusPoints = 0;
-    this.activeQuests = [];
-    this.completedQuests = [];
     this.questStateV2 = createEmptyQuestStateV2();
     this.renownTaskDailyState = defaultRenownTaskDailyState();
     this.pets = [];
@@ -244,7 +237,6 @@ class Session implements GameSession {
     this.defeatRespawnPending = false;
     this.hasAnnouncedQuestOverview = false;
     this.persistedCharacter = null;
-    this.objectiveRegistry = new ObjectiveRegistry();
     this.combatState = createIdleCombatState();
     this.combatDefeatTimer = null;
     this.combatSkillResolutionTimer = null;
@@ -268,19 +260,9 @@ class Session implements GameSession {
     this.visiblePlayerRuntimeIds = new Set<number>();
     this.observedPlayerPositions = new Map<number, { x: number; y: number }>();
     this.observedPetStates = new Map<number, { ownerRuntimeId: number; x: number; y: number; entityType: number }>();
-    this.objectiveRegistry.register({
-      system: questObjectiveSystem,
-      handler: questEventHandler,
-      getState: (session: Session) => ({
-        activeQuests: session.activeQuests,
-        completedQuests: session.completedQuests,
-        level: session.level,
-      }),
-    });
-
   }
 
-  feed(data: Buffer): void {
+  async feed(data: Buffer): Promise<void> {
     this.recvBuf = Buffer.concat([this.recvBuf, data]);
     while (this.recvBuf.length >= 5) {
       const flags = this.recvBuf[0];
@@ -301,11 +283,11 @@ class Session implements GameSession {
       this.recvBuf = this.recvBuf.slice(totalLen);
 
       this.logInboundPacket(flags, payloadLen, seq, payload);
-      this.handlePacket(flags, seq, payload);
+      await this.handlePacket(flags, seq, payload);
     }
   }
 
-  handlePacket(flags: number, seq: number, payload: Buffer): void {
+  async handlePacket(flags: number, seq: number, payload: Buffer): Promise<void> {
     if (payload.length === 0) {
       return;
     }
@@ -315,20 +297,20 @@ class Session implements GameSession {
     this.logDecodedPacket(cmdByte, cmdWord, payload);
 
     if (this.state === 'CONNECTED') {
-      this.handleLogin(payload);
+      await this.handleLogin(payload);
       return;
     }
 
     if (this.state === 'LOGGED_IN') {
-      this.handleLoggedInPacket(flags, payload);
+      await this.handleLoggedInPacket(flags, payload);
     }
   }
 
-  handleLogin(payload: Buffer): void {
-    loginHandlerHandleLogin(this, payload);
+  async handleLogin(payload: Buffer): Promise<void> {
+    await loginHandlerHandleLogin(this, payload);
   }
 
-  handleLoggedInPacket(flags: number, payload: Buffer): void {
+  async handleLoggedInPacket(flags: number, payload: Buffer): Promise<void> {
     const cmdByte = payload[0];
     const cmdWord = payload.length >= 2 ? payload.readUInt16LE(0) : cmdByte;
     this.logGamePacketHeader(flags, cmdByte, cmdWord);
@@ -345,7 +327,7 @@ class Session implements GameSession {
       this.log(`Auto renown granted amount=${automaticRenownGain} total=${this.renown}`);
     }
 
-    if (dispatchGamePacket(this, cmdWord, flags, payload)) {
+    if (await dispatchGamePacket(this, cmdWord, flags, payload)) {
       return;
     }
 
@@ -495,8 +477,13 @@ class Session implements GameSession {
     return this.persistedCharacter;
   }
 
-  saveCharacter(character: Record<string, unknown>): void {
-    sessionHydrationSaveCharacter(this, character);
+  async loadPersistedCharacter(): Promise<Record<string, unknown> | null> {
+    this.persistedCharacter = await sessionHydrationLoadPersistedCharacter(this);
+    return this.persistedCharacter;
+  }
+
+  async saveCharacter(character: Record<string, unknown>): Promise<void> {
+    await sessionHydrationSaveCharacter(this, character);
   }
 
   ensureQuestStateReady(): void {
@@ -508,19 +495,9 @@ class Session implements GameSession {
   }
 
   persistCurrentCharacter(overrides: CharacterOverrides = {}): void {
-    sessionHydrationPersistCurrentCharacter(this, overrides);
-  }
-
-  applyQuestEvents(events: any[], source = 'runtime', options: Record<string, unknown> = {}): void {
-    questHandlerApplyQuestEvents(this, events, source, options);
-  }
-
-  dispatchObjectiveMonsterDefeat(monsterId: number, count = 1, source = 'monster-defeat', options: Record<string, unknown> = {}): boolean {
-    return this.objectiveRegistry.dispatchMonsterDefeat(this, monsterId, count, source, options);
-  }
-
-  reconcileObjectives(source = 'bootstrap', options: Record<string, unknown> = {}): boolean {
-    return this.objectiveRegistry.reconcileAll(this, source, options);
+    void sessionHydrationPersistCurrentCharacter(this, overrides).catch((error) => {
+      this.log(`Persist character failed: ${(error as Error).message}`);
+    });
   }
 
   handleQuestMonsterDefeat(monsterId: number, count = 1): { handled: boolean; grantedItems: Array<{ templateId: number; quantity: number }> } {

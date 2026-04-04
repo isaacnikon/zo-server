@@ -8,15 +8,12 @@ COPY apps/portal/package.json apps/portal/package.json
 RUN npm install
 
 COPY . .
-RUN npm run build -w @zo/game-server
+RUN rm -rf apps/game-server/dist \
+  && npm run build -w @zo/game-server
 
 FROM node:22-bookworm-slim
 
 WORKDIR /app
-
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends postgresql-client \
-  && rm -rf /var/lib/apt/lists/*
 
 COPY package.json package-lock.json ./
 COPY apps/game-server/package.json apps/game-server/package.json

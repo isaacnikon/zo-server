@@ -1,6 +1,6 @@
 import type { GameSession, ServerRunRequestData } from '../types.js';
 
-import { queryJsonArray, queryOptionalScalar } from '../db/postgres-cli.js';
+import { queryJsonArrayPostgres } from '../db/postgres-pool.js';
 
 type Rect = {
   minX: number;
@@ -27,12 +27,8 @@ type TeleportInteraction = {
 
 type SceneInteraction = TeleportInteraction;
 
-const ROUTE_VERSION_CHECK_INTERVAL_MS = 5000;
-
 let cachedSceneInteractions: SceneInteraction[] | null = null;
-let cachedSceneInteractionsVersion = '';
-let cachedRouteVersionToken = 'uninitialized';
-let lastRouteVersionCheckAt = 0;
+let sceneInteractionsInitPromise: Promise<void> | null = null;
 
 function normalizeInteraction(row: Partial<SceneInteraction>): SceneInteraction | null {
   if (
@@ -83,8 +79,8 @@ function normalizeInteraction(row: Partial<SceneInteraction>): SceneInteraction 
   };
 }
 
-function loadSceneInteractionsFromDatabase(): SceneInteraction[] {
-  const rows = queryJsonArray<Partial<SceneInteraction>>(
+async function loadSceneInteractionsFromDatabase(): Promise<SceneInteraction[]> {
+  const rows = await queryJsonArrayPostgres<Partial<SceneInteraction>>(
     `SELECT COALESCE(
        json_agg(
          json_build_object(
@@ -107,7 +103,7 @@ function loadSceneInteractionsFromDatabase(): SceneInteraction[] {
          ORDER BY r.source_map_id, r.source_scene_script_id
        ),
        '[]'::json
-     )::text
+     )
      FROM game_map_routes r
      LEFT JOIN game_map_summaries sm
        ON sm.map_id = r.source_map_id
@@ -120,42 +116,40 @@ function loadSceneInteractionsFromDatabase(): SceneInteraction[] {
     .filter((row): row is SceneInteraction => row !== null);
 }
 
-function getSceneInteractionVersionToken(): string {
-  const now = Date.now();
-  if (now - lastRouteVersionCheckAt < ROUTE_VERSION_CHECK_INTERVAL_MS) {
-    return cachedRouteVersionToken;
+export async function initializeSceneInteractions(forceReload = false): Promise<void> {
+  if (forceReload) {
+    cachedSceneInteractions = null;
+    sceneInteractionsInitPromise = null;
   }
-
-  lastRouteVersionCheckAt = now;
-  try {
-    cachedRouteVersionToken =
-      queryOptionalScalar(
-        `SELECT COALESCE(MAX(EXTRACT(EPOCH FROM updated_at))::bigint::text, '0') || ':' || COUNT(*)::text
-         FROM game_map_routes`
-      ) || '0:0';
-  } catch {
-    if (cachedRouteVersionToken === 'uninitialized') {
-      cachedRouteVersionToken = '0:0';
-    }
+  if (cachedSceneInteractions) {
+    return;
   }
-
-  return cachedRouteVersionToken;
+  if (!sceneInteractionsInitPromise) {
+    sceneInteractionsInitPromise = loadSceneInteractionsFromDatabase()
+      .then((interactions) => {
+        cachedSceneInteractions = interactions;
+      })
+      .catch(() => {
+        if (!cachedSceneInteractions) {
+          cachedSceneInteractions = [];
+        }
+      })
+      .finally(() => {
+        sceneInteractionsInitPromise = null;
+      });
+  }
+  await sceneInteractionsInitPromise;
 }
 
 function getSceneInteractions(): SceneInteraction[] {
-  const version = getSceneInteractionVersionToken();
-  if (!cachedSceneInteractions || cachedSceneInteractionsVersion !== version) {
-    try {
-      cachedSceneInteractions = loadSceneInteractionsFromDatabase();
-      cachedSceneInteractionsVersion = version;
-    } catch {
-      if (!cachedSceneInteractions) {
-        cachedSceneInteractions = [];
-        cachedSceneInteractionsVersion = version;
-      }
+  if (!cachedSceneInteractions) {
+    if (!sceneInteractionsInitPromise) {
+      void initializeSceneInteractions().catch(() => {
+        // Keep scene interaction handling resilient if the DB snapshot is unavailable.
+      });
     }
+    return [];
   }
-
   return cachedSceneInteractions;
 }
 

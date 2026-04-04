@@ -111,73 +111,6 @@ export interface SkillState {
   lastCombatSkillId?: number | null;
 }
 
-// --- Quest events (discriminated union — replaces if/else type dispatch) ---
-export interface QuestEventBase {
-  taskId: number;
-  definition: QuestDefinition;
-  reason?: string;
-}
-export interface QuestAcceptedEvent extends QuestEventBase {
-  type: 'accepted';
-  status: number;
-  stepDescription?: string;
-  progressObjectiveId?: number;
-  progressCount?: number;
-  markerNpcId?: number;
-}
-export interface QuestProgressEvent extends QuestEventBase {
-  type: 'progress';
-  status: number;
-  stepDescription?: string;
-  progressObjectiveId?: number;
-  progressCount?: number;
-  markerNpcId?: number;
-}
-export interface QuestAdvancedEvent extends QuestEventBase {
-  type: 'advanced';
-  status: number;
-  stepDescription?: string;
-  progressObjectiveId?: number;
-  progressCount?: number;
-  markerNpcId?: number;
-}
-export interface QuestCompletedEvent extends QuestEventBase {
-  type: 'completed';
-  reward: QuestReward;
-  resetItemTemplateIds: number[];
-}
-export interface QuestAbandonedEvent extends QuestEventBase {
-  type: 'abandoned';
-  resetItemTemplateIds: number[];
-}
-export interface QuestItemGrantedEvent extends QuestEventBase {
-  type: 'item-granted';
-  templateId: number;
-  quantity: number;
-  itemName?: string;
-}
-export interface QuestItemConsumedEvent extends QuestEventBase {
-  type: 'item-consumed';
-  templateId: number;
-  quantity: number;
-  itemName?: string;
-}
-export interface QuestItemMissingEvent extends QuestEventBase {
-  type: 'item-missing';
-  templateId: number;
-  quantity: number;
-  itemName?: string;
-}
-export type QuestEvent =
-  | QuestAcceptedEvent
-  | QuestProgressEvent
-  | QuestAdvancedEvent
-  | QuestCompletedEvent
-  | QuestAbandonedEvent
-  | QuestItemGrantedEvent
-  | QuestItemConsumedEvent
-  | QuestItemMissingEvent;
-
 // --- Game effects (shared across quest/inventory) ---
 export type GameEffect =
   | {
@@ -281,8 +214,6 @@ export interface GameSession {
     createdAt: number;
   } | null;
   // Quests
-  activeQuests: QuestRecord[];
-  completedQuests: number[];
   questStateV2: QuestStateV2;
   hasAnnouncedQuestOverview: boolean;
   renownTaskDailyState: RenownTaskDailyState;
@@ -333,7 +264,6 @@ export interface GameSession {
   equipmentReplayTimer: NodeJS.Timeout | null;
   // Persisted data
   persistedCharacter: CharacterRecord | null;
-  objectiveRegistry: any;
   socket: { destroyed?: boolean; destroy(): void; write(data: Buffer): void };
   worldRegistered: boolean;
   visiblePlayerRuntimeIds: Set<number>;
@@ -346,7 +276,8 @@ export interface GameSession {
   // Persistence methods
   persistCurrentCharacter(overrides?: Record<string, unknown>): void;
   getPersistedCharacter(): Record<string, unknown> | null;
-  saveCharacter(character: Record<string, unknown>): void;
+  loadPersistedCharacter(): Promise<Record<string, unknown> | null>;
+  saveCharacter(character: Record<string, unknown>): Promise<void>;
   buildCharacterSnapshot(overrides?: Record<string, unknown>): Record<string, unknown>;
   // Scene/map methods
   sendMapNpcSpawns(mapId: number): void;
@@ -368,10 +299,6 @@ export interface GameSession {
   syncQuestStateToClient(options?: { mode?: QuestSyncMode }): void;
   refreshQuestStateForItemTemplates(templateIds: number[]): void;
   handleQuestMonsterDefeat(monsterId: number, count?: number): { handled: boolean; grantedItems: Array<{ templateId: number; quantity: number }> };
-  applyQuestEvents(events: any[], source?: string, options?: Record<string, unknown>): void;
-  // Objective methods
-  dispatchObjectiveMonsterDefeat(monsterId: number, count?: number, source?: string, options?: Record<string, unknown>): boolean;
-  reconcileObjectives(source?: string, options?: Record<string, unknown>): boolean;
 }
 
 // --- Packet handler type (async for I/O) ---
@@ -381,9 +308,6 @@ export type PacketHandler = (session: GameSession, payload: Buffer) => Promise<v
 export interface PrimaryAttributes { intelligence: number; vitality: number; dexterity: number; strength: number }
 export interface PlayerVitals { health: number; mana: number; rage: number }
 export interface CharacterRecord { [key: string]: unknown }
-export interface QuestRecord { id: number; stepIndex: number; status: number; progress: Record<string, unknown>; acceptedAt: number }
-export interface QuestDefinition { id: number; name: string; acceptMessage: string; completionMessage: string; [key: string]: unknown }
-export interface QuestReward { [key: string]: unknown }
 export interface DropEntry { templateId: number; chance: number; quantity?: number; source?: string }
 export interface CombatEnemyTemplate {
   typeId: number;
