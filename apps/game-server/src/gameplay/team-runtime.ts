@@ -134,12 +134,58 @@ function resolveTeamMemberIdentity(session: GameSession): number {
   return stableIdentity !== 0 ? stableIdentity : (session.runtimeId >>> 0);
 }
 
+function getPendingFollowUpTargets(session: GameSession): number[] {
+  if (!(session.sharedState.teamFollowUpTargetsBySessionId instanceof Map)) {
+    return [];
+  }
+
+  const followUpTargetsBySessionId = session.sharedState.teamFollowUpTargetsBySessionId as Map<number, number[]>;
+  return followUpTargetsBySessionId.get(session.id >>> 0) || [];
+}
+
+function clearPendingFollowUpTargets(sharedState: Record<string, any>, sessionId: number): void {
+  if (!(sharedState.teamFollowUpTargetsBySessionId instanceof Map)) {
+    return;
+  }
+
+  const followUpTargetsBySessionId = sharedState.teamFollowUpTargetsBySessionId as Map<number, number[]>;
+  followUpTargetsBySessionId.delete(sessionId >>> 0);
+}
+
+function isEligibleInviteTarget(inviter: GameSession, candidate: GameSession): boolean {
+  if ((candidate.id >>> 0) === (inviter.id >>> 0)) {
+    return false;
+  }
+
+  if (candidate.socket?.destroyed) {
+    return false;
+  }
+
+  if ((candidate.currentMapId >>> 0) !== (inviter.currentMapId >>> 0)) {
+    return false;
+  }
+
+  if (getTeamForSession(candidate)) {
+    return false;
+  }
+
+  return true;
+}
+
+function resolveInviteTargetFromFollowUp(session: GameSession): GameSession | null {
+  for (const actorId of getPendingFollowUpTargets(session)) {
+    const target = resolveSessionByActorId(session.sharedState, actorId >>> 0);
+    if (target && isEligibleInviteTarget(session, target)) {
+      return target;
+    }
+  }
+
+  return null;
+}
+
 function resolveInviteTargetFallback(session: GameSession): GameSession | null {
   const candidates = [...getSessionsById(session.sharedState).values()].filter((candidate) => {
-    if ((candidate.id >>> 0) === (session.id >>> 0)) {
-      return false;
-    }
-    if ((candidate.currentMapId >>> 0) !== (session.currentMapId >>> 0)) {
+    if (!isEligibleInviteTarget(session, candidate)) {
       return false;
     }
 
@@ -938,7 +984,17 @@ function handleInviteOrAccept(session: GameSession, targetIds: number[]): boolea
       return acceptInvite(session, pendingInvites[0]);
     }
 
+    const followUpTarget = resolveInviteTargetFromFollowUp(session);
+    if (followUpTarget) {
+      clearPendingFollowUpTargets(session.sharedState, session.id >>> 0);
+      session.log(
+        `Resolved zero-id team invite from follow-up actorId=${followUpTarget.runtimeId >>> 0} name=${followUpTarget.charName || ''}`
+      );
+      return inviteTarget(session, followUpTarget);
+    }
+
     const fallbackTarget = resolveInviteTargetFallback(session);
+    clearPendingFollowUpTargets(session.sharedState, session.id >>> 0);
     if (!fallbackTarget) {
       session.log('Team invite fallback could not resolve a unique nearby target');
       return false;
@@ -1174,6 +1230,7 @@ export function handleTeamFollowUpAction(session: GameSession, action: TeamClien
 export function handleTeamSessionDisposed(session: GameSession): void {
   clearFollowerSyncState(session.sharedState, session.id >>> 0);
   clearInviteForInvitee(session.sharedState, session.id >>> 0);
+  clearPendingFollowUpTargets(session.sharedState, session.id >>> 0);
   const state = getTeamRuntimeState(session.sharedState);
   const pendingResyncTimer = state.pendingClientResyncTimersBySessionId.get(session.id >>> 0) || null;
   if (pendingResyncTimer) {
