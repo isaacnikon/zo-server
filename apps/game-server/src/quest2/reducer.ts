@@ -360,15 +360,26 @@ function getStepById(definition: QuestDef, stepId: string): StepDef | null {
 }
 
 function getStepTriggerRequirements(step: StepDef): RequirementDef[] {
-  return step.requirements.filter((requirement) => !isTurnInRequirement(requirement));
+  return step.requirements.filter((requirement) => !isTurnInRequirement(step, requirement));
 }
 
 function getStepTurnInRequirements(step: StepDef): RequirementDef[] {
-  return step.requirements.filter((requirement) => isTurnInRequirement(requirement));
+  return step.requirements.filter((requirement) => isTurnInRequirement(step, requirement));
 }
 
-function isTurnInRequirement(requirement: RequirementDef): boolean {
-  return requirement.kind === 'turn_in_map_is' || requirement.kind === 'turn_in_npc_is';
+function isTurnInRequirement(step: StepDef, requirement: RequirementDef): boolean {
+  if (requirement.kind === 'turn_in_map_is' || requirement.kind === 'turn_in_npc_is') {
+    return true;
+  }
+
+  const hasExplicitTurnInTarget = step.requirements.some(
+    (entry) => entry.kind === 'turn_in_map_is' || entry.kind === 'turn_in_npc_is'
+  );
+  if (!hasExplicitTurnInTarget) {
+    return false;
+  }
+
+  return requirement.kind === 'item_count_at_least' || requirement.kind === 'captured_monster_count_at_least';
 }
 
 function getTurnInReadyFlag(step: StepDef): string {

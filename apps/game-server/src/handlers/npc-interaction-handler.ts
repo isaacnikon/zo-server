@@ -3,30 +3,18 @@ import type { GameSession, ServerRunRequestData } from '../types.js';
 import { DEFAULT_FLAGS, GAME_NPC_SHOP_CMD } from '../config.js';
 import { tryReadStaticJsonDocument } from '../db/static-json-store.js';
 import { getMapEncounterLevelRange, getMapNpcs, getMapSummary } from '../map-data.js';
-import { getBagQuantityByTemplateId } from '../inventory/index.js';
-import {
-  getCurrentObjective,
-  getCurrentStep,
-  getCurrentStepUi,
-  interactWithNpc,
-  getQuestDefinition,
-  getQuestAcceptBlocker,
-} from '../quest-engine/index.js';
 import { buildNpcShopOpenPacket } from '../protocol/gameplay-packets.js';
 import { resolveRepoPath } from '../runtime-paths.js';
 import { resolveFieldEventInteractionTarget, tryHandleFieldEventInteraction } from '../gameplay/field-event-runtime.js';
 import { tryHandleConfiguredNpcInteraction } from '../gameplay/npc-interaction-rules.js';
 import { isFrogTeleporterNpc, syncFrogTeleporterClientState } from '../gameplay/frog-teleporter-service.js';
-import { RENOWN_TASK_ACCEPT_NPC_ID, RENOWN_TASK_ID, formatRenownTaskHint, getRenownTaskAcceptBlocker } from '../gameplay/renown-task-runtime.js';
+import { RENOWN_TASK_ACCEPT_NPC_ID, RENOWN_TASK_ID, getRenownTaskAcceptBlocker } from '../gameplay/renown-task-runtime.js';
 import { recomputeSessionMaxVitals, resolveInnRestVitals } from '../gameplay/session-flows.js';
 import { primeNpcServiceContext } from '../gameplay/npc-service-runtime.js';
 import { sendSelfStateValueUpdate, sendSelfStateVitalsUpdate } from '../gameplay/stat-sync.js';
-import { buildEncounterPoolEntry } from '../roleinfo/index.js';
 import { grantSkill, sendSkillStateSync } from '../gameplay/skill-runtime.js';
 import { applyEffects } from '../effects/effect-executor.js';
-import { matchesTrigger } from '../triggers/trigger-matcher.js';
 import { dispatchQuestEventToSession } from '../quest2/index.js';
-import { applyQuestEvents } from './quest-handler.js';
 
 type MapNpcRecord = Record<string, any>;
 type ShopCatalogItem = { templateId: number; price: number };
@@ -34,18 +22,6 @@ type ShopCatalogRecord = { speaker?: string; items?: ShopCatalogItem[] };
 type ShopRegistry = {
   defaultsByNpcId?: Record<string, ShopCatalogRecord>;
   mapOverrides?: Array<{ mapId?: number; npcId?: number; speaker?: string; items?: ShopCatalogItem[] }>;
-};
-
-type QuestNpcAuxiliaryCombatTrigger = {
-  taskId: number;
-  monsterId: number;
-  count: number;
-};
-
-type QuestNpcAuxiliaryResult = {
-  events: any[];
-  stateChanged: boolean;
-  combatTrigger: QuestNpcAuxiliaryCombatTrigger | null;
 };
 
 const NPC_SHOP_REGISTRY_FILE = resolveRepoPath('data', 'client-derived', 'npc-shops.json');
@@ -97,8 +73,8 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
     return false;
   }
 
-  const hasActiveRenownTask = Array.isArray(session.activeQuests)
-    ? session.activeQuests.some((record: Record<string, any>) => (Number.isInteger(record?.id) ? (record.id >>> 0) : 0) === RENOWN_TASK_ID)
+  const hasActiveRenownTask = Array.isArray(session.questStateV2?.active)
+    ? session.questStateV2.active.some((instance) => (instance?.questId >>> 0) === RENOWN_TASK_ID)
     : false;
   if (
     resolvedNpcId === RENOWN_TASK_ACCEPT_NPC_ID &&
@@ -190,255 +166,6 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
     `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId}`
   );
   return true;
-}
-
-function tryStartQuestKillCombat(session: GameSession, npcId: number, request: ServerRunRequestData): boolean {
-  if (
-    (request.subcmd !== 0x02 && request.subcmd !== 0x08) ||
-    typeof session.sendCombatEncounterProbe !== 'function'
-  ) {
-    return false;
-  }
-  if (session.combatState?.active) {
-    return false;
-  }
-
-  const activeQuests = Array.isArray(session.activeQuests) ? session.activeQuests : [];
-  for (const record of activeQuests) {
-    const taskId = Number.isInteger(record?.id) ? (record.id >>> 0) : 0;
-    const stepIndex = Number.isInteger(record?.stepIndex) ? (record.stepIndex >>> 0) : 0;
-    if (taskId <= 0) {
-      continue;
-    }
-
-    const definition = getQuestDefinition(taskId);
-    const recordForStep = { ...record, stepIndex };
-    const step: any = getCurrentStep(definition as any, recordForStep as any);
-    const ui: any = getCurrentStepUi(definition as any, recordForStep as any);
-    const objective: any = getCurrentObjective(definition as any, recordForStep as any);
-    const targetNpcId = Number.isInteger(objective?.targetNpcId) ? (objective.targetNpcId >>> 0) : 0;
-    const uiNpcId = Number.isInteger(ui?.overNpcId) ? (ui.overNpcId >>> 0) : 0;
-    const handInNpcId = Number.isInteger(objective?.handInNpcId) ? (objective.handInNpcId >>> 0) : 0;
-    const stepNpcId = targetNpcId || uiNpcId || handInNpcId || 0;
-    const stepMapId = Number.isInteger(step?.mapId) ? (step.mapId >>> 0) : 0;
-    const monsterId = Number.isInteger(objective?.targetMonsterId) ? (objective.targetMonsterId >>> 0) : 0;
-    const isCombatObjective =
-      objective?.triggerEvent === 'monster-defeat' &&
-      (objective?.kind === 'monster-defeat' || objective?.kind === 'item-collect');
-    if (
-      !step ||
-      !isCombatObjective ||
-      (stepMapId > 0 && stepMapId !== (session.currentMapId >>> 0)) ||
-      stepNpcId !== (npcId >>> 0) ||
-      monsterId <= 0
-    ) {
-      continue;
-    }
-
-    const encounterLevelRange = getMapEncounterLevelRange(session.currentMapId);
-    const mapName = getMapSummary(session.currentMapId)?.mapName || `Map ${session.currentMapId}`;
-    session.sendCombatEncounterProbe({
-      probeId: `quest-kill:${taskId}:${monsterId}:${Date.now()}`,
-      encounterProfile: {
-        minEnemies: 1,
-        maxEnemies: 1,
-        locationName: mapName,
-        pool: [
-          buildEncounterPoolEntry(monsterId, {
-            levelMin: encounterLevelRange?.min || 1,
-            levelMax: encounterLevelRange?.max || encounterLevelRange?.min || 1,
-            weight: 1,
-          }),
-        ],
-      },
-    });
-    return true;
-  }
-
-  return false;
-}
-
-function applyQuestNpcAuxiliaryActions(
-  session: GameSession,
-  questState: Record<string, any>,
-  npcId: number,
-  request: ServerRunRequestData
-): QuestNpcAuxiliaryResult | null {
-  if (!Array.isArray(questState?.activeQuests) || questState.activeQuests.length < 1) {
-    return null;
-  }
-
-  const requestSubtype = Number.isInteger(request.subcmd) ? (request.subcmd >>> 0) : 0;
-  const requestScriptId = Number.isInteger(request.scriptId)
-    ? (request.scriptId! >>> 0)
-    : (Number.isInteger(request.rawArgs?.[2]) ? (request.rawArgs[2] >>> 0) : 0);
-  const requestContextId = Number.isInteger(request.rawArgs?.[1]) ? (request.rawArgs[1] >>> 0) : 0;
-  const mapId = Number.isInteger(session.currentMapId) ? (session.currentMapId >>> 0) : 0;
-
-  let stateChanged = false;
-  for (const record of questState.activeQuests) {
-    const taskId = Number.isInteger(record?.id) ? (record.id >>> 0) : 0;
-    if (taskId <= 0) {
-      continue;
-    }
-    const definition = getQuestDefinition(taskId) as Record<string, any> | null;
-    const step = getCurrentStep(definition as any, record as any) as Record<string, any> | null;
-    const stepStatus = Number.isInteger(step?.tracker?.status)
-      ? (step?.tracker?.status >>> 0)
-      : (Number.isInteger(record?.status) ? (record.status >>> 0) : 0);
-    const interactionTriggers = Array.isArray(definition?.interactionTriggers)
-      ? (definition!.interactionTriggers as Array<Record<string, any>>)
-      : [];
-
-    for (const trigger of interactionTriggers) {
-      if (trigger?.kind !== 'server-run') {
-        continue;
-      }
-      if (
-        !matchesTrigger(
-          {
-            stepStatus: Number.isInteger(trigger?.stepStatus) ? (trigger.stepStatus >>> 0) : undefined,
-            subtype: Number.isInteger(trigger?.subtype) ? (trigger.subtype >>> 0) : undefined,
-            npcId: Number.isInteger(trigger?.npcId) ? (trigger.npcId >>> 0) : undefined,
-            scriptId: Number.isInteger(trigger?.scriptId) ? (trigger.scriptId >>> 0) : undefined,
-            mapId: Number.isInteger(trigger?.mapId) ? (trigger.mapId >>> 0) : undefined,
-            contextId: Number.isInteger(trigger?.contextId) ? (trigger.contextId >>> 0) : undefined,
-          },
-          {
-            stepStatus,
-            subtype: requestSubtype,
-            npcId: npcId >>> 0,
-            scriptId: requestScriptId,
-            mapId,
-            contextId: requestContextId,
-          }
-        )
-      ) {
-        continue;
-      }
-
-      if (trigger?.combat) {
-        const monsterId = Number.isInteger(trigger.combat?.monsterId) ? (trigger.combat.monsterId >>> 0) : 0;
-        if (monsterId <= 0) {
-          continue;
-        }
-        return {
-          events: [],
-          stateChanged,
-          combatTrigger: {
-            taskId,
-            monsterId,
-            count: Math.max(1, Number.isInteger(trigger.combat?.count) ? trigger.combat.count : 1),
-          },
-        };
-      }
-
-      if (typeof trigger?.setProgressFlag === 'string' && trigger.setProgressFlag.length > 0) {
-        const hadFlag = record.progress?.[trigger.setProgressFlag] === true;
-        record.progress = {
-          ...(record.progress && typeof record.progress === 'object' ? record.progress : {}),
-          [trigger.setProgressFlag]: true,
-        };
-        stateChanged = stateChanged || !hadFlag;
-      }
-
-      const events: any[] = [];
-      for (const item of Array.isArray(trigger?.consumeItems) ? trigger.consumeItems : []) {
-        const templateId = Number.isInteger(item?.templateId) ? (item.templateId >>> 0) : 0;
-        const quantity = Math.max(1, Number.isInteger(item?.quantity) ? item.quantity : 1);
-        if (templateId <= 0) {
-          continue;
-        }
-        if (getBagQuantityByTemplateId(session, templateId) < quantity) {
-          events.push({
-            type: 'item-missing',
-            taskId,
-            definition,
-            templateId,
-            quantity,
-            itemName: typeof item?.name === 'string' ? item.name : '',
-            reason: 'auxiliary-consume-missing',
-          });
-          return { events, stateChanged, combatTrigger: null };
-        }
-        events.push({
-          type: 'item-consumed',
-          taskId,
-          definition,
-          templateId,
-          quantity,
-          itemName: typeof item?.name === 'string' ? item.name : '',
-          reason: 'auxiliary-consume-item',
-        });
-      }
-
-      for (const item of Array.isArray(trigger?.grantItems) ? trigger.grantItems : []) {
-        const templateId = Number.isInteger(item?.templateId) ? (item.templateId >>> 0) : 0;
-        const quantity = Math.max(1, Number.isInteger(item?.quantity) ? item.quantity : 1);
-        if (templateId <= 0) {
-          continue;
-        }
-        if (
-          Number.isInteger(trigger?.onlyIfMissingTemplateId) &&
-          (trigger.onlyIfMissingTemplateId >>> 0) === templateId &&
-          getBagQuantityByTemplateId(session, templateId) > 0
-        ) {
-          continue;
-        }
-        events.push({
-          type: 'item-granted',
-          taskId,
-          definition,
-          templateId,
-          quantity,
-          itemName: typeof item?.name === 'string' ? item.name : '',
-          reason: 'auxiliary-grant-item',
-        });
-      }
-
-      return { events, stateChanged, combatTrigger: null };
-    }
-  }
-
-  return null;
-}
-
-function countMatchingQuestItems(
-  session: GameSession,
-  item: { templateId: number; quantity: number; capturedMonsterId?: number }
-): number {
-  const bagItems = Array.isArray(session.bagItems) ? session.bagItems : [];
-  const rawCapturedMonsterId = item?.capturedMonsterId;
-  const requiredCapturedMonsterId = typeof rawCapturedMonsterId === 'number' && Number.isInteger(rawCapturedMonsterId)
-    ? (rawCapturedMonsterId >>> 0)
-    : 0;
-  if (requiredCapturedMonsterId <= 0) {
-    return getBagQuantityByTemplateId(session, item.templateId >>> 0);
-  }
-  return bagItems.reduce((total: number, bagItem: Record<string, any>) => {
-    const bagTemplateId = bagItem?.templateId >>> 0;
-    if (bagItem?.equipped === true) {
-      return total;
-    }
-    if (isMobFlaskTemplateId(item.templateId >>> 0)) {
-      if (!isMobFlaskTemplateId(bagTemplateId)) {
-        return total;
-      }
-    } else if (bagTemplateId !== (item.templateId >>> 0)) {
-      return total;
-    }
-    const capturedMonsterId = Number.isInteger(bagItem?.attributePairs?.[0]?.value)
-      ? (bagItem.attributePairs[0].value >>> 0)
-      : (Number.isInteger(bagItem?.extraValue) ? (bagItem.extraValue >>> 0) : 0);
-    if (capturedMonsterId !== requiredCapturedMonsterId) {
-      return total;
-    }
-    return total + Math.max(1, Number.isInteger(bagItem?.quantity) ? bagItem.quantity : 1);
-  }, 0);
-}
-
-function isMobFlaskTemplateId(templateId: number): boolean {
-  return templateId >= 29000 && templateId <= 29011;
 }
 
 function handleInnRestRequest(session: GameSession, npcId: number, request: ServerRunRequestData): boolean {

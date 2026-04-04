@@ -2,6 +2,8 @@
 
 This file tracks quest-system issues that were discovered while bringing live quest flows up to parity with the client. Each entry records the observed failure, root cause, and the fix that was applied.
 
+Current state: the live runtime is `src/quest2/`. Historical entries below still mention the deleted `src/quest-engine/` and `src/objectives/` paths because they describe the old system that was replaced.
+
 ## Runtime / Protocol Fixes
 
 ### Quest accept from NPC did nothing

@@ -110,8 +110,6 @@ export function buildCharacterReplaceSql(
   const inventory = character?.inventory && typeof character.inventory === 'object' ? character.inventory : {};
   const bagItems = Array.isArray(inventory?.bag) ? inventory.bag : [];
   const warehouseItems = Array.isArray(inventory?.warehouse) ? inventory.warehouse : [];
-  const activeQuests = Array.isArray(character?.activeQuests) ? character.activeQuests : [];
-  const completedQuests = Array.isArray(character?.completedQuests) ? character.completedQuests : [];
   const learnedSkills = Array.isArray(character?.skillState?.learnedSkills) ? character.skillState.learnedSkills : [];
   const hotbarSkillIds = Array.isArray(character?.skillState?.hotbarSkillIds) ? character.skillState.hotbarSkillIds : [];
   const pets = Array.isArray(character?.pets) ? character.pets : [];
@@ -343,8 +341,6 @@ export function buildCharacterReplaceSql(
   );
 
   statements.push(`DELETE FROM character_inventory_items WHERE character_id = ${sqlText(characterId)};`);
-  statements.push(`DELETE FROM character_active_quests WHERE character_id = ${sqlText(characterId)};`);
-  statements.push(`DELETE FROM character_completed_quests WHERE character_id = ${sqlText(characterId)};`);
   statements.push(`DELETE FROM character_skill_hotbar WHERE character_id = ${sqlText(characterId)};`);
   statements.push(`DELETE FROM character_skills WHERE character_id = ${sqlText(characterId)};`);
   statements.push(`DELETE FROM character_pets WHERE character_id = ${sqlText(characterId)};`);
@@ -354,35 +350,6 @@ export function buildCharacterReplaceSql(
   }
   for (const item of warehouseItems) {
     statements.push(buildInventoryItemInsertSql(characterId, 'warehouse', item, updatedAt));
-  }
-
-  for (const quest of activeQuests) {
-    statements.push(
-      `INSERT INTO character_active_quests (
-        character_id,
-        quest_id,
-        step_index,
-        status,
-        progress,
-        accepted_at,
-        updated_at
-      ) VALUES (
-        ${sqlText(characterId)},
-        ${sqlInteger(quest?.id, 0)},
-        ${sqlInteger(quest?.stepIndex, 0)},
-        ${sqlInteger(quest?.status, 0)},
-        ${sqlJson(quest?.progress && typeof quest.progress === 'object' ? quest.progress : {})},
-        ${sqlBigInt(quest?.acceptedAt, 0)},
-        ${sqlTimestamp(updatedAt)}
-      );`
-    );
-  }
-
-  for (const questId of completedQuests) {
-    statements.push(
-      `INSERT INTO character_completed_quests (character_id, quest_id, updated_at)
-       VALUES (${sqlText(characterId)}, ${sqlInteger(questId, 0)}, ${sqlTimestamp(updatedAt)});`
-    );
   }
 
   for (const skill of learnedSkills) {

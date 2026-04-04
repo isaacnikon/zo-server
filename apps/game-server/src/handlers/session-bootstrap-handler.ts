@@ -8,8 +8,8 @@ import { buildMapGatheringNodes } from '../gameplay/gathering-runtime.js';
 import { syncFrogTeleporterClientState } from '../gameplay/frog-teleporter-service.js';
 import { scheduleTeamStateSyncToClient, syncTeamStateToClient } from '../gameplay/team-runtime.js';
 import { getMapBootstrapSpawns } from '../map-spawns.js';
-import { getCurrentObjective, getCurrentStep, getCurrentStepUi, getQuestDefinition } from '../quest-engine/index.js';
 import { buildEnterGameProgressPacket, buildSceneSpawnBatchPacket } from '../protocol/gameplay-packets.js';
+import { questService } from '../quest2/index.js';
 import { startAutoMapRotation } from '../scenes/map-rotation.js';
 import { numberOrDefault } from '../character/normalize.js';
 import { ensureWorldPresence, syncWorldPresence } from '../world-state.js';
@@ -143,25 +143,26 @@ function buildEscortQuestRoleSpawns(
   mapId: number,
   baseCount: number
 ): SpawnRecord[] {
-  if (!Array.isArray(session.activeQuests) || session.activeQuests.length === 0) {
+  const activeInstances = Array.isArray(session.questStateV2?.active) ? session.questStateV2.active : [];
+  if (activeInstances.length === 0) {
     return [];
   }
 
   const escortRoleIds = new Set<number>();
-  for (const record of session.activeQuests) {
-    const definition = getQuestDefinition(numberOrDefault(record?.id, 0));
-    const step = getCurrentStep(definition, record as any);
-    const objective = getCurrentObjective(definition, record as any);
-    const ui = getCurrentStepUi(definition, record as any);
+  for (const instance of activeInstances) {
+    const definition = questService.getDefinition(numberOrDefault(instance?.questId, 0));
+    const step = definition?.steps.find((entry) => entry.id === instance?.stepId) || null;
+    const ui = step?.client || null;
+    const stepMapId = step?.requirements.find((requirement) => requirement.kind === 'map_is')?.mapId || 0;
     if (
       !step ||
-      objective?.kind !== 'escort' ||
+      step.kind !== 'escort' ||
       numberOrDefault(ui?.taskType, 0) !== 8 ||
-      numberOrDefault(step.mapId, 0) !== mapId
+      numberOrDefault(stepMapId, 0) !== mapId
     ) {
       continue;
     }
-    const roleId = numberOrDefault(ui?.taskRoleNpcId, numberOrDefault(ui?.escortNpcId, 0));
+    const roleId = numberOrDefault(ui?.taskRoleNpcId, 0);
     if (roleId > 0) {
       escortRoleIds.add(roleId);
     }

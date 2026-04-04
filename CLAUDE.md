@@ -41,7 +41,7 @@ apps/game-server/
     data.ts               Item definitions, equipment checks, JSON loading
     bag.ts                Bag mutation, queries, normalization
     index.ts              Barrel re-export
-  quest-engine/          Quest subsystem
+  quest2/                Quest subsystem
     data.ts               Quest definitions, normalization, step/reward queries
     state.ts              Quest state machine: accept, advance, complete, abandon
     index.ts              Barrel re-export
@@ -88,7 +88,7 @@ Four dependency layers — imports point downward only:
 Layer 4: SESSION + WIRING   (session.ts, server.ts)
 Layer 3: HANDLERS            (handlers/*, scenes/*, objectives/*)
 Layer 2: GAMEPLAY SERVICES   (gameplay/*, effects/*)
-Layer 1: DOMAIN CORE         (types, config, protocol, combat/formulas, inventory, quest-engine, roleinfo)
+Layer 1: DOMAIN CORE         (types, config, protocol, combat/formulas, inventory, quest2, roleinfo)
 ```
 
 ## Key Patterns
@@ -97,7 +97,7 @@ Layer 1: DOMAIN CORE         (types, config, protocol, combat/formulas, inventor
 - **Packet dispatch** (`packet-dispatcher.ts`): Uses `Map<number, handler>` with direct function imports — no string-based dispatch.
 - **Combat state** is typed as `CombatState` (defined in `types.ts`), not `Record<string, any>`.
 - **Quest events** use a discriminated union (`QuestEvent` in `types.ts`).
-- **Barrel re-exports**: `inventory/`, `quest-engine/`, `roleinfo/` each have an `index.ts` barrel. Import from the barrel (e.g., `from '../inventory/index.js'`).
+- **Barrel re-exports**: `inventory/`, `quest2/`, `roleinfo/` each have an `index.ts` barrel. Import from the barrel (e.g., `from '../inventory/index.js'`).
 
 ## Current Combat Notes
 

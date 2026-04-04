@@ -32,7 +32,7 @@ Responsibility:
 - keep orchestration near the feature, not in the packet router
 
 `domain/pure logic`
-- [`src/quest-engine/*`](/home/nikon/projects/zo-server/src/quest-engine)
+- [`src/quest2/*`](/home/nikon/projects/zo-server/apps/game-server/src/quest2)
 - [`src/combat/combat-formulas.ts`](/home/nikon/projects/zo-server/src/combat/combat-formulas.ts)
 - [`src/character/normalize.ts`](/home/nikon/projects/zo-server/src/character/normalize.ts)
 - [`src/inventory/*`](/home/nikon/projects/zo-server/src/inventory)

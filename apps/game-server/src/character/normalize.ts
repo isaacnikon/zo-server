@@ -1,5 +1,4 @@
 import { MAP_ID, SPAWN_X, SPAWN_Y } from '../config.js';
-import { normalizeQuestState } from '../quest-engine/index.js';
 import { normalizeInventoryState } from '../inventory/index.js';
 import { normalizeOnlineState } from '../gameplay/online-runtime.js';
 import { normalizePets } from '../pet-runtime.js';
@@ -7,8 +6,6 @@ import { CHARACTER_VITALS_BASELINE } from '../gameplay/session-flows.js';
 import { resolveCharacterDerivedMaxVitals } from '../gameplay/max-vitals.js';
 import { normalizeRenownTaskDailyState } from '../gameplay/renown-task-runtime.js';
 import {
-  filterLegacyCompletedQuestIds,
-  filterLegacyQuestRecords,
   normalizeQuestState as normalizeQuestStateV2,
 } from '../quest2/index.js';
 import {
@@ -208,14 +205,11 @@ export function normalizeCharacterRecord(character: UnknownRecord): UnknownRecor
   const mapId = numberOrDefault(character.mapId, MAP_ID);
   const x = numberOrDefault(character.x, SPAWN_X);
   const y = numberOrDefault(character.y, SPAWN_Y);
-  const questState = normalizeQuestState(character);
   const questStateV2 = normalizeQuestStateV2(
     character?.questStateV2 && typeof character.questStateV2 === 'object'
       ? character.questStateV2 as UnknownRecord
       : {}
   );
-  const activeQuests = filterLegacyQuestRecords(questState.activeQuests as UnknownRecord[]);
-  const completedQuests = filterLegacyCompletedQuestIds(questState.completedQuests);
   const inventoryState = normalizeInventoryState(character);
   const bonusAttributes = normalizeBonusAttributes(character.bonusAttributes);
   const skillState = normalizeSkillState(character.skillState);
@@ -265,8 +259,6 @@ export function normalizeCharacterRecord(character: UnknownRecord): UnknownRecor
     primaryAttributes: normalizePrimaryAttributes(character.primaryAttributes),
     bonusAttributes,
     skillState,
-    activeQuests,
-    completedQuests,
     questStateV2,
     renownTaskDailyState: normalizeRenownTaskDailyState(character.renownTaskDailyState),
     pets: normalizePets(character.pets),

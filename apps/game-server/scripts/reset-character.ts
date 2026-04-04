@@ -41,6 +41,11 @@ const profileDoc = {
   lastTownMapId: 101,
   lastTownX: 25,
   lastTownY: 184,
+  questStateV2: {
+    active: [],
+    completed: [1],
+    failed: [],
+  },
   updatedAt,
 };
 
@@ -58,18 +63,6 @@ const attributesDoc = {
   vitality: 15,
   dexterity: 15,
   strength: 15,
-  updatedAt,
-};
-
-const activeQuestsDoc = {
-  characterId,
-  quests: [],
-  updatedAt,
-};
-
-const completedQuestsDoc = {
-  characterId,
-  taskIds: [1],
   updatedAt,
 };
 
@@ -109,8 +102,6 @@ writeJson(path.join(saveRoot, 'accounts', `${accountId}.json`), accountDoc);
 writeJson(path.join(saveRoot, 'characters', characterId, 'profile.json'), profileDoc);
 writeJson(path.join(saveRoot, 'characters', characterId, 'vitals.json'), vitalsDoc);
 writeJson(path.join(saveRoot, 'characters', characterId, 'attributes.json'), attributesDoc);
-writeJson(path.join(saveRoot, 'characters', characterId, 'active-quests.json'), activeQuestsDoc);
-writeJson(path.join(saveRoot, 'characters', characterId, 'completed-quests.json'), completedQuestsDoc);
 writeJson(path.join(saveRoot, 'characters', characterId, 'inventory-items.json'), inventoryItemsDoc);
 writeJson(path.join(saveRoot, 'characters', characterId, 'inventory-state.json'), inventoryStateDoc);
 

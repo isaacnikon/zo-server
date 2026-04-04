@@ -2,6 +2,7 @@ import { appendFileSync, mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 
 import { GAME_POSITION_QUERY_CMD, GAME_SERVER_RUN_CMD, PING_CMD } from '../config.js';
+import { buildQuest2SyncState } from '../quest2/index.js';
 import { resolveRepoPath } from '../runtime-paths.js';
 import type { GameSession, PositionUpdate } from '../types.js';
 
@@ -37,9 +38,9 @@ type ServerRunTraceRequest = {
   scriptId?: number;
 };
 type TrackedQuestRecord = {
-  id?: unknown;
-  stepIndex?: unknown;
-  status?: unknown;
+  questId: number;
+  stepIndex: number;
+  status: number;
 } | null;
 
 function appendTraceLine(path: string, event: Record<string, unknown>): void {
@@ -60,14 +61,16 @@ function appendOutcastPacketTrace(event: Record<string, unknown>): void {
 }
 
 function findActiveQuestRecord(session: GameSession, taskId: number): TrackedQuestRecord {
-  if (!Array.isArray(session.activeQuests)) {
+  const syncState = buildQuest2SyncState(session.questStateV2);
+  const quest = syncState.find((record) => (record.taskId >>> 0) === (taskId >>> 0)) || null;
+  if (!quest) {
     return null;
   }
-  return (
-    session.activeQuests.find(
-      (record) => Number.isInteger(record?.id) && (record.id >>> 0) === (taskId >>> 0)
-    ) || null
-  );
+  return {
+    questId: quest.taskId >>> 0,
+    stepIndex: quest.stepIndex >>> 0,
+    status: quest.status >>> 0,
+  };
 }
 
 function chebyshevDistance(x: number, y: number, targetX: number, targetY: number): number {
