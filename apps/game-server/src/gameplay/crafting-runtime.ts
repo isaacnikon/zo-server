@@ -27,7 +27,7 @@ type CraftRecipeGroup = {
   ingredients: Array<{ templateId: number; quantity: number }>;
 };
 
-export function tryHandleCraftRecipePacket(session: GameSession, payload: Buffer): boolean {
+export async function tryHandleCraftRecipePacket(session: GameSession, payload: Buffer): Promise<boolean> {
   if (!Buffer.isBuffer(payload) || payload.length < 5) {
     return false;
   }
@@ -97,7 +97,7 @@ export function tryHandleCraftRecipePacket(session: GameSession, payload: Buffer
   }
 
   syncInventoryStateToClient(session);
-  session.persistCurrentCharacter();
+  await session.persistCurrentCharacter();
   session.sendGameDialogue('Crafting', `Created ${formatCraftList(recipe.outputs)}.`);
   session.log(
     `Craft request ok recipeId=${recipeId} subcmd=0x${subcmd.toString(16)} skillId=${recipe.requiredSkillId} skillLevel=${currentSkillLevel} consumed=${formatCraftList(recipe.ingredients)} produced=${formatCraftList(recipe.outputs)}`

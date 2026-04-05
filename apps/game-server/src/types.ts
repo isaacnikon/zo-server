@@ -274,7 +274,7 @@ export interface GameSession {
   log(message: string): void;
   sendPong(token: number): void;
   // Persistence methods
-  persistCurrentCharacter(overrides?: Record<string, unknown>): void;
+  persistCurrentCharacter(overrides?: Record<string, unknown>): Promise<void>;
   getPersistedCharacter(): Record<string, unknown> | null;
   loadPersistedCharacter(options?: { forceReload?: boolean }): Promise<Record<string, unknown> | null>;
   saveCharacter(character: Record<string, unknown>): Promise<void>;
@@ -297,8 +297,8 @@ export interface GameSession {
   // Quest methods
   ensureQuestStateReady(): void;
   syncQuestStateToClient(options?: { mode?: QuestSyncMode }): void;
-  refreshQuestStateForItemTemplates(templateIds: number[]): void;
-  handleQuestMonsterDefeat(monsterId: number, count?: number): { handled: boolean; grantedItems: Array<{ templateId: number; quantity: number }> };
+  refreshQuestStateForItemTemplates(templateIds: number[]): Promise<void>;
+  handleQuestMonsterDefeat(monsterId: number, count?: number): Promise<{ handled: boolean; grantedItems: Array<{ templateId: number; quantity: number }> }>;
 }
 
 // --- Packet handler type (async for I/O) ---

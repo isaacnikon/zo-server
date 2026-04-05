@@ -449,12 +449,12 @@ function tryHandleCombatRule(
   return { handled: false };
 }
 
-export function tryHandleConfiguredNpcInteraction(
+export async function tryHandleConfiguredNpcInteraction(
   session: GameSession,
   npcId: number,
   request: ServerRunRequestData
-): RuleResult {
-  const frogTeleportResult = tryHandleFrogTeleporterInteraction(session, npcId, request);
+): Promise<RuleResult> {
+  const frogTeleportResult = await tryHandleFrogTeleporterInteraction(session, npcId, request);
   if (frogTeleportResult.handled) {
     return frogTeleportResult;
   }

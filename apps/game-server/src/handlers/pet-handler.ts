@@ -11,7 +11,7 @@ function getPetOwnerRuntimeId(session: GameSession): number {
   return session.runtimeId >>> 0;
 }
 
-export function tryHandlePetActionPacket(session: GameSession, payload: Buffer): boolean {
+export async function tryHandlePetActionPacket(session: GameSession, payload: Buffer): Promise<boolean> {
   if (payload.length < 3) {
     return false;
   }
@@ -38,7 +38,7 @@ export function tryHandlePetActionPacket(session: GameSession, payload: Buffer):
       modeA: payload[4] & 0xff,
       modeB: payload[5] & 0xff,
     };
-    session.persistCurrentCharacter();
+    await session.persistCurrentCharacter();
     session.log(
       `Pet position update runtimeId=${selectedPet.runtimeId >>> 0} side=${selectedPet.stateFlags.activeFlag} row=${selectedPet.stateFlags.modeA} col=${selectedPet.stateFlags.modeB}`
     );
@@ -70,7 +70,7 @@ export function tryHandlePetActionPacket(session: GameSession, payload: Buffer):
       pet,
       ...session.pets.filter((entry: PetRecord) => (entry?.runtimeId >>> 0) !== runtimeId),
     ]);
-    session.persistCurrentCharacter();
+    await session.persistCurrentCharacter();
     sendPetStateSync(session, 'client-03f5-51');
     return true;
   }
@@ -86,7 +86,7 @@ export function tryHandlePetActionPacket(session: GameSession, payload: Buffer):
       session.selectedPetRuntimeId = runtimeId >>> 0;
     }
     session.petSummoned = false;
-    session.persistCurrentCharacter();
+    await session.persistCurrentCharacter();
     const ownerRuntimeId = getPetOwnerRuntimeId(session);
     session.writePacket(
       buildPetPanelModePacket({

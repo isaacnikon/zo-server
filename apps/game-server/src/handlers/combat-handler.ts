@@ -132,7 +132,7 @@ export function handleCombatPacket(session: GameSession, cmdWord: number, payloa
     payload[2] === FIGHT_CLIENT_ITEM_USE_SUBCMD
   ) {
     const { instanceId, targetEntityId } = parseCombatItemUse(payload);
-    resolveCombatItemUse(session, instanceId, targetEntityId, `cmd=0x${cmdWord.toString(16)} sub=0x${payload[2].toString(16)}`);
+    void resolveCombatItemUse(session, instanceId, targetEntityId, `cmd=0x${cmdWord.toString(16)} sub=0x${payload[2].toString(16)}`);
     return;
   }
 
@@ -264,7 +264,7 @@ function tryHandleCombatReady(session: GameSession): boolean {
     session.combatState.pendingActionResolution = null;
     session.combatState.awaitingClientReady = false;
     if (pending.reason === 'victory') {
-      resolveVictory(session);
+      void resolveVictory(session);
       return true;
     }
     resolveEnemyCounterattack(session, pending.reason);
@@ -432,7 +432,7 @@ export function sendCombatExitProbe(session: GameSession, action: CombatAction):
     return;
   }
   session.log(`Combat exit probe trigger=${action?.probeId || 'unknown'} current=${session.combatState.triggerId}`);
-  clearCombatState(session, false);
+  void clearCombatState(session, false);
 }
 
 function describeUnhandledCombatClientPacket(session: GameSession, payload: Buffer): string {

@@ -8,22 +8,22 @@ import {
   traceServerRunRequest,
 } from '../observability/packet-tracing.js';
 
-export function handleServerRunRequest(
+export async function handleServerRunRequest(
   session: GameSession,
   request: ServerRunRequestData
-): boolean {
+): Promise<boolean> {
   handleSceneInteractionRequest(session, request);
-  handleNpcInteractionRequest(session, request);
-  handleQuestAbandonServerRun(session, request);
+  await handleNpcInteractionRequest(session, request);
+  await handleQuestAbandonServerRun(session, request);
   logServerRunRequest(session, request);
   traceServerRunRequest(session, request);
   return true;
 }
 
-function handleQuestAbandonServerRun(
+async function handleQuestAbandonServerRun(
   session: GameSession,
   request: ServerRunRequestData
-): void {
+): Promise<void> {
   if (
     request.subcmd !== 0x05 ||
     !Array.isArray(request.rawArgs) ||
@@ -33,7 +33,7 @@ function handleQuestAbandonServerRun(
   }
 
   const taskId = request.rawArgs[0] >>> 0;
-  if (handleQuestAbandonRequest(session, taskId, 'server-run-abandon')) {
+  if (await handleQuestAbandonRequest(session, taskId, 'server-run-abandon')) {
     session.log(`Handled server-run quest abandon taskId=${taskId}`);
   }
 }

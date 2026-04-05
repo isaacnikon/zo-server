@@ -25,7 +25,7 @@ import {
 import { PING_CMD, GAME_GATHER_REQUEST_CMD, GAME_ITEM_CONTAINER_CMD, GAME_POSITION_QUERY_CMD, GAME_SERVER_RUN_CMD, ROLE_CMD, GAME_QUEST_CMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_MISC_CMD, GAME_FIGHT_RESULT_CMD, GAME_FIGHT_STATE_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, GAME_TEAM_ACTION_PRIMARY_CMD, GAME_TEAM_ACTION_SECONDARY_CMD, GAME_TEAM_FOLLOWUP_CMD, } from '../config.js';
 import type { GameSession } from '../types.js';
 
-const PACKET_HANDLERS = new Map<number, (session: GameSession, payload: Buffer) => Promise<void> | void | boolean>([
+const PACKET_HANDLERS = new Map<number, (session: GameSession, payload: Buffer) => Promise<void> | Promise<boolean> | void | boolean>([
   [ROLE_CMD, handleRolePacket],
   [GAME_QUEST_CMD, handleQuestPacket],
   [GAME_GATHER_REQUEST_CMD, handleGatheringRequest],
@@ -70,7 +70,7 @@ async function dispatchGamePacket(
 
   if (cmdWord === GAME_POSITION_QUERY_CMD && payload.length >= 8) {
     const position = parsePositionUpdate(payload);
-    handleClientPositionUpdate(session, position);
+    await handleClientPositionUpdate(session, position);
     tracePositionUpdate(session, position);
     return true;
   }
@@ -103,52 +103,52 @@ async function dispatchGamePacket(
     return true;
   }
 
-  if (handleNpcShopServiceRequest(session, payload)) {
+  if (await handleNpcShopServiceRequest(session, payload)) {
     return true;
   }
 
-  if (tryHandleNpcServicePacket(session, payload)) {
+  if (await tryHandleNpcServicePacket(session, payload)) {
     return true;
   }
 
-  if (cmdWord === GAME_FIGHT_CLIENT_CMD && tryHandleWarehousePasswordPacket(session, payload)) {
+  if (cmdWord === GAME_FIGHT_CLIENT_CMD && await tryHandleWarehousePasswordPacket(session, payload)) {
     return true;
   }
 
-  if (cmdWord === GAME_FIGHT_RESULT_CMD && tryHandleEquipmentStatePacket(session, payload)) {
+  if (cmdWord === GAME_FIGHT_RESULT_CMD && await tryHandleEquipmentStatePacket(session, payload)) {
     return true;
   }
 
-  if (cmdWord === GAME_FIGHT_RESULT_CMD && tryHandleWarehouseItemMovePacket(session, payload)) {
+  if (cmdWord === GAME_FIGHT_RESULT_CMD && await tryHandleWarehouseItemMovePacket(session, payload)) {
     return true;
   }
 
-  if (cmdWord === GAME_FIGHT_RESULT_CMD && tryHandleFightResultItemActionProbe(session, payload)) {
+  if (cmdWord === GAME_FIGHT_RESULT_CMD && await tryHandleFightResultItemActionProbe(session, payload)) {
     return true;
   }
 
-  if (cmdWord === GAME_ITEM_CONTAINER_CMD && tryHandleItemContainerPacket(session, payload)) {
+  if (cmdWord === GAME_ITEM_CONTAINER_CMD && await tryHandleItemContainerPacket(session, payload)) {
     return true;
   }
 
-  if (tryHandleItemUsePacket(session, cmdWord, payload)) {
+  if (await tryHandleItemUsePacket(session, cmdWord, payload)) {
     return true;
   }
 
-  if (cmdWord === 0x0400 && tryHandleItemStackSplitPacket(session, payload)) {
+  if (cmdWord === 0x0400 && await tryHandleItemStackSplitPacket(session, payload)) {
     return true;
   }
 
-  if (cmdWord === 0x03ee && tryHandleItemStackCombinePacket(session, payload)) {
+  if (cmdWord === 0x03ee && await tryHandleItemStackCombinePacket(session, payload)) {
     return true;
   }
 
-  if (cmdWord === 0x0400 && tryHandleCraftRecipePacket(session, payload)) {
+  if (cmdWord === 0x0400 && await tryHandleCraftRecipePacket(session, payload)) {
     return true;
   }
 
   if (cmdWord === 0x03f5) {
-    if (tryHandlePetActionPacket(session, payload)) {
+    if (await tryHandlePetActionPacket(session, payload)) {
       return true;
     }
     if (session.combatState?.active) {
@@ -157,11 +157,11 @@ async function dispatchGamePacket(
     }
   }
 
-  if (cmdWord === 0x03ef && tryHandleClientMaxVitalsSyncPacket(session, payload)) {
+  if (cmdWord === 0x03ef && await tryHandleClientMaxVitalsSyncPacket(session, payload)) {
     return true;
   }
 
-  if (cmdWord === 0x03ef && tryHandleAttributeAllocationPacket(session, payload)) {
+  if (cmdWord === 0x03ef && await tryHandleAttributeAllocationPacket(session, payload)) {
     return true;
   }
 

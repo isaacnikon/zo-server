@@ -354,9 +354,9 @@ function finalizeSharedCombatRound(owner: GameSession): void {
         continue;
       }
       follower.combatState.enemies = cloneCombatEnemyRoster(owner.combatState.enemies);
-      resolveVictory(follower);
+      void resolveVictory(follower);
     }
-    resolveVictory(owner);
+    void resolveVictory(owner);
     return;
   }
 
@@ -651,7 +651,7 @@ function resolveSharedTeamQueuedTurnStep(
     participant.combatState.awaitingPlayerAction = true;
     participant.combatState.awaitingClientReady = false;
     participant.combatState.phase = 'command';
-    resolveCombatItemUse(
+    void resolveCombatItemUse(
       participant,
       participantSelection.instanceId >>> 0,
       participantSelection.targetEntityId >>> 0,
@@ -880,7 +880,7 @@ export function handleSharedCombatParticipantDisposed(session: GameSession): voi
       if (!follower.combatState?.active) {
         continue;
       }
-      clearCombatState(follower, false);
+      void clearCombatState(follower, false);
     }
     owner.combatState = createIdleCombatState();
     endSharedTeamCombat(owner);
@@ -1135,7 +1135,7 @@ export function resolveCombatFlee(session: GameSession, sourceLabel: string): vo
     DEFAULT_FLAGS,
     `Sending combat flee result hp=${session.currentHealth} mp=${session.currentMana} rage=${session.currentRage}`
   );
-  clearCombatState(session, false);
+  void clearCombatState(session, false);
 }
 
 // --- Attack handling ---
@@ -1210,13 +1210,13 @@ export function handleAttackSelection(session: GameSession, payload: Buffer): vo
 
 // --- Item use ---
 
-export function resolveCombatItemUse(
+export async function resolveCombatItemUse(
   session: GameSession,
   instanceId: number,
   targetEntityId: number,
   sourceLabel: string,
   options: ResolveCombatItemUseOptions = {}
-): void {
+): Promise<void> {
   if (
     options.sharedTeamQueuedExecution !== true &&
     tryHandleSharedTeamItemSelection(session, instanceId >>> 0, targetEntityId >>> 0)
@@ -1232,11 +1232,11 @@ export function resolveCombatItemUse(
   const bagItem = getBagItemByReference(session, instanceId);
   const definition = getItemDefinition(bagItem?.templateId || 0);
   if (definition?.captureProfile && bagItem) {
-    resolveCombatCaptureItemUse(session, bagItem, definition, targetEntityId, sourceLabel, options);
+    await resolveCombatCaptureItemUse(session, bagItem, definition, targetEntityId, sourceLabel, options);
     return;
   }
 
-  const useResult = consumeUsableItemByInstanceId(session, instanceId, {
+  const useResult = await consumeUsableItemByInstanceId(session, instanceId, {
     targetEntityId,
     suppressVitalSync: true,
     suppressPersist: true,
@@ -1296,14 +1296,14 @@ function sendCombatItemPlayback(
   );
 }
 
-export function resolveCombatCaptureItemUse(
+export async function resolveCombatCaptureItemUse(
   session: GameSession,
   bagItem: Record<string, any>,
   definition: Record<string, any>,
   targetEntityId: number,
   sourceLabel: string,
   options: ResolveCombatItemUseOptions = {}
-): void {
+): Promise<void> {
   const profile = definition?.captureProfile || {};
   const targetEnemy = resolveCaptureTargetEnemy(session, targetEntityId);
   if (!targetEnemy) {
@@ -1389,17 +1389,17 @@ export function resolveCombatCaptureItemUse(
   }
 
   if (!findFirstLivingEnemy(session.combatState.enemies)) {
-    session.persistCurrentCharacter();
+    await session.persistCurrentCharacter();
     session.combatState.pendingActionResolution = null;
     session.combatState.awaitingClientReady = false;
     if (options.deferSharedTeamPostResolution === true) {
       return;
     }
-    resolveVictory(session);
+    await resolveVictory(session);
     return;
   }
 
-  session.persistCurrentCharacter();
+  await session.persistCurrentCharacter();
   session.combatState.pendingActionResolution = null;
   session.combatState.awaitingClientReady = false;
   if (options.deferSharedTeamPostResolution === true) {
@@ -1413,7 +1413,7 @@ export function resolveCombatCaptureItemUse(
 export function resolveEnemyCounterattack(session: GameSession, reason: EnemyTurnReason): void {
   const enemies = listLivingEnemies(session.combatState.enemies);
   if (enemies.length === 0) {
-    resolveVictory(session);
+    void resolveVictory(session);
     return;
   }
   if ((session.combatState?.playerStatus?.hasteRoundsRemaining || 0) > 0) {
@@ -1557,7 +1557,7 @@ function playPendingPlayerCounterattack(session: GameSession): void {
     session.log(`Combat enemy defeated by counterattack entity=${enemy.entityId} remaining=${describeLivingEnemies(session.combatState.enemies)}`);
     if (!findFirstLivingEnemy(session.combatState.enemies)) {
       session.combatState.pendingCounterattack = null;
-      resolveVictory(session);
+      void resolveVictory(session);
     }
   }
 }
@@ -1585,7 +1585,7 @@ export function finishEnemyTurn(session: GameSession, reason: EnemyTurnReason): 
     );
   }
   if (!findFirstLivingEnemy(session.combatState.enemies)) {
-    resolveVictory(session);
+    void resolveVictory(session);
     return;
   }
 
@@ -1599,7 +1599,7 @@ export function finishEnemyTurn(session: GameSession, reason: EnemyTurnReason): 
 
 // --- Victory / Defeat ---
 
-export function resolveVictory(session: GameSession): void {
+export async function resolveVictory(session: GameSession): Promise<void> {
   if (isSharedTeamCombatOwner(session)) {
     const followers = getSharedTeamCombatFollowers(session);
     for (const follower of followers) {
@@ -1608,7 +1608,7 @@ export function resolveVictory(session: GameSession): void {
       }
       follower.combatState.enemies = cloneCombatEnemyRoster(session.combatState?.enemies);
       follower.combatState.round = session.combatState?.round || follower.combatState.round;
-      resolveVictory(follower);
+      await resolveVictory(follower);
     }
   }
 
@@ -1617,7 +1617,7 @@ export function resolveVictory(session: GameSession): void {
     : [];
   const questGrantedItems: Record<number, { templateId: number; quantity: number }> = {};
   for (const enemy of defeatedEnemies) {
-    const questResult = session.handleQuestMonsterDefeat(enemy.typeId, 1);
+    const questResult = await session.handleQuestMonsterDefeat(enemy.typeId, 1);
     for (const item of Array.isArray(questResult?.grantedItems) ? questResult.grantedItems : []) {
       const templateId = Number.isInteger(item?.templateId) ? (item.templateId >>> 0) : 0;
       const quantity = Math.max(1, Number.isInteger(item?.quantity) ? item.quantity : 1);
@@ -1643,7 +1643,7 @@ export function resolveVictory(session: GameSession): void {
     },
     session.level
   );
-  applyEffects(
+  await applyEffects(
     session,
     [
       { kind: 'update-stat', stat: 'experience', delta: combatRewards.characterExperience },
@@ -1655,9 +1655,9 @@ export function resolveVictory(session: GameSession): void {
       suppressStatSync: true,
     }
   );
-  const dropResult = grantCombatDropsForEnemies(session, defeatedEnemies);
+  const dropResult = await grantCombatDropsForEnemies(session, defeatedEnemies);
   if (dropResult.inventoryDirty) {
-    session.refreshQuestStateForItemTemplates(
+    await session.refreshQuestStateForItemTemplates(
       dropResult.granted.map((drop: Record<string, any>) => drop.templateId).filter(Number.isInteger)
     );
   }
@@ -1702,7 +1702,7 @@ export function resolveVictory(session: GameSession): void {
   const shouldRepositionAfterVictory = isCranePassGuardianVictory || isSwanPassGuardianVictory || isLionCaptainVictory;
   const encounterAction = session.combatState?.encounterAction || null;
   session.log(`Combat victory trigger=${session.combatState.triggerId} enemies=${defeatedEnemies.map((enemy: Record<string, any>) => `${enemy.typeId}@${enemy.entityId}`).join('|') || 'none'} exp=${combatRewards.characterExperience} petExp=0 coins=${combatRewards.coins} score=${combatRewards.totalScore}/${combatRewards.maxScore} drops=${combinedDrops.map((drop: Record<string, any>) => `${drop.templateId}x${drop.quantity}`).join(',') || 'none'}`);
-  clearCombatState(session, dropResult.inventoryDirty, !shouldRepositionAfterVictory);
+  await clearCombatState(session, dropResult.inventoryDirty, !shouldRepositionAfterVictory);
   handleActiveFieldEventVictory(session, encounterAction);
   if (
     !shouldRepositionAfterVictory ||
@@ -1733,7 +1733,7 @@ export function resolveVictory(session: GameSession): void {
       `Sending Swan Pass Guardian victory reposition side=${guardianApproachSide} map=${SWAN_PASS_GUARDIAN_VICTORY_MAP_ID} pos=${targetX},${targetY}`
     );
     session.sendEnterGameOk({ syncMode: 'runtime' });
-    session.persistCurrentCharacter({
+    await session.persistCurrentCharacter({
       mapId: SWAN_PASS_GUARDIAN_VICTORY_MAP_ID,
       x: targetX,
       y: targetY,
@@ -1764,7 +1764,7 @@ export function resolveVictory(session: GameSession): void {
     `Sending Crane Pass Guardian victory reposition side=${guardianApproachSide} map=${targetMapId} pos=${targetX},${targetY}`
   );
   session.sendEnterGameOk({ syncMode: 'runtime' });
-  session.persistCurrentCharacter({
+  await session.persistCurrentCharacter({
     mapId: targetMapId,
     x: targetX,
     y: targetY,
@@ -1850,7 +1850,7 @@ export function resolveDefeat(session: GameSession): void {
     `Sending combat defeat respawnMap=${state.respawn.mapId} pos=${state.respawn.x},${state.respawn.y}`
   );
 
-  clearCombatState(session, false, false);
+  void clearCombatState(session, false, false);
   session.defeatRespawnPending = true;
   session.combatDefeatTimer = setTimeout(() => {
     session.combatDefeatTimer = null;
@@ -1865,7 +1865,7 @@ export function resolveDefeat(session: GameSession): void {
     session.currentX = state.respawn.x;
     session.currentY = state.respawn.y;
     session.sendEnterGameOk({ syncMode: 'runtime' });
-    session.persistCurrentCharacter({
+    void session.persistCurrentCharacter({
       currentHealth: state.vitals.health,
       currentMana: state.vitals.mana,
       currentRage: state.vitals.rage,
@@ -1876,20 +1876,21 @@ export function resolveDefeat(session: GameSession): void {
   }, 900);
 }
 
-export function grantCombatDropsForEnemies(session: GameSession, enemies: Record<string, any>[]): Record<string, any> {
-  return enemies.reduce((acc, enemy) => {
-    const next = grantCombatDrops(session, enemy);
+export async function grantCombatDropsForEnemies(session: GameSession, enemies: Record<string, any>[]): Promise<Record<string, any>> {
+  const acc: { granted: Record<string, any>[]; inventoryDirty: boolean } = { granted: [], inventoryDirty: false };
+  for (const enemy of enemies) {
+    const next = await grantCombatDrops(session, enemy);
     acc.granted.push(...(next.granted || []));
     acc.inventoryDirty = acc.inventoryDirty || !!next.inventoryDirty;
-    return acc;
-  }, { granted: [] as Record<string, any>[], inventoryDirty: false });
+  }
+  return acc;
 }
 
-export function clearCombatState(
+export async function clearCombatState(
   session: GameSession,
   persist = false,
   sendClientCleanup = true
-): void {
+): Promise<void> {
   disposeCombatTimers(session);
   const cleanupTargets: Array<{ session: GameSession; reason: string }> = [];
   if (sendClientCleanup) {
@@ -1915,7 +1916,7 @@ export function clearCombatState(
     sendCombatExitClientCleanup(cleanupTarget.session, cleanupTarget.reason);
   }
   if (persist) {
-    session.persistCurrentCharacter();
+    await session.persistCurrentCharacter();
   }
 }
 
@@ -2020,7 +2021,7 @@ export function finalizeSkillResolutionAndEnemyTurn(session: GameSession, source
       owner.combatState.enemyStatuses = cloneCombatEnemyStatuses(session.combatState?.enemyStatuses);
       syncSharedCombatEnemyRoster(owner);
       if (!findFirstLivingEnemy(owner.combatState.enemies)) {
-        resolveVictory(owner);
+        void resolveVictory(owner);
         return;
       }
       continueSharedCombatRound(owner, `skill-resolution-complete:S${session.id}`);
@@ -2029,7 +2030,7 @@ export function finalizeSkillResolutionAndEnemyTurn(session: GameSession, source
   }
 
   if (!findFirstLivingEnemy(session.combatState.enemies)) {
-    resolveVictory(session);
+    void resolveVictory(session);
     return;
   }
 

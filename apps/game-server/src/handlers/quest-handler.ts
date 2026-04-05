@@ -12,7 +12,7 @@ type QuestMonsterDefeatResult = {
   grantedItems: Array<{ templateId: number; quantity: number }>;
 };
 
-function handleQuestAbandonRequest(session: GameSession, taskId: number, source = 'client-abandon'): boolean {
+async function handleQuestAbandonRequest(session: GameSession, taskId: number, source = 'client-abandon'): Promise<boolean> {
   if (!Number.isInteger(taskId) || taskId <= 0) {
     return false;
   }
@@ -20,13 +20,13 @@ function handleQuestAbandonRequest(session: GameSession, taskId: number, source 
     session.log(`Ignoring non-quest2 abandon taskId=${taskId} source=${source}`);
     return false;
   }
-  return dispatchQuestEventToSession(session, {
+  return (await dispatchQuestEventToSession(session, {
     type: 'quest_abandon',
     questId: taskId >>> 0,
-  }).handled;
+  })).handled;
 }
 
-function handleQuestPacket(session: GameSession, payload: Buffer): void {
+async function handleQuestPacket(session: GameSession, payload: Buffer): Promise<void> {
   if (payload.length < 5) {
     session.log('Short 0x03ff payload');
     return;
@@ -42,15 +42,15 @@ function handleQuestPacket(session: GameSession, payload: Buffer): void {
   }
 
   if (subcmd === 0x05) {
-    handleQuestAbandonRequest(session, taskId, 'client-abandon');
+    await handleQuestAbandonRequest(session, taskId, 'client-abandon');
     return;
   }
 
   session.log(`Unhandled quest subcmd=0x${subcmd.toString(16)} taskId=${taskId}`);
 }
 
-function handleQuestMonsterDefeat(session: GameSession, monsterId: number, count = 1): QuestMonsterDefeatResult {
-  const result = dispatchQuestEventToSession(session, {
+async function handleQuestMonsterDefeat(session: GameSession, monsterId: number, count = 1): Promise<QuestMonsterDefeatResult> {
+  const result = await dispatchQuestEventToSession(session, {
     type: 'monster_defeat',
     monsterId: monsterId >>> 0,
     count: Math.max(1, count),
@@ -87,7 +87,7 @@ function ensureQuestStateReady(session: GameSession): void {
   session.nextBagSlot = inventoryState.inventory.nextBagSlot;
 }
 
-function refreshQuestStateForItemTemplates(session: GameSession, templateIds: number[]): void {
+async function refreshQuestStateForItemTemplates(session: GameSession, templateIds: number[]): Promise<void> {
   if (!Array.isArray(templateIds) || templateIds.length === 0) {
     return;
   }
@@ -101,7 +101,7 @@ function refreshQuestStateForItemTemplates(session: GameSession, templateIds: nu
 
   for (const templateId of interestingTemplates) {
     const quantity = Math.max(0, getBagQuantityByTemplateId(session, templateId));
-    const result = dispatchQuestEventToSession(session, {
+    const result = await dispatchQuestEventToSession(session, {
       type: 'item_changed',
       templateId,
       delta: 0,

@@ -335,11 +335,11 @@ export function isFrogTeleporterNpc(npcId: number): boolean {
   return FROG_TELEPORT_NPC_IDS.has(npcId >>> 0);
 }
 
-export function tryHandleFrogTeleporterInteraction(
+export async function tryHandleFrogTeleporterInteraction(
   session: GameSession,
   npcId: number,
   request: ServerRunRequestData
-): RuleResult {
+): Promise<RuleResult> {
   const requestScriptId = Number.isInteger(request.scriptId) ? (request.scriptId! >>> 0) : 0;
   const currentMapId = Number.isInteger(session.currentMapId) ? (session.currentMapId >>> 0) : 0;
   const unlocks = normalizeFrogTeleporterUnlocks(session.frogTeleporterUnlocks);
@@ -403,7 +403,7 @@ export function tryHandleFrogTeleporterInteraction(
     const updatedUnlocks = route.unlockOnUse ? normalizeFrogTeleporterUnlocks(route.unlockOnUse(unlocks)) : unlocks;
     session.frogTeleporterUnlocks = updatedUnlocks;
     syncFrogTeleporterClientState(session, `frog-route-${route.id}`);
-    session.persistCurrentCharacter({
+    await session.persistCurrentCharacter({
       coins: session.coins >>> 0,
       frogTeleporterUnlocks: updatedUnlocks,
     });

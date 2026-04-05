@@ -20,10 +20,10 @@ type QuestRuntimeDispatchResult = {
   grantedItems: Array<{ templateId: number; quantity: number }>;
 };
 
-function dispatchQuestEventToSession(
+async function dispatchQuestEventToSession(
   session: GameSession,
   event: QuestEvent
-): QuestRuntimeDispatchResult {
+): Promise<QuestRuntimeDispatchResult> {
   const abandonedQuestId = event.type === 'quest_abandon' ? (event.questId >>> 0) : 0;
   const abandonedInstance =
     abandonedQuestId > 0
@@ -53,7 +53,7 @@ function dispatchQuestEventToSession(
 
   session.questStateV2 = result.state;
 
-  const effectResult = applyQuest2Effects(session, result.effects);
+  const effectResult = await applyQuest2Effects(session, result.effects);
   const abandonCleanupResult =
     event.type === 'quest_abandon' && abandonedDefinition && abandonedInstance
       ? cleanupQuestAbortItems(session, abandonedDefinition, abandonedInstance)
@@ -72,7 +72,7 @@ function dispatchQuestEventToSession(
     abandonCleanupResult.inventoryDirty
   ) {
     session.syncQuestStateToClient({ mode: 'quest' });
-    session.persistCurrentCharacter();
+    await session.persistCurrentCharacter();
   }
 
   return {
@@ -316,10 +316,10 @@ function collectGrantedItems(effects: QuestEffectDef[]): Array<{ templateId: num
     .filter((item) => item.templateId > 0);
 }
 
-function applyQuest2Effects(
+async function applyQuest2Effects(
   session: GameSession,
   effects: QuestEffectDef[]
-): { inventoryDirty: boolean; statsDirty: boolean; petsDirty: boolean } {
+): Promise<{ inventoryDirty: boolean; statsDirty: boolean; petsDirty: boolean }> {
   const mappedEffects: UnknownRecord[] = [];
   let petsDirty = false;
   let inventoryDirty = false;
@@ -399,7 +399,7 @@ function applyQuest2Effects(
     }
   }
 
-  const effectResult = applyEffects(session, mappedEffects, {
+  const effectResult = await applyEffects(session, mappedEffects, {
     suppressPersist: true,
   });
   if (petsDirty) {

@@ -11,11 +11,11 @@ const PORTAL_STONE_TEMPLATE_IDS = new Set([26009, 26143]);
 const FIELD_COMBAT_WARD_AMULET_TEMPLATE_ID = 26039;
 const FIELD_COMBAT_WARD_DURATION_MS = 20 * 60 * 1000;
 
-export function consumeUsableItemByInstanceId(
+export async function consumeUsableItemByInstanceId(
   session: GameSession,
   instanceId: number,
   options: UnknownRecord = {}
-): UnknownRecord {
+): Promise<UnknownRecord> {
   const bagItem = getBagItemByReference(session, instanceId);
   if (!bagItem) {
     return {
@@ -26,10 +26,10 @@ export function consumeUsableItemByInstanceId(
 
   const definition = getItemDefinition(bagItem.templateId);
   if (PORTAL_STONE_TEMPLATE_IDS.has(bagItem.templateId >>> 0)) {
-    return consumePortalStone(session, bagItem, definition, options);
+    return await consumePortalStone(session, bagItem, definition, options);
   }
   if ((bagItem.templateId >>> 0) === FIELD_COMBAT_WARD_AMULET_TEMPLATE_ID) {
-    return consumeFieldCombatWardAmulet(session, bagItem, definition, options);
+    return await consumeFieldCombatWardAmulet(session, bagItem, definition, options);
   }
   const effect = definition?.consumableEffect;
   if (!effect || (!effect.health && !effect.mana && !effect.rage)) {
@@ -58,7 +58,7 @@ export function consumeUsableItemByInstanceId(
         session.sendGameDialogue('Skill', `Learned ${learnResult.learnedSkill?.name || 'a skill'}.${hotbarSuffix}`);
       }
       if (options.suppressPersist !== true && typeof session.persistCurrentCharacter === 'function') {
-        session.persistCurrentCharacter();
+        await session.persistCurrentCharacter();
       }
       return {
         ok: true,
@@ -135,13 +135,13 @@ export function consumeUsableItemByInstanceId(
     target.sync(options);
   }
   if (options.suppressPersist !== true && typeof session.persistCurrentCharacter === 'function') {
-    session.persistCurrentCharacter();
+    await session.persistCurrentCharacter();
   }
   if (
     typeof session.refreshQuestStateForItemTemplates === 'function' &&
     Number.isInteger(bagItem?.templateId)
   ) {
-    session.refreshQuestStateForItemTemplates([bagItem.templateId >>> 0]);
+    await session.refreshQuestStateForItemTemplates([bagItem.templateId >>> 0]);
   }
 
   return {
@@ -158,12 +158,12 @@ export function consumeUsableItemByInstanceId(
   };
 }
 
-function consumeFieldCombatWardAmulet(
+async function consumeFieldCombatWardAmulet(
   session: GameSession,
   bagItem: UnknownRecord,
   definition: UnknownRecord | null,
   options: UnknownRecord
-): UnknownRecord {
+): Promise<UnknownRecord> {
   const consumeResult = consumeBagItemByInstanceId(session, bagItem.instanceId >>> 0, 1);
   if (!consumeResult.ok) {
     return {
@@ -189,13 +189,13 @@ function consumeFieldCombatWardAmulet(
     );
   }
   if (options.suppressPersist !== true && typeof session.persistCurrentCharacter === 'function') {
-    session.persistCurrentCharacter();
+    await session.persistCurrentCharacter();
   }
   if (
     typeof session.refreshQuestStateForItemTemplates === 'function' &&
     Number.isInteger(bagItem?.templateId)
   ) {
-    session.refreshQuestStateForItemTemplates([bagItem.templateId >>> 0]);
+    await session.refreshQuestStateForItemTemplates([bagItem.templateId >>> 0]);
   }
 
   return {
@@ -213,12 +213,12 @@ function consumeFieldCombatWardAmulet(
   };
 }
 
-function consumePortalStone(
+async function consumePortalStone(
   session: GameSession,
   bagItem: UnknownRecord,
   definition: UnknownRecord | null,
   options: UnknownRecord
-): UnknownRecord {
+): Promise<UnknownRecord> {
   if (isSessionInTeam(session)) {
     if (typeof session.sendGameDialogue === 'function') {
       session.sendGameDialogue('Portal Stone', 'You cannot use Portal Stone while in a team.');
@@ -262,13 +262,13 @@ function consumePortalStone(
   }
   session.sendSceneEnter(destination.mapId >>> 0, destination.x >>> 0, destination.y >>> 0);
   if (options.suppressPersist !== true && typeof session.persistCurrentCharacter === 'function') {
-    session.persistCurrentCharacter();
+    await session.persistCurrentCharacter();
   }
   if (
     typeof session.refreshQuestStateForItemTemplates === 'function' &&
     Number.isInteger(bagItem?.templateId)
   ) {
-    session.refreshQuestStateForItemTemplates([bagItem.templateId >>> 0]);
+    await session.refreshQuestStateForItemTemplates([bagItem.templateId >>> 0]);
   }
 
   return {

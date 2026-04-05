@@ -70,11 +70,11 @@ const BEHIND_CURTAIN_REWARD_ITEMS: Record<number, { templateId: number; name: st
   ],
 };
 
-function applyQuestCompletionReward(
+async function applyQuestCompletionReward(
   session: GameSession,
   reward: UnknownRecord,
   options: UnknownRecord = {}
-): UnknownRecord {
+): Promise<UnknownRecord> {
   const suppressPackets = options.suppressPackets === true;
   const suppressDialogues = options.suppressDialogues === true;
   const normalizedReward = normalizeReward(
@@ -103,7 +103,7 @@ function applyQuestCompletionReward(
     effects.push({ kind: 'grant-item', templateId: item.templateId, quantity: item.quantity });
   }
 
-  const effectResult = applyEffects(session, effects, {
+  const effectResult = await applyEffects(session, effects, {
     suppressPackets,
     suppressDialogues,
     suppressStatSync: true,

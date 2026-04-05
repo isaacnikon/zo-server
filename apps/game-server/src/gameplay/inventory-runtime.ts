@@ -305,14 +305,14 @@ function sendConsumeResultPackets(session: GameSession, consumeResult: UnknownRe
   }
 }
 
-function applyInventoryQuestEvent(
+async function applyInventoryQuestEvent(
   session: GameSession,
   event: UnknownRecord,
   options: UnknownRecord = {}
-): UnknownRecord {
+): Promise<UnknownRecord> {
   const mappedEffect = mapInventoryQuestEventToEffect(event);
   if (mappedEffect) {
-    const result = applyEffects(session, [mappedEffect], {
+    const result = await applyEffects(session, [mappedEffect], {
       suppressPackets: options.suppressPackets === true,
       suppressDialogues: options.suppressDialogues === true,
       suppressPersist: true,

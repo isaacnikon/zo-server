@@ -22,7 +22,7 @@ import type { GameSession } from '../types.js';
 const GATHER_START_SUBCMD = 0x0b;
 const GATHER_COMPLETE_SUBCMD = 0x0d;
 
-export function handleGatheringRequest(session: GameSession, payload: Buffer): boolean {
+export async function handleGatheringRequest(session: GameSession, payload: Buffer): Promise<boolean> {
   if (payload.length < 3) {
     return false;
   }
@@ -33,7 +33,7 @@ export function handleGatheringRequest(session: GameSession, payload: Buffer): b
     return true;
   }
   if (subcmd === GATHER_COMPLETE_SUBCMD) {
-    handleGatherComplete(session, payload);
+    await handleGatherComplete(session, payload);
     return true;
   }
 
@@ -66,7 +66,7 @@ function handleGatherStart(session: GameSession, payload: Buffer): void {
   );
 }
 
-function handleGatherComplete(session: GameSession, payload: Buffer): void {
+async function handleGatherComplete(session: GameSession, payload: Buffer): Promise<void> {
   if (payload.length < 7) {
     session.activeGather = null;
     session.writePacket(buildGatherFailedPacket(), DEFAULT_FLAGS, 'Gather complete rejected: short payload');
@@ -138,7 +138,7 @@ function handleGatherComplete(session: GameSession, payload: Buffer): void {
   if (remainingDurability <= 0) {
     sendEquipmentContainerSync(session);
   }
-  session.persistCurrentCharacter();
+  await session.persistCurrentCharacter();
 
   session.writePacket(
     buildGatherRewardPacket(0),

@@ -20,7 +20,7 @@ type ItemUseAttempt = {
   includeTargetKind?: boolean;
 };
 
-export function tryHandleEquipmentStatePacket(session: GameSession, payload: Buffer): boolean {
+export async function tryHandleEquipmentStatePacket(session: GameSession, payload: Buffer): Promise<boolean> {
   const parsed = parseEquipmentState(payload);
   if (!parsed) {
     return false;
@@ -84,14 +84,14 @@ export function tryHandleEquipmentStatePacket(session: GameSession, payload: Buf
   session.log(
     `Equipment state update instanceId=${instanceId} templateId=${item.templateId} equipped=${item.equipped ? 1 : 0}`
   );
-  session.persistCurrentCharacter();
+  await session.persistCurrentCharacter();
   return true;
 }
 
-export function tryHandleAttributeAllocationPacket(
+export async function tryHandleAttributeAllocationPacket(
   session: GameSession,
   payload: Buffer
-): boolean {
+): Promise<boolean> {
   const allocation = parseAttributeAllocation(payload);
   if (!allocation) {
     return false;
@@ -142,7 +142,7 @@ export function tryHandleAttributeAllocationPacket(
     session.statusPoints - (applied.strength + applied.vitality + applied.dexterity + applied.intelligence)
   );
 
-  session.persistCurrentCharacter({
+  await session.persistCurrentCharacter({
     primaryAttributes: session.primaryAttributes,
     statusPoints: session.statusPoints,
   });
@@ -150,10 +150,10 @@ export function tryHandleAttributeAllocationPacket(
   return true;
 }
 
-export function tryHandleClientMaxVitalsSyncPacket(
+export async function tryHandleClientMaxVitalsSyncPacket(
   session: GameSession,
   payload: Buffer
-): boolean {
+): Promise<boolean> {
   const vitals = parseClientMaxVitalsSync(payload);
   if (!vitals) {
     return false;
@@ -176,7 +176,7 @@ export function tryHandleClientMaxVitalsSyncPacket(
   session.currentHealth = clampedHealth;
   session.currentMana = clampedMana;
 
-  session.persistCurrentCharacter({
+  await session.persistCurrentCharacter({
     currentHealth: session.currentHealth,
     currentMana: session.currentMana,
     maxHealth: session.derivedMaxHealth || session.maxHealth,
@@ -195,10 +195,10 @@ export function tryHandleClientMaxVitalsSyncPacket(
   return true;
 }
 
-export function tryHandleFightResultItemActionProbe(
+export async function tryHandleFightResultItemActionProbe(
   session: GameSession,
   payload: Buffer
-): boolean {
+): Promise<boolean> {
   const parsed = parseFightResultItemActionProbe(payload);
   if (!parsed) {
     return false;
@@ -225,9 +225,9 @@ export function tryHandleFightResultItemActionProbe(
   sendConsumeResultPackets(session, removeResult);
   sendInventoryFullSync(session);
   sendEquipmentContainerSync(session);
-  session.persistCurrentCharacter();
+  await session.persistCurrentCharacter();
   if (typeof session.refreshQuestStateForItemTemplates === 'function') {
-    session.refreshQuestStateForItemTemplates([bagItem.templateId >>> 0]);
+    await session.refreshQuestStateForItemTemplates([bagItem.templateId >>> 0]);
   }
 
   session.log(
@@ -236,7 +236,7 @@ export function tryHandleFightResultItemActionProbe(
   return true;
 }
 
-export function tryHandleItemContainerPacket(session: GameSession, payload: Buffer): boolean {
+export async function tryHandleItemContainerPacket(session: GameSession, payload: Buffer): Promise<boolean> {
   const parsed = parseItemContainerAction(payload);
   if (!parsed) {
     return false;
@@ -281,7 +281,7 @@ export function tryHandleItemContainerPacket(session: GameSession, payload: Buff
       : null;
 
     sendInventoryFullSync(session);
-    session.persistCurrentCharacter();
+    await session.persistCurrentCharacter();
     session.log(
       `Bag move ok instanceId=${parsed.instanceId} action=${moveResult.action} from=${moveResult.fromSlot >>> 0} to=${moveResult.toSlot >>> 0}${typeof moveResult.quantityMoved === 'number' ? ` qtyMoved=${moveResult.quantityMoved >>> 0}` : ''}${splitEligible ? ' splitEligible=1' : ''}`
     );
@@ -315,7 +315,7 @@ export function tryHandleItemContainerPacket(session: GameSession, payload: Buff
     }
 
     sendInventoryFullSync(session);
-    session.persistCurrentCharacter();
+    await session.persistCurrentCharacter();
     session.log(
       `Bag split ok instanceId=${parsed.instanceId} templateId=${bagItem.templateId >>> 0} quantity=${parsed.quantity >>> 0} newInstanceId=${splitResult.newItem?.instanceId || 0} newSlot=${splitResult.newItem?.slot || 0}${pendingSplit ? ` remainderSlot=${pendingSplit.fromSlot >>> 0}` : ''}${splitResult.noop ? ' noop=1' : ''}`
     );
@@ -329,7 +329,7 @@ export function tryHandleItemContainerPacket(session: GameSession, payload: Buff
   return true;
 }
 
-export function tryHandleItemStackSplitPacket(session: GameSession, payload: Buffer): boolean {
+export async function tryHandleItemStackSplitPacket(session: GameSession, payload: Buffer): Promise<boolean> {
   const parsed = parseItemStackSplitRequest(payload);
   if (!parsed) {
     return false;
@@ -351,14 +351,14 @@ export function tryHandleItemStackSplitPacket(session: GameSession, payload: Buf
   }
 
   sendInventoryFullSync(session);
-  session.persistCurrentCharacter();
+  await session.persistCurrentCharacter();
   session.log(
     `Bag split ok cmd=0x400 sub=0x${parsed.subcmd.toString(16)} mode=0x${parsed.mode.toString(16)} instanceId=${parsed.instanceId} templateId=${bagItem.templateId >>> 0} quantity=${parsed.quantity} newInstanceId=${splitResult.newItem?.instanceId || 0} newSlot=${splitResult.newItem?.slot || 0}${splitResult.noop ? ' noop=1' : ''}`
   );
   return true;
 }
 
-export function tryHandleItemStackCombinePacket(session: GameSession, payload: Buffer): boolean {
+export async function tryHandleItemStackCombinePacket(session: GameSession, payload: Buffer): Promise<boolean> {
   const parsed = parseItemStackCombineRequest(payload);
   if (!parsed) {
     return false;
@@ -389,17 +389,17 @@ export function tryHandleItemStackCombinePacket(session: GameSession, payload: B
   }
 
   sendInventoryFullSync(session);
-  session.persistCurrentCharacter();
+  await session.persistCurrentCharacter();
   session.log(
     `Bag combine ok cmd=0x3ee sub=0x${parsed.subcmd.toString(16)} sourceInstanceId=${parsed.sourceInstanceId} targetInstanceId=${parsed.targetInstanceId} templateId=${targetItem.templateId >>> 0} quantityMoved=${combineResult.quantityMoved || 0}${combineResult.sourceRemoved ? ' sourceRemoved=1' : ''}${combineResult.noop ? ' noop=1' : ''}`
   );
   return true;
 }
 
-export function tryHandleItemUsePacket(session: GameSession, cmdWord: number, payload: Buffer): boolean {
+export async function tryHandleItemUsePacket(session: GameSession, cmdWord: number, payload: Buffer): Promise<boolean> {
   const sharedItemUse = parseSharedItemUse(payload);
   if (cmdWord === 0x03ee && sharedItemUse) {
-    return completeItemUse(session, {
+    return await completeItemUse(session, {
       instanceId: sharedItemUse.instanceId,
       label: 'Item use',
     });
@@ -407,7 +407,7 @@ export function tryHandleItemUsePacket(session: GameSession, cmdWord: number, pa
 
   const targetedItemUse = parseTargetedItemUse(payload);
   if (cmdWord === 0x03ee && targetedItemUse) {
-    return completeItemUse(session, {
+    return await completeItemUse(session, {
       instanceId: targetedItemUse.instanceId,
       label: 'Targeted item use',
       targetEntityId: targetedItemUse.targetEntityId,
@@ -429,7 +429,7 @@ export function tryHandleItemUsePacket(session: GameSession, cmdWord: number, pa
   }
 
   const { instanceId, targetEntityId } = parseCombatItemUse(payload);
-  return completeItemUse(session, {
+  return await completeItemUse(session, {
     instanceId,
     label: 'Item use',
     targetEntityId,
@@ -463,12 +463,12 @@ function isPendingBagSplitActive(session: GameSession, instanceId: number): bool
   return true;
 }
 
-function completeItemUse(session: GameSession, attempt: ItemUseAttempt): boolean {
+async function completeItemUse(session: GameSession, attempt: ItemUseAttempt): Promise<boolean> {
   const consumeOptions =
     typeof attempt.consumeTargetEntityId === 'number'
       ? { targetEntityId: attempt.consumeTargetEntityId }
       : undefined;
-  const useResult = consumeUsableItemByInstanceId(session, attempt.instanceId, consumeOptions);
+  const useResult = await consumeUsableItemByInstanceId(session, attempt.instanceId, consumeOptions);
   if (!useResult.ok) {
     session.log(
       `${attempt.label} rejected instanceId=${attempt.instanceId}${formatItemUseTargetLog(attempt)} reason=${useResult.reason}`

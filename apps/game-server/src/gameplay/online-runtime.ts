@@ -97,14 +97,14 @@ function creditOnlinePresence(session: GameSession, nowMs = Date.now()): number 
   return delta;
 }
 
-function touchOnlinePresence(
+async function touchOnlinePresence(
   session: GameSession,
   options: {
     nowMs?: number;
     isHeartbeat?: boolean;
     forcePersist?: boolean;
   } = {}
-): number {
+): Promise<number> {
   if (session.isGame !== true) {
     return 0;
   }
@@ -117,20 +117,20 @@ function touchOnlinePresence(
     ? Math.max(0, Number(session.onlineLastPersistAt))
     : 0;
   if (options.forcePersist === true || lastPersistAt <= 0 || nowMs - lastPersistAt >= ONLINE_PERSIST_INTERVAL_MS) {
-    session.persistCurrentCharacter();
+    await session.persistCurrentCharacter();
     session.onlineLastPersistAt = nowMs;
   }
 
   return creditedMs;
 }
 
-function flushOnlinePresence(session: GameSession, nowMs = Date.now()): void {
+async function flushOnlinePresence(session: GameSession, nowMs = Date.now()): Promise<void> {
   if (session.isGame !== true) {
     return;
   }
   creditOnlinePresence(session, nowMs);
   ensureOnlineState(session, new Date(nowMs));
-  session.persistCurrentCharacter();
+  await session.persistCurrentCharacter();
   session.onlineLastPersistAt = nowMs;
 }
 

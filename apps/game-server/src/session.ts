@@ -316,14 +316,14 @@ class Session implements GameSession {
     const cmdWord = payload.length >= 2 ? payload.readUInt16LE(0) : cmdByte;
     this.logGamePacketHeader(flags, cmdByte, cmdWord);
 
-    touchOnlinePresence(this, {
+    await touchOnlinePresence(this, {
       isHeartbeat: (flags & 0x04) !== 0 && cmdWord === PING_CMD,
     });
     const automaticRenownGain = claimPostTwentyOnlineRenownReward(this);
     if (automaticRenownGain > 0) {
       this.renown += automaticRenownGain;
       sendSelfStateValueUpdate(this, 'renown', this.renown);
-      this.persistCurrentCharacter();
+      await this.persistCurrentCharacter();
       this.onlineLastPersistAt = Date.now();
       this.log(`Auto renown granted amount=${automaticRenownGain} total=${this.renown}`);
     }
@@ -495,13 +495,15 @@ class Session implements GameSession {
     return sessionHydrationBuildCharacterSnapshot(this, overrides);
   }
 
-  persistCurrentCharacter(overrides: CharacterOverrides = {}): void {
-    void sessionHydrationPersistCurrentCharacter(this, overrides).catch((error) => {
+  async persistCurrentCharacter(overrides: CharacterOverrides = {}): Promise<void> {
+    try {
+      await sessionHydrationPersistCurrentCharacter(this, overrides);
+    } catch (error) {
       this.log(`Persist character failed: ${(error as Error).message}`);
-    });
+    }
   }
 
-  handleQuestMonsterDefeat(monsterId: number, count = 1): { handled: boolean; grantedItems: Array<{ templateId: number; quantity: number }> } {
+  async handleQuestMonsterDefeat(monsterId: number, count = 1): Promise<{ handled: boolean; grantedItems: Array<{ templateId: number; quantity: number }> }> {
     return questHandlerHandleQuestMonsterDefeat(this, monsterId, count);
   }
 
@@ -509,8 +511,8 @@ class Session implements GameSession {
     quest2SyncQuestStateToClient(this, options);
   }
 
-  refreshQuestStateForItemTemplates(templateIds: number[]): void {
-    questHandlerRefreshQuestStateForItemTemplates(this, templateIds);
+  async refreshQuestStateForItemTemplates(templateIds: number[]): Promise<void> {
+    await questHandlerRefreshQuestStateForItemTemplates(this, templateIds);
   }
 
   sendSelfStateAptitudeSync(): void {
@@ -587,11 +589,13 @@ class Session implements GameSession {
 
   dispose(): void {
     const nowMs = Date.now();
-    flushOnlinePresence(this, nowMs);
+    void flushOnlinePresence(this, nowMs);
     const automaticRenownGain = claimPostTwentyOnlineRenownReward(this, new Date(nowMs));
     if (automaticRenownGain > 0) {
       this.renown += automaticRenownGain;
-      this.persistCurrentCharacter();
+      void this.persistCurrentCharacter().catch((error) => {
+        this.log(`Persist character failed on dispose: ${(error as Error).message}`);
+      });
       this.log(`Auto renown granted on disconnect amount=${automaticRenownGain} total=${this.renown}`);
     }
     if (this.pendingLoginQuestSyncTimer) {

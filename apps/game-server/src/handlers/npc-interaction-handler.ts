@@ -41,7 +41,7 @@ const HOUSEWIFE_LIFE_SKILL_NAMES: Record<number, string> = {
   9009: 'Fishing',
 };
 
-function handleNpcInteractionRequest(session: GameSession, request: ServerRunRequestData): boolean {
+async function handleNpcInteractionRequest(session: GameSession, request: ServerRunRequestData): Promise<boolean> {
   if (
     request.subcmd !== 0x02 &&
     request.subcmd !== 0x03 &&
@@ -91,14 +91,14 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
     }
   }
 
-  if (handleInnRestRequest(session, resolvedNpcId, request)) {
+  if (await handleInnRestRequest(session, resolvedNpcId, request)) {
     session.log(
       `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId}`
     );
     return true;
   }
 
-  if (handleHousewifeTeachingRequest(session, resolvedNpcId, request)) {
+  if (await handleHousewifeTeachingRequest(session, resolvedNpcId, request)) {
     session.log(
       `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId} housewife=1`
     );
@@ -113,7 +113,7 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
     return true;
   }
 
-  const configuredInteraction = tryHandleConfiguredNpcInteraction(session, resolvedNpcId, request);
+  const configuredInteraction = await tryHandleConfiguredNpcInteraction(session, resolvedNpcId, request);
   if (configuredInteraction.handled) {
     session.log(
       `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId} configuredRule=${configuredInteraction.ruleId || 'unknown'} kind=${configuredInteraction.kind || 'unknown'}${configuredInteraction.detail ? ` ${configuredInteraction.detail}` : ''}`
@@ -131,7 +131,7 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
   }
 
   if (request.subcmd === 0x02 || request.subcmd === 0x03 || request.subcmd === 0x04 || request.subcmd === 0x08) {
-    const quest2Dispatch = dispatchQuestEventToSession(session, {
+    const quest2Dispatch = await dispatchQuestEventToSession(session, {
       type: 'npc_interact',
       npcId: resolvedNpcId >>> 0,
       mapId: session.currentMapId >>> 0,
@@ -168,7 +168,7 @@ function handleNpcInteractionRequest(session: GameSession, request: ServerRunReq
   return true;
 }
 
-function handleInnRestRequest(session: GameSession, npcId: number, request: ServerRunRequestData): boolean {
+async function handleInnRestRequest(session: GameSession, npcId: number, request: ServerRunRequestData): Promise<boolean> {
   if (
     request.subcmd !== 0x02 ||
     !Number.isInteger(request.scriptId) ||
@@ -192,7 +192,7 @@ function handleInnRestRequest(session: GameSession, npcId: number, request: Serv
   session.currentRage = nextVitals.rage;
   sendSelfStateValueUpdate(session, 'coins', session.coins);
   sendSelfStateVitalsUpdate(session, nextVitals);
-  session.persistCurrentCharacter();
+  await session.persistCurrentCharacter();
   const speaker = resolveInnRestSpeaker(session, npcId);
   session.sendGameDialogue(
     speaker,
@@ -365,11 +365,11 @@ function normalizeShopCatalogRecord(source: ShopCatalogRecord | Record<string, a
   };
 }
 
-function handleHousewifeTeachingRequest(
+async function handleHousewifeTeachingRequest(
   session: GameSession,
   npcId: number,
   request: ServerRunRequestData
-): boolean {
+): Promise<boolean> {
   if ((npcId >>> 0) !== HOUSEWIFE_NPC_ID || request.subcmd !== 0x02) {
     return false;
   }
@@ -402,13 +402,13 @@ function handleHousewifeTeachingRequest(
   }
 
   if (renownCost > 0) {
-    applyEffects(session, [{ kind: 'update-stat', stat: 'renown', delta: -renownCost }], {
+    await applyEffects(session, [{ kind: 'update-stat', stat: 'renown', delta: -renownCost }], {
       suppressDialogues: true,
     });
   }
 
   sendSkillStateSync(session, `housewife-teach skillId=${skillId}`);
-  session.persistCurrentCharacter();
+  await session.persistCurrentCharacter();
 
   const skillName = HOUSEWIFE_LIFE_SKILL_NAMES[skillId] || `skill ${skillId}`;
   const costSuffix = renownCost > 0 ? ` Cost: ${renownCost} renown.` : ' Your first lesson is free.';

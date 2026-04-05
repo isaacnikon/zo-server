@@ -6,7 +6,7 @@ import { recomputeSessionMaxVitals } from '../gameplay/session-flows.js';
 import type { UnknownRecord } from '../utils.js';
 import type { GameSession } from '../types.js';
 
-function applyEffects(session: GameSession, effects: UnknownRecord[], options: UnknownRecord = {}): UnknownRecord {
+async function applyEffects(session: GameSession, effects: UnknownRecord[], options: UnknownRecord = {}): Promise<UnknownRecord> {
   const suppressPackets = options.suppressPackets === true;
   const suppressInventorySync = options.suppressInventorySync === true;
   const suppressStatSync = options.suppressStatSync === true;
@@ -36,7 +36,7 @@ function applyEffects(session: GameSession, effects: UnknownRecord[], options: U
     session.sendSelfStateAptitudeSync();
   }
   if ((statsDirty || inventoryDirty) && !suppressPersist) {
-    session.persistCurrentCharacter();
+    await session.persistCurrentCharacter();
   }
 
   return { statsDirty, inventoryDirty, messages };

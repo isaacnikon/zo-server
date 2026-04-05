@@ -7,7 +7,7 @@ import type { GameSession } from '../types.js';
 
 type UnknownRecord = Record<string, any>;
 
-export function grantCombatDrops(_session: GameSession, enemy: UnknownRecord | null | undefined): UnknownRecord {
+export async function grantCombatDrops(_session: GameSession, enemy: UnknownRecord | null | undefined): Promise<UnknownRecord> {
   if (!enemy) {
     return { granted: [], inventoryDirty: false };
   }
@@ -36,7 +36,7 @@ export function grantCombatDrops(_session: GameSession, enemy: UnknownRecord | n
     });
   }
 
-  const result = applyEffects(_session, effects, {
+  const result = await applyEffects(_session, effects, {
     suppressStatSync: true,
   });
 

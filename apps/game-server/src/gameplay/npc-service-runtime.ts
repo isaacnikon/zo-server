@@ -36,7 +36,7 @@ export function primeNpcServiceContext(session: GameSession, npcId: number, serv
   session.activeNpcService = null;
 }
 
-export function tryHandleNpcServicePacket(session: GameSession, payload: Buffer): boolean {
+export async function tryHandleNpcServicePacket(session: GameSession, payload: Buffer): Promise<boolean> {
   const request = parseMixedNpcServiceRequest(payload);
   if (!request) {
     return false;
@@ -44,7 +44,7 @@ export function tryHandleNpcServicePacket(session: GameSession, payload: Buffer)
 
   const context = session.activeNpcService;
   if (context?.kind === 'pet-curer' || looksLikePetCurerTameRequest(session, request)) {
-    return handlePetCurerTameRequest(session, request);
+    return await handlePetCurerTameRequest(session, request);
   }
 
   return false;
@@ -85,7 +85,7 @@ function looksLikePetCurerTameRequest(session: GameSession, request: MixedNpcSer
   return isMobFlaskTemplateId(flaskItem.templateId >>> 0);
 }
 
-function handlePetCurerTameRequest(session: GameSession, request: MixedNpcServiceRequest): boolean {
+async function handlePetCurerTameRequest(session: GameSession, request: MixedNpcServiceRequest): Promise<boolean> {
   const flaskItem = getBagItemByReference(session, request.monsterFlaskRef >>> 0);
   const supportItem = getBagItemByReference(session, request.supportItemRef >>> 0);
   const extraItem = getBagItemByReference(session, request.extraRef >>> 0);
@@ -191,7 +191,7 @@ function handlePetCurerTameRequest(session: GameSession, request: MixedNpcServic
   sendInventoryFullSync(session);
   sendSelfStateValueUpdate(session, 'gold', session.gold >>> 0);
   session.sendPetStateSync('npc-service-pet-curer-tame');
-  session.persistCurrentCharacter();
+  await session.persistCurrentCharacter();
 
   const capturedMonsterName = getRoleName(capturedMonsterId) || `monster ${capturedMonsterId}`;
   const supportItemName = getItemDefinition(supportItem.templateId)?.name || `item ${supportItem.templateId}`;

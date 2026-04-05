@@ -16,7 +16,7 @@ import { maybeTriggerFieldCombat } from '../scenes/field-combat.js';
 import type { GameSession, PositionUpdate } from '../types.js';
 import { syncWorldPresence } from '../world-state.js';
 
-export function handleClientPositionUpdate(session: GameSession, position: PositionUpdate): void {
+export async function handleClientPositionUpdate(session: GameSession, position: PositionUpdate): Promise<void> {
   const nextMapId = position.mapId >>> 0;
   const nextX = position.x >>> 0;
   const nextY = position.y >>> 0;
@@ -37,9 +37,9 @@ export function handleClientPositionUpdate(session: GameSession, position: Posit
   session.currentY = nextY;
 
   const frogTeleporterUnlocks = handleFrogTeleporterMapArrival(session, previousMapId, nextMapId);
-  persistSessionPosition(session, { mapId: nextMapId, x: nextX, y: nextY });
+  await persistSessionPosition(session, { mapId: nextMapId, x: nextX, y: nextY });
   if (frogTeleporterUnlocks) {
-    session.persistCurrentCharacter({
+    await session.persistCurrentCharacter({
       frogTeleporterUnlocks,
     });
   }

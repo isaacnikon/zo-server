@@ -11,7 +11,7 @@ const SHOP_SERVICE_REPAIR_ONE = 0x05;
 const SHOP_SERVICE_REPAIR_ALL = 0x06;
 const SHOP_SERVICE_BUY_COINS = 0x0b;
 
-export function handleNpcShopServiceRequest(session: GameSession, payload: Buffer): boolean {
+export async function handleNpcShopServiceRequest(session: GameSession, payload: Buffer): Promise<boolean> {
   if (!Buffer.isBuffer(payload) || payload.length < 7) {
     return false;
   }
@@ -45,7 +45,7 @@ export function handleNpcShopServiceRequest(session: GameSession, payload: Buffe
     session.log(
       `Parsed npc shop service cmd=0x${cmdWord.toString(16)} npcKey=${serviceNpcKey} mapId=${serviceMapId} subtype=0x6 repair=all`
     );
-    return completeNpcShopRepairAll(session, activeShop);
+    return await completeNpcShopRepairAll(session, activeShop);
   }
 
   if (payload.length < 9) {
@@ -60,7 +60,7 @@ export function handleNpcShopServiceRequest(session: GameSession, payload: Buffe
     session.log(
       `Parsed npc shop service cmd=0x${cmdWord.toString(16)} npcKey=${serviceNpcKey} mapId=${serviceMapId} subtype=0x2 instanceId=${instanceId}`
     );
-    return completeNpcShopSell(session, activeShop, instanceId);
+    return await completeNpcShopSell(session, activeShop, instanceId);
   }
 
   if ((serviceSubtype >>> 0) === SHOP_SERVICE_REPAIR_ONE) {
@@ -68,7 +68,7 @@ export function handleNpcShopServiceRequest(session: GameSession, payload: Buffe
     session.log(
       `Parsed npc shop service cmd=0x${cmdWord.toString(16)} npcKey=${serviceNpcKey} mapId=${serviceMapId} subtype=0x5 instanceId=${instanceId}`
     );
-    return completeNpcShopRepairOne(session, activeShop, instanceId);
+    return await completeNpcShopRepairOne(session, activeShop, instanceId);
   }
 
   const templateId = payload.readUInt16LE(7);
@@ -92,10 +92,10 @@ export function handleNpcShopServiceRequest(session: GameSession, payload: Buffe
     return true;
   }
 
-  return completeNpcShopPurchase(session, activeShop, catalogItem, currency);
+  return await completeNpcShopPurchase(session, activeShop, catalogItem, currency);
 }
 
-function completeNpcShopRepairAll(session: GameSession, activeShop: UnknownRecord): boolean {
+async function completeNpcShopRepairAll(session: GameSession, activeShop: UnknownRecord): Promise<boolean> {
   const repairTargets = (Array.isArray(session.bagItems) ? session.bagItems : [])
     .map((item) => buildRepairTarget(item))
     .filter((entry) => entry.maxDurability > 0 && entry.missingDurability > 0);
@@ -124,7 +124,7 @@ function completeNpcShopRepairAll(session: GameSession, activeShop: UnknownRecor
   session.coins = currentCoins - repairCost;
   syncInventoryStateToClient(session);
   sendSelfStateValueUpdate(session, 'coins', session.coins);
-  session.persistCurrentCharacter();
+  await session.persistCurrentCharacter();
   session.sendGameDialogue(
     activeShop.speaker || 'Shop',
     `Repaired ${repairTargets.length} item${repairTargets.length === 1 ? '' : 's'} for ${repairCost} coins.`
@@ -135,7 +135,7 @@ function completeNpcShopRepairAll(session: GameSession, activeShop: UnknownRecor
   return true;
 }
 
-function completeNpcShopRepairOne(session: GameSession, activeShop: UnknownRecord, instanceId: number): boolean {
+async function completeNpcShopRepairOne(session: GameSession, activeShop: UnknownRecord, instanceId: number): Promise<boolean> {
   const repairTarget = (Array.isArray(session.bagItems) ? session.bagItems : [])
     .map((item) => buildRepairTarget(item))
     .find((entry) => (entry.item?.instanceId >>> 0) === (instanceId >>> 0)) || null;
@@ -176,7 +176,7 @@ function completeNpcShopRepairOne(session: GameSession, activeShop: UnknownRecor
   session.coins = currentCoins - repairCost;
   syncInventoryStateToClient(session);
   sendSelfStateValueUpdate(session, 'coins', session.coins);
-  session.persistCurrentCharacter();
+  await session.persistCurrentCharacter();
   session.sendGameDialogue(
     activeShop.speaker || 'Shop',
     `Repaired ${repairTarget.definition?.name || `item ${repairTarget.item?.templateId || 0}`} for ${repairCost} coins.`
@@ -187,12 +187,12 @@ function completeNpcShopRepairOne(session: GameSession, activeShop: UnknownRecor
   return true;
 }
 
-function completeNpcShopPurchase(
+async function completeNpcShopPurchase(
   session: GameSession,
   activeShop: UnknownRecord,
   catalogItem: UnknownRecord,
   requestedCurrency: 'coins' | 'gold'
-): boolean {
+): Promise<boolean> {
   const definition = getItemDefinition(catalogItem.templateId);
   const itemName = definition?.name || `item ${catalogItem.templateId}`;
   const price = resolveDisplayPrice(catalogItem);
@@ -239,9 +239,9 @@ function completeNpcShopPurchase(
   sendGrantResultPackets(session, grantResult);
   syncInventoryStateToClient(session);
   sendSelfStateValueUpdate(session, requestedCurrency, session[requestedCurrency]);
-  session.persistCurrentCharacter();
+  await session.persistCurrentCharacter();
   if (typeof session.refreshQuestStateForItemTemplates === 'function') {
-    session.refreshQuestStateForItemTemplates([catalogItem.templateId]);
+    await session.refreshQuestStateForItemTemplates([catalogItem.templateId]);
   }
   session.sendGameDialogue(activeShop.speaker || 'Shop', `You bought ${itemName} for ${price} ${requestedCurrency}.`);
   session.log(
@@ -250,7 +250,7 @@ function completeNpcShopPurchase(
   return true;
 }
 
-function completeNpcShopSell(session: GameSession, activeShop: UnknownRecord, instanceId: number): boolean {
+async function completeNpcShopSell(session: GameSession, activeShop: UnknownRecord, instanceId: number): Promise<boolean> {
   const bagItem = getBagItemByInstanceId(session, instanceId);
   if (!bagItem) {
     session.log(`Shop sell rejected key=${activeShop.key || 'unknown'} instanceId=${instanceId} reason=unknown-item`);
@@ -279,7 +279,7 @@ function completeNpcShopSell(session: GameSession, activeShop: UnknownRecord, in
   sendConsumeResultPackets(session, removeResult);
   syncInventoryStateToClient(session);
   sendSelfStateValueUpdate(session, 'coins', session.coins);
-  session.persistCurrentCharacter();
+  await session.persistCurrentCharacter();
   session.sendGameDialogue(activeShop.speaker || 'Shop', `You sold ${itemName} for ${sellPrice} coins.`);
   session.log(
     `Shop sell ok key=${activeShop.key || 'unknown'} instanceId=${instanceId} templateId=${bagItem.templateId} qty=${quantity} unitPrice=${unitSellPrice} coins=${session.coins} price=${sellPrice}`

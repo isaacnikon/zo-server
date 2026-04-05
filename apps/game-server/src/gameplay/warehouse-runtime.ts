@@ -13,7 +13,7 @@ const DEFAULT_WAREHOUSE_PASSWORD = '000000';
 const WAREHOUSE_OPEN_OK_SUBCMD = 0x33;
 const WAREHOUSE_OPEN_FAIL_SUBCMD = 0x34;
 
-export function tryHandleWarehousePasswordPacket(session: GameSession, payload: Buffer): boolean {
+export async function tryHandleWarehousePasswordPacket(session: GameSession, payload: Buffer): Promise<boolean> {
   const request = parseWarehousePasswordRequest(payload);
   if (!request) {
     return false;
@@ -32,7 +32,7 @@ export function tryHandleWarehousePasswordPacket(session: GameSession, payload: 
 
   session.warehouseUnlocked = true;
   session.warehousePassword = storedPassword;
-  session.persistCurrentCharacter({ warehousePassword: storedPassword });
+  await session.persistCurrentCharacter({ warehousePassword: storedPassword });
   sendWarehouseScriptEvent(session, WAREHOUSE_OPEN_OK_SUBCMD, 'Sending warehouse open');
   sendWarehouseContainerSync(session);
   session.log(
@@ -41,7 +41,7 @@ export function tryHandleWarehousePasswordPacket(session: GameSession, payload: 
   return true;
 }
 
-export function tryHandleWarehouseItemMovePacket(session: GameSession, payload: Buffer): boolean {
+export async function tryHandleWarehouseItemMovePacket(session: GameSession, payload: Buffer): Promise<boolean> {
   const request = parseItemContainerMoveRequest(payload);
   if (!request) {
     return false;
@@ -117,7 +117,7 @@ export function tryHandleWarehouseItemMovePacket(session: GameSession, payload: 
 
   refreshContainerLayout(session, request.fromContainerType);
   refreshContainerLayout(session, request.toContainerType);
-  session.persistCurrentCharacter();
+  await session.persistCurrentCharacter();
   sendInventoryFullSync(session);
   sendWarehouseContainerSync(session);
   session.log(
