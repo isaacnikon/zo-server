@@ -45,6 +45,7 @@ export interface QuestReducerContext {
   now?: number;
   level?: number;
   mapId?: number;
+  selectedAptitude?: number;
   inventoryCounts?: Record<number, number>;
   capturedMonsterCounts?: Record<number, number>;
 }

@@ -254,7 +254,7 @@ function sendCreateRoleOk(session: GameSession, role: UnknownRecord): void {
 }
 
 async function sendGameServerRedirect(session: GameSession): Promise<void> {
-  const persisted = (await session.loadPersistedCharacter()) || session.getPersistedCharacter();
+  const persisted = (await session.loadPersistedCharacter({ forceReload: true })) || session.getPersistedCharacter();
   const roleData = persisted ? resolveRoleData(persisted) : session.roleData;
   const questStateV2 = normalizeQuestStateV2(
     persisted?.questStateV2 && typeof persisted.questStateV2 === 'object'
@@ -324,7 +324,7 @@ async function sendGameServerRedirect(session: GameSession): Promise<void> {
 }
 
 async function replayPersistedCharacter(session: GameSession): Promise<void> {
-  const character = (await session.loadPersistedCharacter()) || session.getPersistedCharacter();
+  const character = (await session.loadPersistedCharacter({ forceReload: true })) || session.getPersistedCharacter();
   if (!character) {
     session.log('No persisted role to replay');
     return;

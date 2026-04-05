@@ -123,7 +123,7 @@ function reduceQuestEvent(
           continue;
         }
 
-        const resolvedReward = resolveReward(definition.rewards, instance.selectedRewardChoiceId);
+        const resolvedReward = resolveReward(definition.rewards, instance.selectedRewardChoiceId, context);
         effects.push(...buildRewardEffects(resolvedReward));
         const activeIndex = nextState.active.findIndex((candidate) => candidate.questId === definition.id);
         if (activeIndex >= 0) {
@@ -236,7 +236,7 @@ function reduceQuestEvent(
       continue;
     }
 
-    const resolvedReward = resolveReward(definition.rewards, instance.selectedRewardChoiceId);
+    const resolvedReward = resolveReward(definition.rewards, instance.selectedRewardChoiceId, context);
     effects.push(...buildRewardEffects(resolvedReward));
     const activeIndex = nextState.active.findIndex((candidate) => candidate.questId === definition.id);
     if (activeIndex >= 0) {
@@ -480,15 +480,32 @@ function collectExternalEffects(effects: QuestEffectDef[]): QuestEffectDef[] {
   });
 }
 
-function resolveReward(reward: RewardDef, selectedChoiceId?: number): ResolvedRewardDef {
+function resolveReward(
+  reward: RewardDef,
+  selectedChoiceId?: number,
+  context: QuestReducerContext = {}
+): ResolvedRewardDef {
   const selectedChoice = reward.choiceGroups.find((choice) => choice.id === (selectedChoiceId || 0)) || reward.choiceGroups[0] || null;
+  const pets = selectedChoice
+    ? selectedChoice.pets.slice()
+    : reward.pets.slice();
+
+  if (pets.length < 1) {
+    const aptitude = Math.max(1, Math.min(12, Number(context.selectedAptitude) || 0));
+    const baseTemplateId = Number.isInteger(reward.petByAptitudeBaseTemplateId)
+      ? (reward.petByAptitudeBaseTemplateId! >>> 0)
+      : 0;
+    if (baseTemplateId > 0 && aptitude > 0) {
+      pets.push((baseTemplateId + aptitude) >>> 0);
+    }
+  }
 
   return {
     gold: selectedChoice ? selectedChoice.gold || reward.gold : reward.gold,
     experience: selectedChoice ? selectedChoice.experience || reward.experience : reward.experience,
     coins: selectedChoice ? selectedChoice.coins || reward.coins : reward.coins,
     renown: selectedChoice ? selectedChoice.renown || reward.renown : reward.renown,
-    pets: selectedChoice ? selectedChoice.pets.slice() : reward.pets.slice(),
+    pets,
     items: selectedChoice && selectedChoice.items.length > 0 ? cloneItems(selectedChoice.items) : cloneItems(reward.items),
     selectedChoiceId: selectedChoice ? selectedChoice.id : undefined,
   };

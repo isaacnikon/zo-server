@@ -129,13 +129,16 @@ export function hydratePendingGameCharacter(session: GameSession, sharedState: R
   }
 }
 
-export async function loadPersistedCharacter(session: GameSession): Promise<Record<string, unknown> | null> {
+export async function loadPersistedCharacter(
+  session: GameSession,
+  options: { forceReload?: boolean } = {}
+): Promise<Record<string, unknown> | null> {
   const storageKey = session.accountName;
   if (!storageKey || !session.sharedState.characterStore) {
     session.persistedCharacter = null;
     return null;
   }
-  if (session.persistedCharacter && typeof session.persistedCharacter === 'object') {
+  if (options.forceReload !== true && session.persistedCharacter && typeof session.persistedCharacter === 'object') {
     return session.persistedCharacter;
   }
   const character = await session.sharedState.characterStore.get(storageKey);

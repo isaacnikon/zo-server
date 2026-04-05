@@ -91,7 +91,7 @@ export interface OnlineActivityState {
   accumulatedTotalMs: number;
 }
 export interface AttackSelectionData { attackMode: number; targetA: number; targetB: number }
-export type QuestSyncMode = 'login' | 'runtime';
+export type QuestSyncMode = 'login' | 'runtime' | 'quest';
 export interface LearnedSkillRecord {
   skillId: number;
   name: string;
@@ -276,7 +276,7 @@ export interface GameSession {
   // Persistence methods
   persistCurrentCharacter(overrides?: Record<string, unknown>): void;
   getPersistedCharacter(): Record<string, unknown> | null;
-  loadPersistedCharacter(): Promise<Record<string, unknown> | null>;
+  loadPersistedCharacter(options?: { forceReload?: boolean }): Promise<Record<string, unknown> | null>;
   saveCharacter(character: Record<string, unknown>): Promise<void>;
   buildCharacterSnapshot(overrides?: Record<string, unknown>): Record<string, unknown>;
   // Scene/map methods

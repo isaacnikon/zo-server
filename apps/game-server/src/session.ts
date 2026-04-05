@@ -4,7 +4,7 @@ import type { QuestState as QuestStateV2 } from './quest2/index.js';
 import { dispatchGamePacket } from './handlers/packet-dispatcher.js';
 import { createIdleCombatState, disposeCombatTimers as combatHandlerDisposeTimers, handleSharedCombatParticipantDisposed as combatHandlerHandleSharedCombatParticipantDisposed, sendCombatEncounterProbe as combatHandlerSendCombatEncounterProbe, sendCombatExitProbe as combatHandlerSendCombatExitProbe, } from './handlers/combat-handler.js';
 import { handleLogin as loginHandlerHandleLogin, } from './handlers/login-handler.js';
-import { handleQuestMonsterDefeat as questHandlerHandleQuestMonsterDefeat, syncQuestStateToClient as questHandlerSyncQuestStateToClient, ensureQuestStateReady as questHandlerEnsureQuestStateReady, refreshQuestStateForItemTemplates as questHandlerRefreshQuestStateForItemTemplates, } from './handlers/quest-handler.js';
+import { handleQuestMonsterDefeat as questHandlerHandleQuestMonsterDefeat, ensureQuestStateReady as questHandlerEnsureQuestStateReady, refreshQuestStateForItemTemplates as questHandlerRefreshQuestStateForItemTemplates, } from './handlers/quest-handler.js';
 import { scheduleEquipmentReplay as playerStateHandlerScheduleEquipmentReplay, } from './handlers/player-state-handler.js';
 import { schedulePetReplay as petHandlerSchedulePetReplay, sendPetStateSync as petHandlerSendPetStateSync, disposePetTimers as petHandlerDisposeTimers, } from './handlers/pet-handler.js';
 import { sendEnterGameOk as sessionBootstrapHandlerSendEnterGameOk, sendMapNpcSpawns as sessionBootstrapHandlerSendMapNpcSpawns, } from './handlers/session-bootstrap-handler.js';
@@ -23,7 +23,7 @@ import { defaultOnlineState, flushOnlinePresence, touchOnlinePresence } from './
 import { claimPostTwentyOnlineRenownReward, defaultRenownTaskDailyState } from './gameplay/renown-task-runtime.js';
 import { sendSelfStateValueUpdate } from './gameplay/stat-sync.js';
 import { beginSharedTeamCombat, getSharedTeamCombatFollowers, getSharedTeamCombatOwnerSession, getTeamCombatParticipants, handleTeamSessionDisposed, isSharedTeamCombatOwner, syncTeamFollowersToLeader } from './gameplay/team-runtime.js';
-import { createEmptyQuestState as createEmptyQuestStateV2 } from './quest2/index.js';
+import { createEmptyQuestState as createEmptyQuestStateV2, syncQuestStateToClient as quest2SyncQuestStateToClient } from './quest2/index.js';
 
 type SharedState = Record<string, any>;
 type LoggerLike = {
@@ -477,8 +477,8 @@ class Session implements GameSession {
     return this.persistedCharacter;
   }
 
-  async loadPersistedCharacter(): Promise<Record<string, unknown> | null> {
-    this.persistedCharacter = await sessionHydrationLoadPersistedCharacter(this);
+  async loadPersistedCharacter(options: { forceReload?: boolean } = {}): Promise<Record<string, unknown> | null> {
+    this.persistedCharacter = await sessionHydrationLoadPersistedCharacter(this, options);
     return this.persistedCharacter;
   }
 
@@ -505,7 +505,7 @@ class Session implements GameSession {
   }
 
   syncQuestStateToClient(options: { mode?: QuestSyncMode } = {}): void {
-    questHandlerSyncQuestStateToClient(this, options);
+    quest2SyncQuestStateToClient(this, options);
   }
 
   refreshQuestStateForItemTemplates(templateIds: number[]): void {

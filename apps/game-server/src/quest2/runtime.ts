@@ -1,10 +1,11 @@
 import type { GameSession } from '../types.js';
 import type { UnknownRecord } from '../utils.js';
 import type { QuestEvent } from './events.js';
-import type { QuestDef, QuestEffectDef, StepDef } from './schema.js';
+import type { QuestDef, QuestEffectDef, RequirementDef, StepDef, StepReactionDef } from './schema.js';
+import type { QuestInstance } from './state.js';
 
 import { applyEffects } from '../effects/effect-executor.js';
-import { consumeBagItemByInstanceId } from '../inventory/index.js';
+import { consumeBagItemByInstanceId, consumeItemFromBag, getBagQuantityByTemplateId } from '../inventory/index.js';
 import { getMapEncounterLevelRange, getMapSummary } from '../map-data.js';
 import { createOwnedPet } from '../pet-runtime.js';
 import { buildEncounterPoolEntry } from '../roleinfo/index.js';
@@ -23,10 +24,20 @@ function dispatchQuestEventToSession(
   session: GameSession,
   event: QuestEvent
 ): QuestRuntimeDispatchResult {
+  const abandonedQuestId = event.type === 'quest_abandon' ? (event.questId >>> 0) : 0;
+  const abandonedInstance =
+    abandonedQuestId > 0
+      ? session.questStateV2.active.find((instance) => instance.questId === abandonedQuestId) || null
+      : null;
+  const abandonedDefinition =
+    abandonedInstance && abandonedQuestId > 0
+      ? questService.getDefinition(abandonedQuestId)
+      : null;
   const result = questService.dispatch(session.questStateV2, event, {
     now: Date.now(),
     level: session.level,
     mapId: session.currentMapId,
+    selectedAptitude: session.selectedAptitude,
     inventoryCounts: buildInventoryCounts(session),
     capturedMonsterCounts: buildCapturedMonsterCounts(session),
   });
@@ -43,10 +54,24 @@ function dispatchQuestEventToSession(
   session.questStateV2 = result.state;
 
   const effectResult = applyQuest2Effects(session, result.effects);
+  const abandonCleanupResult =
+    event.type === 'quest_abandon' && abandonedDefinition && abandonedInstance
+      ? cleanupQuestAbortItems(session, abandonedDefinition, abandonedInstance)
+      : { inventoryDirty: false, cleanedTemplateIds: [] as number[] };
   emitQuestTransitionDialogues(session, result.transitions);
 
-  if (result.changed || effectResult.inventoryDirty || effectResult.statsDirty || effectResult.petsDirty) {
-    session.syncQuestStateToClient({ mode: 'runtime' });
+  if (abandonCleanupResult.cleanedTemplateIds.length > 0) {
+    session.refreshQuestStateForItemTemplates(abandonCleanupResult.cleanedTemplateIds);
+  }
+
+  if (
+    result.changed ||
+    effectResult.inventoryDirty ||
+    effectResult.statsDirty ||
+    effectResult.petsDirty ||
+    abandonCleanupResult.inventoryDirty
+  ) {
+    session.syncQuestStateToClient({ mode: 'quest' });
     session.persistCurrentCharacter();
   }
 
@@ -92,6 +117,193 @@ function buildCapturedMonsterCounts(session: GameSession): Record<number, number
     counts[capturedMonsterId] = (counts[capturedMonsterId] || 0) + quantity;
   }
   return counts;
+}
+
+function cleanupQuestAbortItems(
+  session: GameSession,
+  definition: QuestDef,
+  instance: QuestInstance
+): { inventoryDirty: boolean; cleanedTemplateIds: number[] } {
+  const cleanupQuantities = collectQuestAbortCleanupQuantities(definition, instance);
+  const cleanedTemplateIds: number[] = [];
+  let inventoryDirty = false;
+
+  for (const [templateId, maxQuantity] of cleanupQuantities.entries()) {
+    const bagQuantity = Math.max(0, getBagQuantityByTemplateId(session, templateId));
+    const cleanupQuantity = Math.min(Math.max(1, maxQuantity), bagQuantity);
+    if (cleanupQuantity <= 0) {
+      continue;
+    }
+
+    const consumeResult = consumeItemFromBag(session, templateId, cleanupQuantity);
+    if (!consumeResult.ok) {
+      continue;
+    }
+
+    sendConsumeResultPackets(session, consumeResult);
+    inventoryDirty = true;
+    cleanedTemplateIds.push(templateId);
+    session.log(
+      `Quest abort cleanup questId=${definition.id} templateId=${templateId} quantity=${cleanupQuantity}`
+    );
+  }
+
+  return {
+    inventoryDirty,
+    cleanedTemplateIds,
+  };
+}
+
+function collectQuestAbortCleanupQuantities(
+  definition: QuestDef,
+  instance: QuestInstance
+): Map<number, number> {
+  const referencedTemplateIds = collectQuestReferencedItemTemplateIds(definition);
+  if (referencedTemplateIds.size < 1) {
+    return new Map<number, number>();
+  }
+
+  const currentStepIndex = definition.steps.findIndex((step) => step.id === instance.stepId);
+  if (currentStepIndex < 0) {
+    return new Map<number, number>();
+  }
+
+  const issuedTemplateQuantities = new Map<number, number>();
+  accumulateGrantedItemQuantities(issuedTemplateQuantities, definition.accept.effects);
+
+  for (let index = 0; index < currentStepIndex; index += 1) {
+    const step = definition.steps[index];
+    if (!step) {
+      continue;
+    }
+    accumulateGrantedItemQuantities(issuedTemplateQuantities, step.eventEffects || []);
+    accumulateGrantedItemQuantities(issuedTemplateQuantities, step.effects);
+    for (const reaction of step.reactions || []) {
+      accumulateGrantedItemQuantities(issuedTemplateQuantities, reaction.effects);
+    }
+  }
+
+  const currentStep = definition.steps[currentStepIndex];
+  if (currentStep) {
+    if (didCurrentStepTriggerGrantItems(instance, currentStep)) {
+      accumulateGrantedItemQuantities(issuedTemplateQuantities, currentStep.eventEffects || []);
+    }
+    for (const reaction of currentStep.reactions || []) {
+      if (didCurrentStepReactionGrantItems(instance, reaction)) {
+        accumulateGrantedItemQuantities(issuedTemplateQuantities, reaction.effects);
+      }
+    }
+  }
+
+  return new Map(
+    [...issuedTemplateQuantities.entries()].filter(
+      ([templateId, quantity]) => referencedTemplateIds.has(templateId) && quantity > 0
+    )
+  );
+}
+
+function collectQuestReferencedItemTemplateIds(definition: QuestDef): Set<number> {
+  const templateIds = new Set<number>();
+
+  for (const step of definition.steps) {
+    collectItemTemplateIdsFromRequirements(step.requirements).forEach((templateId) => {
+      templateIds.add(templateId);
+    });
+    collectItemTemplateIdsFromEffects(step.eventEffects || []).forEach((templateId) => {
+      templateIds.add(templateId);
+    });
+    collectItemTemplateIdsFromEffects(step.effects).forEach((templateId) => {
+      templateIds.add(templateId);
+    });
+    for (const reaction of step.reactions || []) {
+      collectItemTemplateIdsFromRequirements(reaction.requirements).forEach((templateId) => {
+        templateIds.add(templateId);
+      });
+      collectItemTemplateIdsFromEffects(reaction.effects).forEach((templateId) => {
+        templateIds.add(templateId);
+      });
+    }
+  }
+
+  return templateIds;
+}
+
+function collectItemTemplateIdsFromRequirements(requirements: RequirementDef[]): number[] {
+  return requirements
+    .filter(
+      (requirement): requirement is Extract<RequirementDef, { kind: 'item_is' | 'item_count_at_least' }> =>
+        requirement.kind === 'item_is' || requirement.kind === 'item_count_at_least'
+    )
+    .map((requirement) => requirement.templateId >>> 0)
+    .filter((templateId) => templateId > 0);
+}
+
+function collectItemTemplateIdsFromEffects(effects: QuestEffectDef[]): number[] {
+  return effects
+    .filter((effect): effect is Extract<QuestEffectDef, { kind: 'remove_item' }> => effect.kind === 'remove_item')
+    .map((effect) => effect.item.templateId >>> 0)
+    .filter((templateId) => templateId > 0);
+}
+
+function accumulateGrantedItemQuantities(
+  quantities: Map<number, number>,
+  effects: QuestEffectDef[]
+): void {
+  for (const effect of effects) {
+    if (effect.kind !== 'grant_item') {
+      continue;
+    }
+    const templateId = effect.item.templateId >>> 0;
+    if (templateId <= 0) {
+      continue;
+    }
+    quantities.set(templateId, (quantities.get(templateId) || 0) + Math.max(1, effect.item.quantity));
+  }
+}
+
+function didCurrentStepTriggerGrantItems(instance: QuestInstance, step: StepDef): boolean {
+  if (!step.progress) {
+    return false;
+  }
+  return Math.max(0, Number(instance.counters?.[step.progress.counter] || 0)) > 0;
+}
+
+function didCurrentStepReactionGrantItems(
+  instance: QuestInstance,
+  reaction: StepReactionDef
+): boolean {
+  if (!reaction.effects.some((effect) => effect.kind === 'grant_item')) {
+    return false;
+  }
+
+  let matched = false;
+
+  for (const effect of reaction.effects) {
+    switch (effect.kind) {
+      case 'set_flag':
+        matched = true;
+        if (instance.flags?.[effect.flag] !== (effect.value !== false)) {
+          return false;
+        }
+        break;
+      case 'increment_counter':
+        matched = true;
+        if ((instance.counters?.[effect.counter] || 0) < Math.max(1, effect.amount || 1)) {
+          return false;
+        }
+        break;
+      case 'select_reward_choice':
+        matched = true;
+        if ((instance.selectedRewardChoiceId || 0) !== (effect.rewardChoiceId >>> 0)) {
+          return false;
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+  return matched;
 }
 
 function collectGrantedItems(effects: QuestEffectDef[]): Array<{ templateId: number; quantity: number }> {
@@ -170,13 +382,6 @@ function applyQuest2Effects(
       case 'grant_pet': {
         if (!Array.isArray(session.pets)) {
           session.pets = [];
-        }
-        const alreadyOwned = session.pets.some(
-          (pet: Record<string, unknown>) =>
-            Number.isInteger(pet?.templateId) && ((pet.templateId as number) >>> 0) === (effect.petTemplateId >>> 0)
-        );
-        if (alreadyOwned) {
-          break;
         }
         const pet = createOwnedPet(effect.petTemplateId >>> 0, {}, session.pets.length);
         if (!pet) {

@@ -114,6 +114,7 @@ type RewardRow = {
   experience: number;
   coins: number;
   renown: number;
+  petByAptitudeBaseTemplateId?: number | null;
 };
 
 type RewardItemRow = {
@@ -347,7 +348,8 @@ async function loadQuestDefinitionsFromTables(): Promise<QuestDef[]> {
              'gold', gold,
              'experience', experience,
              'coins', coins,
-             'renown', renown
+             'renown', renown,
+             'petByAptitudeBaseTemplateId', pet_by_aptitude_base_template_id
            )
            ORDER BY quest_id
          ),
@@ -554,6 +556,9 @@ function buildQuestDefinitions(input: {
       experience: rewardRow?.experience || 0,
       coins: rewardRow?.coins || 0,
       renown: rewardRow?.renown || 0,
+      ...(Number.isInteger(rewardRow?.petByAptitudeBaseTemplateId) && (rewardRow?.petByAptitudeBaseTemplateId || 0) > 0
+        ? { petByAptitudeBaseTemplateId: rewardRow!.petByAptitudeBaseTemplateId! >>> 0 }
+        : {}),
       items: (rewardItemsByQuestId.get(questId) || []).map(buildItemStack),
       pets: (rewardPetsByQuestId.get(questId) || []).map((row) => row.petTemplateId >>> 0),
       choiceGroups: rewardChoices,

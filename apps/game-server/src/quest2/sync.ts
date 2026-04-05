@@ -1,12 +1,16 @@
-import type { GameSession } from '../types.js';
+import type { GameSession, QuestSyncMode } from '../types.js';
 import type { UnknownRecord } from '../utils.js';
 import type { QuestDef, RequirementDef, StepDef } from './schema.js';
 import type { QuestInstance, QuestState } from './state.js';
 
-import { DEFAULT_FLAGS, GAME_QUEST_CMD } from '../config.js';
+import { DEFAULT_FLAGS, GAME_QUEST_CMD, GAME_QUEST_TABLE_CMD } from '../config.js';
 import { getMapBootstrapSpawns } from '../map-spawns.js';
-import { buildQuestAcceptStatePacket, buildQuestPacket } from '../protocol/gameplay-packets.js';
-import { numberOrDefault } from '../utils.js';
+import {
+  buildQuestAcceptStatePacket,
+  buildQuestPacket,
+  buildQuestTableSyncPacket,
+} from '../protocol/gameplay-packets.js';
+import { numberOrDefault, sanitizeQuestDialogueText } from '../utils.js';
 import { questService } from './service.js';
 
 export type Quest2SyncState = UnknownRecord & {
@@ -35,6 +39,10 @@ type Quest2ActiveView = {
   instance: QuestInstance;
   step: StepDef;
   stepIndex: number;
+};
+
+type QuestSyncOptions = {
+  mode?: QuestSyncMode;
 };
 
 function listQuest2ActiveViews(state: QuestState): Quest2ActiveView[] {
@@ -94,12 +102,136 @@ function buildQuest2SyncState(state: QuestState): Quest2SyncState[] {
   }));
 }
 
+function supportsQuestTableTaskId(taskId: number): boolean {
+  const normalizedTaskId = Number.isInteger(taskId) ? (taskId >>> 0) : 0;
+  return normalizedTaskId > 0 && (normalizedTaskId < 0x321 || normalizedTaskId === 811);
+}
+
+function sendQuest2TableStateSync(
+  session: GameSession,
+  syncState: Quest2SyncState[],
+  completedTaskIds: number[]
+): void {
+  const supportedQuests = syncState
+    .filter((quest) => supportsQuestTableTaskId(quest.taskId))
+    .slice(0, 0x10)
+    .map((quest) => ({
+      taskId: quest.taskId >>> 0,
+      step: Math.max(0, quest.stepIndex >>> 0),
+      extraA: quest.maxAward >>> 0,
+      extraB: quest.taskStep >>> 0,
+    }));
+  const historyEntries = completedTaskIds
+    .filter((taskId) => supportsQuestTableTaskId(taskId))
+    .map((taskId) => ({
+      taskId: taskId >>> 0,
+      state: 0,
+    }));
+
+  session.writePacket(
+    buildQuestTableSyncPacket({
+      playerRuntimeId: session.runtimeId >>> 0,
+      subtype: 0x08,
+      quests: supportedQuests,
+      history: historyEntries,
+    }),
+    DEFAULT_FLAGS,
+    `Sending quest2 table sync cmd=0x${GAME_QUEST_TABLE_CMD.toString(16)} sub=0x08 player=0x${(session.runtimeId >>> 0).toString(16)} quests=${supportedQuests.length} history=${historyEntries.length} skipped=${Math.max(0, syncState.length - supportedQuests.length)}`
+  );
+}
+
 function sendQuest2AcceptWithState(session: GameSession, quest: Quest2SyncState): void {
   writeQuest2StatePacket(session, quest, 0x03, 'accept');
 }
 
 function sendQuest2UpdateWithState(session: GameSession, quest: Quest2SyncState): void {
   writeQuest2StatePacket(session, quest, 0x08, 'update');
+}
+
+function sendQuest2HistoryState(session: GameSession, taskId: number, historyLevel = 0): void {
+  session.writePacket(
+    buildQuestPacket(0x0e, taskId >>> 0, historyLevel & 0xff, 'u8'),
+    DEFAULT_FLAGS,
+    `Sending quest2 history cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x0e taskId=${taskId} history=${historyLevel}`
+  );
+}
+
+function sendQuest2StatusState(session: GameSession, quest: Quest2SyncState): void {
+  session.writePacket(
+    buildQuestPacket(0x08, quest.taskId >>> 0, quest.status >>> 0, 'u16'),
+    DEFAULT_FLAGS,
+    `Sending quest2 status cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x08 taskId=${quest.taskId} status=${quest.status}`
+  );
+}
+
+function sendQuest2ProgressState(session: GameSession, quest: Quest2SyncState): void {
+  const objectiveId = quest.progressObjectiveId >>> 0 || quest.taskId >>> 0;
+  const progressCount = quest.progressCount >>> 0;
+  if (objectiveId <= 0 || progressCount <= 0) {
+    return;
+  }
+
+  session.writePacket(
+    buildQuestPacket(0x0b, objectiveId, progressCount, 'u16'),
+    DEFAULT_FLAGS,
+    `Sending quest2 progress cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x0b objectiveId=${objectiveId} progress=${progressCount}`
+  );
+}
+
+function syncQuestStateToClient(session: GameSession, options: QuestSyncOptions = {}): void {
+  const mode: QuestSyncMode = options.mode || 'runtime';
+  const syncState = buildQuest2SyncState(session.questStateV2).sort((left, right) => {
+    if ((left.acceptedAt >>> 0) !== (right.acceptedAt >>> 0)) {
+      return (left.acceptedAt >>> 0) - (right.acceptedAt >>> 0);
+    }
+    return (left.taskId >>> 0) - (right.taskId >>> 0);
+  });
+  const completedTaskIds = Array.isArray(session.questStateV2?.completed)
+    ? session.questStateV2.completed
+      .filter(Number.isInteger)
+      .map((taskId: number) => taskId >>> 0)
+      .sort((left, right) => left - right)
+    : [];
+
+  session.log(
+    `Quest sync mode=${mode} quest2Active=${syncState.length} quest2Completed=${completedTaskIds.length}`
+  );
+
+  sendQuest2TableStateSync(session, syncState, completedTaskIds);
+  for (const taskId of completedTaskIds) {
+    sendQuest2HistoryState(session, taskId, 0);
+  }
+
+  for (const quest of syncState) {
+    const shouldSendUpdateState =
+      quest.stepMode === 'kill' ||
+      (((mode === 'login') || (mode === 'quest')) && (quest.stepIndex >>> 0) > 0) ||
+      (quest.status >>> 0) > 0;
+
+    sendQuest2AcceptWithState(session, quest);
+    if (shouldSendUpdateState) {
+      sendQuest2UpdateWithState(session, quest);
+    }
+    if ((quest.status >>> 0) > 0) {
+      sendQuest2StatusState(session, quest);
+    }
+    if (quest.stepMode === 'kill' && (quest.progressCount >>> 0) > 0) {
+      sendQuest2ProgressState(session, quest);
+    }
+    if ((quest.markerNpcId >>> 0) > 0 && usesQuest2TrackerMarkerPacket(quest)) {
+      sendQuest2Marker(session, quest);
+    }
+    replayQuest2TrackerScripts(session, quest);
+  }
+
+  if (!session.hasAnnouncedQuestOverview && syncState.length > 0) {
+    const activeQuest = syncState[0]!;
+    session.sendGameDialogue(
+      'Quest',
+      sanitizeQuestDialogueText(`Active quest loaded.${activeQuest.stepDescription ? ` ${activeQuest.stepDescription}` : ''}`)
+    );
+    session.hasAnnouncedQuestOverview = true;
+  }
 }
 
 function writeQuest2StatePacket(
@@ -112,7 +244,7 @@ function writeQuest2StatePacket(
     buildQuestAcceptStatePacket({
       subtype,
       taskId: quest.taskId,
-      currentStep: quest.stepIndex + 1,
+      currentStep: Math.max(0, quest.stepIndex >>> 0),
       taskType: quest.taskType,
       maxStep: Math.max(1, numberOrDefault(quest.maxStep, quest.stepIndex + 1)),
       overNpcId: quest.overNpcId,
@@ -120,7 +252,7 @@ function writeQuest2StatePacket(
       objectiveWords: Array.isArray(quest.objectiveWords) ? quest.objectiveWords : [],
     }),
     DEFAULT_FLAGS,
-    `Sending quest2 ${label} cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x${subtype.toString(16)} taskId=${quest.taskId} step=${quest.stepIndex + 1} type=${quest.taskType} overNpc=${quest.overNpcId} taskRole=${quest.taskRoleNpcId}`
+    `Sending quest2 ${label} cmd=0x${GAME_QUEST_CMD.toString(16)} sub=0x${subtype.toString(16)} taskId=${quest.taskId} stepIndex=${quest.stepIndex} type=${quest.taskType} overNpc=${quest.overNpcId} taskRole=${quest.taskRoleNpcId}`
   );
 }
 
@@ -168,10 +300,7 @@ function resolveQuest2Status(view: Quest2ActiveView): number {
   if (isQuest2TurnInReady(view)) {
     return numberOrDefault(view.step.client?.status, 0);
   }
-  if (hasQuest2TurnInRequirements(view.step)) {
-    return 0;
-  }
-  return numberOrDefault(view.step.client?.status, 0);
+  return 0;
 }
 
 function resolveQuest2StepDescription(view: Quest2ActiveView): string {
@@ -336,6 +465,7 @@ export {
   replayQuest2TrackerScripts,
   sendQuest2AcceptWithState,
   sendQuest2Marker,
+  syncQuestStateToClient,
   sendQuest2UpdateWithState,
   usesQuest2TrackerMarkerPacket,
 };

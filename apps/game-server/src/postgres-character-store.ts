@@ -1,4 +1,3 @@
-import { CharacterStore } from './character-store.js';
 import { buildCharacterReplaceSql } from './db/character-store-sql.js';
 import { executePostgresSql, queryJsonArrayPostgres, queryOptionalJsonPostgres } from './db/postgres-pool.js';
 
@@ -52,11 +51,9 @@ type HeaderRecord = {
 
 export class PostgresCharacterStore {
   cache: Map<string, CharacterRecord>;
-  fallback: CharacterStore;
 
-  constructor(filePath: string) {
+  constructor(_filePath: string) {
     this.cache = new Map();
-    this.fallback = new CharacterStore(filePath);
   }
 
   async get(accountId: string | null): Promise<CharacterRecord | null> {
@@ -136,11 +133,6 @@ export class PostgresCharacterStore {
     );
 
     if (!header?.characterId) {
-      const fallbackCharacter = await this.fallback.get(accountId);
-      if (fallbackCharacter) {
-        this.cache.set(accountId, fallbackCharacter);
-        return cloneJson(fallbackCharacter);
-      }
       return null;
     }
 

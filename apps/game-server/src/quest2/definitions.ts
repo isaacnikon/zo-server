@@ -455,6 +455,9 @@ function normalizeReward(source: UnknownRecord): RewardDef {
     experience: numberOrDefault(source?.experience, 0),
     coins: numberOrDefault(source?.coins, 0),
     renown: numberOrDefault(source?.renown, 0),
+    ...(Number.isInteger(source?.petByAptitudeBaseTemplateId) && source.petByAptitudeBaseTemplateId > 0
+      ? { petByAptitudeBaseTemplateId: source.petByAptitudeBaseTemplateId >>> 0 }
+      : {}),
     pets: Array.isArray(source?.pets) ? source.pets.filter(Number.isInteger).map((petId: number) => petId >>> 0) : [],
     items: Array.isArray(source?.items)
       ? source.items

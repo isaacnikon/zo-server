@@ -104,6 +104,7 @@ export interface RewardDef {
   experience: number;
   coins: number;
   renown: number;
+  petByAptitudeBaseTemplateId?: number;
   pets: number[];
   items: ItemStackDef[];
   choiceGroups: RewardChoiceDef[];

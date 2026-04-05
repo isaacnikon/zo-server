@@ -133,11 +133,6 @@ function applyQuestCompletionReward(
     if (!Array.isArray(session.pets)) {
       session.pets = [];
     }
-    const alreadyOwned = session.pets.some((pet: UnknownRecord) => (pet?.templateId >>> 0) === (petTemplateId >>> 0));
-    if (alreadyOwned) {
-      rewardMessages.push(`pet ${petTemplateId}`);
-      continue;
-    }
     session.pets.push(createOwnedPet(petTemplateId >>> 0, {}, session.pets.length));
     petsDirty = true;
     rewardMessages.push(resolvePetRewardName(petTemplateId));

@@ -87,6 +87,7 @@ export {
   replayQuest2TrackerScripts,
   sendQuest2AcceptWithState,
   sendQuest2Marker,
+  syncQuestStateToClient,
   sendQuest2UpdateWithState,
   usesQuest2TrackerMarkerPacket,
 } from './sync.js';

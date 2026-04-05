@@ -500,13 +500,15 @@ function buildRewardInsertSql(quest: QuestDef): string {
     gold,
     experience,
     coins,
-    renown
+    renown,
+    pet_by_aptitude_base_template_id
   ) VALUES (
     ${sqlInteger(quest.id, 0)},
     ${sqlInteger(quest.rewards.gold, 0)},
     ${sqlInteger(quest.rewards.experience, 0)},
     ${sqlInteger(quest.rewards.coins, 0)},
-    ${sqlInteger(quest.rewards.renown, 0)}
+    ${sqlInteger(quest.rewards.renown, 0)},
+    ${sqlNullableInteger(quest.rewards.petByAptitudeBaseTemplateId)}
   );`;
 }
 
