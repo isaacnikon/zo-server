@@ -13,12 +13,13 @@ import { PacketWriter, buildPacket } from './protocol.js';
 import { buildGameDialoguePacket, buildSceneEnterPacket, buildServerRunScriptPacket, buildSelfStateAptitudeSyncPacket, } from './protocol/gameplay-packets.js';
 import { getClientVisibleExperience } from './gameplay/progression.js';
 import { CHARACTER_VITALS_BASELINE, resolveCurrentPlayerVitals } from './gameplay/session-flows.js';
+import { syncRuntimeLocationClientState } from './gameplay/session-sync.js';
 import { stopAutoMapRotation } from './scenes/map-rotation.js';
 import { removeWorldPresence } from './world-state.js';
 import { buildEncounterEnemies } from './combat/encounter-builder.js';
 import { buildCharacterSnapshot as sessionHydrationBuildCharacterSnapshot, getPersistedCharacter as sessionHydrationGetPersistedCharacter, hydratePendingGameCharacter, loadPersistedCharacter as sessionHydrationLoadPersistedCharacter, persistCurrentCharacter as sessionHydrationPersistCurrentCharacter, saveCharacter as sessionHydrationSaveCharacter, } from './character/session-hydration.js';
 import { defaultBonusAttributes, defaultSkillState } from './character/normalize.js';
-import { defaultFrogTeleporterUnlocks, syncFrogTeleporterClientState } from './gameplay/frog-teleporter-service.js';
+import { defaultFrogTeleporterUnlocks } from './gameplay/frog-teleporter-service.js';
 import { defaultOnlineState, flushOnlinePresence, touchOnlinePresence } from './gameplay/online-runtime.js';
 import { claimPostTwentyOnlineRenownReward, defaultRenownTaskDailyState } from './gameplay/renown-task-runtime.js';
 import { sendSelfStateValueUpdate } from './gameplay/stat-sync.js';
@@ -567,10 +568,12 @@ class Session implements GameSession {
     this.currentMapId = mapId >>> 0;
     this.currentX = x >>> 0;
     this.currentY = y >>> 0;
-    this.sendMapNpcSpawns(mapId >>> 0);
-    this.syncQuestStateToClient({ mode: 'runtime' });
-    syncFrogTeleporterClientState(this, `scene-enter:${mapId >>> 0}`);
-    this.pendingSceneNpcSpawnMapId = null;
+    syncRuntimeLocationClientState(this, {
+      mapId: mapId >>> 0,
+      reason: `scene-enter:${mapId >>> 0}`,
+      includeMapSpawns: true,
+      clearPendingScene: true,
+    });
     syncTeamFollowersToLeader(this);
   }
 

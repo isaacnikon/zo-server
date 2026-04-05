@@ -1,5 +1,10 @@
-import { handleFrogTeleporterMapArrival, syncFrogTeleporterClientState } from './frog-teleporter-service.js';
+import { handleFrogTeleporterMapArrival } from './frog-teleporter-service.js';
 import { persistSessionPosition } from './position-persistence.js';
+import {
+  completePendingLoginQuestSync,
+  completePendingSceneSync,
+  syncRuntimeLocationClientState,
+} from './session-sync.js';
 import {
   notifyTeamMemberPosition,
   rejectFollowerLocalMovement,
@@ -10,34 +15,6 @@ import { notifyAutoMapRotationPosition } from '../scenes/map-rotation.js';
 import { maybeTriggerFieldCombat } from '../scenes/field-combat.js';
 import type { GameSession, PositionUpdate } from '../types.js';
 import { syncWorldPresence } from '../world-state.js';
-
-function clearPendingLoginQuestSyncTimer(session: GameSession): void {
-  if (!session.pendingLoginQuestSyncTimer) {
-    return;
-  }
-  clearTimeout(session.pendingLoginQuestSyncTimer);
-  session.pendingLoginQuestSyncTimer = null;
-}
-
-function completePendingLoginQuestSync(session: GameSession, mapId: number): void {
-  if (session.pendingLoginQuestSyncMapId !== (mapId >>> 0)) {
-    return;
-  }
-  clearPendingLoginQuestSyncTimer(session);
-  session.syncQuestStateToClient?.({ mode: 'login' });
-  session.pendingLoginQuestSyncMapId = null;
-}
-
-function completePendingSceneSync(session: GameSession, mapId: number, reason: string): boolean {
-  if (session.pendingSceneNpcSpawnMapId !== (mapId >>> 0)) {
-    return false;
-  }
-  session.sendMapNpcSpawns?.(mapId >>> 0);
-  session.syncQuestStateToClient?.({ mode: 'runtime' });
-  syncFrogTeleporterClientState(session, reason);
-  session.pendingSceneNpcSpawnMapId = null;
-  return true;
-}
 
 export function handleClientPositionUpdate(session: GameSession, position: PositionUpdate): void {
   const nextMapId = position.mapId >>> 0;
@@ -70,8 +47,10 @@ export function handleClientPositionUpdate(session: GameSession, position: Posit
   notifyAutoMapRotationPosition(session, nextMapId);
   const mapChangeReason = `map-change:${previousMapId}->${nextMapId}`;
   if (!completePendingSceneSync(session, nextMapId, mapChangeReason) && previousMapId !== nextMapId) {
-    session.syncQuestStateToClient?.({ mode: 'runtime' });
-    syncFrogTeleporterClientState(session, mapChangeReason);
+    syncRuntimeLocationClientState(session, {
+      mapId: nextMapId,
+      reason: mapChangeReason,
+    });
   }
   completePendingLoginQuestSync(session, nextMapId);
 

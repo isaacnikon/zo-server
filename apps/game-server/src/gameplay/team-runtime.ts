@@ -1,8 +1,8 @@
 import type { GameSession, TeamClientAction03FD, TeamClientAction03FE, TeamClientAction0442 } from '../types.js';
 
 import { DEFAULT_FLAGS, SCENE_ENTER_LOAD_SUBCMD } from '../config.js';
-import { syncFrogTeleporterClientState } from './frog-teleporter-service.js';
 import { persistSessionPosition } from './position-persistence.js';
+import { syncRuntimeLocationClientState } from './session-sync.js';
 import {
   buildEntityWalkSyncPacket,
   buildSceneEnterPacket,
@@ -598,10 +598,12 @@ function sendFollowerSceneEnter(session: GameSession, mapId: number, x: number, 
     buildSceneEnterPacket(mapId >>> 0, x >>> 0, y >>> 0, SCENE_ENTER_LOAD_SUBCMD),
     `Sending team follow scene-enter cmd=0x3e9 sub=0x${SCENE_ENTER_LOAD_SUBCMD.toString(16)} map=${mapId >>> 0} pos=${x >>> 0},${y >>> 0} reason=${reason}`
   );
-  session.sendMapNpcSpawns?.(mapId >>> 0);
-  session.syncQuestStateToClient?.({ mode: 'runtime' });
-  syncFrogTeleporterClientState(session, `team-follow-map:${mapId >>> 0}`);
-  session.pendingSceneNpcSpawnMapId = null;
+  syncRuntimeLocationClientState(session, {
+    mapId,
+    reason: `team-follow-map:${mapId >>> 0}`,
+    includeMapSpawns: true,
+    clearPendingScene: true,
+  });
 }
 
 function sendFollowerWalkSync(session: GameSession, x: number, y: number, reason: string): void {

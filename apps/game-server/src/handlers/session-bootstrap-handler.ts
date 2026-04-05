@@ -1,18 +1,22 @@
 import type { GameSession, QuestSyncMode } from '../types.js';
 
 import { DEFAULT_FLAGS } from '../config.js';
-import { syncInventoryStateToClient } from '../gameplay/inventory-runtime.js';
-import { sendSkillStateSync } from '../gameplay/skill-runtime.js';
 import { buildMapFieldEventSpawns } from '../gameplay/field-event-runtime.js';
 import { buildMapGatheringNodes } from '../gameplay/gathering-runtime.js';
-import { syncFrogTeleporterClientState } from '../gameplay/frog-teleporter-service.js';
+import {
+  ensureSessionBootstrapReady,
+  resetObservedWorldSyncState,
+  sendEnterGameProgress,
+  syncEnterGameClientState,
+  syncQuestClientState,
+} from '../gameplay/session-sync.js';
 import { scheduleTeamStateSyncToClient, syncTeamStateToClient } from '../gameplay/team-runtime.js';
 import { getMapBootstrapSpawns } from '../map-spawns.js';
-import { buildEnterGameProgressPacket, buildSceneSpawnBatchPacket } from '../protocol/gameplay-packets.js';
+import { buildSceneSpawnBatchPacket } from '../protocol/gameplay-packets.js';
 import { questService } from '../quest2/index.js';
 import { startAutoMapRotation } from '../scenes/map-rotation.js';
 import { numberOrDefault } from '../character/normalize.js';
-import { ensureWorldPresence, syncWorldPresence } from '../world-state.js';
+import { syncWorldPresence } from '../world-state.js';
 
 type SpawnRecord = {
   id: number;
@@ -25,60 +29,22 @@ type SpawnRecord = {
 
 export function sendEnterGameOk(session: GameSession, options: { syncMode?: QuestSyncMode } = {}): void {
   const syncMode: QuestSyncMode = options.syncMode || 'login';
-  const replayLoginQuestSync = syncMode === 'login';
   const runtimeBootstrap = syncMode === 'runtime';
-  if (session.pendingLoginQuestSyncTimer) {
-    clearTimeout(session.pendingLoginQuestSyncTimer);
-    session.pendingLoginQuestSyncTimer = null;
-  }
-  session.ensureQuestStateReady();
-  ensureWorldPresence(session);
-
-  session.writePacket(
-    buildEnterGameProgressPacket({
-      runtimeId: session.runtimeId >>> 0,
-      roleEntityType: (session.roleEntityType || session.entityType) & 0xffff,
-      roleData: session.roleData >>> 0,
-      x: session.currentX,
-      y: session.currentY,
-      name: session.charName,
-      mapId: session.currentMapId,
-    }),
-    DEFAULT_FLAGS,
-    `Sending enter-game success char="${session.charName}" runtimeId=0x${session.runtimeId.toString(16)} entity=0x${session.entityType.toString(16)} roleEntity=0x${session.roleEntityType.toString(16)} aptitude=${session.selectedAptitude} map=${session.currentMapId} pos=${session.currentX},${session.currentY}`
-  );
-  session.sendSelfStateAptitudeSync();
-  syncFrogTeleporterClientState(session, 'enter-game');
-  sendSkillStateSync(session, 'enter-game');
-  syncInventoryStateToClient(session);
-  session.scheduleEquipmentReplay();
-  session.sendPetStateSync('enter-game');
-  sendStaticNpcSpawns(session, session.currentMapId);
-  if (replayLoginQuestSync) {
-    session.syncQuestStateToClient({ mode: 'login' });
-    session.pendingLoginQuestSyncMapId = session.currentMapId;
-    session.pendingLoginQuestSyncTimer = setTimeout(() => {
-      session.pendingLoginQuestSyncTimer = null;
-      if (session.socket.destroyed || session.pendingLoginQuestSyncMapId === null) {
-        return;
-      }
-      session.syncQuestStateToClient({ mode: 'login' });
-      session.pendingLoginQuestSyncMapId = null;
-    }, 250);
-  } else {
-    session.pendingLoginQuestSyncMapId = null;
-    session.pendingLoginQuestSyncTimer = null;
-    session.syncQuestStateToClient({ mode: syncMode });
-  }
+  ensureSessionBootstrapReady(session);
+  sendEnterGameProgress(session);
+  syncEnterGameClientState(session, 'enter-game');
+  session.sendMapNpcSpawns(session.currentMapId >>> 0);
+  syncQuestClientState(session, {
+    mode: syncMode,
+    mapId: session.currentMapId >>> 0,
+  });
 
   if (runtimeBootstrap) {
     // Post-combat / respawn bootstraps behave like a partial scene reload on the
     // client. Nearby player entities can disappear locally even though the server
     // still marks them visible. Clear the viewer-side cache first so world sync
     // respawns nearby players instead of assuming they are still on screen.
-    session.visiblePlayerRuntimeIds.clear();
-    session.observedPlayerPositions.clear();
-    session.observedPetStates.clear();
+    resetObservedWorldSyncState(session);
   }
 
   syncWorldPresence(session, 'enter-game', { skipSourceViewerAdd: !runtimeBootstrap });
