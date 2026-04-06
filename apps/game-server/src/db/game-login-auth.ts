@@ -47,8 +47,14 @@ async function getPortalAuthRecord(username: string): Promise<PortalAuthRecord |
   }>(
     `SELECT account_id, username, game_password_md5
      FROM portal_users
-     WHERE username = $1 OR account_id = $1
-     ORDER BY CASE WHEN username = $1 THEN 0 ELSE 1 END
+     WHERE LOWER(username) = LOWER($1)
+        OR LOWER(COALESCE(account_id, '')) = LOWER($1)
+     ORDER BY CASE
+       WHEN username = $1 THEN 0
+       WHEN account_id = $1 THEN 1
+       WHEN LOWER(username) = LOWER($1) THEN 2
+       ELSE 3
+     END
      LIMIT 1`,
     [username]
   );
@@ -66,7 +72,8 @@ function getExistingLegacyAccount(username: string): Promise<string | null> {
   return queryOptionalScalarPostgres(
     `SELECT account_id
      FROM accounts
-     WHERE account_id = $1
+     WHERE LOWER(account_id) = LOWER($1)
+     ORDER BY CASE WHEN account_id = $1 THEN 0 ELSE 1 END
      LIMIT 1`,
     [username]
   );

@@ -225,6 +225,39 @@ button {
   background: var(--surface-auth);
 }
 
+.download-callout {
+  display: grid;
+  gap: 16px;
+  margin-top: 22px;
+  padding: 18px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(circle at top right, rgba(207, 140, 86, 0.14), transparent 28%),
+    linear-gradient(180deg, rgba(24, 34, 43, 0.94), rgba(14, 21, 28, 0.96));
+}
+
+.download-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(207, 140, 86, 0.36);
+  background: linear-gradient(135deg, rgba(207, 140, 86, 0.24), rgba(90, 51, 27, 0.44));
+  color: var(--ink);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-align: center;
+  box-shadow: var(--shadow-soft);
+}
+
+.download-link:hover {
+  border-color: rgba(207, 140, 86, 0.58);
+  background: linear-gradient(135deg, rgba(207, 140, 86, 0.32), rgba(107, 58, 29, 0.52));
+}
+
 .eyebrow {
   margin: 0;
   letter-spacing: 0.18em;
@@ -1708,5 +1741,9 @@ button:disabled {
 
   .modal-shell {
     padding: 18px;
+  }
+
+  .download-link {
+    width: 100%;
   }
 }

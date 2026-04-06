@@ -47,6 +47,12 @@ Import static JSON into Postgres:
 npm run db:import:static
 ```
 
+Import structured quest definitions into Postgres:
+
+```bash
+npm run db:import:quest2
+```
+
 Import static JSON into Postgres and remove the source JSON files afterward:
 
 ```bash
@@ -59,7 +65,7 @@ Import character save JSON into Postgres:
 npm run db:import:characters
 ```
 
-Import both in sequence:
+Import static JSON, structured quest definitions, and character saves in sequence:
 
 ```bash
 npm run db:import:all
@@ -70,6 +76,7 @@ npm run db:import:all
 - `./data/save` persists split character save data until it is migrated into Postgres.
 - `./runtime` stores `server.log`, `characters.json`, and `combat-probe-state.json`.
 - `./postgres-data` stores the Postgres data directory as a bind mount, so `docker compose down -v` does not remove database data.
+- `apps/portal/public/downloads/ZO.zip` is a gitignored portal download asset. `make deploy` still rsyncs it to the server, and Compose bind-mounts it into the portal container.
 
 ### Environment overrides
 
@@ -97,8 +104,8 @@ make deploy
 2. build the `zo-server` and `portal` images
 3. start Postgres
 4. run Flyway migrations
-5. import static JSON into Postgres
-6. migrate character JSON into Postgres from `data/save` and `runtime/data/save`, then remove the migrated live save files
+5. run the game-server `db:import:all` pipeline, which imports static JSON, structured `quest2` definitions, and character JSON into Postgres
+6. remove the migrated live character JSON saves as part of the character-import phase
 7. start `postgres`, `zo-server`, and `portal`
 
 The base deploy stack does not publish Postgres or portal ports directly. Postgres stays internal to Docker, and the portal is expected to be exposed through Traefik when [`compose.traefik.yaml`](/home/nikon/projects/zo-server/compose.traefik.yaml) is active.

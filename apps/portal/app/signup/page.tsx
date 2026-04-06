@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+const CLIENT_DOWNLOAD_HREF = '/downloads/ZO.zip';
+
 function pickSingle(value) {
   return Array.isArray(value) ? value[0] || '' : value || '';
 }
@@ -39,7 +41,7 @@ function getSignupMessage(searchParams) {
   if (error === 'signup-failed') {
     return {
       tone: 'error',
-      text: 'The portal could not create the account. Check the portal logs for the database error.',
+      text: 'We could not create the account. Check the server logs for the database error.',
     };
   }
 
@@ -48,24 +50,27 @@ function getSignupMessage(searchParams) {
 
 export default function SignupPage({ searchParams }) {
   const message = getSignupMessage(searchParams);
+  const showCrossPortalLinks = process.env.NODE_ENV !== 'production';
 
   return (
     <main className="page-grid">
       <section className="hero-card">
         <p className="eyebrow">Join The World</p>
-        <h1>Create a Zodiac Portal Account</h1>
-        <p className="lede">Choose your portal identity and get ready to step into Zodiac Online.</p>
+        <h1>Create Your Account</h1>
+        <p className="lede">Choose your login details and get ready to step into the world.</p>
       </section>
 
       <section className="panel signup-panel">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">Portal Signup</p>
+            <p className="eyebrow">Start Playing</p>
             <h2>Create account</h2>
           </div>
-          <p className="hint">
-            Admin access lives separately on the <Link href="/admin">admin portal</Link>.
-          </p>
+          {showCrossPortalLinks ? (
+            <p className="hint">
+              Admin access lives separately on the <Link href="/admin">admin portal</Link>.
+            </p>
+          ) : null}
         </div>
 
         {message ? (
@@ -110,12 +115,26 @@ export default function SignupPage({ searchParams }) {
           </label>
 
           <button className="primary-button" type="submit">
-            Create Portal Account
+            Create Account
           </button>
         </form>
 
+        <section className="download-callout" aria-label="Game client download">
+          <div>
+            <p className="eyebrow">Game Client</p>
+            <h3>Download ZO</h3>
+            <p className="hint">
+              Download the current client and get ready to log in.
+            </p>
+          </div>
+
+          <a className="download-link" download href={CLIENT_DOWNLOAD_HREF}>
+            Download Client ZIP
+          </a>
+        </section>
+
         <p className="supporting-text">
-          After signup, those same credentials can be used for game login.
+          Use these same credentials to log in to the game client.
         </p>
       </section>
     </main>

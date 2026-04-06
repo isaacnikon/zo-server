@@ -18,6 +18,7 @@
     "db:repair": "docker compose run --rm flyway repair",
     "db:info": "docker compose run --rm flyway info",
     "db:import:static": "bash -lc 'source \"$HOME/.nvm/nvm.sh\" 2>/dev/null && npm run build:game-server && npm run db:import:static -w @zo/game-server'",
+    "db:import:quest2": "bash -lc 'source \"$HOME/.nvm/nvm.sh\" 2>/dev/null && npm run build:game-server && npm run db:import:quest2 -w @zo/game-server'",
     "db:import:static:purge": "bash -lc 'source \"$HOME/.nvm/nvm.sh\" 2>/dev/null && npm run build:game-server && npm run db:import:static:purge -w @zo/game-server'",
     "db:import:characters": "bash -lc 'source \"$HOME/.nvm/nvm.sh\" 2>/dev/null && npm run build:game-server && npm run db:import:characters -w @zo/game-server'",
     "db:import:all": "bash -lc 'source \"$HOME/.nvm/nvm.sh\" 2>/dev/null && npm run build:game-server && npm run db:import:all -w @zo/game-server'",

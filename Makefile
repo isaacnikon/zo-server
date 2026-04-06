@@ -42,8 +42,7 @@ deploy-up:
 		docker compose $$COMPOSE_FILES build zo-server portal; \
 		docker compose $$COMPOSE_FILES up -d postgres; \
 		docker compose $$COMPOSE_FILES run --rm flyway migrate; \
-		docker compose $$COMPOSE_FILES run --rm --no-deps zo-server npm run db:import:static -w @zo/game-server; \
-		docker compose $$COMPOSE_FILES run --rm --no-deps zo-server npm run db:import:characters -w @zo/game-server; \
+		docker compose $$COMPOSE_FILES run --rm --no-deps zo-server npm run db:import:all -w @zo/game-server; \
 		docker compose $$COMPOSE_FILES up -d --remove-orphans postgres zo-server portal'
 
 deploy-cleanup:

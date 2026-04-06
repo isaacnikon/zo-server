@@ -13,3 +13,4 @@ __pycache__/
 *.pyc
 roleinfo.txt
 .playwright-mcp
+apps/portal/public/downloads/ZO.zip

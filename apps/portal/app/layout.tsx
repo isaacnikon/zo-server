@@ -3,26 +3,31 @@ import Link from 'next/link';
 import './globals.css';
 
 export const metadata = {
-  title: 'Zodiac Portal',
-  description: 'Signup and live operations portal for the Zodiac Online server.',
+  title: 'ZO',
+  description: 'Join the world and manage live operations for the ZO server.',
 };
 
 export default function RootLayout({ children }) {
+  const showCrossPortalLinks = process.env.NODE_ENV !== 'production';
+  const brandHref = showCrossPortalLinks ? '/signup' : '/';
+
   return (
     <html lang="en">
       <body>
         <div className="site-shell">
           <header className="topbar">
             <div className="brand-block">
-              <p className="eyebrow">Zodiac Online</p>
-              <Link className="brand" href="/signup">
-                Portal
+              <p className="eyebrow">Join The World</p>
+              <Link className="brand" href={brandHref}>
+                ZO
               </Link>
             </div>
-            <nav className="topnav">
-              <Link href="/signup">Signup</Link>
-              <Link href="/admin">Admin</Link>
-            </nav>
+            {showCrossPortalLinks ? (
+              <nav className="topnav">
+                <Link href="/signup">Signup</Link>
+                <Link href="/admin">Admin</Link>
+              </nav>
+            ) : null}
           </header>
           {children}
         </div>

@@ -164,6 +164,28 @@ export async function createPortalUser(input) {
   try {
     const result = await withTransaction(async (client) => {
       await client.query(
+        `SELECT pg_advisory_xact_lock(hashtext(LOWER($1)))`,
+        [username]
+      );
+
+      const existingUsername = await client.query(
+        `SELECT 1
+         FROM portal_users
+         WHERE LOWER(username) = LOWER($1)
+            OR LOWER(COALESCE(account_id, '')) = LOWER($1)
+         UNION ALL
+         SELECT 1
+         FROM accounts
+         WHERE LOWER(account_id) = LOWER($1)
+         LIMIT 1`,
+        [username]
+      );
+
+      if (existingUsername.rowCount && existingUsername.rowCount > 0) {
+        throw new PortalDataError('username-taken');
+      }
+
+      await client.query(
         `INSERT INTO accounts (
           account_id,
           name,
@@ -195,6 +217,10 @@ export async function createPortalUser(input) {
     });
     return result;
   } catch (error) {
+    if (error instanceof PortalDataError) {
+      throw error;
+    }
+
     if (error && error.code === '23505') {
       const detail = String(error.detail || '');
       if (detail.includes('(username)')) {

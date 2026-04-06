@@ -80,4 +80,11 @@ services:
       DATABASE_USER: "${POSTGRES_USER:-zo}"
       DATABASE_PASSWORD: "${POSTGRES_PASSWORD:-zo_password}"
       ADMIN_PORTAL_TOKEN: "${ADMIN_PORTAL_TOKEN:-change-me-dev-token}"
+    volumes:
+      - type: bind
+        source: "./apps/portal/public/downloads/ZO.zip"
+        target: "/app/apps/portal/public/downloads/ZO.zip"
+        read_only: true
+        bind:
+          create_host_path: false
     restart: unless-stopped

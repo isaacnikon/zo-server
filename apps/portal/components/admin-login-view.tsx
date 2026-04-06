@@ -1,6 +1,8 @@
 import Link from 'next/link';
 
 export default function AdminLoginView({ message }) {
+  const showCrossPortalLinks = process.env.NODE_ENV !== 'production';
+
   return (
     <main className="page-grid">
       <section className="hero-card">
@@ -42,9 +44,11 @@ export default function AdminLoginView({ message }) {
           </button>
         </form>
 
-        <p className="supporting-text">
-          Admin tooling is separate from player signup on the <Link href="/signup">portal signup</Link> page.
-        </p>
+        {showCrossPortalLinks ? (
+          <p className="supporting-text">
+            Admin tooling is separate from player signup on the <Link href="/signup">portal signup</Link> page.
+          </p>
+        ) : null}
       </section>
     </main>
   );
