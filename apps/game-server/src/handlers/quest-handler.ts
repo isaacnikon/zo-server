@@ -20,10 +20,14 @@ async function handleQuestAbandonRequest(session: GameSession, taskId: number, s
     session.log(`Ignoring non-quest2 abandon taskId=${taskId} source=${source}`);
     return false;
   }
-  return (await dispatchQuestEventToSession(session, {
+  const result = await dispatchQuestEventToSession(session, {
     type: 'quest_abandon',
     questId: taskId >>> 0,
-  })).handled;
+  });
+  if (result.persistNeeded) {
+    await session.persistCurrentCharacter();
+  }
+  return result.handled;
 }
 
 async function handleQuestPacket(session: GameSession, payload: Buffer): Promise<void> {
@@ -56,6 +60,9 @@ async function handleQuestMonsterDefeat(session: GameSession, monsterId: number,
     count: Math.max(1, count),
     mapId: session.currentMapId >>> 0,
   });
+  if (result.persistNeeded) {
+    await session.persistCurrentCharacter();
+  }
 
   return {
     handled: result.handled,
@@ -107,6 +114,9 @@ async function refreshQuestStateForItemTemplates(session: GameSession, templateI
       delta: 0,
       quantity,
     });
+    if (result.persistNeeded) {
+      await session.persistCurrentCharacter();
+    }
     if (result.handled) {
       session.log(`Refreshed quest2 state for templateId=${templateId} quantity=${quantity}`);
     }

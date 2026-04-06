@@ -144,8 +144,8 @@ export type GameEffect =
   | { kind: 'dialogue'; title: string; message: string }
   | { kind: 'send-script'; scriptId: number; mode: 'immediate' | 'deferred' };
 
-// --- Session interface (what handlers receive) ---
-export interface GameSession {
+// --- SessionPorts interface (what gameplay services / layer-2 code receive) ---
+export interface SessionPorts {
   // Core identity
   id: number;
   state: string;
@@ -269,35 +269,43 @@ export interface GameSession {
   visiblePlayerRuntimeIds: Set<number>;
   observedPlayerPositions: Map<number, { x: number; y: number }>;
   observedPetStates: Map<number, { ownerRuntimeId: number; x: number; y: number; entityType: number }>;
-  // I/O methods
+  // Core I/O methods
   writePacket(payload: Buffer, flags?: number, message?: string): void;
   log(message: string): void;
   sendPong(token: number): void;
+  sendGameDialogue(speaker: string, message: string, subtype?: number, flags?: number, extraText?: string | null): void;
+  // Script helpers
+  sendServerRunScriptImmediate(scriptId: number): void;
+  sendServerRunScriptDeferred(scriptId: number): void;
+  // Sync helpers
+  sendPetStateSync(reason?: string): void;
+  syncQuestStateToClient(options?: { mode?: QuestSyncMode }): void;
+  refreshQuestStateForItemTemplates(templateIds: number[]): Promise<void>;
+  // Stat/UI sync
+  sendSelfStateAptitudeSync(): void;
+}
+
+// --- Session interface (what handlers receive) ---
+export interface GameSession extends SessionPorts {
   // Persistence methods
   persistCurrentCharacter(overrides?: Record<string, unknown>): Promise<void>;
   getPersistedCharacter(): Record<string, unknown> | null;
   loadPersistedCharacter(options?: { forceReload?: boolean }): Promise<Record<string, unknown> | null>;
   saveCharacter(character: Record<string, unknown>): Promise<void>;
   buildCharacterSnapshot(overrides?: Record<string, unknown>): Record<string, unknown>;
-  // Scene/map methods
+  // Scene/map orchestration methods
   sendMapNpcSpawns(mapId: number): void;
   sendSceneEnter(mapId: number, x: number, y: number, subtype?: number): void;
   sendEnterGameOk(options?: { syncMode?: QuestSyncMode }): void;
-  // Combat methods
+  // Combat orchestration methods
   sendCombatEncounterProbe(action: Record<string, unknown>): void;
   sendCombatExitProbe(action: Record<string, unknown>): void;
-  // Stat/UI sync methods
+  // Stat/UI orchestration methods
   sendSelfStateAptitudeSync(): void;
-  sendGameDialogue(speaker: string, message: string, subtype?: number, flags?: number, extraText?: string | null): void;
-  sendServerRunScriptImmediate(scriptId: number): void;
-  sendServerRunScriptDeferred(scriptId: number): void;
-  // Equipment/Pet sync methods
+  // Equipment/Pet orchestration methods
   scheduleEquipmentReplay(delayMs?: number): void;
-  sendPetStateSync(reason?: string): void;
-  // Quest methods
+  // Quest handler methods
   ensureQuestStateReady(): void;
-  syncQuestStateToClient(options?: { mode?: QuestSyncMode }): void;
-  refreshQuestStateForItemTemplates(templateIds: number[]): Promise<void>;
   handleQuestMonsterDefeat(monsterId: number, count?: number): Promise<{ handled: boolean; grantedItems: Array<{ templateId: number; quantity: number }> }>;
 }
 

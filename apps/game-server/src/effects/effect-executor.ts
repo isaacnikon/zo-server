@@ -4,14 +4,13 @@ import { sendSelfStateValueUpdate } from '../gameplay/stat-sync.js';
 import { applyExperienceGain } from '../gameplay/progression.js';
 import { recomputeSessionMaxVitals } from '../gameplay/session-flows.js';
 import type { UnknownRecord } from '../utils.js';
-import type { GameSession } from '../types.js';
+import type { SessionPorts } from '../types.js';
 
-async function applyEffects(session: GameSession, effects: UnknownRecord[], options: UnknownRecord = {}): Promise<UnknownRecord> {
+async function applyEffects(session: SessionPorts, effects: UnknownRecord[], options: UnknownRecord = {}): Promise<UnknownRecord> {
   const suppressPackets = options.suppressPackets === true;
   const suppressInventorySync = options.suppressInventorySync === true;
   const suppressStatSync = options.suppressStatSync === true;
   const suppressDialogues = options.suppressDialogues === true;
-  const suppressPersist = options.suppressPersist === true;
   let statsDirty = false;
   let inventoryDirty = false;
   const messages: string[] = [];
@@ -35,14 +34,11 @@ async function applyEffects(session: GameSession, effects: UnknownRecord[], opti
   if (statsDirty && !suppressStatSync) {
     session.sendSelfStateAptitudeSync();
   }
-  if ((statsDirty || inventoryDirty) && !suppressPersist) {
-    await session.persistCurrentCharacter();
-  }
 
   return { statsDirty, inventoryDirty, messages };
 }
 
-function handleGrantItem(session: GameSession, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
+function handleGrantItem(session: SessionPorts, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
   const quantity = Math.max(1, effect.quantity || 1);
   if (effect.idempotent === true && bagHasTemplateQuantity(session, effect.templateId, quantity)) {
     return { statsDirty: false, inventoryDirty: false };
@@ -74,7 +70,7 @@ function handleGrantItem(session: GameSession, effect: UnknownRecord, opts: Unkn
   };
 }
 
-function handleRemoveItem(session: GameSession, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
+function handleRemoveItem(session: SessionPorts, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
   const quantity = Math.max(1, effect.quantity || 1);
   const consumeResult = consumeItemFromBag(session, effect.templateId, quantity);
   if (!consumeResult.ok) {
@@ -98,7 +94,7 @@ function handleRemoveItem(session: GameSession, effect: UnknownRecord, opts: Unk
   return { statsDirty: false, inventoryDirty: true };
 }
 
-function handleItemMissing(session: GameSession, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
+function handleItemMissing(session: SessionPorts, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
   if (!opts.suppressDialogues && typeof session.sendGameDialogue === 'function' && effect.dialoguePrefix) {
     session.sendGameDialogue(
       effect.dialoguePrefix,
@@ -108,7 +104,7 @@ function handleItemMissing(session: GameSession, effect: UnknownRecord, opts: Un
   return { statsDirty: false, inventoryDirty: false };
 }
 
-function handleUpdateStat(session: GameSession, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
+function handleUpdateStat(session: SessionPorts, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
   const stat = effect.stat;
   const delta = effect.delta || 0;
   if (delta === 0) {
@@ -147,14 +143,14 @@ function handleUpdateStat(session: GameSession, effect: UnknownRecord, opts: Unk
   return { statsDirty: false, inventoryDirty: false };
 }
 
-function handleDialogue(session: GameSession, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
+function handleDialogue(session: SessionPorts, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
   if (!opts.suppressDialogues && typeof session.sendGameDialogue === 'function') {
     session.sendGameDialogue(effect.title || 'System', effect.message || '');
   }
   return { statsDirty: false, inventoryDirty: false };
 }
 
-function handleSendScript(session: GameSession, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
+function handleSendScript(session: SessionPorts, effect: UnknownRecord, opts: UnknownRecord): UnknownRecord {
   if (opts.suppressPackets) {
     return { statsDirty: false, inventoryDirty: false };
   }
@@ -166,7 +162,7 @@ function handleSendScript(session: GameSession, effect: UnknownRecord, opts: Unk
   return { statsDirty: false, inventoryDirty: false };
 }
 
-const EFFECT_HANDLERS: Record<string, (session: GameSession, effect: UnknownRecord, opts: UnknownRecord) => UnknownRecord> = {
+const EFFECT_HANDLERS: Record<string, (session: SessionPorts, effect: UnknownRecord, opts: UnknownRecord) => UnknownRecord> = {
   'grant-item': handleGrantItem,
   'remove-item': handleRemoveItem,
   'item-missing': handleItemMissing,

@@ -1,6 +1,6 @@
 import { DEFAULT_FLAGS, GAME_SELF_STATE_CMD } from '../config.js';
 import { buildSelfStateValueUpdatePacket } from '../protocol/gameplay-packets.js';
-import type { GameSession } from '../types.js';
+import type { SessionPorts } from '../types.js';
 import { getClientVisibleExperience } from './progression.js';
 type ValueUpdateKind = 'gold' | 'coins' | 'renown' | 'experience' | 'health' | 'mana' | 'rage';
 
@@ -14,7 +14,7 @@ export const VALUE_UPDATE_DISCRIMINATORS = Object.freeze({
   rage: 0x0d,
 });
 
-export function sendSelfStateValueUpdate(session: GameSession, kind: ValueUpdateKind, value: number): void {
+export function sendSelfStateValueUpdate(session: SessionPorts, kind: ValueUpdateKind, value: number): void {
   const discriminator = VALUE_UPDATE_DISCRIMINATORS[kind];
   if (discriminator == null) {
     return;
@@ -36,7 +36,7 @@ export function sendSelfStateValueUpdate(session: GameSession, kind: ValueUpdate
 }
 
 export function sendSelfStateVitalsUpdate(
-  session: GameSession,
+  session: SessionPorts,
   vitals: { health: number; mana: number; rage: number }
 ): void {
   sendSelfStateValueUpdate(session, 'health', vitals.health);

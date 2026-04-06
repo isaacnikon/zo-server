@@ -3,11 +3,11 @@ export {};
 
 import { applyEffects } from '../effects/effect-executor.js';
 
-import type { GameSession } from '../types.js';
+import type { SessionPorts } from '../types.js';
 
 type UnknownRecord = Record<string, any>;
 
-export async function grantCombatDrops(_session: GameSession, enemy: UnknownRecord | null | undefined): Promise<UnknownRecord> {
+export async function grantCombatDrops(_session: SessionPorts, enemy: UnknownRecord | null | undefined): Promise<UnknownRecord> {
   if (!enemy) {
     return { granted: [], inventoryDirty: false };
   }

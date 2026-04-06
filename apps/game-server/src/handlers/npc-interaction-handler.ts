@@ -140,6 +140,9 @@ async function handleNpcInteractionRequest(session: GameSession, request: Server
       contextId: Number.isInteger(request.rawArgs?.[1]) ? (request.rawArgs[1] >>> 0) : undefined,
       rewardChoiceId: Number.isInteger(request.awardId) ? (request.awardId! >>> 0) : undefined,
     });
+    if (quest2Dispatch.persistNeeded) {
+      await session.persistCurrentCharacter();
+    }
     if (quest2Dispatch.handled) {
       session.log(
         `NPC interaction sub=0x${request.subcmd.toString(16)} resolvedNpcId=${resolvedNpcId} requestedNpcId=${requestNpcId} rawNpcKey=${Number.isInteger(request.rawArgs?.[0]) ? request.rawArgs[0] : 0} scriptId=${Number.isInteger(request.scriptId) ? request.scriptId : 0} map=${session.currentMapId} quest2=1 transitions=${quest2Dispatch.transitionCount}`

@@ -7,11 +7,11 @@ const EQUIPMENT_CONTAINER_TYPE = 0;
 const WAREHOUSE_CONTAINER_TYPE = 2;
 const FIELD_COMBAT_WARD_AMULET_TEMPLATE_ID = 26039;
 
-import type { GameSession } from '../types.js';
+import type { SessionPorts } from '../types.js';
 type UnknownRecord = Record<string, any>;
 
 function sendItemAdd(
-  session: GameSession,
+  session: SessionPorts,
   templateId: number,
   slot: number,
   quantity = 1,
@@ -39,7 +39,7 @@ function sendItemAdd(
   );
 }
 
-function sendInventoryFullSync(session: GameSession): void {
+function sendInventoryFullSync(session: SessionPorts): void {
   const bagItems = Array.isArray(session.bagItems)
     ? session.bagItems
         .filter((item: UnknownRecord) => item.equipped !== true)
@@ -55,7 +55,7 @@ function sendInventoryFullSync(session: GameSession): void {
   );
 }
 
-function sendWarehouseContainerSync(session: GameSession): void {
+function sendWarehouseContainerSync(session: SessionPorts): void {
   const warehouseItems = Array.isArray(session.warehouseItems)
     ? session.warehouseItems
         .filter((item: UnknownRecord) => item.equipped !== true)
@@ -225,7 +225,7 @@ function resolveClientItemQuantity(definition: UnknownRecord | null, quantity: n
   return usesDurability ? 0 : 1;
 }
 
-function sendEquipmentContainerSync(session: GameSession): void {
+function sendEquipmentContainerSync(session: SessionPorts): void {
   const equippedItems = (Array.isArray(session.bagItems) ? session.bagItems : [])
     .filter((item: UnknownRecord) => item.equipped === true)
     .map((item: UnknownRecord) => buildClientInventoryItem(item));
@@ -241,7 +241,7 @@ function sendEquipmentContainerSync(session: GameSession): void {
 }
 
 function sendItemQuantityUpdate(
-  session: GameSession,
+  session: SessionPorts,
   instanceId: number,
   quantity: number,
   containerType = BAG_CONTAINER_TYPE
@@ -257,7 +257,7 @@ function sendItemQuantityUpdate(
   );
 }
 
-function sendItemRemove(session: GameSession, instanceId: number, containerType = BAG_CONTAINER_TYPE): void {
+function sendItemRemove(session: SessionPorts, instanceId: number, containerType = BAG_CONTAINER_TYPE): void {
   session.writePacket(
     buildItemRemovePacket({
       containerType,
@@ -268,12 +268,12 @@ function sendItemRemove(session: GameSession, instanceId: number, containerType 
   );
 }
 
-function syncInventoryStateToClient(session: GameSession): void {
+function syncInventoryStateToClient(session: SessionPorts): void {
   sendInventoryFullSync(session);
   sendEquipmentContainerSync(session);
 }
 
-function sendGrantResultPackets(session: GameSession, grantResult: UnknownRecord): void {
+function sendGrantResultPackets(session: SessionPorts, grantResult: UnknownRecord): void {
   for (const change of grantResult.changes || []) {
     if (change.merged) {
       sendItemQuantityUpdate(session, change.item.instanceId, change.item.quantity);
@@ -291,7 +291,7 @@ function sendGrantResultPackets(session: GameSession, grantResult: UnknownRecord
   }
 }
 
-function sendConsumeResultPackets(session: GameSession, consumeResult: UnknownRecord): void {
+function sendConsumeResultPackets(session: SessionPorts, consumeResult: UnknownRecord): void {
   for (const change of consumeResult.changes || []) {
     if (change.removed) {
       sendItemRemove(
@@ -306,7 +306,7 @@ function sendConsumeResultPackets(session: GameSession, consumeResult: UnknownRe
 }
 
 async function applyInventoryQuestEvent(
-  session: GameSession,
+  session: SessionPorts,
   event: UnknownRecord,
   options: UnknownRecord = {}
 ): Promise<UnknownRecord> {
@@ -315,7 +315,6 @@ async function applyInventoryQuestEvent(
     const result = await applyEffects(session, [mappedEffect], {
       suppressPackets: options.suppressPackets === true,
       suppressDialogues: options.suppressDialogues === true,
-      suppressPersist: true,
       suppressStatSync: true,
     });
     return { handled: true, dirty: result.inventoryDirty === true };

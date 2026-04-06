@@ -107,7 +107,6 @@ async function applyQuestCompletionReward(
     suppressPackets,
     suppressDialogues,
     suppressStatSync: true,
-    suppressPersist: true,
   });
 
   if (normalizedReward.experience > 0) {

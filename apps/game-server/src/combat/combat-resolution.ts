@@ -1651,7 +1651,6 @@ export async function resolveVictory(session: GameSession): Promise<void> {
     ],
     {
       suppressDialogues: true,
-      suppressPersist: true,
       suppressStatSync: true,
     }
   );

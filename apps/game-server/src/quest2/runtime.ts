@@ -1,4 +1,4 @@
-import type { GameSession } from '../types.js';
+import type { GameSession, SessionPorts } from '../types.js';
 import type { UnknownRecord } from '../utils.js';
 import type { QuestEvent } from './events.js';
 import type { QuestDef, QuestEffectDef, RequirementDef, StepDef, StepReactionDef } from './schema.js';
@@ -11,6 +11,7 @@ import { createOwnedPet } from '../pet-runtime.js';
 import { buildEncounterPoolEntry } from '../roleinfo/index.js';
 import { sanitizeQuestDialogueText } from '../utils.js';
 import { sendConsumeResultPackets } from '../gameplay/inventory-runtime.js';
+import { startCombatEncounter } from '../gameplay/combat-service.js';
 import { questService } from './service.js';
 
 type QuestRuntimeDispatchResult = {
@@ -18,10 +19,11 @@ type QuestRuntimeDispatchResult = {
   changed: boolean;
   transitionCount: number;
   grantedItems: Array<{ templateId: number; quantity: number }>;
+  persistNeeded: boolean;
 };
 
 async function dispatchQuestEventToSession(
-  session: GameSession,
+  session: SessionPorts,
   event: QuestEvent
 ): Promise<QuestRuntimeDispatchResult> {
   const abandonedQuestId = event.type === 'quest_abandon' ? (event.questId >>> 0) : 0;
@@ -48,6 +50,7 @@ async function dispatchQuestEventToSession(
       changed: false,
       transitionCount: 0,
       grantedItems: [],
+      persistNeeded: false,
     };
   }
 
@@ -64,15 +67,15 @@ async function dispatchQuestEventToSession(
     session.refreshQuestStateForItemTemplates(abandonCleanupResult.cleanedTemplateIds);
   }
 
-  if (
+  const persistNeeded =
     result.changed ||
     effectResult.inventoryDirty ||
     effectResult.statsDirty ||
     effectResult.petsDirty ||
-    abandonCleanupResult.inventoryDirty
-  ) {
+    abandonCleanupResult.inventoryDirty;
+
+  if (persistNeeded) {
     session.syncQuestStateToClient({ mode: 'quest' });
-    await session.persistCurrentCharacter();
   }
 
   return {
@@ -80,10 +83,11 @@ async function dispatchQuestEventToSession(
     changed: result.changed,
     transitionCount: result.transitions.length,
     grantedItems: collectGrantedItems(result.effects),
+    persistNeeded,
   };
 }
 
-function buildInventoryCounts(session: GameSession): Record<number, number> {
+function buildInventoryCounts(session: SessionPorts): Record<number, number> {
   const counts: Record<number, number> = {};
   const bagItems = Array.isArray(session.bagItems) ? session.bagItems : [];
   for (const item of bagItems) {
@@ -100,7 +104,7 @@ function buildInventoryCounts(session: GameSession): Record<number, number> {
   return counts;
 }
 
-function buildCapturedMonsterCounts(session: GameSession): Record<number, number> {
+function buildCapturedMonsterCounts(session: SessionPorts): Record<number, number> {
   const counts: Record<number, number> = {};
   const bagItems = Array.isArray(session.bagItems) ? session.bagItems : [];
   for (const item of bagItems) {
@@ -120,7 +124,7 @@ function buildCapturedMonsterCounts(session: GameSession): Record<number, number
 }
 
 function cleanupQuestAbortItems(
-  session: GameSession,
+  session: SessionPorts,
   definition: QuestDef,
   instance: QuestInstance
 ): { inventoryDirty: boolean; cleanedTemplateIds: number[] } {
@@ -317,7 +321,7 @@ function collectGrantedItems(effects: QuestEffectDef[]): Array<{ templateId: num
 }
 
 async function applyQuest2Effects(
-  session: GameSession,
+  session: SessionPorts,
   effects: QuestEffectDef[]
 ): Promise<{ inventoryDirty: boolean; statsDirty: boolean; petsDirty: boolean }> {
   const mappedEffects: UnknownRecord[] = [];
@@ -399,9 +403,7 @@ async function applyQuest2Effects(
     }
   }
 
-  const effectResult = await applyEffects(session, mappedEffects, {
-    suppressPersist: true,
-  });
+  const effectResult = await applyEffects(session, mappedEffects, {});
   if (petsDirty) {
     session.sendPetStateSync('quest2-effect');
   }
@@ -414,7 +416,7 @@ async function applyQuest2Effects(
 }
 
 function consumeCapturedMonsterItem(
-  session: GameSession,
+  session: SessionPorts,
   monsterId: number,
   quantity: number,
   templateId?: number
@@ -484,8 +486,8 @@ function resolveCapturedMonsterId(item: Record<string, unknown>): number {
   return Number.isInteger(item.extraValue) ? (Number(item.extraValue) >>> 0) : 0;
 }
 
-function triggerQuestCombat(session: GameSession, monsterId: number, count: number): void {
-  if (typeof session.sendCombatEncounterProbe !== 'function' || session.combatState?.active) {
+function triggerQuestCombat(session: SessionPorts, monsterId: number, count: number): void {
+  if (session.combatState?.active) {
     return;
   }
 
@@ -493,7 +495,7 @@ function triggerQuestCombat(session: GameSession, monsterId: number, count: numb
   const mapName = getMapSummary(session.currentMapId)?.mapName || `Map ${session.currentMapId}`;
   const enemyCount = Math.max(1, count);
 
-  session.sendCombatEncounterProbe({
+  startCombatEncounter(session, {
     probeId: `quest2:${monsterId}:${enemyCount}:${Date.now()}`,
     encounterProfile: {
       minEnemies: enemyCount,
@@ -511,7 +513,7 @@ function triggerQuestCombat(session: GameSession, monsterId: number, count: numb
 }
 
 function emitQuestTransitionDialogues(
-  session: GameSession,
+  session: SessionPorts,
   transitions: Array<{ type: string; questId: number; [key: string]: unknown }>
 ): void {
   for (const transition of transitions) {
