@@ -16,6 +16,9 @@ type UnknownRecord = Record<string, any>;
 const DEFAULT_SKILL_PROFICIENCY_THRESHOLD = 10000;
 type ProficiencySyncMode = 'always' | 'upgrade-only' | 'never';
 
+export { findLearnedSkill, resolveStoredSkillLevel, resolveEffectiveSkillLevel } from '../combat/combat-formulas.js';
+import { findLearnedSkill, resolveStoredSkillLevel, resolveEffectiveSkillLevel } from '../combat/combat-formulas.js';
+
 export function ensureSkillState(session: GameSession): UnknownRecord {
   if (!session.skillState || typeof session.skillState !== 'object') {
     session.skillState = {
@@ -33,42 +36,6 @@ export function ensureSkillState(session: GameSession): UnknownRecord {
     session.skillState.hotbarSkillIds.push(0);
   }
   return session.skillState;
-}
-
-export function findLearnedSkill(session: GameSession, skillId: number): UnknownRecord | null {
-  const normalizedSkillId = skillId >>> 0;
-  const learnedSkills = Array.isArray(session.skillState?.learnedSkills) ? session.skillState.learnedSkills : [];
-  return learnedSkills.find((entry: UnknownRecord) => (Number(entry?.skillId || 0) >>> 0) === normalizedSkillId) || null;
-}
-
-export function resolveStoredSkillLevel(session: GameSession, skillId: number): number {
-  const learned = findLearnedSkill(session, skillId);
-  return Math.max(0, Number(learned?.level || 0) || 0);
-}
-
-export function resolveEffectiveSkillLevel(session: GameSession, skillId: number): number {
-  const normalizedSkillId = skillId >>> 0;
-  const variantKind = getSkillVariantKind(normalizedSkillId);
-  if (variantKind === 'passive') {
-    const baseSkillId = resolveBaseSkillId(normalizedSkillId);
-    const baseSkillLevel = Math.max(1, resolveEffectiveSkillLevel(session, baseSkillId));
-    return Math.max(1, Math.min(5, Math.floor(baseSkillLevel / 2)));
-  }
-  if (variantKind !== 'active') {
-    return Math.max(1, resolveStoredSkillLevel(session, normalizedSkillId) || 1);
-  }
-
-  const activeLevel = Math.max(1, resolveStoredSkillLevel(session, normalizedSkillId) || 1);
-  if (activeLevel >= 11) {
-    return Math.min(12, activeLevel);
-  }
-
-  const aptitudeLevel = Math.max(0, resolveStoredSkillLevel(session, resolveAptitudeSkillId(normalizedSkillId)));
-  if (aptitudeLevel <= 0) {
-    return Math.min(10, activeLevel);
-  }
-
-  return Math.max(activeLevel, Math.min(12, 10 + Math.min(2, aptitudeLevel)));
 }
 
 export function resolveSkillMaxLevel(skillId: number): number {

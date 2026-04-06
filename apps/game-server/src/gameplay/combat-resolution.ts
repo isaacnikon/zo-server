@@ -4,11 +4,11 @@ import { tryReadStaticJsonDocument } from '../db/static-json-store.js';
 import { resolveRepoPath } from '../runtime-paths.js';
 import { parseAttackSelection, parseCombatItemUse } from '../protocol/inbound-packets.js';
 import { buildEnterGameProgressPacket } from '../protocol/gameplay-packets.js';
-import { buildActionStateResetPacket, buildActionStateTableResetPacket, buildAttackPlaybackPacket, buildControlInitPacket, buildControlShowPacket, buildDefeatPacket, buildEntityHidePacket, buildRingOpenPacket, buildRoundStartPacket, buildStateModePacket, buildVictoryPacket, buildVictoryPointsPacket, buildVictoryRankPacket, buildVitalsPacket, buildActiveStatePacket } from './packets.js';
-import { grantCombatDropsForEnemies } from '../gameplay/combat-drop-runtime.js';
-import { sendInventoryFullSync } from '../gameplay/inventory-runtime.js';
-import { consumeUsableItemByInstanceId } from '../gameplay/item-use-runtime.js';
-import { ensureSkillState, sendSkillStateSync } from '../gameplay/skill-runtime.js';
+import { buildActionStateResetPacket, buildActionStateTableResetPacket, buildAttackPlaybackPacket, buildControlInitPacket, buildControlShowPacket, buildDefeatPacket, buildEntityHidePacket, buildRingOpenPacket, buildRoundStartPacket, buildStateModePacket, buildVictoryPacket, buildVictoryPointsPacket, buildVictoryRankPacket, buildVitalsPacket, buildActiveStatePacket } from '../combat/packets.js';
+import { grantCombatDropsForEnemies } from './combat-drop-runtime.js';
+import { sendInventoryFullSync } from './inventory-runtime.js';
+import { consumeUsableItemByInstanceId } from './item-use-runtime.js';
+import { ensureSkillState, sendSkillStateSync } from './skill-runtime.js';
 import {
   areAllSharedTeamCombatActionsReady,
   clearSharedTeamCombatQueuedActions,
@@ -20,12 +20,12 @@ import {
   isSharedTeamCombatOwner,
   removeSharedTeamCombatParticipant,
   setSharedTeamCombatQueuedAction,
-} from '../gameplay/team-runtime.js';
-import { applyEffects } from '../effects/effect-executor.js';
-import { PROGRESSION } from '../gameplay/progression.js';
-import { handleActiveFieldEventVictory } from '../gameplay/field-event-runtime.js';
-import { buildDefeatRespawnState } from '../gameplay/session-flows.js';
-import { sendSelfStateVitalsUpdate } from '../gameplay/stat-sync.js';
+} from './team-runtime.js';
+import { applyEffects } from './effect-executor.js';
+import { PROGRESSION } from './progression.js';
+import { handleActiveFieldEventVictory } from './field-event-runtime.js';
+import { buildDefeatRespawnState } from './session-flows.js';
+import { sendSelfStateVitalsUpdate } from './stat-sync.js';
 import { getCapturePetTemplateId } from '../roleinfo/index.js';
 import { getBagItemByReference, getItemDefinition } from '../inventory/index.js';
 import {
@@ -54,8 +54,8 @@ import {
   SLAUGHTER_SKILL_ID,
   SKILL_PACKET_HYBRID_IMPACT_ENABLED,
   tickCombatStatuses,
-} from './combat-formulas.js';
-import { createIdleCombatState } from './combat-formulas.js';
+} from '../combat/combat-formulas.js';
+import { createIdleCombatState } from '../combat/combat-formulas.js';
 import { handleCombatSkillUse, resolveCombatSkillUse } from './skill-resolution.js';
 
 type CombatAction = Record<string, any>;

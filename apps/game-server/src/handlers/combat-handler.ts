@@ -6,7 +6,7 @@ import {
   createIdleCombatState,
   FIGHT_CLIENT_SKILL_USE_SUBCMD,
 } from '../combat/combat-formulas.js';
-import { handleCombatSkillUse } from '../combat/skill-resolution.js';
+import { handleCombatSkillUse } from '../gameplay/skill-resolution.js';
 import {
   clearCombatState,
   disposeCombatTimers,
@@ -22,12 +22,12 @@ import {
   scheduleCommandPhaseAutoFallback,
   tryAdvanceSharedCombatRoundOnReady,
   transitionToCommandPhase,
-} from '../combat/combat-resolution.js';
+} from '../gameplay/combat-resolution.js';
 
 type CombatAction = Record<string, any>;
 
 export { createIdleCombatState } from '../combat/combat-formulas.js';
-export { disposeCombatTimers, handleSharedCombatParticipantDisposed } from '../combat/combat-resolution.js';
+export { disposeCombatTimers, handleSharedCombatParticipantDisposed } from '../gameplay/combat-resolution.js';
 
 export function handleCombatPacket(session: GameSession, cmdWord: number, payload: Buffer): void {
   if (!session.combatState?.active) {

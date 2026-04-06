@@ -13,7 +13,7 @@ import { recomputeSessionMaxVitals, resolveInnRestVitals } from '../gameplay/ses
 import { primeNpcServiceContext } from '../gameplay/npc-service-runtime.js';
 import { sendSelfStateValueUpdate, sendSelfStateVitalsUpdate } from '../gameplay/stat-sync.js';
 import { grantSkill, sendSkillStateSync } from '../gameplay/skill-runtime.js';
-import { applyEffects } from '../effects/effect-executor.js';
+import { applyEffects } from '../gameplay/effect-executor.js';
 import { dispatchQuestEventToSession } from '../quest2/index.js';
 
 type MapNpcRecord = Record<string, any>;

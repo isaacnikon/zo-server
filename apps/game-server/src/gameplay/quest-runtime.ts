@@ -1,18 +1,18 @@
 import type { GameSession, SessionPorts } from '../types.js';
 import type { UnknownRecord } from '../utils.js';
-import type { QuestEvent } from './events.js';
-import type { QuestDef, QuestEffectDef, RequirementDef, StepDef, StepReactionDef } from './schema.js';
-import type { QuestInstance } from './state.js';
+import type { QuestEvent } from '../quest2/events.js';
+import type { QuestDef, QuestEffectDef, RequirementDef, StepDef, StepReactionDef } from '../quest2/schema.js';
+import type { QuestInstance } from '../quest2/state.js';
 
-import { applyEffects } from '../effects/effect-executor.js';
+import { applyEffects } from './effect-executor.js';
 import { consumeBagItemByInstanceId, consumeItemFromBag, getBagQuantityByTemplateId } from '../inventory/index.js';
 import { getMapEncounterLevelRange, getMapSummary } from '../map-data.js';
-import { addPetToSession } from '../gameplay/pet-service.js';
+import { addPetToSession } from './pet-service.js';
 import { buildEncounterPoolEntry } from '../roleinfo/index.js';
 import { sanitizeQuestDialogueText } from '../utils.js';
-import { sendConsumeResultPackets } from '../gameplay/inventory-runtime.js';
-import { startCombatEncounter } from '../gameplay/combat-service.js';
-import { questService } from './service.js';
+import { sendConsumeResultPackets } from './inventory-runtime.js';
+import { startCombatEncounter } from './combat-service.js';
+import { questService } from '../quest2/service.js';
 
 type QuestRuntimeDispatchResult = {
   handled: boolean;

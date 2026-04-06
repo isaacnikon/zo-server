@@ -1,7 +1,7 @@
 import { parseQuestPacket } from '../protocol/inbound-packets.js';
 import { getBagQuantityByTemplateId } from '../inventory/index.js';
 import { isQuest2DefinitionId } from '../quest2/definitions.js';
-import { dispatchQuestEventToSession } from '../quest2/runtime.js';
+import { dispatchQuestEventToSession } from '../gameplay/quest-runtime.js';
 import type { GameSession } from '../types.js';
 
 type QuestMonsterDefeatResult = {

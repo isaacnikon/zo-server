@@ -1,4 +1,4 @@
-import { applyEffects } from '../effects/effect-executor.js';
+import { applyEffects } from './effect-executor.js';
 import { getMapEncounterLevelRange, getMapSummary } from '../map-data.js';
 import { buildEncounterPoolEntry } from '../roleinfo/index.js';
 import { tryHandleFrogTeleporterInteraction } from './frog-teleporter-service.js';

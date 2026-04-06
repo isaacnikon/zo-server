@@ -2,10 +2,45 @@ import type { CombatEnemyInstance, CombatState, GameSession } from '../types.js'
 import { appendFileSync, mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { getEquipmentCombatBonuses } from '../inventory/index.js';
-import { resolveSkillManaCostFromDefinition } from '../skill-definitions.js';
+import { resolveSkillManaCostFromDefinition, getSkillVariantKind, resolveAptitudeSkillId, resolveBaseSkillId } from '../skill-definitions.js';
 import { getSkillDefinition } from '../skill-definitions.js';
-import { resolveEffectiveSkillLevel } from '../gameplay/skill-runtime.js';
 import { resolveRepoPath } from '../runtime-paths.js';
+
+export function findLearnedSkill(session: GameSession, skillId: number): Record<string, any> | null {
+  const normalizedSkillId = skillId >>> 0;
+  const learnedSkills = Array.isArray(session.skillState?.learnedSkills) ? session.skillState.learnedSkills : [];
+  return learnedSkills.find((entry: Record<string, any>) => (Number(entry?.skillId || 0) >>> 0) === normalizedSkillId) || null;
+}
+
+export function resolveStoredSkillLevel(session: GameSession, skillId: number): number {
+  const learned = findLearnedSkill(session, skillId);
+  return Math.max(0, Number(learned?.level || 0) || 0);
+}
+
+export function resolveEffectiveSkillLevel(session: GameSession, skillId: number): number {
+  const normalizedSkillId = skillId >>> 0;
+  const variantKind = getSkillVariantKind(normalizedSkillId);
+  if (variantKind === 'passive') {
+    const baseSkillId = resolveBaseSkillId(normalizedSkillId);
+    const baseSkillLevel = Math.max(1, resolveEffectiveSkillLevel(session, baseSkillId));
+    return Math.max(1, Math.min(5, Math.floor(baseSkillLevel / 2)));
+  }
+  if (variantKind !== 'active') {
+    return Math.max(1, resolveStoredSkillLevel(session, normalizedSkillId) || 1);
+  }
+
+  const activeLevel = Math.max(1, resolveStoredSkillLevel(session, normalizedSkillId) || 1);
+  if (activeLevel >= 11) {
+    return Math.min(12, activeLevel);
+  }
+
+  const aptitudeLevel = Math.max(0, resolveStoredSkillLevel(session, resolveAptitudeSkillId(normalizedSkillId)));
+  if (aptitudeLevel <= 0) {
+    return Math.min(10, activeLevel);
+  }
+
+  return Math.max(activeLevel, Math.min(12, 10 + Math.min(2, aptitudeLevel)));
+}
 
 
 // --- Constants ---

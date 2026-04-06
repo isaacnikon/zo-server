@@ -1,7 +1,7 @@
 import { DEFAULT_FLAGS, GAME_FIGHT_ACTION_CMD } from '../config.js';
-import { buildSkillCastPlaybackPacket, buildSlaughterCastPlaybackPacket } from './packets.js';
+import { buildSkillCastPlaybackPacket, buildSlaughterCastPlaybackPacket } from '../combat/packets.js';
 import { getSkillDefinition } from '../skill-definitions.js';
-import { ensureSkillState, findLearnedSkill, incrementSkillProficiency, resolveEffectiveSkillLevel } from '../gameplay/skill-runtime.js';
+import { ensureSkillState, findLearnedSkill, incrementSkillProficiency, resolveEffectiveSkillLevel } from './skill-runtime.js';
 import {
   resolveSkillTargets,
   BLEED_SKILL_ID,
@@ -78,7 +78,7 @@ import {
   resolveRegenerateHealAmount,
   REVIVE_SKILL_ID,
   SACRIFICE_SKILL_ID,
-} from './combat-formulas.js';
+} from '../combat/combat-formulas.js';
 import {
   finalizeSkillResolutionAndEnemyTurn,
   resendCombatCommandPrompt,
@@ -88,7 +88,7 @@ import {
   areAllSharedTeamCombatActionsReady,
   getSharedTeamCombatOwnerSession,
   setSharedTeamCombatQueuedAction,
-} from '../gameplay/team-runtime.js';
+} from './team-runtime.js';
 import type { GameSession } from '../types.js';
 
 type CombatSkillPlan = {

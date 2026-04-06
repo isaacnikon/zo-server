@@ -31,10 +31,8 @@ apps/game-server/
     pet-handler.ts        Pet actions and sync
     npc-interaction-handler.ts  NPC talk/shop/quest interactions
     session-bootstrap-handler.ts  Enter-game sequence, NPC spawns
-  combat/               Combat subsystem
-    combat-formulas.ts    Pure functions: damage, skill costs, enemy queries, constants
-    combat-resolution.ts  Turn resolution, victory/defeat, rewards, command prompts
-    skill-resolution.ts   Skill use handling, cast playback
+  combat/               Combat subsystem — Layer 1 (pure, no gameplay imports)
+    combat-formulas.ts    Pure functions: damage, skill costs, enemy queries, skill level resolution
     encounter-builder.ts  Enemy pool construction
     packets.ts            Combat packet builders
   inventory/             Inventory subsystem
@@ -50,6 +48,11 @@ apps/game-server/
     queries.ts            Public query functions (drops, pets, encounters)
     index.ts              Barrel re-export
   gameplay/              Gameplay services (layer 2 — no handler imports)
+    combat-resolution.ts  Turn resolution, victory/defeat, rewards, command prompts
+    skill-resolution.ts   Skill use handling, cast playback
+    combat-service.ts     Combat encounter entry point
+    effect-executor.ts    Effect executor (grant/remove items, dialogue, scripts)
+    quest-runtime.ts      Quest event dispatch and effect application
     item-use-runtime.ts   Consumable item resolution
     shop-runtime.ts       NPC shop buy/sell
     inventory-runtime.ts  Inventory packet sync
@@ -60,7 +63,6 @@ apps/game-server/
     progression.ts        Level-up, experience
     max-vitals.ts         HP/MP/rage cap calculation
     session-flows.ts      Vitals baseline, player vitals resolution
-  effects/               Game effect executor (grant/remove items, dialogue, scripts)
   objectives/            Quest objective system (registry, dispatcher, event handler)
   scenes/                Map interactions, field combat triggers, map rotation
   character/             Character persistence, hydration, normalization
@@ -87,8 +89,8 @@ Four dependency layers — imports point downward only:
 ```
 Layer 4: SESSION + WIRING   (session.ts, server.ts)
 Layer 3: HANDLERS            (handlers/*, scenes/*, objectives/*)
-Layer 2: GAMEPLAY SERVICES   (gameplay/*, effects/*)
-Layer 1: DOMAIN CORE         (types, config, protocol, combat/formulas, inventory, quest2, roleinfo)
+Layer 2: GAMEPLAY SERVICES   (gameplay/*)
+Layer 1: DOMAIN CORE         (types, config, protocol, combat/, inventory, quest2, roleinfo)
 ```
 
 ## Key Patterns
@@ -103,4 +105,4 @@ Layer 1: DOMAIN CORE         (types, config, protocol, combat/formulas, inventor
 
 - `Slaughter` (`1403`) uses a native class-13 cast packet plus a generic fallback cast probe for client animation playback.
 - Delayed-cast skills now use `skillResolutionPhase` to separate the first client-ready event from impact completion.
-- If a delayed-cast skill never sends a second completion packet, the server falls back to a short `await-impact-ready` timeout in `combat-resolution.ts` so combat does not hang indefinitely.
+- If a delayed-cast skill never sends a second completion packet, the server falls back to a short `await-impact-ready` timeout in `gameplay/combat-resolution.ts` so combat does not hang indefinitely.

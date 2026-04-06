@@ -9,7 +9,7 @@ import {
 } from '../combat/combat-formulas.js';
 import { buildEncounterEnemies, cloneEncounterEnemies } from '../combat/encounter-builder.js';
 import { buildEncounterPacket } from '../combat/packets.js';
-import { sendIntroSequence } from '../combat/combat-resolution.js';
+import { sendIntroSequence } from './combat-resolution.js';
 
 type CombatAction = Record<string, any>;
 type SendCombatEncounterOptions = {

@@ -1,7 +1,7 @@
 import { DEFAULT_FLAGS, GAME_ITEM_CMD, GAME_ITEM_CONTAINER_CMD } from '../config.js';
 import { buildInventoryContainerBulkSyncPacket, buildInventoryContainerQuantityPacket, buildItemAddPacket, buildItemRemovePacket, } from '../protocol/gameplay-packets.js';
 import { BAG_CONTAINER_TYPE, getItemDefinition, isEquipmentDefinition, } from '../inventory/index.js';
-import { applyEffects } from '../effects/effect-executor.js';
+import { applyEffects } from './effect-executor.js';
 
 const EQUIPMENT_CONTAINER_TYPE = 0;
 const WAREHOUSE_CONTAINER_TYPE = 2;

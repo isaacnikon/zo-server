@@ -1,7 +1,7 @@
 'use strict';
 export {};
 
-import { applyEffects } from '../effects/effect-executor.js';
+import { applyEffects } from './effect-executor.js';
 
 import type { SessionPorts } from '../types.js';
 

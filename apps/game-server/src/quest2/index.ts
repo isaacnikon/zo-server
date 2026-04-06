@@ -76,7 +76,7 @@ export {
 
 export {
   dispatchQuestEventToSession,
-} from './runtime.js';
+} from '../gameplay/quest-runtime.js';
 
 export type {
   Quest2SyncState,

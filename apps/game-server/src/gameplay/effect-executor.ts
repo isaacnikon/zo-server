@@ -1,8 +1,8 @@
 import { bagHasTemplateQuantity, grantItemToBag, consumeItemFromBag, getItemDefinition } from '../inventory/index.js';
-import { sendGrantResultPackets, sendConsumeResultPackets, sendInventoryFullSync, } from '../gameplay/inventory-runtime.js';
-import { sendSelfStateValueUpdate } from '../gameplay/stat-sync.js';
-import { applyExperienceGain } from '../gameplay/progression.js';
-import { recomputeSessionMaxVitals } from '../gameplay/session-flows.js';
+import { sendGrantResultPackets, sendConsumeResultPackets, sendInventoryFullSync, } from './inventory-runtime.js';
+import { sendSelfStateValueUpdate } from './stat-sync.js';
+import { applyExperienceGain } from './progression.js';
+import { recomputeSessionMaxVitals } from './session-flows.js';
 import type { UnknownRecord } from '../utils.js';
 import type { SessionPorts } from '../types.js';
 
