@@ -7,8 +7,7 @@ import { sendConsumeResultPackets, sendEquipmentContainerSync, sendInventoryFull
 import { consumeUsableItemByInstanceId } from '../gameplay/item-use-runtime.js';
 import { sendSelfStateVitalsUpdate } from '../gameplay/stat-sync.js';
 import { normalizePrimaryAttributes } from '../character/normalize.js';
-import { recomputeSessionMaxVitals } from '../gameplay/session-flows.js';
-import { sendPetStateSync } from './pet-handler.js';
+import { clampSessionVitalsToMax, recomputeSessionMaxVitals } from '../gameplay/session-flows.js';
 
 const PENDING_BAG_SPLIT_WINDOW_MS = 5000;
 
@@ -168,13 +167,7 @@ export async function tryHandleClientMaxVitalsSyncPacket(
     currentMana: session.currentMana,
     currentRage: session.currentRage,
   });
-  const clampedHealth = Math.max(0, Math.min(Math.max(0, session.currentHealth || 0), session.maxHealth));
-  const clampedMana = Math.max(0, Math.min(Math.max(0, session.currentMana || 0), session.maxMana));
-  const clampedVitals =
-    clampedHealth !== Math.max(0, session.currentHealth || 0) ||
-    clampedMana !== Math.max(0, session.currentMana || 0);
-  session.currentHealth = clampedHealth;
-  session.currentMana = clampedMana;
+  const clampedVitals = clampSessionVitalsToMax(session);
 
   await session.persistCurrentCharacter({
     currentHealth: session.currentHealth,
@@ -477,7 +470,7 @@ async function completeItemUse(session: GameSession, attempt: ItemUseAttempt): P
   }
 
   if (useResult.petSyncNeeded) {
-    sendPetStateSync(session, 'item-use');
+    session.sendPetStateSync('item-use');
   }
 
   const targetKindSegment =

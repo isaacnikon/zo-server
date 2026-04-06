@@ -45,3 +45,16 @@ export async function grantCombatDrops(_session: SessionPorts, enemy: UnknownRec
     inventoryDirty: result.inventoryDirty === true,
   };
 }
+
+export async function grantCombatDropsForEnemies(
+  session: SessionPorts,
+  enemies: UnknownRecord[]
+): Promise<UnknownRecord> {
+  const acc: { granted: UnknownRecord[]; inventoryDirty: boolean } = { granted: [], inventoryDirty: false };
+  for (const enemy of enemies) {
+    const next = await grantCombatDrops(session, enemy);
+    acc.granted.push(...(next.granted || []));
+    acc.inventoryDirty = acc.inventoryDirty || !!next.inventoryDirty;
+  }
+  return acc;
+}

@@ -5,7 +5,7 @@ import { handleCombatPacket } from './combat-handler.js';
 import { handleGatheringRequest } from './gathering-handler.js';
 import { tryHandleClientMaxVitalsSyncPacket, tryHandleEquipmentStatePacket, tryHandleFightResultItemActionProbe, tryHandleItemContainerPacket, tryHandleItemStackCombinePacket, tryHandleItemStackSplitPacket, tryHandleItemUsePacket, tryHandleAttributeAllocationPacket } from './player-state-handler.js';
 import { tryHandlePetActionPacket } from './pet-handler.js';
-import { handleServerRunRequest } from '../gameplay/server-run-runtime.js';
+import { handleServerRunRequest } from './server-run-handler.js';
 import { tryHandleNpcServicePacket } from '../gameplay/npc-service-runtime.js';
 import { handleNpcShopServiceRequest } from '../gameplay/shop-runtime.js';
 import { tryHandleCraftRecipePacket } from '../gameplay/crafting-runtime.js';

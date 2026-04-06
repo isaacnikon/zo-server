@@ -169,3 +169,17 @@ export function recomputeSessionMaxVitals(session: UnknownRecord, overrides: Unk
     rage: session.maxRage,
   };
 }
+
+export function clampSessionVitalsToMax(session: UnknownRecord): boolean {
+  const clampedHealth = Math.max(0, Math.min(Math.max(0, (session.currentHealth as number) || 0), (session.maxHealth as number) || 0));
+  const clampedMana   = Math.max(0, Math.min(Math.max(0, (session.currentMana   as number) || 0), (session.maxMana   as number) || 0));
+  const clampedRage   = Math.max(0, Math.min(Math.max(0, (session.currentRage   as number) || 0), (session.maxRage   as number) || 0));
+  const changed =
+    clampedHealth !== Math.max(0, (session.currentHealth as number) || 0) ||
+    clampedMana   !== Math.max(0, (session.currentMana   as number) || 0) ||
+    clampedRage   !== Math.max(0, (session.currentRage   as number) || 0);
+  session.currentHealth = clampedHealth;
+  session.currentMana   = clampedMana;
+  session.currentRage   = clampedRage;
+  return changed;
+}

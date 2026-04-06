@@ -2,6 +2,7 @@
  export {};
 
 import { getRoleName, getRolePrimaryDrop } from '../roleinfo/index.js';
+import type { CombatEnemyInstance } from '../types.js';
 import type { UnknownRecord } from '../utils.js';
 
 export const FORCE_MULTI_ENEMY_ENCOUNTERS = process.env.FORCE_MULTI_ENEMY_ENCOUNTERS === '1';
@@ -160,4 +161,13 @@ export function buildEncounterEnemies(action: UnknownRecord | null | undefined, 
 
 export function buildEncounterEnemy(action: UnknownRecord | null | undefined, mapId: number): UnknownRecord {
   return buildEncounterEnemies(action, mapId)[0];
+}
+
+export function cloneEncounterEnemies(enemies: CombatEnemyInstance[]): CombatEnemyInstance[] {
+  return enemies.map((enemy) => ({
+    ...enemy,
+    appearanceTypes: Array.isArray(enemy?.appearanceTypes) ? [...enemy.appearanceTypes] : [],
+    appearanceVariants: Array.isArray(enemy?.appearanceVariants) ? [...enemy.appearanceVariants] : [],
+    drops: Array.isArray(enemy?.drops) ? enemy.drops.map((drop) => ({ ...drop })) : [],
+  }));
 }

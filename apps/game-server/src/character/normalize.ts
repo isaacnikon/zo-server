@@ -12,7 +12,7 @@ import {
   getAptitudeSkillDefinition,
   getPassiveSkillDefinition,
   isActiveSkillId,
-} from '../gameplay/skill-definitions.js';
+} from '../skill-definitions.js';
 import type { UnknownRecord } from '../utils.js';
 type PrimaryAttributes = {
   intelligence: number;

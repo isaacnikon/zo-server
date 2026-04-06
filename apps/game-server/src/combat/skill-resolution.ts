@@ -1,6 +1,6 @@
 import { DEFAULT_FLAGS, GAME_FIGHT_ACTION_CMD } from '../config.js';
 import { buildSkillCastPlaybackPacket, buildSlaughterCastPlaybackPacket } from './packets.js';
-import { getSkillDefinition } from '../gameplay/skill-definitions.js';
+import { getSkillDefinition } from '../skill-definitions.js';
 import { ensureSkillState, findLearnedSkill, incrementSkillProficiency, resolveEffectiveSkillLevel } from '../gameplay/skill-runtime.js';
 import {
   resolveSkillTargets,

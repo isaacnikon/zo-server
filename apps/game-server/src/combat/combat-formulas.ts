@@ -2,8 +2,8 @@ import type { CombatEnemyInstance, CombatState, GameSession } from '../types.js'
 import { appendFileSync, mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { getEquipmentCombatBonuses } from '../inventory/index.js';
-import { resolveSkillManaCostFromDefinition } from '../gameplay/skill-definitions.js';
-import { getSkillDefinition } from '../gameplay/skill-definitions.js';
+import { resolveSkillManaCostFromDefinition } from '../skill-definitions.js';
+import { getSkillDefinition } from '../skill-definitions.js';
 import { resolveEffectiveSkillLevel } from '../gameplay/skill-runtime.js';
 import { resolveRepoPath } from '../runtime-paths.js';
 
@@ -1204,4 +1204,35 @@ export function deriveCombatResultRankCode(totalScore: number, maxScore: number)
     return 2; // C
   }
   return 3; // D
+}
+
+export function resolveSharedPartySlots(size: number): CombatPartySlot[] {
+  switch (Math.max(1, Math.min(5, size | 0))) {
+    case 1:
+      return [{ row: 1, col: 2 }];
+    case 2:
+      return [{ row: 1, col: 1 }, { row: 1, col: 3 }];
+    case 3:
+      return [{ row: 1, col: 1 }, { row: 1, col: 2 }, { row: 1, col: 3 }];
+    case 4:
+      return [{ row: 1, col: 0 }, { row: 1, col: 1 }, { row: 1, col: 3 }, { row: 1, col: 4 }];
+    default:
+      return [{ row: 1, col: 0 }, { row: 1, col: 1 }, { row: 1, col: 2 }, { row: 1, col: 3 }, { row: 1, col: 4 }];
+  }
+}
+
+export function resolveCombatPartyOrder(viewer: GameSession, allies: GameSession[] | null | undefined): GameSession[] {
+  const normalized = [viewer, ...(Array.isArray(allies) ? allies : [])]
+    .filter((candidate, index, values) =>
+      Boolean(candidate) &&
+      values.findIndex((entry) => (entry.id >>> 0) === (candidate.id >>> 0)) === index
+    );
+  const teamOrder = Array.isArray(viewer.teamMembers) ? viewer.teamMembers : [];
+  return normalized.sort((left, right) => {
+    const leftIndex = teamOrder.findIndex((runtimeId) => (runtimeId >>> 0) === (left.runtimeId >>> 0));
+    const rightIndex = teamOrder.findIndex((runtimeId) => (runtimeId >>> 0) === (right.runtimeId >>> 0));
+    const normalizedLeftIndex = leftIndex >= 0 ? leftIndex : (0x10000 + (left.runtimeId >>> 0));
+    const normalizedRightIndex = rightIndex >= 0 ? rightIndex : (0x10000 + (right.runtimeId >>> 0));
+    return normalizedLeftIndex - normalizedRightIndex;
+  });
 }

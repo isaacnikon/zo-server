@@ -1,12 +1,13 @@
 import type { GameSession } from '../types.js';
 
 import { normalizePets } from '../pet-runtime.js';
-import { CHARACTER_VITALS_BASELINE, recomputeSessionMaxVitals } from '../gameplay/session-flows.js';
+import { CHARACTER_VITALS_BASELINE, clampSessionVitalsToMax, recomputeSessionMaxVitals } from '../gameplay/session-flows.js';
 import { initializeOnlineTracking, normalizeOnlineState } from '../gameplay/online-runtime.js';
 import { normalizeRenownTaskDailyState } from '../gameplay/renown-task-runtime.js';
 import { resolveRoleData } from './role-utils.js';
 import { defaultFrogTeleporterUnlocks, hydrateFrogTeleporterUnlocks } from '../gameplay/frog-teleporter-service.js';
 import { defaultBonusAttributes, numberOrDefault, normalizeBonusAttributes, normalizePrimaryAttributes, normalizeCharacterRecord, normalizeSkillState, } from './normalize.js';
+import type { UnknownRecord } from '../utils.js';
 import { buildInventorySnapshot, normalizeInventoryState } from '../inventory/index.js';
 import {
   normalizeQuestState as normalizeQuestStateV2,
@@ -61,16 +62,7 @@ export function hydratePendingGameCharacter(session: GameSession, sharedState: R
     currentMana: session.currentMana,
     currentRage: session.currentRage,
   });
-  const clampedHealth = Math.max(0, Math.min(session.currentHealth, session.maxHealth));
-  const clampedMana = Math.max(0, Math.min(session.currentMana, session.maxMana));
-  const clampedRage = Math.max(0, Math.min(session.currentRage, session.maxRage));
-  const correctedVitals =
-    clampedHealth !== session.currentHealth ||
-    clampedMana !== session.currentMana ||
-    clampedRage !== session.currentRage;
-  session.currentHealth = clampedHealth;
-  session.currentMana = clampedMana;
-  session.currentRage = clampedRage;
+  const correctedVitals = clampSessionVitalsToMax(session);
 
   session.questStateV2 = normalizeQuestStateV2(
     pendingCharacter?.questStateV2 && typeof pendingCharacter.questStateV2 === 'object'
@@ -224,4 +216,28 @@ export async function persistCurrentCharacter(
   overrides: CharacterOverrides = {}
 ): Promise<void> {
   await saveCharacter(session, buildCharacterSnapshot(session, overrides));
+}
+
+export function ensureQuestStateReady(session: GameSession): void {
+  const persisted = session.getPersistedCharacter();
+  if (!persisted) {
+    return;
+  }
+
+  session.questStateV2 = normalizeQuestStateV2(
+    persisted?.questStateV2 && typeof persisted.questStateV2 === 'object'
+      ? persisted.questStateV2 as UnknownRecord
+      : {}
+  );
+  session.pets = normalizePets(persisted.pets);
+  session.selectedPetRuntimeId =
+    typeof persisted.selectedPetRuntimeId === 'number'
+      ? persisted.selectedPetRuntimeId >>> 0
+      : null;
+  session.petSummoned = persisted.petSummoned === true;
+  const inventoryState = normalizeInventoryState(persisted);
+  session.bagItems = inventoryState.inventory.bag;
+  session.bagSize = inventoryState.inventory.bagSize;
+  session.nextItemInstanceId = inventoryState.inventory.nextItemInstanceId;
+  session.nextBagSlot = inventoryState.inventory.nextBagSlot;
 }

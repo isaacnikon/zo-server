@@ -4,7 +4,7 @@ import { CHARACTER_STORE_BACKEND } from '../config.js';
 import { normalizePrimaryAttributes } from '../character/normalize.js';
 import { sendWarehouseContainerSync, syncInventoryStateToClient } from '../gameplay/inventory-runtime.js';
 import { sendSkillStateSync, ensureSkillState } from '../gameplay/skill-runtime.js';
-import { getSkillDefinition } from '../gameplay/skill-definitions.js';
+import { getSkillDefinition } from '../skill-definitions.js';
 import { sendSelfStateVitalsUpdate } from '../gameplay/stat-sync.js';
 import { getItemDefinition, normalizeInventoryState } from '../inventory/index.js';
 import { queryPostgres, withPostgresTransaction } from '../db/postgres-pool.js';

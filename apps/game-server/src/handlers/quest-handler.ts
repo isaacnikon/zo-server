@@ -1,11 +1,8 @@
 import { parseQuestPacket } from '../protocol/inbound-packets.js';
-import { getBagQuantityByTemplateId, normalizeInventoryState } from '../inventory/index.js';
-import { normalizePets } from '../pet-runtime.js';
+import { getBagQuantityByTemplateId } from '../inventory/index.js';
 import { isQuest2DefinitionId } from '../quest2/definitions.js';
 import { dispatchQuestEventToSession } from '../quest2/runtime.js';
-import { normalizeQuestState as normalizeQuestStateV2 } from '../quest2/state.js';
 import type { GameSession } from '../types.js';
-import type { UnknownRecord } from '../utils.js';
 
 type QuestMonsterDefeatResult = {
   handled: boolean;
@@ -70,29 +67,6 @@ async function handleQuestMonsterDefeat(session: GameSession, monsterId: number,
   };
 }
 
-function ensureQuestStateReady(session: GameSession): void {
-  const persisted = session.getPersistedCharacter();
-  if (!persisted) {
-    return;
-  }
-
-  session.questStateV2 = normalizeQuestStateV2(
-    persisted?.questStateV2 && typeof persisted.questStateV2 === 'object'
-      ? persisted.questStateV2 as UnknownRecord
-      : {}
-  );
-  session.pets = normalizePets(persisted.pets);
-  session.selectedPetRuntimeId =
-    typeof persisted.selectedPetRuntimeId === 'number'
-      ? persisted.selectedPetRuntimeId >>> 0
-      : null;
-  session.petSummoned = persisted.petSummoned === true;
-  const inventoryState = normalizeInventoryState(persisted);
-  session.bagItems = inventoryState.inventory.bag;
-  session.bagSize = inventoryState.inventory.bagSize;
-  session.nextItemInstanceId = inventoryState.inventory.nextItemInstanceId;
-  session.nextBagSlot = inventoryState.inventory.nextBagSlot;
-}
 
 async function refreshQuestStateForItemTemplates(session: GameSession, templateIds: number[]): Promise<void> {
   if (!Array.isArray(templateIds) || templateIds.length === 0) {
@@ -124,7 +98,6 @@ async function refreshQuestStateForItemTemplates(session: GameSession, templateI
 }
 
 export {
-  ensureQuestStateReady,
   handleQuestAbandonRequest,
   handleQuestMonsterDefeat,
   handleQuestPacket,

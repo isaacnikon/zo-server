@@ -9,7 +9,7 @@ import {
   isActiveSkillId,
   resolveAptitudeSkillId,
   resolveBaseSkillId,
-} from './skill-definitions.js';
+} from '../skill-definitions.js';
 
 import type { GameSession } from '../types.js';
 type UnknownRecord = Record<string, any>;

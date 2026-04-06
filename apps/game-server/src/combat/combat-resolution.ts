@@ -5,7 +5,7 @@ import { resolveRepoPath } from '../runtime-paths.js';
 import { parseAttackSelection, parseCombatItemUse } from '../protocol/inbound-packets.js';
 import { buildEnterGameProgressPacket } from '../protocol/gameplay-packets.js';
 import { buildActionStateResetPacket, buildActionStateTableResetPacket, buildAttackPlaybackPacket, buildControlInitPacket, buildControlShowPacket, buildDefeatPacket, buildEntityHidePacket, buildRingOpenPacket, buildRoundStartPacket, buildStateModePacket, buildVictoryPacket, buildVictoryPointsPacket, buildVictoryRankPacket, buildVitalsPacket, buildActiveStatePacket } from './packets.js';
-import { grantCombatDrops } from '../gameplay/combat-drop-runtime.js';
+import { grantCombatDropsForEnemies } from '../gameplay/combat-drop-runtime.js';
 import { sendInventoryFullSync } from '../gameplay/inventory-runtime.js';
 import { consumeUsableItemByInstanceId } from '../gameplay/item-use-runtime.js';
 import { ensureSkillState, sendSkillStateSync } from '../gameplay/skill-runtime.js';
@@ -1875,15 +1875,6 @@ export function resolveDefeat(session: GameSession): void {
   }, 900);
 }
 
-export async function grantCombatDropsForEnemies(session: GameSession, enemies: Record<string, any>[]): Promise<Record<string, any>> {
-  const acc: { granted: Record<string, any>[]; inventoryDirty: boolean } = { granted: [], inventoryDirty: false };
-  for (const enemy of enemies) {
-    const next = await grantCombatDrops(session, enemy);
-    acc.granted.push(...(next.granted || []));
-    acc.inventoryDirty = acc.inventoryDirty || !!next.inventoryDirty;
-  }
-  return acc;
-}
 
 export async function clearCombatState(
   session: GameSession,

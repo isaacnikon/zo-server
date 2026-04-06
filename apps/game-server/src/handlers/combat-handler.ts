@@ -1,15 +1,9 @@
-import type { CombatEnemyInstance, CombatState, GameSession } from '../types.js';
-import { COMBAT_ENABLED, DEFAULT_FLAGS, FIGHT_CLIENT_ATTACK_SELECTION_SUBCMD, FIGHT_CLIENT_DEFEND_SUBCMD, FIGHT_CLIENT_FLEE_SUBCMD, FIGHT_CLIENT_ITEM_USE_SUBCMD, FIGHT_CLIENT_PROTECT_SUBCMD, FIGHT_CLIENT_READY_SUBCMD, FIGHT_CLIENT_SELECTOR_TOKEN_SUBCMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_STREAM_CMD, } from '../config.js';
+import type { CombatState, GameSession } from '../types.js';
+import { FIGHT_CLIENT_ATTACK_SELECTION_SUBCMD, FIGHT_CLIENT_DEFEND_SUBCMD, FIGHT_CLIENT_FLEE_SUBCMD, FIGHT_CLIENT_ITEM_USE_SUBCMD, FIGHT_CLIENT_PROTECT_SUBCMD, FIGHT_CLIENT_READY_SUBCMD, FIGHT_CLIENT_SELECTOR_TOKEN_SUBCMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, } from '../config.js';
 import { parseCombatItemUse, parseCombatSelectorToken } from '../protocol/inbound-packets.js';
-import { buildEncounterEnemies } from '../combat/encounter-builder.js';
-import { buildEncounterPacket } from '../combat/packets.js';
 import {
   appendSkillPacketTrace,
-  buildAllyPlayerEntry,
-  buildPlayerEntry,
-  type CombatPartySlot,
   createIdleCombatState,
-  describeEncounterEnemies,
   FIGHT_CLIENT_SKILL_USE_SUBCMD,
 } from '../combat/combat-formulas.js';
 import { handleCombatSkillUse } from '../combat/skill-resolution.js';
@@ -26,16 +20,11 @@ import {
   resolveEnemyCounterattack,
   resolveVictory,
   scheduleCommandPhaseAutoFallback,
-  sendIntroSequence,
   tryAdvanceSharedCombatRoundOnReady,
   transitionToCommandPhase,
 } from '../combat/combat-resolution.js';
 
 type CombatAction = Record<string, any>;
-type SendCombatEncounterOptions = {
-  enemies?: CombatEnemyInstance[] | null;
-  allies?: GameSession[] | null;
-};
 
 export { createIdleCombatState } from '../combat/combat-formulas.js';
 export { disposeCombatTimers, handleSharedCombatParticipantDisposed } from '../combat/combat-resolution.js';
@@ -312,120 +301,6 @@ function isDelayedSkillImpactCompletionPacket(session: GameSession, cmdWord: num
   );
 }
 
-function cloneEncounterEnemies(enemies: CombatEnemyInstance[]): CombatEnemyInstance[] {
-  return enemies.map((enemy) => ({
-    ...enemy,
-    appearanceTypes: Array.isArray(enemy?.appearanceTypes) ? [...enemy.appearanceTypes] : [],
-    appearanceVariants: Array.isArray(enemy?.appearanceVariants) ? [...enemy.appearanceVariants] : [],
-    drops: Array.isArray(enemy?.drops) ? enemy.drops.map((drop) => ({ ...drop })) : [],
-  }));
-}
-
-function resolveSharedPartySlots(size: number): CombatPartySlot[] {
-  switch (Math.max(1, Math.min(5, size | 0))) {
-    case 1:
-      return [{ row: 1, col: 2 }];
-    case 2:
-      return [{ row: 1, col: 1 }, { row: 1, col: 3 }];
-    case 3:
-      return [{ row: 1, col: 1 }, { row: 1, col: 2 }, { row: 1, col: 3 }];
-    case 4:
-      return [{ row: 1, col: 0 }, { row: 1, col: 1 }, { row: 1, col: 3 }, { row: 1, col: 4 }];
-    default:
-      return [{ row: 1, col: 0 }, { row: 1, col: 1 }, { row: 1, col: 2 }, { row: 1, col: 3 }, { row: 1, col: 4 }];
-  }
-}
-
-function resolveCombatPartyOrder(viewer: GameSession, allies: GameSession[] | null | undefined): GameSession[] {
-  const normalized = [viewer, ...(Array.isArray(allies) ? allies : [])]
-    .filter((candidate, index, values) =>
-      Boolean(candidate) &&
-      values.findIndex((entry) => (entry.id >>> 0) === (candidate.id >>> 0)) === index
-    );
-  const teamOrder = Array.isArray(viewer.teamMembers) ? viewer.teamMembers : [];
-  return normalized.sort((left, right) => {
-    const leftIndex = teamOrder.findIndex((runtimeId) => (runtimeId >>> 0) === (left.runtimeId >>> 0));
-    const rightIndex = teamOrder.findIndex((runtimeId) => (runtimeId >>> 0) === (right.runtimeId >>> 0));
-    const normalizedLeftIndex = leftIndex >= 0 ? leftIndex : (0x10000 + (left.runtimeId >>> 0));
-    const normalizedRightIndex = rightIndex >= 0 ? rightIndex : (0x10000 + (right.runtimeId >>> 0));
-    return normalizedLeftIndex - normalizedRightIndex;
-  });
-}
-
-export function sendCombatEncounterProbe(
-  session: GameSession,
-  action: CombatAction,
-  options: SendCombatEncounterOptions = {}
-): void {
-  if (!COMBAT_ENABLED) {
-    session.log(`Ignoring encounter trigger while combat is disabled trigger=${action?.probeId || 'unknown'}`);
-    return;
-  }
-  if (session.combatState?.active) {
-    session.log(`Ignoring encounter trigger while combat is already active trigger=${session.combatState.triggerId}`);
-    return;
-  }
-
-  const enemies = Array.isArray(options.enemies) && options.enemies.length > 0
-    ? cloneEncounterEnemies(options.enemies as CombatEnemyInstance[])
-    : buildEncounterEnemies(action, session.currentMapId) as CombatEnemyInstance[];
-  if (enemies.length === 0) {
-    session.log(`Skipping encounter probe with empty pool trigger=${action?.probeId || 'unknown'}`);
-    return;
-  }
-  const partyOrder = resolveCombatPartyOrder(session, options.allies || []);
-  const partySlots = resolveSharedPartySlots(partyOrder.length);
-  const playerPartyIndex = Math.max(0, partyOrder.findIndex((member) => (member.id >>> 0) === (session.id >>> 0)));
-  const player = buildPlayerEntry(session, partySlots[playerPartyIndex] || { row: 1, col: 2 });
-  const allies = partyOrder
-    .filter((member) => (member.id >>> 0) !== (session.id >>> 0))
-    .map((ally) => {
-      const allyPartyIndex = Math.max(0, partyOrder.findIndex((member) => (member.id >>> 0) === (ally.id >>> 0)));
-      return buildAllyPlayerEntry(ally, partySlots[allyPartyIndex] || { row: 1, col: 2 });
-    });
-
-  session.combatState = {
-    active: true,
-    phase: 'intro',
-    round: 0,
-    triggerId: action.probeId || 'field-combat',
-    encounterAction: action,
-    enemies,
-    awaitingClientReady: true,
-    awaitingPlayerAction: false,
-    startedAt: Date.now(),
-    playerStartHealth: session.currentHealth,
-    playerMaxHealthAtStart: session.maxHealth,
-    totalEnemyMaxHp: enemies.reduce((sum: number, enemy: CombatEnemyInstance) => sum + Math.max(0, enemy?.maxHp || 0), 0),
-    averageEnemyLevel:
-      enemies.length > 0
-        ? enemies.reduce((sum: number, enemy: CombatEnemyInstance) => sum + Math.max(1, enemy?.level || 1), 0) / enemies.length
-        : 0,
-    damageDealt: 0,
-    damageTaken: 0,
-    awaitingSkillResolution: false,
-    skillResolutionStartedAt: 0,
-    skillResolutionReason: null,
-    skillResolutionPhase: null,
-    pendingSkillOutcomes: null,
-    pendingSkillContext: null,
-    pendingEnemyTurnQueue: [],
-    pendingPostKillCounterattack: false,
-    enemyTurnReason: null,
-    pendingActionResolution: null,
-    selectorToken: null,
-    selectorTokenSource: null,
-    playerStatus: {},
-    enemyStatuses: {},
-  };
-
-  session.writePacket(
-    buildEncounterPacket(player, enemies, allies),
-    DEFAULT_FLAGS,
-    `Sending combat encounter cmd=0x${GAME_FIGHT_STREAM_CMD.toString(16)} sub=0x65 trigger=${session.combatState.triggerId} allies=${allies.map((ally) => `${Number(ally.entityId) >>> 0}@${Number(ally.row) & 0xff},${Number(ally.col) & 0xff}`).join('|') || 'none'} enemies=${describeEncounterEnemies(enemies)}`
-  );
-  sendIntroSequence(session);
-}
 
 export function sendCombatExitProbe(session: GameSession, action: CombatAction): void {
   if (!session.combatState?.active) {

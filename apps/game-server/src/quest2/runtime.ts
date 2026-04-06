@@ -7,7 +7,7 @@ import type { QuestInstance } from './state.js';
 import { applyEffects } from '../effects/effect-executor.js';
 import { consumeBagItemByInstanceId, consumeItemFromBag, getBagQuantityByTemplateId } from '../inventory/index.js';
 import { getMapEncounterLevelRange, getMapSummary } from '../map-data.js';
-import { createOwnedPet } from '../pet-runtime.js';
+import { addPetToSession } from '../gameplay/pet-service.js';
 import { buildEncounterPoolEntry } from '../roleinfo/index.js';
 import { sanitizeQuestDialogueText } from '../utils.js';
 import { sendConsumeResultPackets } from '../gameplay/inventory-runtime.js';
@@ -383,18 +383,11 @@ async function applyQuest2Effects(
           message: sanitizeQuestDialogueText(effect.message),
         });
         break;
-      case 'grant_pet': {
-        if (!Array.isArray(session.pets)) {
-          session.pets = [];
+      case 'grant_pet':
+        if (addPetToSession(session, effect.petTemplateId >>> 0)) {
+          petsDirty = true;
         }
-        const pet = createOwnedPet(effect.petTemplateId >>> 0, {}, session.pets.length);
-        if (!pet) {
-          break;
-        }
-        session.pets.push(pet);
-        petsDirty = true;
         break;
-      }
       case 'start_combat':
         triggerQuestCombat(session, effect.monsterId, effect.count || 1);
         break;

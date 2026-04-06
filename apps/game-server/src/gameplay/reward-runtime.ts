@@ -2,7 +2,6 @@ import { ENTITY_TYPE } from '../config.js';
 import { isFemaleRole } from '../roleinfo/index.js';
 import { createOwnedPet } from '../pet-runtime.js';
 import { applyEffects } from '../effects/effect-executor.js';
-import { sendSelfStateValueUpdate } from './stat-sync.js';
 import { ensureRenownTaskDailyState, RENOWN_TASK_ID, RENOWN_TASK_STREAK_TARGET } from './renown-task-runtime.js';
 import { numberOrDefault, type UnknownRecord } from '../utils.js';
 import type { GameSession } from '../types.js';
@@ -375,5 +374,4 @@ function clampAptitudeIndex(value: unknown): number {
 
 export {
   applyQuestCompletionReward,
-  sendSelfStateValueUpdate,
 };

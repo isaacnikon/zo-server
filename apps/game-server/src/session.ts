@@ -2,11 +2,12 @@ import type { CombatEnemyInstance, CombatState, FieldEventSpawn, FrogTeleporterU
 import type { QuestState as QuestStateV2 } from './quest2/index.js';
 
 import { dispatchGamePacket } from './handlers/packet-dispatcher.js';
-import { createIdleCombatState, disposeCombatTimers as combatHandlerDisposeTimers, handleSharedCombatParticipantDisposed as combatHandlerHandleSharedCombatParticipantDisposed, sendCombatEncounterProbe as combatHandlerSendCombatEncounterProbe, sendCombatExitProbe as combatHandlerSendCombatExitProbe, } from './handlers/combat-handler.js';
+import { createIdleCombatState, disposeCombatTimers as combatHandlerDisposeTimers, handleSharedCombatParticipantDisposed as combatHandlerHandleSharedCombatParticipantDisposed, sendCombatExitProbe as combatHandlerSendCombatExitProbe, } from './handlers/combat-handler.js';
+import { sendCombatEncounterProbe as combatServiceSendCombatEncounterProbe } from './gameplay/combat-service.js';
 import { handleLogin as loginHandlerHandleLogin, } from './handlers/login-handler.js';
-import { handleQuestMonsterDefeat as questHandlerHandleQuestMonsterDefeat, ensureQuestStateReady as questHandlerEnsureQuestStateReady, refreshQuestStateForItemTemplates as questHandlerRefreshQuestStateForItemTemplates, } from './handlers/quest-handler.js';
+import { handleQuestMonsterDefeat as questHandlerHandleQuestMonsterDefeat, refreshQuestStateForItemTemplates as questHandlerRefreshQuestStateForItemTemplates, } from './handlers/quest-handler.js';
 import { scheduleEquipmentReplay as playerStateHandlerScheduleEquipmentReplay, } from './handlers/player-state-handler.js';
-import { schedulePetReplay as petHandlerSchedulePetReplay, sendPetStateSync as petHandlerSendPetStateSync, disposePetTimers as petHandlerDisposeTimers, } from './handlers/pet-handler.js';
+import { schedulePetReplay as petServiceSchedulePetReplay, sendPetStateSync as petServiceSendPetStateSync, disposePetTimers as petServiceDisposePetTimers } from './gameplay/pet-service.js';
 import { sendEnterGameOk as sessionBootstrapHandlerSendEnterGameOk, sendMapNpcSpawns as sessionBootstrapHandlerSendMapNpcSpawns, } from './handlers/session-bootstrap-handler.js';
 import { DEFAULT_FLAGS, ENTITY_TYPE, GAME_DIALOG_CMD, GAME_DIALOG_MESSAGE_SUBCMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, GAME_ITEM_CONTAINER_CMD, GAME_ITEM_CMD, GAME_SCENE_ENTER_CMD, GAME_SELF_STATE_CMD, HANDSHAKE_CMD, MAP_ID, PING_CMD, PONG_CMD, SCENE_ENTER_LOAD_SUBCMD, SERVER_SCRIPT_DEFERRED_SUBCMD, SERVER_SCRIPT_IMMEDIATE_SUBCMD, SELF_STATE_APTITUDE_SUBCMD, SPAWN_X, SPAWN_Y, SPECIAL_FLAGS, VALID_FLAG_MASK, VALID_FLAG_VALUE, } from './config.js';
 import { PacketWriter, buildPacket } from './protocol.js';
@@ -17,7 +18,7 @@ import { syncRuntimeLocationClientState } from './gameplay/session-sync.js';
 import { stopAutoMapRotation } from './scenes/map-rotation.js';
 import { removeWorldPresence } from './world-state.js';
 import { buildEncounterEnemies } from './combat/encounter-builder.js';
-import { buildCharacterSnapshot as sessionHydrationBuildCharacterSnapshot, getPersistedCharacter as sessionHydrationGetPersistedCharacter, hydratePendingGameCharacter, loadPersistedCharacter as sessionHydrationLoadPersistedCharacter, persistCurrentCharacter as sessionHydrationPersistCurrentCharacter, saveCharacter as sessionHydrationSaveCharacter, } from './character/session-hydration.js';
+import { buildCharacterSnapshot as sessionHydrationBuildCharacterSnapshot, ensureQuestStateReady as characterEnsureQuestStateReady, getPersistedCharacter as sessionHydrationGetPersistedCharacter, hydratePendingGameCharacter, loadPersistedCharacter as sessionHydrationLoadPersistedCharacter, persistCurrentCharacter as sessionHydrationPersistCurrentCharacter, saveCharacter as sessionHydrationSaveCharacter, } from './character/session-hydration.js';
 import { defaultBonusAttributes, defaultSkillState } from './character/normalize.js';
 import { defaultFrogTeleporterUnlocks } from './gameplay/frog-teleporter-service.js';
 import { defaultOnlineState, flushOnlinePresence, touchOnlinePresence } from './gameplay/online-runtime.js';
@@ -366,7 +367,7 @@ class Session implements GameSession {
   }
 
   schedulePetReplay(delayMs = 500): void {
-    petHandlerSchedulePetReplay(this, delayMs);
+    petServiceSchedulePetReplay(this, delayMs);
   }
 
   sendPong(token: number): void {
@@ -488,7 +489,7 @@ class Session implements GameSession {
   }
 
   ensureQuestStateReady(): void {
-    questHandlerEnsureQuestStateReady(this);
+    characterEnsureQuestStateReady(this);
   }
 
   buildCharacterSnapshot(overrides: CharacterOverrides = {}): Record<string, unknown> {
@@ -584,7 +585,7 @@ class Session implements GameSession {
   }
 
   sendPetStateSync(reason = 'runtime'): void {
-    petHandlerSendPetStateSync(this, reason);
+    petServiceSendPetStateSync(this, reason);
   }
 
   dispose(): void {
@@ -606,7 +607,7 @@ class Session implements GameSession {
     handleTeamSessionDisposed(this);
     removeWorldPresence(this, 'session-dispose');
     combatHandlerDisposeTimers(this);
-    petHandlerDisposeTimers(this);
+    petServiceDisposePetTimers(this);
     stopAutoMapRotation(this);
     if (this.equipmentReplayTimer) {
       clearTimeout(this.equipmentReplayTimer);
@@ -640,7 +641,7 @@ class Session implements GameSession {
     const participants = getTeamCombatParticipants(this);
     const hadActiveCombat = this.combatState?.active === true;
     if (participants.length <= 1) {
-      combatHandlerSendCombatEncounterProbe(this, action);
+      combatServiceSendCombatEncounterProbe(this, action);
       if (!hadActiveCombat && this.combatState?.active) {
         beginSharedTeamCombat(this, [this]);
       }
@@ -649,7 +650,7 @@ class Session implements GameSession {
 
     const enemies = buildEncounterEnemies(action, this.currentMapId) as CombatEnemyInstance[];
     if (!Array.isArray(enemies) || enemies.length === 0) {
-      combatHandlerSendCombatEncounterProbe(this, action);
+      combatServiceSendCombatEncounterProbe(this, action);
       return;
     }
 
@@ -657,7 +658,7 @@ class Session implements GameSession {
       `Mirroring team combat trigger=${String((action as Record<string, unknown>)?.probeId || 'unknown')} participants=${participants.map((member) => `${member.charName || member.id}@${member.id}`).join(',')}`
     );
     for (const participant of participants) {
-      combatHandlerSendCombatEncounterProbe(participant, action, {
+      combatServiceSendCombatEncounterProbe(participant, action, {
         enemies,
         allies: participants.filter((member) => (member.id >>> 0) !== (participant.id >>> 0)),
       });
