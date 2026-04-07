@@ -40,6 +40,7 @@ async function dispatchQuestEventToSession(
     level: session.level,
     mapId: session.currentMapId,
     selectedAptitude: session.selectedAptitude,
+    roleEntityType: session.roleEntityType,
     inventoryCounts: buildInventoryCounts(session),
     capturedMonsterCounts: buildCapturedMonsterCounts(session),
   });

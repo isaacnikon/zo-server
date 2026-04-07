@@ -19,7 +19,6 @@ import {
   handleCombatSelectorToken,
   resolveEnemyCounterattack,
   resolveVictory,
-  scheduleCommandPhaseAutoFallback,
   tryAdvanceSharedCombatRoundOnReady,
   transitionToCommandPhase,
 } from '../gameplay/combat-resolution.js';
@@ -241,9 +240,8 @@ function tryHandleCombatReady(session: GameSession): boolean {
   }
 
   if (session.combatState.phase === 'command' && session.combatState.awaitingPlayerAction) {
-    scheduleCommandPhaseAutoFallback(session, 'command-ready-packet');
     session.log(
-      `Deferring command-phase ready packet as possible auto-action trigger round=${session.combatState.round}`
+      `Ignoring command-phase ready packet while waiting for explicit action selection round=${session.combatState.round}`
     );
     return true;
   }

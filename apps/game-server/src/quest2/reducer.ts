@@ -30,6 +30,9 @@ export interface QuestReducerResult {
 }
 
 const TURN_IN_READY_FLAG_PREFIX = '__turn_in_ready__:';
+const ZODIAC_ROLE_ENTITY_MIN = 1001;
+const ZODIAC_ROLE_ENTITY_MAX = 1024;
+const ZODIAC_PET_BASE_TEMPLATE_ID = 2000;
 
 function reduceQuestEvent(
   definitions: readonly QuestDef[],
@@ -491,12 +494,12 @@ function resolveReward(
     : reward.pets.slice();
 
   if (pets.length < 1) {
-    const aptitude = Math.max(1, Math.min(12, Number(context.selectedAptitude) || 0));
     const baseTemplateId = Number.isInteger(reward.petByAptitudeBaseTemplateId)
       ? (reward.petByAptitudeBaseTemplateId! >>> 0)
       : 0;
-    if (baseTemplateId > 0 && aptitude > 0) {
-      pets.push((baseTemplateId + aptitude) >>> 0);
+    const resolvedPetTemplateId = resolveBaseRewardPetTemplateId(baseTemplateId, context);
+    if (resolvedPetTemplateId > 0) {
+      pets.push(resolvedPetTemplateId);
     }
   }
 
@@ -509,6 +512,37 @@ function resolveReward(
     items: selectedChoice && selectedChoice.items.length > 0 ? cloneItems(selectedChoice.items) : cloneItems(reward.items),
     selectedChoiceId: selectedChoice ? selectedChoice.id : undefined,
   };
+}
+
+function resolveBaseRewardPetTemplateId(baseTemplateId: number, context: QuestReducerContext): number {
+  if (!Number.isInteger(baseTemplateId) || baseTemplateId <= 0) {
+    return 0;
+  }
+
+  const zodiacPetTemplateId = resolveZodiacRolePetTemplateId(baseTemplateId, context.roleEntityType);
+  if (zodiacPetTemplateId > 0) {
+    return zodiacPetTemplateId;
+  }
+
+  const aptitude = Math.max(1, Math.min(12, Number(context.selectedAptitude) || 0));
+  return aptitude > 0 ? ((baseTemplateId + aptitude) >>> 0) : 0;
+}
+
+function resolveZodiacRolePetTemplateId(baseTemplateId: number, roleEntityType?: number): number {
+  if (baseTemplateId !== ZODIAC_PET_BASE_TEMPLATE_ID || !Number.isInteger(roleEntityType)) {
+    return 0;
+  }
+
+  const normalizedRoleEntityType = Number(roleEntityType) >>> 0;
+  if (
+    normalizedRoleEntityType < ZODIAC_ROLE_ENTITY_MIN ||
+    normalizedRoleEntityType > ZODIAC_ROLE_ENTITY_MAX
+  ) {
+    return 0;
+  }
+
+  const zodiacIndex = Math.floor((normalizedRoleEntityType - ZODIAC_ROLE_ENTITY_MIN) / 2) + 1;
+  return (baseTemplateId + zodiacIndex) >>> 0;
 }
 
 function buildRewardEffects(reward: ResolvedRewardDef): QuestEffectDef[] {
