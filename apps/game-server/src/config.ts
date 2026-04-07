@@ -127,11 +127,11 @@ export const SUB = {
 
 // --- World defaults ---
 export const WORLD = {
-  MAP_ID: 101,
+  MAP_ID: 207,
   AREA_ID: 6101,
   ENTITY_TYPE: 0x3e9,
-  SPAWN_X: 70,
-  SPAWN_Y: 95,
+  SPAWN_X: 73,
+  SPAWN_Y: 97,
   ENABLE_DIALOG_EXPERIMENT: false,
 } as const;
 
