@@ -25767,6 +25767,25 @@
       "sceneScriptAreasPath": "data/client-derived/maps/287-battle-field.scene-script-areas.json",
       "teleporterCount": 0,
       "teleporters": []
+    },
+    {
+      "mapId": 207,
+      "mapName": "Cloud Hall",
+      "sceneScriptAreasPath": null,
+      "teleporterCount": 1,
+      "teleporters": [
+        {
+          "sceneScriptId": 1,
+          "bbox": {
+            "minX": 108,
+            "minY": 12,
+            "maxX": 118,
+            "maxY": 20
+          },
+          "displayLabel": null,
+          "targetCandidates": []
+        }
+      ]
     }
   ]
 }

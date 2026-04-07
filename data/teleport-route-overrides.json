@@ -895,6 +895,20 @@
       "targetMapId": 168,
       "targetMapName": "Darkness Sentry",
       "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 209,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 207,
+      "targetMapName": "Cloud Hall",
+      "validation": "validated-manually"
+    },
+    {
+      "sourceMapId": 207,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 209,
+      "targetMapName": "Peach Garden",
+      "validation": "validated-manually"
     }
   ],
   "landingOverrides": [
@@ -1821,6 +1835,20 @@
       "targetMapId": 168,
       "x": 18,
       "y": 232
+    },
+    {
+      "sourceMapId": 209,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 207,
+      "x": 116,
+      "y": 18
+    },
+    {
+      "sourceMapId": 207,
+      "sourceSceneScriptId": 1,
+      "targetMapId": 209,
+      "x": 7,
+      "y": 200
     }
   ]
 }
