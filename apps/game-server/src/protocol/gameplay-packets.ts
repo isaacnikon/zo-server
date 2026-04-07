@@ -892,8 +892,8 @@ export function buildTeamRosterSyncPacket({
   writer.writeUint16(GAME_TEAM_STATE_CMD);
   writer.writeUint8(0x08);
   writer.writeUint32(leaderIdentityId >>> 0);
-  for (let index = 0; index < 5; index += 1) {
-    writeTeamRosterMemberRecord(writer, members[index] || null);
+  for (const member of members) {
+    writeTeamRosterMemberRecord(writer, member || null);
   }
   return writer.payload();
 }

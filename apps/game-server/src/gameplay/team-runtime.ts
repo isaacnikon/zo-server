@@ -29,6 +29,7 @@ interface PendingTeamInvite {
   teamId: number;
   inviterSessionId: number;
   inviterActorId: number;
+  inviterIdentityId: number;
   inviterName: string;
   inviteeSessionId: number;
   createdAt: number;
@@ -172,8 +173,8 @@ function isEligibleInviteTarget(inviter: GameSession, candidate: GameSession): b
   return true;
 }
 
-function resolveInviteTargetFromFollowUp(session: GameSession): GameSession | null {
-  for (const actorId of getPendingFollowUpTargets(session)) {
+function resolveInviteTargetFromFollowUpActorIds(session: GameSession, actorIds: number[]): GameSession | null {
+  for (const actorId of actorIds) {
     const target = resolveSessionByActorId(session.sharedState, actorId >>> 0);
     if (target && isEligibleInviteTarget(session, target)) {
       return target;
@@ -489,7 +490,7 @@ function clearInviteForInvitee(sharedState: Record<string, any>, inviteeSessionI
   }
 
   const filtered = typeof inviterActorId === 'number'
-    ? pending.filter((entry) => (entry.inviterActorId >>> 0) !== (inviterActorId >>> 0))
+    ? pending.filter((entry) => !doesPendingInviteMatchActorId(entry, inviterActorId))
     : [];
 
   if (filtered.length > 0) {
@@ -510,8 +511,13 @@ function clearFollowerSyncState(sharedState: Record<string, any>, sessionId: num
   void sessionId;
 }
 
+function doesPendingInviteMatchActorId(invite: PendingTeamInvite, actorId: number): boolean {
+  const normalizedActorId = actorId >>> 0;
+  return (invite.inviterActorId >>> 0) === normalizedActorId || (invite.inviterIdentityId >>> 0) === normalizedActorId;
+}
+
 function getPendingInvite(session: GameSession, inviterActorId: number): PendingTeamInvite | null {
-  return getPendingInvites(session).find((entry) => (entry.inviterActorId >>> 0) === (inviterActorId >>> 0)) || null;
+  return getPendingInvites(session).find((entry) => doesPendingInviteMatchActorId(entry, inviterActorId)) || null;
 }
 
 function appendPendingInvite(session: GameSession, invite: PendingTeamInvite): void {
@@ -541,26 +547,16 @@ function buildTeamRosterPacketMembers(sharedState: Record<string, any>, team: Te
   displayName: string;
   status: number;
 } | null> {
-  const members: Array<{
-    actorId: number;
-    roleEntityType: number;
-    level: number;
-    displayName: string;
-    status: number;
-  } | null> = getTeamSessions(sharedState, team).map((member) => ({
-    actorId: member.runtimeId >>> 0,
-    identityId: resolveTeamMemberIdentity(member),
-    roleEntityType: (member.roleEntityType || member.entityType || 0) & 0xffff,
-    level: member.level >>> 0,
-    displayName: member.charName || '',
-    status: 1,
-  }));
-
-  while (members.length < TEAM_MAX_MEMBERS) {
-    members.push(null);
-  }
-
-  return members.slice(0, TEAM_MAX_MEMBERS);
+  return getTeamSessions(sharedState, team)
+    .slice(0, TEAM_MAX_MEMBERS)
+    .map((member) => ({
+      actorId: member.runtimeId >>> 0,
+      identityId: resolveTeamMemberIdentity(member),
+      roleEntityType: (member.roleEntityType || member.entityType || 0) & 0xffff,
+      level: member.level >>> 0,
+      displayName: member.charName || '',
+      status: 1,
+    }));
 }
 
 function sendTeamRosterSync(session: GameSession, team: TeamRuntimeRecord, reason: string): void {
@@ -751,6 +747,7 @@ function inviteTarget(session: GameSession, target: GameSession): boolean {
     teamId: inviterTeam.id >>> 0,
     inviterSessionId: session.id >>> 0,
     inviterActorId: session.runtimeId >>> 0,
+    inviterIdentityId: resolveTeamMemberIdentity(session),
     inviterName: session.charName || '',
     inviteeSessionId: target.id >>> 0,
     createdAt: Date.now(),
@@ -979,6 +976,8 @@ function promoteMember(session: GameSession, actorId: number): boolean {
 }
 
 function handleInviteOrAccept(session: GameSession, targetIds: number[]): boolean {
+  const pendingFollowUpTargetIds = getPendingFollowUpTargets(session);
+  clearPendingFollowUpTargets(session.sharedState, session.id >>> 0);
   const actorId = Number.isInteger(targetIds[0]) ? (targetIds[0] >>> 0) : 0;
   if (!actorId) {
     const pendingInvites = getPendingInvites(session);
@@ -986,9 +985,8 @@ function handleInviteOrAccept(session: GameSession, targetIds: number[]): boolea
       return acceptInvite(session, pendingInvites[0]);
     }
 
-    const followUpTarget = resolveInviteTargetFromFollowUp(session);
+    const followUpTarget = resolveInviteTargetFromFollowUpActorIds(session, pendingFollowUpTargetIds);
     if (followUpTarget) {
-      clearPendingFollowUpTargets(session.sharedState, session.id >>> 0);
       session.log(
         `Resolved zero-id team invite from follow-up actorId=${followUpTarget.runtimeId >>> 0} name=${followUpTarget.charName || ''}`
       );
@@ -996,7 +994,6 @@ function handleInviteOrAccept(session: GameSession, targetIds: number[]): boolea
     }
 
     const fallbackTarget = resolveInviteTargetFallback(session);
-    clearPendingFollowUpTargets(session.sharedState, session.id >>> 0);
     if (!fallbackTarget) {
       session.log('Team invite fallback could not resolve a unique nearby target');
       return false;
