@@ -11,8 +11,9 @@
     }
   },
   "validationSummary": {
-    "totalNpcs": 1,
+    "totalNpcs": 4,
     "statusCounts": {
+      "manual": 3,
       "match": 1
     }
   },
@@ -31,6 +32,51 @@
       "resolvedSpawnEntityType": 3051,
       "validationStatus": "match",
       "rawCall": "macro_AddMapNpc(3051, 1,\"\"..macro_GetTypeNpcName(3051)..\"\",31,54)"
+    },
+    {
+      "order": 1,
+      "npcId": 3128,
+      "npcTypeId": 1,
+      "name": "Irene",
+      "nameSource": "manual",
+      "x": 74,
+      "y": 148,
+      "roleinfoNameByNpcId": "Irene",
+      "roleinfoIdByName": 3128,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3128,
+      "validationStatus": "manual",
+      "rawCall": "manual-server-override"
+    },
+    {
+      "order": 2,
+      "npcId": 3272,
+      "npcTypeId": 1,
+      "name": "Drunk Spirit",
+      "nameSource": "manual",
+      "x": 20,
+      "y": 76,
+      "roleinfoNameByNpcId": "Drunk Spirit",
+      "roleinfoIdByName": 3272,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3272,
+      "validationStatus": "manual",
+      "rawCall": "manual-server-override"
+    },
+    {
+      "order": 3,
+      "npcId": 3273,
+      "npcTypeId": 1,
+      "name": "Darkness Evil",
+      "nameSource": "manual",
+      "x": 84,
+      "y": 176,
+      "roleinfoNameByNpcId": "Darkness Evil",
+      "roleinfoIdByName": 3273,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3273,
+      "validationStatus": "manual",
+      "rawCall": "manual-server-override"
     }
   ]
 }

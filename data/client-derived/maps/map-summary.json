@@ -6,11 +6,11 @@
     "generator": "scripts/generate-map-summary.py"
   },
   "summary": {
-    "mapCount": 137,
+    "mapCount": 138,
     "mapsWithDetails": 137,
-    "mapsWithNpcs": 96,
+    "mapsWithNpcs": 105,
     "mapsWithSceneScriptAreas": 137,
-    "mapsWithTeleporterData": 137,
+    "mapsWithTeleporterData": 138,
     "mapsOnWorldMap": 46,
     "mapsSkippedByDetailsExtractor": 11,
     "mapsSkippedByNpcExtractor": 52,
@@ -984,7 +984,7 @@
       "teleporterSummary": {
         "teleporterCount": 5,
         "manualTargetCandidateCount": 0,
-        "worldMapTargetCandidateCount": 5
+        "worldMapTargetCandidateCount": 0
       },
       "worldMap": {
         "nodeId": 19,
@@ -1060,7 +1060,7 @@
         "totalNpcCount": 72,
         "statusCounts": {
           "literal-name-mismatch": 1,
-          "match": 71
+          "match": 76
         }
       },
       "sceneScriptAreasPath": "data/client-derived/maps/112-cloud-city.scene-script-areas.json",
@@ -3005,9 +3005,9 @@
       },
       "npcsPath": "data/client-derived/maps/131-goal-manor.npcs.json",
       "npcSummary": {
-        "totalNpcCount": 21,
+        "totalNpcCount": 18,
         "statusCounts": {
-          "alias-id-mismatch": 7,
+          "alias-id-mismatch": 4,
           "literal-name-mismatch": 1,
           "match": 13
         }
@@ -7093,6 +7093,29 @@
       "connections": []
     },
     {
+      "mapId": 207,
+      "mapName": "Cloud Hall",
+      "mapDetailsPath": null,
+      "mapDetailsSummary": null,
+      "npcsPath": "data/client-derived/maps/207-cloud-hall.npcs.json",
+      "npcSummary": {
+        "totalNpcCount": 7,
+        "statusCounts": {
+          "manual": 7
+        }
+      },
+      "sceneScriptAreasPath": null,
+      "sceneScriptSummary": null,
+      "teleportersPath": "data/client-derived/maps/map-teleporters.json",
+      "teleporterSummary": {
+        "teleporterCount": 1,
+        "manualTargetCandidateCount": 0,
+        "worldMapTargetCandidateCount": 0
+      },
+      "worldMap": null,
+      "connections": []
+    },
+    {
       "mapId": 208,
       "mapName": "Covert Palace",
       "mapDetailsPath": "data/client-derived/maps/208-covert-palace.map-details.json",
@@ -8006,8 +8029,9 @@
       },
       "npcsPath": "data/client-derived/maps/233-darkness-hole-ground.npcs.json",
       "npcSummary": {
-        "totalNpcCount": 1,
+        "totalNpcCount": 4,
         "statusCounts": {
+          "manual": 3,
           "match": 1
         }
       },

@@ -1,0 +1,121 @@
+{
+  "mapId": 207,
+  "mapName": "Cloud Hall",
+  "source": {
+    "authority": "manual-server-override",
+    "reason": "Cloud Hall has no extractable client NPC anchor; these curated NPC placements are authoritative for the server."
+  },
+  "validationSummary": {
+    "totalNpcs": 7,
+    "statusCounts": {
+      "manual": 7
+    }
+  },
+  "npcs": [
+    {
+      "order": 0,
+      "npcId": 3141,
+      "npcTypeId": 1,
+      "name": "Heaven's Guide",
+      "nameSource": "manual",
+      "x": 57,
+      "y": 88,
+      "roleinfoNameByNpcId": "Heaven's Guide",
+      "roleinfoIdByName": 3141,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3141,
+      "validationStatus": "manual",
+      "rawCall": "manual-server-override"
+    },
+    {
+      "order": 1,
+      "npcId": 3325,
+      "npcTypeId": 1,
+      "name": "Heaven General",
+      "nameSource": "manual",
+      "x": 62,
+      "y": 82,
+      "roleinfoNameByNpcId": "Heaven General",
+      "roleinfoIdByName": 3325,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3325,
+      "validationStatus": "manual",
+      "rawCall": "manual-server-override"
+    },
+    {
+      "order": 2,
+      "npcId": 3325,
+      "npcTypeId": 1,
+      "name": "Heaven General",
+      "nameSource": "manual",
+      "x": 51,
+      "y": 94,
+      "roleinfoNameByNpcId": "Heaven General",
+      "roleinfoIdByName": 3325,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3325,
+      "validationStatus": "manual",
+      "rawCall": "manual-server-override"
+    },
+    {
+      "order": 3,
+      "npcId": 3139,
+      "npcTypeId": 1,
+      "name": "Heaven Soldier",
+      "nameSource": "manual",
+      "x": 27,
+      "y": 146,
+      "roleinfoNameByNpcId": "Heaven Soldier",
+      "roleinfoIdByName": 3139,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3139,
+      "validationStatus": "manual",
+      "rawCall": "manual-server-override"
+    },
+    {
+      "order": 4,
+      "npcId": 3139,
+      "npcTypeId": 1,
+      "name": "Heaven Soldier",
+      "nameSource": "manual",
+      "x": 111,
+      "y": 173,
+      "roleinfoNameByNpcId": "Heaven Soldier",
+      "roleinfoIdByName": 3139,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3139,
+      "validationStatus": "manual",
+      "rawCall": "manual-server-override"
+    },
+    {
+      "order": 5,
+      "npcId": 3140,
+      "npcTypeId": 1,
+      "name": "Heaven Soldier",
+      "nameSource": "manual",
+      "x": 82,
+      "y": 76,
+      "roleinfoNameByNpcId": "Heaven Soldier",
+      "roleinfoIdByName": 3140,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3140,
+      "validationStatus": "manual",
+      "rawCall": "manual-server-override"
+    },
+    {
+      "order": 6,
+      "npcId": 3140,
+      "npcTypeId": 1,
+      "name": "Heaven Soldier",
+      "nameSource": "manual",
+      "x": 120,
+      "y": 52,
+      "roleinfoNameByNpcId": "Heaven Soldier",
+      "roleinfoIdByName": 3140,
+      "nameMatchesRoleinfo": true,
+      "resolvedSpawnEntityType": 3140,
+      "validationStatus": "manual",
+      "rawCall": "manual-server-override"
+    }
+  ]
+}
