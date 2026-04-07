@@ -12,6 +12,10 @@ import { initializeSceneInteractions } from './scenes/map-interactions.js';
 import { Session } from './session.js';
 import { createSessionState } from './session-state.js';
 
+const SOCKET_IDLE_TIMEOUT_MS = Number.isFinite(Number(process.env.ONLINE_HEARTBEAT_TIMEOUT_MS))
+  ? Math.max(15000, (Number(process.env.ONLINE_HEARTBEAT_TIMEOUT_MS) | 0) + 5000)
+  : 70000;
+
 export async function startServer() {
   const logger = createLogger(LOG_FILE);
   await initializeStaticJsonStore();
@@ -34,6 +38,20 @@ export async function startServer() {
     sharedState.sessionCount += 1;
 
     const session = new Session(socket, sharedState.sessionCount, false, sharedState, logger);
+    let disposed = false;
+    const disposeSession = (reason: string) => {
+      if (disposed) {
+        return;
+      }
+      disposed = true;
+      session.dispose();
+      sharedState.sessionsById.delete(session.id);
+      logger.log(`[S${session.id}] Disconnected (${reason})`);
+    };
+
+    socket.setNoDelay(true);
+    socket.setKeepAlive(true, 30000);
+    socket.setTimeout(SOCKET_IDLE_TIMEOUT_MS);
     sharedState.sessionsById.set(session.id, session);
     const addr = `${socket.remoteAddress}:${socket.remotePort}`;
     logger.log(
@@ -48,10 +66,13 @@ export async function startServer() {
       });
     });
 
-    socket.on('close', () => {
-      session.dispose();
-      sharedState.sessionsById.delete(session.id);
-      logger.log(`[S${session.id}] Disconnected`);
+    socket.on('end', () => logger.log(`[S${session.id}] Remote ended connection`));
+    socket.on('timeout', () => {
+      logger.log(`[S${session.id}] Socket idle timeout after ${SOCKET_IDLE_TIMEOUT_MS}ms`);
+      socket.destroy();
+    });
+    socket.on('close', (hadError) => {
+      disposeSession(hadError ? 'close:error' : 'close');
     });
     socket.on('error', (err: Error) => logger.log(`[S${session.id}] Socket error: ${err.message}`));
   });

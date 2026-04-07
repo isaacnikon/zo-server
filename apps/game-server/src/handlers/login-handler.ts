@@ -45,14 +45,17 @@ async function handleLogin(session: GameSession, payload: Buffer): Promise<void>
     session.log(
       `Authenticated login username="${login.username}" accountId="${authResult.accountId}" mode=${authResult.mode}`
     );
-    if (hasActiveWorldAccount(session.sharedState, session.accountKey || authResult.accountId, session.id)) {
-      session.log(`Rejecting duplicate login for account="${authResult.accountId}" key="${session.accountKey}"`);
-      session.socket.destroy();
-      return;
-    }
-    session.isGame =
+    const enteringWorld =
       session.sharedState?.pendingGameCharacters instanceof Map &&
       session.sharedState.pendingGameCharacters.has(session.accountKey || authResult.accountId);
+    if (enteringWorld) {
+      if (hasActiveWorldAccount(session.sharedState, session.accountKey || authResult.accountId, session.id)) {
+        session.log(`Rejecting duplicate login for account="${authResult.accountId}" key="${session.accountKey}"`);
+        session.socket.destroy();
+        return;
+      }
+    }
+    session.isGame = enteringWorld;
   }
 
   session.state = 'LOGGED_IN';

@@ -51,6 +51,9 @@ const PLAYER_VISIBILITY_RADIUS = Number.isFinite(Number(process.env.PLAYER_VISIB
 const PLAYER_MOVE_SMOOTH_DISTANCE_LIMIT = 12;
 const WORLD_RUNTIME_ID_BASE = 0x5000;
 const WORLD_RUNTIME_ID_LIMIT = 0xffef;
+const WORLD_SESSION_STALE_TIMEOUT_MS = Number.isFinite(Number(process.env.ONLINE_HEARTBEAT_TIMEOUT_MS))
+  ? Math.max(5000, Number(process.env.ONLINE_HEARTBEAT_TIMEOUT_MS) | 0)
+  : 65000;
 
 export function createWorldState(): WorldState {
   return {
@@ -116,6 +119,7 @@ export function hasActiveWorldAccount(
   if (!normalizedAccountName) {
     return false;
   }
+  pruneStaleWorldSessionForAccount(sharedState, normalizedAccountName, excludeSessionId);
   const world = getWorldState(sharedState);
   const sessionId = world.sessionIdByAccountName.get(normalizedAccountName);
   if (!Number.isInteger(sessionId)) {
@@ -160,6 +164,72 @@ export function replaceExistingWorldSessionsForRemote(
     replacedCount += 1;
   }
   return replacedCount;
+}
+
+function resolveSessionLastSeenAt(session: GameSession): number {
+  const lastHeartbeatAt = Number.isFinite(Number(session.lastHeartbeatAt))
+    ? Math.max(0, Number(session.lastHeartbeatAt))
+    : 0;
+  const onlineCursorAt = Number.isFinite(Number(session.onlineCreditCursorAt))
+    ? Math.max(0, Number(session.onlineCreditCursorAt))
+    : 0;
+  const onlineLastPersistAt = Number.isFinite(Number(session.onlineLastPersistAt))
+    ? Math.max(0, Number(session.onlineLastPersistAt))
+    : 0;
+  return Math.max(lastHeartbeatAt, onlineCursorAt, onlineLastPersistAt);
+}
+
+function isStaleWorldSession(session: GameSession): boolean {
+  if (!session) {
+    return true;
+  }
+  if (session.socket?.destroyed) {
+    return true;
+  }
+  if (session.state !== 'LOGGED_IN' || session.isGame !== true) {
+    return true;
+  }
+  const lastSeenAt = resolveSessionLastSeenAt(session);
+  if (lastSeenAt <= 0) {
+    return false;
+  }
+  return Date.now() - lastSeenAt > WORLD_SESSION_STALE_TIMEOUT_MS;
+}
+
+function pruneStaleWorldSessionForAccount(
+  sharedState: Record<string, any>,
+  accountName: string,
+  excludeSessionId: number | null = null
+): boolean {
+  const normalizedAccountName = normalizeAccountName(accountName);
+  if (!normalizedAccountName) {
+    return false;
+  }
+
+  const world = getWorldState(sharedState);
+  const mappedSessionId = world.sessionIdByAccountName.get(normalizedAccountName);
+  if (!Number.isInteger(mappedSessionId)) {
+    return false;
+  }
+
+  const normalizedSessionId = Number(mappedSessionId) >>> 0;
+  if (excludeSessionId !== null && normalizedSessionId === (excludeSessionId >>> 0)) {
+    return false;
+  }
+
+  const presence = world.playersBySessionId.get(normalizedSessionId);
+  const candidate = presence?.session;
+  if (candidate && !isStaleWorldSession(candidate)) {
+    return false;
+  }
+
+  if (candidate) {
+    candidate.log(`Pruning stale world session for account="${normalizedAccountName}"`);
+    removeWorldPresence(candidate, 'stale-world-session');
+  } else {
+    world.sessionIdByAccountName.delete(normalizedAccountName);
+  }
+  return true;
 }
 
 function getOrCreateMapOccupancy(world: WorldState, mapId: number): Set<number> {
