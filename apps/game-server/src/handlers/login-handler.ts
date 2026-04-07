@@ -287,6 +287,7 @@ async function handleDeleteRole(session: GameSession, payload: Buffer): Promise<
   }
 
   sendDeleteRoleOk(session, slotIndex);
+  await sendCharacterRoster(session, 1);
 }
 
 function sendLoginServerList(session: GameSession): void {

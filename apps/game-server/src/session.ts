@@ -120,6 +120,7 @@ class Session implements GameSession {
   defeatRespawnPending: boolean;
   hasAnnouncedQuestOverview: boolean;
   persistedCharacter: Record<string, unknown> | null;
+  persistenceBlockedCharacterId: string | null;
   combatState: CombatState;
   combatDefeatTimer: NodeJS.Timeout | null;
   combatSkillResolutionTimer: NodeJS.Timeout | null;
@@ -239,6 +240,7 @@ class Session implements GameSession {
     this.defeatRespawnPending = false;
     this.hasAnnouncedQuestOverview = false;
     this.persistedCharacter = null;
+    this.persistenceBlockedCharacterId = null;
     this.combatState = createIdleCombatState();
     this.combatDefeatTimer = null;
     this.combatSkillResolutionTimer = null;

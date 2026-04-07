@@ -264,6 +264,7 @@ export interface SessionPorts {
   equipmentReplayTimer: NodeJS.Timeout | null;
   // Persisted data
   persistedCharacter: CharacterRecord | null;
+  persistenceBlockedCharacterId: string | null;
   socket: { destroyed?: boolean; destroy(): void; write(data: Buffer): void };
   worldRegistered: boolean;
   visiblePlayerRuntimeIds: Set<number>;

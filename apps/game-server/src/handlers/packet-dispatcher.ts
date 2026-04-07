@@ -25,8 +25,11 @@ import {
 import { PING_CMD, GAME_GATHER_REQUEST_CMD, GAME_ITEM_CONTAINER_CMD, GAME_POSITION_QUERY_CMD, GAME_SERVER_RUN_CMD, ROLE_CMD, GAME_QUEST_CMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_MISC_CMD, GAME_FIGHT_RESULT_CMD, GAME_FIGHT_STATE_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, GAME_TEAM_ACTION_PRIMARY_CMD, GAME_TEAM_ACTION_SECONDARY_CMD, GAME_TEAM_FOLLOWUP_CMD, } from '../config.js';
 import type { GameSession } from '../types.js';
 
+const ROLE_CMD_ALT = 0x4c04; // byte-swapped ROLE_CMD seen from some client states after delete
+
 const PACKET_HANDLERS = new Map<number, (session: GameSession, payload: Buffer) => Promise<void> | Promise<boolean> | void | boolean>([
   [ROLE_CMD, handleRolePacket],
+  [ROLE_CMD_ALT, handleRolePacket],
   [GAME_QUEST_CMD, handleQuestPacket],
   [GAME_GATHER_REQUEST_CMD, handleGatheringRequest],
 ]);

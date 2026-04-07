@@ -48,6 +48,111 @@ function normalizePersistedCharacterList(characters: Array<Record<string, unknow
     .sort((left, right) => numberOrDefault(left.slot, 0) - numberOrDefault(right.slot, 0));
 }
 
+function normalizeKey(value: unknown): string {
+  return typeof value === 'string' ? value.trim() : '';
+}
+
+function resolveCharacterId(character: Record<string, unknown> | null | undefined): string {
+  return typeof character?.characterId === 'string' ? character.characterId.trim() : '';
+}
+
+function resolveCharacterName(character: Record<string, unknown> | null | undefined): string {
+  return String(character?.charName || character?.roleName || '').trim().toLowerCase();
+}
+
+function resolveCharacterSlot(character: Record<string, unknown> | null | undefined): number | null {
+  const slot = Number(character?.slot);
+  return Number.isFinite(slot) ? (slot | 0) : null;
+}
+
+function samePersistedCharacter(
+  left: Record<string, unknown> | null | undefined,
+  right: Record<string, unknown> | null | undefined
+): boolean {
+  const leftCharacterId = resolveCharacterId(left);
+  const rightCharacterId = resolveCharacterId(right);
+  if (leftCharacterId && rightCharacterId) {
+    return leftCharacterId === rightCharacterId;
+  }
+
+  const leftSlot = resolveCharacterSlot(left);
+  const rightSlot = resolveCharacterSlot(right);
+  if (leftSlot !== null && rightSlot !== null) {
+    return leftSlot === rightSlot;
+  }
+
+  const leftName = resolveCharacterName(left);
+  const rightName = resolveCharacterName(right);
+  return leftName.length > 0 && leftName === rightName;
+}
+
+function getDeletedCharacterIds(sharedState: Record<string, any>): Set<string> {
+  if (!(sharedState?.deletedCharacterIds instanceof Set)) {
+    sharedState.deletedCharacterIds = new Set<string>();
+  }
+  return sharedState.deletedCharacterIds as Set<string>;
+}
+
+function findLiveSessionsForCharacter(
+  session: GameSession,
+  targetCharacter: Record<string, unknown>
+): GameSession[] {
+  const sessionsById =
+    session.sharedState?.sessionsById instanceof Map
+      ? session.sharedState.sessionsById as Map<number, GameSession>
+      : null;
+  if (!sessionsById) {
+    return [];
+  }
+
+  const normalizedAccountName = normalizeKey(session.accountName);
+  const matches: GameSession[] = [];
+  for (const candidate of sessionsById.values()) {
+    if (!candidate || candidate.state !== 'LOGGED_IN' || candidate.isGame !== true) {
+      continue;
+    }
+    if (normalizeKey(candidate.accountName) !== normalizedAccountName) {
+      continue;
+    }
+    const candidateCharacter = candidate.getPersistedCharacter() || { charName: candidate.charName };
+    if (!samePersistedCharacter(candidateCharacter, targetCharacter)) {
+      continue;
+    }
+    matches.push(candidate);
+  }
+  return matches;
+}
+
+function clearPendingDeletedCharacter(
+  session: GameSession,
+  targetCharacter: Record<string, unknown>
+): void {
+  const pendingGameCharacters =
+    session.sharedState?.pendingGameCharacters instanceof Map
+      ? session.sharedState.pendingGameCharacters as Map<string, Record<string, unknown>>
+      : null;
+  if (!pendingGameCharacters) {
+    return;
+  }
+
+  const normalizedAccountName = normalizeKey(session.accountName);
+  const normalizedAccountKey = normalizeKey(session.accountKey);
+  for (const [accountKey, pendingCharacter] of pendingGameCharacters.entries()) {
+    const pendingAccountName = normalizeKey(pendingCharacter?.accountName);
+    const pendingAccountKey = normalizeKey(pendingCharacter?.accountKey || accountKey);
+    if (
+      pendingAccountName !== normalizedAccountName &&
+      pendingAccountKey !== normalizedAccountKey
+    ) {
+      continue;
+    }
+    if (!samePersistedCharacter(pendingCharacter, targetCharacter)) {
+      continue;
+    }
+    pendingGameCharacters.delete(accountKey);
+  }
+}
+
 export function hydratePendingGameCharacter(session: GameSession, sharedState: Record<string, any>): void {
   const accountKey = typeof session.accountKey === 'string' ? session.accountKey.trim() : '';
   const pendingCharacter =
@@ -225,9 +330,42 @@ export async function deletePersistedCharacter(
     return false;
   }
 
+  const targetCharacter = await characterStore.get(storageKey, selector);
+  if (!targetCharacter) {
+    return false;
+  }
+
+  const normalizedTargetCharacter = normalizeCharacterRecord(targetCharacter);
+  const targetCharacterId = resolveCharacterId(normalizedTargetCharacter);
+  const liveSessions = findLiveSessionsForCharacter(session, normalizedTargetCharacter);
+  if (targetCharacterId) {
+    getDeletedCharacterIds(session.sharedState).add(targetCharacterId);
+    for (const candidate of liveSessions) {
+      candidate.persistenceBlockedCharacterId = targetCharacterId;
+    }
+  }
+
   const deleted = await characterStore.delete(storageKey, selector);
   if (!deleted) {
+    if (targetCharacterId) {
+      getDeletedCharacterIds(session.sharedState).delete(targetCharacterId);
+      for (const candidate of liveSessions) {
+        if (candidate.persistenceBlockedCharacterId === targetCharacterId) {
+          candidate.persistenceBlockedCharacterId = null;
+        }
+      }
+    }
     return false;
+  }
+
+  clearPendingDeletedCharacter(session, normalizedTargetCharacter);
+  for (const candidate of liveSessions) {
+    candidate.log(
+      `Disconnecting live session for deleted character "${normalizedTargetCharacter.charName || normalizedTargetCharacter.roleName || 'Hero'}"`
+    );
+    if (!candidate.socket.destroyed) {
+      candidate.socket.destroy();
+    }
   }
 
   const remainingCharacters = await listPersistedCharacters(session, { forceReload: true });
@@ -259,7 +397,33 @@ export async function saveCharacter(session: GameSession, character: Record<stri
   if (!storageKey || !characterStore) {
     return;
   }
+
   const normalized = normalizeCharacterRecord(character);
+  const characterId = resolveCharacterId(normalized);
+  if (
+    characterId &&
+    session.isGame === true &&
+    session.persistenceBlockedCharacterId === characterId
+  ) {
+    session.log(
+      `Skipping persist for deleted live character "${normalized.charName || normalized.roleName || 'Hero'}" characterId="${characterId}"`
+    );
+    return;
+  }
+  if (
+    characterId &&
+    session.isGame === true &&
+    getDeletedCharacterIds(session.sharedState).has(characterId)
+  ) {
+    session.log(
+      `Skipping persist for deleted character "${normalized.charName || normalized.roleName || 'Hero'}" characterId="${characterId}"`
+    );
+    return;
+  }
+  if (characterId && session.isGame !== true) {
+    getDeletedCharacterIds(session.sharedState).delete(characterId);
+  }
+
   session.persistedCharacter = normalized;
   await characterStore.set(storageKey, normalized);
   session.log(

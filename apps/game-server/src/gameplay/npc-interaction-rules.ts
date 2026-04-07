@@ -228,6 +228,16 @@ const TELEPORT_RULES: TeleportRule[] = [
     targetX: 83,
     targetY: 14,
   },
+  {
+    id: 'peach-garden-apollo-rainbow-valley',
+    mapId: 209,
+    npcId: 3326,
+    scriptId: 20001,
+    targetMapId: 101,
+    targetX: 85,
+    targetY: 235,
+    speaker: 'Apollo',
+  },
 ];
 
 const COMBAT_RULES: CombatRule[] = [
