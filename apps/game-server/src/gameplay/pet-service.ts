@@ -2,7 +2,7 @@ import type { GameSession, SessionPorts } from '../types.js';
 
 import { DEFAULT_FLAGS, GAME_FIGHT_RESULT_CMD, GAME_FIGHT_STREAM_CMD, GAME_SELF_STATE_CMD } from '../config.js';
 import { buildPetActiveSelectPacket, buildPetPanelBindPacket, buildPetPanelModePacket, buildPetPanelNamePacket, buildPetPanelPropertyPacket, buildPetPanelRebindPacket, buildPetPlacementSyncPacket, buildPetRosterSyncPacket, buildPetStatsSyncPacket, buildPetTreeRegistrationPacket } from '../protocol/gameplay-packets.js';
-import { createOwnedPet, getPrimaryPet, normalizePets } from '../pet-runtime.js';
+import { createOwnedPet, getPrimaryPet, normalizePets } from './pet-runtime.js';
 import { syncWorldPetState } from '../world-state.js';
 
 type PetRecord = Record<string, any>;

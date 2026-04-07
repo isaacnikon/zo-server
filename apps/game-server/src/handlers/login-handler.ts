@@ -4,10 +4,16 @@ import { AREA_ID, DEFAULT_FLAGS, ENTITY_TYPE, LOGIN_CMD, LOGIN_SERVER_LIST_RESUL
 import { deriveStableRoleData, packRoleData, resolveRoleData, resolveRoleLevel, resolveBirthMonth, resolveBirthDay, } from '../character/role-utils.js';
 import { defaultBonusAttributes, numberOrDefault, defaultPrimaryAttributes, normalizeBonusAttributes, normalizePrimaryAttributes, normalizeCharacterRecord, normalizeSkillState, } from '../character/normalize.js';
 import { normalizeInventoryState } from '../inventory/index.js';
-import { normalizePets } from '../pet-runtime.js';
+import { normalizePets } from '../gameplay/pet-runtime.js';
 import { CHARACTER_VITALS_BASELINE, recomputeSessionMaxVitals } from '../gameplay/session-flows.js';
 import { hasActiveWorldAccount, replaceExistingWorldSessionsForRemote } from '../world-state.js';
-import { hydratePendingGameCharacter } from '../character/session-hydration.js';
+import {
+  deletePersistedCharacter,
+  hydratePendingGameCharacter,
+  listPersistedCharacters,
+  persistedCharacterNameExists,
+  selectPersistedCharacter,
+} from '../character/session-hydration.js';
 import { authenticateGameLogin } from '../db/game-login-auth.js';
 import {
   createEmptyQuestState,
@@ -17,11 +23,28 @@ import {
 import type { UnknownRecord } from '../utils.js';
 import type { GameSession } from '../types.js';
 
+const MAX_CHARACTER_SLOTS = 3;
+const LOGIN_CHARACTER_ROSTER_RESULT = 0x13;
+
 function parseLoginPayload(_session: GameSession, payload: Buffer): UnknownRecord | null {
   if (payload.length < 6 || payload.readUInt16LE(0) !== LOGIN_CMD) {
     return null;
   }
   return parseLoginPacket(payload);
+}
+
+function findFirstAvailableCharacterSlot(characters: Array<Record<string, unknown>>): number {
+  const occupiedSlots = new Set(
+    characters
+      .map((character) => numberOrDefault(character.slot, -1))
+      .filter((slot) => slot >= 0 && slot < MAX_CHARACTER_SLOTS)
+  );
+  for (let slot = 0; slot < MAX_CHARACTER_SLOTS; slot += 1) {
+    if (!occupiedSlots.has(slot)) {
+      return slot;
+    }
+  }
+  return -1;
 }
 
 async function handleLogin(session: GameSession, payload: Buffer): Promise<void> {
@@ -77,7 +100,7 @@ async function handleLogin(session: GameSession, payload: Buffer): Promise<void>
       );
     }
     hydratePendingGameCharacter(session, session.sharedState);
-      session.sendEnterGameOk();
+    session.sendEnterGameOk();
   } else {
     sendLoginServerList(session);
   }
@@ -92,15 +115,20 @@ async function handleRolePacket(session: GameSession, payload: Buffer): Promise<
   const subcmd = payload[2];
   const roleHandlers: Record<number, () => Promise<void>> = {
     0x04: () => handleCreateRole(session, payload),
-    0x0d: () => {
+    0x07: () => handleDeleteRole(session, payload),
+    0x0d: async () => {
       const slotIndex = payload.length >= 4 ? payload[3] : 0;
       session.log(`Enter game request slot=${slotIndex}`);
       if (session.isGame) {
         session.sendEnterGameOk();
       } else {
+        const selectedCharacter = await selectPersistedCharacter(session, { slot: slotIndex });
+        if (!selectedCharacter) {
+          session.log(`Ignoring enter-game request for empty slot=${slotIndex}`);
+          return;
+        }
         return sendGameServerRedirect(session);
       }
-      return Promise.resolve();
     },
     0x1c: () => {
       const lineNo = payload.length >= 4 ? payload[3] : 0;
@@ -124,12 +152,33 @@ async function handleCreateRole(session: GameSession, payload: Buffer): Promise<
   }
 
   const { templateIndex, roleName, birthMonth, birthDay, selectedAptitude, extra1, extra2 } = parseCreateRole(payload);
+  const normalizedRoleName = roleName.trim();
 
   session.log(
-    `Create role request template=0x${templateIndex.toString(16)} name="${roleName}" month=${birthMonth} day=${birthDay} selectedAptitude=${selectedAptitude} extra1=0x${extra1.toString(16)} extra2=0x${extra2.toString(16)}`
+    `Create role request template=0x${templateIndex.toString(16)} name="${normalizedRoleName}" month=${birthMonth} day=${birthDay} selectedAptitude=${selectedAptitude} extra1=0x${extra1.toString(16)} extra2=0x${extra2.toString(16)}`
   );
 
-  session.charName = roleName || 'Hero';
+  if (normalizedRoleName.length < 1) {
+    session.log('Rejecting create-role request with empty name');
+    sendCreateRoleFailed(session);
+    return;
+  }
+
+  const existingCharacters = await listPersistedCharacters(session, { forceReload: true });
+  const slot = findFirstAvailableCharacterSlot(existingCharacters);
+  if (slot < 0) {
+    session.log(`Rejecting create-role request for "${normalizedRoleName}" because all ${MAX_CHARACTER_SLOTS} slots are occupied`);
+    sendCreateRoleFailed(session);
+    return;
+  }
+
+  if (await persistedCharacterNameExists(session, normalizedRoleName)) {
+    session.log(`Rejecting create-role request for "${normalizedRoleName}" because the name already exists`);
+    sendCreateRoleNameExists(session);
+    return;
+  }
+
+  session.charName = normalizedRoleName;
   session.runtimeId = ENTITY_TYPE;
   session.entityType = ENTITY_TYPE;
   session.roleEntityType = ENTITY_TYPE + templateIndex;
@@ -166,8 +215,9 @@ async function handleCreateRole(session: GameSession, payload: Buffer): Promise<
   });
   session.questStateV2 = createEmptyQuestState();
   await session.saveCharacter({
-    slot: 0,
+    slot,
     roleName: session.charName,
+    charName: session.charName,
     birthMonth,
     birthDay,
     selectedAptitude,
@@ -197,15 +247,46 @@ async function handleCreateRole(session: GameSession, payload: Buffer): Promise<
     y: SPAWN_Y,
   });
   sendCreateRoleOk(session, {
-    slot: 0,
+    slot,
     roleName: session.charName,
     birthMonth,
     birthDay,
     level: 1,
     extra1,
     extra2,
+    entityType: session.roleEntityType,
     roleData: session.roleData,
   });
+}
+
+async function handleDeleteRole(session: GameSession, payload: Buffer): Promise<void> {
+  if (payload.length < 4) {
+    session.log('Short delete-role payload');
+    sendDeleteRoleFailed(session);
+    return;
+  }
+
+  const slotIndex = payload[3] & 0xff;
+  session.log(`Delete role request slot=${slotIndex}`);
+
+  const deleted = await deletePersistedCharacter(session, { slot: slotIndex });
+  if (!deleted) {
+    session.log(`Delete role failed for slot=${slotIndex}`);
+    sendDeleteRoleFailed(session);
+    return;
+  }
+
+  const remainingCharacters = await listPersistedCharacters(session, { forceReload: true });
+  const selectedCharacter = remainingCharacters.find((character) => character.selected === true) || remainingCharacters[0] || null;
+  if (selectedCharacter) {
+    session.persistedCharacter = normalizeCharacterRecord(selectedCharacter);
+    session.charName = String(selectedCharacter.charName || selectedCharacter.roleName || session.charName || '');
+  } else {
+    session.persistedCharacter = null;
+    session.charName = '';
+  }
+
+  sendDeleteRoleOk(session, slotIndex);
 }
 
 function sendLoginServerList(session: GameSession): void {
@@ -235,7 +316,36 @@ async function sendLineSelectOk(session: GameSession, lineNo: number): Promise<v
   writer.writeUint8(LINE_SELECT_RESULT);
   writer.writeUint8(lineNo & 0xff);
   session.writePacket(writer.payload(), DEFAULT_FLAGS, `Sending line-select success for line ${lineNo}`);
-  await replayPersistedCharacter(session);
+  await sendCharacterRoster(session, lineNo);
+}
+
+function sendCreateRoleFailed(session: GameSession): void {
+  const writer = new PacketWriter();
+  writer.writeUint16(ROLE_CMD);
+  writer.writeUint8(0x06);
+  session.writePacket(writer.payload(), DEFAULT_FLAGS, 'Sending create-role failed');
+}
+
+function sendDeleteRoleOk(session: GameSession, slot: number): void {
+  const writer = new PacketWriter();
+  writer.writeUint16(ROLE_CMD);
+  writer.writeUint8(0x08);
+  writer.writeUint8(slot & 0xff);
+  session.writePacket(writer.payload(), DEFAULT_FLAGS, `Sending delete-role success for slot=${slot}`);
+}
+
+function sendDeleteRoleFailed(session: GameSession): void {
+  const writer = new PacketWriter();
+  writer.writeUint16(ROLE_CMD);
+  writer.writeUint8(0x09);
+  session.writePacket(writer.payload(), DEFAULT_FLAGS, 'Sending delete-role failed');
+}
+
+function sendCreateRoleNameExists(session: GameSession): void {
+  const writer = new PacketWriter();
+  writer.writeUint16(ROLE_CMD);
+  writer.writeUint8(0x0e);
+  session.writePacket(writer.payload(), DEFAULT_FLAGS, 'Sending create-role name-exists');
 }
 
 function sendCreateRoleOk(session: GameSession, role: UnknownRecord): void {
@@ -253,6 +363,47 @@ function sendCreateRoleOk(session: GameSession, role: UnknownRecord): void {
     writer.payload(),
     DEFAULT_FLAGS,
     `Sending create-role success for "${role.roleName}" entity_type=0x${(role.entityType || session.roleEntityType || ENTITY_TYPE).toString(16)}`
+  );
+}
+
+async function sendCharacterRoster(session: GameSession, lineNo: number): Promise<void> {
+  const characters = await listPersistedCharacters(session, { forceReload: true });
+  const charactersBySlot = new Map<number, Record<string, unknown>>();
+  for (const character of characters) {
+    const slot = numberOrDefault(character.slot, -1);
+    if (slot >= 0 && slot < MAX_CHARACTER_SLOTS && !charactersBySlot.has(slot)) {
+      charactersBySlot.set(slot, normalizeCharacterRecord(character));
+    }
+  }
+
+  const writer = new PacketWriter();
+  writer.writeUint16(LOGIN_CMD);
+  writer.writeUint8(LOGIN_CHARACTER_ROSTER_RESULT);
+  for (let index = 0; index < 8; index += 1) {
+    writer.writeUint8(index === 0 ? (lineNo & 0xff) : 0);
+  }
+
+  for (let slot = 0; slot < MAX_CHARACTER_SLOTS; slot += 1) {
+    const character = charactersBySlot.get(slot) || null;
+    if (!character) {
+      writer.writeUint32(0);
+      continue;
+    }
+
+    writer.writeUint32(resolveRoleData(character));
+    writer.writeUint16(
+      numberOrDefault(character.roleEntityType, numberOrDefault(character.entityType, ENTITY_TYPE))
+    );
+    writer.writeUint8(resolveRoleLevel(character));
+    writer.writeString(`${String(character.charName || character.roleName || 'Hero')}\0`);
+    writer.writeUint8(resolveBirthMonth(character));
+    writer.writeUint8(resolveBirthDay(character));
+  }
+
+  session.writePacket(
+    writer.payload(),
+    DEFAULT_FLAGS,
+    `Sending character roster with ${characters.length} persisted role(s) for line ${lineNo}`
   );
 }
 
@@ -312,6 +463,10 @@ async function sendGameServerRedirect(session: GameSession): Promise<void> {
         ? persisted.frogTeleporterUnlocks
         : session.frogTeleporterUnlocks,
     inventory: normalizeInventoryState(persisted || session).inventory,
+    slot: typeof persisted?.slot === 'number' ? persisted.slot : 0,
+    characterId: typeof persisted?.characterId === 'string' ? persisted.characterId : null,
+    birthMonth: typeof persisted?.birthMonth === 'number' ? persisted.birthMonth : 0,
+    birthDay: typeof persisted?.birthDay === 'number' ? persisted.birthDay : 0,
     mapId: typeof persisted?.mapId === 'number' ? persisted.mapId : session.currentMapId,
     x: typeof persisted?.x === 'number' ? persisted.x : session.currentX,
     y: typeof persisted?.y === 'number' ? persisted.y : session.currentY,
@@ -327,22 +482,24 @@ async function sendGameServerRedirect(session: GameSession): Promise<void> {
 }
 
 async function replayPersistedCharacter(session: GameSession): Promise<void> {
-  const character = (await session.loadPersistedCharacter({ forceReload: true })) || session.getPersistedCharacter();
-  if (!character) {
+  const characters = await listPersistedCharacters(session, { forceReload: true });
+  if (characters.length < 1) {
     session.log('No persisted role to replay');
     return;
   }
 
-  const normalized = normalizeCharacterRecord(character);
-  sendCreateRoleOk(session, {
-    slot: numberOrDefault(normalized.slot, 0),
-    roleName: normalized.charName || normalized.roleName || session.charName,
-    entityType: normalized.roleEntityType || session.roleEntityType || ENTITY_TYPE,
-    roleData: resolveRoleData(normalized),
-    level: resolveRoleLevel(normalized),
-    birthMonth: resolveBirthMonth(normalized),
-    birthDay: resolveBirthDay(normalized),
-  });
+  for (const character of characters) {
+    const normalized = normalizeCharacterRecord(character);
+    sendCreateRoleOk(session, {
+      slot: numberOrDefault(normalized.slot, 0),
+      roleName: normalized.charName || normalized.roleName || session.charName,
+      entityType: normalized.roleEntityType || session.roleEntityType || ENTITY_TYPE,
+      roleData: resolveRoleData(normalized),
+      level: resolveRoleLevel(normalized),
+      birthMonth: resolveBirthMonth(normalized),
+      birthDay: resolveBirthDay(normalized),
+    });
+  }
 }
 
 export {
@@ -353,5 +510,6 @@ export {
   sendLineSelectOk,
   sendGameServerRedirect,
   sendCreateRoleOk,
+  sendCharacterRoster,
   replayPersistedCharacter,
 };

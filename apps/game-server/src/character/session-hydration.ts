@@ -1,6 +1,6 @@
 import type { GameSession } from '../types.js';
 
-import { normalizePets } from '../pet-runtime.js';
+import { normalizePets } from '../gameplay/pet-runtime.js';
 import { CHARACTER_VITALS_BASELINE, clampSessionVitalsToMax, recomputeSessionMaxVitals } from '../gameplay/session-flows.js';
 import { initializeOnlineTracking, normalizeOnlineState } from '../gameplay/online-runtime.js';
 import { normalizeRenownTaskDailyState } from '../gameplay/renown-task-runtime.js';
@@ -14,6 +14,39 @@ import {
 } from '../quest2/index.js';
 
 type CharacterOverrides = Record<string, unknown>;
+type PersistedCharacterSelector = {
+  slot?: number | null;
+  characterId?: string | null;
+};
+type CharacterStoreHandle = {
+  list(accountId: string | null): Promise<Record<string, unknown>[]>;
+  get(accountId: string | null, selector?: PersistedCharacterSelector): Promise<Record<string, unknown> | null>;
+  set(accountId: string, character: Record<string, unknown>): Promise<void>;
+  select(accountId: string, selector?: PersistedCharacterSelector): Promise<Record<string, unknown> | null>;
+  delete(accountId: string, selector?: PersistedCharacterSelector): Promise<boolean>;
+  existsName(
+    roleName: string,
+    options?: { excludeCharacterId?: string | null }
+  ): Promise<boolean>;
+};
+
+function getCharacterStore(session: GameSession): CharacterStoreHandle | null {
+  const candidate = session.sharedState?.characterStore;
+  if (!candidate || typeof candidate !== 'object') {
+    return null;
+  }
+  return candidate as CharacterStoreHandle;
+}
+
+function cloneJson<T>(value: T): T {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function normalizePersistedCharacterList(characters: Array<Record<string, unknown>>): Array<Record<string, unknown>> {
+  return characters
+    .map((character) => normalizeCharacterRecord(character))
+    .sort((left, right) => numberOrDefault(left.slot, 0) - numberOrDefault(right.slot, 0));
+}
 
 export function hydratePendingGameCharacter(session: GameSession, sharedState: Record<string, any>): void {
   const accountKey = typeof session.accountKey === 'string' ? session.accountKey.trim() : '';
@@ -126,20 +159,92 @@ export async function loadPersistedCharacter(
   options: { forceReload?: boolean } = {}
 ): Promise<Record<string, unknown> | null> {
   const storageKey = session.accountName;
-  if (!storageKey || !session.sharedState.characterStore) {
+  const characterStore = getCharacterStore(session);
+  if (!storageKey || !characterStore) {
     session.persistedCharacter = null;
     return null;
   }
   if (options.forceReload !== true && session.persistedCharacter && typeof session.persistedCharacter === 'object') {
     return session.persistedCharacter;
   }
-  const character = await session.sharedState.characterStore.get(storageKey);
+  const character = await characterStore.get(storageKey);
   if (!character) {
     session.persistedCharacter = null;
     return null;
   }
   session.persistedCharacter = normalizeCharacterRecord(character);
   return session.persistedCharacter;
+}
+
+export async function listPersistedCharacters(
+  session: GameSession,
+  options: { forceReload?: boolean } = {}
+): Promise<Array<Record<string, unknown>>> {
+  const storageKey = session.accountName;
+  const characterStore = getCharacterStore(session);
+  if (!storageKey || !characterStore) {
+    return [];
+  }
+
+  const characters = await characterStore.list(storageKey);
+  const normalizedCharacters = normalizePersistedCharacterList(characters);
+  if (options.forceReload === true) {
+    const selectedCharacter = normalizedCharacters.find((character) => character.selected === true) || normalizedCharacters[0] || null;
+    session.persistedCharacter = selectedCharacter ? cloneJson(selectedCharacter) : null;
+  }
+  return normalizedCharacters;
+}
+
+export async function selectPersistedCharacter(
+  session: GameSession,
+  selector: PersistedCharacterSelector = {}
+): Promise<Record<string, unknown> | null> {
+  const storageKey = session.accountName;
+  const characterStore = getCharacterStore(session);
+  if (!storageKey || !characterStore) {
+    session.persistedCharacter = null;
+    return null;
+  }
+
+  const character = await characterStore.select(storageKey, selector);
+  if (!character) {
+    return null;
+  }
+  session.persistedCharacter = normalizeCharacterRecord(character);
+  return session.persistedCharacter;
+}
+
+export async function deletePersistedCharacter(
+  session: GameSession,
+  selector: PersistedCharacterSelector = {}
+): Promise<boolean> {
+  const storageKey = session.accountName;
+  const characterStore = getCharacterStore(session);
+  if (!storageKey || !characterStore) {
+    session.persistedCharacter = null;
+    return false;
+  }
+
+  const deleted = await characterStore.delete(storageKey, selector);
+  if (!deleted) {
+    return false;
+  }
+
+  const remainingCharacters = await listPersistedCharacters(session, { forceReload: true });
+  session.persistedCharacter = remainingCharacters.find((character) => character.selected === true) || remainingCharacters[0] || null;
+  return true;
+}
+
+export async function persistedCharacterNameExists(
+  session: GameSession,
+  roleName: string,
+  options: { excludeCharacterId?: string | null } = {}
+): Promise<boolean> {
+  const characterStore = getCharacterStore(session);
+  if (!characterStore) {
+    return false;
+  }
+  return characterStore.existsName(roleName, options);
 }
 
 export function getPersistedCharacter(session: GameSession): Record<string, unknown> | null {
@@ -150,12 +255,13 @@ export function getPersistedCharacter(session: GameSession): Record<string, unkn
 
 export async function saveCharacter(session: GameSession, character: Record<string, unknown>): Promise<void> {
   const storageKey = session.accountName;
-  if (!storageKey || !session.sharedState.characterStore) {
+  const characterStore = getCharacterStore(session);
+  if (!storageKey || !characterStore) {
     return;
   }
   const normalized = normalizeCharacterRecord(character);
   session.persistedCharacter = normalized;
-  await session.sharedState.characterStore.set(storageKey, normalized);
+  await characterStore.set(storageKey, normalized);
   session.log(
     `Persisted character "${normalized.charName || normalized.roleName || 'Hero'}" for account "${session.accountName}" key="${storageKey}"`
   );

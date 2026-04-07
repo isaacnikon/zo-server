@@ -1,6 +1,6 @@
 import { GAME_FIGHT_RESULT_CMD } from '../config.js';
 import { consumeBagItemByInstanceId, getBagItemByReference, getItemDefinition } from '../inventory/index.js';
-import { createOwnedPet } from '../pet-runtime.js';
+import { createOwnedPet } from './pet-runtime.js';
 import { MAX_PET_CAPACITY } from './pet-service.js';
 import { getCapturePetTemplateId, getRoleName } from '../roleinfo/index.js';
 import { sendConsumeResultPackets, sendInventoryFullSync } from './inventory-runtime.js';

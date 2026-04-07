@@ -1,7 +1,7 @@
 import { MAP_ID, SPAWN_X, SPAWN_Y } from '../config.js';
 import { normalizeInventoryState } from '../inventory/index.js';
 import { normalizeOnlineState } from '../gameplay/online-runtime.js';
-import { normalizePets } from '../pet-runtime.js';
+import { normalizePets } from '../gameplay/pet-runtime.js';
 import { CHARACTER_VITALS_BASELINE } from '../gameplay/session-flows.js';
 import { resolveCharacterDerivedMaxVitals } from '../gameplay/max-vitals.js';
 import { normalizeRenownTaskDailyState } from '../gameplay/renown-task-runtime.js';
@@ -235,6 +235,7 @@ export function normalizeCharacterRecord(character: UnknownRecord): UnknownRecor
   const clampedRage = Math.max(0, Math.min(currentRage, maxVitals.rage));
   return {
     ...character,
+    slot: numberOrDefault(character.slot, 0),
     charName: character.charName || character.roleName || 'Hero',
     roleName: character.roleName || character.charName || 'Hero',
     mapId,

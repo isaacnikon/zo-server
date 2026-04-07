@@ -1,11 +1,11 @@
 import net from 'node:net';
 
 import { BIND_HOST, CHARACTER_STORE_BACKEND, CHARACTER_STORE_FILE, LOG_FILE, PORT } from './config.js';
-import { CharacterStore } from './character-store.js';
+import { CharacterStore } from './character/json-store.js';
 import { initializeStaticJsonStore } from './db/static-json-store.js';
 import { clearRuntimeOnlinePlayers } from './db/runtime-online-store.js';
 import { createLogger } from './logger.js';
-import { PostgresCharacterStore } from './postgres-character-store.js';
+import { PostgresCharacterStore } from './character/postgres-store.js';
 import { initializeQuestDefinitions } from './quest2/definitions.js';
 import { startRuntimeAdminCommandWorker } from './runtime-admin/runtime-admin-worker.js';
 import { initializeSceneInteractions } from './scenes/map-interactions.js';

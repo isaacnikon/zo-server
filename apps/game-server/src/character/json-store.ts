@@ -1,8 +1,26 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { numberOrDefault } from './utils.js';
+import { numberOrDefault } from '../utils.js';
 
 type CharacterRecord = Record<string, unknown>;
+type CharacterSelector = {
+  slot?: number | null;
+  characterId?: string | null;
+};
+type AccountSlotRecord = {
+  slot: number;
+  characterId: string;
+  name: string;
+  updatedAt: string;
+};
+type AccountRecord = {
+  accountId: string;
+  selectedCharacterId?: string | null;
+  slots?: AccountSlotRecord[];
+  characterId?: string;
+  name?: string;
+  updatedAt?: string;
+};
 
 export class CharacterStore {
   legacyFilePath: string;
@@ -10,7 +28,7 @@ export class CharacterStore {
   accountsRoot: string;
   charactersRoot: string;
   legacyData: Record<string, CharacterRecord>;
-  cache: Map<string, CharacterRecord>;
+  cache: Map<string, CharacterRecord[]>;
 
   constructor(filePath: string) {
     this.legacyFilePath = path.resolve(filePath);
@@ -34,31 +52,68 @@ export class CharacterStore {
     }
   }
 
-  async get(accountId: string | null): Promise<CharacterRecord | null> {
+  async list(accountId: string | null): Promise<CharacterRecord[]> {
     if (!accountId) {
-      return null;
+      return [];
     }
 
     if (this.cache.has(accountId)) {
       return cloneJson(this.cache.get(accountId)!);
     }
 
-    const accountRecord = this.readJsonFile(this.getAccountFilePath(accountId)) as any;
-    if (accountRecord?.characterId) {
-      const character = this.loadSplitCharacter(accountId, accountRecord.characterId);
+    const accountRecord = this.readJsonFile(this.getAccountFilePath(accountId)) as AccountRecord | null;
+    const selectedCharacterId =
+      typeof accountRecord?.selectedCharacterId === 'string' && accountRecord.selectedCharacterId.length > 0
+        ? accountRecord.selectedCharacterId
+        : (typeof accountRecord?.characterId === 'string' && accountRecord.characterId.length > 0
+          ? accountRecord.characterId
+          : null);
+    const records: CharacterRecord[] = [];
+
+    if (Array.isArray(accountRecord?.slots)) {
+      for (const slotRecord of accountRecord.slots) {
+        if (!slotRecord || typeof slotRecord.characterId !== 'string' || slotRecord.characterId.length < 1) {
+          continue;
+        }
+        const character = this.loadSplitCharacter(accountId, slotRecord.characterId, numberOrDefault(slotRecord.slot, 0));
+        if (character) {
+          records.push({
+            ...character,
+            selected: selectedCharacterId === slotRecord.characterId,
+          });
+        }
+      }
+    } else if (typeof accountRecord?.characterId === 'string' && accountRecord.characterId.length > 0) {
+      const character = this.loadSplitCharacter(accountId, accountRecord.characterId, 0);
       if (character) {
-        this.cache.set(accountId, character);
-        return cloneJson(character);
+        records.push({
+          ...character,
+          selected: selectedCharacterId === accountRecord.characterId || selectedCharacterId === null,
+        });
       }
     }
 
-    const legacyCharacter = this.legacyData[accountId] || null;
-    if (legacyCharacter) {
-      this.cache.set(accountId, legacyCharacter);
-      return cloneJson(legacyCharacter);
+    if (records.length < 1) {
+      const legacyCharacter = this.legacyData[accountId] || null;
+      if (legacyCharacter) {
+        records.push({
+          ...cloneJson(legacyCharacter),
+          characterId: resolveCharacterId(accountId, legacyCharacter),
+          slot: numberOrDefault((legacyCharacter as CharacterRecord).slot, 0),
+          selected: true,
+        });
+      }
     }
 
-    return null;
+    records.sort(compareCharactersBySlot);
+    this.cache.set(accountId, records);
+    return cloneJson(records);
+  }
+
+  async get(accountId: string | null, selector: CharacterSelector = {}): Promise<CharacterRecord | null> {
+    const characters = await this.list(accountId);
+    const character = resolveCharacterFromList(characters, selector);
+    return character ? cloneJson(character) : null;
   }
 
   async set(accountId: string, character: CharacterRecord): Promise<void> {
@@ -66,29 +121,156 @@ export class CharacterStore {
       return;
     }
 
+    const existingCharacters = await this.list(accountId);
     const normalizedCharacter = cloneJson(character);
-    const characterId = resolveCharacterId(accountId, normalizedCharacter);
+    const explicitCharacterId =
+      typeof normalizedCharacter.characterId === 'string' && normalizedCharacter.characterId.length > 0
+        ? normalizedCharacter.characterId
+        : null;
+    const characterId = resolveCharacterId(accountId, normalizedCharacter, explicitCharacterId);
+    const existingCharacter = existingCharacters.find((entry) => entry.characterId === characterId) || null;
+    const requestedSlot =
+      typeof normalizedCharacter.slot === 'number' && Number.isFinite(normalizedCharacter.slot)
+        ? Math.max(0, normalizedCharacter.slot | 0)
+        : null;
+    const slot =
+      existingCharacter
+        ? numberOrDefault(existingCharacter.slot, 0)
+        : requestedSlot !== null
+          ? requestedSlot
+          : findFirstAvailableSlot(existingCharacters);
+    const nextCharacter: CharacterRecord = {
+      ...normalizedCharacter,
+      characterId,
+      slot,
+      selected: true,
+    };
+    const nextCharacters = existingCharacters
+      .filter((entry) => entry.characterId !== characterId && numberOrDefault(entry.slot, -1) !== slot)
+      .concat(nextCharacter)
+      .sort(compareCharactersBySlot);
 
     this.ensureDirectories(characterId);
-    this.writeJsonFile(this.getAccountFilePath(accountId), {
-      accountId,
-      characterId,
-      name: (normalizedCharacter as any).charName || (normalizedCharacter as any).name || 'Hero',
-      updatedAt: new Date().toISOString(),
-    });
+    this.writeJsonFile(this.getAccountFilePath(accountId), buildAccountDocument(accountId, nextCharacters, characterId));
+    this.writeJsonFile(this.getCharacterFilePath(characterId, 'profile.json'), buildProfileDocument(accountId, characterId, nextCharacter));
+    this.writeJsonFile(this.getCharacterFilePath(characterId, 'vitals.json'), buildVitalsDocument(characterId, nextCharacter));
+    this.writeJsonFile(this.getCharacterFilePath(characterId, 'attributes.json'), buildAttributesDocument(characterId, nextCharacter));
+    this.writeJsonFile(this.getCharacterFilePath(characterId, 'skills.json'), buildSkillsDocument(characterId, nextCharacter));
+    this.writeJsonFile(this.getCharacterFilePath(characterId, 'pets.json'), buildPetsDocument(characterId, nextCharacter));
+    this.writeJsonFile(this.getCharacterFilePath(characterId, 'inventory-items.json'), buildInventoryItemsDocument(characterId, nextCharacter));
+    this.writeJsonFile(this.getCharacterFilePath(characterId, 'inventory-state.json'), buildInventoryStateDocument(characterId, nextCharacter));
 
-    this.writeJsonFile(this.getCharacterFilePath(characterId, 'profile.json'), buildProfileDocument(accountId, characterId, normalizedCharacter));
-    this.writeJsonFile(this.getCharacterFilePath(characterId, 'vitals.json'), buildVitalsDocument(characterId, normalizedCharacter));
-    this.writeJsonFile(this.getCharacterFilePath(characterId, 'attributes.json'), buildAttributesDocument(characterId, normalizedCharacter));
-    this.writeJsonFile(this.getCharacterFilePath(characterId, 'skills.json'), buildSkillsDocument(characterId, normalizedCharacter));
-    this.writeJsonFile(this.getCharacterFilePath(characterId, 'pets.json'), buildPetsDocument(characterId, normalizedCharacter));
-    this.writeJsonFile(this.getCharacterFilePath(characterId, 'inventory-items.json'), buildInventoryItemsDocument(characterId, normalizedCharacter));
-    this.writeJsonFile(this.getCharacterFilePath(characterId, 'inventory-state.json'), buildInventoryStateDocument(characterId, normalizedCharacter));
-
-    this.cache.set(accountId, normalizedCharacter);
+    this.cache.set(accountId, cloneJson(nextCharacters));
   }
 
-  loadSplitCharacter(accountId: string, characterId: string): CharacterRecord | null {
+  async select(accountId: string, selector: CharacterSelector = {}): Promise<CharacterRecord | null> {
+    const characters = await this.list(accountId);
+    const selectedCharacter = resolveCharacterFromList(characters, selector);
+    if (!selectedCharacter || typeof selectedCharacter.characterId !== 'string') {
+      return null;
+    }
+
+    const nextCharacters: CharacterRecord[] = characters
+      .map((character) => ({
+        ...character,
+        selected: character.characterId === selectedCharacter.characterId,
+      }))
+      .sort(compareCharactersBySlot);
+    this.writeJsonFile(
+      this.getAccountFilePath(accountId),
+      buildAccountDocument(accountId, nextCharacters, selectedCharacter.characterId)
+    );
+    this.cache.set(accountId, cloneJson(nextCharacters));
+    return cloneJson(nextCharacters.find((character) => character.characterId === selectedCharacter.characterId) || null);
+  }
+
+  async delete(accountId: string, selector: CharacterSelector = {}): Promise<boolean> {
+    const characters = await this.list(accountId);
+    const targetCharacter = resolveCharacterFromList(characters, selector);
+    if (!targetCharacter || typeof targetCharacter.characterId !== 'string') {
+      return false;
+    }
+
+    const remainingCharacters = characters
+      .filter((character) => character.characterId !== targetCharacter.characterId)
+      .sort(compareCharactersBySlot);
+    const previouslySelectedCharacter = characters.find((character) => character.selected === true) || null;
+    const selectedCharacterId =
+      previouslySelectedCharacter &&
+      previouslySelectedCharacter.characterId !== targetCharacter.characterId &&
+      typeof previouslySelectedCharacter.characterId === 'string'
+        ? previouslySelectedCharacter.characterId
+        : (
+          remainingCharacters.length > 0 && typeof remainingCharacters[0]?.characterId === 'string'
+            ? remainingCharacters[0].characterId as string
+            : null
+        );
+    const nextCharacters: CharacterRecord[] = remainingCharacters
+      .map((character) => ({
+        ...character,
+        selected: selectedCharacterId !== null && character.characterId === selectedCharacterId,
+      }))
+      .sort(compareCharactersBySlot);
+    this.writeJsonFile(
+      this.getAccountFilePath(accountId),
+      buildAccountDocument(accountId, nextCharacters, selectedCharacterId)
+    );
+    fs.rmSync(this.getCharacterDirectoryPath(targetCharacter.characterId), { recursive: true, force: true });
+    this.cache.set(accountId, cloneJson(nextCharacters));
+    return true;
+  }
+
+  async existsName(
+    roleName: string,
+    options: { excludeCharacterId?: string | null } = {}
+  ): Promise<boolean> {
+    const normalizedName = roleName.trim().toLowerCase();
+    if (normalizedName.length < 1) {
+      return false;
+    }
+    const excludedCharacterId =
+      typeof options.excludeCharacterId === 'string' && options.excludeCharacterId.length > 0
+        ? options.excludeCharacterId
+        : null;
+
+    for (const legacyCharacter of Object.values(this.legacyData)) {
+      const legacyName = String((legacyCharacter as CharacterRecord).charName || (legacyCharacter as CharacterRecord).roleName || '').trim().toLowerCase();
+      if (legacyName.length < 1 || legacyName !== normalizedName) {
+        continue;
+      }
+      const legacyCharacterId = resolveCharacterId('', legacyCharacter as CharacterRecord);
+      if (!excludedCharacterId || legacyCharacterId !== excludedCharacterId) {
+        return true;
+      }
+    }
+
+    let characterIds: string[] = [];
+    try {
+      characterIds = fs.readdirSync(this.charactersRoot, { withFileTypes: true })
+        .filter((entry) => entry.isDirectory())
+        .map((entry) => entry.name);
+    } catch (err: any) {
+      if (err.code === 'ENOENT') {
+        return false;
+      }
+      throw err;
+    }
+
+    for (const characterId of characterIds) {
+      if (excludedCharacterId && characterId === excludedCharacterId) {
+        continue;
+      }
+      const profile = this.readJsonFile(this.getCharacterFilePath(characterId, 'profile.json')) as Record<string, unknown> | null;
+      const candidateName = String(profile?.charName || profile?.name || '').trim().toLowerCase();
+      if (candidateName === normalizedName) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  loadSplitCharacter(accountId: string, characterId: string, slot = 0): CharacterRecord | null {
     const profile = this.readJsonFile(this.getCharacterFilePath(characterId, 'profile.json')) as any;
     if (!profile) {
       return null;
@@ -103,7 +285,11 @@ export class CharacterStore {
 
     return {
       accountId,
+      characterId,
+      slot: numberOrDefault(profile.slot, slot),
       charName: profile.charName || profile.name || 'Hero',
+      birthMonth: numberOrDefault(profile.birthMonth, 0),
+      birthDay: numberOrDefault(profile.birthDay, 0),
       entityType: profile.entityType,
       roleEntityType: profile.roleEntityType,
       roleData: profile.roleData,
@@ -194,6 +380,10 @@ export class CharacterStore {
     return path.join(this.charactersRoot, sanitizePathSegment(characterId), fileName);
   }
 
+  getCharacterDirectoryPath(characterId: string): string {
+    return path.join(this.charactersRoot, sanitizePathSegment(characterId));
+  }
+
   readJsonFile(filePath: string): unknown {
     try {
       const raw = fs.readFileSync(filePath, 'utf8');
@@ -215,7 +405,10 @@ function buildProfileDocument(accountId: string, characterId: string, character:
   return {
     accountId,
     characterId,
+    slot: numberOrDefault(character.slot, 0),
     charName: character.charName || character.name || 'Hero',
+    birthMonth: numberOrDefault(character.birthMonth, 0),
+    birthDay: numberOrDefault(character.birthDay, 0),
     entityType: numberOrDefault(character.entityType, 0),
     roleEntityType: numberOrDefault(character.roleEntityType, numberOrDefault(character.entityType, 0)),
     roleData: numberOrDefault(character.roleData, 0),
@@ -431,7 +624,38 @@ function buildInventoryStateDocument(characterId: string, character: any): Recor
   };
 }
 
-function resolveCharacterId(accountId: string, character: any): string {
+function buildAccountDocument(
+  accountId: string,
+  characters: CharacterRecord[],
+  selectedCharacterId: string | null
+): AccountRecord {
+  const normalizedSelectedCharacterId =
+    typeof selectedCharacterId === 'string' && selectedCharacterId.length > 0
+      ? selectedCharacterId
+      : null;
+  return {
+    accountId,
+    selectedCharacterId: normalizedSelectedCharacterId,
+    slots: characters
+      .map((character) => ({
+        slot: numberOrDefault(character.slot, 0),
+        characterId: String(character.characterId || ''),
+        name: String(character.charName || character.roleName || character.name || 'Hero'),
+        updatedAt: new Date().toISOString(),
+      }))
+      .filter((slotRecord) => slotRecord.characterId.length > 0)
+      .sort((left, right) => left.slot - right.slot),
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+function resolveCharacterId(accountId: string, character: any, explicitCharacterId?: string | null): string {
+  if (typeof explicitCharacterId === 'string' && explicitCharacterId.length > 0) {
+    return sanitizePathSegment(explicitCharacterId);
+  }
+  if (typeof character?.characterId === 'string' && character.characterId.length > 0) {
+    return sanitizePathSegment(character.characterId);
+  }
   const baseName = typeof character?.charName === 'string' && character.charName.length > 0
     ? character.charName
     : accountId;
@@ -442,6 +666,42 @@ function sanitizePathSegment(value: string): string {
   return String(value).replace(/[^a-zA-Z0-9._-]+/g, '_');
 }
 
+function resolveCharacterFromList(
+  characters: CharacterRecord[],
+  selector: CharacterSelector
+): CharacterRecord | null {
+  const characterId =
+    typeof selector.characterId === 'string' && selector.characterId.length > 0
+      ? selector.characterId
+      : null;
+  if (characterId) {
+    return characters.find((character) => character.characterId === characterId) || null;
+  }
+
+  if (typeof selector.slot === 'number' && Number.isFinite(selector.slot)) {
+    const slot = selector.slot | 0;
+    return characters.find((character) => numberOrDefault(character.slot, -1) === slot) || null;
+  }
+
+  return characters.find((character) => character.selected === true) || characters[0] || null;
+}
+
+function compareCharactersBySlot(left: CharacterRecord, right: CharacterRecord): number {
+  return numberOrDefault(left.slot, 0) - numberOrDefault(right.slot, 0);
+}
+
+function findFirstAvailableSlot(characters: CharacterRecord[]): number {
+  const occupiedSlots = new Set(
+    characters
+      .map((character) => numberOrDefault(character.slot, -1))
+      .filter((slot) => slot >= 0)
+  );
+  let slot = 0;
+  while (occupiedSlots.has(slot)) {
+    slot += 1;
+  }
+  return slot;
+}
 
 function numberOrNull(value: unknown): number | null {
   return typeof value === 'number' && Number.isFinite(value) ? value : null;

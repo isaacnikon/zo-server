@@ -1,6 +1,6 @@
 import { ENTITY_TYPE } from '../config.js';
 import { isFemaleRole } from '../roleinfo/index.js';
-import { createOwnedPet } from '../pet-runtime.js';
+import { createOwnedPet } from './pet-runtime.js';
 import { applyEffects } from './effect-executor.js';
 import { ensureRenownTaskDailyState, RENOWN_TASK_ID, RENOWN_TASK_STREAK_TARGET } from './renown-task-runtime.js';
 import { numberOrDefault, type UnknownRecord } from '../utils.js';

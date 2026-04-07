@@ -47,6 +47,7 @@ apps/game-server/
     data.ts               JSON loading, internal lookup tables
     queries.ts            Public query functions (drops, pets, encounters)
     index.ts              Barrel re-export
+  db/                    Database layer — postgres pool, SQL helpers, auth, runtime online store
   gameplay/              Gameplay services (layer 2 — no handler imports)
     combat-resolution.ts  Turn resolution, victory/defeat, rewards, command prompts
     skill-resolution.ts   Skill use handling, cast playback
@@ -63,9 +64,19 @@ apps/game-server/
     progression.ts        Level-up, experience
     max-vitals.ts         HP/MP/rage cap calculation
     session-flows.ts      Vitals baseline, player vitals resolution
-  objectives/            Quest objective system (registry, dispatcher, event handler)
+    pet-runtime.ts        Pet normalization and record construction (Layer 2 — imports max-vitals)
+    pet-service.ts        Pet state management and client sync
   scenes/                Map interactions, field combat triggers, map rotation
+    index.ts              Barrel re-export
   character/             Character persistence, hydration, normalization
+    normalize.ts          Attribute/skill/inventory normalization
+    role-utils.ts         Role data derivation
+    session-hydration.ts  Character loading into session state
+    json-store.ts         JSON file-based character store
+    postgres-store.ts     Postgres-backed character store
+  triggers/              Trigger utilities (progress tracking, matcher)
+  observability/         Packet tracing
+  runtime-admin/         Admin command worker
 scripts/                Data processing scripts (Python + TypeScript)
   extract/               Client binary data extraction
   generate/              Code/data generation from extracted data
@@ -88,9 +99,9 @@ Four dependency layers — imports point downward only:
 
 ```
 Layer 4: SESSION + WIRING   (session.ts, server.ts)
-Layer 3: HANDLERS            (handlers/*, scenes/*, objectives/*)
+Layer 3: HANDLERS            (handlers/*, scenes/*, runtime-admin/*)
 Layer 2: GAMEPLAY SERVICES   (gameplay/*)
-Layer 1: DOMAIN CORE         (types, config, protocol, combat/, inventory, quest2, roleinfo)
+Layer 1: DOMAIN CORE         (types, config, protocol, combat/, inventory, quest2, roleinfo, db/, triggers/)
 ```
 
 ## Key Patterns
@@ -99,7 +110,7 @@ Layer 1: DOMAIN CORE         (types, config, protocol, combat/, inventory, quest
 - **Packet dispatch** (`packet-dispatcher.ts`): Uses `Map<number, handler>` with direct function imports — no string-based dispatch.
 - **Combat state** is typed as `CombatState` (defined in `types.ts`), not `Record<string, any>`.
 - **Quest events** use a discriminated union (`QuestEvent` in `types.ts`).
-- **Barrel re-exports**: `inventory/`, `quest2/`, `roleinfo/` each have an `index.ts` barrel. Import from the barrel (e.g., `from '../inventory/index.js'`).
+- **Barrel re-exports**: `inventory/`, `quest2/`, `roleinfo/`, `scenes/` each have an `index.ts` barrel. Import from the barrel (e.g., `from '../inventory/index.js'`).
 
 ## Current Combat Notes
 

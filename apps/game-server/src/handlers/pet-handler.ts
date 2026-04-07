@@ -2,7 +2,7 @@ import type { GameSession } from '../types.js';
 
 import { DEFAULT_FLAGS, GAME_FIGHT_RESULT_CMD } from '../config.js';
 import { buildPetPanelClearPacket, buildPetPanelModePacket } from '../protocol/gameplay-packets.js';
-import { getPrimaryPet, normalizePets } from '../pet-runtime.js';
+import { getPrimaryPet, normalizePets } from '../gameplay/pet-runtime.js';
 import { syncWorldPetState } from '../world-state.js';
 import { sendPetStateSync } from '../gameplay/pet-service.js';
 

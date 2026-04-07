@@ -2,7 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { CharacterStore } from '../src/character-store.js';
+import { CharacterStore } from '../src/character/json-store.js';
 import { buildCharacterReplaceSql, resolveCharacterId } from '../src/db/character-store-sql.js';
 import { ensureDockerDatabaseReady, executeSqlViaDocker, resolvedProjectRoot } from './db-utils.js';
 

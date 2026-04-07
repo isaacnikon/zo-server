@@ -19,6 +19,9 @@ export function resolveCharacterId(accountId: string, character: CharacterRecord
   if (typeof explicitCharacterId === 'string' && explicitCharacterId.length > 0) {
     return sanitizePathSegment(explicitCharacterId);
   }
+  if (typeof character?.characterId === 'string' && character.characterId.length > 0) {
+    return sanitizePathSegment(character.characterId);
+  }
   const baseName =
     typeof character?.charName === 'string' && character.charName.length > 0
       ? character.charName
@@ -138,7 +141,10 @@ export function buildCharacterReplaceSql(
     `INSERT INTO characters (
       character_id,
       account_id,
+      slot_index,
       char_name,
+      birth_month,
+      birth_day,
       entity_type,
       role_entity_type,
       role_data,
@@ -171,7 +177,10 @@ export function buildCharacterReplaceSql(
     ) VALUES (
       ${sqlText(characterId)},
       ${sqlText(accountId)},
+      ${sqlInteger(character?.slot, 0)},
       ${sqlText(character?.charName || character?.name || 'Hero')},
+      ${sqlInteger(character?.birthMonth, 0)},
+      ${sqlInteger(character?.birthDay, 0)},
       ${sqlInteger(character?.entityType, 0)},
       ${sqlInteger(character?.roleEntityType ?? character?.entityType, 0)},
       ${sqlInteger(character?.roleData, 0)},
@@ -220,7 +229,10 @@ export function buildCharacterReplaceSql(
     )
     ON CONFLICT (character_id) DO UPDATE
     SET account_id = EXCLUDED.account_id,
+        slot_index = EXCLUDED.slot_index,
         char_name = EXCLUDED.char_name,
+        birth_month = EXCLUDED.birth_month,
+        birth_day = EXCLUDED.birth_day,
         entity_type = EXCLUDED.entity_type,
         role_entity_type = EXCLUDED.role_entity_type,
         role_data = EXCLUDED.role_data,

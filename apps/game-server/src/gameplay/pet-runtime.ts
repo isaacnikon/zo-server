@@ -1,6 +1,6 @@
-import { getPetTemplateProfile, getRoleName } from './roleinfo/index.js';
-import { resolvePetMaxVitals } from './gameplay/max-vitals.js';
-import { numberOrDefault, type UnknownRecord } from './utils.js';
+import { getPetTemplateProfile, getRoleName } from '../roleinfo/index.js';
+import { resolvePetMaxVitals } from './max-vitals.js';
+import { numberOrDefault, type UnknownRecord } from '../utils.js';
 type PetStats = {
   strength: number;
   dexterity: number;
