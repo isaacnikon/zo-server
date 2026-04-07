@@ -12,6 +12,7 @@ import { buildInventorySnapshot, normalizeInventoryState } from '../inventory/in
 import {
   normalizeQuestState as normalizeQuestStateV2,
 } from '../quest2/index.js';
+import { removeWorldPresence } from '../world-state.js';
 
 type CharacterOverrides = Record<string, unknown>;
 type PersistedCharacterSelector = {
@@ -121,6 +122,25 @@ function findLiveSessionsForCharacter(
     matches.push(candidate);
   }
   return matches;
+}
+
+function disconnectDuplicateLiveCharacterSessions(
+  session: GameSession,
+  targetCharacter: Record<string, unknown>
+): void {
+  const duplicates = findLiveSessionsForCharacter(session, targetCharacter)
+    .filter((candidate) => (candidate.id >>> 0) !== (session.id >>> 0))
+    .sort((left, right) => (right.id >>> 0) - (left.id >>> 0));
+
+  for (const candidate of duplicates) {
+    candidate.log(
+      `Replacing duplicate live character session with session=${session.id >>> 0}`
+    );
+    removeWorldPresence(candidate, 'replaced-duplicate-character-session');
+    if (!candidate.socket.destroyed) {
+      candidate.socket.destroy();
+    }
+  }
 }
 
 function clearPendingDeletedCharacter(
@@ -240,8 +260,27 @@ export function hydratePendingGameCharacter(session: GameSession, sharedState: R
     session.attackMin = Math.max(1, Number(pendingCharacter.attackMin) | 0);
     session.attackMax = Math.max(session.attackMin, Number(pendingCharacter.attackMax) | 0);
   }
+  disconnectDuplicateLiveCharacterSessions(session, pendingCharacter);
+  const redirectSourceSessionId = Number(pendingCharacter.redirectSourceSessionId);
   if (accountKey && sharedState?.pendingGameCharacters instanceof Map) {
     sharedState.pendingGameCharacters.delete(accountKey);
+  }
+  if (
+    Number.isInteger(redirectSourceSessionId) &&
+    (redirectSourceSessionId >>> 0) !== (session.id >>> 0) &&
+    sharedState?.sessionsById instanceof Map
+  ) {
+    const redirectSourceSession = sharedState.sessionsById.get(redirectSourceSessionId >>> 0) || null;
+    if (
+      redirectSourceSession &&
+      !redirectSourceSession.socket?.destroyed &&
+      redirectSourceSession.isGame !== true
+    ) {
+      redirectSourceSession.log(
+        `Closing pre-world login socket after world handoff to session=${session.id >>> 0}`
+      );
+      redirectSourceSession.socket.destroy();
+    }
   }
   initializeOnlineTracking(session);
   if (correctedVitals) {

@@ -429,6 +429,7 @@ async function sendGameServerRedirect(session: GameSession): Promise<void> {
   session.sharedState.pendingGameCharacters.set(accountKey, {
     accountName: session.accountName,
     accountKey,
+    redirectSourceSessionId: session.id >>> 0,
     charName: persisted?.charName || persisted?.roleName || session.charName,
     runtimeId: 0,
     entityType: session.entityType || ENTITY_TYPE,

@@ -14,6 +14,7 @@ import {
   buildTeamJoinedNoticePacket,
   buildTeamLeaderChangedPacket,
   buildTeamLeaderRemovedMemberPacket,
+  buildTeamMemberRefreshPacket,
   buildTeamMemberPositionPacket,
   buildTeamRemoveMemberPacket,
   buildTeamRosterSyncPacket,
@@ -25,13 +26,18 @@ interface TeamRuntimeRecord {
   memberSessionIds: number[];
 }
 
-interface PendingTeamInvite {
+type TeamRemovalReason = 'leave' | 'kick' | 'disconnect' | 'combat-flee';
+
+type PendingTeamInteractionKind = 'invite' | 'join-request';
+
+interface PendingTeamInteraction {
+  kind: PendingTeamInteractionKind;
   teamId: number;
-  inviterSessionId: number;
-  inviterActorId: number;
-  inviterIdentityId: number;
-  inviterName: string;
-  inviteeSessionId: number;
+  actorSessionId: number;
+  actorRuntimeId: number;
+  actorIdentityId: number;
+  actorName: string;
+  recipientSessionId: number;
   createdAt: number;
 }
 
@@ -63,17 +69,23 @@ interface SharedCombatQueuedActionDefend {
   kind: 'defend';
 }
 
+interface SharedCombatQueuedActionFlee {
+  round: number;
+  kind: 'flee';
+}
+
 type SharedCombatQueuedAction =
   | SharedCombatQueuedActionAttack
   | SharedCombatQueuedActionSkill
   | SharedCombatQueuedActionItem
-  | SharedCombatQueuedActionDefend;
+  | SharedCombatQueuedActionDefend
+  | SharedCombatQueuedActionFlee;
 
 interface TeamRuntimeState {
   nextTeamId: number;
   teams: Map<number, TeamRuntimeRecord>;
   teamIdBySessionId: Map<number, number>;
-  pendingInvitesByInviteeSessionId: Map<number, PendingTeamInvite[]>;
+  pendingInteractionsByRecipientSessionId: Map<number, PendingTeamInteraction[]>;
   combatOwnerSessionIdByParticipantSessionId: Map<number, number>;
   combatParticipantSessionIdsByOwnerSessionId: Map<number, number[]>;
   combatPendingActionsByOwnerSessionId: Map<number, Map<number, SharedCombatQueuedAction>>;
@@ -103,7 +115,7 @@ function getTeamRuntimeState(sharedState: Record<string, any>): TeamRuntimeState
       nextTeamId: 1,
       teams: new Map<number, TeamRuntimeRecord>(),
       teamIdBySessionId: new Map<number, number>(),
-      pendingInvitesByInviteeSessionId: new Map<number, PendingTeamInvite[]>(),
+      pendingInteractionsByRecipientSessionId: new Map<number, PendingTeamInteraction[]>(),
       combatOwnerSessionIdByParticipantSessionId: new Map<number, number>(),
       combatParticipantSessionIdsByOwnerSessionId: new Map<number, number[]>(),
       combatPendingActionsByOwnerSessionId: new Map<number, Map<number, SharedCombatQueuedAction>>(),
@@ -117,17 +129,40 @@ function getSessionById(sharedState: Record<string, any>, sessionId: number): Ga
   return getSessionsById(sharedState).get(sessionId >>> 0) || null;
 }
 
+function isLiveGameSession(candidate: GameSession | null | undefined): candidate is GameSession {
+  if (!candidate) {
+    return false;
+  }
+  if (candidate.socket?.destroyed) {
+    return false;
+  }
+  if (candidate.state !== 'LOGGED_IN') {
+    return false;
+  }
+  return candidate.isGame === true;
+}
+
 function resolveSessionByActorId(sharedState: Record<string, any>, actorId: number): GameSession | null {
   const sessionsById = getSessionsById(sharedState);
+  const normalizedActorId = actorId >>> 0;
+  let identityMatch: GameSession | null = null;
+
   for (const candidate of sessionsById.values()) {
-    if (
-      (candidate.runtimeId >>> 0) === (actorId >>> 0) ||
-      (candidate.roleData >>> 0) === (actorId >>> 0)
-    ) {
+    if (!isLiveGameSession(candidate)) {
+      continue;
+    }
+    if ((candidate.runtimeId >>> 0) === normalizedActorId) {
       return candidate;
     }
+    if ((candidate.roleData >>> 0) !== normalizedActorId) {
+      continue;
+    }
+    if (!identityMatch || (candidate.id >>> 0) > (identityMatch.id >>> 0)) {
+      identityMatch = candidate;
+    }
   }
-  return null;
+
+  return identityMatch;
 }
 
 function resolveTeamMemberIdentity(session: GameSession): number {
@@ -153,8 +188,8 @@ function clearPendingFollowUpTargets(sharedState: Record<string, any>, sessionId
   followUpTargetsBySessionId.delete(sessionId >>> 0);
 }
 
-function isEligibleInviteTarget(inviter: GameSession, candidate: GameSession): boolean {
-  if ((candidate.id >>> 0) === (inviter.id >>> 0)) {
+function isEligibleSocialTarget(session: GameSession, candidate: GameSession): boolean {
+  if ((candidate.id >>> 0) === (session.id >>> 0)) {
     return false;
   }
 
@@ -162,11 +197,7 @@ function isEligibleInviteTarget(inviter: GameSession, candidate: GameSession): b
     return false;
   }
 
-  if ((candidate.currentMapId >>> 0) !== (inviter.currentMapId >>> 0)) {
-    return false;
-  }
-
-  if (getTeamForSession(candidate)) {
+  if ((candidate.currentMapId >>> 0) !== (session.currentMapId >>> 0)) {
     return false;
   }
 
@@ -176,7 +207,7 @@ function isEligibleInviteTarget(inviter: GameSession, candidate: GameSession): b
 function resolveInviteTargetFromFollowUpActorIds(session: GameSession, actorIds: number[]): GameSession | null {
   for (const actorId of actorIds) {
     const target = resolveSessionByActorId(session.sharedState, actorId >>> 0);
-    if (target && isEligibleInviteTarget(session, target)) {
+    if (target && isEligibleSocialTarget(session, target)) {
       return target;
     }
   }
@@ -186,7 +217,7 @@ function resolveInviteTargetFromFollowUpActorIds(session: GameSession, actorIds:
 
 function resolveInviteTargetFallback(session: GameSession): GameSession | null {
   const candidates = [...getSessionsById(session.sharedState).values()].filter((candidate) => {
-    if (!isEligibleInviteTarget(session, candidate)) {
+    if (!isEligibleSocialTarget(session, candidate)) {
       return false;
     }
 
@@ -208,13 +239,82 @@ function getTeamForSession(session: GameSession): TeamRuntimeRecord | null {
   if (!Number.isInteger(teamId)) {
     return null;
   }
-  return state.teams.get(Number(teamId) >>> 0) || null;
+  const team = state.teams.get(Number(teamId) >>> 0) || null;
+  if (!team) {
+    state.teamIdBySessionId.delete(session.id >>> 0);
+    return null;
+  }
+
+  const members = compactTeamMembers(session.sharedState, team);
+  if (members.length < 1 || !members.some((member) => (member.id >>> 0) === (session.id >>> 0))) {
+    state.teamIdBySessionId.delete(session.id >>> 0);
+    return null;
+  }
+
+  return team;
+}
+
+function areSessionsInSameTeam(left: GameSession, right: GameSession): boolean {
+  const leftTeam = getTeamForSession(left);
+  const rightTeam = getTeamForSession(right);
+  return (
+    leftTeam !== null &&
+    rightTeam !== null &&
+    (leftTeam.id >>> 0) === (rightTeam.id >>> 0)
+  );
+}
+
+function compactTeamMembers(sharedState: Record<string, any>, team: TeamRuntimeRecord): GameSession[] {
+  const state = getTeamRuntimeState(sharedState);
+  const compactedMemberSessionIds: number[] = [];
+  const members: GameSession[] = [];
+  const seenSessionIds = new Set<number>();
+  const teamId = team.id >>> 0;
+
+  for (const memberSessionId of team.memberSessionIds) {
+    const normalizedSessionId = memberSessionId >>> 0;
+    if (seenSessionIds.has(normalizedSessionId)) {
+      continue;
+    }
+    seenSessionIds.add(normalizedSessionId);
+
+    const member = getSessionById(sharedState, normalizedSessionId);
+    const mappedTeamId = state.teamIdBySessionId.get(normalizedSessionId);
+    if (!isLiveGameSession(member) || !Number.isInteger(mappedTeamId) || ((mappedTeamId as number) >>> 0) !== teamId) {
+      state.teamIdBySessionId.delete(normalizedSessionId);
+      continue;
+    }
+
+    compactedMemberSessionIds.push(normalizedSessionId);
+    members.push(member);
+    state.teamIdBySessionId.set(normalizedSessionId, teamId);
+  }
+
+  if (
+    compactedMemberSessionIds.length !== team.memberSessionIds.length ||
+    compactedMemberSessionIds.some((memberSessionId, index) => memberSessionId !== (team.memberSessionIds[index] >>> 0))
+  ) {
+    team.memberSessionIds = compactedMemberSessionIds;
+  }
+
+  if (compactedMemberSessionIds.length < 1) {
+    state.teams.delete(teamId);
+    return [];
+  }
+
+  if (!compactedMemberSessionIds.includes(team.leaderSessionId >>> 0)) {
+    team.leaderSessionId = compactedMemberSessionIds[0] >>> 0;
+  }
+
+  return members;
 }
 
 function getTeamSessions(sharedState: Record<string, any>, team: TeamRuntimeRecord): GameSession[] {
-  return team.memberSessionIds
-    .map((sessionId) => getSessionById(sharedState, sessionId))
-    .filter((candidate): candidate is GameSession => Boolean(candidate));
+  return compactTeamMembers(sharedState, team);
+}
+
+function getLiveTeamMemberCount(sharedState: Record<string, any>, team: TeamRuntimeRecord): number {
+  return getTeamSessions(sharedState, team).length;
 }
 
 export function getTeamCombatParticipants(session: GameSession): GameSession[] {
@@ -368,6 +468,56 @@ export function removeSharedTeamCombatParticipant(session: GameSession): GameSes
   return owner;
 }
 
+export function transferSharedTeamCombatOwnership(owner: GameSession, newOwner: GameSession): boolean {
+  if (!owner.combatState?.active || !newOwner.combatState?.active) {
+    return false;
+  }
+  if (!isSharedTeamCombatOwner(owner)) {
+    return false;
+  }
+
+  const state = getTeamRuntimeState(owner.sharedState);
+  const ownerSessionId = owner.id >>> 0;
+  const newOwnerSessionId = newOwner.id >>> 0;
+  if (ownerSessionId === newOwnerSessionId) {
+    return true;
+  }
+
+  const participantSessionIds = state.combatParticipantSessionIdsByOwnerSessionId.get(ownerSessionId) || [];
+  if (!participantSessionIds.some((participantSessionId) => (participantSessionId >>> 0) === newOwnerSessionId)) {
+    return false;
+  }
+
+  const transferredParticipantSessionIds = participantSessionIds
+    .filter((participantSessionId) => (participantSessionId >>> 0) !== ownerSessionId)
+    .filter((participantSessionId, index, values) =>
+      values.findIndex((candidate) => (candidate >>> 0) === (participantSessionId >>> 0)) === index
+    );
+
+  const transferredActions = new Map<number, SharedCombatQueuedAction>();
+  const existingActions = state.combatPendingActionsByOwnerSessionId.get(ownerSessionId);
+  if (existingActions instanceof Map) {
+    for (const [participantSessionId, action] of existingActions.entries()) {
+      if ((participantSessionId >>> 0) === ownerSessionId) {
+        continue;
+      }
+      transferredActions.set(participantSessionId >>> 0, action);
+    }
+  }
+
+  state.combatParticipantSessionIdsByOwnerSessionId.delete(ownerSessionId);
+  state.combatPendingActionsByOwnerSessionId.delete(ownerSessionId);
+  state.combatOwnerSessionIdByParticipantSessionId.delete(ownerSessionId);
+
+  state.combatParticipantSessionIdsByOwnerSessionId.set(newOwnerSessionId, transferredParticipantSessionIds);
+  state.combatPendingActionsByOwnerSessionId.set(newOwnerSessionId, transferredActions);
+  for (const participantSessionId of transferredParticipantSessionIds) {
+    state.combatOwnerSessionIdByParticipantSessionId.set(participantSessionId >>> 0, newOwnerSessionId);
+  }
+
+  return true;
+}
+
 export function setSharedTeamCombatQueuedAction(
   owner: GameSession,
   participant: GameSession,
@@ -482,28 +632,44 @@ function syncTeamSnapshots(sharedState: Record<string, any>, team: TeamRuntimeRe
   }
 }
 
-function clearInviteForInvitee(sharedState: Record<string, any>, inviteeSessionId: number, inviterActorId?: number): void {
+function clearPendingInteractionForRecipient(
+  sharedState: Record<string, any>,
+  recipientSessionId: number,
+  actorId?: number
+): void {
   const state = getTeamRuntimeState(sharedState);
-  const pending = state.pendingInvitesByInviteeSessionId.get(inviteeSessionId >>> 0) || [];
+  const pending = state.pendingInteractionsByRecipientSessionId.get(recipientSessionId >>> 0) || [];
   if (pending.length === 0) {
     return;
   }
 
-  const filtered = typeof inviterActorId === 'number'
-    ? pending.filter((entry) => !doesPendingInviteMatchActorId(entry, inviterActorId))
+  const filtered = typeof actorId === 'number'
+    ? pending.filter((entry) => !doesPendingInteractionMatchActorId(entry, actorId))
     : [];
 
   if (filtered.length > 0) {
-    state.pendingInvitesByInviteeSessionId.set(inviteeSessionId >>> 0, filtered);
+    state.pendingInteractionsByRecipientSessionId.set(recipientSessionId >>> 0, filtered);
     return;
   }
 
-  state.pendingInvitesByInviteeSessionId.delete(inviteeSessionId >>> 0);
+  state.pendingInteractionsByRecipientSessionId.delete(recipientSessionId >>> 0);
 }
 
-function getPendingInvites(session: GameSession): PendingTeamInvite[] {
+function clearPendingInteractionsByActor(sharedState: Record<string, any>, actorSessionId: number): void {
+  const state = getTeamRuntimeState(sharedState);
+  for (const [recipientSessionId, pending] of [...state.pendingInteractionsByRecipientSessionId.entries()]) {
+    const filtered = pending.filter((entry) => (entry.actorSessionId >>> 0) !== (actorSessionId >>> 0));
+    if (filtered.length > 0) {
+      state.pendingInteractionsByRecipientSessionId.set(recipientSessionId >>> 0, filtered);
+    } else {
+      state.pendingInteractionsByRecipientSessionId.delete(recipientSessionId >>> 0);
+    }
+  }
+}
+
+function getPendingInteractions(session: GameSession): PendingTeamInteraction[] {
   const state = getTeamRuntimeState(session.sharedState);
-  return state.pendingInvitesByInviteeSessionId.get(session.id >>> 0) || [];
+  return state.pendingInteractionsByRecipientSessionId.get(session.id >>> 0) || [];
 }
 
 function clearFollowerSyncState(sharedState: Record<string, any>, sessionId: number): void {
@@ -511,21 +677,24 @@ function clearFollowerSyncState(sharedState: Record<string, any>, sessionId: num
   void sessionId;
 }
 
-function doesPendingInviteMatchActorId(invite: PendingTeamInvite, actorId: number): boolean {
+function doesPendingInteractionMatchActorId(interaction: PendingTeamInteraction, actorId: number): boolean {
   const normalizedActorId = actorId >>> 0;
-  return (invite.inviterActorId >>> 0) === normalizedActorId || (invite.inviterIdentityId >>> 0) === normalizedActorId;
+  return (
+    (interaction.actorRuntimeId >>> 0) === normalizedActorId ||
+    (interaction.actorIdentityId >>> 0) === normalizedActorId
+  );
 }
 
-function getPendingInvite(session: GameSession, inviterActorId: number): PendingTeamInvite | null {
-  return getPendingInvites(session).find((entry) => doesPendingInviteMatchActorId(entry, inviterActorId)) || null;
+function getPendingInteraction(session: GameSession, actorId: number): PendingTeamInteraction | null {
+  return getPendingInteractions(session).find((entry) => doesPendingInteractionMatchActorId(entry, actorId)) || null;
 }
 
-function appendPendingInvite(session: GameSession, invite: PendingTeamInvite): void {
+function appendPendingInteraction(session: GameSession, interaction: PendingTeamInteraction): void {
   const state = getTeamRuntimeState(session.sharedState);
-  const pending = state.pendingInvitesByInviteeSessionId.get(session.id >>> 0) || [];
-  const deduped = pending.filter((entry) => (entry.inviterActorId >>> 0) !== (invite.inviterActorId >>> 0));
-  deduped.push(invite);
-  state.pendingInvitesByInviteeSessionId.set(session.id >>> 0, deduped);
+  const pending = state.pendingInteractionsByRecipientSessionId.get(session.id >>> 0) || [];
+  const deduped = pending.filter((entry) => (entry.actorRuntimeId >>> 0) !== (interaction.actorRuntimeId >>> 0));
+  deduped.push(interaction);
+  state.pendingInteractionsByRecipientSessionId.set(session.id >>> 0, deduped);
 }
 
 function writeTeamPacket(session: GameSession, packet: Buffer, message: string): void {
@@ -542,21 +711,51 @@ function sendTeamCreateState(session: GameSession, reason: string): void {
 
 function buildTeamRosterPacketMembers(sharedState: Record<string, any>, team: TeamRuntimeRecord): Array<{
   actorId: number;
+  identityId: number;
   roleEntityType: number;
   level: number;
   displayName: string;
   status: number;
 } | null> {
-  return getTeamSessions(sharedState, team)
-    .slice(0, TEAM_MAX_MEMBERS)
-    .map((member) => ({
-      actorId: member.runtimeId >>> 0,
-      identityId: resolveTeamMemberIdentity(member),
-      roleEntityType: (member.roleEntityType || member.entityType || 0) & 0xffff,
-      level: member.level >>> 0,
-      displayName: member.charName || '',
-      status: 1,
-    }));
+  const members = getTeamSessions(sharedState, team);
+  const leader = members.find((member) => (member.id >>> 0) === (team.leaderSessionId >>> 0)) || null;
+  const orderedMembers = leader
+    ? [leader, ...members.filter((member) => (member.id >>> 0) !== (leader.id >>> 0))]
+    : members;
+  const packetMembers: Array<{
+    actorId: number;
+    identityId: number;
+    roleEntityType: number;
+    level: number;
+    displayName: string;
+    status: number;
+  } | null> = orderedMembers.slice(0, TEAM_MAX_MEMBERS).map((member) => ({
+    actorId: member.runtimeId >>> 0,
+    identityId: resolveTeamMemberIdentity(member),
+    roleEntityType: (member.roleEntityType || member.entityType || 0) & 0xffff,
+    level: member.level >>> 0,
+    displayName: member.charName || '',
+    status: 1,
+  }));
+  return packetMembers;
+}
+
+function buildTeamMemberPacketParams(member: GameSession): {
+  actorId: number;
+  identityId: number;
+  roleEntityType: number;
+  level: number;
+  displayName: string;
+  status: number;
+} {
+  return {
+    actorId: member.runtimeId >>> 0,
+    identityId: resolveTeamMemberIdentity(member),
+    roleEntityType: (member.roleEntityType || member.entityType || 0) & 0xffff,
+    level: member.level >>> 0,
+    displayName: member.charName || '',
+    status: 1,
+  };
 }
 
 function sendTeamRosterSync(session: GameSession, team: TeamRuntimeRecord, reason: string): void {
@@ -568,6 +767,26 @@ function sendTeamRosterSync(session: GameSession, team: TeamRuntimeRecord, reaso
       members: buildTeamRosterPacketMembers(session.sharedState, team),
     }),
     `Sending team roster sync cmd=0x402 sub=0x08 reason=${reason}`
+  );
+}
+
+function sendTeamJoinRequestNotice(session: GameSession, requester: GameSession, reason: string): void {
+  writeTeamPacket(
+    session,
+    buildTeamMemberRefreshPacket(buildTeamMemberPacketParams(requester)),
+    `Sending team join request cmd=0x402 sub=0x06 actorId=${requester.runtimeId >>> 0} reason=${reason}`
+  );
+}
+
+function sendTeamLeaderSync(session: GameSession, team: TeamRuntimeRecord, reason: string): void {
+  const leaderSession = getSessionById(session.sharedState, team.leaderSessionId >>> 0);
+  if (!leaderSession) {
+    return;
+  }
+  writeTeamPacket(
+    session,
+    buildTeamLeaderChangedPacket({ actorId: resolveTeamMemberIdentity(leaderSession) }),
+    `Sending team leader change cmd=0x402 sub=0x0d actorId=${resolveTeamMemberIdentity(leaderSession)} reason=${reason}`
   );
 }
 
@@ -630,6 +849,13 @@ function sendTeamDismissed(session: GameSession, reason: string): void {
 }
 
 function sendTeamConflict(session: GameSession, reason: string): void {
+  const team = getTeamForSession(session);
+  const memberSessionIds = team
+    ? getTeamSessions(session.sharedState, team).map((member) => `${member.charName || member.id}@${member.id}`)
+    : [];
+  session.log(
+    `Team conflict reason=${reason} teamId=${team ? (team.id >>> 0) : 0} teamSize=${memberSessionIds.length} members=${memberSessionIds.join(',') || 'none'}`
+  );
   writeTeamPacket(
     session,
     buildTeamConflictPacket(),
@@ -655,6 +881,8 @@ function createTeamForLeader(session: GameSession): TeamRuntimeRecord {
   state.teamIdBySessionId.set(session.id >>> 0, team.id >>> 0);
   updateSessionTeamSnapshot(session);
   sendTeamCreateState(session, 'create-team');
+  sendTeamRosterSync(session, team, 'create-team');
+  sendTeamLeaderSync(session, team, 'create-team');
   return team;
 }
 
@@ -666,14 +894,15 @@ function deleteTeam(sharedState: Record<string, any>, team: TeamRuntimeRecord): 
   }
 }
 
-function promoteLeaderIfNeeded(team: TeamRuntimeRecord): void {
-  if (team.memberSessionIds.length === 0) {
+function promoteLeaderIfNeeded(sharedState: Record<string, any>, team: TeamRuntimeRecord): void {
+  const memberSessionIds = getTeamSessions(sharedState, team).map((member) => member.id >>> 0);
+  if (memberSessionIds.length === 0) {
     return;
   }
-  if (team.memberSessionIds.includes(team.leaderSessionId >>> 0)) {
+  if (memberSessionIds.includes(team.leaderSessionId >>> 0)) {
     return;
   }
-  team.leaderSessionId = team.memberSessionIds[0] >>> 0;
+  team.leaderSessionId = memberSessionIds[0] >>> 0;
 }
 
 function isTeamLeader(session: GameSession, team: TeamRuntimeRecord | null = getTeamForSession(session)): boolean {
@@ -733,23 +962,31 @@ function inviteTarget(session: GameSession, target: GameSession): boolean {
     return false;
   }
 
-  if (inviterTeam.memberSessionIds.length >= TEAM_MAX_MEMBERS) {
+  const inviterTeamMemberCount = getLiveTeamMemberCount(session.sharedState, inviterTeam);
+  if (inviterTeamMemberCount >= TEAM_MAX_MEMBERS) {
+    session.log(
+      `Invite rejected reason=team-full teamId=${inviterTeam.id >>> 0} target=${target.charName || target.id}@${target.id >>> 0} liveCount=${inviterTeamMemberCount}`
+    );
     sendTeamConflict(session, 'team-full');
     return false;
   }
 
   if (getTeamForSession(target)) {
+    session.log(
+      `Invite rejected reason=target-already-in-team target=${target.charName || target.id}@${target.id >>> 0}`
+    );
     sendTeamConflict(session, 'target-already-in-team');
     return false;
   }
 
-  appendPendingInvite(target, {
+  appendPendingInteraction(target, {
+    kind: 'invite',
     teamId: inviterTeam.id >>> 0,
-    inviterSessionId: session.id >>> 0,
-    inviterActorId: session.runtimeId >>> 0,
-    inviterIdentityId: resolveTeamMemberIdentity(session),
-    inviterName: session.charName || '',
-    inviteeSessionId: target.id >>> 0,
+    actorSessionId: session.id >>> 0,
+    actorRuntimeId: session.runtimeId >>> 0,
+    actorIdentityId: resolveTeamMemberIdentity(session),
+    actorName: session.charName || '',
+    recipientSessionId: target.id >>> 0,
     createdAt: Date.now(),
   });
 
@@ -767,68 +1004,178 @@ function inviteTarget(session: GameSession, target: GameSession): boolean {
   return true;
 }
 
-function acceptInvite(session: GameSession, invite: PendingTeamInvite): boolean {
-  const teamState = getTeamRuntimeState(session.sharedState);
-  const team = teamState.teams.get(invite.teamId >>> 0) || null;
-  if (!team) {
-    clearInviteForInvitee(session.sharedState, session.id >>> 0, invite.inviterActorId >>> 0);
-    return false;
-  }
-
-  if (getTeamForSession(session)) {
-    sendTeamConflict(session, 'invitee-already-in-team');
-    clearInviteForInvitee(session.sharedState, session.id >>> 0, invite.inviterActorId >>> 0);
-    return false;
-  }
-
-  if (team.memberSessionIds.length >= TEAM_MAX_MEMBERS) {
-    sendTeamConflict(session, 'team-full-on-accept');
-    clearInviteForInvitee(session.sharedState, session.id >>> 0, invite.inviterActorId >>> 0);
-    return false;
-  }
-
-  team.memberSessionIds.push(session.id >>> 0);
-  teamState.teamIdBySessionId.set(session.id >>> 0, team.id >>> 0);
-  clearInviteForInvitee(session.sharedState, session.id >>> 0);
-
-  const sessions = getTeamSessions(session.sharedState, team);
-  for (const member of sessions) {
-    updateSessionTeamSnapshot(member);
-    sendTeamRosterSync(member, team, member.id === session.id ? 'accept-invite' : 'member-joined');
-    if ((member.id >>> 0) !== (session.id >>> 0)) {
-      writeTeamPacket(
-        member,
-        buildTeamJoinedNoticePacket(),
-        `Sending team joined notice cmd=0x402 sub=0x09 reason=member-joined actorId=${session.runtimeId >>> 0}`
-      );
-    }
-  }
-  const leaderSession = getSessionById(session.sharedState, team.leaderSessionId >>> 0);
-  if (leaderSession) {
-    broadcastLeaderChanged(
-      session.sharedState,
-      team,
-      resolveTeamMemberIdentity(leaderSession),
-      'accept-invite-leader-confirm'
+function requestJoinTeam(session: GameSession, target: GameSession): boolean {
+  const requesterTeam = getTeamForSession(session);
+  if (requesterTeam) {
+    session.log(
+      `Join request rejected reason=requester-already-in-team requesterTeamId=${requesterTeam.id >>> 0} target=${target.charName || target.id}@${target.id >>> 0}`
     );
+    sendTeamConflict(session, 'requester-already-in-team');
+    return false;
   }
-  syncTeamMemberPositions(session.sharedState, team);
 
+  const targetTeam = getTeamForSession(target);
+  if (!targetTeam) {
+    return false;
+  }
+
+  const targetTeamMemberCount = getLiveTeamMemberCount(session.sharedState, targetTeam);
+  if (targetTeamMemberCount >= TEAM_MAX_MEMBERS) {
+    session.log(
+      `Join request rejected reason=target-team-full targetTeamId=${targetTeam.id >>> 0} target=${target.charName || target.id}@${target.id >>> 0} liveCount=${targetTeamMemberCount}`
+    );
+    sendTeamConflict(session, 'target-team-full');
+    return false;
+  }
+
+  const leaderSession = getSessionById(session.sharedState, targetTeam.leaderSessionId >>> 0);
+  if (!leaderSession || leaderSession.socket?.destroyed) {
+    return false;
+  }
+
+  if ((leaderSession.id >>> 0) === (session.id >>> 0)) {
+    return false;
+  }
+
+  appendPendingInteraction(leaderSession, {
+    kind: 'join-request',
+    teamId: targetTeam.id >>> 0,
+    actorSessionId: session.id >>> 0,
+    actorRuntimeId: session.runtimeId >>> 0,
+    actorIdentityId: resolveTeamMemberIdentity(session),
+    actorName: session.charName || '',
+    recipientSessionId: leaderSession.id >>> 0,
+    createdAt: Date.now(),
+  });
+
+  sendTeamJoinRequestNotice(leaderSession, session, 'join-request');
+
+  session.log(
+    `Team join request queued leader=${leaderSession.charName || ''} actorId=${leaderSession.runtimeId >>> 0} teamId=${targetTeam.id >>> 0}`
+  );
   return true;
 }
 
-function declineInvite(session: GameSession, inviterActorId: number): boolean {
-  const invite = getPendingInvite(session, inviterActorId >>> 0);
-  if (!invite) {
+function normalizeInviteIntentTarget(session: GameSession, target: GameSession | null): GameSession | null {
+  if (!target) {
+    return null;
+  }
+
+  if (areSessionsInSameTeam(session, target)) {
+    session.log(
+      `Ignoring stale invite target actorId=${target.runtimeId >>> 0} because target is already in the same team`
+    );
+    return null;
+  }
+
+  return target;
+}
+
+function addMemberToTeamInternal(sharedState: Record<string, any>, team: TeamRuntimeRecord, member: GameSession, reason: string): void {
+  const teamState = getTeamRuntimeState(sharedState);
+  if (!team.memberSessionIds.some((sessionId) => (sessionId >>> 0) === (member.id >>> 0))) {
+    team.memberSessionIds.push(member.id >>> 0);
+  }
+  teamState.teamIdBySessionId.set(member.id >>> 0, team.id >>> 0);
+  clearPendingInteractionForRecipient(sharedState, member.id >>> 0);
+  clearPendingInteractionsByActor(sharedState, member.id >>> 0);
+
+  const sessions = getTeamSessions(sharedState, team);
+  for (const teammate of sessions) {
+    updateSessionTeamSnapshot(teammate);
+    sendTeamRosterSync(teammate, team, (teammate.id >>> 0) === (member.id >>> 0) ? reason : 'member-joined');
+    if ((teammate.id >>> 0) !== (member.id >>> 0)) {
+      writeTeamPacket(
+        teammate,
+        buildTeamJoinedNoticePacket(),
+        `Sending team joined notice cmd=0x402 sub=0x09 reason=member-joined actorId=${member.runtimeId >>> 0}`
+      );
+    }
+  }
+  const leaderSession = getSessionById(sharedState, team.leaderSessionId >>> 0);
+  if (leaderSession) {
+    broadcastLeaderChanged(sharedState, team, resolveTeamMemberIdentity(leaderSession), `${reason}-leader-confirm`);
+  }
+  syncTeamMemberPositions(sharedState, team);
+  for (const teammate of sessions) {
+    scheduleTeamStateSyncToClient(teammate, `${reason}:delayed-team-sync`, 250);
+  }
+}
+
+function acceptPendingInteraction(session: GameSession, interaction: PendingTeamInteraction): boolean {
+  const teamState = getTeamRuntimeState(session.sharedState);
+  const team = teamState.teams.get(interaction.teamId >>> 0) || null;
+  if (!team) {
+    clearPendingInteractionForRecipient(session.sharedState, session.id >>> 0, interaction.actorRuntimeId >>> 0);
     return false;
   }
 
-  const inviter = getSessionById(session.sharedState, invite.inviterSessionId >>> 0);
-  clearInviteForInvitee(session.sharedState, session.id >>> 0, inviterActorId >>> 0);
+  let joiningMember: GameSession | null = null;
+  let acceptReason = 'accept-invite';
 
-  if (inviter) {
+  if (interaction.kind === 'invite') {
+    if (getTeamForSession(session)) {
+      session.log(
+        `Accept rejected reason=invitee-already-in-team actorId=${interaction.actorRuntimeId >>> 0}`
+      );
+      sendTeamConflict(session, 'invitee-already-in-team');
+      clearPendingInteractionForRecipient(session.sharedState, session.id >>> 0, interaction.actorRuntimeId >>> 0);
+      return false;
+    }
+    joiningMember = session;
+  } else {
+    if (!isTeamLeader(session, team)) {
+      clearPendingInteractionForRecipient(session.sharedState, session.id >>> 0, interaction.actorRuntimeId >>> 0);
+      return false;
+    }
+    joiningMember = getSessionById(session.sharedState, interaction.actorSessionId >>> 0);
+    if (!joiningMember) {
+      clearPendingInteractionForRecipient(session.sharedState, session.id >>> 0, interaction.actorRuntimeId >>> 0);
+      return false;
+    }
+    if (getTeamForSession(joiningMember)) {
+      session.log(
+        `Accept rejected reason=requester-already-in-team requester=${joiningMember.charName || joiningMember.id}@${joiningMember.id >>> 0} actorId=${interaction.actorRuntimeId >>> 0}`
+      );
+      sendTeamConflict(session, 'requester-already-in-team');
+      clearPendingInteractionForRecipient(session.sharedState, session.id >>> 0, interaction.actorRuntimeId >>> 0);
+      return false;
+    }
+    acceptReason = 'accept-join-request';
+  }
+
+  const teamMemberCount = getLiveTeamMemberCount(session.sharedState, team);
+  if (teamMemberCount >= TEAM_MAX_MEMBERS) {
+    session.log(
+      `Accept rejected reason=team-full-on-accept teamId=${team.id >>> 0} actorId=${interaction.actorRuntimeId >>> 0} liveCount=${teamMemberCount}`
+    );
+    sendTeamConflict(session, 'team-full-on-accept');
+    clearPendingInteractionForRecipient(session.sharedState, session.id >>> 0, interaction.actorRuntimeId >>> 0);
+    return false;
+  }
+
+  if (!joiningMember) {
+    clearPendingInteractionForRecipient(session.sharedState, session.id >>> 0, interaction.actorRuntimeId >>> 0);
+    return false;
+  }
+
+  clearPendingInteractionForRecipient(session.sharedState, session.id >>> 0, interaction.actorRuntimeId >>> 0);
+  addMemberToTeamInternal(session.sharedState, team, joiningMember, acceptReason);
+  return true;
+}
+
+function declinePendingInteraction(session: GameSession, actorId: number): boolean {
+  const interaction = getPendingInteraction(session, actorId >>> 0);
+  if (!interaction) {
+    return false;
+  }
+
+  const actor = getSessionById(session.sharedState, interaction.actorSessionId >>> 0);
+  clearPendingInteractionForRecipient(session.sharedState, session.id >>> 0, actorId >>> 0);
+
+  if (actor) {
     writeTeamPacket(
-      inviter,
+      actor,
       buildTeamInviteRefusedPacket(session.charName || ''),
       `Sending team invite refusal cmd=0x402 sub=0x04 refuser="${session.charName || ''}"`
     );
@@ -841,15 +1188,16 @@ function removeMemberFromTeamInternal(
   session: GameSession,
   team: TeamRuntimeRecord,
   target: GameSession,
-  reason: 'leave' | 'kick' | 'disconnect'
+  reason: TeamRemovalReason
 ): void {
   const state = getTeamRuntimeState(session.sharedState);
   team.memberSessionIds = team.memberSessionIds.filter((sessionId) => (sessionId >>> 0) !== (target.id >>> 0));
   state.teamIdBySessionId.delete(target.id >>> 0);
   clearFollowerSyncState(session.sharedState, target.id >>> 0);
-  clearInviteForInvitee(session.sharedState, target.id >>> 0);
+  clearPendingInteractionForRecipient(session.sharedState, target.id >>> 0);
+  clearPendingInteractionsByActor(session.sharedState, target.id >>> 0);
 
-  if (team.memberSessionIds.length === 0) {
+  if (getLiveTeamMemberCount(session.sharedState, team) === 0) {
     deleteTeam(session.sharedState, team);
     target.teamId = null;
     target.teamSize = 0;
@@ -862,7 +1210,7 @@ function removeMemberFromTeamInternal(
 
   const leaderWasRemoved = (team.leaderSessionId >>> 0) === (target.id >>> 0);
   if (leaderWasRemoved) {
-    promoteLeaderIfNeeded(team);
+    promoteLeaderIfNeeded(session.sharedState, team);
   }
 
   const leaderSession = getSessionById(session.sharedState, team.leaderSessionId >>> 0);
@@ -883,14 +1231,10 @@ function removeMemberFromTeamInternal(
   target.teamSize = 0;
   target.teamMembers = [];
   syncTeamSnapshots(session.sharedState, team);
-
-  if (leaderWasRemoved && leaderSession) {
-    broadcastLeaderChanged(
-      session.sharedState,
-      team,
-      resolveTeamMemberIdentity(leaderSession),
-      `leader-removed:${reason}`
-    );
+  for (const member of getTeamSessions(session.sharedState, team)) {
+    sendTeamRosterSync(member, team, `member-removed:${reason}`);
+    sendTeamLeaderSync(member, team, `member-removed:${reason}`);
+    scheduleTeamStateSyncToClient(member, `member-removed:${reason}:delayed-team-sync`, 250);
   }
 }
 
@@ -902,6 +1246,20 @@ function leaveTeam(session: GameSession, reason: 'leave' | 'kick' | 'disconnect'
 
   removeMemberFromTeamInternal(session, team, session, reason);
   return true;
+}
+
+export function removeTeamMemberForCombatFlee(session: GameSession): GameSession | null {
+  const team = getTeamForSession(session);
+  if (!team) {
+    return null;
+  }
+
+  removeMemberFromTeamInternal(session, team, session, 'combat-flee');
+  if (getLiveTeamMemberCount(session.sharedState, team) <= 0) {
+    return null;
+  }
+
+  return getSessionById(session.sharedState, team.leaderSessionId >>> 0);
 }
 
 function dismissTeamForLeader(session: GameSession, reason: string): boolean {
@@ -971,7 +1329,12 @@ function promoteMember(session: GameSession, actorId: number): boolean {
 
   team.leaderSessionId = target.id >>> 0;
   syncTeamSnapshots(session.sharedState, team);
-  broadcastLeaderChanged(session.sharedState, team, resolveTeamMemberIdentity(target), 'promote-member');
+  for (const member of getTeamSessions(session.sharedState, team)) {
+    clearPendingFollowUpTargets(session.sharedState, member.id >>> 0);
+    sendTeamRosterSync(member, team, 'promote-member');
+    sendTeamLeaderSync(member, team, 'promote-member');
+    scheduleTeamStateSyncToClient(member, 'promote-member:delayed-team-sync', 250);
+  }
   return true;
 }
 
@@ -980,20 +1343,23 @@ function handleInviteOrAccept(session: GameSession, targetIds: number[]): boolea
   clearPendingFollowUpTargets(session.sharedState, session.id >>> 0);
   const actorId = Number.isInteger(targetIds[0]) ? (targetIds[0] >>> 0) : 0;
   if (!actorId) {
-    const pendingInvites = getPendingInvites(session);
-    if (pendingInvites.length === 1) {
-      return acceptInvite(session, pendingInvites[0]);
+    const pendingInteractions = getPendingInteractions(session);
+    if (pendingInteractions.length === 1) {
+      return acceptPendingInteraction(session, pendingInteractions[0]);
     }
 
-    const followUpTarget = resolveInviteTargetFromFollowUpActorIds(session, pendingFollowUpTargetIds);
+    const followUpTarget = normalizeInviteIntentTarget(
+      session,
+      resolveInviteTargetFromFollowUpActorIds(session, pendingFollowUpTargetIds)
+    );
     if (followUpTarget) {
       session.log(
         `Resolved zero-id team invite from follow-up actorId=${followUpTarget.runtimeId >>> 0} name=${followUpTarget.charName || ''}`
       );
-      return inviteTarget(session, followUpTarget);
+      return getTeamForSession(followUpTarget) ? requestJoinTeam(session, followUpTarget) : inviteTarget(session, followUpTarget);
     }
 
-    const fallbackTarget = resolveInviteTargetFallback(session);
+    const fallbackTarget = normalizeInviteIntentTarget(session, resolveInviteTargetFallback(session));
     if (!fallbackTarget) {
       session.log('Team invite fallback could not resolve a unique nearby target');
       return false;
@@ -1002,20 +1368,20 @@ function handleInviteOrAccept(session: GameSession, targetIds: number[]): boolea
     session.log(
       `Resolved zero-id team invite to nearby target actorId=${fallbackTarget.runtimeId >>> 0} name=${fallbackTarget.charName || ''}`
     );
-    return inviteTarget(session, fallbackTarget);
+    return getTeamForSession(fallbackTarget) ? requestJoinTeam(session, fallbackTarget) : inviteTarget(session, fallbackTarget);
   }
 
-  const pending = getPendingInvite(session, actorId);
+  const pending = getPendingInteraction(session, actorId);
   if (pending) {
-    return acceptInvite(session, pending);
+    return acceptPendingInteraction(session, pending);
   }
 
-  const target = resolveSessionByActorId(session.sharedState, actorId >>> 0);
+  const target = normalizeInviteIntentTarget(session, resolveSessionByActorId(session.sharedState, actorId >>> 0));
   if (!target) {
     return false;
   }
 
-  return inviteTarget(session, target);
+  return getTeamForSession(target) ? requestJoinTeam(session, target) : inviteTarget(session, target);
 }
 
 export function handleTeamActionPrimary(session: GameSession, action: TeamClientAction03FD): boolean {
@@ -1056,10 +1422,17 @@ export function handleTeamActionSecondary(session: GameSession, action: TeamClie
   if (action.subcmd === 0x06) {
     const actorId = Number.isInteger(action.targetIds[0]) ? (action.targetIds[0] >>> 0) : 0;
     if (actorId) {
-      return declineInvite(session, actorId);
+      return declinePendingInteraction(session, actorId);
     }
-    const pendingInvites = getPendingInvites(session);
-    return pendingInvites.length === 1 ? declineInvite(session, pendingInvites[0].inviterActorId >>> 0) : false;
+    const pendingInteractions = getPendingInteractions(session);
+    return pendingInteractions.length === 1
+      ? declinePendingInteraction(session, pendingInteractions[0].actorRuntimeId >>> 0)
+      : false;
+  }
+
+  if (action.subcmd === 0x04) {
+    const actorId = Number.isInteger(action.targetIds[0]) ? (action.targetIds[0] >>> 0) : 0;
+    return actorId ? declinePendingInteraction(session, actorId) : false;
   }
 
   if (action.subcmd === 0x0a) {
@@ -1072,6 +1445,15 @@ export function handleTeamActionSecondary(session: GameSession, action: TeamClie
     return actorId ? promoteMember(session, actorId) : false;
   }
 
+  if (action.subcmd === 0x13) {
+    const actorId = Number.isInteger(action.targetIds[0]) ? (action.targetIds[0] >>> 0) : 0;
+    if (!actorId) {
+      return false;
+    }
+    const pending = getPendingInteraction(session, actorId);
+    return pending ? acceptPendingInteraction(session, pending) : false;
+  }
+
   session.log(
     `Unhandled team secondary action sub=0x${action.subcmd.toString(16)} targets=${action.targetIds.join(',')}`
   );
@@ -1080,7 +1462,7 @@ export function handleTeamActionSecondary(session: GameSession, action: TeamClie
 
 export function notifyTeamMemberPosition(session: GameSession): void {
   const team = getTeamForSession(session);
-  if (!team || team.memberSessionIds.length <= 1) {
+  if (!team || getLiveTeamMemberCount(session.sharedState, team) <= 1) {
     return;
   }
 
@@ -1101,7 +1483,7 @@ export function notifyTeamMemberPosition(session: GameSession): void {
 
 export function syncTeamStateToClient(session: GameSession, reason: string): void {
   const team = getTeamForSession(session);
-  if (!team || team.memberSessionIds.length <= 1) {
+  if (!team) {
     return;
   }
 
@@ -1114,17 +1496,10 @@ export function syncTeamStateToClient(session: GameSession, reason: string): voi
   // leave the client in a bad post-combat movement state.
   syncTeamSnapshots(session.sharedState, team);
   sendTeamRosterSync(session, team, `${reason}:team-roster`);
-
-  const leaderSession = getSessionById(session.sharedState, team.leaderSessionId >>> 0);
-  if (leaderSession) {
-    writeTeamPacket(
-      session,
-      buildTeamLeaderChangedPacket({ actorId: resolveTeamMemberIdentity(leaderSession) }),
-      `Sending team leader change cmd=0x402 sub=0x0d actorId=${resolveTeamMemberIdentity(leaderSession)} reason=${reason}:team-leader`
-    );
+  sendTeamLeaderSync(session, team, `${reason}:team-leader`);
+  if (getLiveTeamMemberCount(session.sharedState, team) > 1) {
+    sendTeamMemberPositionsToRecipient(session, team, `${reason}:team-positions`);
   }
-
-  sendTeamMemberPositionsToRecipient(session, team, `${reason}:team-positions`);
 }
 
 export function scheduleTeamStateSyncToClient(session: GameSession, reason: string, delayMs = 200): void {
@@ -1148,7 +1523,7 @@ export function scheduleTeamStateSyncToClient(session: GameSession, reason: stri
 
 export function shouldIgnoreClientPositionUpdateWhileFollowing(session: GameSession): boolean {
   const team = getTeamForSession(session);
-  if (!team || team.memberSessionIds.length <= 1) {
+  if (!team || getLiveTeamMemberCount(session.sharedState, team) <= 1) {
     return false;
   }
   return !isTeamLeader(session, team);
@@ -1165,7 +1540,7 @@ export function rejectFollowerLocalMovement(session: GameSession, attemptedMapId
 
 export function syncTeamFollowersToLeader(session: GameSession): GameSession[] {
   const team = getTeamForSession(session);
-  if (!team || !isTeamLeader(session, team) || team.memberSessionIds.length <= 1) {
+  if (!team || !isTeamLeader(session, team) || getLiveTeamMemberCount(session.sharedState, team) <= 1) {
     return [];
   }
 
@@ -1213,12 +1588,17 @@ export function handleTeamFollowUpAction(session: GameSession, action: TeamClien
     return false;
   }
 
-  if (!(session.sharedState.teamFollowUpTargetsBySessionId instanceof Map)) {
-    session.sharedState.teamFollowUpTargetsBySessionId = new Map<number, number[]>();
-  }
+  if (action.subcmd === 0x0c) {
+    clearPendingFollowUpTargets(session.sharedState, session.id >>> 0);
+    scheduleTeamStateSyncToClient(session, 'team-follow-up-0x0c', 50);
+  } else {
+    if (!(session.sharedState.teamFollowUpTargetsBySessionId instanceof Map)) {
+      session.sharedState.teamFollowUpTargetsBySessionId = new Map<number, number[]>();
+    }
 
-  const followUpTargetsBySessionId = session.sharedState.teamFollowUpTargetsBySessionId as Map<number, number[]>;
-  followUpTargetsBySessionId.set(session.id >>> 0, [...action.targetIds]);
+    const followUpTargetsBySessionId = session.sharedState.teamFollowUpTargetsBySessionId as Map<number, number[]>;
+    followUpTargetsBySessionId.set(session.id >>> 0, [...action.targetIds]);
+  }
 
   session.log(
     `Handled team follow-up cmd=0x442 sub=0x${action.subcmd.toString(16)} targets=${action.targetIds.join(',') || 'none'}`
@@ -1228,21 +1608,14 @@ export function handleTeamFollowUpAction(session: GameSession, action: TeamClien
 
 export function handleTeamSessionDisposed(session: GameSession): void {
   clearFollowerSyncState(session.sharedState, session.id >>> 0);
-  clearInviteForInvitee(session.sharedState, session.id >>> 0);
+  clearPendingInteractionForRecipient(session.sharedState, session.id >>> 0);
+  clearPendingInteractionsByActor(session.sharedState, session.id >>> 0);
   clearPendingFollowUpTargets(session.sharedState, session.id >>> 0);
   const state = getTeamRuntimeState(session.sharedState);
   const pendingResyncTimer = state.pendingClientResyncTimersBySessionId.get(session.id >>> 0) || null;
   if (pendingResyncTimer) {
     clearTimeout(pendingResyncTimer);
     state.pendingClientResyncTimersBySessionId.delete(session.id >>> 0);
-  }
-  for (const [inviteeSessionId, invites] of [...state.pendingInvitesByInviteeSessionId.entries()]) {
-    const filtered = invites.filter((entry) => (entry.inviterSessionId >>> 0) !== (session.id >>> 0));
-    if (filtered.length > 0) {
-      state.pendingInvitesByInviteeSessionId.set(inviteeSessionId >>> 0, filtered);
-    } else {
-      state.pendingInvitesByInviteeSessionId.delete(inviteeSessionId >>> 0);
-    }
   }
   leaveTeam(session, 'disconnect');
 }

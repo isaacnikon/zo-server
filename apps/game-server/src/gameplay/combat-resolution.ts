@@ -18,8 +18,10 @@ import {
   getSharedTeamCombatOwnerSession,
   getSharedTeamCombatRoundParticipants,
   isSharedTeamCombatOwner,
+  removeTeamMemberForCombatFlee,
   removeSharedTeamCombatParticipant,
   setSharedTeamCombatQueuedAction,
+  transferSharedTeamCombatOwnership,
 } from './team-runtime.js';
 import { applyEffects } from './effect-executor.js';
 import { PROGRESSION } from './progression.js';
@@ -64,7 +66,8 @@ type SharedCombatQueuedSelection =
   | { round: number; kind: 'attack'; attackMode: number; targetA: number; targetB: number; targetEntityId: number }
   | { round: number; kind: 'skill'; skillId: number; targetEntityId: number }
   | { round: number; kind: 'item'; instanceId: number; targetEntityId: number }
-  | { round: number; kind: 'defend' };
+  | { round: number; kind: 'defend' }
+  | { round: number; kind: 'flee' };
 type SharedCombatRoundEntry =
   | { actorKind: 'player'; session: GameSession; selection: SharedCombatQueuedSelection; ap: number }
   | { actorKind: 'enemy'; enemyEntityId: number; ap: number };
@@ -201,6 +204,36 @@ function syncSharedCombatParticipantState(owner: GameSession, participant: GameS
   participant.combatState.enemies = cloneCombatEnemyRoster(owner.combatState?.enemies);
   participant.combatState.enemyStatuses = cloneCombatEnemyStatuses(owner.combatState?.enemyStatuses);
   participant.combatState.round = owner.combatState?.round || participant.combatState.round;
+}
+
+function syncTransferredSharedCombatOwnerState(previousOwner: GameSession, newOwner: GameSession): void {
+  if (!previousOwner.combatState?.active || !newOwner.combatState?.active) {
+    return;
+  }
+
+  newOwner.combatState.triggerId = previousOwner.combatState.triggerId;
+  newOwner.combatState.encounterAction = previousOwner.combatState.encounterAction;
+  newOwner.combatState.enemies = cloneCombatEnemyRoster(previousOwner.combatState.enemies);
+  newOwner.combatState.enemyStatuses = cloneCombatEnemyStatuses(previousOwner.combatState.enemyStatuses);
+  newOwner.combatState.round = previousOwner.combatState.round || newOwner.combatState.round;
+  newOwner.combatState.pendingEnemyTurnQueue = [...(previousOwner.combatState.pendingEnemyTurnQueue || [])];
+  newOwner.combatState.pendingPostKillCounterattack = previousOwner.combatState.pendingPostKillCounterattack === true;
+  newOwner.combatState.enemyTurnReason = previousOwner.combatState.enemyTurnReason || null;
+  newOwner.combatState.totalEnemyMaxHp = previousOwner.combatState.totalEnemyMaxHp || newOwner.combatState.totalEnemyMaxHp;
+  newOwner.combatState.averageEnemyLevel =
+    previousOwner.combatState.averageEnemyLevel || newOwner.combatState.averageEnemyLevel;
+  newOwner.combatState.sharedActionSequenceToken = previousOwner.combatState.sharedActionSequenceToken ?? null;
+  newOwner.combatState.sharedRoundEntries = Array.isArray(previousOwner.combatState.sharedRoundEntries)
+    ? [...previousOwner.combatState.sharedRoundEntries]
+    : null;
+  newOwner.combatState.sharedRoundIndex = Number.isInteger(previousOwner.combatState.sharedRoundIndex)
+    ? Number(previousOwner.combatState.sharedRoundIndex)
+    : null;
+  newOwner.combatState.sharedAwaitingActionReady = previousOwner.combatState.sharedAwaitingActionReady === true;
+  const awaitingReadySessionId = Number(previousOwner.combatState.sharedAwaitingReadySessionId);
+  newOwner.combatState.sharedAwaitingReadySessionId = Number.isInteger(awaitingReadySessionId)
+    ? (awaitingReadySessionId >>> 0)
+    : null;
 }
 
 function resolveAttackPriority(session: GameSession): number {
@@ -673,6 +706,12 @@ function resolveSharedTeamQueuedTurnStep(
     owner.combatState.enemies = cloneCombatEnemyRoster(participant.combatState?.enemies);
     owner.combatState.enemyStatuses = cloneCombatEnemyStatuses(participant.combatState?.enemyStatuses);
     syncSharedCombatEnemyRoster(owner);
+  } else if (participantSelection.kind === 'flee') {
+    const continuationOwner = executeResolvedCombatFlee(participant, 'shared-team-queued-flee');
+    if (continuationOwner?.combatState?.active) {
+      continueSharedCombatRound(continuationOwner, `flee:S${participant.id}`);
+    }
+    return;
   } else if (participantSelection.kind === 'defend') {
     const playerStatus = participant.combatState.playerStatus || (participant.combatState.playerStatus = {});
     playerStatus.defendPending = true;
@@ -820,6 +859,36 @@ function tryHandleSharedTeamDefendSelection(session: GameSession): boolean {
     kind: 'defend',
   });
   session.log(`Queued combat round defend selection round=${owner.combatState.round} ownerSession=${owner.id >>> 0}`);
+
+  if (!areAllSharedTeamCombatActionsReady(owner)) {
+    return true;
+  }
+
+  resolveSharedTeamQueuedTurn(owner);
+  return true;
+}
+
+function tryHandleSharedTeamFleeSelection(session: GameSession, sourceLabel: string): boolean {
+  const owner = getSharedTeamCombatOwnerSession(session);
+  if (!owner || !owner.combatState?.active) {
+    return false;
+  }
+
+  if (!session.combatState?.active || !session.combatState.awaitingPlayerAction) {
+    session.log(`Ignoring combat round flee selection without command prompt active=${session.combatState?.active ? 1 : 0}`);
+    return true;
+  }
+
+  session.combatState.awaitingPlayerAction = false;
+  session.combatState.awaitingClientReady = false;
+  session.combatState.phase = 'resolved';
+  setSharedTeamCombatQueuedAction(owner, session, {
+    round: Math.max(1, owner.combatState.round || 1),
+    kind: 'flee',
+  });
+  session.log(
+    `Queued combat round flee selection round=${owner.combatState.round} ownerSession=${owner.id >>> 0} source=${sourceLabel}`
+  );
 
   if (!areAllSharedTeamCombatActionsReady(owner)) {
     return true;
@@ -1106,11 +1175,17 @@ export function handleCombatSelectorToken(session: GameSession, selectorToken: n
   }
 }
 
-export function resolveCombatFlee(session: GameSession, sourceLabel: string): void {
-  if (!session.combatState?.active || !session.combatState.awaitingPlayerAction) {
-    session.log(`Ignoring combat flee without command prompt active=${session.combatState?.active ? 1 : 0}`);
-    return;
+function executeResolvedCombatFlee(session: GameSession, sourceLabel: string): GameSession | null {
+  if (!session.combatState?.active) {
+    session.log(`Ignoring resolved combat flee without active combat source=${sourceLabel}`);
+    return null;
   }
+
+  const sharedCombatOwner = getSharedTeamCombatOwnerSession(session);
+  const sharedCombatOwnerFlee =
+    Boolean(sharedCombatOwner?.combatState?.active) && isSharedTeamCombatOwner(session);
+  const sharedCombatFollowerFlee =
+    Boolean(sharedCombatOwner?.combatState?.active) && !isSharedTeamCombatOwner(session);
 
   session.combatState.awaitingPlayerAction = false;
   session.combatState.awaitingClientReady = false;
@@ -1135,7 +1210,53 @@ export function resolveCombatFlee(session: GameSession, sourceLabel: string): vo
     DEFAULT_FLAGS,
     `Sending combat flee result hp=${session.currentHealth} mp=${session.currentMana} rage=${session.currentRage}`
   );
+
+  let continuationOwner: GameSession | null = null;
+  if (sharedCombatFollowerFlee) {
+    continuationOwner = removeSharedTeamCombatParticipant(session);
+    if (removeTeamMemberForCombatFlee(session)) {
+      session.log(`Removed fleeing shared combat follower from team session=${session.id >>> 0}`);
+    }
+  } else if (sharedCombatOwnerFlee) {
+    const combatFollowers = getSharedTeamCombatFollowers(session).filter((participant) =>
+      participant.combatState?.active &&
+      !participant.socket?.destroyed &&
+      (participant.currentHealth || 0) > 0
+    );
+    const promotedLeader = removeTeamMemberForCombatFlee(session);
+    const preferredSuccessor =
+      promotedLeader &&
+      combatFollowers.some((participant) => (participant.id >>> 0) === (promotedLeader.id >>> 0))
+        ? promotedLeader
+        : null;
+    const continuationCandidate = preferredSuccessor || combatFollowers[0] || null;
+    if (continuationCandidate && transferSharedTeamCombatOwnership(session, continuationCandidate)) {
+      syncTransferredSharedCombatOwnerState(session, continuationCandidate);
+      syncSharedCombatEnemyRoster(continuationCandidate);
+      continuationOwner = continuationCandidate;
+      session.log(
+        `Transferred shared combat ownership after leader flee oldOwnerSession=${session.id >>> 0} newOwnerSession=${continuationCandidate.id >>> 0}`
+      );
+      continuationCandidate.log(
+        `Promoted to shared combat owner after leader flee oldOwnerSession=${session.id >>> 0}`
+      );
+    }
+  }
+
   void clearCombatState(session, false);
+  return continuationOwner;
+}
+
+export function resolveCombatFlee(session: GameSession, sourceLabel: string): void {
+  if (tryHandleSharedTeamFleeSelection(session, sourceLabel)) {
+    return;
+  }
+
+  if (!session.combatState?.active || !session.combatState.awaitingPlayerAction) {
+    session.log(`Ignoring combat flee without command prompt active=${session.combatState?.active ? 1 : 0}`);
+    return;
+  }
+  executeResolvedCombatFlee(session, sourceLabel);
 }
 
 // --- Attack handling ---
@@ -1701,7 +1822,8 @@ export async function resolveVictory(session: GameSession): Promise<void> {
   const shouldRepositionAfterVictory = isCranePassGuardianVictory || isSwanPassGuardianVictory || isLionCaptainVictory;
   const encounterAction = session.combatState?.encounterAction || null;
   session.log(`Combat victory trigger=${session.combatState.triggerId} enemies=${defeatedEnemies.map((enemy: Record<string, any>) => `${enemy.typeId}@${enemy.entityId}`).join('|') || 'none'} exp=${combatRewards.characterExperience} petExp=0 coins=${combatRewards.coins} score=${combatRewards.totalScore}/${combatRewards.maxScore} drops=${combinedDrops.map((drop: Record<string, any>) => `${drop.templateId}x${drop.quantity}`).join(',') || 'none'}`);
-  await clearCombatState(session, dropResult.inventoryDirty, !shouldRepositionAfterVictory);
+  await session.persistCurrentCharacter();
+  await clearCombatState(session, false, !shouldRepositionAfterVictory);
   handleActiveFieldEventVictory(session, encounterAction);
   if (
     !shouldRepositionAfterVictory ||
