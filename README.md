@@ -17,7 +17,15 @@ npm run dev
 The server listens on TCP port `7777` by default.
 The required map binaries are now vendored under `data/client/map`, so no external client path is needed for normal startup.
 
-`npm run dev` is Docker-backed and brings up Postgres, runs Flyway migrations, and starts the server container.
+`npm run dev` is Docker-backed and brings up Postgres, runs Flyway migrations, and starts source-mounted development containers.
+It now reuses existing images instead of forcing a rebuild on every run.
+On the first run, the dev containers seed `node_modules` from the image into the shared Docker volume when the lockfile matches. If the lockfile changed, they refresh dependencies automatically.
+
+If Dockerfiles or dependency layers changed, rebuild explicitly:
+
+```bash
+npm run dev:rebuild
+```
 
 Monorepo apps exposed in Docker dev:
 

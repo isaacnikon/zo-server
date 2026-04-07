@@ -6,6 +6,9 @@ COPY package.json package-lock.json ./
 COPY apps/game-server/package.json apps/game-server/package.json
 COPY apps/portal/package.json apps/portal/package.json
 RUN npm install
+RUN mkdir -p /opt/workspace-node_modules \
+  && cp -a node_modules/. /opt/workspace-node_modules/ \
+  && sha256sum package-lock.json | cut -d' ' -f1 > /opt/workspace-node_modules/.zo-image-install-stamp
 
 COPY . .
 RUN rm -rf apps/game-server/dist \

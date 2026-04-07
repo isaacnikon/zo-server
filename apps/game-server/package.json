@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "dev": "bash -lc 'export PATH=/app/node_modules/.bin:$PATH; npm run build && tsc -w -p tsconfig.json --preserveWatchOutput & TSC_PID=$!; trap \"kill $TSC_PID\" EXIT INT TERM; node --watch dist/src/server.js'",
     "start": "node dist/src/server.js",
     "test": "tsc --noEmit -p tsconfig.json",
     "db:import:static": "node dist/scripts/import-static-json-to-db.js --apply",

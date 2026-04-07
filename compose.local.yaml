@@ -3,6 +3,27 @@ services:
     ports:
       - "${POSTGRES_BIND_HOST:-127.0.0.1}:${POSTGRES_PORT:-5432}:5432"
 
+  zo-server:
+    build:
+      target: build
+    command: bash -lc "npm run dev:bootstrap && npm run dev -w @zo/game-server"
+    environment:
+      NODE_ENV: development
+    volumes:
+      - .:/app
+      - workspace_node_modules:/app/node_modules
+
   portal:
+    build:
+      target: build
+    command: bash -lc "npm run dev:bootstrap && npm run dev -w @zo/portal"
+    environment:
+      NODE_ENV: development
     ports:
       - "${PORTAL_BIND_HOST:-0.0.0.0}:${PORTAL_PORT:-3000}:3000"
+    volumes:
+      - .:/app
+      - workspace_node_modules:/app/node_modules
+
+volumes:
+  workspace_node_modules:
