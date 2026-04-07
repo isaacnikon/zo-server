@@ -87,7 +87,11 @@
       "Bash(npm run:*)",
       "mcp__ghidra-mcp__query_knowledge_context",
       "mcp__ghidra-mcp__get_version",
-      "Bash(journalctl -u zo-server --no-pager -n 50)"
+      "Bash(journalctl -u zo-server --no-pager -n 50)",
+      "Bash(git -C /home/nikon/projects/zo-server show d5b2898:data/client-derived/map-sidebar-npcs.json)",
+      "Bash(git -C /home/nikon/projects/zo-server log --all --oneline)",
+      "Bash(git -C /home/nikon/projects/zo-server show b2d24f3 --name-only)",
+      "Bash(git:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
