@@ -14,6 +14,10 @@ const FIELD_COMBAT_CHANCE_PERCENT = Number.isFinite(Number(process.env.FIELD_COM
   : 12;
 const FIELD_COMBAT_MIN_ENEMIES = 1;
 const FIELD_COMBAT_MAX_ENEMIES = 5;
+const FIELD_COMBAT_DISABLED_MAP_IDS = new Set<number>([
+  207, // Cloud Hall
+  209, // Peach Garden
+]);
 
 function summarizeEncounterPool(pool: Array<Record<string, any>>): { level: number; hp: number; aptitude: number } {
   let totalWeight = 0;
@@ -58,6 +62,9 @@ function shouldEnableFieldCombatForMap(session: GameSession, mapId: number): boo
     return false;
   }
   if (session.combatState?.active || session.defeatRespawnPending) {
+    return false;
+  }
+  if (FIELD_COMBAT_DISABLED_MAP_IDS.has(mapId >>> 0)) {
     return false;
   }
   if (mapHasFrogTeleporter(mapId)) {
