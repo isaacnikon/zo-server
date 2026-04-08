@@ -783,21 +783,13 @@ function sendTeamRosterSync(session: GameSession, team: TeamRuntimeRecord, reaso
 }
 
 function sendTeamJoinRequestNotice(session: GameSession, requester: GameSession, reason: string): void {
+  // The client routes 0x402/0x06 through the applicant-entry UI path. Do not reuse it
+  // for generic team member refreshes or it will duplicate entries in the applicants pane.
   writeTeamPacket(
     session,
     buildTeamMemberRefreshPacket(buildTeamMemberPacketParams(requester)),
     `Sending team join request cmd=0x402 sub=0x06 actorId=${requester.runtimeId >>> 0} reason=${reason}`
   );
-}
-
-function sendTeamMemberRefreshesToRecipient(session: GameSession, team: TeamRuntimeRecord, reason: string): void {
-  for (const teammate of getTeamSessions(session.sharedState, team)) {
-    writeTeamPacket(
-      session,
-      buildTeamMemberRefreshPacket(buildTeamMemberPacketParams(teammate)),
-      `Sending team member refresh cmd=0x402 sub=0x06 actorId=${teammate.runtimeId >>> 0} reason=${reason}`
-    );
-  }
 }
 
 function sendTeamLeaderSync(session: GameSession, team: TeamRuntimeRecord, reason: string): void {
@@ -1107,11 +1099,6 @@ function addMemberToTeamInternal(sharedState: Record<string, any>, team: TeamRun
   for (const teammate of sessions) {
     updateSessionTeamSnapshot(teammate);
     sendTeamRosterSync(teammate, team, (teammate.id >>> 0) === (member.id >>> 0) ? reason : 'member-joined');
-    sendTeamMemberRefreshesToRecipient(
-      teammate,
-      team,
-      (teammate.id >>> 0) === (member.id >>> 0) ? `${reason}:member-refresh` : 'member-joined:member-refresh'
-    );
     if ((teammate.id >>> 0) !== (member.id >>> 0)) {
       writeTeamPacket(
         teammate,
@@ -1263,7 +1250,6 @@ function removeMemberFromTeamInternal(
   syncTeamSnapshots(session.sharedState, team);
   for (const member of getTeamSessions(session.sharedState, team)) {
     sendTeamRosterSync(member, team, `member-removed:${reason}`);
-    sendTeamMemberRefreshesToRecipient(member, team, `member-removed:${reason}:member-refresh`);
     sendTeamLeaderSync(member, team, `member-removed:${reason}`);
     scheduleTeamStateSyncToClient(member, `member-removed:${reason}:delayed-team-sync`, 250);
   }
@@ -1370,7 +1356,6 @@ function promoteMember(session: GameSession, actorId: number): boolean {
   for (const member of getTeamSessions(session.sharedState, team)) {
     clearPendingFollowUpTargets(session.sharedState, member.id >>> 0);
     sendTeamRosterSync(member, team, 'promote-member');
-    sendTeamMemberRefreshesToRecipient(member, team, 'promote-member:member-refresh');
     sendTeamLeaderSync(member, team, 'promote-member');
     scheduleTeamStateSyncToClient(member, 'promote-member:delayed-team-sync', 250);
   }
@@ -1462,7 +1447,19 @@ export function handleTeamActionSecondary(session: GameSession, action: TeamClie
   if (action.subcmd === 0x06) {
     const actorId = Number.isInteger(action.targetIds[0]) ? (action.targetIds[0] >>> 0) : 0;
     if (actorId) {
-      return declinePendingInteraction(session, actorId);
+      const pending = getPendingInteraction(session, actorId);
+      if (pending) {
+        return declinePendingInteraction(session, actorId);
+      }
+
+      const target = normalizeInviteIntentTarget(session, resolveSessionByActorId(session.sharedState, actorId));
+      if (!target) {
+        return false;
+      }
+
+      // Client source of truth: right-click "apply to team" on a player who is already in a team
+      // emits 0x03fe sub=0x06 with that target's runtime id.
+      return getTeamForSession(target) ? requestJoinTeam(session, target) : inviteTarget(session, target);
     }
     const pendingInteractions = getPendingInteractions(session);
     return pendingInteractions.length === 1
@@ -1536,7 +1533,6 @@ export function syncTeamStateToClient(session: GameSession, reason: string): voi
   // leave the client in a bad post-combat movement state.
   syncTeamSnapshots(session.sharedState, team);
   sendTeamRosterSync(session, team, `${reason}:team-roster`);
-  sendTeamMemberRefreshesToRecipient(session, team, `${reason}:team-member-refresh`);
   sendTeamLeaderSync(session, team, `${reason}:team-leader`);
   if (getLiveTeamMemberCount(session.sharedState, team) > 1) {
     sendTeamMemberPositionsToRecipient(session, team, `${reason}:team-positions`);

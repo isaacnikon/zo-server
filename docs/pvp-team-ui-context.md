@@ -158,6 +158,9 @@ Takeaway:
 
 Additional verified findings from the latest team work:
 
+- Outbound team action `0x03fe sub=0x06` is not the same thing as inbound team UI packet `0x0402 sub=0x06`.
+- Client function `FUN_004a23b0(...)` sends `0x03fe sub=0x06` with the clicked target runtime id when the player uses the order-menu "apply to team" action on someone who is already in a team.
+- Practical server consequence: inbound `0x03fe sub=0x06` cannot be treated as decline-only. If it carries a live target and there is no matching pending interaction, it is an apply-to-join request and should route through normal join-request handling.
 - `FUN_00557600(...)` is the full 5-slot team roster loader.
 - The roster packet layout parsed by `FUN_00442f90(...)` is:
   - `u32` -> member live entity/runtime id at `+0x5b0`
@@ -173,6 +176,7 @@ Additional verified findings from the latest team work:
 - Even though the client loader iterates a 5-slot structure, our current server runtime must keep `0x0402 sub=0x08` roster sync sparse and send only live members.
 - Padding the remaining roster slots back out to all 5 entries regresses invite flow and prevents inviting or accepting the second member reliably.
 - `0x0402 sub=0x01` inserts the local player into the local team object with status `1`; using it on invite accept can distort member-side captain state if the roster already carries correct identities.
+- `0x0402 sub=0x06` is not a safe generic member-refresh packet on this client. It runs through a separate insertion path and can duplicate applicant entries if replayed broadly during normal team resync.
 - The client helper `FUN_00557800(...)` chooses a fallback captain by scanning for the first member whose status byte `+0x67c` is `1`.
 - A status of `0` on roster entries renders as offline/unset in the team UI; `1` is the normal active state; `2` is the temporary-leave style state.
 - The client is still not emitting the expected `0x0442 sub=0x0c` follow-up in our current flow.
