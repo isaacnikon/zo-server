@@ -392,14 +392,32 @@ export function buildEntityWalkSyncPacket(
   entityId: number,
   x: number,
   y: number,
-  movementFlags = 0
+  movementFlags = 0,
+  extra: {
+    extraStateValue?: number;
+    linkedRuntimeId?: number | null;
+    teamStatus?: number | null;
+  } = {}
 ): Buffer {
   const writer = new PacketWriter();
+  const normalizedMovementFlags = movementFlags >>> 0;
   writer.writeUint16(0x03ed);
   writer.writeUint32(entityId >>> 0);
   writer.writeUint16(x & 0xffff);
   writer.writeUint16(y & 0xffff);
-  writer.writeUint32(movementFlags >>> 0);
+  writer.writeUint32(normalizedMovementFlags);
+  if ((normalizedMovementFlags & 0x40000) !== 0) {
+    writer.writeUint16((extra.extraStateValue || 0) & 0xffff);
+  }
+  if ((normalizedMovementFlags & 0x10) !== 0) {
+    const linkedRuntimeId = Number.isInteger(extra.linkedRuntimeId)
+      ? (Number(extra.linkedRuntimeId) >>> 0)
+      : 0;
+    writer.writeUint32(linkedRuntimeId >>> 0);
+    if (linkedRuntimeId > 0) {
+      writer.writeUint8((extra.teamStatus || 0) & 0xff);
+    }
+  }
   return writer.payload();
 }
 

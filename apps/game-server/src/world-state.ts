@@ -37,6 +37,12 @@ interface WorldPetPresence {
   state: number;
 }
 
+interface WorldPresenceWalkState {
+  flags: number;
+  linkedRuntimeId: number;
+  teamStatus: number;
+}
+
 export interface WorldState {
   nextRuntimeId: number;
   playersBySessionId: Map<number, WorldPlayerPresence>;
@@ -315,6 +321,64 @@ function resolveWorldPetPresence(owner: WorldPlayerPresence): WorldPetPresence |
   };
 }
 
+function resolvePresenceBaseFlags(presence: WorldPlayerPresence): number {
+  return ((((presence.state >>> 0) & 0xffff) << 16) | ((presence.dir >>> 0) & 0xffff)) >>> 0;
+}
+
+function resolvePresenceLeaderRuntimeId(presence: WorldPlayerPresence): number {
+  const teamId = Number.isInteger(presence.session.teamId) ? (Number(presence.session.teamId) >>> 0) : 0;
+  if (!teamId) {
+    return 0;
+  }
+
+  const teamRuntime = presence.session.sharedState?.teamRuntime as {
+    teams?: Map<number, { leaderSessionId?: number }>;
+  } | null | undefined;
+  const teams = teamRuntime?.teams;
+  if (!(teams instanceof Map)) {
+    return 0;
+  }
+
+  const team = teams.get(teamId) || null;
+  const leaderSessionId = Number.isInteger(team?.leaderSessionId) ? (Number(team?.leaderSessionId) >>> 0) : 0;
+  if (!leaderSessionId) {
+    return 0;
+  }
+
+  const sessionsById =
+    presence.session.sharedState?.sessionsById instanceof Map
+      ? presence.session.sharedState.sessionsById as Map<number, GameSession>
+      : null;
+  const leaderSession = sessionsById?.get(leaderSessionId) || null;
+  if (!leaderSession) {
+    return 0;
+  }
+
+  return leaderSession.runtimeId >>> 0;
+}
+
+function resolvePresenceWalkState(presence: WorldPlayerPresence): WorldPresenceWalkState {
+  const flags = resolvePresenceBaseFlags(presence);
+  const leaderRuntimeId = resolvePresenceLeaderRuntimeId(presence);
+  if (!leaderRuntimeId) {
+    return {
+      flags,
+      linkedRuntimeId: 0,
+      teamStatus: 0,
+    };
+  }
+
+  return {
+    flags: (flags | 0x10) >>> 0,
+    linkedRuntimeId: leaderRuntimeId >>> 0,
+    teamStatus: 1,
+  };
+}
+
+function requiresWalkStatePayload(walkState: WorldPresenceWalkState): boolean {
+  return ((walkState.flags >>> 0) & 0x40010) !== 0;
+}
+
 function toSpawnRecord(presence: WorldPlayerPresence): {
     id: number;
     entityType: number;
@@ -332,13 +396,14 @@ function toSpawnRecord(presence: WorldPlayerPresence): {
     trailingState: number;
   };
 } {
+  const walkState = resolvePresenceWalkState(presence);
   return {
     id: presence.runtimeId >>> 0,
     entityType: presence.entityType >>> 0,
     x: presence.x >>> 0,
     y: presence.y >>> 0,
-    dir: presence.dir >>> 0,
-    state: presence.state >>> 0,
+    dir: walkState.flags & 0xffff,
+    state: (walkState.flags >>> 16) & 0xffff,
     playerData: {
       roleData: presence.roleData >>> 0,
       level: presence.level >>> 0,
@@ -353,6 +418,32 @@ function toSpawnRecord(presence: WorldPlayerPresence): {
       trailingState: 0,
     },
   };
+}
+
+function sendPresenceWalkStateRefresh(targetSession: GameSession, presence: WorldPlayerPresence, reason: string): void {
+  const walkState = resolvePresenceWalkState(presence);
+  if (!requiresWalkStatePayload(walkState)) {
+    return;
+  }
+
+  targetSession.observedPlayerPositions.set(presence.runtimeId >>> 0, {
+    x: presence.x >>> 0,
+    y: presence.y >>> 0,
+  });
+  targetSession.writePacket(
+    buildEntityWalkSyncPacket(
+      presence.runtimeId >>> 0,
+      presence.x >>> 0,
+      presence.y >>> 0,
+      walkState.flags >>> 0,
+      {
+        linkedRuntimeId: walkState.linkedRuntimeId >>> 0,
+        teamStatus: walkState.teamStatus >>> 0,
+      }
+    ),
+    DEFAULT_FLAGS,
+    `Sending player walk state sync reason=${reason} runtimeId=${presence.runtimeId >>> 0} pos=${presence.x >>> 0},${presence.y >>> 0} flags=0x${(walkState.flags >>> 0).toString(16)} link=${walkState.linkedRuntimeId >>> 0} status=${walkState.teamStatus >>> 0}`
+  );
 }
 
 function sendPresenceSpawn(targetSession: GameSession, presences: WorldPlayerPresence[], reason: string): void {
@@ -370,6 +461,9 @@ function sendPresenceSpawn(targetSession: GameSession, presences: WorldPlayerPre
     DEFAULT_FLAGS,
     `Sending player spawn sync reason=${reason} count=${presences.length}`
   );
+  for (const presence of presences) {
+    sendPresenceWalkStateRefresh(targetSession, presence, `${reason}:state`);
+  }
 }
 
 function sendPetSpawn(targetSession: GameSession, pet: WorldPetPresence, reason: string): void {
@@ -438,14 +532,26 @@ function sendPresenceMoveSmooth(
   y: number,
   reason: string
 ): void {
+  const world = getWorldState(targetSession.sharedState);
+  const presence = world.playersByRuntimeId.get(runtimeId >>> 0) || null;
+  const walkState = presence
+    ? resolvePresenceWalkState(presence)
+    : {
+      flags: 0,
+      linkedRuntimeId: 0,
+      teamStatus: 0,
+    };
   targetSession.observedPlayerPositions.set(runtimeId >>> 0, {
     x: x >>> 0,
     y: y >>> 0,
   });
   targetSession.writePacket(
-    buildEntityWalkSyncPacket(runtimeId >>> 0, x >>> 0, y >>> 0),
+    buildEntityWalkSyncPacket(runtimeId >>> 0, x >>> 0, y >>> 0, walkState.flags >>> 0, {
+      linkedRuntimeId: walkState.linkedRuntimeId >>> 0,
+      teamStatus: walkState.teamStatus >>> 0,
+    }),
     DEFAULT_FLAGS,
-    `Sending player walk sync reason=${reason} runtimeId=${runtimeId >>> 0} pos=${x >>> 0},${y >>> 0}`
+    `Sending player walk sync reason=${reason} runtimeId=${runtimeId >>> 0} pos=${x >>> 0},${y >>> 0} flags=0x${(walkState.flags >>> 0).toString(16)}`
   );
 }
 
@@ -784,6 +890,33 @@ export function syncWorldPetState(session: GameSession, reason: string): void {
       reason,
       other.session.visiblePlayerRuntimeIds.has(owner.runtimeId >>> 0)
     );
+  }
+}
+
+export function refreshWorldPresenceForVisibleViewers(session: GameSession, reason: string): void {
+  const world = getWorldState(session.sharedState);
+  const presence = world.playersBySessionId.get(session.id >>> 0) || null;
+  if (!presence) {
+    return;
+  }
+
+  updatePresenceFromSession(presence, session);
+  for (const other of world.playersByRuntimeId.values()) {
+    if (!other || other.session.id === session.id) {
+      continue;
+    }
+    if (!other.session.visiblePlayerRuntimeIds.has(presence.runtimeId >>> 0)) {
+      continue;
+    }
+
+    sendPresenceHide(other.session, presence.runtimeId >>> 0, `${reason}:refresh-remove`);
+    other.session.visiblePlayerRuntimeIds.delete(presence.runtimeId >>> 0);
+    if (!shouldSessionsSeeEachOther(presence, other)) {
+      continue;
+    }
+
+    sendPresenceSpawn(other.session, [presence], `${reason}:refresh-add`);
+    other.session.visiblePlayerRuntimeIds.add(presence.runtimeId >>> 0);
   }
 }
 

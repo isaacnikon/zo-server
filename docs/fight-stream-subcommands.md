@@ -238,6 +238,12 @@ Current server use:
 
 ## `0x03ed len=3 hex=ed0309` Combat Ready Event
 
+Scope note:
+
+- this section is about the client-originated combat control packet family that also uses opcode `0x03ed`
+- it is separate from the world/entity smooth-movement handler at `0x504820`
+- the world `0x03ed` path can carry extra entity-state payload after the movement dword when specific flag bits are set, so do not assume every `0x03ed` packet is a 1-byte combat subcommand
+
 Observed runtime behavior:
 
 - clients emit `0x03ed 0x09` after combat playback phases complete

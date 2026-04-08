@@ -3,6 +3,7 @@ import type { GameSession, TeamClientAction03FD, TeamClientAction03FE, TeamClien
 import { DEFAULT_FLAGS, SCENE_ENTER_LOAD_SUBCMD } from '../config.js';
 import { persistSessionPosition } from './position-persistence.js';
 import { syncRuntimeLocationClientState } from './session-sync.js';
+import { refreshWorldPresenceForVisibleViewers } from '../world-state.js';
 import {
   buildEntityWalkSyncPacket,
   buildSceneEnterPacket,
@@ -632,6 +633,17 @@ function syncTeamSnapshots(sharedState: Record<string, any>, team: TeamRuntimeRe
   }
 }
 
+function refreshWorldPresenceForSessions(sessions: GameSession[], reason: string): void {
+  const refreshedSessionIds = new Set<number>();
+  for (const session of sessions) {
+    if (!session || refreshedSessionIds.has(session.id >>> 0) || !session.worldRegistered) {
+      continue;
+    }
+    refreshedSessionIds.add(session.id >>> 0);
+    refreshWorldPresenceForVisibleViewers(session, reason);
+  }
+}
+
 function clearPendingInteractionForRecipient(
   sharedState: Record<string, any>,
   recipientSessionId: number,
@@ -778,6 +790,16 @@ function sendTeamJoinRequestNotice(session: GameSession, requester: GameSession,
   );
 }
 
+function sendTeamMemberRefreshesToRecipient(session: GameSession, team: TeamRuntimeRecord, reason: string): void {
+  for (const teammate of getTeamSessions(session.sharedState, team)) {
+    writeTeamPacket(
+      session,
+      buildTeamMemberRefreshPacket(buildTeamMemberPacketParams(teammate)),
+      `Sending team member refresh cmd=0x402 sub=0x06 actorId=${teammate.runtimeId >>> 0} reason=${reason}`
+    );
+  }
+}
+
 function sendTeamLeaderSync(session: GameSession, team: TeamRuntimeRecord, reason: string): void {
   const leaderSession = getSessionById(session.sharedState, team.leaderSessionId >>> 0);
   if (!leaderSession) {
@@ -883,6 +905,7 @@ function createTeamForLeader(session: GameSession): TeamRuntimeRecord {
   sendTeamCreateState(session, 'create-team');
   sendTeamRosterSync(session, team, 'create-team');
   sendTeamLeaderSync(session, team, 'create-team');
+  refreshWorldPresenceForSessions([session], 'create-team:world-state');
   return team;
 }
 
@@ -1084,6 +1107,11 @@ function addMemberToTeamInternal(sharedState: Record<string, any>, team: TeamRun
   for (const teammate of sessions) {
     updateSessionTeamSnapshot(teammate);
     sendTeamRosterSync(teammate, team, (teammate.id >>> 0) === (member.id >>> 0) ? reason : 'member-joined');
+    sendTeamMemberRefreshesToRecipient(
+      teammate,
+      team,
+      (teammate.id >>> 0) === (member.id >>> 0) ? `${reason}:member-refresh` : 'member-joined:member-refresh'
+    );
     if ((teammate.id >>> 0) !== (member.id >>> 0)) {
       writeTeamPacket(
         teammate,
@@ -1097,6 +1125,7 @@ function addMemberToTeamInternal(sharedState: Record<string, any>, team: TeamRun
     broadcastLeaderChanged(sharedState, team, resolveTeamMemberIdentity(leaderSession), `${reason}-leader-confirm`);
   }
   syncTeamMemberPositions(sharedState, team);
+  refreshWorldPresenceForSessions(sessions, `${reason}:world-state`);
   for (const teammate of sessions) {
     scheduleTeamStateSyncToClient(teammate, `${reason}:delayed-team-sync`, 250);
   }
@@ -1205,6 +1234,7 @@ function removeMemberFromTeamInternal(
     if (reason !== 'disconnect') {
       sendTeamDismissed(target, `remove-last:${reason}`);
     }
+    refreshWorldPresenceForSessions(reason === 'disconnect' ? [] : [target], `remove-last:${reason}:world-state`);
     return;
   }
 
@@ -1233,9 +1263,16 @@ function removeMemberFromTeamInternal(
   syncTeamSnapshots(session.sharedState, team);
   for (const member of getTeamSessions(session.sharedState, team)) {
     sendTeamRosterSync(member, team, `member-removed:${reason}`);
+    sendTeamMemberRefreshesToRecipient(member, team, `member-removed:${reason}:member-refresh`);
     sendTeamLeaderSync(member, team, `member-removed:${reason}`);
     scheduleTeamStateSyncToClient(member, `member-removed:${reason}:delayed-team-sync`, 250);
   }
+  refreshWorldPresenceForSessions(
+    reason === 'disconnect'
+      ? getTeamSessions(session.sharedState, team)
+      : [target, ...getTeamSessions(session.sharedState, team)],
+    `member-removed:${reason}:world-state`
+  );
 }
 
 function leaveTeam(session: GameSession, reason: 'leave' | 'kick' | 'disconnect' = 'leave'): boolean {
@@ -1280,6 +1317,7 @@ function dismissTeamForLeader(session: GameSession, reason: string): boolean {
     member.teamMembers = [];
     sendTeamDismissed(member, reason);
   }
+  refreshWorldPresenceForSessions(members, `${reason}:world-state`);
   return true;
 }
 
@@ -1332,9 +1370,11 @@ function promoteMember(session: GameSession, actorId: number): boolean {
   for (const member of getTeamSessions(session.sharedState, team)) {
     clearPendingFollowUpTargets(session.sharedState, member.id >>> 0);
     sendTeamRosterSync(member, team, 'promote-member');
+    sendTeamMemberRefreshesToRecipient(member, team, 'promote-member:member-refresh');
     sendTeamLeaderSync(member, team, 'promote-member');
     scheduleTeamStateSyncToClient(member, 'promote-member:delayed-team-sync', 250);
   }
+  refreshWorldPresenceForSessions(getTeamSessions(session.sharedState, team), 'promote-member:world-state');
   return true;
 }
 
@@ -1496,6 +1536,7 @@ export function syncTeamStateToClient(session: GameSession, reason: string): voi
   // leave the client in a bad post-combat movement state.
   syncTeamSnapshots(session.sharedState, team);
   sendTeamRosterSync(session, team, `${reason}:team-roster`);
+  sendTeamMemberRefreshesToRecipient(session, team, `${reason}:team-member-refresh`);
   sendTeamLeaderSync(session, team, `${reason}:team-leader`);
   if (getLiveTeamMemberCount(session.sharedState, team) > 1) {
     sendTeamMemberPositionsToRecipient(session, team, `${reason}:team-positions`);

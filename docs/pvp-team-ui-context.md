@@ -170,18 +170,28 @@ Additional verified findings from the latest team work:
 - `0x0402 sub=0x0d` leader change also uses that same `+0x1dc` identity field.
 - `0x03ed`/`0x03f9` movement and `0x0402 sub=0x17` teammate position use live runtime ids, not the stable team identity field.
 - For server work this means team membership packets need a stable identity distinct from movement/runtime ids.
+- Even though the client loader iterates a 5-slot structure, our current server runtime must keep `0x0402 sub=0x08` roster sync sparse and send only live members.
+- Padding the remaining roster slots back out to all 5 entries regresses invite flow and prevents inviting or accepting the second member reliably.
 - `0x0402 sub=0x01` inserts the local player into the local team object with status `1`; using it on invite accept can distort member-side captain state if the roster already carries correct identities.
 - The client helper `FUN_00557800(...)` chooses a fallback captain by scanning for the first member whose status byte `+0x67c` is `1`.
 - A status of `0` on roster entries renders as offline/unset in the team UI; `1` is the normal active state; `2` is the temporary-leave style state.
 - The client is still not emitting the expected `0x0442 sub=0x0c` follow-up in our current flow.
+- `0x0402` team packets update the local team object (`DAT_00907a00`) and mirror status back onto the local player entity, but they do not by themselves populate captain state on other visible world entities.
+- `0x03eb` player spawn (`FUN_00436e80`) preserves the three appearance-flag bytes into entity offsets `+0x5de..+0x5e0`.
+- The world/entity state updater at `FUN_00435f10(...)` reads `x`, `y`, and the packed entity-state dword into `+0x4c`; when bit `0x10` is present it also reads a `u32` into `+0xf5c` and then a `u8` into `+0x67c`.
+- `SceneScript_RunBySceneAndId(...)` uses `+0xf5c` and `+0x67c` together with the local team object to derive remote teammate state (`+0xf18`), which is the relevant path for the visible captain marker on non-leader sessions.
+- Practical server consequence: the captain indicator for other players must be broadcast through remote world-entity sync (`0x03eb` / `0x03ed`), not only through `0x0402 sub=0x08` and `0x0402 sub=0x0d`.
+- Clearing that state is not purely incremental on the client side; when team topology changes, forcing a visible-player respawn / refresh is the safest way to clear stale captain state on nearby viewers.
 
 Current practical state:
 
 - roster population works
 - team invite / accept / leader flow works
+- sparse roster serialization is intentional because full 5-slot padding breaks the second-member invite path
 - same-map leader movement / follower movement works
-- member-side captain badge is still missing even with correct stable ids and leader-change packets
-- the remaining issue appears cosmetic / client-side rather than core team-state failure
+- member-side captain badge now appears when leader linkage is sent through remote world sync
+- `0x0402` roster / leader packets are still required for team UI correctness, but they were not sufficient for the visible world captain marker
+- the working server-side fix is: keep sparse `0x0402 sub=0x08`, keep `0x0402 sub=0x0d`, and additionally refresh nearby world entities with the leader-linked `0x03ed` state payload
 
 ## Shared Team Combat Findings
 
@@ -222,6 +232,9 @@ Related world/entity handlers:
 - `0x03eb` spawn handler only recognizes subtypes `0x01`, `0x02`, and `0x15`
 - `0x03ed` is the smooth movement path
 - `0x03f9` is the correction/snap path
+- world `0x03ed` can carry extra payload beyond position:
+  - bit `0x10` in the packed state dword adds `u32 -> +0xf5c` and `u8 -> +0x67c`
+  - bit `0x40000` adds an extra `u16 -> +0xd94`
 
 This is relevant because stale world players/pets are likely blocked on finding the real non-combat despawn opcode, not on team/combat UI behavior.
 
@@ -233,3 +246,5 @@ When we come back to this area later, start from:
 - `FUN_005028a0` for non-combat / request UI
 - `FUN_00504840` for PvP / escort / robbery warnings
 - `FUN_00505be0` for team membership, leader changes, and team notices
+- `FUN_00435f10` for world-entity state updates from `0x03ed`
+- `SceneScript_RunBySceneAndId(...)` for the post-update remote-player marker / linkage behavior
