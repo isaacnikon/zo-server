@@ -261,26 +261,8 @@ export function hydratePendingGameCharacter(session: GameSession, sharedState: R
     session.attackMax = Math.max(session.attackMin, Number(pendingCharacter.attackMax) | 0);
   }
   disconnectDuplicateLiveCharacterSessions(session, pendingCharacter);
-  const redirectSourceSessionId = Number(pendingCharacter.redirectSourceSessionId);
   if (accountKey && sharedState?.pendingGameCharacters instanceof Map) {
     sharedState.pendingGameCharacters.delete(accountKey);
-  }
-  if (
-    Number.isInteger(redirectSourceSessionId) &&
-    (redirectSourceSessionId >>> 0) !== (session.id >>> 0) &&
-    sharedState?.sessionsById instanceof Map
-  ) {
-    const redirectSourceSession = sharedState.sessionsById.get(redirectSourceSessionId >>> 0) || null;
-    if (
-      redirectSourceSession &&
-      !redirectSourceSession.socket?.destroyed &&
-      redirectSourceSession.isGame !== true
-    ) {
-      redirectSourceSession.log(
-        `Closing pre-world login socket after world handoff to session=${session.id >>> 0}`
-      );
-      redirectSourceSession.socket.destroy();
-    }
   }
   initializeOnlineTracking(session);
   if (correctedVitals) {
