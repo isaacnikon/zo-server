@@ -186,6 +186,7 @@ export function createIdleCombatState(): CombatState {
     commandReadyFallbackRound: null,
     selectorToken: null,
     selectorTokenSource: null,
+    selectedSkillTargetEntityId: null,
     playerStatus: {},
     enemyStatuses: {},
   };

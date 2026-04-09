@@ -22,6 +22,7 @@ import {
   tryAdvanceSharedCombatRoundOnReady,
   transitionToCommandPhase,
 } from '../gameplay/combat-resolution.js';
+import { getSharedTeamCombatOwnerSession } from '../gameplay/team-runtime.js';
 
 type CombatAction = Record<string, any>;
 
@@ -236,6 +237,20 @@ function isClientReadyPacket(cmdWord: number, payload: Buffer): boolean {
 
 function tryHandleCombatReady(session: GameSession): boolean {
   if (tryAdvanceSharedCombatRoundOnReady(session)) {
+    return true;
+  }
+
+  const sharedCombatOwner = getSharedTeamCombatOwnerSession(session);
+  if (
+    sharedCombatOwner?.combatState?.active &&
+    (sharedCombatOwner.id >>> 0) !== (session.id >>> 0) &&
+    session.combatState.phase === 'intro' &&
+    session.combatState.awaitingClientReady
+  ) {
+    session.combatState.awaitingClientReady = false;
+    session.log(
+      `Consuming shared combat follower ready during intro ownerSession=${sharedCombatOwner.id >>> 0}`
+    );
     return true;
   }
 

@@ -46,6 +46,7 @@ Observed client-side prefix:
 4. repeated target records until packet end:
 5. `targetEntityId: u32`
 6. `targetActionCode: u8` (client treats this as per-target hitstate/result)
+7. `targetValue: u32` only when `targetActionCode != 0` and `targetActionCode != 0x10`
 
 Important separation:
 
@@ -57,7 +58,42 @@ Observed behavior in client handler:
 
 - `targetActionCode=1` -> normal successful skill hit path
 - `targetActionCode=3` -> lethal/kill path branches
-- Self-buff style skill casts can use `0`
+- `targetActionCode=0` -> no inline `targetValue` payload for that target record
+
+Confirmed action-byte notes from the real `sub=0x04` parser path (`0x520c74 -> 0x520f39`):
+
+- explicit parser/result cases currently confirmed in the client are `0`, `3`, and `0x0e`
+- `0` skips the inline `targetValue` read entirely and is the same no-value path that produced dodge-like Cure playback when the server tested `actionCode=0`
+- `3` is the only nonzero action code with its own explicit branch in this handler; it feeds the special `0x0a` transition parameter used by `QueueCombatSlotTransitionBySlotIndex -> QueueCombatSlotTransitionByGridCoords`
+- `0x0e` is still the separate alternate parse path with extra fields; this is not a generic heal opcode and earlier string/context work still points to protect/counter-style playback
+- `1` does not have a dedicated switch case here; it falls through the generic nonzero path, which is why Cure with `actionCode=1` can still reach the HP-increase branch at `0x52090a`
+- there is still no client evidence in this handler that `4` or `5` are special heal action codes
+- current live server traces only show outbound `sub=0x04` action codes `0`, `1`, and `3`; no sampled runtime traffic has produced `4`, `5`, or `0x0e` on this server so far
+
+Confirmed Cure-specific finding:
+
+- `Cure (4103)` with `actionCode=1` and a nonzero `targetValue` reaches the explicit HP-increase branch at `0x52090a`
+- so the current red-number mismatch is not coming from the later `"damage target"` string branch; the client already classifies Cure as an HP increase in the result path
+- fresh April 8 traces still showed red floating numbers while Cure was sent as `actionCode=1`, so `actionCode=1` remains visually damage-like for Cure on current server builds
+- the extracted client tables also expose a parallel single-target Restoration row at `24103`, but client-visible learned/hotbar state still only exposes normal Cure as `4103`; `24103` is therefore not a confirmed normal-Cure packet id
+- the `sub=0x04` parser call at `0x520eb5` forwards the packet result dword straight into the queued playback event amount field at `event+0x40`
+- that same amount field is later read as `param_1[0x10]` by `UpdateCombatEntityPlaybackState`, where negative values take the explicit HP-recovery UI path and positive values take the attack popup path
+- the `sub=0x04` parser also treats `targetValue >= 100000000` as a special encoded result: it subtracts `100000000`, stores the visible amount, and sets a hidden per-target flag before the later playback-state builder runs
+- a live server experiment proved that simply sending `100000000 + healAmount` in Cure's `targetValue` is wrong: the client consumed the huge encoded value directly enough to produce a broken oversized heal result instead of a green popup
+- a later April 9 live Cure trace tightened that further: the real Cure branch hit `0x52090a` with `EAX = -195`, so the negative heal amount is now reaching the client branch that formats Cure as HP recovery
+- the first popup call immediately after that same Cure branch was not the earlier `0x51dd78` red-popup trap; it came from `0x43763d -> FUN_00436060` with popup style `1`, layer `2`, amount `-195`, and type `0xb`
+- decompiling that caller (`0x00437400`) shows it is a queued combat-effect popup path keyed by `entity+0xefc`: cases `1`, `3`, and `0x11` hardcode popup style `1`, while cases `8` and `0xd` use the non-offensive popup style
+- that makes the current Cure problem a queued effect-category / row-selection issue, not an unresolved packet sign issue
+- the latest client table comparison now provides that row-category evidence: `4103.TXt` uses the `58/56` pair, while `24103.TXt`, `24201.TXt`, and `30103.TXt` use `59/57`
+- that makes a narrow `24103 + negative targetValue` retry justified; the earlier disproved `24103` probe only tested the old positive-value path
+- a later live breakpoint on `0x00437400` closed that retry out: the forced `24103` Cure cast still entered `ProcessQueuedCombatEffectResult` with queued row `24103`, variant `1`, result case `1`, and amount `-195`
+- so the packet skill id does not decide the popup family here; the remaining lever is the packet action/result code that becomes queued case `1`
+- because the same client function handles cases `8` and `0xd` as recovery-style branches with positive amounts, Cure's next valid probe is `actionCode=8` plus a positive raw heal value
+- `actionCode=0` and `100000000 + healAmount` remain disproved and should not be retried without new client evidence
+- the same April 8 fights still did not emit fresh `fight-selector-token` traces, so selector-state remained the next fallback debug target after the failed `24103` packet-id experiment
+- fresh shared-team traces at `2026-04-08T18:56:52.729Z` and `2026-04-08T18:56:52.789Z` showed a follower receiving two `sub=0x06` round-start packets for the same round, with two different server-side selector tokens
+- that duplicate `sub=0x06` came from the follower consuming its own intro `0x03ed sub=0x09` ready packet before the shared-combat owner emitted the team command prompt
+- the server now consumes follower intro-ready packets during shared combat and leaves the owner as the only source of team `sub=0x06` round-start packets
 
 Current server implication:
 
@@ -381,6 +417,8 @@ Important corrections:
 - the first `u16` must stay the real round number
 - the second field is a selector token, not the acting runtime id
 - `EnterCombatModeAndResetSelectorState (0x518a10)` seeds local selector state to `1`, so the client has a fallback before it receives a server-driven token
+- the client-side `sub=0x06` layout has no skill id field at all, so this packet is round/selector control state rather than a per-skill prelude carrier
+- the current server still emits the simple `fieldA=round`, `fieldB=selectorToken`, `fieldC=0`, `fieldD=0x0c`, `fieldE=absent` form, e.g. `fa03060200ff78004000000c` on `2026-04-08T20:21:22.545Z`
 
 ## Current Corrective Direction
 
@@ -404,7 +442,9 @@ Open point:
 
 - in multi-actor traces, the client sometimes received multiple `sub=0x06` packets per round with different selector tokens
 - so the final server implementation may need a round-control packet combination, not just one packet
+- that still does not by itself prove a Cure-specific prelude; if Cure needs extra playback setup, the stronger candidate remains an additional skill-side packet/profile after round-control rather than a different `sub=0x06` carrying Cure-only payload
 - the key boundary is still the same: fix selector-token flow, not combat-time skill-table rebuild
+- recent Cure tests reinforced that point while the server was still echoing packet skill id `4103`; a later experiment forcing `24103` did not come from client-learned skill state and should not be treated as confirmed normal-Cure behavior
 
 ## Failed Packet Probes
 
@@ -429,3 +469,23 @@ Current implication:
 - the missing semantics are not in the simple flat target triplet alone
 - the missing semantics are also not solved by a trivial one-entry or two-entry `u16/u16/u32` stage-2 tail
 - the remaining protocol gap is likely a different target-side semantic in `sub=0x04`, or another client-side prerequisite event/state before damage UI is emitted
+
+## How Slaughter Prelude Was Identified
+
+The Slaughter native prelude was discovered from packet-shape changes in the trace history, not from a static skill-table decode first.
+
+Observed sequence in `data/runtime/skill-packet-trace.jsonl`:
+
+- early Slaughter attempts behaved like ordinary one-shot `sub=0x04` casts: one packet, real target entries embedded directly, and no separate prelude marker
+- packet-skill-id swaps such as `6078` and `21403` still stayed in that same ordinary one-shot shape and did not produce a distinct prelude phase
+- trivial stage-2 tails also stayed in the same family and did not introduce a separate cast/setup packet
+- the first clear break appears at line `989`: Slaughter starts sending a stable target-independent packet `fa0304fd0300007b050c00800481040000`
+- after that point, the real per-target damage moves into a second delayed `sub=0x04` packet, for example at line `1001` the follow-up is `fa0304fd0300007b050c01007000036e050000`
+- that same stable first packet repeats across different target sets while the second packet changes with the actual results
+- those traces also gained the fixed effect-id pair `[1152, 1153]`, which is why the server models Slaughter as a native prelude plus delayed follow-up rather than a single ordinary cast packet
+
+Practical heuristic for Cure:
+
+- a Slaughter-style hidden prelude should look like a first `sub=0x04` packet whose body is mostly invariant across casts and does not directly carry the real target/value pairs
+- the real heal target/value would then be expected in a second delayed `sub=0x04` packet
+- if Cure continues to appear only as a single ordinary `sub=0x04` packet with direct `entityId/action/value` payload, that is evidence against a Slaughter-style prelude on the current path

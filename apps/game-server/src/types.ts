@@ -445,6 +445,7 @@ export interface CombatState {
   commandReadyFallbackRound?: number | null;
   selectorToken?: number | null;
   selectorTokenSource?: 'server' | 'client' | null;
+  selectedSkillTargetEntityId?: number | null;
   playerStatus: CombatPlayerStatus;
   enemyStatuses: Record<number, CombatEnemyStatus>;
 }

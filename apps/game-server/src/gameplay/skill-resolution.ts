@@ -87,15 +87,17 @@ import {
 import {
   areAllSharedTeamCombatActionsReady,
   getSharedTeamCombatOwnerSession,
+  getSharedTeamCombatRoundParticipants,
   setSharedTeamCombatQueuedAction,
 } from './team-runtime.js';
+import { sendSelfStateVitalsUpdate } from './stat-sync.js';
 import type { GameSession } from '../types.js';
 
 type CombatSkillPlan = {
   skillId: number;
   behavior: 'direct_damage' | 'heal' | 'buff_self' | 'debuff_enemy' | 'gather' | 'unknown';
   implementationClass: number | null;
-  selectionMode: 'self' | 'enemy';
+  selectionMode: 'self' | 'enemy' | 'ally';
   followUpMode: 'none' | 'delayed_cast';
   allowEnemyCounterattack: boolean;
   description: string;
@@ -154,6 +156,11 @@ const NATIVE_SKILL_PLAYBACK_PROFILES: NativeSkillPlaybackProfileDefinition[] = [
     requireNativePacketSkillIdMatch: true,
   },
 ];
+
+function encodeClientRecoveryPopupValue(value: number): number {
+  const normalized = Math.max(0, Math.trunc(value || 0));
+  return normalized > 0 ? -normalized : 0;
+}
 
 function resolveSkillPlaybackProfile(skillPlan: CombatSkillPlan): ResolvedSkillPlaybackProfile {
   const normalizedSkillId = skillPlan.skillId >>> 0;
@@ -283,6 +290,9 @@ export function resolveCombatSkillUse(
   const slaughterFocused = (skillId >>> 0) === SLAUGHTER_SKILL_ID &&
     slaughterTargetCapacity > 1 &&
     Math.random() < SLAUGHTER_CONCENTRATION_CHANCE;
+  const targetAllySession = effectiveSelectionMode === 'ally'
+    ? resolveCombatSkillAllyTargetSession(session, targetEntityId)
+    : null;
   const targetEnemies = effectiveSelectionMode === 'enemy'
     ? resolveSkillTargets(session, skillId, targetEntityId, skillLevel, {
         strictTargetLock: options.deferSharedTeamPostResolution === true,
@@ -292,12 +302,19 @@ export function resolveCombatSkillUse(
   session.log(
     `Combat skill request source=${sourceLabel} skillId=${skillId} rawTargetEntityId=${targetEntityId >>> 0} ` +
     `implClass=${skillPlan.implementationClass || 0} behavior=${skillPlan.behavior} selection=${skillPlan.selectionMode}->${effectiveSelectionMode} followUp=${skillPlan.followUpMode} ` +
-    `resolvedTargets=${targetEnemies.map((enemy) => `${enemy.entityId}[${enemy.row},${enemy.col}]`).join('|') || 'none'} ` +
+    `resolvedTargets=${effectiveSelectionMode === 'enemy'
+      ? (targetEnemies.map((enemy) => `${enemy.entityId}[${enemy.row},${enemy.col}]`).join('|') || 'none')
+      : effectiveSelectionMode === 'ally'
+        ? (targetAllySession ? `${targetAllySession.runtimeId >>> 0}[player:${targetAllySession.charName || targetAllySession.id}]` : 'none')
+        : 'none'} ` +
     `fireballExploded=${fireballExploded ? 1 : 0} ` +
     `slaughterFocused=${slaughterFocused ? 1 : 0} ` +
     `roster=${describeEnemyRoster(session.combatState?.enemies)}`
   );
-  if (effectiveSelectionMode === 'enemy' && targetEnemies.length <= 0) {
+  if (
+    (effectiveSelectionMode === 'enemy' && targetEnemies.length <= 0) ||
+    (effectiveSelectionMode === 'ally' && !targetAllySession)
+  ) {
     session.log(
       `Combat skill use rejected source=${sourceLabel} skillId=${skillId} targetEntityId=${targetEntityId} reason=missing-target`
     );
@@ -328,6 +345,9 @@ export function resolveCombatSkillUse(
 
   session.combatState.awaitingPlayerAction = false;
   session.combatState.phase = 'resolved';
+  session.combatState.selectedSkillTargetEntityId = effectiveSelectionMode === 'ally'
+    ? (targetAllySession ? (targetAllySession.runtimeId >>> 0) : 0)
+    : (targetEntityId >>> 0);
   session.currentMana = Math.max(0, (session.currentMana || 0) - manaCost);
   incrementSkillProficiency(session, skillId >>> 0);
   dispatchCombatSkillByImplementationClass(
@@ -496,18 +516,28 @@ function buildCombatSkillPlan(skillId: number): CombatSkillPlan {
     skillId: skillId >>> 0,
     behavior: definition?.behavior || 'unknown',
     implementationClass: definition?.implementationClass ?? null,
-    selectionMode: definition?.selectionMode || 'enemy',
+    selectionMode: resolveCombatSkillPlanSelectionMode(skillId, definition?.selectionMode),
     followUpMode: definition?.followUpMode || 'none',
     allowEnemyCounterattack: definition?.allowEnemyCounterattack !== false,
     description: String(definition?.description || ''),
   };
 }
 
+function resolveCombatSkillPlanSelectionMode(
+  skillId: number,
+  selectionMode: 'self' | 'enemy' | null | undefined
+): 'self' | 'enemy' | 'ally' {
+  if ((skillId >>> 0) === CURE_SKILL_ID) {
+    return 'ally';
+  }
+  return selectionMode === 'self' ? 'self' : 'enemy';
+}
+
 function resolveSkillSelectionMode(
   session: GameSession,
   skillPlan: CombatSkillPlan,
   targetEntityId: number
-): 'self' | 'enemy' {
+): 'self' | 'enemy' | 'ally' {
   if ((skillPlan.skillId >>> 0) === DISPEL_SKILL_ID) {
     return findEnemyByEntityId(session.combatState?.enemies, targetEntityId >>> 0) ? 'enemy' : 'self';
   }
@@ -518,6 +548,33 @@ function resolveSkillSelectionMode(
     return 'self';
   }
   return skillPlan.selectionMode;
+}
+
+function resolveCombatSkillAllyTargetSession(
+  session: GameSession,
+  targetEntityId: number
+): GameSession | null {
+  const normalizedTargetEntityId = targetEntityId >>> 0;
+  if (!session.combatState?.active) {
+    return null;
+  }
+
+  const owner = getSharedTeamCombatOwnerSession(session);
+  const participants =
+    owner && owner.combatState?.active
+      ? getSharedTeamCombatRoundParticipants(owner)
+      : [session];
+
+  if (normalizedTargetEntityId === 0) {
+    return participants.find((participant) => (participant.id >>> 0) === (session.id >>> 0)) || session;
+  }
+
+  return participants.find((participant) => {
+    return (
+      (participant.runtimeId >>> 0) === normalizedTargetEntityId ||
+      (participant.roleData >>> 0) === normalizedTargetEntityId
+    );
+  }) || null;
 }
 
 function resolveAdjustedSkillManaCost(session: GameSession, skillId: number, skillLevel: number): number {
@@ -824,7 +881,7 @@ function handleCombatHealSkillUse(
     sendCombatSkillCastPlayback(session, skillPlan, skillLevel, [{
       entityId: session.runtimeId >>> 0,
       actionCode: 0,
-      value: Math.max(1, healAmount),
+      value: 0,
     }]);
     session.log(
       `Combat skill use ok source=${sourceLabel} skillId=${skillPlan.skillId} targetEntityId=${session.runtimeId} effect=gospel rounds=${durationRounds} healPerRound=${healAmount}`
@@ -845,7 +902,7 @@ function handleCombatHealSkillUse(
     sendCombatSkillCastPlayback(session, skillPlan, skillLevel, [{
       entityId: session.runtimeId >>> 0,
       actionCode: 0,
-      value: Math.max(1, healAmount),
+      value: 0,
     }]);
     session.log(
       `Combat skill use ok source=${sourceLabel} skillId=${skillPlan.skillId} targetEntityId=${session.runtimeId} effect=regenerate rounds=${durationRounds} healPerRound=${healAmount}`
@@ -855,23 +912,43 @@ function handleCombatHealSkillUse(
     return;
   }
 
-  const healAmount = resolveGenericSkillHealing(session, skillPlan.skillId, skillLevel);
-  const previousHealth = Math.max(0, session.currentHealth || 0);
-  const maxHealth = Math.max(previousHealth, session.maxHealth || previousHealth || 1);
-  const appliedHeal = Math.max(0, Math.min(maxHealth - previousHealth, healAmount));
-  session.currentHealth = Math.max(0, Math.min(maxHealth, previousHealth + healAmount));
+  const healTarget =
+    (skillPlan.skillId >>> 0) === CURE_SKILL_ID
+      ? (resolveCombatSkillAllyTargetSession(
+          session,
+          Number.isInteger(session.combatState?.selectedSkillTargetEntityId)
+            ? Number(session.combatState?.selectedSkillTargetEntityId)
+            : 0
+        ) || session)
+      : session;
+  const healAmount = Math.max(0, resolveGenericSkillHealing(session, skillPlan.skillId, skillLevel));
+  const previousHealth = Math.max(0, healTarget.currentHealth || 0);
+  const maxHealth = Math.max(previousHealth, healTarget.maxHealth || previousHealth || 1);
+  const nextHealth = Math.max(0, Math.min(maxHealth, previousHealth + healAmount));
+  const appliedHeal = Math.max(0, nextHealth - previousHealth);
+  const usesHealResultCase = (skillPlan.skillId >>> 0) === CURE_SKILL_ID;
+  const packetActionCode = usesHealResultCase ? 8 : 1;
+  const packetValue = usesHealResultCase ? healAmount : encodeClientRecoveryPopupValue(healAmount);
+  healTarget.currentHealth = nextHealth;
   sendCombatSkillCastPlayback(session, skillPlan, skillLevel, [{
-    entityId: session.runtimeId >>> 0,
-    actionCode: 1,
-    value: Math.max(1, appliedHeal || healAmount || 1),
+    entityId: healTarget.runtimeId >>> 0,
+    actionCode: packetActionCode,
+    value: packetValue,
   }]);
+  if ((healTarget.id >>> 0) !== (session.id >>> 0)) {
+    sendSelfStateVitalsUpdate(healTarget, {
+      health: Math.max(0, healTarget.currentHealth || 0),
+      mana: Math.max(0, healTarget.currentMana || 0),
+      rage: Math.max(0, healTarget.currentRage || 0),
+    });
+  }
   session.log(
-    `Combat skill use ok source=${sourceLabel} skillId=${skillPlan.skillId} targetEntityId=${session.runtimeId} effect=generic-heal healed=${appliedHeal} hp=${session.currentHealth}/${maxHealth}`
+    `Combat skill use ok source=${sourceLabel} skillId=${skillPlan.skillId} targetEntityId=${healTarget.runtimeId >>> 0} effect=generic-heal actionCode=${packetActionCode} healValue=${healAmount} packetValue=${packetValue} appliedHeal=${appliedHeal} hp=${healTarget.currentHealth}/${maxHealth}`
   );
   session.combatState.pendingSkillOutcomes = [{
     skillId: skillPlan.skillId >>> 0,
-    targetEntityId: session.runtimeId >>> 0,
-    healAmount: appliedHeal,
+    targetEntityId: healTarget.runtimeId >>> 0,
+    healAmount,
   }];
   queuePostSkillEnemyResponseWithOptions(session, skillPlan, options);
 }
@@ -912,7 +989,7 @@ function handleCombatDrainSkillUse(
     {
       entityId: session.runtimeId >>> 0,
       actionCode: 1,
-      value: Math.max(1, appliedHeal || healAmount),
+      value: Math.max(0, appliedHeal),
     },
   ]);
   session.log(

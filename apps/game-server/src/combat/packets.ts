@@ -224,9 +224,12 @@ export function buildSkillCastPlaybackPacket(
   writer.writeUint16(skillId & 0xffff);
   writer.writeUint8(skillLevelIndex & 0xff);
   for (const target of normalizedTargets) {
+    const actionCode = (target?.actionCode || 0) & 0xff;
     writer.writeUint32((target?.entityId || 0) >>> 0);
-    writer.writeUint8((target?.actionCode || 0) & 0xff);
-    writer.writeUint32((target?.value || 0) >>> 0);
+    writer.writeUint8(actionCode);
+    if (actionCode !== 0 && actionCode !== 0x10) {
+      writer.writeUint32((target?.value || 0) >>> 0);
+    }
   }
   if (options.stage2Flag !== undefined && options.stage2Flag !== null) {
     writer.writeUint8(options.stage2Flag & 0xff);
