@@ -20,12 +20,20 @@ import {
   traceGameplayPacket,
   tracePositionUpdate,
   traceUnhandledPlayerStatePacket,
+  traceWorldExitLifecycle,
 } from '../observability/packet-tracing.js';
+import {
+  blockWorldEntryFor,
+  getPairedSession,
+  isLoginSession,
+  isWorldSession,
+} from '../session-role.js';
 
-import { PING_CMD, GAME_GATHER_REQUEST_CMD, GAME_ITEM_CONTAINER_CMD, GAME_POSITION_QUERY_CMD, GAME_SERVER_RUN_CMD, ROLE_CMD, GAME_QUEST_CMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_MISC_CMD, GAME_FIGHT_RESULT_CMD, GAME_FIGHT_STATE_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, GAME_TEAM_ACTION_PRIMARY_CMD, GAME_TEAM_ACTION_SECONDARY_CMD, GAME_TEAM_FOLLOWUP_CMD, } from '../config.js';
+import { PING_CMD, GAME_GATHER_REQUEST_CMD, GAME_ITEM_CONTAINER_CMD, GAME_LOGOUT_REQUEST_CMD, GAME_POSITION_QUERY_CMD, GAME_SERVER_RUN_CMD, ROLE_CMD, GAME_QUEST_CMD, GAME_FIGHT_ACTION_CMD, GAME_FIGHT_CLIENT_CMD, GAME_FIGHT_MISC_CMD, GAME_FIGHT_RESULT_CMD, GAME_FIGHT_STATE_CMD, GAME_FIGHT_STREAM_CMD, GAME_FIGHT_TURN_CMD, GAME_TEAM_ACTION_PRIMARY_CMD, GAME_TEAM_ACTION_SECONDARY_CMD, GAME_TEAM_FOLLOWUP_CMD, } from '../config.js';
 import type { GameSession } from '../types.js';
 
 const ROLE_CMD_ALT = 0x4c04; // byte-swapped ROLE_CMD seen from some client states after delete
+const WORLD_LOGOUT_REENTRY_DEBOUNCE_MS = 2_500;
 
 const PACKET_HANDLERS = new Map<number, (session: GameSession, payload: Buffer) => Promise<void> | Promise<boolean> | void | boolean>([
   [ROLE_CMD, handleRolePacket],
@@ -82,6 +90,30 @@ async function dispatchGamePacket(
     cmdWord === GAME_SERVER_RUN_CMD &&
     await dispatchParsedPacket(session, payload, parseServerRunRequest, handleServerRunRequest)
   ) {
+    return true;
+  }
+
+  if (cmdWord === GAME_LOGOUT_REQUEST_CMD) {
+    if (isWorldSession(session)) {
+      traceWorldExitLifecycle(session, 'world-logout-request');
+      const pairedSession = getPairedSession(session);
+      if (pairedSession && isLoginSession(pairedSession)) {
+        blockWorldEntryFor(
+          pairedSession,
+          WORLD_LOGOUT_REENTRY_DEBOUNCE_MS,
+          `world-logout:S${session.id}`
+        );
+        traceWorldExitLifecycle(pairedSession, 'paired-login-world-logout', {
+          worldSessionId: session.id >>> 0,
+          holdReentryMs: WORLD_LOGOUT_REENTRY_DEBOUNCE_MS,
+        });
+        session.log(
+          `Marked paired login session S${pairedSession.id} to debounce auto enter-game requests for ${WORLD_LOGOUT_REENTRY_DEBOUNCE_MS}ms`
+        );
+      }
+      session.log('Received world logout request; closing world session');
+      session.socket.destroy();
+    }
     return true;
   }
 

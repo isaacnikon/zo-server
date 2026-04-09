@@ -1,6 +1,7 @@
 import type { GameSession, OnlineActivityState } from '../types.js';
 
 import { numberOrDefault, type UnknownRecord } from '../utils.js';
+import { isWorldSession } from '../session-role.js';
 
 const ONLINE_PERSIST_INTERVAL_MS = Number.isFinite(Number(process.env.ONLINE_PERSIST_INTERVAL_MS))
   ? Math.max(1000, Number(process.env.ONLINE_PERSIST_INTERVAL_MS))
@@ -57,7 +58,7 @@ function resolveEffectiveOnlineNowMs(session: GameSession, nowMs: number): numbe
 }
 
 function initializeOnlineTracking(session: GameSession, nowMs = Date.now()): void {
-  if (session.isGame !== true) {
+  if (!isWorldSession(session)) {
     return;
   }
   ensureOnlineState(session, new Date(nowMs));
@@ -66,7 +67,7 @@ function initializeOnlineTracking(session: GameSession, nowMs = Date.now()): voi
 }
 
 function creditOnlinePresence(session: GameSession, nowMs = Date.now()): number {
-  if (session.isGame !== true) {
+  if (!isWorldSession(session)) {
     return 0;
   }
 
@@ -105,7 +106,7 @@ async function touchOnlinePresence(
     forcePersist?: boolean;
   } = {}
 ): Promise<number> {
-  if (session.isGame !== true) {
+  if (!isWorldSession(session)) {
     return 0;
   }
 
@@ -125,7 +126,7 @@ async function touchOnlinePresence(
 }
 
 async function flushOnlinePresence(session: GameSession, nowMs = Date.now()): Promise<void> {
-  if (session.isGame !== true) {
+  if (!isWorldSession(session)) {
     return;
   }
   creditOnlinePresence(session, nowMs);

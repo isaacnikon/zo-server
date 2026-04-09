@@ -4,6 +4,7 @@ import { DEFAULT_FLAGS } from '../config.js';
 import { getMapEncounterLevelRange, getMapSummary } from '../map-data.js';
 import { buildEntityRemovePacket, buildSceneSpawnBatchPacket } from '../protocol/gameplay-packets.js';
 import { buildEncounterPoolEntry } from '../roleinfo/index.js';
+import { isLiveWorldSession } from '../session-role.js';
 
 type FieldEventSpawnPoint = {
   x: number;
@@ -287,7 +288,7 @@ function broadcastFieldEventSpawn(sharedState: Record<string, any>, config: Fiel
 
   let viewers = 0;
   for (const target of getSessionsById(sharedState).values()) {
-    if (!target || target.state !== 'LOGGED_IN' || target.isGame !== true) {
+    if (!isLiveWorldSession(target)) {
       continue;
     }
     if ((target.currentMapId >>> 0) !== (spawn.mapId >>> 0)) {
@@ -498,7 +499,7 @@ export function handleActiveFieldEventVictory(
     : 0;
   let removedSessions = 0;
   for (const target of getSessionsById(session.sharedState).values()) {
-    if (!target || target.state !== 'LOGGED_IN' || target.isGame !== true) {
+    if (!isLiveWorldSession(target)) {
       continue;
     }
     if ((target.currentMapId >>> 0) !== (session.currentMapId >>> 0)) {

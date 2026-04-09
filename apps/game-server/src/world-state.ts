@@ -8,6 +8,7 @@ import {
   buildEntityWalkSyncPacket,
   buildSceneSpawnBatchPacket,
 } from './protocol/gameplay-packets.js';
+import { isLiveWorldSession, isWorldSession } from './session-role.js';
 
 export interface WorldPlayerPresence {
   runtimeId: number;
@@ -159,7 +160,7 @@ export function replaceExistingWorldSessionsForRemote(
     if ((candidate.remoteAddress || '').trim() !== normalizedRemoteAddress) {
       continue;
     }
-    if (candidate.state !== 'LOGGED_IN' || candidate.isGame !== true) {
+    if (!isLiveWorldSession(candidate)) {
       continue;
     }
     candidate.log(`Replacing live world session due to new login from remote=${normalizedRemoteAddress}`);
@@ -192,7 +193,7 @@ function isStaleWorldSession(session: GameSession): boolean {
   if (session.socket?.destroyed) {
     return true;
   }
-  if (session.state !== 'LOGGED_IN' || session.isGame !== true) {
+  if (!isWorldSession(session) || session.state !== 'LOGGED_IN') {
     return true;
   }
   const lastSeenAt = resolveSessionLastSeenAt(session);
@@ -940,6 +941,13 @@ export function removeWorldPresence(session: GameSession, reason: string): void 
       continue;
     }
     if (other.session.visiblePlayerRuntimeIds.has(presence.runtimeId >>> 0)) {
+      sendPresenceMoveDirect(
+        other.session,
+        presence.runtimeId >>> 0,
+        presence.x >>> 0,
+        presence.y >>> 0,
+        `${reason}:disconnect-stop`
+      );
       sendPresenceHide(other.session, presence.runtimeId, `${reason}:disconnect`);
       other.session.visiblePlayerRuntimeIds.delete(presence.runtimeId >>> 0);
     }

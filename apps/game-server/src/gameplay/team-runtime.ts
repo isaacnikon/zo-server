@@ -20,6 +20,7 @@ import {
   buildTeamRemoveMemberPacket,
   buildTeamRosterSyncPacket,
 } from '../protocol/gameplay-packets.js';
+import { isLiveWorldSession } from '../session-role.js';
 
 interface TeamRuntimeRecord {
   id: number;
@@ -131,16 +132,7 @@ function getSessionById(sharedState: Record<string, any>, sessionId: number): Ga
 }
 
 function isLiveGameSession(candidate: GameSession | null | undefined): candidate is GameSession {
-  if (!candidate) {
-    return false;
-  }
-  if (candidate.socket?.destroyed) {
-    return false;
-  }
-  if (candidate.state !== 'LOGGED_IN') {
-    return false;
-  }
-  return candidate.isGame === true;
+  return isLiveWorldSession(candidate);
 }
 
 function resolveSessionByActorId(sharedState: Record<string, any>, actorId: number): GameSession | null {
@@ -249,6 +241,28 @@ function getTeamForSession(session: GameSession): TeamRuntimeRecord | null {
   const members = compactTeamMembers(session.sharedState, team);
   if (members.length < 1 || !members.some((member) => (member.id >>> 0) === (session.id >>> 0))) {
     state.teamIdBySessionId.delete(session.id >>> 0);
+    return null;
+  }
+
+  return team;
+}
+
+function getMappedTeamForSessionId(sharedState: Record<string, any>, sessionId: number): TeamRuntimeRecord | null {
+  const state = getTeamRuntimeState(sharedState);
+  const normalizedSessionId = sessionId >>> 0;
+  const teamId = state.teamIdBySessionId.get(normalizedSessionId);
+  if (!Number.isInteger(teamId)) {
+    return null;
+  }
+
+  const team = state.teams.get(Number(teamId) >>> 0) || null;
+  if (!team) {
+    state.teamIdBySessionId.delete(normalizedSessionId);
+    return null;
+  }
+
+  if (!team.memberSessionIds.some((memberSessionId) => (memberSessionId >>> 0) === normalizedSessionId)) {
+    state.teamIdBySessionId.delete(normalizedSessionId);
     return null;
   }
 
@@ -1262,7 +1276,10 @@ function removeMemberFromTeamInternal(
 }
 
 function leaveTeam(session: GameSession, reason: 'leave' | 'kick' | 'disconnect' = 'leave'): boolean {
-  const team = getTeamForSession(session);
+  const team =
+    reason === 'disconnect'
+      ? getMappedTeamForSessionId(session.sharedState, session.id) || getTeamForSession(session)
+      : getTeamForSession(session) || getMappedTeamForSessionId(session.sharedState, session.id);
   if (!team) {
     return false;
   }

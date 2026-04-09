@@ -8,6 +8,7 @@ import { getSkillDefinition } from '../skill-definitions.js';
 import { sendSelfStateVitalsUpdate } from '../gameplay/stat-sync.js';
 import { getItemDefinition, normalizeInventoryState } from '../inventory/index.js';
 import { queryPostgres, withPostgresTransaction } from '../db/postgres-pool.js';
+import { isWorldSession } from '../session-role.js';
 import { syncWorldPresence } from '../world-state.js';
 
 type LoggerLike = {
@@ -717,7 +718,7 @@ function findLiveSession(
   }
 
   for (const session of sessionsById.values()) {
-    if (!session || session.isGame !== true) {
+    if (!isWorldSession(session)) {
       continue;
     }
     if (resolveSessionCharacterId(session) === characterId) {

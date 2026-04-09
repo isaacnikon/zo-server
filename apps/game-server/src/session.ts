@@ -1,10 +1,10 @@
-import type { CombatEnemyInstance, CombatState, FieldEventSpawn, FrogTeleporterUnlocks, GameSession, OnlineActivityState, PrimaryAttributes, QuestSyncMode, SkillState } from './types.js';
+import type { CombatEnemyInstance, CombatState, FieldEventSpawn, FrogTeleporterUnlocks, GameSession, OnlineActivityState, PrimaryAttributes, QuestSyncMode, SessionKind, SkillState } from './types.js';
 import type { QuestState as QuestStateV2 } from './quest2/index.js';
 
 import { dispatchGamePacket } from './handlers/packet-dispatcher.js';
 import { createIdleCombatState, disposeCombatTimers as combatHandlerDisposeTimers, handleSharedCombatParticipantDisposed as combatHandlerHandleSharedCombatParticipantDisposed, sendCombatExitProbe as combatHandlerSendCombatExitProbe, } from './handlers/combat-handler.js';
 import { sendCombatEncounterProbe as combatServiceSendCombatEncounterProbe } from './gameplay/combat-service.js';
-import { handleLogin as loginHandlerHandleLogin, } from './handlers/login-handler.js';
+import { handleLogin as loginHandlerHandleLogin, resumePendingWorldEntryAfterWorldTeardown as loginHandlerResumePendingWorldEntryAfterWorldTeardown, } from './handlers/login-handler.js';
 import { handleQuestMonsterDefeat as questHandlerHandleQuestMonsterDefeat, refreshQuestStateForItemTemplates as questHandlerRefreshQuestStateForItemTemplates, } from './handlers/quest-handler.js';
 import { scheduleEquipmentReplay as playerStateHandlerScheduleEquipmentReplay, } from './handlers/player-state-handler.js';
 import { schedulePetReplay as petServiceSchedulePetReplay, sendPetStateSync as petServiceSendPetStateSync, disposePetTimers as petServiceDisposePetTimers } from './gameplay/pet-service.js';
@@ -26,6 +26,8 @@ import { claimPostTwentyOnlineRenownReward, defaultRenownTaskDailyState } from '
 import { sendSelfStateValueUpdate } from './gameplay/stat-sync.js';
 import { beginSharedTeamCombat, getSharedTeamCombatFollowers, getSharedTeamCombatOwnerSession, getTeamCombatParticipants, handleTeamSessionDisposed, isSharedTeamCombatOwner, syncTeamFollowersToLeader } from './gameplay/team-runtime.js';
 import { createEmptyQuestState as createEmptyQuestStateV2, syncQuestStateToClient as quest2SyncQuestStateToClient } from './quest2/index.js';
+import { clearSessionPair } from './session-role.js';
+import { traceWorldExitLifecycle } from './observability/packet-tracing.js';
 
 type SharedState = Record<string, any>;
 type LoggerLike = {
@@ -54,6 +56,13 @@ class Session implements GameSession {
   socket: SocketLike;
   id: number;
   isGame: boolean;
+  sessionKind: SessionKind;
+  pairedSessionId: number | null;
+  blockNextWorldEntry: boolean;
+  blockWorldEntryUntilMs: number | null;
+  blockNextWorldEntryReason: string | null;
+  pendingWorldEntrySlot: number | null;
+  pendingWorldEntryRequestedAt: number | null;
   sharedState: SharedState;
   logger: LoggerLike;
   recvBuf: Buffer;
@@ -169,6 +178,13 @@ class Session implements GameSession {
     this.socket = socket;
     this.id = id;
     this.isGame = isGame;
+    this.sessionKind = isGame ? 'world' : 'unknown';
+    this.pairedSessionId = null;
+    this.blockNextWorldEntry = false;
+    this.blockWorldEntryUntilMs = null;
+    this.blockNextWorldEntryReason = null;
+    this.pendingWorldEntrySlot = null;
+    this.pendingWorldEntryRequestedAt = null;
     this.sharedState = sharedState;
     this.logger = logger;
     this.recvBuf = Buffer.alloc(0);
@@ -591,6 +607,7 @@ class Session implements GameSession {
   }
 
   dispose(): void {
+    traceWorldExitLifecycle(this, 'session-dispose');
     const nowMs = Date.now();
     void flushOnlinePresence(this, nowMs);
     const automaticRenownGain = claimPostTwentyOnlineRenownReward(this, new Date(nowMs));
@@ -606,8 +623,8 @@ class Session implements GameSession {
       this.pendingLoginQuestSyncTimer = null;
     }
     combatHandlerHandleSharedCombatParticipantDisposed(this);
-    handleTeamSessionDisposed(this);
     removeWorldPresence(this, 'session-dispose');
+    handleTeamSessionDisposed(this);
     combatHandlerDisposeTimers(this);
     petServiceDisposePetTimers(this);
     stopAutoMapRotation(this);
@@ -615,6 +632,8 @@ class Session implements GameSession {
       clearTimeout(this.equipmentReplayTimer);
       this.equipmentReplayTimer = null;
     }
+    void loginHandlerResumePendingWorldEntryAfterWorldTeardown(this);
+    clearSessionPair(this);
     this.observedPlayerPositions.clear();
     this.observedPetStates.clear();
   }

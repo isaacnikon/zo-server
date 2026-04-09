@@ -19,12 +19,24 @@ import {
   createEmptyQuestState,
   normalizeQuestState as normalizeQuestStateV2,
 } from '../quest2/index.js';
+import {
+  blockWorldEntryFor,
+  consumeBlockedWorldEntry,
+  getPairedSession,
+  isLoginSession,
+  isLiveWorldSession,
+  isWorldSession,
+  setSessionKind,
+} from '../session-role.js';
+import { traceWorldExitLifecycle } from '../observability/packet-tracing.js';
 
 import type { UnknownRecord } from '../utils.js';
 import type { GameSession } from '../types.js';
 
 const MAX_CHARACTER_SLOTS = 3;
 const LOGIN_CHARACTER_ROSTER_RESULT = 0x13;
+const LOGIN_WORLD_REENTRY_DEBOUNCE_MS = 2_500;
+const LOGIN_WORLD_ENTRY_REQUEST_TIMEOUT_MS = 20_000;
 
 function parseLoginPayload(_session: GameSession, payload: Buffer): UnknownRecord | null {
   if (payload.length < 6 || payload.readUInt16LE(0) !== LOGIN_CMD) {
@@ -47,9 +59,79 @@ function findFirstAvailableCharacterSlot(characters: Array<Record<string, unknow
   return -1;
 }
 
+function findLiveWorldSessionForAccount(
+  session: GameSession,
+  accountKey: string
+): GameSession | null {
+  const pairedSession = getPairedSession(session);
+  if (
+    pairedSession &&
+    isLiveWorldSession(pairedSession) &&
+    typeof pairedSession.accountKey === 'string' &&
+    pairedSession.accountKey.trim() === accountKey
+  ) {
+    return pairedSession;
+  }
+
+  const sessionsById =
+    session.sharedState?.sessionsById instanceof Map
+      ? session.sharedState.sessionsById as Map<number, GameSession>
+      : null;
+  if (!sessionsById) {
+    return null;
+  }
+
+  for (const candidate of sessionsById.values()) {
+    if (!isLiveWorldSession(candidate)) {
+      continue;
+    }
+    if ((candidate.id >>> 0) === (session.id >>> 0)) {
+      continue;
+    }
+    if (typeof candidate.accountKey !== 'string' || candidate.accountKey.trim() !== accountKey) {
+      continue;
+    }
+    return candidate;
+  }
+
+  return null;
+}
+
+function clearPendingWorldEntryRequest(session: GameSession): void {
+  session.pendingWorldEntrySlot = null;
+  session.pendingWorldEntryRequestedAt = null;
+}
+
+function hasPendingWorldEntryRequest(session: GameSession): boolean {
+  const requestedAt = Number.isFinite(Number(session.pendingWorldEntryRequestedAt))
+    ? Math.max(0, Number(session.pendingWorldEntryRequestedAt))
+    : 0;
+  if (session.pendingWorldEntrySlot === null) {
+    clearPendingWorldEntryRequest(session);
+    return false;
+  }
+  if (requestedAt <= 0) {
+    clearPendingWorldEntryRequest(session);
+    return false;
+  }
+  if (Date.now() - requestedAt > LOGIN_WORLD_ENTRY_REQUEST_TIMEOUT_MS) {
+    session.log(
+      `Clearing stale pending world-entry request slot=${session.pendingWorldEntrySlot} ageMs=${Date.now() - requestedAt}`
+    );
+    clearPendingWorldEntryRequest(session);
+    return false;
+  }
+  return true;
+}
+
+function queuePendingWorldEntryRequest(session: GameSession, slotIndex: number): void {
+  session.pendingWorldEntrySlot = slotIndex & 0xff;
+  session.pendingWorldEntryRequestedAt = Date.now();
+}
+
 async function handleLogin(session: GameSession, payload: Buffer): Promise<void> {
   const cmdByte = payload[0];
-  session.log(`Login packet cmd=0x${cmdByte.toString(16)} mode=${session.isGame ? 'GAME' : 'LOGIN'}`);
+  session.log(`Login packet cmd=0x${cmdByte.toString(16)} role=${session.sessionKind}`);
 
   const login = parseLoginPayload(session, payload);
   if (login) {
@@ -78,11 +160,11 @@ async function handleLogin(session: GameSession, payload: Buffer): Promise<void>
         return;
       }
     }
-    session.isGame = enteringWorld;
+    setSessionKind(session, enteringWorld ? 'world' : 'login');
   }
 
   session.state = 'LOGGED_IN';
-  if (session.isGame) {
+  if (isWorldSession(session)) {
     if (SINGLE_WORLD_SESSION_PER_REMOTE) {
       const replacedCount = replaceExistingWorldSessionsForRemote(
         session.sharedState,
@@ -119,14 +201,67 @@ async function handleRolePacket(session: GameSession, payload: Buffer): Promise<
     0x0d: async () => {
       const slotIndex = payload.length >= 4 ? payload[3] : 0;
       session.log(`Enter game request slot=${slotIndex}`);
-      if (session.isGame) {
+      if (isWorldSession(session)) {
         session.sendEnterGameOk();
       } else {
+        const blockedReason = consumeBlockedWorldEntry(session);
+        if (blockedReason) {
+          blockWorldEntryFor(session, LOGIN_WORLD_REENTRY_DEBOUNCE_MS, blockedReason);
+          session.log(
+            `Ignoring enter-game request on login session during shutdown debounce due to ${blockedReason}`
+          );
+          await sendCharacterRoster(session, 1);
+          return;
+        }
+        if (hasPendingWorldEntryRequest(session)) {
+          session.log(
+            `Keeping world-entry request queued while teardown/redirect is still pending slot=${session.pendingWorldEntrySlot}`
+          );
+          return;
+        }
+        const accountKey = typeof session.accountKey === 'string' ? session.accountKey.trim() : '';
+        const hasPendingWorldEntry =
+          accountKey &&
+          session.sharedState?.pendingGameCharacters instanceof Map &&
+          session.sharedState.pendingGameCharacters.has(accountKey);
+        const liveWorldSession = accountKey ? findLiveWorldSessionForAccount(session, accountKey) : null;
+        const hasLiveWorldSession = Boolean(liveWorldSession);
+        if (liveWorldSession) {
+          queuePendingWorldEntryRequest(session, slotIndex);
+          traceWorldExitLifecycle(session, 'login-enter-detected-live-world', {
+            worldSessionId: liveWorldSession.id >>> 0,
+            holdReentryMs: LOGIN_WORLD_ENTRY_REQUEST_TIMEOUT_MS,
+            queuedSlot: slotIndex & 0xff,
+          });
+          traceWorldExitLifecycle(liveWorldSession, 'destroy-world-from-login-enter', {
+            loginSessionId: session.id >>> 0,
+          });
+          session.log(
+            `Login session requested enter-game while world session S${liveWorldSession.id} is still active; closing world session and queueing redirect for slot=${slotIndex}`
+          );
+          liveWorldSession.socket.destroy();
+          return;
+        }
+        if (hasPendingWorldEntry) {
+          queuePendingWorldEntryRequest(session, slotIndex);
+          session.log(
+            `Keeping world-entry request queued while redirect is already pending key="${accountKey}" slot=${slotIndex}`
+          );
+          return;
+        }
+        if (hasActiveWorldAccount(session.sharedState, accountKey, null)) {
+          session.log(
+            `Ignoring duplicate enter-game request while a live world session is still mapped key="${accountKey}" live=${hasLiveWorldSession ? 1 : 0}`
+          );
+          await sendCharacterRoster(session, 1);
+          return;
+        }
         const selectedCharacter = await selectPersistedCharacter(session, { slot: slotIndex });
         if (!selectedCharacter) {
           session.log(`Ignoring enter-game request for empty slot=${slotIndex}`);
           return;
         }
+        clearPendingWorldEntryRequest(session);
         return sendGameServerRedirect(session);
       }
     },
@@ -427,6 +562,7 @@ async function sendGameServerRedirect(session: GameSession): Promise<void> {
     return;
   }
   session.sharedState.pendingGameCharacters.set(accountKey, {
+    redirectSourceSessionId: session.id >>> 0,
     accountName: session.accountName,
     accountKey,
     charName: persisted?.charName || persisted?.roleName || session.charName,
@@ -482,6 +618,59 @@ async function sendGameServerRedirect(session: GameSession): Promise<void> {
   session.writePacket(writer.payload(), DEFAULT_FLAGS, `Sending 0x0d game-server redirect to ${SERVER_HOST}:${PORT}`);
 }
 
+async function resumePendingWorldEntryAfterWorldTeardown(session: GameSession): Promise<void> {
+  if (!isWorldSession(session)) {
+    return;
+  }
+
+  const loginSession = getPairedSession(session);
+  if (!loginSession || !isLoginSession(loginSession) || loginSession.socket.destroyed) {
+    return;
+  }
+  if (!hasPendingWorldEntryRequest(loginSession)) {
+    return;
+  }
+
+  const slotIndex = loginSession.pendingWorldEntrySlot;
+  if (slotIndex === null) {
+    clearPendingWorldEntryRequest(loginSession);
+    return;
+  }
+
+  try {
+    await session.saveCharacter(session.buildCharacterSnapshot());
+    traceWorldExitLifecycle(session, 'persisted-before-queued-world-entry-resume', {
+      loginSessionId: loginSession.id >>> 0,
+      queuedSlot: slotIndex & 0xff,
+    });
+  } catch (error) {
+    session.log(`Failed to persist world state before queued world-entry resume: ${(error as Error).message}`);
+  }
+
+  const accountKey = typeof loginSession.accountKey === 'string' ? loginSession.accountKey.trim() : '';
+  if (accountKey && hasActiveWorldAccount(loginSession.sharedState, accountKey, null)) {
+    loginSession.log(
+      `Waiting to resume queued world-entry request because another world session is still active key="${accountKey}"`
+    );
+    return;
+  }
+
+  const selectedCharacter = await selectPersistedCharacter(loginSession, { slot: slotIndex });
+  if (!selectedCharacter) {
+    loginSession.log(`Queued world-entry request resolved to empty slot=${slotIndex}`);
+    clearPendingWorldEntryRequest(loginSession);
+    await sendCharacterRoster(loginSession, 1);
+    return;
+  }
+
+  traceWorldExitLifecycle(loginSession, 'resume-queued-world-entry', {
+    previousWorldSessionId: session.id >>> 0,
+    queuedSlot: slotIndex & 0xff,
+  });
+  clearPendingWorldEntryRequest(loginSession);
+  await sendGameServerRedirect(loginSession);
+}
+
 async function replayPersistedCharacter(session: GameSession): Promise<void> {
   const characters = await listPersistedCharacters(session, { forceReload: true });
   if (characters.length < 1) {
@@ -507,6 +696,7 @@ export {
   handleLogin,
   handleRolePacket,
   handleCreateRole,
+  resumePendingWorldEntryAfterWorldTeardown,
   sendLoginServerList,
   sendLineSelectOk,
   sendGameServerRedirect,

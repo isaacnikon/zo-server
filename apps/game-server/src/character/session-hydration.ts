@@ -13,6 +13,13 @@ import {
   normalizeQuestState as normalizeQuestStateV2,
 } from '../quest2/index.js';
 import { removeWorldPresence } from '../world-state.js';
+import {
+  isLiveWorldSession,
+  isLoginSession,
+  isWorldSession,
+  pairSessions,
+} from '../session-role.js';
+import { traceWorldExitLifecycle } from '../observability/packet-tracing.js';
 
 type CharacterOverrides = Record<string, unknown>;
 type PersistedCharacterSelector = {
@@ -109,7 +116,7 @@ function findLiveSessionsForCharacter(
   const normalizedAccountName = normalizeKey(session.accountName);
   const matches: GameSession[] = [];
   for (const candidate of sessionsById.values()) {
-    if (!candidate || candidate.state !== 'LOGGED_IN' || candidate.isGame !== true) {
+    if (!isLiveWorldSession(candidate)) {
       continue;
     }
     if (normalizeKey(candidate.accountName) !== normalizedAccountName) {
@@ -179,7 +186,7 @@ export function hydratePendingGameCharacter(session: GameSession, sharedState: R
     accountKey && sharedState?.pendingGameCharacters instanceof Map
       ? sharedState.pendingGameCharacters.get(accountKey) || null
       : null;
-  if (!session.isGame || !pendingCharacter) {
+  if (!isWorldSession(session) || !pendingCharacter) {
     return;
   }
 
@@ -259,6 +266,22 @@ export function hydratePendingGameCharacter(session: GameSession, sharedState: R
   if (Number.isFinite(Number(pendingCharacter.attackMin)) && Number.isFinite(Number(pendingCharacter.attackMax))) {
     session.attackMin = Math.max(1, Number(pendingCharacter.attackMin) | 0);
     session.attackMax = Math.max(session.attackMin, Number(pendingCharacter.attackMax) | 0);
+  }
+  const redirectSourceSessionId = Number(pendingCharacter.redirectSourceSessionId);
+  if (Number.isInteger(redirectSourceSessionId) && redirectSourceSessionId > 0) {
+    const sourceSession =
+      session.sharedState?.sessionsById instanceof Map
+        ? session.sharedState.sessionsById.get(redirectSourceSessionId >>> 0) || null
+        : null;
+    if (sourceSession && isLoginSession(sourceSession)) {
+      pairSessions(sourceSession, session);
+      traceWorldExitLifecycle(sourceSession, 'paired-login-session', {
+        worldSessionId: session.id >>> 0,
+      });
+      traceWorldExitLifecycle(session, 'paired-world-session', {
+        loginSessionId: sourceSession.id >>> 0,
+      });
+    }
   }
   disconnectDuplicateLiveCharacterSessions(session, pendingCharacter);
   if (accountKey && sharedState?.pendingGameCharacters instanceof Map) {
@@ -423,7 +446,7 @@ export async function saveCharacter(session: GameSession, character: Record<stri
   const characterId = resolveCharacterId(normalized);
   if (
     characterId &&
-    session.isGame === true &&
+    isWorldSession(session) &&
     session.persistenceBlockedCharacterId === characterId
   ) {
     session.log(
@@ -433,7 +456,7 @@ export async function saveCharacter(session: GameSession, character: Record<stri
   }
   if (
     characterId &&
-    session.isGame === true &&
+    isWorldSession(session) &&
     getDeletedCharacterIds(session.sharedState).has(characterId)
   ) {
     session.log(
@@ -441,7 +464,7 @@ export async function saveCharacter(session: GameSession, character: Record<stri
     );
     return;
   }
-  if (characterId && session.isGame !== true) {
+  if (characterId && !isWorldSession(session)) {
     getDeletedCharacterIds(session.sharedState).delete(characterId);
   }
 

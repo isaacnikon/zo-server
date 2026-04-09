@@ -1,7 +1,7 @@
 import { appendFileSync, mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 
-import { GAME_POSITION_QUERY_CMD, GAME_SERVER_RUN_CMD, PING_CMD } from '../config.js';
+import { GAME_LOGOUT_REQUEST_CMD, GAME_POSITION_QUERY_CMD, GAME_SERVER_RUN_CMD, PING_CMD, ROLE_CMD } from '../config.js';
 import { buildQuest2SyncState } from '../quest2/index.js';
 import { resolveRepoPath } from '../runtime-paths.js';
 import type { GameSession, PositionUpdate } from '../types.js';
@@ -9,7 +9,12 @@ import type { GameSession, PositionUpdate } from '../types.js';
 const TRIGGER_TRACE_PATH = resolveRepoPath('data', 'runtime', 'trigger-trace.jsonl');
 const SKILL_PACKET_TRACE_PATH = resolveRepoPath('data', 'runtime', 'skill-packet-trace.jsonl');
 const OUTCAST_PACKET_TRACE_PATH = resolveRepoPath('data', 'runtime', 'outcast-packet-trace.jsonl');
+const WORLD_EXIT_TRACE_PATH = resolveRepoPath('data', 'runtime', 'world-exit-trace.jsonl');
 const SKILL_UI_TRACE_COMMANDS = new Set([0x03f5, 0x0400, 0x040d, 0x0410]);
+const WORLD_EXIT_TRACE_ROLE_CMDS = new Set([ROLE_CMD, 0x4c04]);
+const WORLD_EXIT_TRACE_WINDOW_MS = Number.isFinite(Number(process.env.WORLD_EXIT_TRACE_WINDOW_MS))
+  ? Math.max(10_000, Number(process.env.WORLD_EXIT_TRACE_WINDOW_MS) | 0)
+  : 10 * 60_000;
 const GLADYS_TRACE_MAP_ID = 112;
 const GLADYS_TRACE_BOUNDS = {
   minX: 0,
@@ -29,6 +34,7 @@ const OUTCAST_TRACE_BOUNDS = {
   minY: 94,
   maxY: 110,
 } as const;
+const worldExitTraceUntilByAccount = new Map<string, number>();
 
 type PacketTracePhase = 'pre-dispatch' | 'post-unhandled';
 type ServerRunTraceRequest = {
@@ -58,6 +64,51 @@ function appendSkillPacketTrace(event: Record<string, unknown>): void {
 
 function appendOutcastPacketTrace(event: Record<string, unknown>): void {
   appendTraceLine(OUTCAST_PACKET_TRACE_PATH, event);
+}
+
+function appendWorldExitTrace(event: Record<string, unknown>): void {
+  appendTraceLine(WORLD_EXIT_TRACE_PATH, event);
+}
+
+function normalizeTraceAccountKey(session: GameSession): string {
+  if (typeof session.accountKey === 'string' && session.accountKey.trim().length > 0) {
+    return session.accountKey.trim();
+  }
+  if (typeof session.accountName === 'string' && session.accountName.trim().length > 0) {
+    return session.accountName.trim();
+  }
+  return '';
+}
+
+function activateWorldExitTraceWindow(session: GameSession, reason: string): string {
+  const accountKey = normalizeTraceAccountKey(session);
+  if (!accountKey) {
+    return '';
+  }
+  worldExitTraceUntilByAccount.set(accountKey, Date.now() + WORLD_EXIT_TRACE_WINDOW_MS);
+  appendWorldExitTrace({
+    kind: 'world-exit-window',
+    ts: new Date().toISOString(),
+    accountKey,
+    sessionId: session.id >>> 0,
+    sessionKind: session.sessionKind,
+    reason,
+    windowMs: WORLD_EXIT_TRACE_WINDOW_MS,
+  });
+  return accountKey;
+}
+
+function resolveWorldExitTraceWindow(session: GameSession): { accountKey: string; active: boolean } {
+  const accountKey = normalizeTraceAccountKey(session);
+  if (!accountKey) {
+    return { accountKey: '', active: false };
+  }
+  const untilMs = worldExitTraceUntilByAccount.get(accountKey) || 0;
+  if (untilMs <= Date.now()) {
+    worldExitTraceUntilByAccount.delete(accountKey);
+    return { accountKey, active: false };
+  }
+  return { accountKey, active: true };
 }
 
 function findActiveQuestRecord(session: GameSession, taskId: number): TrackedQuestRecord {
@@ -242,6 +293,54 @@ function traceDisenchantingInteractionWindow(
   });
 }
 
+function traceWorldExitWindow(
+  session: GameSession,
+  cmdWord: number,
+  flags: number,
+  payload: Buffer,
+  phase: PacketTracePhase
+): void {
+  if (cmdWord === GAME_POSITION_QUERY_CMD) {
+    return;
+  }
+
+  const subcmd = payload.length >= 3 ? payload[2] : -1;
+  if (
+    session.sessionKind === 'login' &&
+    WORLD_EXIT_TRACE_ROLE_CMDS.has(cmdWord) &&
+    subcmd === 0x0d
+  ) {
+    activateWorldExitTraceWindow(session, `login-enter-world:S${session.id >>> 0}`);
+  }
+  if (session.sessionKind === 'world' && cmdWord === GAME_LOGOUT_REQUEST_CMD) {
+    activateWorldExitTraceWindow(session, `world-logout-request:S${session.id >>> 0}`);
+  }
+
+  const traceWindow = resolveWorldExitTraceWindow(session);
+  if (!traceWindow.active) {
+    return;
+  }
+
+  appendWorldExitTrace({
+    kind: 'world-exit-packet',
+    phase,
+    ts: new Date().toISOString(),
+    accountKey: traceWindow.accountKey,
+    sessionId: session.id >>> 0,
+    sessionKind: session.sessionKind,
+    pairedSessionId: Number.isInteger(session.pairedSessionId) ? (session.pairedSessionId as number) >>> 0 : 0,
+    state: session.state,
+    flags,
+    cmdWord,
+    subcmd,
+    len: payload.length,
+    hex: payload.toString('hex'),
+    mapId: session.currentMapId >>> 0,
+    x: session.currentX >>> 0,
+    y: session.currentY >>> 0,
+  });
+}
+
 export function traceGameplayPacket(
   session: GameSession,
   cmdWord: number,
@@ -253,6 +352,7 @@ export function traceGameplayPacket(
   traceOutcastInteractionWindow(session, cmdWord, flags, payload, phase);
   traceGladysInteractionWindow(session, cmdWord, payload, phase);
   traceDisenchantingInteractionWindow(session, cmdWord, payload, phase);
+  traceWorldExitWindow(session, cmdWord, flags, payload, phase);
 }
 
 export function tracePositionUpdate(session: GameSession, position: PositionUpdate): void {
@@ -302,6 +402,28 @@ export function traceUnhandledPlayerStatePacket(
     x: session.currentX,
     y: session.currentY,
     skillState: session.skillState || null,
+  });
+}
+
+export function traceWorldExitLifecycle(
+  session: GameSession,
+  event: string,
+  details: Record<string, unknown> = {}
+): void {
+  const accountKey = activateWorldExitTraceWindow(session, event);
+  if (!accountKey) {
+    return;
+  }
+  appendWorldExitTrace({
+    kind: 'world-exit-lifecycle',
+    ts: new Date().toISOString(),
+    accountKey,
+    sessionId: session.id >>> 0,
+    sessionKind: session.sessionKind,
+    pairedSessionId: Number.isInteger(session.pairedSessionId) ? (session.pairedSessionId as number) >>> 0 : 0,
+    state: session.state,
+    event,
+    ...details,
   });
 }
 

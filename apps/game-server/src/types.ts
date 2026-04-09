@@ -92,6 +92,7 @@ export interface OnlineActivityState {
 }
 export interface AttackSelectionData { attackMode: number; targetA: number; targetB: number }
 export type QuestSyncMode = 'login' | 'runtime' | 'quest';
+export type SessionKind = 'unknown' | 'login' | 'world';
 export interface LearnedSkillRecord {
   skillId: number;
   name: string;
@@ -150,6 +151,13 @@ export interface SessionPorts {
   id: number;
   state: string;
   isGame: boolean;
+  sessionKind: SessionKind;
+  pairedSessionId: number | null;
+  blockNextWorldEntry: boolean;
+  blockWorldEntryUntilMs: number | null;
+  blockNextWorldEntryReason: string | null;
+  pendingWorldEntrySlot: number | null;
+  pendingWorldEntryRequestedAt: number | null;
   remoteAddress: string | null;
   accountName: string | null;
   accountKey: string | null;
