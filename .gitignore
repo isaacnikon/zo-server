@@ -15,3 +15,4 @@ roleinfo.txt
 .playwright-mcp
 apps/portal/public/downloads/ZO.zip
 .opencode
+.tmp

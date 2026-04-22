@@ -117,7 +117,7 @@ function sendQuest2TableStateSync(
     .slice(0, 0x10)
     .map((quest) => ({
       taskId: quest.taskId >>> 0,
-      step: Math.max(0, quest.stepIndex >>> 0),
+      step: Math.max(1, quest.stepIndex + 1),
       extraA: quest.maxAward >>> 0,
       extraB: quest.taskStep >>> 0,
     }));
@@ -244,7 +244,7 @@ function writeQuest2StatePacket(
     buildQuestAcceptStatePacket({
       subtype,
       taskId: quest.taskId,
-      currentStep: Math.max(0, quest.stepIndex >>> 0),
+      currentStep: Math.max(1, quest.stepIndex + 1),
       taskType: quest.taskType,
       maxStep: Math.max(1, numberOrDefault(quest.maxStep, quest.stepIndex + 1)),
       overNpcId: quest.overNpcId,
@@ -345,12 +345,13 @@ function resolveQuest2TaskType(view: Quest2ActiveView): number {
   }
   switch (view.step.kind) {
     case 'kill':
+      return 1;
     case 'collect':
-      return 32;
+      return 2;
     case 'escort':
       return 8;
     default:
-      return 0;
+      return 32;
   }
 }
 
@@ -404,17 +405,27 @@ function resolveQuest2StepMode(step: StepDef): 'talk' | 'kill' {
 
 function buildQuest2ObjectiveWords(view: Quest2ActiveView): number[] {
   const words = new Array<number>(10).fill(0);
-  const monsterRequirement = findRequirement(view.step.requirements, 'monster_is');
+  const monsterRequirements = view.step.requirements.filter(
+    (requirement): requirement is Extract<RequirementDef, { kind: 'monster_is' }> =>
+      requirement.kind === 'monster_is'
+  );
   const itemRequirements = view.step.requirements.filter(
     (requirement): requirement is Extract<RequirementDef, { kind: 'item_count_at_least' }> =>
       requirement.kind === 'item_count_at_least'
   );
 
-  if (monsterRequirement) {
-    words[0] = monsterRequirement.monsterId & 0xffff;
+  // Kill params: words[0]=monsterId, words[1]=count, words[2]=monsterId2, words[3]=count2
+  if (monsterRequirements[0]) {
+    words[0] = monsterRequirements[0].monsterId & 0xffff;
     words[1] = resolveQuest2TargetCount(view) & 0xffff;
   }
+  if (monsterRequirements[1]) {
+    words[2] = monsterRequirements[1].monsterId & 0xffff;
+    // For multi-monster kills, we need per-monster counts - use progress target or default to 1
+    words[3] = Math.max(1, view.step.progress?.target ?? 1) & 0xffff;
+  }
 
+  // Item params: words[4]=itemId, words[6]=quantity, words[5]=itemId2, words[7]=quantity2
   if (itemRequirements[0]) {
     words[4] = itemRequirements[0].templateId & 0xffff;
     words[6] = Math.max(1, itemRequirements[0].quantity) & 0xffff;
