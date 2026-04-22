@@ -1,0 +1,184 @@
+{
+  "id": 395,
+  "name": "Proof",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 27
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3196
+      },
+      {
+        "kind": "map_is",
+        "mapId": 131
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Bring \"Axman's Letter\" to \"Jessica\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3083
+        },
+        {
+          "kind": "map_is",
+          "mapId": 131
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21050,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21050,
+            "quantity": 1,
+            "name": "Axman's Letter"
+          }
+        }
+      ],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3083,
+        "overNpcId": 3083,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "collect",
+      "description": "Kill \"Purple Leopard\" to obtain \"Purple Leopard's Skin\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5175
+        },
+        {
+          "kind": "map_is",
+          "mapId": 131
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3083
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 131
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21032,
+          "quantity": 1
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21032,
+            "quantity": 1,
+            "name": "Purple Leopard's Skin"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21032,
+            "quantity": 1,
+            "name": "Purple Leopard's Skin"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_395_2",
+        "target": 1,
+        "eventValue": "one"
+      },
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3083,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "turn_in",
+      "description": "Bring \"Guide Ghost Hammer\" to \"Peak Receiver\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3300
+        },
+        {
+          "kind": "map_is",
+          "mapId": 108
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21033,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21033,
+            "quantity": 1,
+            "name": "Guide Ghost Hammer"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3300,
+        "overNpcId": 3300,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 3,
+        "status": 3
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 1000,
+    "experience": 8000,
+    "coins": 1000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

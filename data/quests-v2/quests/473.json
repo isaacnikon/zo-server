@@ -1,0 +1,115 @@
+{
+  "id": 473,
+  "name": "Make A Fire",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 70
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3392
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 170
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 23092,
+          "quantity": 1,
+          "name": "Fire Stone"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "collect",
+      "description": "Kill \"Flame\" and get 5 \"Fire Stone\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5252
+        },
+        {
+          "kind": "map_is",
+          "mapId": 170
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3392
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 170
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 23092,
+          "quantity": 5
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 23092,
+            "quantity": 1,
+            "name": "Fire Stone"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 23092,
+            "quantity": 5,
+            "name": "Fire Stone"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_473_1",
+        "target": 5,
+        "eventValue": "one"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3392,
+        "overNpcId": 3392,
+        "taskType": 4,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 0,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

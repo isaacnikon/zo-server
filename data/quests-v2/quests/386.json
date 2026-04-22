@@ -1,0 +1,196 @@
+{
+  "id": 386,
+  "name": "Prodigal Son",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 12
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 373
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3073
+      },
+      {
+        "kind": "map_is",
+        "mapId": 128
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "collect",
+      "description": "Kill -Devil Dock(74.178) to obtain",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5130
+        },
+        {
+          "kind": "map_is",
+          "mapId": 128
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3073
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 128
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21024,
+          "quantity": 1
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21024,
+            "quantity": 1,
+            "name": "Left Part of the Jade"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21024,
+            "quantity": 1,
+            "name": "Left Part of the Jade"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_386_1",
+        "target": 1,
+        "eventValue": "one"
+      },
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3073,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "collect",
+      "description": "Kill -Devil Dock(100.44) to obtain",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5131
+        },
+        {
+          "kind": "map_is",
+          "mapId": 128
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3073
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 128
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21025,
+          "quantity": 1
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21025,
+            "quantity": 1,
+            "name": "Right Part of the Jade"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21025,
+            "quantity": 1,
+            "name": "Right Part of the Jade"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_386_2",
+        "target": 1,
+        "eventValue": "one"
+      },
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3073,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "talk",
+      "description": "-Devil Dock(14.41)",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3077
+        },
+        {
+          "kind": "map_is",
+          "mapId": 127
+        }
+      ],
+      "effects": [],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3077,
+        "overNpcId": 3077,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 3,
+        "status": 3
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 8000,
+    "coins": 2000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

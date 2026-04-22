@@ -1,0 +1,81 @@
+{
+  "id": 495,
+  "name": "Soul Flower",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 93
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3405
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 186
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Capture one \"Demon Flower\" to \"Danny\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3405
+        },
+        {
+          "kind": "map_is",
+          "mapId": 186
+        },
+        {
+          "kind": "captured_monster_count_at_least",
+          "monsterId": 5266,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_captured_monster_item",
+          "monsterId": 5266,
+          "quantity": 1,
+          "templateId": 29001,
+          "name": "Mob Flask Lv.1"
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3405,
+        "overNpcId": 3405,
+        "taskType": 4,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 0,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

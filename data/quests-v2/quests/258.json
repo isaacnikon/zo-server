@@ -1,0 +1,85 @@
+{
+  "id": 258,
+  "name": "Stele in the Lake",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 30
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3651
+      },
+      {
+        "kind": "map_is",
+        "mapId": 149
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill 2",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5298
+        },
+        {
+          "kind": "map_is",
+          "mapId": 149
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3651
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 149
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_258_1",
+        "target": 2,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3651,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 2000,
+    "experience": 48000,
+    "coins": 4000,
+    "renown": 0,
+    "pets": [],
+    "items": [
+      {
+        "templateId": 7015,
+        "quantity": 1
+      },
+      {
+        "templateId": 7016,
+        "quantity": 1
+      }
+    ],
+    "choiceGroups": []
+  }
+}

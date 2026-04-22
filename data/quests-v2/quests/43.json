@@ -1,0 +1,85 @@
+{
+  "id": 43,
+  "name": "Doomsday Approaching",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 44
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 40
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3044
+      },
+      {
+        "kind": "map_is",
+        "mapId": 111
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill Illusion of Alien Queen Siren",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5151
+        },
+        {
+          "kind": "map_is",
+          "mapId": 111
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3044
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 111
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_43_1",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3044,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 20000,
+    "experience": 500000,
+    "coins": 20000,
+    "renown": 200,
+    "pets": [],
+    "items": [
+      {
+        "templateId": 21507,
+        "quantity": 1
+      }
+    ],
+    "choiceGroups": []
+  }
+}

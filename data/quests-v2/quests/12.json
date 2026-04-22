@@ -1,0 +1,87 @@
+{
+  "id": 12,
+  "name": "The Fog",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 24
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 37
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3218
+      },
+      {
+        "kind": "map_is",
+        "mapId": 146
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Bring Snake Hairpin to Mrs. White",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3120
+        },
+        {
+          "kind": "map_is",
+          "mapId": 213
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21011,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21011,
+            "quantity": 1,
+            "name": "Capitulator's Command"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3120,
+        "overNpcId": 3120,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 600,
+    "experience": 1000,
+    "coins": 1000,
+    "renown": 0,
+    "pets": [],
+    "items": [
+      {
+        "templateId": 20003,
+        "quantity": 1
+      }
+    ],
+    "choiceGroups": []
+  }
+}

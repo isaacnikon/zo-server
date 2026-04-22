@@ -1,0 +1,199 @@
+{
+  "id": 2,
+  "name": "Spinning",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 78
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 1
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3276
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 101
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21099,
+          "quantity": 1,
+          "name": "Blacksmith's Letter"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "bring_letter_to_candy",
+      "kind": "talk",
+      "description": "Bring \"Blacksmith's Letter\" to Candy.",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3277
+        },
+        {
+          "kind": "map_is",
+          "mapId": 101
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21099,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21099,
+            "quantity": 1,
+            "name": "Blacksmith's Letter"
+          }
+        }
+      ],
+      "nextStepId": "collect_dragonfly_stings",
+      "client": {
+        "markerNpcId": 3277,
+        "overNpcId": 3277,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 1
+      }
+    },
+    {
+      "id": "collect_dragonfly_stings",
+      "kind": "collect",
+      "description": "Kill Dragonfly to get 10 \"Dragonfly's Sting\" and bring them to Candy.",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5001
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21115,
+          "quantity": 10
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3277
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 101
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21115,
+            "quantity": 1,
+            "name": "Dragonfly's Sting"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21115,
+            "quantity": 10,
+            "name": "Dragonfly's Sting"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "dragonfly_stings",
+        "target": 10,
+        "eventValue": "one"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3277,
+        "overNpcId": 3277,
+        "taskType": 4,
+        "maxAward": 2,
+        "taskStep": 2,
+        "status": 2
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 300,
+    "coins": 200,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "label": "Light Hood set",
+        "gold": 0,
+        "experience": 300,
+        "coins": 200,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 13001,
+            "quantity": 1,
+            "name": "Shoes"
+          },
+          {
+            "templateId": 10001,
+            "quantity": 1,
+            "name": "Light Hood"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "label": "Red String set",
+        "gold": 0,
+        "experience": 300,
+        "coins": 200,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 18001,
+            "quantity": 1,
+            "name": "Embroidered Shoes"
+          },
+          {
+            "templateId": 15001,
+            "quantity": 1,
+            "name": "Red String"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": 461,
+  "name": "Stubbornness",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 55
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3364
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 239
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 23077,
+          "quantity": 1,
+          "name": "Beetle Horn"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "collect",
+      "description": "Kill \"Beatle Soldier\" to get 10 \"Beetle Horn\" and submit it to \"Joseph\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5234
+        },
+        {
+          "kind": "map_is",
+          "mapId": 239
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3364
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 239
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 23077,
+          "quantity": 10
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 23077,
+            "quantity": 1,
+            "name": "Beetle Horn"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 23077,
+            "quantity": 10,
+            "name": "Beetle Horn"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_461_1",
+        "target": 10,
+        "eventValue": "one"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3364,
+        "overNpcId": 3364,
+        "taskType": 2,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 2500,
+    "experience": 100000,
+    "coins": 2000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

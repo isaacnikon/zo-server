@@ -1,0 +1,73 @@
+{
+  "id": 45,
+  "name": "Mysterious Woman",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 50
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 31
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3311
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "talk",
+      "description": "Help Judy collect 20 Locust Feelers",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3312
+        },
+        {
+          "kind": "map_is",
+          "mapId": 169
+        }
+      ],
+      "effects": [],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3312,
+        "overNpcId": 3312,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 4000,
+    "experience": 200000,
+    "coins": 4000,
+    "renown": 120,
+    "pets": [],
+    "items": [
+      {
+        "templateId": 12402,
+        "quantity": 1
+      },
+      {
+        "templateId": 17402,
+        "quantity": 1
+      }
+    ],
+    "choiceGroups": []
+  }
+}

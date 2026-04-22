@@ -1,0 +1,226 @@
+{
+  "id": 452,
+  "name": "The Difficulty",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 50
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 451
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3343
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 169
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21231,
+          "quantity": 1,
+          "name": "Rice Porridge"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Bring \"Rice Porridge\" to \"Laura\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3353
+        },
+        {
+          "kind": "map_is",
+          "mapId": 169
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21231,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21231,
+            "quantity": 1,
+            "name": "Rice Porridge"
+          }
+        }
+      ],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3353,
+        "overNpcId": 3353,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "collect",
+      "description": "Kill \"Armored Tortoise\" to obtain \"Turtle Shell Powder\"¡Á10",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5198
+        },
+        {
+          "kind": "map_is",
+          "mapId": 169
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3278
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 169
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21232,
+          "quantity": 10
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21232,
+            "quantity": 1,
+            "name": "Turtle Shell Powder"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21232,
+            "quantity": 10,
+            "name": "Turtle Shell Powder"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_452_2",
+        "target": 10,
+        "eventValue": "one"
+      },
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3278,
+        "overNpcId": 3278,
+        "taskType": 4,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "collect",
+      "description": "Kill \"Locust\" to obtain \"Rare Insect\"¡Á10",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5240
+        },
+        {
+          "kind": "map_is",
+          "mapId": 169
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3278
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 169
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21233,
+          "quantity": 10
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21233,
+            "quantity": 1,
+            "name": "Rare Insect"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21233,
+            "quantity": 10,
+            "name": "Rare Insect"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_452_3",
+        "target": 10,
+        "eventValue": "one"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3278,
+        "overNpcId": 3278,
+        "taskType": 4,
+        "maxAward": 1,
+        "taskStep": 3,
+        "status": 3
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 100000,
+    "coins": 1000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

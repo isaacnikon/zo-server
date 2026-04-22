@@ -1,0 +1,85 @@
+{
+  "id": 14,
+  "name": "The Forbidden Hell",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 24
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 12
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3120
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 213
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill \"Kobold\"at the hell gate-Judgement Hall(102.152)",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5104
+        },
+        {
+          "kind": "map_is",
+          "mapId": 213
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3120
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 213
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_14_1",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3120,
+        "overNpcId": 3120,
+        "taskType": 1,
+        "maxAward": 2,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 8000,
+    "coins": 1000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

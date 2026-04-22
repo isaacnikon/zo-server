@@ -1,0 +1,92 @@
+{
+  "id": 469,
+  "name": "Flaming Tree",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 64
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3371
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 211
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21247,
+          "quantity": 1,
+          "name": "Flaming Leaf"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Take \"Flaming Leaf\" to speak with \"Beauty\" for an answer to Flaming Tree's sickness",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3374
+        },
+        {
+          "kind": "map_is",
+          "mapId": 211
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21247,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21247,
+            "quantity": 1,
+            "name": "Flaming Leaf"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3374,
+        "overNpcId": 3374,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 0,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

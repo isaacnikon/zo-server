@@ -1,0 +1,133 @@
+{
+  "id": 467,
+  "name": "Quest 467",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 66
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3369
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 211
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21242,
+          "quantity": 1,
+          "name": "Indictment"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Bring \"Indictment\" to \"Elfin\" so as to expose his plot",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3381
+        },
+        {
+          "kind": "map_is",
+          "mapId": 166
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21242,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21242,
+            "quantity": 1,
+            "name": "Indictment"
+          }
+        }
+      ],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3381,
+        "overNpcId": 3381,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "kill",
+      "description": "Kill \"Trick Sprite\" and give him a lesson",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5282
+        },
+        {
+          "kind": "map_is",
+          "mapId": 166
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3381
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 166
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_467_2",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3381,
+        "overNpcId": 3381,
+        "taskType": 1,
+        "maxAward": 1,
+        "taskStep": 2,
+        "status": 2
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 0,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

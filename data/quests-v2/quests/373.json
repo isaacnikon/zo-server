@@ -1,0 +1,138 @@
+{
+  "id": 373,
+  "name": "Separation",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 12
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 385
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3070
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 112
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21059,
+          "quantity": 1,
+          "name": "Wine Gourd"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Bring \"Wine Gourd\" to \"Gladys\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3070
+        },
+        {
+          "kind": "map_is",
+          "mapId": 112
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21059,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21059,
+            "quantity": 1,
+            "name": "Wine Gourd"
+          }
+        }
+      ],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3070,
+        "overNpcId": 3070,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "turn_in",
+      "description": "Bring \"Gladys's Ring\" to \"Outcast\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3073
+        },
+        {
+          "kind": "map_is",
+          "mapId": 128
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21023,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21023,
+            "quantity": 1,
+            "name": "Gladys's Ring"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3073,
+        "overNpcId": 3073,
+        "taskType": 2,
+        "maxAward": 1,
+        "taskStep": 2,
+        "status": 2
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 1600,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

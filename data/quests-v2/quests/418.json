@@ -1,0 +1,130 @@
+{
+  "id": 418,
+  "name": "Copper",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 22
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3050
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 155
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21071,
+          "quantity": 1,
+          "name": "Nowt's Letter"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Bring \"Nowt's Letter\" to \"Copper\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3256
+        },
+        {
+          "kind": "map_is",
+          "mapId": 156
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21071,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21071,
+            "quantity": 1,
+            "name": "Nowt's Letter"
+          }
+        }
+      ],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3256,
+        "overNpcId": 3256,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "talk",
+      "description": "Help Copper to arrest \"Greedy Ghost\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3256
+        },
+        {
+          "kind": "map_is",
+          "mapId": 156
+        }
+      ],
+      "effects": [],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3256,
+        "overNpcId": 3256,
+        "taskType": 16,
+        "maxAward": 1,
+        "taskStep": 2,
+        "status": 2
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 800,
+    "experience": 2500,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "gold": 800,
+        "experience": 2500,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "id": 466,
+  "name": "Richard",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 65
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3380
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 166
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill 10 \"Foliage Ghost\" and locate \"Richard\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5247
+        },
+        {
+          "kind": "map_is",
+          "mapId": 166
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3380
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 166
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_466_1",
+        "target": 10,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3380,
+        "overNpcId": 3380,
+        "taskType": 1,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 0,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

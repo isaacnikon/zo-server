@@ -1,0 +1,142 @@
+{
+  "id": 407,
+  "name": "Good Luck",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 12
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3060
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 112
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21056,
+          "quantity": 1,
+          "name": "Fortune Rune"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Take Fortune Rune with you and speak to Ralph.",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5032
+        },
+        {
+          "kind": "map_is",
+          "mapId": 221
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3018
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 221
+        }
+      ],
+      "effects": [],
+      "reactions": [
+        {
+          "id": "reaction_1",
+          "trigger": {
+            "type": "npc_interact"
+          },
+          "requirements": [
+            {
+              "kind": "npc_is",
+              "npcId": 3018
+            },
+            {
+              "kind": "map_is",
+              "mapId": 221
+            },
+            {
+              "kind": "subtype_is",
+              "subtype": 2
+            },
+            {
+              "kind": "script_is",
+              "scriptId": 10001
+            }
+          ],
+          "effects": [
+            {
+              "kind": "remove_item",
+              "item": {
+                "templateId": 21056,
+                "quantity": 1,
+                "name": "Fortune Rune"
+              }
+            },
+            {
+              "kind": "start_combat",
+              "monsterId": 5032,
+              "count": 1
+            }
+          ]
+        }
+      ],
+      "progress": {
+        "counter": "kill_407_1",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3018,
+        "overNpcId": 3018,
+        "taskType": 1,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 1000,
+    "experience": 1000,
+    "coins": 1000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "gold": 1000,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      }
+    ]
+  }
+}

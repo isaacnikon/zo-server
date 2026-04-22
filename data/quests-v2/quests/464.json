@@ -1,0 +1,81 @@
+{
+  "id": 464,
+  "name": "Saving the Doll",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 63
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3363
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 240
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill 15 \"Child Corpse\" and then locate \"Old Witch Doctor\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5243
+        },
+        {
+          "kind": "map_is",
+          "mapId": 240
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3363
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 240
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_464_1",
+        "target": 15,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3363,
+        "overNpcId": 3363,
+        "taskType": 1,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 220000,
+    "coins": 3000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

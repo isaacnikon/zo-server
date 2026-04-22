@@ -1,0 +1,165 @@
+{
+  "id": 87,
+  "name": "Cheering Duo",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 92
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 86
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3751
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "talk",
+      "description": "At your 94 level, go to speak with \"Nalory\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3754
+        },
+        {
+          "kind": "map_is",
+          "mapId": 212
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3754,
+        "overNpcId": 3754,
+        "taskType": 32,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "talk",
+      "description": "Disguise in bandit and go to speak with East Gate Guard. Bring the Pulque to \"East Cheerleader\" . Then defeat him.",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3754
+        },
+        {
+          "kind": "map_is",
+          "mapId": 212
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3754,
+        "overNpcId": 3754,
+        "taskType": 32,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "talk",
+      "description": "Disguise as a bandit again and speak with West Gate Guard. Then locate and speak with \"West Cheerleader\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3764
+        },
+        {
+          "kind": "map_is",
+          "mapId": 212
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_4",
+      "client": {
+        "markerNpcId": 3764,
+        "overNpcId": 3764,
+        "taskType": 32,
+        "maxAward": 0,
+        "taskStep": 3,
+        "status": 3
+      }
+    },
+    {
+      "id": "step_4",
+      "kind": "kill",
+      "description": "Kill \"West Cheerleader\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5588
+        },
+        {
+          "kind": "map_is",
+          "mapId": 212
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3771
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 212
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_87_4",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3771,
+        "overNpcId": 3771,
+        "taskType": 1,
+        "maxAward": 0,
+        "taskStep": 4,
+        "status": 4
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 20000,
+    "experience": 20000000,
+    "coins": 60000,
+    "renown": 300,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

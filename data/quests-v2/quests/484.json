@@ -1,0 +1,119 @@
+{
+  "id": 484,
+  "name": "Quest 484",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 1
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3395
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 170
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "talk",
+      "description": "Talk to \"Saffron\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3395
+        },
+        {
+          "kind": "map_is",
+          "mapId": 170
+        }
+      ],
+      "effects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21256,
+            "quantity": 1,
+            "name": "Fishy"
+          }
+        }
+      ],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3395,
+        "overNpcId": 3395,
+        "taskType": 16,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "turn_in",
+      "description": "Bring \"Fishy\" to \"Rane\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3396
+        },
+        {
+          "kind": "map_is",
+          "mapId": 170
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21256,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21256,
+            "quantity": 1,
+            "name": "Fishy"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3396,
+        "overNpcId": 3396,
+        "taskType": 2,
+        "maxAward": 1,
+        "taskStep": 2,
+        "status": 2
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 0,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

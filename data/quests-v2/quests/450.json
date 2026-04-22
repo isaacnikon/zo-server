@@ -1,0 +1,189 @@
+{
+  "id": 450,
+  "name": "The Rumor",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 50
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3353
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 109
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21229,
+          "quantity": 1,
+          "name": "Bamboo Tube"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill \"Little Leopard\" and bring \"Bamboo Tube\" to \"Laura\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5237
+        },
+        {
+          "kind": "map_is",
+          "mapId": 109
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3353
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 109
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_450_1",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3353,
+        "overNpcId": 3353,
+        "taskType": 4,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "collect",
+      "description": "According to information of \"Bamboo Tube\" , locate and kill Firewood Beast to get \"Complete Bamboo Tube\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5293
+        },
+        {
+          "kind": "map_is",
+          "mapId": 109
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3353
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 109
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21230,
+          "quantity": 1
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21230,
+            "quantity": 1,
+            "name": "Complete Bamboo Tube"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21230,
+            "quantity": 1,
+            "name": "Complete Bamboo Tube"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_450_2",
+        "target": 1,
+        "eventValue": "one"
+      },
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3353,
+        "overNpcId": 3353,
+        "taskType": 4,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "escort",
+      "description": "Escort \"Laura\" back to \"Map 169\" \"Grandma Keyla\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3343
+        },
+        {
+          "kind": "map_is",
+          "mapId": 169
+        }
+      ],
+      "effects": [],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3343,
+        "overNpcId": 3343,
+        "taskRoleNpcId": 3353,
+        "taskType": 8,
+        "maxAward": 1,
+        "taskStep": 3,
+        "status": 3,
+        "trackerScriptIds": [
+          450,
+          150
+        ]
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 100000,
+    "coins": 1000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

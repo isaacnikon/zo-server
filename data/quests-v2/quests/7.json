@@ -1,0 +1,155 @@
+{
+  "id": 7,
+  "name": "Disenchanting",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 10
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3030
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 112
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "franklin_intro",
+      "kind": "talk",
+      "description": "At your 14 level, go to speak with Franklin. Quest reward: None",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3118
+        },
+        {
+          "kind": "map_is",
+          "mapId": 112
+        }
+      ],
+      "effects": [],
+      "nextStepId": "bonnie_pendant",
+      "client": {
+        "markerNpcId": 3118,
+        "overNpcId": 3118,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 1
+      }
+    },
+    {
+      "id": "bonnie_pendant",
+      "kind": "talk",
+      "description": "Encounter a ghost called Bonnie. Bonnie gives you a jewelry to bring to Franklin.",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3036
+        },
+        {
+          "kind": "map_is",
+          "mapId": 112
+        }
+      ],
+      "effects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21006,
+            "quantity": 1,
+            "name": "Bonnie's Pendant"
+          }
+        }
+      ],
+      "nextStepId": "return_to_franklin",
+      "client": {
+        "markerNpcId": 3036,
+        "overNpcId": 3036,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 2
+      }
+    },
+    {
+      "id": "return_to_franklin",
+      "kind": "turn_in",
+      "description": "Bring Bonnie's Pendant to Franklin.",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3118
+        },
+        {
+          "kind": "map_is",
+          "mapId": 112
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21006,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21006,
+            "quantity": 1,
+            "name": "Bonnie's Pendant"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3118,
+        "overNpcId": 3118,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 3
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 1200,
+    "coins": 1000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "label": "Default reward",
+        "gold": 0,
+        "experience": 1200,
+        "coins": 1000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "id": 13,
+  "name": "Catcher Azrael",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 22
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3078
+      },
+      {
+        "kind": "map_is",
+        "mapId": 160
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Capture 2 Wild Sprite by Mob Flask for Black Azrael",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3078
+        },
+        {
+          "kind": "map_is",
+          "mapId": 160
+        },
+        {
+          "kind": "captured_monster_count_at_least",
+          "monsterId": 5030,
+          "quantity": 2
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_captured_monster_item",
+          "monsterId": 5030,
+          "quantity": 2,
+          "templateId": 29001,
+          "name": "Mob Flask Lv.1"
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3078,
+        "overNpcId": 3078,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 600,
+    "experience": 1000,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

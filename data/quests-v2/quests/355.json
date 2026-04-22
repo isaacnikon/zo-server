@@ -1,0 +1,131 @@
+{
+  "id": 355,
+  "name": "Hungry Wolves",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 1
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 353
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3023
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 103
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Defeat \"Hungry Wolf\" and then console the terrified \"Farmer\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5005
+        },
+        {
+          "kind": "map_is",
+          "mapId": 102
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3003
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 102
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_355_1",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3003,
+        "overNpcId": 3003,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 2
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 3000,
+    "coins": 700,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "gold": 0,
+        "experience": 3000,
+        "coins": 700,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 5002,
+            "quantity": 1,
+            "name": "Petal Fan"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "gold": 0,
+        "experience": 3000,
+        "coins": 700,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 5003,
+            "quantity": 1,
+            "name": "Glazed Flask"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "gold": 0,
+        "experience": 3000,
+        "coins": 700,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 5004,
+            "quantity": 1,
+            "name": "Bronze Kettle"
+          }
+        ]
+      }
+    ]
+  }
+}

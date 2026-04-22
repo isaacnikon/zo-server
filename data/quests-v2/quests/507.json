@@ -1,0 +1,86 @@
+{
+  "id": 507,
+  "name": "Crush",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 96
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 506
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3409
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 130
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Take \"Sandy\" to leave \"Map 130\" and locate \"Norman\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3409
+        },
+        {
+          "kind": "map_is",
+          "mapId": 130
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21278,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21278,
+            "quantity": 1,
+            "name": "Icicle Lock"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3409,
+        "overNpcId": 3409,
+        "taskType": 4,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 0,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

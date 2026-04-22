@@ -1,0 +1,153 @@
+{
+  "id": 3,
+  "name": "Magic Flask",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 78
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 51
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3023
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 103
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21118,
+          "quantity": 1,
+          "name": "Sack"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Speak with \"Grocer\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3234
+        },
+        {
+          "kind": "map_is",
+          "mapId": 101
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21118,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21118,
+            "quantity": 1,
+            "name": "Sack"
+          }
+        }
+      ],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3234,
+        "overNpcId": 3234,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "turn_in",
+      "description": "Use \"Experimental Mob Flask\" to capture a \"Dragonfly\" and bring it to\"Grocer\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3234
+        },
+        {
+          "kind": "map_is",
+          "mapId": 101
+        },
+        {
+          "kind": "captured_monster_count_at_least",
+          "monsterId": 5001,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_captured_monster_item",
+          "monsterId": 5001,
+          "quantity": 1,
+          "templateId": 29000,
+          "name": "Experimental Mob Flask"
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3058,
+        "overNpcId": 3058,
+        "taskType": 2,
+        "maxAward": 1,
+        "taskStep": 2,
+        "status": 2
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 1200,
+    "coins": 400,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "gold": 0,
+        "experience": 1200,
+        "coins": 400,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 29001,
+            "quantity": 3,
+            "name": "Mob Flask Lv.1"
+          }
+        ]
+      }
+    ]
+  }
+}

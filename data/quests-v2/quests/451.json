@@ -1,0 +1,119 @@
+{
+  "id": 451,
+  "name": "The Giant Petal",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 50
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 450
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3278
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 169
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 23075,
+          "quantity": 1,
+          "name": "Large Petal"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "collect",
+      "description": "Kill \"Maneating Flower\" and get \"Large Petal\"¡Á10",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5232
+        },
+        {
+          "kind": "map_is",
+          "mapId": 169
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3278
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 169
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 23075,
+          "quantity": 10
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 23075,
+            "quantity": 1,
+            "name": "Large Petal"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 23075,
+            "quantity": 10,
+            "name": "Large Petal"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_451_1",
+        "target": 10,
+        "eventValue": "one"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3278,
+        "overNpcId": 3278,
+        "taskType": 2,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 2000,
+    "experience": 60000,
+    "coins": 1000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

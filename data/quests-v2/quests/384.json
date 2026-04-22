@@ -1,0 +1,73 @@
+{
+  "id": 384,
+  "name": "Escort",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 12
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 383
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3073
+      },
+      {
+        "kind": "map_is",
+        "mapId": 128
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "escort",
+      "description": "Escort Outcast to",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3188
+        },
+        {
+          "kind": "map_is",
+          "mapId": 112
+        }
+      ],
+      "effects": [],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3188,
+        "overNpcId": 3188,
+        "taskRoleNpcId": 3188,
+        "taskType": 8,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1,
+        "trackerScriptIds": [
+          384,
+          84
+        ]
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 1000,
+    "experience": 3200,
+    "coins": 1200,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

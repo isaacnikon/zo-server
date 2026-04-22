@@ -1,0 +1,103 @@
+{
+  "id": 416,
+  "name": "Trumpet Shell",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 30
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3125
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 229
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21184,
+          "quantity": 1,
+          "name": "Exquisite Trumpet Shell"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "talk",
+      "description": "Collect 10 \"Exquisite Trumpet Shell\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3125
+        },
+        {
+          "kind": "map_is",
+          "mapId": 229
+        }
+      ],
+      "effects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21106,
+            "quantity": 1,
+            "name": "Immortal Elixir"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3125,
+        "overNpcId": 3125,
+        "taskType": 2,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 2400,
+    "experience": 26000,
+    "coins": 2000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 8013,
+            "quantity": 1,
+            "name": "Whelk Necklace"
+          }
+        ]
+      }
+    ]
+  }
+}

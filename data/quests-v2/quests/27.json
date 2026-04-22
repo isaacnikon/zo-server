@@ -1,0 +1,137 @@
+{
+  "id": 27,
+  "name": "Poisoned Rain",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 32
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 38
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3044
+      },
+      {
+        "kind": "map_is",
+        "mapId": 111
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "talk",
+      "description": "Take General Lee's Royal Sword to God of Rain",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3092
+        },
+        {
+          "kind": "map_is",
+          "mapId": 144
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3092,
+        "overNpcId": 3092,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "collect",
+      "description": "Speak with Mussel Fairy's Sister at Blurred Lake to get information of Rain Summoner. Then kill Rain Summoner to get Ware for Rain of God and take it to God of Rain",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5164
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3092
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 144
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21038,
+          "quantity": 1
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21038,
+            "quantity": 1,
+            "name": "Ware for Rain of God"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21038,
+            "quantity": 1,
+            "name": "Ware for Rain of God"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_27_2",
+        "target": 1,
+        "eventValue": "one"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3092,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 2000,
+    "experience": 36000,
+    "coins": 3000,
+    "renown": 40,
+    "pets": [],
+    "items": [
+      {
+        "templateId": 18302,
+        "quantity": 1
+      },
+      {
+        "templateId": 16202,
+        "quantity": 1
+      }
+    ],
+    "choiceGroups": []
+  }
+}

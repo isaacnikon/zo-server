@@ -1,0 +1,91 @@
+{
+  "id": 375,
+  "name": "Catcher White Azrael",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 22
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3079
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 160
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Capture 2 \"Lonely Soul\" to \"White Azrael\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3079
+        },
+        {
+          "kind": "map_is",
+          "mapId": 160
+        },
+        {
+          "kind": "captured_monster_count_at_least",
+          "monsterId": 5015,
+          "quantity": 2
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_captured_monster_item",
+          "monsterId": 5015,
+          "quantity": 2,
+          "templateId": 29001,
+          "name": "Mob Flask Lv.1"
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3079,
+        "overNpcId": 3079,
+        "taskType": 16,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 2546,
+    "experience": 1240,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "gold": 2546,
+        "experience": 1240,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      }
+    ]
+  }
+}

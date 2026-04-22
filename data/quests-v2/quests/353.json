@@ -1,0 +1,141 @@
+{
+  "id": 353,
+  "name": "Behind the Curtain",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 1
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 4
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3004
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 101
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "talk",
+      "description": "Talk to Scholar",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3004
+        },
+        {
+          "kind": "map_is",
+          "mapId": 101
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3044,
+        "overNpcId": 3044,
+        "taskType": 32,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "talk",
+      "description": "Speak with \"Grandpa\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3023
+        },
+        {
+          "kind": "map_is",
+          "mapId": 103
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3023,
+        "overNpcId": 3023,
+        "taskType": 1,
+        "maxAward": 1,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "kill",
+      "description": "Kill \"Piggy\"--Bling Alley(75.238)",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5006
+        },
+        {
+          "kind": "map_is",
+          "mapId": 102
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3023
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 103
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_353_3",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3023,
+        "overNpcId": 3023,
+        "taskType": 1,
+        "maxAward": 3,
+        "taskStep": 3,
+        "status": 3
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 2000,
+    "coins": 600,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

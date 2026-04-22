@@ -1,0 +1,118 @@
+{
+  "id": 455,
+  "name": "Evil Dragon",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 52
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3347
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 240
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill \"Clan Guard\" , you will see \"Old Shaikh\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5280
+        },
+        {
+          "kind": "map_is",
+          "mapId": 240
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3361
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 113
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_455_1",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3361,
+        "overNpcId": 3361,
+        "taskType": 1,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "talk",
+      "description": "Bring \"Swaddle\" to \"Elizabeth\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3355
+        },
+        {
+          "kind": "map_is",
+          "mapId": 114
+        }
+      ],
+      "effects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21235,
+            "quantity": 1,
+            "name": "Swaddle"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3355,
+        "overNpcId": 3355,
+        "taskType": 2,
+        "maxAward": 1,
+        "taskStep": 2,
+        "status": 2
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 2000,
+    "experience": 200000,
+    "coins": 2000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

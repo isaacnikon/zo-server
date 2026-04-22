@@ -10,6 +10,8 @@
     "build:portal": "npm run build -w @zo/portal",
     "build": "npm run build:game-server && npm run build:portal",
     "start": "npm run start -w @zo/game-server",
+    "quest2:split": "npm run quest2:split -w @zo/game-server",
+    "quest2:merge": "npm run quest2:merge -w @zo/game-server",
     "dev:bootstrap": "bash -lc 'STAMP=$(sha256sum package-lock.json | cut -d\" \" -f1); IMAGE_STAMP=$(cat /opt/workspace-node_modules/.zo-image-install-stamp 2>/dev/null || true); CURRENT=$(cat node_modules/.zo-dev-install-stamp 2>/dev/null || true); if [ -z \"$CURRENT\" ] && [ \"$IMAGE_STAMP\" = \"$STAMP\" ] && [ -d /opt/workspace-node_modules ]; then mkdir -p node_modules; cp -a /opt/workspace-node_modules/. node_modules/; printf \"%s\" \"$STAMP\" > node_modules/.zo-dev-install-stamp; CURRENT=\"$STAMP\"; fi; if [ \"$CURRENT\" != \"$STAMP\" ]; then npm install; mkdir -p node_modules; printf \"%s\" \"$STAMP\" > node_modules/.zo-dev-install-stamp; fi'",
     "dev": "docker compose -f compose.yaml -f compose.local.yaml up",
     "dev:rebuild": "docker compose -f compose.yaml -f compose.local.yaml up --build",

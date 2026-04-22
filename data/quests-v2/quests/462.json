@@ -1,0 +1,122 @@
+{
+  "id": 462,
+  "name": "Frustration",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 56
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3365
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 238
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill 15 \"Heart Demon\" to find the truth, then check \"Palm\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5241
+        },
+        {
+          "kind": "map_is",
+          "mapId": 238
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3365
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 238
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_462_1",
+        "target": 15,
+        "eventValue": "count"
+      },
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3365,
+        "overNpcId": 3365,
+        "taskType": 1,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "kill",
+      "description": "Kill 15 \"Heart Demon\" to collect 10 \"Cracked Mirror\" for \"Palm\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5241
+        },
+        {
+          "kind": "map_is",
+          "mapId": 238
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3365
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 238
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_462_2",
+        "target": 15,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3365,
+        "overNpcId": 3365,
+        "taskType": 1,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 3500,
+    "experience": 180000,
+    "coins": 3500,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

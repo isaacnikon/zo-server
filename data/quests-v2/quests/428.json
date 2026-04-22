@@ -1,0 +1,133 @@
+{
+  "id": 428,
+  "name": "Builup of Evil Troop",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 40
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3263
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 158
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Capture 5 \"Evil Mushroom\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3263
+        },
+        {
+          "kind": "map_is",
+          "mapId": 158
+        },
+        {
+          "kind": "captured_monster_count_at_least",
+          "monsterId": 5188,
+          "quantity": 5
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_captured_monster_item",
+          "monsterId": 5188,
+          "quantity": 5,
+          "templateId": 29001,
+          "name": "Mob Flask Lv.1"
+        }
+      ],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3263,
+        "overNpcId": 3263,
+        "taskType": 16,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "turn_in",
+      "description": "Bring \"Writ of Execution\" to \"Green Hoe\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3263
+        },
+        {
+          "kind": "map_is",
+          "mapId": 158
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21078,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21078,
+            "quantity": 1,
+            "name": "Writ of Execution"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3263,
+        "overNpcId": 3263,
+        "taskType": 4,
+        "maxAward": 1,
+        "taskStep": 2,
+        "status": 2
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 2400,
+    "experience": 32000,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "gold": 2400,
+        "experience": 32000,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      }
+    ]
+  }
+}

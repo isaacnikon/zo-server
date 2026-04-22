@@ -1,0 +1,155 @@
+{
+  "id": 501,
+  "name": "Flower Medicine(I)",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 86
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 500
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3414
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 204
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21272,
+          "quantity": 1,
+          "name": "Heart Flower"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Bring \"Heart Flower\" to \"Grocer\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3433
+        },
+        {
+          "kind": "map_is",
+          "mapId": 204
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21272,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21272,
+            "quantity": 1
+          }
+        },
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21273,
+            "quantity": 1,
+            "name": "Herb Medicine"
+          }
+        }
+      ],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3433,
+        "overNpcId": 3433,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "turn_in",
+      "description": "Bring \"Herb Medicine\" to \"Norman\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3414
+        },
+        {
+          "kind": "map_is",
+          "mapId": 204
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21273,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21273,
+            "quantity": 1,
+            "name": "Herb Medicine"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3414,
+        "overNpcId": 3414,
+        "taskType": 2,
+        "maxAward": 1,
+        "taskStep": 2,
+        "status": 2
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 20000,
+    "experience": 2000000,
+    "coins": 30000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "gold": 20000,
+        "experience": 2000000,
+        "coins": 30000,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      }
+    ]
+  }
+}

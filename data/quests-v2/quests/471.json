@@ -1,0 +1,91 @@
+{
+  "id": 471,
+  "name": "Sandworm",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 69
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3330
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 211
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21010,
+          "quantity": 1,
+          "name": "Talisman"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Capture one \"Sandworm\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3330
+        },
+        {
+          "kind": "map_is",
+          "mapId": 211
+        },
+        {
+          "kind": "captured_monster_count_at_least",
+          "monsterId": 5251,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_captured_monster_item",
+          "monsterId": 5251,
+          "quantity": 1,
+          "templateId": 29001,
+          "name": "Mob Flask Lv.1"
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3035,
+        "overNpcId": 3035,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 0,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

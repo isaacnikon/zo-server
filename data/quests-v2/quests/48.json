@@ -1,0 +1,123 @@
+{
+  "id": 48,
+  "name": "Haunted House",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 55
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 68
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3135
+      },
+      {
+        "kind": "map_is",
+        "mapId": 169
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "At your 61 Level, bring Haunting Rumor to Weeping Woman",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3184
+        },
+        {
+          "kind": "map_is",
+          "mapId": 249
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21172,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21172,
+            "quantity": 1,
+            "name": "Haunting Rumor"
+          }
+        }
+      ],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3184,
+        "overNpcId": 3184,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "kill",
+      "description": "Retrieve Hungry Soul",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5150
+        },
+        {
+          "kind": "map_is",
+          "mapId": 249
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3135
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 169
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_48_2",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3184,
+        "overNpcId": 3184,
+        "taskType": 1,
+        "maxAward": 2,
+        "taskStep": 2,
+        "status": 2
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 0,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

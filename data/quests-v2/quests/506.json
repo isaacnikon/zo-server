@@ -1,0 +1,119 @@
+{
+  "id": 506,
+  "name": "Pepperbox",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 96
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 505
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3409
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 130
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21277,
+          "quantity": 1,
+          "name": "Glinting Hat"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "collect",
+      "description": "Kill \"Evil Reamer\" and obtain \"Glinting Hat\" . Then submit it to \"Linda\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5268
+        },
+        {
+          "kind": "map_is",
+          "mapId": 130
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3411
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 130
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21277,
+          "quantity": 1
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21277,
+            "quantity": 1,
+            "name": "Glinting Hat"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21277,
+            "quantity": 1,
+            "name": "Glinting Hat"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_506_1",
+        "target": 1,
+        "eventValue": "one"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3411,
+        "overNpcId": 3411,
+        "taskType": 4,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 0,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

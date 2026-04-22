@@ -1,0 +1,156 @@
+{
+  "id": 55,
+  "name": "Fight for Love",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 55
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3133
+      },
+      {
+        "kind": "map_is",
+        "mapId": 211
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill Captain of Lion",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5073
+        },
+        {
+          "kind": "map_is",
+          "mapId": 211
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3133
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 211
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_55_1",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3133,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "kill",
+      "description": "Kill Evil Cat",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5148
+        },
+        {
+          "kind": "map_is",
+          "mapId": 211
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3133
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 211
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_55_2",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3133,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "kill",
+      "description": "Kill Mysterious Creature",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5156
+        },
+        {
+          "kind": "map_is",
+          "mapId": 211
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3133
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 211
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_55_3",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3133,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 3,
+        "status": 3
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 800000,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

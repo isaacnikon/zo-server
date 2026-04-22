@@ -1,0 +1,133 @@
+{
+  "id": 481,
+  "name": "Quest 481",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 1
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3383
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 245
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21252,
+          "quantity": 1,
+          "name": "Necklace"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Bring \"Necklace\" to \"Logan\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3439
+        },
+        {
+          "kind": "map_is",
+          "mapId": 166
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21252,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21252,
+            "quantity": 1,
+            "name": "Necklace"
+          }
+        }
+      ],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3439,
+        "overNpcId": 3439,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "kill",
+      "description": "Kill \"Vulture\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5103
+        },
+        {
+          "kind": "map_is",
+          "mapId": 166
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3439
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 166
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_481_2",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3035,
+        "overNpcId": 3035,
+        "taskType": 1,
+        "maxAward": 1,
+        "taskStep": 2,
+        "status": 2
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 0,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "id": 82,
+  "name": "Flaming Hell",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 24
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 14
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3120
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21013,
+          "quantity": 1,
+          "name": "Rune of Seal"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "talk",
+      "description": "Travel to \"Flaming Hell 1\" to speak with \"Peter\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3160
+        },
+        {
+          "kind": "map_is",
+          "mapId": 156
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3160,
+        "overNpcId": 3160,
+        "taskType": 32,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "turn_in",
+      "description": "Bring \"Rune of Seal\" to \"Maple Spirit\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3218
+        },
+        {
+          "kind": "map_is",
+          "mapId": 146
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21013,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21013,
+            "quantity": 1,
+            "name": "Rune of Seal"
+          }
+        },
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21012,
+            "quantity": 1,
+            "name": "Walpher's Memory"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3218,
+        "overNpcId": 3218,
+        "taskType": 2,
+        "maxAward": 2,
+        "taskStep": 2,
+        "status": 2
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 8000,
+    "coins": 2000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

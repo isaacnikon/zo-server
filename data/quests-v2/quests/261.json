@@ -1,0 +1,81 @@
+{
+  "id": 261,
+  "name": "The Right Path",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 30
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3651
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 129
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill 2 \"Evil Mushroom\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5188
+        },
+        {
+          "kind": "map_is",
+          "mapId": 129
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3651
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 129
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_261_1",
+        "target": 2,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3651,
+        "overNpcId": 3651,
+        "taskType": 1,
+        "maxAward": 2,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 10000,
+    "coins": 3000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

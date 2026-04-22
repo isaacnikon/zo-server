@@ -1,0 +1,183 @@
+{
+  "id": 456,
+  "name": "The Dragon's Growth",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 52
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 455
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3355
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21236,
+          "quantity": 1,
+          "name": "Lotus Petal"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Bring \"Lotus Petal\" to \"Vannessa\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3347
+        },
+        {
+          "kind": "map_is",
+          "mapId": 240
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21236,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21236,
+            "quantity": 1,
+            "name": "Lotus Petal"
+          }
+        },
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21237,
+            "quantity": 1,
+            "name": "Parcel"
+          }
+        }
+      ],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3347,
+        "overNpcId": 3347,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "turn_in",
+      "description": "Bring \"Parcel\" to \"White Dragon\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3356
+        },
+        {
+          "kind": "map_is",
+          "mapId": 114
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21237,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21237,
+            "quantity": 1,
+            "name": "Parcel"
+          }
+        }
+      ],
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3356,
+        "overNpcId": 3356,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "kill",
+      "description": "Kill \"Fat Pig\" to collect 10 \"Fresh Pork\" to \"White Dragon\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5236
+        },
+        {
+          "kind": "map_is",
+          "mapId": 114
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3356
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 114
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_456_3",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3356,
+        "overNpcId": 3356,
+        "taskType": 2,
+        "maxAward": 1,
+        "taskStep": 3,
+        "status": 3
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 1000,
+    "experience": 80000,
+    "coins": 1000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

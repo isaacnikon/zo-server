@@ -1,0 +1,82 @@
+{
+  "id": 46,
+  "name": "De-evil Tower",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 50
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 45
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3312
+      },
+      {
+        "kind": "map_is",
+        "mapId": 169
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Bring \"Sweep Net\" to \"Jose\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3219
+        },
+        {
+          "kind": "map_is",
+          "mapId": 260
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21146,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21146,
+            "quantity": 1,
+            "name": "Snake Hairpin"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3219,
+        "overNpcId": 3219,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 0,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

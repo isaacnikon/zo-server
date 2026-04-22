@@ -1,0 +1,108 @@
+{
+  "id": 404,
+  "name": "Cobweb",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 25
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3199
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 131
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21183,
+          "quantity": 1,
+          "name": "Fine Spider Silk"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Collect 10 \"Fine Spider Silk\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3199
+        },
+        {
+          "kind": "map_is",
+          "mapId": 131
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21183,
+          "quantity": 10
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21183,
+            "quantity": 10,
+            "name": "Fine Spider Silk"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3199,
+        "overNpcId": 3199,
+        "taskType": 4,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 1000,
+    "experience": 8000,
+    "coins": 2000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 9017,
+            "quantity": 1,
+            "name": "Spider Web"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,197 @@
+{
+  "id": 65,
+  "name": "Skull Goblin",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 82
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 61
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3097
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 181
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "talk",
+      "description": "At your 86 level, travel to \"Map 161\" to speak with \"Grandpa\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3454
+        },
+        {
+          "kind": "map_is",
+          "mapId": 161
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3454,
+        "overNpcId": 3454,
+        "taskType": 32,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "turn_in",
+      "description": "Find Grandpa's Daughter in Soul-free Valley and back to Grandpa",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3454
+        },
+        {
+          "kind": "map_is",
+          "mapId": 161
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21380,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21380,
+            "quantity": 1,
+            "name": "Hairpin"
+          }
+        }
+      ],
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3454,
+        "overNpcId": 3454,
+        "taskType": 4,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "turn_in",
+      "description": "Find Grandpa's Fere in Soul-free Valley and back to Grandpa",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3454
+        },
+        {
+          "kind": "map_is",
+          "mapId": 161
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21381,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21381,
+            "quantity": 1,
+            "name": "Clothes"
+          }
+        }
+      ],
+      "nextStepId": "step_4",
+      "client": {
+        "markerNpcId": 3454,
+        "overNpcId": 3454,
+        "taskType": 4,
+        "maxAward": 0,
+        "taskStep": 3,
+        "status": 3
+      }
+    },
+    {
+      "id": "step_4",
+      "kind": "kill",
+      "description": "Kill Skull Goblin",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5307
+        },
+        {
+          "kind": "map_is",
+          "mapId": 161
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3457
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 161
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_65_4",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3457,
+        "overNpcId": 3457,
+        "taskType": 1,
+        "maxAward": 1,
+        "taskStep": 4,
+        "status": 4
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 20000,
+    "experience": 12000000,
+    "coins": 40000,
+    "renown": 300,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

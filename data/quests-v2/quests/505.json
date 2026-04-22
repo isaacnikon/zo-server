@@ -1,0 +1,119 @@
+{
+  "id": 505,
+  "name": "Bad Temper",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 96
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 504
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3409
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 130
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21276,
+          "quantity": 1,
+          "name": "Fang Ring"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "collect",
+      "description": "Kill \"Evil Fork\" and get \"Fang Ring\" .Then bring it to \"Tina\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5267
+        },
+        {
+          "kind": "map_is",
+          "mapId": 130
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3410
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 130
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21276,
+          "quantity": 1
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21276,
+            "quantity": 1,
+            "name": "Fang Ring"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21276,
+            "quantity": 1,
+            "name": "Fang Ring"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_505_1",
+        "target": 1,
+        "eventValue": "one"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3410,
+        "overNpcId": 3410,
+        "taskType": 4,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 0,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

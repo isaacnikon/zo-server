@@ -1,0 +1,76 @@
+{
+  "id": 409,
+  "name": "Bad Lucks",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 35
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3206
+      },
+      {
+        "kind": "map_is",
+        "mapId": 111
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill \"Glede\"-Wind Canyon(87.162)",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5088
+        },
+        {
+          "kind": "map_is",
+          "mapId": 111
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3206
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 111
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_409_1",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3206,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 3200,
+    "experience": 0,
+    "coins": 2000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

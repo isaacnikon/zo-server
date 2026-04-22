@@ -1,0 +1,96 @@
+{
+  "id": 391,
+  "name": "Mother's Illness",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 20
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 378
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3191
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 112
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21182,
+          "quantity": 1,
+          "name": "Heart Powder"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Help \"Samuel\" to gather 10 \"Heart Powder\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3191
+        },
+        {
+          "kind": "map_is",
+          "mapId": 112
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21182,
+          "quantity": 5
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21182,
+            "quantity": 5,
+            "name": "Heart Powder"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3191,
+        "overNpcId": 3191,
+        "taskType": 4,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 800,
+    "experience": 2500,
+    "coins": 1500,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

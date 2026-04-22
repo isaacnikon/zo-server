@@ -1,0 +1,82 @@
+{
+  "id": 39,
+  "name": "Demon Party",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 32
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 27
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3092
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "At your 35 level, go to speak with \"General Lee\" in Chill Pass",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3044
+        },
+        {
+          "kind": "map_is",
+          "mapId": 111
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21016,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21016,
+            "quantity": 1,
+            "name": "Letter of Request"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3044,
+        "overNpcId": 3044,
+        "taskType": 4,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 0,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

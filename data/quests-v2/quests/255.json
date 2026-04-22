@@ -1,0 +1,112 @@
+{
+  "id": 255,
+  "name": "Another Possibility",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 16
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3651
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 163
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21314,
+          "quantity": 1,
+          "name": "Zodiac Eudemon's Memory"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill 10 \"Mushroom\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5062
+        },
+        {
+          "kind": "map_is",
+          "mapId": 146
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3651
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 163
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_255_1",
+        "target": 10,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3651,
+        "overNpcId": 3651,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 0,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 7011,
+            "quantity": 1,
+            "name": "Demon Crown"
+          },
+          {
+            "templateId": 7013,
+            "quantity": 1,
+            "name": "Demon Boots"
+          }
+        ]
+      }
+    ]
+  }
+}

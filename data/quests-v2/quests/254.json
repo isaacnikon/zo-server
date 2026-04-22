@@ -1,0 +1,102 @@
+{
+  "id": 254,
+  "name": "The Omen",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 10
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3651
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 163
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill 2 \"Lonely Soul\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5015
+        },
+        {
+          "kind": "map_is",
+          "mapId": 163
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3651
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 163
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_254_1",
+        "target": 2,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3651,
+        "overNpcId": 3651,
+        "taskType": 1,
+        "maxAward": 2,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 1000,
+    "experience": 3000,
+    "coins": 2000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 7009,
+            "quantity": 1,
+            "name": "Abject Boots"
+          },
+          {
+            "templateId": 7007,
+            "quantity": 1,
+            "name": "Abject Hood"
+          }
+        ]
+      }
+    ]
+  }
+}

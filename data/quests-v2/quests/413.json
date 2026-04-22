@@ -1,0 +1,91 @@
+{
+  "id": 413,
+  "name": "Weird Medicine",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 31
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3100
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 135
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill 10 \"Rock Goblin\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5090
+        },
+        {
+          "kind": "map_is",
+          "mapId": 135
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3100
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 135
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_413_1",
+        "target": 10,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3100,
+        "overNpcId": 3100,
+        "taskType": 1,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 2400,
+    "experience": 6000,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "gold": 2400,
+        "experience": 6000,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      }
+    ]
+  }
+}

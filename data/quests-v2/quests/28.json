@@ -1,0 +1,189 @@
+{
+  "id": 28,
+  "name": "World Disaster",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 35
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 39
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3044
+      },
+      {
+        "kind": "map_is",
+        "mapId": 111
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "talk",
+      "description": "At your 38 Level, go to speak with General Lee",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3044
+        },
+        {
+          "kind": "map_is",
+          "mapId": 111
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3044,
+        "overNpcId": 3044,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "turn_in",
+      "description": "Bring Info on Plague to General Lee",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3044
+        },
+        {
+          "kind": "map_is",
+          "mapId": 111
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21138,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21138,
+            "quantity": 1,
+            "name": "Info on Plague"
+          }
+        }
+      ],
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3044,
+        "overNpcId": 3044,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "turn_in",
+      "description": "Bring Royal Sword to Soul Judge",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3120
+        },
+        {
+          "kind": "map_is",
+          "mapId": 213
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21019,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21019,
+            "quantity": 1,
+            "name": "Royal Sword"
+          }
+        }
+      ],
+      "nextStepId": "step_4",
+      "client": {
+        "markerNpcId": 3120,
+        "overNpcId": 3120,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 3,
+        "status": 3
+      }
+    },
+    {
+      "id": "step_4",
+      "kind": "talk",
+      "description": "Locate Smith in Belong Hell",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3220
+        },
+        {
+          "kind": "map_is",
+          "mapId": 231
+        }
+      ],
+      "effects": [],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3220,
+        "overNpcId": 3220,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 4,
+        "status": 4
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 20000,
+    "coins": 1000,
+    "renown": 40,
+    "pets": [],
+    "items": [
+      {
+        "templateId": 10302,
+        "quantity": 1
+      },
+      {
+        "templateId": 15302,
+        "quantity": 1
+      }
+    ],
+    "choiceGroups": []
+  }
+}

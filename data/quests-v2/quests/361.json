@@ -1,0 +1,273 @@
+{
+  "id": 361,
+  "name": "A Plague Errand",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 1
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3065
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 112
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21003,
+          "quantity": 1,
+          "name": "Famous Painting"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Bring \"Famous Painting\" back to \"Pub Owner\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3010
+        },
+        {
+          "kind": "map_is",
+          "mapId": 226
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21003,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21003,
+            "quantity": 1,
+            "name": "Famous Painting"
+          }
+        },
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21004,
+            "quantity": 1,
+            "name": "Dish"
+          }
+        }
+      ],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3010,
+        "overNpcId": 3010,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "turn_in",
+      "description": "Bring \"Dish\" reserved by \"Diana\" to him",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3009
+        },
+        {
+          "kind": "map_is",
+          "mapId": 223
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21004,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21004,
+            "quantity": 1,
+            "name": "Dish"
+          }
+        },
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21005,
+            "quantity": 1,
+            "name": "Chic Apparel"
+          }
+        }
+      ],
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3009,
+        "overNpcId": 3009,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "turn_in",
+      "description": "Bring \"Chic Apparel\" to Warehouseman- \"Chelyn\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3015
+        },
+        {
+          "kind": "map_is",
+          "mapId": 112
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21005,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21005,
+            "quantity": 1,
+            "name": "Chic Apparel"
+          }
+        },
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21181,
+            "quantity": 1,
+            "name": "Chelyn's Invitation"
+          }
+        }
+      ],
+      "nextStepId": "step_4",
+      "client": {
+        "markerNpcId": 3015,
+        "overNpcId": 3015,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 3,
+        "status": 3
+      }
+    },
+    {
+      "id": "step_4",
+      "kind": "turn_in",
+      "description": "Bring \"Chelyn's Invitation\" to \"Commander\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3022
+        },
+        {
+          "kind": "map_is",
+          "mapId": 112
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21181,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21181,
+            "quantity": 1,
+            "name": "Chelyn's Invitation"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3022,
+        "overNpcId": 3022,
+        "taskType": 2,
+        "maxAward": 2,
+        "taskStep": 4,
+        "status": 4
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 800,
+    "coins": 500,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "gold": 0,
+        "experience": 800,
+        "coins": 500,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 11004,
+            "quantity": 1,
+            "name": "Masterly Robe"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "gold": 0,
+        "experience": 800,
+        "coins": 500,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 16004,
+            "quantity": 1,
+            "name": "Plum Robe"
+          }
+        ]
+      }
+    ]
+  }
+}

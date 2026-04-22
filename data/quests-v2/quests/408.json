@@ -1,0 +1,145 @@
+{
+  "id": 408,
+  "name": "Achelous's Tortoise",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 32
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3093
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 111
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21065,
+          "quantity": 1,
+          "name": "Info on Tortoise"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "talk",
+      "description": "Take \"Info on Miser\" to locate \"Miser\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3019
+        },
+        {
+          "kind": "map_is",
+          "mapId": 108
+        }
+      ],
+      "effects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21066,
+            "quantity": 1,
+            "name": "Info on Miser"
+          }
+        }
+      ],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3019,
+        "overNpcId": 3019,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "turn_in",
+      "description": "Bring \"Gold Tortoise\" back to \"Achelous\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3093
+        },
+        {
+          "kind": "map_is",
+          "mapId": 111
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21035,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21035,
+            "quantity": 1,
+            "name": "Gold Tortoise"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3093,
+        "overNpcId": 3093,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 3
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 2000,
+    "experience": 40000,
+    "coins": 2000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 9018,
+            "quantity": 1,
+            "name": "Rare Turtle Shell"
+          }
+        ]
+      }
+    ]
+  }
+}

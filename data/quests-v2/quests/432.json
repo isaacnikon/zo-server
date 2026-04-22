@@ -1,0 +1,101 @@
+{
+  "id": 432,
+  "name": "Piggy Leader",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 1
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 431
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3265
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 112
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill one \"Piggy Leader\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5171
+        },
+        {
+          "kind": "map_is",
+          "mapId": 112
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3265
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 112
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_432_1",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3265,
+        "overNpcId": 3265,
+        "taskType": 1,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 1000,
+    "experience": 6000,
+    "coins": 1000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "gold": 1000,
+        "experience": 6000,
+        "coins": 1000,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 26015,
+            "quantity": 3,
+            "name": "Equipment Treasure Map (Primary"
+          }
+        ]
+      }
+    ]
+  }
+}

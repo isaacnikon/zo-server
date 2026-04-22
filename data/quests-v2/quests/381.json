@@ -1,0 +1,76 @@
+{
+  "id": 381,
+  "name": "Evil Rogue",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 12
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3189
+      },
+      {
+        "kind": "map_is",
+        "mapId": 105
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Defeat -Fall Alley (9.82)",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5205
+        },
+        {
+          "kind": "map_is",
+          "mapId": 105
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3189
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 105
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_381_1",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3189,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 2000,
+    "coins": 800,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

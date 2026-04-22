@@ -1,0 +1,142 @@
+{
+  "id": 485,
+  "name": "Quest 485",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 1
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3397
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 170
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21257,
+          "quantity": 1,
+          "name": "Meal"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Bring \"Meal\" to \"Logan\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3395
+        },
+        {
+          "kind": "map_is",
+          "mapId": 170
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21257,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21257,
+            "quantity": 1,
+            "name": "Meal"
+          }
+        },
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21258,
+            "quantity": 1,
+            "name": "Gift"
+          }
+        }
+      ],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3395,
+        "overNpcId": 3395,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "turn_in",
+      "description": "Bring \"Gift\" to \"Rane\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3397
+        },
+        {
+          "kind": "map_is",
+          "mapId": 170
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21258,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21258,
+            "quantity": 1,
+            "name": "Gift"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3397,
+        "overNpcId": 3397,
+        "taskType": 2,
+        "maxAward": 1,
+        "taskStep": 2,
+        "status": 2
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 0,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

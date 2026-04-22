@@ -1,0 +1,339 @@
+{
+  "id": 49,
+  "name": "Silence Hell",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 61
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 56
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3187
+      },
+      {
+        "kind": "map_is",
+        "mapId": 174
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "talk",
+      "description": "At your 68 level, go to speak with Night Owl",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3187
+        },
+        {
+          "kind": "map_is",
+          "mapId": 174
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3187,
+        "overNpcId": 3187,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "collect",
+      "description": "Kill Redface Ghost to obtain Red Soul",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5213
+        },
+        {
+          "kind": "map_is",
+          "mapId": 174
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3187
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 174
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21180,
+          "quantity": 1
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21180,
+            "quantity": 1,
+            "name": "Red Soul"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21180,
+            "quantity": 1,
+            "name": "Red Soul"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_49_2",
+        "target": 1,
+        "eventValue": "one"
+      },
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3187,
+        "overNpcId": 3187,
+        "taskType": 4,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "collect",
+      "description": "Kill Green-faced Ghost to obtain Green Soul",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5212
+        },
+        {
+          "kind": "map_is",
+          "mapId": 177
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3187
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 174
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21178,
+          "quantity": 1
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21178,
+            "quantity": 1,
+            "name": "Green Soul"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21178,
+            "quantity": 1,
+            "name": "Green Soul"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_49_3",
+        "target": 1,
+        "eventValue": "one"
+      },
+      "nextStepId": "step_4",
+      "client": {
+        "markerNpcId": 3187,
+        "overNpcId": 3187,
+        "taskType": 4,
+        "maxAward": 0,
+        "taskStep": 3,
+        "status": 3
+      }
+    },
+    {
+      "id": "step_4",
+      "kind": "collect",
+      "description": "Kill Blueface Ghost to obtain Blue Soul",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5214
+        },
+        {
+          "kind": "map_is",
+          "mapId": 174
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3187
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 174
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21179,
+          "quantity": 1
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21179,
+            "quantity": 1,
+            "name": "Blue Soul"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21179,
+            "quantity": 1,
+            "name": "Blue Soul"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_49_4",
+        "target": 1,
+        "eventValue": "one"
+      },
+      "nextStepId": "step_5",
+      "client": {
+        "markerNpcId": 3187,
+        "overNpcId": 3187,
+        "taskType": 4,
+        "maxAward": 0,
+        "taskStep": 4,
+        "status": 4
+      }
+    },
+    {
+      "id": "step_5",
+      "kind": "turn_in",
+      "description": "Bring Soul Absorber's Memory to God of Kitchen",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3155
+        },
+        {
+          "kind": "map_is",
+          "mapId": 249
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21176,
+          "quantity": 1
+        }
+      ],
+      "reactions": [
+        {
+          "id": "reaction_1",
+          "trigger": {
+            "type": "npc_interact"
+          },
+          "requirements": [
+            {
+              "kind": "npc_is",
+              "npcId": 3187
+            },
+            {
+              "kind": "map_is",
+              "mapId": 177
+            }
+          ],
+          "effects": [
+            {
+              "kind": "grant_item",
+              "idempotent": true,
+              "item": {
+                "templateId": 21175,
+                "quantity": 1,
+                "name": "Dragon-Fire Shell Info"
+              }
+            }
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21176,
+            "quantity": 1,
+            "name": "Soul Absorber's Memory"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3155,
+        "overNpcId": 3155,
+        "taskType": 2,
+        "maxAward": 1,
+        "taskStep": 5,
+        "status": 5
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 8000,
+    "experience": 800000,
+    "coins": 10000,
+    "renown": 240,
+    "pets": [],
+    "items": [
+      {
+        "templateId": 8012,
+        "quantity": 1
+      }
+    ],
+    "choiceGroups": []
+  }
+}

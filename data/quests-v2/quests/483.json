@@ -1,0 +1,115 @@
+{
+  "id": 483,
+  "name": "The Fence",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 75
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3395
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 170
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21255,
+          "quantity": 1,
+          "name": "Twig bamboo"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "collect",
+      "description": "Kill \"Rock Flower\" to obtain 20 \"Twig bamboo\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5258
+        },
+        {
+          "kind": "map_is",
+          "mapId": 170
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3395
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 170
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21255,
+          "quantity": 20
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21255,
+            "quantity": 1,
+            "name": "Twig bamboo"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21255,
+            "quantity": 20,
+            "name": "Twig bamboo"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_483_1",
+        "target": 20,
+        "eventValue": "one"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3395,
+        "overNpcId": 3395,
+        "taskType": 4,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 0,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

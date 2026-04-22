@@ -1,0 +1,79 @@
+{
+  "id": 356,
+  "name": "The Lost Child",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 9
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3055
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "escort",
+      "description": "Take \"Eric\" home",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3070
+        },
+        {
+          "kind": "map_is",
+          "mapId": 112
+        }
+      ],
+      "effects": [],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3070,
+        "overNpcId": 3070,
+        "taskRoleNpcId": 3055,
+        "taskType": 8,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1,
+        "trackerScriptIds": [
+          356,
+          56
+        ]
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 200,
+    "experience": 1000,
+    "coins": 300,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "gold": 200,
+        "experience": 1000,
+        "coins": 300,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      }
+    ]
+  }
+}

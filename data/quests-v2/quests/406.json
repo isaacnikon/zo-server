@@ -1,0 +1,81 @@
+{
+  "id": 406,
+  "name": "Fierce Tortoise",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 30
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3204
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 111
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill 20 \"Thorny Tortoise\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5092
+        },
+        {
+          "kind": "map_is",
+          "mapId": 111
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3204
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 111
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_406_1",
+        "target": 20,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3204,
+        "overNpcId": 3204,
+        "taskType": 1,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 2400,
+    "experience": 12000,
+    "coins": 2000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "id": 41,
+  "name": "Lonely Ghost King",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 48
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3033
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 112
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill \"Lonely Ghost King\" in Cloud City",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5007
+        },
+        {
+          "kind": "map_is",
+          "mapId": 112
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3033
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 112
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_41_1",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3033,
+        "overNpcId": 3033,
+        "taskType": 1,
+        "maxAward": 2,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 500,
+    "experience": 2400,
+    "coins": 3000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "gold": 500,
+        "experience": 2400,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 11102,
+            "quantity": 1,
+            "name": "Universal Armor"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "gold": 500,
+        "experience": 2400,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 16102,
+            "quantity": 1,
+            "name": "Mesh Robe"
+          }
+        ]
+      }
+    ]
+  }
+}

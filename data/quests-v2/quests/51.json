@@ -1,0 +1,290 @@
+{
+  "id": 51,
+  "name": "Pet",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 1
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 2
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3277
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 101
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21123,
+          "quantity": 1,
+          "name": "Candy's Recommendation"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "talk",
+      "description": "Bring \"Candy's Recommendation\" to \"Scholar\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3004
+        },
+        {
+          "kind": "map_is",
+          "mapId": 101
+        }
+      ],
+      "effects": [],
+      "reactions": [
+        {
+          "id": "reaction_1",
+          "trigger": {
+            "type": "npc_interact"
+          },
+          "requirements": [
+            {
+              "kind": "npc_is",
+              "npcId": 3004
+            },
+            {
+              "kind": "map_is",
+              "mapId": 101
+            },
+            {
+              "kind": "subtype_is",
+              "subtype": 8
+            },
+            {
+              "kind": "script_is",
+              "scriptId": 51
+            }
+          ],
+          "effects": [
+            {
+              "kind": "remove_item",
+              "item": {
+                "templateId": 21123,
+                "quantity": 1,
+                "name": "Candy's Recommendation"
+              }
+            },
+            {
+              "kind": "grant_item",
+              "idempotent": true,
+              "item": {
+                "templateId": 21001,
+                "quantity": 1,
+                "name": "Scholar's Letter"
+              }
+            }
+          ]
+        }
+      ],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3004,
+        "overNpcId": 3004,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "turn_in",
+      "description": "Bring \"Scholar's Letter\" to \"Idler\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3005
+        },
+        {
+          "kind": "map_is",
+          "mapId": 101
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21001,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21001,
+            "quantity": 1,
+            "name": "Scholar's Letter"
+          }
+        },
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21124,
+            "quantity": 1,
+            "name": "Special Wine"
+          }
+        }
+      ],
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3005,
+        "overNpcId": 3005,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "turn_in",
+      "description": "Bring \"Special Wine\" to \"Grandpa\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3023
+        },
+        {
+          "kind": "map_is",
+          "mapId": 103
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21124,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21124,
+            "quantity": 1,
+            "name": "Special Wine"
+          }
+        }
+      ],
+      "nextStepId": "step_4",
+      "client": {
+        "markerNpcId": 3023,
+        "overNpcId": 3023,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 3,
+        "status": 3
+      }
+    },
+    {
+      "id": "step_4",
+      "kind": "kill",
+      "description": "Kill \"Little Boar\" \"Map 103\"£º\" \".\" \"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5106
+        },
+        {
+          "kind": "map_is",
+          "mapId": 103
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3023
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 103
+        }
+      ],
+      "effects": [],
+      "reactions": [
+        {
+          "id": "reaction_1",
+          "trigger": {
+            "type": "npc_interact"
+          },
+          "requirements": [
+            {
+              "kind": "map_is",
+              "mapId": 103
+            },
+            {
+              "kind": "subtype_is",
+              "subtype": 2
+            },
+            {
+              "kind": "script_is",
+              "scriptId": 10001
+            }
+          ],
+          "effects": [
+            {
+              "kind": "start_combat",
+              "monsterId": 5106,
+              "count": 1
+            }
+          ]
+        }
+      ],
+      "progress": {
+        "counter": "kill_51_4",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3023,
+        "overNpcId": 3023,
+        "taskType": 1,
+        "maxAward": 0,
+        "taskStep": 4,
+        "status": 4
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 1000,
+    "coins": 300,
+    "renown": 0,
+    "petByAptitudeBaseTemplateId": 2000,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

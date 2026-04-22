@@ -1,0 +1,86 @@
+{
+  "id": 35,
+  "name": "Crane Pass Victory",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 18
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 20
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3163
+      },
+      {
+        "kind": "map_is",
+        "mapId": 108
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill Crane Pass Guardian in Crane Pass(88.109)",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5020
+        },
+        {
+          "kind": "map_is",
+          "mapId": 138
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3229
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 138
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_35_1",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3229,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 500,
+    "experience": 4000,
+    "coins": 1500,
+    "renown": 0,
+    "pets": [],
+    "items": [
+      {
+        "templateId": 23046,
+        "quantity": 1,
+        "name": "Green Jade"
+      }
+    ],
+    "choiceGroups": []
+  }
+}

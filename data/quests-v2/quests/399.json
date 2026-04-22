@@ -1,0 +1,150 @@
+{
+  "id": 399,
+  "name": "Zodiac Order",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 27
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 395
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3084
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 132
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill \"Specter\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5217
+        },
+        {
+          "kind": "map_is",
+          "mapId": 132
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3084
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 132
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_399_1",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3084,
+        "overNpcId": 3084,
+        "taskType": 1,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "collect",
+      "description": "Kill \"Apparition\" and obtain \"Zodiac Brand\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5216
+        },
+        {
+          "kind": "map_is",
+          "mapId": 132
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3084
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 132
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21055,
+          "quantity": 1
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21055,
+            "quantity": 1,
+            "name": "Zodiac Brand"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21055,
+            "quantity": 1,
+            "name": "Zodiac Brand"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_399_2",
+        "target": 1,
+        "eventValue": "one"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3084,
+        "overNpcId": 3084,
+        "taskType": 4,
+        "maxAward": 1,
+        "taskStep": 2,
+        "status": 2
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 1500,
+    "experience": 10000,
+    "coins": 1500,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

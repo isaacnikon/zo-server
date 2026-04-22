@@ -1,0 +1,165 @@
+{
+  "id": 88,
+  "name": "Hell Pass Adventure",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 94
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 87
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3771
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "talk",
+      "description": "Speak with \"Granny\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3773
+        },
+        {
+          "kind": "map_is",
+          "mapId": 212
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3773,
+        "overNpcId": 3773,
+        "taskType": 32,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "talk",
+      "description": "Speak with \"God of Venus\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3751
+        },
+        {
+          "kind": "map_is",
+          "mapId": 204
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3751,
+        "overNpcId": 3751,
+        "taskType": 32,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "talk",
+      "description": "Speak with \"Triumph Sprite\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3774
+        },
+        {
+          "kind": "map_is",
+          "mapId": 130
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_4",
+      "client": {
+        "markerNpcId": 3774,
+        "overNpcId": 3774,
+        "taskType": 32,
+        "maxAward": 0,
+        "taskStep": 3,
+        "status": 3
+      }
+    },
+    {
+      "id": "step_4",
+      "kind": "kill",
+      "description": "Kill \"Hell Keeper\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5589
+        },
+        {
+          "kind": "map_is",
+          "mapId": 152
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3775
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 152
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_88_4",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3775,
+        "overNpcId": 3775,
+        "taskType": 1,
+        "maxAward": 0,
+        "taskStep": 4,
+        "status": 4
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 20000,
+    "experience": 20000000,
+    "coins": 60000,
+    "renown": 300,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

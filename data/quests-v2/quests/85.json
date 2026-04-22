@@ -1,0 +1,178 @@
+{
+  "id": 85,
+  "name": "West Pass War",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 90
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 84
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3751
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 210
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "talk",
+      "description": "Defeat \"Shadow Bear\" with Nalory",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3751
+        },
+        {
+          "kind": "map_is",
+          "mapId": 210
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3751,
+        "overNpcId": 3751,
+        "taskType": 1,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "talk",
+      "description": "Find the point and stick flag at the coordinates, you will get \"Npc 21383\" .Then bring \"Npc 21383\" to \"God of Venus\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3751
+        },
+        {
+          "kind": "map_is",
+          "mapId": 210
+        }
+      ],
+      "effects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21384,
+            "quantity": 1,
+            "name": "Heavenly Flag"
+          }
+        }
+      ],
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3751,
+        "overNpcId": 3751,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "kill",
+      "description": "Kill \"Taoist\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5584
+        },
+        {
+          "kind": "map_is",
+          "mapId": 210
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3757
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 210
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_85_3",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": "step_4",
+      "client": {
+        "markerNpcId": 3757,
+        "overNpcId": 3757,
+        "taskType": 1,
+        "maxAward": 0,
+        "taskStep": 3,
+        "status": 3
+      }
+    },
+    {
+      "id": "step_4",
+      "kind": "talk",
+      "description": "Return to \"God of Venus\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3751
+        },
+        {
+          "kind": "map_is",
+          "mapId": 210
+        }
+      ],
+      "effects": [],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3751,
+        "overNpcId": 3751,
+        "taskType": 32,
+        "maxAward": 0,
+        "taskStep": 4,
+        "status": 4
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 20000,
+    "experience": 16000000,
+    "coins": 60000,
+    "renown": 300,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

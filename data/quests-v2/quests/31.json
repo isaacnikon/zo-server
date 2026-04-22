@@ -1,0 +1,82 @@
+{
+  "id": 31,
+  "name": "Secret Passport",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 44
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 43
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3044
+      },
+      {
+        "kind": "map_is",
+        "mapId": 111
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Bring Family Letter to Waiter in Timber Town",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3311
+        },
+        {
+          "kind": "map_is",
+          "mapId": 220
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21313,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21313,
+            "quantity": 1,
+            "name": "Family Letter"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3311,
+        "overNpcId": 3311,
+        "taskType": 0,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 30000,
+    "coins": 2000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

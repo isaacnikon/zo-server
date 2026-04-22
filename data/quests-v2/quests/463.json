@@ -1,0 +1,81 @@
+{
+  "id": 463,
+  "name": "Flying Little Mouse",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 57
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3366
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 238
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Capture one \"Little Bat\" for \"Alexander\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3366
+        },
+        {
+          "kind": "map_is",
+          "mapId": 238
+        },
+        {
+          "kind": "captured_monster_count_at_least",
+          "monsterId": 5235,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_captured_monster_item",
+          "monsterId": 5235,
+          "quantity": 1,
+          "templateId": 29001,
+          "name": "Mob Flask Lv.1"
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3366,
+        "overNpcId": 3366,
+        "taskType": 16,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 3000,
+    "experience": 100000,
+    "coins": 3000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

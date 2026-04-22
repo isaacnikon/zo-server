@@ -1,0 +1,242 @@
+{
+  "id": 52,
+  "name": "Dementor",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 68
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 49
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3155
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 249
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21176,
+          "quantity": 1,
+          "name": "Soul Absorber's Memory"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Borrow Dragon-Fire Shell Info from Superme Taoist",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3155
+        },
+        {
+          "kind": "map_is",
+          "mapId": 249
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21175,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21175,
+            "quantity": 1,
+            "name": "Dragon-Fire Shell Info"
+          }
+        }
+      ],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3155,
+        "overNpcId": 3155,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "turn_in",
+      "description": "Take Soul Absorber's Memory to find Evil Cat",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3138
+        },
+        {
+          "kind": "map_is",
+          "mapId": 242
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21176,
+          "quantity": 1
+        }
+      ],
+      "reactions": [
+        {
+          "id": "reaction_1",
+          "trigger": {
+            "type": "npc_interact"
+          },
+          "requirements": [
+            {
+              "kind": "npc_is",
+              "npcId": 3155
+            },
+            {
+              "kind": "map_is",
+              "mapId": 169
+            }
+          ],
+          "effects": [
+            {
+              "kind": "grant_item",
+              "idempotent": true,
+              "item": {
+                "templateId": 21176,
+                "quantity": 1,
+                "name": "Soul Absorber's Memory"
+              }
+            }
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21176,
+            "quantity": 1,
+            "name": "Soul Absorber's Memory"
+          }
+        }
+      ],
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3138,
+        "overNpcId": 3138,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "escort",
+      "description": "Escort injured Evil Cat back to God of Kitchen",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3138
+        },
+        {
+          "kind": "map_is",
+          "mapId": 242
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_4",
+      "client": {
+        "markerNpcId": 3155,
+        "overNpcId": 3155,
+        "taskRoleNpcId": 3138,
+        "taskType": 8,
+        "maxAward": 0,
+        "taskStep": 3,
+        "status": 3
+      }
+    },
+    {
+      "id": "step_4",
+      "kind": "kill",
+      "description": "Kill Soul Absorber",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5115
+        },
+        {
+          "kind": "map_is",
+          "mapId": 249
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3155
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 249
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_52_4",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3155,
+        "overNpcId": 3155,
+        "taskType": 1,
+        "maxAward": 1,
+        "taskStep": 4,
+        "status": 4
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 10000,
+    "experience": 2000000,
+    "coins": 10000,
+    "renown": 300,
+    "pets": [],
+    "items": [
+      {
+        "templateId": 5116,
+        "quantity": 1
+      }
+    ],
+    "choiceGroups": []
+  }
+}

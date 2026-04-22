@@ -1,0 +1,96 @@
+{
+  "id": 84,
+  "name": "Unexpected War",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 86
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 65
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3457
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "talk",
+      "description": "At your 90 level, go to speak with \"Norman\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3414
+        },
+        {
+          "kind": "map_is",
+          "mapId": 204
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3414,
+        "overNpcId": 3414,
+        "taskType": 32,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "talk",
+      "description": "Travel to \"Map 210\" to speak with \"God of Venus\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3751
+        },
+        {
+          "kind": "map_is",
+          "mapId": 210
+        }
+      ],
+      "effects": [],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3751,
+        "overNpcId": 3751,
+        "taskType": 32,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 2000,
+    "experience": 1000000,
+    "coins": 20000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

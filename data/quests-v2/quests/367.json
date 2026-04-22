@@ -1,0 +1,81 @@
+{
+  "id": 367,
+  "name": "Evil Giant Bear",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 22
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3022
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 112
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill 10 noisy \"Giant Bear\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5063
+        },
+        {
+          "kind": "map_is",
+          "mapId": 112
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3022
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 112
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_367_1",
+        "target": 10,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3022,
+        "overNpcId": 3022,
+        "taskType": 1,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 3200,
+    "experience": 1000,
+    "coins": 1000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

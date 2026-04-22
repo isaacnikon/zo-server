@@ -1,0 +1,85 @@
+{
+  "id": 398,
+  "name": "Unexpected Help",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 27
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 399
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3083
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 132
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill \"Revenant\"-Butterfly Peak(93.107)",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5081
+        },
+        {
+          "kind": "map_is",
+          "mapId": 132
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3083
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 132
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_398_1",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3083,
+        "overNpcId": 3083,
+        "taskType": 1,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 12000,
+    "coins": 1500,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

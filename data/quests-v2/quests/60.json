@@ -1,0 +1,150 @@
+{
+  "id": 60,
+  "name": "Anxious Thunder God",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 78
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 59
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3452
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "talk",
+      "description": "At your 82 level, go to Lotus Peak to speak with \"Thunder God\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3453
+        },
+        {
+          "kind": "map_is",
+          "mapId": 165
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3453,
+        "overNpcId": 3453,
+        "taskType": 32,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "kill",
+      "description": "Kill \"Roaring Dog\" and save Jerry",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5301
+        },
+        {
+          "kind": "map_is",
+          "mapId": 165
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3453
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 165
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_60_2",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3453,
+        "overNpcId": 3453,
+        "taskType": 1,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "kill",
+      "description": "Speak with \"Jerry\" and kill \"Jerry\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5304
+        },
+        {
+          "kind": "map_is",
+          "mapId": 165
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3453
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 165
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_60_3",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3453,
+        "overNpcId": 3453,
+        "taskType": 1,
+        "maxAward": 1,
+        "taskStep": 3,
+        "status": 3
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 10000,
+    "experience": 10000000,
+    "coins": 20000,
+    "renown": 300,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

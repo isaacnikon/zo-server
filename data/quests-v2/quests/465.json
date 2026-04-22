@@ -1,0 +1,115 @@
+{
+  "id": 465,
+  "name": "Breaking His Words",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 65
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3379
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 166
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 23086,
+          "quantity": 1,
+          "name": "Yellow Clay"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "collect",
+      "description": "Kill \"One-eyed Beast\" to get 10 \"Yellow Clay\" and submit to \"Longicorn King\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5246
+        },
+        {
+          "kind": "map_is",
+          "mapId": 210
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3132
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 211
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 23086,
+          "quantity": 10
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 23086,
+            "quantity": 1,
+            "name": "Yellow Clay"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 23086,
+            "quantity": 10,
+            "name": "Yellow Clay"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_465_1",
+        "target": 10,
+        "eventValue": "one"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3132,
+        "overNpcId": 3132,
+        "taskType": 4,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 0,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

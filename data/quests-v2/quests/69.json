@@ -1,0 +1,113 @@
+{
+  "id": 69,
+  "name": "Giant Icicles",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 70
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 58
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3492
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 182
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "talk",
+      "description": "Speak with Melody",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3492
+        },
+        {
+          "kind": "map_is",
+          "mapId": 182
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3492,
+        "overNpcId": 3492,
+        "taskType": 32,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "kill",
+      "description": "Kill \"Ice Soul\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5470
+        },
+        {
+          "kind": "map_is",
+          "mapId": 182
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3492
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 182
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_69_2",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3492,
+        "overNpcId": 3492,
+        "taskType": 1,
+        "maxAward": 1,
+        "taskStep": 2,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 4000,
+    "experience": 1000000,
+    "coins": 10000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

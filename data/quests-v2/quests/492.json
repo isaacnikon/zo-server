@@ -1,0 +1,104 @@
+{
+  "id": 492,
+  "name": "Kind Elaine",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 82
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 491
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3403
+      },
+      {
+        "kind": "map_is",
+        "mapId": 119
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "collect",
+      "description": "Travel to \"White Dew Snowland\" to kill \"Snow Wolf\" and collect 10 \"Snow Wolf Leather\" to \"Mount Spirit\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5263
+        },
+        {
+          "kind": "map_is",
+          "mapId": 119
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3402
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 119
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 23103,
+          "quantity": 10
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 23103,
+            "quantity": 1,
+            "name": "Snow Wolf Leather"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 23103,
+            "quantity": 10,
+            "name": "Snow Wolf Leather"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_492_1",
+        "target": 10,
+        "eventValue": "one"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3402,
+        "taskType": 4,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 0,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

@@ -11,11 +11,15 @@
     "dev": "bash -lc 'export PATH=/app/node_modules/.bin:$PATH; npm run build && tsc -w -p tsconfig.json --preserveWatchOutput & TSC_PID=$!; trap \"kill $TSC_PID\" EXIT INT TERM; node --watch dist/src/server.js'",
     "start": "node dist/src/server.js",
     "test": "tsc --noEmit -p tsconfig.json",
+    "quest2:split": "node scripts/split-quest2-definitions.mjs",
+    "quest2:merge": "node scripts/merge-quest2-definitions.mjs",
     "db:import:static": "node dist/scripts/import-static-json-to-db.js --apply",
-    "db:import:quest2": "node dist/scripts/import-quest2-json-to-db.js --apply",
+    "db:import:quest2": "npm run quest2:merge && node dist/scripts/import-quest2-json-to-db.js --apply",
     "db:import:static:purge": "node dist/scripts/import-static-json-to-db.js --apply --delete-files",
     "db:import:characters": "node dist/scripts/migrate-character-json-to-db.js --apply",
     "db:import:all": "npm run db:import:static && npm run db:import:quest2 && npm run db:import:characters",
+    "inspect:quest2": "node dist/scripts/inspect-quest2.js",
+    "compare:quest-guide": "node dist/scripts/compare-quest-guide.js",
     "reset:character": "npm run build && node dist/scripts/reset-character.js"
   }
 }

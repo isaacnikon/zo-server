@@ -1,0 +1,114 @@
+{
+  "id": 36,
+  "name": "Goal Manor Immortal",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 18
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 21
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3022
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 112
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "talk",
+      "description": "At your 20 level, travel to \"Map 131\" to speak with \"Flap-eared Pig\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3042
+        },
+        {
+          "kind": "map_is",
+          "mapId": 131
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3042,
+        "overNpcId": 3042,
+        "taskType": 32,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "turn_in",
+      "description": "Bring \"Commander\"'s \"Letter of Request\" to \"Flap-eared Pig\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3042
+        },
+        {
+          "kind": "map_is",
+          "mapId": 131
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21138,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21138,
+            "quantity": 1,
+            "name": "Info on Plague"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3044,
+        "overNpcId": 3044,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 2000,
+    "coins": 1000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "id": 359,
+  "name": "The Baby Wolf",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 9
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 355
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3174
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 102
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "collect",
+      "description": "Gather some \"Boar Meat\" for the baby wolves.",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5003
+        },
+        {
+          "kind": "map_is",
+          "mapId": 102
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3174
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 102
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21109,
+          "quantity": 3
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21109,
+            "quantity": 1,
+            "name": "Boar Meat"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21109,
+            "quantity": 3,
+            "name": "Boar Meat"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_359_1",
+        "target": 3,
+        "eventValue": "one"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3174,
+        "overNpcId": 3174,
+        "taskType": 4,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 1550,
+    "experience": 0,
+    "coins": 1550,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "gold": 1550,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      }
+    ]
+  }
+}

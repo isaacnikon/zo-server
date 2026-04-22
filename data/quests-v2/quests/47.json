@@ -1,0 +1,318 @@
+{
+  "id": 47,
+  "name": "Adventure in Longicorn State",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 55
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 83
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3283
+      },
+      {
+        "kind": "map_is",
+        "mapId": 242
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill 2 Longicorn Patrolmen",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5135
+        },
+        {
+          "kind": "map_is",
+          "mapId": 242
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3283
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 242
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_47_1",
+        "target": 2,
+        "eventValue": "count"
+      },
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3283,
+        "overNpcId": 3283,
+        "taskType": 1,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "turn_in",
+      "description": "Bring Crop Info to Governor",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3135
+        },
+        {
+          "kind": "map_is",
+          "mapId": 169
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21147,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21147,
+            "quantity": 1,
+            "name": "Crop Info"
+          }
+        }
+      ],
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3135,
+        "overNpcId": 3135,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "collect",
+      "description": "Enter Longicorn Hole and kill Longicorn Beetle to obtain 10 Crop",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5136
+        },
+        {
+          "kind": "map_is",
+          "mapId": 238
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3135
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 169
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21148,
+          "quantity": 10
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21148,
+            "quantity": 1,
+            "name": "Crop"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21148,
+            "quantity": 10,
+            "name": "Crop"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_47_3",
+        "target": 10,
+        "eventValue": "one"
+      },
+      "nextStepId": "step_4",
+      "client": {
+        "markerNpcId": 3135,
+        "overNpcId": 3135,
+        "taskType": 4,
+        "maxAward": 0,
+        "taskStep": 3,
+        "status": 3
+      }
+    },
+    {
+      "id": "step_4",
+      "kind": "turn_in",
+      "description": "Take Invitation Card to Longicorn King",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3132
+        },
+        {
+          "kind": "map_is",
+          "mapId": 211
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21149,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21149,
+            "quantity": 1,
+            "name": "Invitation Card"
+          }
+        }
+      ],
+      "nextStepId": "step_5",
+      "client": {
+        "markerNpcId": 3132,
+        "overNpcId": 3132,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 4,
+        "status": 4
+      }
+    },
+    {
+      "id": "step_5",
+      "kind": "turn_in",
+      "description": "Bring Ticket for Finals to Longicorn King",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3132
+        },
+        {
+          "kind": "map_is",
+          "mapId": 211
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21150,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21150,
+            "quantity": 1,
+            "name": "Ticket for Finals"
+          }
+        }
+      ],
+      "nextStepId": "step_6",
+      "client": {
+        "markerNpcId": 3132,
+        "overNpcId": 3132,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 5,
+        "status": 5
+      }
+    },
+    {
+      "id": "step_6",
+      "kind": "kill",
+      "description": "Kill Longicorn King",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5149
+        },
+        {
+          "kind": "map_is",
+          "mapId": 211
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3173
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 211
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_47_6",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3173,
+        "overNpcId": 3173,
+        "taskType": 1,
+        "maxAward": 1,
+        "taskStep": 6,
+        "status": 6
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 6000,
+    "experience": 600000,
+    "coins": 6000,
+    "renown": 240,
+    "pets": [],
+    "items": [
+      {
+        "templateId": 5115,
+        "quantity": 1
+      }
+    ],
+    "choiceGroups": []
+  }
+}

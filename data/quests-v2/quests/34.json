@@ -1,0 +1,146 @@
+{
+  "id": 34,
+  "name": "The Comeback",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 14
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 8
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3036
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 163
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21007,
+          "quantity": 1,
+          "name": "Forgotten Pendant"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Bring Bonnie's \"Forgotten Pendant\" to Franklin",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3118
+        },
+        {
+          "kind": "map_is",
+          "mapId": 112
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21007,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21007,
+            "quantity": 1,
+            "name": "Forgotten Pendant"
+          }
+        },
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21131,
+            "quantity": 1,
+            "name": "Bonnie's Memory"
+          }
+        }
+      ],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3118,
+        "overNpcId": 3118,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "turn_in",
+      "description": "Ar you 18 level, go to speak with \"Commander\" Quest reward: Experience: 2000 Gold: 400 Coin: 800 Item: \"Bonnie's Pendant\" Quest Description: After getting back to consciousness, Franklin told you his love story in Orchid Temple. He met Bonnie in the temple. He is just a mortal who has no magic power. He can not save Ahriman-possessed Bonnie. But he hopes that there are someone who can help him to save his beloved in Orchid Temple. Tip: Complete \"Task 7\" ¡¡¡¡¡¡¡¡¡¡Soul of Bonnie will appear at night. ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ <204000><0>Previous ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ <200001><0>Back",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3022
+        },
+        {
+          "kind": "map_is",
+          "mapId": 112
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 8011,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 8011,
+            "quantity": 1,
+            "name": "Bonnie's Pendant"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3022,
+        "overNpcId": 3022,
+        "taskType": 1,
+        "maxAward": 1,
+        "taskStep": 2,
+        "status": 2
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 0,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

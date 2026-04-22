@@ -1,0 +1,119 @@
+{
+  "id": 453,
+  "name": "The Suffering",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 50
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 452
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3278
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 169
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21234,
+          "quantity": 1,
+          "name": "Purple Block"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "collect",
+      "description": "Kill \"Tree Spirit\" to obtain \"Purple Block\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 3362
+        },
+        {
+          "kind": "map_is",
+          "mapId": 169
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3353
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 169
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21234,
+          "quantity": 1
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21234,
+            "quantity": 1,
+            "name": "Purple Block"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21234,
+            "quantity": 1,
+            "name": "Purple Block"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_453_1",
+        "target": 1,
+        "eventValue": "one"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3353,
+        "overNpcId": 3353,
+        "taskType": 4,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 80000,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

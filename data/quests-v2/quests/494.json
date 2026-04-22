@@ -1,0 +1,82 @@
+{
+  "id": 494,
+  "name": "The Curse",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 91
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 493
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3402
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Collect 10 \"Nectar\" from Ghost Fire and bring them to \"Bob\" to heal his blindness",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3404
+        },
+        {
+          "kind": "map_is",
+          "mapId": 119
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21266,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21266,
+            "quantity": 1,
+            "name": "Nectar"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3404,
+        "overNpcId": 3404,
+        "taskType": 32,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 0,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

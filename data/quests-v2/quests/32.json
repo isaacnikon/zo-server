@@ -1,0 +1,107 @@
+{
+  "id": 32,
+  "name": "Cosmos Spook",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 44
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3033
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 112
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill \"Cosmos Spook\" in Cloud City(63.437)",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5013
+        },
+        {
+          "kind": "map_is",
+          "mapId": 112
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3033
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 112
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_32_1",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3033,
+        "overNpcId": 3033,
+        "taskType": 1,
+        "maxAward": 3,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 2000,
+    "experience": 1200,
+    "coins": 3000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "gold": 0,
+        "experience": 1200,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 5102,
+            "quantity": 1,
+            "name": "Treasures Club"
+          },
+          {
+            "templateId": 5103,
+            "quantity": 1,
+            "name": "Purple Club"
+          },
+          {
+            "templateId": 5104,
+            "quantity": 1,
+            "name": "Emerald Club"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "id": 8,
+  "name": "Magical Adventure",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 14
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 7
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3118
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 112
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "find_bonnie",
+      "kind": "talk",
+      "description": "Locate Bonnie at Orchid Temple at night.",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3036
+        },
+        {
+          "kind": "map_is",
+          "mapId": 163
+        }
+      ],
+      "effects": [],
+      "nextStepId": "defeat_ahriman_lord",
+      "client": {
+        "markerNpcId": 3036,
+        "overNpcId": 3036,
+        "taskType": 32,
+        "maxAward": 0,
+        "taskStep": 1
+      }
+    },
+    {
+      "id": "defeat_ahriman_lord",
+      "kind": "kill",
+      "description": "Kill \"Ahriman Lord\" at Orchid Temple.",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5099
+        },
+        {
+          "kind": "map_is",
+          "mapId": 163
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3036
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 163
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "ahriman_lord_kills",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3036,
+        "overNpcId": 3036,
+        "taskType": 1,
+        "maxAward": 2,
+        "taskStep": 3,
+        "status": 2
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 800,
+    "experience": 800,
+    "coins": 1200,
+    "renown": 40,
+    "pets": [],
+    "items": [
+      {
+        "templateId": 10102,
+        "quantity": 1,
+        "name": "Universal Cap"
+      }
+    ],
+    "choiceGroups": []
+  }
+}

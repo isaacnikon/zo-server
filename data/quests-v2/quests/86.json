@@ -1,0 +1,169 @@
+{
+  "id": 86,
+  "name": "North Pass War",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 90
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 85
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3751
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 210
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "talk",
+      "description": "At your 92 level, go to speak with \"God of Venus\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3751
+        },
+        {
+          "kind": "map_is",
+          "mapId": 210
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3751,
+        "overNpcId": 3751,
+        "taskType": 1,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "talk",
+      "description": "Speak with \"Nalory\" at front line",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3754
+        },
+        {
+          "kind": "map_is",
+          "mapId": 212
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3754,
+        "overNpcId": 3754,
+        "taskType": 32,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "kill",
+      "description": "Kill \"Thunder Beast\" ºÍ \"Lightning Beast\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5585
+        },
+        {
+          "kind": "map_is",
+          "mapId": 212
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3754
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 212
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_86_3",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": "step_4",
+      "client": {
+        "markerNpcId": 3754,
+        "overNpcId": 3754,
+        "taskType": 1,
+        "maxAward": 0,
+        "taskStep": 3,
+        "status": 3
+      }
+    },
+    {
+      "id": "step_4",
+      "kind": "talk",
+      "description": "Speak with \"God of Venus\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3751
+        },
+        {
+          "kind": "map_is",
+          "mapId": 210
+        }
+      ],
+      "effects": [],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3751,
+        "overNpcId": 3751,
+        "taskType": 32,
+        "maxAward": 0,
+        "taskStep": 4,
+        "status": 4
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 20000,
+    "experience": 18000000,
+    "coins": 60000,
+    "renown": 300,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

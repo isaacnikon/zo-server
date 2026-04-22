@@ -1,0 +1,82 @@
+{
+  "id": 58,
+  "name": "Farewell to Jessica",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 68
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 57
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3120
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "escort",
+      "description": "At your 70 Level, go to speak with \"Governor\" Quest Description:With the help of Zodiac Eudemon, you have successfully run out of the gate. But from Night Owl and Soul Judge's face told you that something unexpected happened. Go to check on Jessica at the Governor's. She may need your help. ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ <210000><0>Previous ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ <200001><0>Back",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3135
+        },
+        {
+          "kind": "map_is",
+          "mapId": 169
+        }
+      ],
+      "effects": [],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3135,
+        "overNpcId": 3135,
+        "taskRoleNpcId": 3173,
+        "taskType": 8,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1,
+        "trackerScriptIds": [
+          58
+        ]
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 20000,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "gold": 0,
+        "experience": 20000,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": []
+      }
+    ]
+  }
+}

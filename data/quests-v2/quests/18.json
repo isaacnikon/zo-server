@@ -1,0 +1,164 @@
+{
+  "id": 18,
+  "name": "Old Friend",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 20
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 36
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3162
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 120
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill vicious \"Spider Overlord\"£­Cobweb Woods(60.229)",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5059
+        },
+        {
+          "kind": "map_is",
+          "mapId": 120
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3162
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 120
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_18_1",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3162,
+        "overNpcId": 3162,
+        "taskType": 1,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "talk",
+      "description": "Tell Flap-eared Pig that Geralyn has returned safely.",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3042
+        },
+        {
+          "kind": "map_is",
+          "mapId": 131
+        }
+      ],
+      "effects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21101,
+            "quantity": 1,
+            "name": "Transformed Cabbage"
+          }
+        }
+      ],
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3042,
+        "overNpcId": 3042,
+        "taskType": 32,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "turn_in",
+      "description": "Bring \"Transformed Cabbage\" to Geralyn",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3162
+        },
+        {
+          "kind": "map_is",
+          "mapId": 264
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21101,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21101,
+            "quantity": 1,
+            "name": "Transformed Cabbage"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3162,
+        "overNpcId": 3162,
+        "taskType": 2,
+        "maxAward": 2,
+        "taskStep": 3,
+        "status": 3
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 800,
+    "experience": 3000,
+    "coins": 2000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

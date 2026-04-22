@@ -1,0 +1,101 @@
+{
+  "id": 457,
+  "name": "Lonely Heart",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 52
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 456
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3356
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 114
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Capture a \"Iron Crab\" for \"White Dragon\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3356
+        },
+        {
+          "kind": "map_is",
+          "mapId": 114
+        },
+        {
+          "kind": "captured_monster_count_at_least",
+          "monsterId": 5199,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_captured_monster_item",
+          "monsterId": 5199,
+          "quantity": 1,
+          "templateId": 29001,
+          "name": "Mob Flask Lv.1"
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3356,
+        "overNpcId": 3356,
+        "taskType": 16,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 30000,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "gold": 0,
+        "experience": 0,
+        "coins": 0,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 21238,
+            "quantity": 1,
+            "name": "Dragon Scale"
+          }
+        ]
+      }
+    ]
+  }
+}

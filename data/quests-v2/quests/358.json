@@ -1,0 +1,81 @@
+{
+  "id": 358,
+  "name": "Fake It to Make It",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 16
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3059
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 112
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill \"Zombie\"-Cloud City(89.369)",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5126
+        },
+        {
+          "kind": "map_is",
+          "mapId": 112
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3059
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 112
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_358_1",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3059,
+        "overNpcId": 3059,
+        "taskType": 1,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 800,
+    "experience": 2400,
+    "coins": 800,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

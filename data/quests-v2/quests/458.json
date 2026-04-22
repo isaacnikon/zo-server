@@ -1,0 +1,124 @@
+{
+  "id": 458,
+  "name": "Blood Is Thicker",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 52
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 457
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3347
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 240
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21239,
+          "quantity": 1,
+          "name": "Fragile Wings"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "´ò°Ü \"Beatle Soldier\" Bring 15 \"Fragile Wings\" to \"White Dragon\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3356
+        },
+        {
+          "kind": "map_is",
+          "mapId": 114
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21239,
+          "quantity": 15
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21239,
+            "quantity": 15,
+            "name": "Fragile Wings"
+          }
+        }
+      ],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3356,
+        "overNpcId": 3356,
+        "taskType": 4,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "talk",
+      "description": "Defeat \"Old Shaikh\" and see see how he will react",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3361
+        },
+        {
+          "kind": "map_is",
+          "mapId": 114
+        }
+      ],
+      "effects": [],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3361,
+        "overNpcId": 3361,
+        "taskType": 1,
+        "maxAward": 1,
+        "taskStep": 2,
+        "status": 2
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 300000,
+    "coins": 0,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

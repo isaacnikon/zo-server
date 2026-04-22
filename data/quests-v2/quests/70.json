@@ -1,0 +1,235 @@
+{
+  "id": 70,
+  "name": "Apprenticeship",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 1
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3022
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 112
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21034,
+          "quantity": 1,
+          "name": "Commander's Letter"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "turn_in",
+      "description": "Bring \"Commander's Letter\" to \"Freddie\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3080
+        },
+        {
+          "kind": "map_is",
+          "mapId": 112
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21034,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21034,
+            "quantity": 1,
+            "name": "Commander's Letter"
+          }
+        }
+      ],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3080,
+        "overNpcId": 3080,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "talk",
+      "description": "Speak with \"Housewife\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3089
+        },
+        {
+          "kind": "map_is",
+          "mapId": 112
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3089,
+        "overNpcId": 3089,
+        "taskType": 32,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "talk",
+      "description": "Speak with \"M/A Manager\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3110
+        },
+        {
+          "kind": "map_is",
+          "mapId": 112
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_4",
+      "client": {
+        "markerNpcId": 3110,
+        "overNpcId": 3110,
+        "taskType": 32,
+        "maxAward": 0,
+        "taskStep": 3,
+        "status": 3
+      }
+    },
+    {
+      "id": "step_4",
+      "kind": "kill",
+      "description": "Kill \"Lizard\"¡Á10",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5036
+        },
+        {
+          "kind": "map_is",
+          "mapId": 112
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3110
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 112
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_70_4",
+        "target": 10,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3110,
+        "overNpcId": 3110,
+        "taskType": 1,
+        "maxAward": 3,
+        "taskStep": 4,
+        "status": 4
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 500,
+    "experience": 1500,
+    "coins": 1000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "gold": 500,
+        "experience": 1500,
+        "coins": 1000,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 5102,
+            "quantity": 1,
+            "name": "Treasures Club"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "gold": 500,
+        "experience": 1500,
+        "coins": 1000,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 5103,
+            "quantity": 1,
+            "name": "Purple Club"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "gold": 500,
+        "experience": 1500,
+        "coins": 1000,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 5104,
+            "quantity": 1,
+            "name": "Emerald Club"
+          }
+        ]
+      }
+    ]
+  }
+}

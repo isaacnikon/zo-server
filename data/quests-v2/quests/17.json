@@ -1,0 +1,85 @@
+{
+  "id": 17,
+  "name": "Giant Peach",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 24
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 16
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3218
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 146
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill \"Giant Peach\"£­Willow Forest(228.46)",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5040
+        },
+        {
+          "kind": "map_is",
+          "mapId": 146
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3218
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 146
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_17_1",
+        "target": 1,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3218,
+        "overNpcId": 3218,
+        "taskType": 1,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 3000,
+    "experience": 20000,
+    "coins": 3000,
+    "renown": 80,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

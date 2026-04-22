@@ -1,0 +1,201 @@
+{
+  "id": 1,
+  "name": "Back to Earth",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 1
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3054
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 101
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21098,
+          "quantity": 1,
+          "name": "Zodiac Recommendation Token"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "meet_blacksmith",
+      "kind": "talk",
+      "description": "Bring Zodiac Recommendation Token to BlackSmith at the entrance to the village.",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3276
+        },
+        {
+          "kind": "map_is",
+          "mapId": 101
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21098,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21098,
+            "quantity": 1,
+            "name": "Zodiac Recommendation Token"
+          }
+        }
+      ],
+      "nextStepId": "bring_timber",
+      "client": {
+        "markerNpcId": 3276,
+        "overNpcId": 3276,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 1
+      }
+    },
+    {
+      "id": "bring_timber",
+      "kind": "talk",
+      "description": "Bring some \"Timber\" to Blacksmith from Woodman.",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3276
+        },
+        {
+          "kind": "map_is",
+          "mapId": 101
+        },
+        {
+          "kind": "flag_is",
+          "flag": "mattTalked",
+          "value": true
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21116,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21116,
+            "quantity": 1,
+            "name": "Timber"
+          }
+        }
+      ],
+      "reactions": [
+        {
+          "id": "matt_timber",
+          "trigger": {
+            "type": "npc_interact"
+          },
+          "requirements": [
+            {
+              "kind": "npc_is",
+              "npcId": 3029
+            },
+            {
+              "kind": "map_is",
+              "mapId": 101
+            },
+            {
+              "kind": "subtype_is",
+              "subtype": 2
+            },
+            {
+              "kind": "script_is",
+              "scriptId": 10000
+            }
+          ],
+          "effects": [
+            {
+              "kind": "set_flag",
+              "flag": "mattTalked",
+              "value": true
+            },
+            {
+              "kind": "grant_item",
+              "idempotent": true,
+              "item": {
+                "templateId": 21116,
+                "quantity": 1,
+                "name": "Timber"
+              }
+            }
+          ]
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3276,
+        "overNpcId": 3276,
+        "taskType": 2,
+        "maxAward": 1,
+        "taskStep": 2
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 0,
+    "experience": 100,
+    "coins": 100,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": [
+      {
+        "id": 1,
+        "label": "Default reward",
+        "gold": 0,
+        "experience": 100,
+        "coins": 100,
+        "renown": 0,
+        "pets": [],
+        "items": [
+          {
+            "templateId": 20001,
+            "quantity": 5,
+            "name": "Medicine"
+          },
+          {
+            "templateId": 20004,
+            "quantity": 5,
+            "name": "Heal Grass"
+          }
+        ]
+      }
+    ]
+  }
+}

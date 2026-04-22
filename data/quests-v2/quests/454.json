@@ -1,0 +1,81 @@
+{
+  "id": 454,
+  "name": "Plague of Locusts",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 52
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3344
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 169
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "kill",
+      "description": "Kill \"Locust\"¡Á20 and report to \"Guardian\"",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5240
+        },
+        {
+          "kind": "map_is",
+          "mapId": 169
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3344
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 169
+        }
+      ],
+      "effects": [],
+      "progress": {
+        "counter": "kill_454_1",
+        "target": 20,
+        "eventValue": "count"
+      },
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3344,
+        "overNpcId": 3344,
+        "taskType": 1,
+        "maxAward": 1,
+        "taskStep": 1,
+        "status": 1
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 3000,
+    "experience": 100000,
+    "coins": 3000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

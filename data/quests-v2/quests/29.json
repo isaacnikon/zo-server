@@ -1,0 +1,284 @@
+{
+  "id": 29,
+  "name": "Illness Beadroll",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 38
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 28
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3220
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 231
+      }
+    ],
+    "effects": [
+      {
+        "kind": "grant_item",
+        "idempotent": true,
+        "item": {
+          "templateId": 21140,
+          "quantity": 1,
+          "name": "Broken Tome 1"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "collect",
+      "description": "Kill \"Hoe Ghost\" to obtain \"Broken Tome 1\" .Then take it to Smith",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5145
+        },
+        {
+          "kind": "map_is",
+          "mapId": 231
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3220
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 231
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21140,
+          "quantity": 1
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21140,
+            "quantity": 1,
+            "name": "Broken Tome 1"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21140,
+            "quantity": 1,
+            "name": "Broken Tome 1"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_29_1",
+        "target": 1,
+        "eventValue": "one"
+      },
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3220,
+        "overNpcId": 3220,
+        "taskType": 4,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "collect",
+      "description": "Kill \"Muscular Nowt\" and obtain \"Broken Tome 2\" .Then bring it to Smith",
+      "trigger": {
+        "type": "monster_defeat"
+      },
+      "requirements": [
+        {
+          "kind": "monster_is",
+          "monsterId": 5157
+        },
+        {
+          "kind": "map_is",
+          "mapId": 231
+        },
+        {
+          "kind": "turn_in_npc_is",
+          "npcId": 3220
+        },
+        {
+          "kind": "turn_in_map_is",
+          "mapId": 231
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21141,
+          "quantity": 1
+        }
+      ],
+      "eventEffects": [
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21141,
+            "quantity": 1,
+            "name": "Broken Tome 2"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21141,
+            "quantity": 1,
+            "name": "Broken Tome 2"
+          }
+        },
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21142,
+            "quantity": 1,
+            "name": "Complete Tome"
+          }
+        }
+      ],
+      "progress": {
+        "counter": "collect_29_2",
+        "target": 1,
+        "eventValue": "one"
+      },
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3220,
+        "overNpcId": 3220,
+        "taskType": 4,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "turn_in",
+      "description": "Get \"Complete Tome\" and bring it to Fiend of Plague",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3053
+        },
+        {
+          "kind": "map_is",
+          "mapId": 214
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21142,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21142,
+            "quantity": 1,
+            "name": "Complete Tome"
+          }
+        },
+        {
+          "kind": "grant_item",
+          "item": {
+            "templateId": 21019,
+            "quantity": 1,
+            "name": "Royal Sword"
+          }
+        }
+      ],
+      "nextStepId": "step_4",
+      "client": {
+        "markerNpcId": 3053,
+        "overNpcId": 3053,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 3,
+        "status": 3
+      }
+    },
+    {
+      "id": "step_4",
+      "kind": "turn_in",
+      "description": "Bring \"Royal Sword\" and \"Elixir by Fiend of Plague\" to General Lee",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3044
+        },
+        {
+          "kind": "map_is",
+          "mapId": 111
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21019,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21019,
+            "quantity": 1,
+            "name": "Royal Sword"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3120,
+        "overNpcId": 3120,
+        "taskType": 2,
+        "maxAward": 0,
+        "taskStep": 3,
+        "status": 4
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 2000,
+    "experience": 200000,
+    "coins": 5000,
+    "renown": 160,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}

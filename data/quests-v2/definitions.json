@@ -212,7 +212,7 @@
         "requirements": [
           {
             "kind": "level_at_least",
-            "level": 1
+            "level": 78
           },
           {
             "kind": "quest_completed",
@@ -411,7 +411,7 @@
         "requirements": [
           {
             "kind": "level_at_least",
-            "level": 1
+            "level": 78
           },
           {
             "kind": "quest_completed",
@@ -564,7 +564,7 @@
         "requirements": [
           {
             "kind": "level_at_least",
-            "level": 1
+            "level": 78
           },
           {
             "kind": "quest_completed",
@@ -1235,7 +1235,7 @@
             "taskType": 1,
             "maxAward": 2,
             "taskStep": 3,
-            "status": 3
+            "status": 2
           }
         }
       ],
@@ -1283,7 +1283,7 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Bring  to",
+          "description": "Bring Capitulator's Command to Soul Judge",
           "trigger": {
             "type": "npc_interact"
           },
@@ -1365,7 +1365,7 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Bring  to",
+          "description": "Bring Snake Hairpin to Mrs. White",
           "trigger": {
             "type": "npc_interact"
           },
@@ -2252,7 +2252,7 @@
         {
           "id": "step_1",
           "kind": "talk",
-          "description": "Take General Lee's  to God of Rain",
+          "description": "Take General Lee's Royal Sword to God of Rain",
           "trigger": {
             "type": "npc_interact"
           },
@@ -2280,7 +2280,7 @@
         {
           "id": "step_2",
           "kind": "collect",
-          "description": "Speak with Mussel Fairy's Sister at Blurred Lake to get information of Rain Summoner. Then kill  Rain Summoner to get  to God of Rain",
+          "description": "Speak with Mussel Fairy's Sister at Blurred Lake to get information of Rain Summoner. Then kill Rain Summoner to get Ware for Rain of God and take it to God of Rain",
           "trigger": {
             "type": "monster_defeat"
           },
@@ -2389,7 +2389,7 @@
         {
           "id": "step_1",
           "kind": "talk",
-          "description": "At your 38 Level, go to speak with",
+          "description": "At your 38 Level, go to speak with General Lee",
           "trigger": {
             "type": "npc_interact"
           },
@@ -2417,7 +2417,7 @@
         {
           "id": "step_2",
           "kind": "turn_in",
-          "description": "Bring  to General Lee",
+          "description": "Bring Info on Plague to General Lee",
           "trigger": {
             "type": "npc_interact"
           },
@@ -2459,7 +2459,7 @@
         {
           "id": "step_3",
           "kind": "turn_in",
-          "description": "Bring  to Soul Judge",
+          "description": "Bring Royal Sword to Soul Judge",
           "trigger": {
             "type": "npc_interact"
           },
@@ -2501,7 +2501,7 @@
         {
           "id": "step_4",
           "kind": "talk",
-          "description": "Locate  in Belong Hell",
+          "description": "Locate Smith in Belong Hell",
           "trigger": {
             "type": "npc_interact"
           },
@@ -2816,7 +2816,7 @@
             "taskType": 2,
             "maxAward": 0,
             "taskStep": 3,
-            "status": 3
+            "status": 4
           }
         }
       ],
@@ -2968,6 +2968,10 @@
           {
             "kind": "npc_is",
             "npcId": 3044
+          },
+          {
+            "kind": "map_is",
+            "mapId": 111
           }
         ],
         "effects": []
@@ -2976,7 +2980,7 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Bring  to   in Timber Town",
+          "description": "Bring Family Letter to Waiter in Timber Town",
           "trigger": {
             "type": "npc_interact"
           },
@@ -3418,7 +3422,7 @@
         {
           "id": "step_1",
           "kind": "kill",
-          "description": "Kill -Crane Pass(88.109)",
+          "description": "Kill Crane Pass Guardian in Crane Pass(88.109)",
           "trigger": {
             "type": "monster_defeat"
           },
@@ -3900,7 +3904,7 @@
     },
     {
       "id": 40,
-      "name": "Lake Secret",
+      "name": "The Secret of the Lake",
       "repeatable": false,
       "accept": {
         "trigger": {
@@ -3930,7 +3934,7 @@
         {
           "id": "step_1",
           "kind": "talk",
-          "description": "At your 38 level, go to speak with",
+          "description": "At your 38 level, go to speak with General Lee",
           "trigger": {
             "type": "npc_interact"
           },
@@ -3958,7 +3962,7 @@
         {
           "id": "step_2",
           "kind": "talk",
-          "description": "Travel to and retrieve",
+          "description": "Travel to Mirror Lake and retrieve Riot in Lake Bed",
           "trigger": {
             "type": "npc_interact"
           },
@@ -3986,7 +3990,7 @@
         {
           "id": "step_3",
           "kind": "talk",
-          "description": "Go to locate Superme Taoist in Sunlight Hole to find answer of the mysterious lake",
+          "description": "Go to locate Superme Taoist in Sunlight Hole for answers about the mysterious lake",
           "trigger": {
             "type": "npc_interact"
           },
@@ -4253,7 +4257,7 @@
     },
     {
       "id": 43,
-      "name": "Doomsday",
+      "name": "Doomsday Approaching",
       "repeatable": false,
       "accept": {
         "trigger": {
@@ -4283,7 +4287,7 @@
         {
           "id": "step_1",
           "kind": "kill",
-          "description": "Kill",
+          "description": "Kill Illusion of Alien Queen Siren",
           "trigger": {
             "type": "monster_defeat"
           },
@@ -4456,7 +4460,7 @@
         {
           "id": "step_1",
           "kind": "talk",
-          "description": "Help  collect 20",
+          "description": "Help Judy collect 20 Locust Feelers",
           "trigger": {
             "type": "npc_interact"
           },
@@ -4533,7 +4537,7 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Bring  to",
+          "description": "Bring \"Sweep Net\" to \"Jose\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -4585,7 +4589,7 @@
     },
     {
       "id": 47,
-      "name": "Longicorn Adventure",
+      "name": "Adventure in Longicorn State",
       "repeatable": false,
       "accept": {
         "trigger": {
@@ -4603,6 +4607,10 @@
           {
             "kind": "npc_is",
             "npcId": 3283
+          },
+          {
+            "kind": "map_is",
+            "mapId": 242
           }
         ],
         "effects": []
@@ -4611,7 +4619,239 @@
         {
           "id": "step_1",
           "kind": "kill",
-          "description": "Kill",
+          "description": "Kill 2 Longicorn Patrolmen",
+          "trigger": {
+            "type": "monster_defeat"
+          },
+          "requirements": [
+            {
+              "kind": "monster_is",
+              "monsterId": 5135
+            },
+            {
+              "kind": "map_is",
+              "mapId": 242
+            },
+            {
+              "kind": "turn_in_npc_is",
+              "npcId": 3283
+            },
+            {
+              "kind": "turn_in_map_is",
+              "mapId": 242
+            }
+          ],
+          "effects": [],
+          "progress": {
+            "counter": "kill_47_1",
+            "target": 2,
+            "eventValue": "count"
+          },
+          "nextStepId": "step_2",
+          "client": {
+            "markerNpcId": 3283,
+            "overNpcId": 3283,
+            "taskType": 1,
+            "maxAward": 0,
+            "taskStep": 1,
+            "status": 1
+          }
+        },
+        {
+          "id": "step_2",
+          "kind": "turn_in",
+          "description": "Bring Crop Info to Governor",
+          "trigger": {
+            "type": "npc_interact"
+          },
+          "requirements": [
+            {
+              "kind": "npc_is",
+              "npcId": 3135
+            },
+            {
+              "kind": "map_is",
+              "mapId": 169
+            },
+            {
+              "kind": "item_count_at_least",
+              "templateId": 21147,
+              "quantity": 1
+            }
+          ],
+          "effects": [
+            {
+              "kind": "remove_item",
+              "item": {
+                "templateId": 21147,
+                "quantity": 1,
+                "name": "Crop Info"
+              }
+            }
+          ],
+          "nextStepId": "step_3",
+          "client": {
+            "markerNpcId": 3135,
+            "overNpcId": 3135,
+            "taskType": 2,
+            "maxAward": 0,
+            "taskStep": 2,
+            "status": 2
+          }
+        },
+        {
+          "id": "step_3",
+          "kind": "collect",
+          "description": "Enter Longicorn Hole and kill Longicorn Beetle to obtain 10 Crop",
+          "trigger": {
+            "type": "monster_defeat"
+          },
+          "requirements": [
+            {
+              "kind": "monster_is",
+              "monsterId": 5136
+            },
+            {
+              "kind": "map_is",
+              "mapId": 238
+            },
+            {
+              "kind": "turn_in_npc_is",
+              "npcId": 3135
+            },
+            {
+              "kind": "turn_in_map_is",
+              "mapId": 169
+            },
+            {
+              "kind": "item_count_at_least",
+              "templateId": 21148,
+              "quantity": 10
+            }
+          ],
+          "eventEffects": [
+            {
+              "kind": "grant_item",
+              "item": {
+                "templateId": 21148,
+                "quantity": 1,
+                "name": "Crop"
+              }
+            }
+          ],
+          "effects": [
+            {
+              "kind": "remove_item",
+              "item": {
+                "templateId": 21148,
+                "quantity": 10,
+                "name": "Crop"
+              }
+            }
+          ],
+          "progress": {
+            "counter": "collect_47_3",
+            "target": 10,
+            "eventValue": "one"
+          },
+          "nextStepId": "step_4",
+          "client": {
+            "markerNpcId": 3135,
+            "overNpcId": 3135,
+            "taskType": 4,
+            "maxAward": 0,
+            "taskStep": 3,
+            "status": 3
+          }
+        },
+        {
+          "id": "step_4",
+          "kind": "turn_in",
+          "description": "Take Invitation Card to Longicorn King",
+          "trigger": {
+            "type": "npc_interact"
+          },
+          "requirements": [
+            {
+              "kind": "npc_is",
+              "npcId": 3132
+            },
+            {
+              "kind": "map_is",
+              "mapId": 211
+            },
+            {
+              "kind": "item_count_at_least",
+              "templateId": 21149,
+              "quantity": 1
+            }
+          ],
+          "effects": [
+            {
+              "kind": "remove_item",
+              "item": {
+                "templateId": 21149,
+                "quantity": 1,
+                "name": "Invitation Card"
+              }
+            }
+          ],
+          "nextStepId": "step_5",
+          "client": {
+            "markerNpcId": 3132,
+            "overNpcId": 3132,
+            "taskType": 2,
+            "maxAward": 0,
+            "taskStep": 4,
+            "status": 4
+          }
+        },
+        {
+          "id": "step_5",
+          "kind": "turn_in",
+          "description": "Bring Ticket for Finals to Longicorn King",
+          "trigger": {
+            "type": "npc_interact"
+          },
+          "requirements": [
+            {
+              "kind": "npc_is",
+              "npcId": 3132
+            },
+            {
+              "kind": "map_is",
+              "mapId": 211
+            },
+            {
+              "kind": "item_count_at_least",
+              "templateId": 21150,
+              "quantity": 1
+            }
+          ],
+          "effects": [
+            {
+              "kind": "remove_item",
+              "item": {
+                "templateId": 21150,
+                "quantity": 1,
+                "name": "Ticket for Finals"
+              }
+            }
+          ],
+          "nextStepId": "step_6",
+          "client": {
+            "markerNpcId": 3132,
+            "overNpcId": 3132,
+            "taskType": 2,
+            "maxAward": 0,
+            "taskStep": 5,
+            "status": 5
+          }
+        },
+        {
+          "id": "step_6",
+          "kind": "kill",
+          "description": "Kill Longicorn King",
           "trigger": {
             "type": "monster_defeat"
           },
@@ -4635,17 +4875,18 @@
           ],
           "effects": [],
           "progress": {
-            "counter": "kill_47_1",
+            "counter": "kill_47_6",
             "target": 1,
             "eventValue": "count"
           },
           "nextStepId": null,
           "client": {
             "markerNpcId": 3173,
-            "taskType": 0,
-            "maxAward": 0,
-            "taskStep": 1,
-            "status": 1
+            "overNpcId": 3173,
+            "taskType": 1,
+            "maxAward": 1,
+            "taskStep": 6,
+            "status": 6
           }
         }
       ],
@@ -4696,7 +4937,7 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "At your 61 Level, bring  to",
+          "description": "At your 61 Level, bring Haunting Rumor to Weeping Woman",
           "trigger": {
             "type": "npc_interact"
           },
@@ -4725,7 +4966,7 @@
               }
             }
           ],
-          "nextStepId": null,
+          "nextStepId": "step_2",
           "client": {
             "markerNpcId": 3184,
             "overNpcId": 3184,
@@ -4733,6 +4974,47 @@
             "maxAward": 0,
             "taskStep": 1,
             "status": 1
+          }
+        },
+        {
+          "id": "step_2",
+          "kind": "kill",
+          "description": "Retrieve Hungry Soul",
+          "trigger": {
+            "type": "monster_defeat"
+          },
+          "requirements": [
+            {
+              "kind": "monster_is",
+              "monsterId": 5150
+            },
+            {
+              "kind": "map_is",
+              "mapId": 249
+            },
+            {
+              "kind": "turn_in_npc_is",
+              "npcId": 3135
+            },
+            {
+              "kind": "turn_in_map_is",
+              "mapId": 169
+            }
+          ],
+          "effects": [],
+          "progress": {
+            "counter": "kill_48_2",
+            "target": 1,
+            "eventValue": "count"
+          },
+          "nextStepId": null,
+          "client": {
+            "markerNpcId": 3184,
+            "overNpcId": 3184,
+            "taskType": 1,
+            "maxAward": 2,
+            "taskStep": 2,
+            "status": 2
           }
         }
       ],
@@ -4778,7 +5060,7 @@
         {
           "id": "step_1",
           "kind": "talk",
-          "description": "At your 68 level, go to speak with",
+          "description": "At your 68 level, go to speak with Night Owl",
           "trigger": {
             "type": "npc_interact"
           },
@@ -4793,7 +5075,7 @@
             }
           ],
           "effects": [],
-          "nextStepId": null,
+          "nextStepId": "step_2",
           "client": {
             "markerNpcId": 3187,
             "overNpcId": 3187,
@@ -4802,15 +5084,286 @@
             "taskStep": 1,
             "status": 1
           }
+        },
+        {
+          "id": "step_2",
+          "kind": "collect",
+          "description": "Kill Redface Ghost to obtain Red Soul",
+          "trigger": {
+            "type": "monster_defeat"
+          },
+          "requirements": [
+            {
+              "kind": "monster_is",
+              "monsterId": 5213
+            },
+            {
+              "kind": "map_is",
+              "mapId": 174
+            },
+            {
+              "kind": "turn_in_npc_is",
+              "npcId": 3187
+            },
+            {
+              "kind": "turn_in_map_is",
+              "mapId": 174
+            },
+            {
+              "kind": "item_count_at_least",
+              "templateId": 21180,
+              "quantity": 1
+            }
+          ],
+          "eventEffects": [
+            {
+              "kind": "grant_item",
+              "item": {
+                "templateId": 21180,
+                "quantity": 1,
+                "name": "Red Soul"
+              }
+            }
+          ],
+          "effects": [
+            {
+              "kind": "remove_item",
+              "item": {
+                "templateId": 21180,
+                "quantity": 1,
+                "name": "Red Soul"
+              }
+            }
+          ],
+          "progress": {
+            "counter": "collect_49_2",
+            "target": 1,
+            "eventValue": "one"
+          },
+          "nextStepId": "step_3",
+          "client": {
+            "markerNpcId": 3187,
+            "overNpcId": 3187,
+            "taskType": 4,
+            "maxAward": 0,
+            "taskStep": 2,
+            "status": 2
+          }
+        },
+        {
+          "id": "step_3",
+          "kind": "collect",
+          "description": "Kill Green-faced Ghost to obtain Green Soul",
+          "trigger": {
+            "type": "monster_defeat"
+          },
+          "requirements": [
+            {
+              "kind": "monster_is",
+              "monsterId": 5212
+            },
+            {
+              "kind": "map_is",
+              "mapId": 177
+            },
+            {
+              "kind": "turn_in_npc_is",
+              "npcId": 3187
+            },
+            {
+              "kind": "turn_in_map_is",
+              "mapId": 174
+            },
+            {
+              "kind": "item_count_at_least",
+              "templateId": 21178,
+              "quantity": 1
+            }
+          ],
+          "eventEffects": [
+            {
+              "kind": "grant_item",
+              "item": {
+                "templateId": 21178,
+                "quantity": 1,
+                "name": "Green Soul"
+              }
+            }
+          ],
+          "effects": [
+            {
+              "kind": "remove_item",
+              "item": {
+                "templateId": 21178,
+                "quantity": 1,
+                "name": "Green Soul"
+              }
+            }
+          ],
+          "progress": {
+            "counter": "collect_49_3",
+            "target": 1,
+            "eventValue": "one"
+          },
+          "nextStepId": "step_4",
+          "client": {
+            "markerNpcId": 3187,
+            "overNpcId": 3187,
+            "taskType": 4,
+            "maxAward": 0,
+            "taskStep": 3,
+            "status": 3
+          }
+        },
+        {
+          "id": "step_4",
+          "kind": "collect",
+          "description": "Kill Blueface Ghost to obtain Blue Soul",
+          "trigger": {
+            "type": "monster_defeat"
+          },
+          "requirements": [
+            {
+              "kind": "monster_is",
+              "monsterId": 5214
+            },
+            {
+              "kind": "map_is",
+              "mapId": 174
+            },
+            {
+              "kind": "turn_in_npc_is",
+              "npcId": 3187
+            },
+            {
+              "kind": "turn_in_map_is",
+              "mapId": 174
+            },
+            {
+              "kind": "item_count_at_least",
+              "templateId": 21179,
+              "quantity": 1
+            }
+          ],
+          "eventEffects": [
+            {
+              "kind": "grant_item",
+              "item": {
+                "templateId": 21179,
+                "quantity": 1,
+                "name": "Blue Soul"
+              }
+            }
+          ],
+          "effects": [
+            {
+              "kind": "remove_item",
+              "item": {
+                "templateId": 21179,
+                "quantity": 1,
+                "name": "Blue Soul"
+              }
+            }
+          ],
+          "progress": {
+            "counter": "collect_49_4",
+            "target": 1,
+            "eventValue": "one"
+          },
+          "nextStepId": "step_5",
+          "client": {
+            "markerNpcId": 3187,
+            "overNpcId": 3187,
+            "taskType": 4,
+            "maxAward": 0,
+            "taskStep": 4,
+            "status": 4
+          }
+        },
+        {
+          "id": "step_5",
+          "kind": "turn_in",
+          "description": "Bring Soul Absorber's Memory to God of Kitchen",
+          "trigger": {
+            "type": "npc_interact"
+          },
+          "requirements": [
+            {
+              "kind": "npc_is",
+              "npcId": 3155
+            },
+            {
+              "kind": "map_is",
+              "mapId": 249
+            },
+            {
+              "kind": "item_count_at_least",
+              "templateId": 21176,
+              "quantity": 1
+            }
+          ],
+          "reactions": [
+            {
+              "id": "reaction_1",
+              "trigger": {
+                "type": "npc_interact"
+              },
+              "requirements": [
+                {
+                  "kind": "npc_is",
+                  "npcId": 3187
+                },
+                {
+                  "kind": "map_is",
+                  "mapId": 177
+                }
+              ],
+              "effects": [
+                {
+                  "kind": "grant_item",
+                  "idempotent": true,
+                  "item": {
+                    "templateId": 21175,
+                    "quantity": 1,
+                    "name": "Dragon-Fire Shell Info"
+                  }
+                }
+              ]
+            }
+          ],
+          "effects": [
+            {
+              "kind": "remove_item",
+              "item": {
+                "templateId": 21176,
+                "quantity": 1,
+                "name": "Soul Absorber's Memory"
+              }
+            }
+          ],
+          "nextStepId": null,
+          "client": {
+            "markerNpcId": 3155,
+            "overNpcId": 3155,
+            "taskType": 2,
+            "maxAward": 1,
+            "taskStep": 5,
+            "status": 5
+          }
         }
       ],
       "rewards": {
-        "gold": 0,
-        "experience": 0,
-        "coins": 0,
-        "renown": 0,
+        "gold": 8000,
+        "experience": 800000,
+        "coins": 10000,
+        "renown": 240,
         "pets": [],
-        "items": [],
+        "items": [
+          {
+            "templateId": 8012,
+            "quantity": 1
+          }
+        ],
         "choiceGroups": []
       }
     },
@@ -5150,7 +5703,49 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Take \"Soul Absorber's Memory\" to find \"Evil Cat\"",
+          "description": "Borrow Dragon-Fire Shell Info from Superme Taoist",
+          "trigger": {
+            "type": "npc_interact"
+          },
+          "requirements": [
+            {
+              "kind": "npc_is",
+              "npcId": 3155
+            },
+            {
+              "kind": "map_is",
+              "mapId": 249
+            },
+            {
+              "kind": "item_count_at_least",
+              "templateId": 21175,
+              "quantity": 1
+            }
+          ],
+          "effects": [
+            {
+              "kind": "remove_item",
+              "item": {
+                "templateId": 21175,
+                "quantity": 1,
+                "name": "Dragon-Fire Shell Info"
+              }
+            }
+          ],
+          "nextStepId": "step_2",
+          "client": {
+            "markerNpcId": 3155,
+            "overNpcId": 3155,
+            "taskType": 2,
+            "maxAward": 0,
+            "taskStep": 1,
+            "status": 1
+          }
+        },
+        {
+          "id": "step_2",
+          "kind": "turn_in",
+          "description": "Take Soul Absorber's Memory to find Evil Cat",
           "trigger": {
             "type": "npc_interact"
           },
@@ -5169,6 +5764,35 @@
               "quantity": 1
             }
           ],
+          "reactions": [
+            {
+              "id": "reaction_1",
+              "trigger": {
+                "type": "npc_interact"
+              },
+              "requirements": [
+                {
+                  "kind": "npc_is",
+                  "npcId": 3155
+                },
+                {
+                  "kind": "map_is",
+                  "mapId": 169
+                }
+              ],
+              "effects": [
+                {
+                  "kind": "grant_item",
+                  "idempotent": true,
+                  "item": {
+                    "templateId": 21176,
+                    "quantity": 1,
+                    "name": "Soul Absorber's Memory"
+                  }
+                }
+              ]
+            }
+          ],
           "effects": [
             {
               "kind": "remove_item",
@@ -5179,24 +5803,99 @@
               }
             }
           ],
-          "nextStepId": null,
+          "nextStepId": "step_3",
           "client": {
             "markerNpcId": 3138,
             "overNpcId": 3138,
-            "taskType": 0,
+            "taskType": 2,
             "maxAward": 0,
-            "taskStep": 1,
+            "taskStep": 2,
             "status": 2
+          }
+        },
+        {
+          "id": "step_3",
+          "kind": "escort",
+          "description": "Escort injured Evil Cat back to God of Kitchen",
+          "trigger": {
+            "type": "npc_interact"
+          },
+          "requirements": [
+            {
+              "kind": "npc_is",
+              "npcId": 3138
+            },
+            {
+              "kind": "map_is",
+              "mapId": 242
+            }
+          ],
+          "effects": [],
+          "nextStepId": "step_4",
+          "client": {
+            "markerNpcId": 3155,
+            "overNpcId": 3155,
+            "taskRoleNpcId": 3138,
+            "taskType": 8,
+            "maxAward": 0,
+            "taskStep": 3,
+            "status": 3
+          }
+        },
+        {
+          "id": "step_4",
+          "kind": "kill",
+          "description": "Kill Soul Absorber",
+          "trigger": {
+            "type": "monster_defeat"
+          },
+          "requirements": [
+            {
+              "kind": "monster_is",
+              "monsterId": 5115
+            },
+            {
+              "kind": "map_is",
+              "mapId": 249
+            },
+            {
+              "kind": "turn_in_npc_is",
+              "npcId": 3155
+            },
+            {
+              "kind": "turn_in_map_is",
+              "mapId": 249
+            }
+          ],
+          "effects": [],
+          "progress": {
+            "counter": "kill_52_4",
+            "target": 1,
+            "eventValue": "count"
+          },
+          "nextStepId": null,
+          "client": {
+            "markerNpcId": 3155,
+            "overNpcId": 3155,
+            "taskType": 1,
+            "maxAward": 1,
+            "taskStep": 4,
+            "status": 4
           }
         }
       ],
       "rewards": {
-        "gold": 0,
-        "experience": 0,
-        "coins": 0,
-        "renown": 0,
+        "gold": 10000,
+        "experience": 2000000,
+        "coins": 10000,
+        "renown": 300,
         "pets": [],
-        "items": [],
+        "items": [
+          {
+            "templateId": 5116,
+            "quantity": 1
+          }
+        ],
         "choiceGroups": []
       }
     },
@@ -5232,7 +5931,7 @@
         {
           "id": "step_1",
           "kind": "kill",
-          "description": "Kill",
+          "description": "Kill Evil Longicorn",
           "trigger": {
             "type": "monster_defeat"
           },
@@ -5260,7 +5959,7 @@
             "target": 1,
             "eventValue": "count"
           },
-          "nextStepId": null,
+          "nextStepId": "step_2",
           "client": {
             "markerNpcId": 3133,
             "taskType": 0,
@@ -5268,11 +5967,91 @@
             "taskStep": 1,
             "status": 1
           }
+        },
+        {
+          "id": "step_2",
+          "kind": "kill",
+          "description": "Kill Longicorn Fighter",
+          "trigger": {
+            "type": "monster_defeat"
+          },
+          "requirements": [
+            {
+              "kind": "monster_is",
+              "monsterId": 5152
+            },
+            {
+              "kind": "map_is",
+              "mapId": 211
+            },
+            {
+              "kind": "turn_in_npc_is",
+              "npcId": 3133
+            },
+            {
+              "kind": "turn_in_map_is",
+              "mapId": 211
+            }
+          ],
+          "effects": [],
+          "progress": {
+            "counter": "kill_53_2",
+            "target": 1,
+            "eventValue": "count"
+          },
+          "nextStepId": "step_3",
+          "client": {
+            "markerNpcId": 3133,
+            "taskType": 0,
+            "maxAward": 0,
+            "taskStep": 2,
+            "status": 2
+          }
+        },
+        {
+          "id": "step_3",
+          "kind": "kill",
+          "description": "Kill Pig King",
+          "trigger": {
+            "type": "monster_defeat"
+          },
+          "requirements": [
+            {
+              "kind": "monster_is",
+              "monsterId": 5154
+            },
+            {
+              "kind": "map_is",
+              "mapId": 211
+            },
+            {
+              "kind": "turn_in_npc_is",
+              "npcId": 3133
+            },
+            {
+              "kind": "turn_in_map_is",
+              "mapId": 211
+            }
+          ],
+          "effects": [],
+          "progress": {
+            "counter": "kill_53_3",
+            "target": 1,
+            "eventValue": "count"
+          },
+          "nextStepId": null,
+          "client": {
+            "markerNpcId": 3133,
+            "taskType": 0,
+            "maxAward": 0,
+            "taskStep": 3,
+            "status": 3
+          }
         }
       ],
       "rewards": {
         "gold": 0,
-        "experience": 0,
+        "experience": 200000,
         "coins": 0,
         "renown": 0,
         "pets": [],
@@ -5312,7 +6091,7 @@
         {
           "id": "step_1",
           "kind": "kill",
-          "description": "Kill",
+          "description": "Kill Longicorn Fighter",
           "trigger": {
             "type": "monster_defeat"
           },
@@ -5340,7 +6119,7 @@
             "target": 1,
             "eventValue": "count"
           },
-          "nextStepId": null,
+          "nextStepId": "step_2",
           "client": {
             "markerNpcId": 3133,
             "taskType": 0,
@@ -5348,11 +6127,91 @@
             "taskStep": 1,
             "status": 1
           }
+        },
+        {
+          "id": "step_2",
+          "kind": "kill",
+          "description": "Kill Magic Taoist",
+          "trigger": {
+            "type": "monster_defeat"
+          },
+          "requirements": [
+            {
+              "kind": "monster_is",
+              "monsterId": 5153
+            },
+            {
+              "kind": "map_is",
+              "mapId": 211
+            },
+            {
+              "kind": "turn_in_npc_is",
+              "npcId": 3133
+            },
+            {
+              "kind": "turn_in_map_is",
+              "mapId": 211
+            }
+          ],
+          "effects": [],
+          "progress": {
+            "counter": "kill_54_2",
+            "target": 1,
+            "eventValue": "count"
+          },
+          "nextStepId": "step_3",
+          "client": {
+            "markerNpcId": 3133,
+            "taskType": 0,
+            "maxAward": 0,
+            "taskStep": 2,
+            "status": 2
+          }
+        },
+        {
+          "id": "step_3",
+          "kind": "kill",
+          "description": "Kill Captain of Lion",
+          "trigger": {
+            "type": "monster_defeat"
+          },
+          "requirements": [
+            {
+              "kind": "monster_is",
+              "monsterId": 5073
+            },
+            {
+              "kind": "map_is",
+              "mapId": 211
+            },
+            {
+              "kind": "turn_in_npc_is",
+              "npcId": 3133
+            },
+            {
+              "kind": "turn_in_map_is",
+              "mapId": 211
+            }
+          ],
+          "effects": [],
+          "progress": {
+            "counter": "kill_54_3",
+            "target": 1,
+            "eventValue": "count"
+          },
+          "nextStepId": null,
+          "client": {
+            "markerNpcId": 3133,
+            "taskType": 0,
+            "maxAward": 0,
+            "taskStep": 3,
+            "status": 3
+          }
         }
       ],
       "rewards": {
         "gold": 0,
-        "experience": 0,
+        "experience": 400000,
         "coins": 0,
         "renown": 0,
         "pets": [],
@@ -5388,7 +6247,7 @@
         {
           "id": "step_1",
           "kind": "kill",
-          "description": "Kill",
+          "description": "Kill Captain of Lion",
           "trigger": {
             "type": "monster_defeat"
           },
@@ -5416,7 +6275,7 @@
             "target": 1,
             "eventValue": "count"
           },
-          "nextStepId": null,
+          "nextStepId": "step_2",
           "client": {
             "markerNpcId": 3133,
             "taskType": 0,
@@ -5424,11 +6283,91 @@
             "taskStep": 1,
             "status": 1
           }
+        },
+        {
+          "id": "step_2",
+          "kind": "kill",
+          "description": "Kill Evil Cat",
+          "trigger": {
+            "type": "monster_defeat"
+          },
+          "requirements": [
+            {
+              "kind": "monster_is",
+              "monsterId": 5148
+            },
+            {
+              "kind": "map_is",
+              "mapId": 211
+            },
+            {
+              "kind": "turn_in_npc_is",
+              "npcId": 3133
+            },
+            {
+              "kind": "turn_in_map_is",
+              "mapId": 211
+            }
+          ],
+          "effects": [],
+          "progress": {
+            "counter": "kill_55_2",
+            "target": 1,
+            "eventValue": "count"
+          },
+          "nextStepId": "step_3",
+          "client": {
+            "markerNpcId": 3133,
+            "taskType": 0,
+            "maxAward": 0,
+            "taskStep": 2,
+            "status": 2
+          }
+        },
+        {
+          "id": "step_3",
+          "kind": "kill",
+          "description": "Kill Mysterious Creature",
+          "trigger": {
+            "type": "monster_defeat"
+          },
+          "requirements": [
+            {
+              "kind": "monster_is",
+              "monsterId": 5156
+            },
+            {
+              "kind": "map_is",
+              "mapId": 211
+            },
+            {
+              "kind": "turn_in_npc_is",
+              "npcId": 3133
+            },
+            {
+              "kind": "turn_in_map_is",
+              "mapId": 211
+            }
+          ],
+          "effects": [],
+          "progress": {
+            "counter": "kill_55_3",
+            "target": 1,
+            "eventValue": "count"
+          },
+          "nextStepId": null,
+          "client": {
+            "markerNpcId": 3133,
+            "taskType": 0,
+            "maxAward": 0,
+            "taskStep": 3,
+            "status": 3
+          }
         }
       ],
       "rewards": {
         "gold": 0,
-        "experience": 0,
+        "experience": 800000,
         "coins": 0,
         "renown": 0,
         "pets": [],
@@ -5652,7 +6591,40 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Bring \"Soul of Soul Absorber\" to\"Night Owl\"",
+          "description": "Bring \"Soul of Soul Absorber\" to Soul Judge",
+          "trigger": {
+            "type": "npc_interact"
+          },
+          "requirements": [
+            {
+              "kind": "npc_is",
+              "npcId": 3120
+            },
+            {
+              "kind": "map_is",
+              "mapId": 213
+            },
+            {
+              "kind": "item_count_at_least",
+              "templateId": 21177,
+              "quantity": 1
+            }
+          ],
+          "effects": [],
+          "nextStepId": "step_2",
+          "client": {
+            "markerNpcId": 3120,
+            "overNpcId": 3120,
+            "taskType": 0,
+            "maxAward": 0,
+            "taskStep": 1,
+            "status": 1
+          }
+        },
+        {
+          "id": "step_2",
+          "kind": "turn_in",
+          "description": "Bring \"Soul of Soul Absorber\" to Night Owl",
           "trigger": {
             "type": "npc_interact"
           },
@@ -5687,7 +6659,7 @@
             "overNpcId": 3187,
             "taskType": 0,
             "maxAward": 0,
-            "taskStep": 1,
+            "taskStep": 2,
             "status": 2
           }
         }
@@ -5815,8 +6787,46 @@
       "steps": [
         {
           "id": "step_1",
+          "kind": "talk",
+          "description": "Talk to Village Head",
+          "trigger": {
+            "type": "npc_interact"
+          },
+          "requirements": [
+            {
+              "kind": "npc_is",
+              "npcId": 3426
+            },
+            {
+              "kind": "map_is",
+              "mapId": 170
+            }
+          ],
+          "effects": [
+            {
+              "kind": "grant_item",
+              "idempotent": true,
+              "item": {
+                "templateId": 21286,
+                "quantity": 1,
+                "name": "Stone of Remorse"
+              }
+            }
+          ],
+          "nextStepId": "step_2",
+          "client": {
+            "markerNpcId": 3426,
+            "overNpcId": 3426,
+            "taskType": 32,
+            "maxAward": 0,
+            "taskStep": 1,
+            "status": 1
+          }
+        },
+        {
+          "id": "step_2",
           "kind": "turn_in",
-          "description": "Bring \"Village Head\"'s \"Stone of Remorse\" to \"Lake Spirit\"",
+          "description": "Bring Stone of Remorse to Moon Lake Spirit",
           "trigger": {
             "type": "npc_interact"
           },
@@ -5845,6 +6855,47 @@
               }
             }
           ],
+          "nextStepId": "step_3",
+          "client": {
+            "markerNpcId": 3452,
+            "overNpcId": 3452,
+            "taskType": 2,
+            "maxAward": 0,
+            "taskStep": 2,
+            "status": 2
+          }
+        },
+        {
+          "id": "step_3",
+          "kind": "kill",
+          "description": "Kill Cepheus",
+          "trigger": {
+            "type": "monster_defeat"
+          },
+          "requirements": [
+            {
+              "kind": "monster_is",
+              "monsterId": 5299
+            },
+            {
+              "kind": "map_is",
+              "mapId": 185
+            },
+            {
+              "kind": "turn_in_npc_is",
+              "npcId": 3452
+            },
+            {
+              "kind": "turn_in_map_is",
+              "mapId": 181
+            }
+          ],
+          "effects": [],
+          "progress": {
+            "counter": "kill_59_3",
+            "target": 1,
+            "eventValue": "count"
+          },
           "nextStepId": null,
           "client": {
             "markerNpcId": 3452,
@@ -5857,23 +6908,13 @@
         }
       ],
       "rewards": {
-        "gold": 30000,
-        "experience": 400000,
+        "gold": 10000,
+        "experience": 8000000,
         "coins": 20000,
         "renown": 300,
         "pets": [],
         "items": [],
-        "choiceGroups": [
-          {
-            "id": 1,
-            "gold": 30000,
-            "experience": 400000,
-            "coins": 0,
-            "renown": 0,
-            "pets": [],
-            "items": []
-          }
-        ]
+        "choiceGroups": []
       }
     },
     {
@@ -6323,28 +7364,41 @@
         },
         {
           "id": "step_4",
-          "kind": "talk",
-          "description": "Speak with \"Grandpa\" and after his quest, speak with \"Soul-wander Valley Spirit\"",
+          "kind": "kill",
+          "description": "Kill Skull Goblin",
           "trigger": {
-            "type": "npc_interact"
+            "type": "monster_defeat"
           },
           "requirements": [
             {
-              "kind": "npc_is",
-              "npcId": 3457
+              "kind": "monster_is",
+              "monsterId": 5307
             },
             {
               "kind": "map_is",
               "mapId": 161
+            },
+            {
+              "kind": "turn_in_npc_is",
+              "npcId": 3457
+            },
+            {
+              "kind": "turn_in_map_is",
+              "mapId": 161
             }
           ],
           "effects": [],
+          "progress": {
+            "counter": "kill_65_4",
+            "target": 1,
+            "eventValue": "count"
+          },
           "nextStepId": null,
           "client": {
             "markerNpcId": 3457,
             "overNpcId": 3457,
             "taskType": 1,
-            "maxAward": 0,
+            "maxAward": 1,
             "taskStep": 4,
             "status": 4
           }
@@ -6391,8 +7445,8 @@
       "steps": [
         {
           "id": "step_1",
-          "kind": "talk",
-          "description": "Bring \"..macro_GetItemName()..\" to \"Jessica\"",
+          "kind": "turn_in",
+          "description": "Bring \"Rune of Seal\" to Jessica",
           "trigger": {
             "type": "npc_interact"
           },
@@ -6404,14 +7458,28 @@
             {
               "kind": "map_is",
               "mapId": 263
+            },
+            {
+              "kind": "item_count_at_least",
+              "templateId": 21013,
+              "quantity": 1
             }
           ],
-          "effects": [],
+          "effects": [
+            {
+              "kind": "remove_item",
+              "item": {
+                "templateId": 21013,
+                "quantity": 1,
+                "name": "Rune of Seal"
+              }
+            }
+          ],
           "nextStepId": null,
           "client": {
             "markerNpcId": 3211,
             "overNpcId": 3211,
-            "taskType": 1,
+            "taskType": 2,
             "maxAward": 0,
             "taskStep": 1,
             "status": 1
@@ -6460,7 +7528,7 @@
         {
           "id": "step_1",
           "kind": "escort",
-          "description": "Escort  to",
+          "description": "Escort Longicorn King to Timber Town",
           "trigger": {
             "type": "npc_interact"
           },
@@ -6519,11 +7587,15 @@
           },
           {
             "kind": "npc_is",
-            "npcId": 3529
+            "npcId": 3492
           },
           {
             "kind": "subtype_is",
             "subtype": 3
+          },
+          {
+            "kind": "map_is",
+            "mapId": 182
           }
         ],
         "effects": []
@@ -6531,6 +7603,34 @@
       "steps": [
         {
           "id": "step_1",
+          "kind": "talk",
+          "description": "Speak with Melody",
+          "trigger": {
+            "type": "npc_interact"
+          },
+          "requirements": [
+            {
+              "kind": "npc_is",
+              "npcId": 3492
+            },
+            {
+              "kind": "map_is",
+              "mapId": 182
+            }
+          ],
+          "effects": [],
+          "nextStepId": "step_2",
+          "client": {
+            "markerNpcId": 3492,
+            "overNpcId": 3492,
+            "taskType": 32,
+            "maxAward": 0,
+            "taskStep": 1,
+            "status": 1
+          }
+        },
+        {
+          "id": "step_2",
           "kind": "kill",
           "description": "Kill \"Ice Soul\"",
           "trigger": {
@@ -6556,7 +7656,7 @@
           ],
           "effects": [],
           "progress": {
-            "counter": "kill_69_1",
+            "counter": "kill_69_2",
             "target": 1,
             "eventValue": "count"
           },
@@ -6567,73 +7667,18 @@
             "taskType": 1,
             "maxAward": 1,
             "taskStep": 2,
-            "status": 2
+            "status": 1
           }
         }
       ],
       "rewards": {
-        "gold": 4310,
-        "experience": 75000,
+        "gold": 4000,
+        "experience": 1000000,
         "coins": 10000,
         "renown": 0,
         "pets": [],
         "items": [],
-        "choiceGroups": [
-          {
-            "id": 1,
-            "gold": 4310,
-            "experience": 75000,
-            "coins": 0,
-            "renown": 0,
-            "pets": [],
-            "items": []
-          },
-          {
-            "id": 2,
-            "gold": 5035,
-            "experience": 66000,
-            "coins": 0,
-            "renown": 0,
-            "pets": [],
-            "items": []
-          },
-          {
-            "id": 3,
-            "gold": 4068,
-            "experience": 54000,
-            "coins": 0,
-            "renown": 0,
-            "pets": [],
-            "items": []
-          },
-          {
-            "id": 4,
-            "gold": 3860,
-            "experience": 42000,
-            "coins": 0,
-            "renown": 0,
-            "pets": [],
-            "items": []
-          },
-          {
-            "id": 5,
-            "gold": 3420,
-            "experience": 36000,
-            "coins": 0,
-            "renown": 0,
-            "pets": [],
-            "items": []
-          },
-          {
-            "id": 6,
-            "gold": 4156,
-            "experience": 30000,
-            "coins": 0,
-            "renown": 0,
-            "pets": [],
-            "items": []
-          }
-        ]
+        "choiceGroups": []
       }
     },
     {
@@ -7082,7 +8127,7 @@
         },
         {
           "id": "step_2",
-          "kind": "talk",
+          "kind": "escort",
           "description": "Escort \"Geralyn\" to Goal Manor to meet \"Flap-eared Pig\"",
           "trigger": {
             "type": "npc_interact"
@@ -7102,7 +8147,8 @@
           "client": {
             "markerNpcId": 3042,
             "overNpcId": 3042,
-            "taskType": 32,
+            "taskRoleNpcId": 3162,
+            "taskType": 8,
             "maxAward": 0,
             "taskStep": 2,
             "status": 2
@@ -7202,8 +8248,36 @@
       "steps": [
         {
           "id": "step_1",
+          "kind": "talk",
+          "description": "Travel to \"Flaming Hell 1\" to speak with \"Peter\"",
+          "trigger": {
+            "type": "npc_interact"
+          },
+          "requirements": [
+            {
+              "kind": "npc_is",
+              "npcId": 3160
+            },
+            {
+              "kind": "map_is",
+              "mapId": 156
+            }
+          ],
+          "effects": [],
+          "nextStepId": "step_2",
+          "client": {
+            "markerNpcId": 3160,
+            "overNpcId": 3160,
+            "taskType": 32,
+            "maxAward": 0,
+            "taskStep": 1,
+            "status": 1
+          }
+        },
+        {
+          "id": "step_2",
           "kind": "turn_in",
-          "description": "Bring \"Rune of Seal\" to Maple Valley Spirit",
+          "description": "Bring \"Rune of Seal\" to \"Maple Spirit\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -7230,6 +8304,14 @@
                 "quantity": 1,
                 "name": "Rune of Seal"
               }
+            },
+            {
+              "kind": "grant_item",
+              "item": {
+                "templateId": 21012,
+                "quantity": 1,
+                "name": "Walpher's Memory"
+              }
             }
           ],
           "nextStepId": null,
@@ -7237,9 +8319,9 @@
             "markerNpcId": 3218,
             "overNpcId": 3218,
             "taskType": 2,
-            "maxAward": 1,
-            "taskStep": 1,
-            "status": 1
+            "maxAward": 2,
+            "taskStep": 2,
+            "status": 2
           }
         }
       ],
@@ -7558,43 +8640,30 @@
         },
         {
           "id": "step_4",
-          "kind": "kill",
-          "description": "Kill \"Taoist\"",
+          "kind": "talk",
+          "description": "Return to \"God of Venus\"",
           "trigger": {
-            "type": "monster_defeat"
+            "type": "npc_interact"
           },
           "requirements": [
             {
-              "kind": "monster_is",
-              "monsterId": 5584
+              "kind": "npc_is",
+              "npcId": 3751
             },
             {
               "kind": "map_is",
               "mapId": 210
-            },
-            {
-              "kind": "turn_in_npc_is",
-              "npcId": 3757
-            },
-            {
-              "kind": "turn_in_map_is",
-              "mapId": 210
             }
           ],
           "effects": [],
-          "progress": {
-            "counter": "kill_85_4",
-            "target": 1,
-            "eventValue": "count"
-          },
           "nextStepId": null,
           "client": {
-            "markerNpcId": 3757,
-            "overNpcId": 3757,
-            "taskType": 1,
+            "markerNpcId": 3751,
+            "overNpcId": 3751,
+            "taskType": 32,
             "maxAward": 0,
-            "taskStep": 3,
-            "status": 3
+            "taskStep": 4,
+            "status": 4
           }
         }
       ],
@@ -7908,7 +8977,7 @@
             },
             {
               "kind": "turn_in_npc_is",
-              "npcId": 3764
+              "npcId": 3771
             },
             {
               "kind": "turn_in_map_is",
@@ -7974,6 +9043,34 @@
         {
           "id": "step_1",
           "kind": "talk",
+          "description": "Speak with \"Granny\"",
+          "trigger": {
+            "type": "npc_interact"
+          },
+          "requirements": [
+            {
+              "kind": "npc_is",
+              "npcId": 3773
+            },
+            {
+              "kind": "map_is",
+              "mapId": 212
+            }
+          ],
+          "effects": [],
+          "nextStepId": "step_2",
+          "client": {
+            "markerNpcId": 3773,
+            "overNpcId": 3773,
+            "taskType": 32,
+            "maxAward": 0,
+            "taskStep": 1,
+            "status": 1
+          }
+        },
+        {
+          "id": "step_2",
+          "kind": "talk",
           "description": "Speak with \"God of Venus\"",
           "trigger": {
             "type": "npc_interact"
@@ -7989,18 +9086,18 @@
             }
           ],
           "effects": [],
-          "nextStepId": "step_2",
+          "nextStepId": "step_3",
           "client": {
             "markerNpcId": 3751,
             "overNpcId": 3751,
-            "taskType": 1,
+            "taskType": 32,
             "maxAward": 0,
-            "taskStep": 1,
-            "status": 1
+            "taskStep": 2,
+            "status": 2
           }
         },
         {
-          "id": "step_2",
+          "id": "step_3",
           "kind": "talk",
           "description": "Speak with \"Triumph Sprite\"",
           "trigger": {
@@ -8017,18 +9114,18 @@
             }
           ],
           "effects": [],
-          "nextStepId": "step_3",
+          "nextStepId": "step_4",
           "client": {
             "markerNpcId": 3774,
             "overNpcId": 3774,
-            "taskType": 0,
+            "taskType": 32,
             "maxAward": 0,
-            "taskStep": 2,
+            "taskStep": 3,
             "status": 3
           }
         },
         {
-          "id": "step_3",
+          "id": "step_4",
           "kind": "kill",
           "description": "Kill \"Hell Keeper\"",
           "trigger": {
@@ -8041,7 +9138,7 @@
             },
             {
               "kind": "map_is",
-              "mapId": 130
+              "mapId": 152
             },
             {
               "kind": "turn_in_npc_is",
@@ -8049,22 +9146,22 @@
             },
             {
               "kind": "turn_in_map_is",
-              "mapId": 130
+              "mapId": 152
             }
           ],
           "effects": [],
           "progress": {
-            "counter": "kill_88_3",
+            "counter": "kill_88_4",
             "target": 1,
             "eventValue": "count"
           },
           "nextStepId": null,
           "client": {
-            "markerNpcId": 3774,
-            "overNpcId": 3774,
-            "taskType": 32,
+            "markerNpcId": 3775,
+            "overNpcId": 3775,
+            "taskType": 1,
             "maxAward": 0,
-            "taskStep": 3,
+            "taskStep": 4,
             "status": 4
           }
         }
@@ -8094,11 +9191,15 @@
           },
           {
             "kind": "npc_is",
-            "npcId": 3022
+            "npcId": 3183
           },
           {
             "kind": "subtype_is",
             "subtype": 3
+          },
+          {
+            "kind": "map_is",
+            "mapId": 112
           }
         ],
         "effects": []
@@ -8189,6 +9290,88 @@
         {
           "id": "step_1",
           "kind": "kill",
+          "description": "Kill \"Venomous Spider\"",
+          "trigger": {
+            "type": "monster_defeat"
+          },
+          "requirements": [
+            {
+              "kind": "monster_is",
+              "monsterId": 5187
+            },
+            {
+              "kind": "map_is",
+              "mapId": 112
+            },
+            {
+              "kind": "turn_in_npc_is",
+              "npcId": 3224
+            },
+            {
+              "kind": "turn_in_map_is",
+              "mapId": 112
+            }
+          ],
+          "effects": [],
+          "progress": {
+            "counter": "kill_252_1",
+            "target": 10,
+            "eventValue": "count"
+          },
+          "nextStepId": "step_2",
+          "client": {
+            "markerNpcId": 3224,
+            "overNpcId": 3224,
+            "taskType": 1,
+            "maxAward": 1,
+            "taskStep": 1,
+            "status": 1
+          }
+        },
+        {
+          "id": "step_2",
+          "kind": "kill",
+          "description": "Kill \"Carp Spirit\"",
+          "trigger": {
+            "type": "monster_defeat"
+          },
+          "requirements": [
+            {
+              "kind": "monster_is",
+              "monsterId": 5339
+            },
+            {
+              "kind": "map_is",
+              "mapId": 112
+            },
+            {
+              "kind": "turn_in_npc_is",
+              "npcId": 3224
+            },
+            {
+              "kind": "turn_in_map_is",
+              "mapId": 112
+            }
+          ],
+          "effects": [],
+          "progress": {
+            "counter": "kill_252_2",
+            "target": 1,
+            "eventValue": "count"
+          },
+          "nextStepId": "step_3",
+          "client": {
+            "markerNpcId": 3224,
+            "overNpcId": 3224,
+            "taskType": 1,
+            "maxAward": 0,
+            "taskStep": 2,
+            "status": 2
+          }
+        },
+        {
+          "id": "step_3",
+          "kind": "kill",
           "description": "Kill \"Golden Beast\"",
           "trigger": {
             "type": "monster_defeat"
@@ -8211,9 +9394,19 @@
               "mapId": 112
             }
           ],
-          "effects": [],
+          "effects": [
+            {
+              "kind": "grant_item",
+              "idempotent": true,
+              "item": {
+                "templateId": 26056,
+                "quantity": 1,
+                "name": "Sealed Book"
+              }
+            }
+          ],
           "progress": {
-            "counter": "kill_252_1",
+            "counter": "kill_252_3",
             "target": 1,
             "eventValue": "count"
           },
@@ -8371,22 +9564,35 @@
       "steps": [
         {
           "id": "step_1",
-          "kind": "talk",
-          "description": "At your 16 level, go to \"Map 163\" to speak with \"Zodiac Eudemon\"",
+          "kind": "kill",
+          "description": "Kill 2 \"Lonely Soul\"",
           "trigger": {
-            "type": "npc_interact"
+            "type": "monster_defeat"
           },
           "requirements": [
             {
-              "kind": "npc_is",
-              "npcId": 3651
+              "kind": "monster_is",
+              "monsterId": 5015
             },
             {
               "kind": "map_is",
               "mapId": 163
+            },
+            {
+              "kind": "turn_in_npc_is",
+              "npcId": 3651
+            },
+            {
+              "kind": "turn_in_map_is",
+              "mapId": 163
             }
           ],
           "effects": [],
+          "progress": {
+            "counter": "kill_254_1",
+            "target": 2,
+            "eventValue": "count"
+          },
           "nextStepId": null,
           "client": {
             "markerNpcId": 3651,
@@ -13079,7 +14285,7 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Bring  to",
+          "description": "Bring \"Lost Cargo\" to \"Marcus\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -13121,7 +14327,7 @@
         {
           "id": "step_2",
           "kind": "turn_in",
-          "description": "Capture one  to",
+          "description": "Capture a \"Ladybug\" to \"Jose\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -13198,7 +14404,7 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Bring Woodman's  to",
+          "description": "Bring \"Axman's Letter\" to \"Jessica\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -13240,7 +14446,7 @@
         {
           "id": "step_2",
           "kind": "collect",
-          "description": "Kill  to obtain",
+          "description": "Kill \"Purple Leopard\" to obtain \"Purple Leopard's Skin\"",
           "trigger": {
             "type": "monster_defeat"
           },
@@ -13304,7 +14510,7 @@
         {
           "id": "step_3",
           "kind": "turn_in",
-          "description": "Bring  to",
+          "description": "Bring \"Guide Ghost Hammer\" to \"Peak Receiver\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -13725,7 +14931,7 @@
         {
           "id": "step_1",
           "kind": "collect",
-          "description": "Kill  to collect 5",
+          "description": "Kill 5 \"Pliers Crab\" to collect 5 \"Crystal Shell\"",
           "trigger": {
             "type": "monster_defeat"
           },
@@ -14193,7 +15399,7 @@
         {
           "id": "step_1",
           "kind": "kill",
-          "description": "Kill blood-sucking -Wind Canyon(87.162)",
+          "description": "Kill \"Glede\"-Wind Canyon(87.162)",
           "trigger": {
             "type": "monster_defeat"
           },
@@ -14442,7 +15648,7 @@
         {
           "id": "step_1",
           "kind": "talk",
-          "description": "´ò°Ü 10¸ö\"Hill Patroller\"¡¢10¸ö\"Hill Roamer\"",
+          "description": "Kill 10 \"Hill Patroller\" and 10 \"Hill Roamer\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -15093,7 +16299,7 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Capture 5\"Evil Mushroom\"",
+          "description": "Capture 5 \"Evil Mushroom\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -15134,7 +16340,7 @@
         {
           "id": "step_2",
           "kind": "turn_in",
-          "description": "Take \"Tiercel\" back",
+          "description": "Bring \"Writ of Execution\" to \"Green Hoe\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -15226,7 +16432,7 @@
         {
           "id": "step_1",
           "kind": "kill",
-          "description": "Kill 3 \"Little Piggy\"\\",
+          "description": "Kill 3 \"Little Piggy\"",
           "trigger": {
             "type": "monster_defeat"
           },
@@ -15327,7 +16533,7 @@
         {
           "id": "step_1",
           "kind": "kill",
-          "description": "Kill one \"Piggy Leader\"\\",
+          "description": "Kill one \"Piggy Leader\"",
           "trigger": {
             "type": "monster_defeat"
           },
@@ -16809,7 +18015,7 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Bring \"Pet Feeder\"'s \"Letter of Perplexity\" to \"Captor Leo\"",
+          "description": "Bring \"Letter of Perplexity\" to \"Captor Leo\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -16851,7 +18057,7 @@
         {
           "id": "step_2",
           "kind": "kill",
-          "description": "Kill 15 \"Heart Demon\" and speak with\"Captor Leo\"",
+          "description": "Kill 15 \"Heart Demon\" and speak with \"Captor Leo\"",
           "trigger": {
             "type": "monster_defeat"
           },
@@ -16952,7 +18158,7 @@
         {
           "id": "step_1",
           "kind": "collect",
-          "description": "Kill \"Beatle Soldier\" to get 10 \"Beetle Horn\" . Then submit it to \"Joseph\"",
+          "description": "Kill \"Beatle Soldier\" to get 10 \"Beetle Horn\" and submit it to \"Joseph\"",
           "trigger": {
             "type": "monster_defeat"
           },
@@ -17057,7 +18263,7 @@
         {
           "id": "step_1",
           "kind": "kill",
-          "description": "Kill 15 \"Heart Demon\" to find truth out and then go to check \"Palm\"",
+          "description": "Kill 15 \"Heart Demon\" to find the truth, then check \"Palm\"",
           "trigger": {
             "type": "monster_defeat"
           },
@@ -17098,7 +18304,7 @@
         {
           "id": "step_2",
           "kind": "kill",
-          "description": "Kill \"Heart Demon\" to collect 10 \"Cracked Mirror\" for \"Palm\"",
+          "description": "Kill 15 \"Heart Demon\" to collect 10 \"Cracked Mirror\" for \"Palm\"",
           "trigger": {
             "type": "monster_defeat"
           },
@@ -17680,7 +18886,7 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Locate \"Waiter\" to get Oil Bottle and bring it to \"Grocer Merchant\" . Then take \"Purchased Oil\" to \"Ryan\"",
+          "description": "Take \"Purchased Oil\" to \"Ryan\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -17772,7 +18978,7 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Take \"Flaming Leaf\" to speak with \"Beauty\" for answer of Flaming tree's sickness",
+          "description": "Take \"Flaming Leaf\" to speak with \"Beauty\" for an answer to Flaming Tree's sickness",
           "trigger": {
             "type": "npc_interact"
           },
@@ -18078,7 +19284,7 @@
         {
           "id": "step_1",
           "kind": "kill",
-          "description": "Kill 10 \"Gloom Grass\"and 10 \"Rock Flower\"",
+          "description": "Kill 10 \"Gloom Grass\" and 10 \"Rock Flower\"",
           "trigger": {
             "type": "monster_defeat"
           },
@@ -18588,7 +19794,7 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Quest step 1",
+          "description": "Bring \"Empty Basket\" to \"Adrian\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -18721,7 +19927,7 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Quest step 1",
+          "description": "Bring \"Gany's Testimony\" to \"Adrian\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -18813,7 +20019,7 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Quest step 1",
+          "description": "Bring 10 \"Thorn Agglomerate\" to \"Sheldon\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -18863,7 +20069,7 @@
         {
           "id": "step_2",
           "kind": "turn_in",
-          "description": "Quest step 2",
+          "description": "Bring \"Nether Sword\" to \"Gamba\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -18955,7 +20161,7 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Quest step 1",
+          "description": "Bring \"Necklace\" to \"Logan\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -19088,7 +20294,7 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Quest step 1",
+          "description": "Bring \"Sachet\" to \"Saffron\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -19130,7 +20336,7 @@
         {
           "id": "step_2",
           "kind": "turn_in",
-          "description": "Quest step 2",
+          "description": "Bring 10 \"Centipede Powder\" to \"Saffron\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -19327,7 +20533,7 @@
         {
           "id": "step_1",
           "kind": "talk",
-          "description": "Quest step 1",
+          "description": "Talk to \"Saffron\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -19364,7 +20570,7 @@
         {
           "id": "step_2",
           "kind": "turn_in",
-          "description": "Quest step 2",
+          "description": "Bring \"Fishy\" to \"Rane\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -19456,7 +20662,7 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Quest step 1",
+          "description": "Bring \"Meal\" to \"Logan\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -19506,7 +20712,7 @@
         {
           "id": "step_2",
           "kind": "turn_in",
-          "description": "Quest step 2",
+          "description": "Bring \"Gift\" to \"Rane\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -19598,7 +20804,7 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Quest step 1",
+          "description": "Bring \"Wonder Fruit\" to \"Savage\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -19768,7 +20974,7 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Quest step 1",
+          "description": "Bring \"Wonder Fruit\" to \"Savage\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -19829,11 +21035,11 @@
         "requirements": [
           {
             "kind": "level_at_least",
-            "level": 1
+            "level": 78
           },
           {
             "kind": "npc_is",
-            "npcId": 3401
+            "npcId": 3400
           },
           {
             "kind": "subtype_is",
@@ -19860,7 +21066,7 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Quest step 1",
+          "description": "Bring \"Wonder Fruit\" to \"Savage\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -19958,7 +21164,7 @@
         "requirements": [
           {
             "kind": "level_at_least",
-            "level": 1
+            "level": 78
           },
           {
             "kind": "npc_is",
@@ -19989,14 +21195,14 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Quest step 1",
+          "description": "Bring \"Wonder Fruit\" to \"Savage\"",
           "trigger": {
             "type": "npc_interact"
           },
           "requirements": [
             {
               "kind": "npc_is",
-              "npcId": 3401
+              "npcId": 3400
             },
             {
               "kind": "map_is",
@@ -20020,8 +21226,8 @@
           ],
           "nextStepId": null,
           "client": {
-            "markerNpcId": 3401,
-            "overNpcId": 3401,
+            "markerNpcId": 3400,
+            "overNpcId": 3400,
             "taskType": 4,
             "maxAward": 1,
             "taskStep": 1,
@@ -20050,7 +21256,7 @@
         "requirements": [
           {
             "kind": "level_at_least",
-            "level": 90
+            "level": 82
           },
           {
             "kind": "npc_is",
@@ -20071,7 +21277,7 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Capture one \"Claybeast\" to \"Mount Spirit\"",
+          "description": "Capture one \"Claybeast\" and bring it to \"Mount Spirit\"",
           "trigger": {
             "type": "npc_interact"
           },
@@ -20131,7 +21337,7 @@
         "requirements": [
           {
             "kind": "level_at_least",
-            "level": 91
+            "level": 82
           },
           {
             "kind": "quest_completed",
@@ -20139,7 +21345,7 @@
           },
           {
             "kind": "npc_is",
-            "npcId": 3403
+            "npcId": 3404
           },
           {
             "kind": "subtype_is",
@@ -20195,108 +21401,14 @@
               }
             }
           ],
-          "nextStepId": "step_2",
+          "nextStepId": null,
           "client": {
-            "markerNpcId": 3404,
-            "overNpcId": 3404,
-            "taskType": 32,
+            "markerNpcId": 3403,
+            "overNpcId": 3403,
+            "taskType": 2,
             "maxAward": 0,
             "taskStep": 1,
             "status": 1
-          }
-        },
-        {
-          "id": "step_2",
-          "kind": "turn_in",
-          "description": "Bring \"Good News\" to \"Bob\"",
-          "trigger": {
-            "type": "npc_interact"
-          },
-          "requirements": [
-            {
-              "kind": "npc_is",
-              "npcId": 3404
-            },
-            {
-              "kind": "map_is",
-              "mapId": 119
-            },
-            {
-              "kind": "item_count_at_least",
-              "templateId": 20063,
-              "quantity": 1
-            },
-            {
-              "kind": "item_count_at_least",
-              "templateId": 20064,
-              "quantity": 1
-            }
-          ],
-          "effects": [
-            {
-              "kind": "remove_item",
-              "item": {
-                "templateId": 20063,
-                "quantity": 1
-              }
-            },
-            {
-              "kind": "remove_item",
-              "item": {
-                "templateId": 20064,
-                "quantity": 1
-              }
-            }
-          ],
-          "nextStepId": "step_3",
-          "client": {
-            "markerNpcId": 3390,
-            "overNpcId": 3390,
-            "taskType": 2,
-            "maxAward": 0,
-            "taskStep": 2,
-            "status": 2
-          }
-        },
-        {
-          "id": "step_3",
-          "kind": "kill",
-          "description": "Kill 10 \"Skull Soldier\"",
-          "trigger": {
-            "type": "monster_defeat"
-          },
-          "requirements": [
-            {
-              "kind": "monster_is",
-              "monsterId": 5259
-            },
-            {
-              "kind": "map_is",
-              "mapId": 119
-            },
-            {
-              "kind": "turn_in_npc_is",
-              "npcId": 3404
-            },
-            {
-              "kind": "turn_in_map_is",
-              "mapId": 119
-            }
-          ],
-          "effects": [],
-          "progress": {
-            "counter": "kill_491_3",
-            "target": 10,
-            "eventValue": "count"
-          },
-          "nextStepId": null,
-          "client": {
-            "markerNpcId": 3404,
-            "overNpcId": 3404,
-            "taskType": 1,
-            "maxAward": 0,
-            "taskStep": 2,
-            "status": 2
           }
         }
       ],
@@ -20321,7 +21433,7 @@
         "requirements": [
           {
             "kind": "level_at_least",
-            "level": 91
+            "level": 82
           },
           {
             "kind": "quest_completed",
@@ -20342,7 +21454,7 @@
         {
           "id": "step_1",
           "kind": "collect",
-          "description": "Travel to  to kill  and collect 10  to",
+          "description": "Travel to \"White Dew Snowland\" to kill \"Snow Wolf\" and collect 10 \"Snow Wolf Leather\" to \"Mount Spirit\"",
           "trigger": {
             "type": "monster_defeat"
           },
@@ -20397,8 +21509,8 @@
           "nextStepId": null,
           "client": {
             "markerNpcId": 3402,
-            "taskType": 0,
-            "maxAward": 0,
+            "taskType": 4,
+            "maxAward": 1,
             "taskStep": 1,
             "status": 1
           }
@@ -20491,10 +21603,10 @@
           ],
           "nextStepId": null,
           "client": {
-            "markerNpcId": 3402,
-            "overNpcId": 3402,
-            "taskType": 16,
-            "maxAward": 1,
+            "markerNpcId": 3404,
+            "overNpcId": 3404,
+            "taskType": 2,
+            "maxAward": 0,
             "taskStep": 1,
             "status": 1
           }
@@ -20542,7 +21654,7 @@
         {
           "id": "step_1",
           "kind": "turn_in",
-          "description": "Travel to \"..macro_GetMapName()..\" to collect 10 \"Ghost Fire\" 's \"Nectar\" and then bring them to \"Bob\" for healing his blindness",
+          "description": "Collect 10 \"Nectar\" from Ghost Fire and bring them to \"Bob\" to heal his blindness",
           "trigger": {
             "type": "npc_interact"
           },
@@ -21036,7 +22148,7 @@
     },
     {
       "id": 500,
-      "name": "Mysterious Kid",
+      "name": "Fully Preparation",
       "repeatable": false,
       "accept": {
         "trigger": {
@@ -21045,11 +22157,23 @@
         "requirements": [
           {
             "kind": "level_at_least",
-            "level": 90
+            "level": 86
+          },
+          {
+            "kind": "quest_completed",
+            "questId": 499
           },
           {
             "kind": "npc_is",
-            "npcId": 3054
+            "npcId": 3418
+          },
+          {
+            "kind": "subtype_is",
+            "subtype": 3
+          },
+          {
+            "kind": "map_is",
+            "mapId": 161
           }
         ],
         "effects": []
@@ -21110,7 +22234,7 @@
     },
     {
       "id": 501,
-      "name": "Mysterious Kid",
+      "name": "Flower Medicine(I)",
       "repeatable": false,
       "accept": {
         "trigger": {
@@ -21119,15 +22243,23 @@
         "requirements": [
           {
             "kind": "level_at_least",
-            "level": 90
+            "level": 86
+          },
+          {
+            "kind": "quest_completed",
+            "questId": 500
           },
           {
             "kind": "npc_is",
-            "npcId": 3054
+            "npcId": 3414
           },
           {
             "kind": "subtype_is",
             "subtype": 3
+          },
+          {
+            "kind": "map_is",
+            "mapId": 204
           }
         ],
         "effects": [
@@ -21161,12 +22293,7 @@
             },
             {
               "kind": "item_count_at_least",
-              "templateId": 20023,
-              "quantity": 1
-            },
-            {
-              "kind": "item_count_at_least",
-              "templateId": 20020,
+              "templateId": 21272,
               "quantity": 1
             }
           ],
@@ -21174,14 +22301,7 @@
             {
               "kind": "remove_item",
               "item": {
-                "templateId": 20023,
-                "quantity": 1
-              }
-            },
-            {
-              "kind": "remove_item",
-              "item": {
-                "templateId": 20020,
+                "templateId": 21272,
                 "quantity": 1
               }
             },
@@ -21196,8 +22316,8 @@
           ],
           "nextStepId": "step_2",
           "client": {
-            "markerNpcId": 3412,
-            "overNpcId": 3412,
+            "markerNpcId": 3433,
+            "overNpcId": 3433,
             "taskType": 2,
             "maxAward": 0,
             "taskStep": 1,
@@ -21207,7 +22327,7 @@
         {
           "id": "step_2",
           "kind": "turn_in",
-          "description": "½« \"Herb Medicine\" ½»¸ø\"Norman\"",
+          "description": "Bring \"Herb Medicine\" to \"Norman\"",
           "trigger": {
             "type": "npc_interact"
           },

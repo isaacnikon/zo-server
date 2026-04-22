@@ -1,0 +1,143 @@
+{
+  "id": 81,
+  "name": "Geralyn",
+  "repeatable": false,
+  "accept": {
+    "trigger": {
+      "type": "npc_interact"
+    },
+    "requirements": [
+      {
+        "kind": "level_at_least",
+        "level": 20
+      },
+      {
+        "kind": "quest_completed",
+        "questId": 18
+      },
+      {
+        "kind": "npc_is",
+        "npcId": 3305
+      },
+      {
+        "kind": "subtype_is",
+        "subtype": 3
+      },
+      {
+        "kind": "map_is",
+        "mapId": 264
+      }
+    ],
+    "effects": []
+  },
+  "steps": [
+    {
+      "id": "step_1",
+      "kind": "talk",
+      "description": "Travel to \"Map 120\" to liberate \"Geralyn\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3162
+        },
+        {
+          "kind": "map_is",
+          "mapId": 120
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_2",
+      "client": {
+        "markerNpcId": 3162,
+        "overNpcId": 3162,
+        "taskType": 1,
+        "maxAward": 0,
+        "taskStep": 1,
+        "status": 1
+      }
+    },
+    {
+      "id": "step_2",
+      "kind": "escort",
+      "description": "Escort \"Geralyn\" to Goal Manor to meet \"Flap-eared Pig\"",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3042
+        },
+        {
+          "kind": "map_is",
+          "mapId": 131
+        }
+      ],
+      "effects": [],
+      "nextStepId": "step_3",
+      "client": {
+        "markerNpcId": 3042,
+        "overNpcId": 3042,
+        "taskRoleNpcId": 3162,
+        "taskType": 8,
+        "maxAward": 0,
+        "taskStep": 2,
+        "status": 2
+      }
+    },
+    {
+      "id": "step_3",
+      "kind": "turn_in",
+      "description": "Bring Flap-eared Pig's Rubble to find out spider sprite in human skin in the manor",
+      "trigger": {
+        "type": "npc_interact"
+      },
+      "requirements": [
+        {
+          "kind": "npc_is",
+          "npcId": 3042
+        },
+        {
+          "kind": "map_is",
+          "mapId": 131
+        },
+        {
+          "kind": "item_count_at_least",
+          "templateId": 21291,
+          "quantity": 1
+        }
+      ],
+      "effects": [
+        {
+          "kind": "remove_item",
+          "item": {
+            "templateId": 21291,
+            "quantity": 1,
+            "name": "Carp King Blood"
+          }
+        }
+      ],
+      "nextStepId": null,
+      "client": {
+        "markerNpcId": 3042,
+        "overNpcId": 3042,
+        "taskType": 4,
+        "maxAward": 1,
+        "taskStep": 3,
+        "status": 3
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 1500,
+    "experience": 6000,
+    "coins": 2000,
+    "renown": 0,
+    "pets": [],
+    "items": [],
+    "choiceGroups": []
+  }
+}
